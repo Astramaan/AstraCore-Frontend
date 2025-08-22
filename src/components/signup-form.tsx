@@ -7,9 +7,10 @@ import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Mail, LockKeyhole, Eye, EyeOff, Phone, Building2 } from "lucide-react";
+import { Mail, Eye, EyeOff, Phone, Building2 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import LockIcon from "./icons/lock";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -94,7 +95,7 @@ export default function SignupForm() {
         <div className="space-y-2">
           <Label htmlFor="password">Create Password</Label>
           <div className="relative flex items-center">
-            <LockKeyhole className="absolute left-6 h-5 w-5 text-foreground" />
+            <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
             <Input 
               id="password" 
@@ -111,7 +112,7 @@ export default function SignupForm() {
               aria-label={showPassword ? "Hide password" : "Show password"}
               disabled={pending}
             >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-s w-5" />}
             </button>
           </div>
         </div>

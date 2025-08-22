@@ -7,9 +7,10 @@ import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
+import { Mail, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
+import LockIcon from "./icons/lock";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -62,7 +63,7 @@ export default function AuthForm() {
               <Label htmlFor="password">Password</Label>
           </div>
           <div className="relative flex items-center">
-            <LockKeyhole className="absolute left-6 h-5 w-5 text-foreground" />
+            <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
             <Input 
               id="password" 
