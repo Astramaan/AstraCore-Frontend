@@ -19,18 +19,16 @@ export default function LoginPage() {
       {/* Desktop view */}
       <div className="hidden md:block w-full max-w-4xl overflow-hidden rounded-[50px] bg-card text-card-foreground border">
         <div className="grid grid-cols-2">
-            <div className="relative h-full min-h-[480px]">
-              <div className="absolute inset-0">
-                  <div className="relative h-full w-full p-4">
-                      <Image 
-                          src="https://placehold.co/800x1200.png"
-                          alt="Abstract blue background"
-                          layout="fill"
-                          objectFit="cover"
-                          className="rounded-tl-[40px] rounded-bl-[40px]"
-                          data-ai-hint="construction site"
-                      />
-                  </div>
+            <div className="p-4 pr-0">
+              <div className="relative h-full w-full">
+                  <Image 
+                      src="https://placehold.co/800x1200.png"
+                      alt="Abstract blue background"
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-tl-[40px] rounded-bl-[40px]"
+                      data-ai-hint="construction site"
+                  />
               </div>
             </div>
 
