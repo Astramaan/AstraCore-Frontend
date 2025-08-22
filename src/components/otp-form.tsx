@@ -67,43 +67,45 @@ export default function OtpForm() {
   };
 
   return (
-    <form action={action} className="space-y-6">
-        <div className="text-lg text-grey-1">
-            Check your inbox at user@example.com Incorrect email?{' '}
-            <a href="#" className="text-primary underline">
-                Edit it
-            </a>
-        </div>
-
-        <div className="space-y-2">
-            <label className="text-lg font-medium">Enter OTP</label>
-            <div className="flex justify-between gap-2 md:gap-4">
-            {otp.map((data, index) => (
-                <Input
-                    key={index}
-                    type="text"
-                    name={`otp-${index}`}
-                    maxLength={1}
-                    value={data}
-                    onChange={(e) => handleChange(e.target, index)}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                    onFocus={(e) => e.target.select()}
-                    ref={(el) => (inputRefs.current[index] = el)}
-                    className="w-16 h-14 md:w-20 md:h-16 text-center text-2xl font-bold rounded-2xl bg-background border-border focus:border-primary focus:ring-primary"
-                />
-            ))}
+    <form action={action} className="space-y-6 flex flex-col flex-grow">
+        <div className="flex-grow space-y-6">
+            <div className="text-lg text-grey-1">
+                Check your inbox at user@example.com Incorrect email?{' '}
+                <a href="#" className="text-primary underline">
+                    Edit it
+                </a>
             </div>
-        </div>
 
-        <div className="flex justify-between items-center text-sm">
-            <div>
-                <span className="text-muted-foreground">Didn’t receive OTP? </span>
-                <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-primary underline disabled:text-muted-foreground disabled:no-underline">
-                    Resend
-                </button>
+            <div className="space-y-2">
+                <label className="text-lg font-medium">Enter OTP</label>
+                <div className="flex justify-between gap-2 md:gap-4">
+                {otp.map((data, index) => (
+                    <Input
+                        key={index}
+                        type="text"
+                        name={`otp-${index}`}
+                        maxLength={1}
+                        value={data}
+                        onChange={(e) => handleChange(e.target, index)}
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                        onFocus={(e) => e.target.select()}
+                        ref={(el) => (inputRefs.current[index] = el)}
+                        className="w-16 h-14 md:w-20 md:h-16 text-center text-2xl font-bold rounded-2xl bg-background border-border focus:border-primary focus:ring-primary"
+                    />
+                ))}
+                </div>
             </div>
-            <div className="text-muted-foreground font-mono">
-                00:{timer.toString().padStart(2, '0')}
+
+            <div className="flex justify-between items-center text-sm">
+                <div>
+                    <span className="text-muted-foreground">Didn’t receive OTP? </span>
+                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-primary underline disabled:text-muted-foreground disabled:no-underline">
+                        Resend
+                    </button>
+                </div>
+                <div className="text-muted-foreground font-mono">
+                    00:{timer.toString().padStart(2, '0')}
+                </div>
             </div>
         </div>
         
