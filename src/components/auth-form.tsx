@@ -43,7 +43,7 @@ export default function AuthForm() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <a href="#" className="text-sm font-medium text-primary hover:underline">
+            <a href="#" className="text-sm font-medium text-grey-1 hover:text-black underline">
                 Forgot password?
             </a>
         </div>
@@ -64,17 +64,12 @@ export default function AuthForm() {
         <SubmitButton />
       </div>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-sm">
-            <span className="bg-card px-2 text-muted-foreground">New to Astramaan?</span>
-        </div>
-      </div>
-        <Button variant="outline" className="w-full">
+       <div className="text-center text-sm">
+        <span className="text-muted-foreground">New to Astramaan? </span>
+        <a href="#" className="font-semibold text-black hover:text-grey-1 underline">
             Signup
-        </Button>
+        </a>
+      </div>
     </form>
   );
 }
