@@ -41,7 +41,7 @@ export default function OtpVerificationPage() {
                 </div>
             </div>
 
-            <div className="flex flex-col py-4 px-10">
+            <div className="flex flex-col py-6 px-10">
                 <div className="mx-auto w-full max-w-md h-full flex flex-col">
                     <Logo />
                     <div className="mt-8 flex-grow flex flex-col">
