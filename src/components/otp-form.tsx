@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { useActionState, useFormStatus } from 'react';
+import React, { useState, useRef, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
