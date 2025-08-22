@@ -42,7 +42,7 @@ export default function SignupPage() {
                 </div>
             </div>
 
-            <div className="flex flex-col py-12 px-10">
+            <div className="flex flex-col p-4">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <Logo />
                     <h2 className="mt-8 text-lg text-grey-1 tracking-tight font-body">Sign up to manage and grow your projects.</h2>
