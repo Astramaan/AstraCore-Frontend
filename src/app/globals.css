@@ -2,45 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  To add a custom font, place your font files in the `public/fonts` directory.
-  Then, declare the font face here like this example:
-
-  @font-face {
-    font-family: 'YourCustomFont';
-    src: url('/fonts/YourCustomFont-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-*/
-@font-face {
-    font-family: 'Gilroy-Medium';
-    src: url('/fonts/Gilroy-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Gilroy-SemiBold';
-    src: url('/fonts/Gilroy-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Gilroy-Bold';
-    src: url('/fonts/Gilroy-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-
 body {
-  font-family: 'Gilroy-Medium', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 @layer base {

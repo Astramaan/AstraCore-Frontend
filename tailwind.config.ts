@@ -10,13 +10,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Gilroy-Medium', 'sans-serif'],
-        title: ['Gilroy-SemiBold', 'sans-serif'],
-        headline: ['Gilroy-Bold', 'sans-serif'],
+        body: ['Plus Jakarta Sans', 'sans-serif'],
+        title: ['Plus Jakarta Sans', 'sans-serif'],
+        headline: ['Plus Jakarta Sans', 'sans-serif'],
         code: ['monospace'],
-        // To use your custom font, add it here after declaring it in globals.css
-        // For example:
-        // custom: ['YourCustomFont', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
