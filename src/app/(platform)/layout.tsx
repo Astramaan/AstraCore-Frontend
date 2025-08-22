@@ -39,7 +39,7 @@ const navItems = [
   { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
