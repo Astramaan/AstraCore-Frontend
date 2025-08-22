@@ -91,7 +91,7 @@ export default function OtpForm() {
                         onKeyDown={(e) => handleKeyDown(e, index)}
                         onFocus={(e) => e.target.select()}
                         ref={(el) => (inputRefs.current[index] = el)}
-                        className="w-16 h-14 md:w-20 md:h-16 text-center text-2xl font-bold rounded-2xl bg-background border-border focus:border-primary focus:ring-primary"
+                        className="w-14 h-12 md:w-16 md:h-14 text-center text-xl font-bold rounded-lg bg-background border-border focus:border-primary focus:ring-primary"
                     />
                 ))}
                 </div>
