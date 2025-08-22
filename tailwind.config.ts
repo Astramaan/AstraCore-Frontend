@@ -13,6 +13,9 @@ export default {
         body: ['Inter', 'sans-serif'],
         headline: ['"Space Grotesk"', 'sans-serif'],
         code: ['monospace'],
+        // To use your custom font, add it here after declaring it in globals.css
+        // For example:
+        // custom: ['YourCustomFont', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
