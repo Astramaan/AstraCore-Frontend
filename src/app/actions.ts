@@ -57,7 +57,7 @@ export async function verifyOtp(
         const otp = Array.from(formData.values()).join('');
         console.log(`Verifying OTP: ${otp}`);
         // In a real app, you'd validate the OTP.
-        redirect('/dashboard');
+        redirect('/create-password');
     } catch (error) {
         return { error: 'Failed to verify OTP.' };
     }
@@ -89,5 +89,19 @@ export async function requestPasswordReset(
     return { success: 'If an account with this email exists, a password reset link has been sent.' };
   } catch (error) {
     return { error: 'Failed to request password reset.' };
+  }
+}
+
+export async function createPassword(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    const password = formData.get('password');
+    console.log(`Creating new password.`);
+    // In a real app, you would save the new password for the user.
+    redirect('/dashboard');
+  } catch (error) {
+    return { error: 'Failed to create new password.' };
   }
 }
