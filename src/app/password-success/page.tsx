@@ -27,22 +27,24 @@ export default function PasswordSuccessPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Mobile view - A simplified version will be shown */}
+      {/* Mobile view */}
       <div className="md:hidden flex flex-col items-center justify-center min-h-screen bg-card p-6 text-center">
-        <div className="mb-8">
+        <div className="absolute top-8">
             <Logo />
         </div>
-        <div className="relative mb-6 flex items-center justify-center">
-            <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
-            <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-            <div className="w-10 h-10 absolute flex items-center justify-center">
-                <Check className="w-8 h-8 text-green-600" />
+        <div className='flex-grow flex flex-col justify-center items-center'>
+            <div className="relative mb-6 flex items-center justify-center">
+                <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
+                <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
+                <div className="w-10 h-10 bg-primary/20 rounded-full absolute flex items-center justify-center">
+                    <Check className="w-8 h-8 text-primary" />
+                </div>
             </div>
+            <h1 className="text-2xl font-semibold mb-2">Password Created Successfully</h1>
+            <p className="text-muted-foreground mb-6">You're all set! You can now Login with your new password.</p>
         </div>
-        <h1 className="text-2xl font-semibold mb-2">Password Created Successfully</h1>
-        <p className="text-muted-foreground mb-6">You're all set! You can now Login with your new password.</p>
-        <p className="text-sm text-muted-foreground">
-          Redirecting in {countdown}s. <Link href="/" className="underline text-primary">Login now</Link>.
+        <p className="text-sm text-muted-foreground pb-[env(safe-area-inset-bottom)]">
+          Redirecting in {countdown}s. <Link href="/" className="underline text-primary">Login now</Link>
         </p>
       </div>
 
@@ -72,8 +74,8 @@ export default function PasswordSuccessPage() {
                         <div className="relative mb-6 flex items-center justify-center">
                           <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
                           <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-                          <div className="w-10 h-10 absolute flex items-center justify-center">
-                            <Check className="w-8 h-8 text-green-600" />
+                          <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
+                            <Check className="w-8 h-8 text-primary" />
                           </div>
                         </div>
 
