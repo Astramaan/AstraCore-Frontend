@@ -13,7 +13,7 @@ import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90" aria-disabled={pending}>
+    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" aria-disabled={pending}>
       {pending ? "Signing in..." : "Login"}
     </Button>
   );
@@ -38,7 +38,7 @@ export default function AuthForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className="pl-20 rounded-full"
+              className="pl-20 rounded-full bg-background h-[54px]"
             />
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function AuthForm() {
           <div className="relative flex items-center">
             <LockKeyhole className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
-            <Input id="password" name="password" type={showPassword ? "text" : "password"} required className="pl-20 pr-12 rounded-full"/>
+            <Input id="password" name="password" type={showPassword ? "text" : "password"} required className="pl-20 pr-12 rounded-full bg-background h-[54px]"/>
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
