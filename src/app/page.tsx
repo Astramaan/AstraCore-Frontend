@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4 sm:p-6 md:p-8">
+    <div className="flex min-h-screen items-center justify-center bg-background p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-4xl overflow-hidden rounded-2xl bg-card text-card-foreground shadow-2xl md:grid md:grid-cols-2">
         
         <div className="relative h-48 md:h-full">
@@ -14,12 +14,12 @@ export default function LoginPage() {
                 layout="fill"
                 objectFit="cover"
                 className="hidden md:block"
-                data-ai-hint="blue gradient"
+                data-ai-hint="construction site"
             />
             <div 
                 className="absolute inset-0 flex flex-col items-center justify-center bg-cover bg-center p-8 text-center text-primary-foreground md:bg-transparent"
                 style={{ backgroundImage: "url('https://placehold.co/800x400.png')" }}
-                data-ai-hint="blue gradient"
+                data-ai-hint="construction site"
             >
                 <div className="md:hidden absolute inset-0 bg-primary/80"></div>
                 <div className="relative z-10">
