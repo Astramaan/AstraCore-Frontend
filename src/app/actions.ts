@@ -41,12 +41,26 @@ export async function signup(
     console.log(`Attempting to sign up with:`, { email, phone, organization });
     
     // In a real app, you would create a user in a database.
-    // We will just redirect to the dashboard on successful "signup".
-    redirect('/dashboard');
+    // We will now redirect to the OTP page on successful "signup".
+    redirect('/otp-verification');
 
   } catch (error) {
     return { error: 'An unexpected error occurred during signup.' };
   }
+}
+
+export async function verifyOtp(
+    prevState: string | undefined,
+    formData: FormData
+) {
+    try {
+        const otp = Array.from(formData.values()).join('');
+        console.log(`Verifying OTP: ${otp}`);
+        // In a real app, you'd validate the OTP.
+        redirect('/dashboard');
+    } catch (error) {
+        return { error: 'Failed to verify OTP.' };
+    }
 }
 
 
