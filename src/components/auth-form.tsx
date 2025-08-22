@@ -7,12 +7,12 @@ import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import LockIcon from "./icons/lock";
 import EmailIcon from "./icons/email-icon";
 import EyeIcon from "./icons/eye-icon";
+import EyeOffIcon from "./icons/eye-off-icon";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -82,7 +82,7 @@ export default function AuthForm() {
               aria-label={showPassword ? "Hide password" : "Show password"}
               disabled={pending}
             >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+              {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
             </button>
           </div>
           <Link href="/forgot-password" className="block text-right text-sm font-medium text-grey-1 hover:text-primary underline mt-1">

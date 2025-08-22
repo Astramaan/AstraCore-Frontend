@@ -7,7 +7,6 @@ import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import LockIcon from "./icons/lock";
@@ -15,6 +14,7 @@ import EmailIcon from "./icons/email-icon";
 import PhoneIcon from "./icons/phone-icon";
 import OrganizationIcon from "./icons/organization-icon";
 import EyeIcon from "./icons/eye-icon";
+import EyeOffIcon from "./icons/eye-off-icon";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -116,7 +116,7 @@ export default function SignupForm() {
               aria-label={showPassword ? "Hide password" : "Show password"}
               disabled={pending}
             >
-              {showPassword ? <EyeOff className="h-s w-5" /> : <EyeIcon className="h-s w-5" />}
+              {showPassword ? <EyeOffIcon className="h-s w-5" /> : <EyeIcon className="h-s w-5" />}
             </button>
           </div>
         </div>
