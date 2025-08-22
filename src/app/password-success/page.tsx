@@ -61,16 +61,19 @@ export default function PasswordSuccessPage() {
 
       {/* Desktop view */}
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
-        <div className="w-full max-w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
+        <div className="w-full min-w-[844px] min-h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
-            <div className="relative h-full w-full overflow-hidden rounded-tl-[40px] rounded-bl-[40px]">
-                <Image 
-                    src="https://placehold.co/396x507.png"
-                    alt="Abstract green shapes"
-                    layout="fill"
-                    objectFit="cover"
-                    data-ai-hint="abstract green"
-                />
+            <div className="relative h-full w-full overflow-hidden">
+                <div className="pt-4 pl-4 pb-4 h-full">
+                    <Image 
+                        src="https://placehold.co/396x507.png"
+                        alt="Abstract green shapes"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-tl-[40px] rounded-bl-[40px]"
+                        data-ai-hint="abstract green"
+                    />
+                </div>
             </div>
 
             <div className="flex flex-col py-12 px-10">
