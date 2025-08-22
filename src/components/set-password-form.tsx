@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useActionState, useEffect } from "react";
@@ -9,6 +10,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -80,8 +82,16 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
         </div>
 
         <div className="mt-auto pt-6">
-          <div className="mb-4">
-            <SubmitButton />
+          <div className="mb-4 space-y-4">
+             {flow === 'forgot-password' && (
+                <div className="flex items-center gap-4">
+                    <Button variant="secondary" className="w-full rounded-full h-[54px]" asChild>
+                        <Link href="/">Back</Link>
+                    </Button>
+                    <SubmitButton />
+                </div>
+            )}
+            {flow !== 'forgot-password' && <SubmitButton />}
           </div>
         </div>
       </form>
