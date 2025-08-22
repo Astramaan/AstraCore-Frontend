@@ -43,7 +43,7 @@ export default function AuthForm() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <a href="#" className="text-sm font-medium text-grey-1 hover:text-black underline">
+            <a href="#" className="text-sm font-medium text-grey-1 hover:text-primary underline">
                 Forgot password?
             </a>
         </div>
@@ -66,7 +66,7 @@ export default function AuthForm() {
 
        <div className="text-center text-sm">
         <span className="text-muted-foreground">New to Astramaan? </span>
-        <a href="#" className="font-semibold text-black hover:text-grey-1 underline">
+        <a href="#" className="font-semibold text-black hover:text-primary underline">
             Signup
         </a>
       </div>
