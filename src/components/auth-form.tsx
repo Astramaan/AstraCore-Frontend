@@ -13,7 +13,7 @@ import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" aria-disabled={pending}>
+    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
       {pending ? "Signing in..." : "Login"}
     </Button>
   );
@@ -22,6 +22,7 @@ function SubmitButton() {
 export default function AuthForm() {
   const [state, action] = useActionState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState(false);
+  const { pending } = useFormStatus();
 
   return (
     <form action={action} className="flex-grow flex flex-col">
@@ -38,7 +39,8 @@ export default function AuthForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className="pl-20 rounded-full bg-background h-[54px]"
+              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              disabled={pending}
             />
           </div>
         </div>
@@ -50,12 +52,20 @@ export default function AuthForm() {
           <div className="relative flex items-center">
             <LockKeyhole className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
-            <Input id="password" name="password" type={showPassword ? "text" : "password"} required className="pl-20 pr-12 rounded-full bg-background h-[54px]"/>
+            <Input 
+              id="password" 
+              name="password" 
+              type={showPassword ? "text" : "password"} 
+              required 
+              className={`pl-20 pr-12 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              disabled={pending}
+            />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-6 text-foreground"
               aria-label={showPassword ? "Hide password" : "Show password"}
+              disabled={pending}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
