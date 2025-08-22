@@ -26,8 +26,8 @@ export default function SetPasswordPage() {
 
       {/* Desktop view */}
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
-        <div className="w-full max-w-4xl overflow-hidden rounded-[50px] bg-card text-card-foreground">
-          <div className="grid grid-cols-2">
+        <div className="w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
+          <div className="grid grid-cols-2 h-full">
               <div className="relative group">
                 <div className="p-4 h-full">
                     <div className="relative h-full w-full">
