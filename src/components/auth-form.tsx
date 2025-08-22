@@ -29,7 +29,7 @@ export default function AuthForm() {
         <div className="space-y-2">
           <Label htmlFor="email">Email ID</Label>
           <div className="relative flex items-center">
-            <Mail className="absolute left-6 h-5 w-5 text-muted-foreground" />
+            <Mail className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
             <Input
               id="email"
@@ -48,13 +48,13 @@ export default function AuthForm() {
               <Label htmlFor="password">Password</Label>
           </div>
           <div className="relative flex items-center">
-            <LockKeyhole className="absolute left-6 h-5 w-5 text-muted-foreground" />
+            <LockKeyhole className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
             <Input id="password" name="password" type={showPassword ? "text" : "password"} required className="pl-20 pr-12 rounded-full"/>
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 text-muted-foreground"
+              className="absolute right-4 text-foreground"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
