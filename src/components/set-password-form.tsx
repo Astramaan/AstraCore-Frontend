@@ -82,14 +82,14 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
         </div>
 
         <div className="mt-auto pt-6">
-          <div className="mb-4 space-y-4">
+          <div className="space-y-4">
              {flow === 'forgot-password' && (
-                <div className="space-y-2">
+                <>
                     <SubmitButton />
                     <Button variant="ghost" className="w-full rounded-full h-[54px] text-foreground bg-background hover:bg-muted" asChild>
                         <Link href="/">Back</Link>
                     </Button>
-                </div>
+                </>
             )}
             {flow !== 'forgot-password' && <SubmitButton />}
           </div>

@@ -42,11 +42,11 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            <div className="flex flex-col p-4">
+            <div className="flex flex-col py-4 px-10">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <Logo />
                     <h2 className="mt-8 text-lg text-grey-1 tracking-tight font-body">Log in and let’s get to work on your projects.</h2>
-                    <div className="mt-8 flex-grow flex flex-col py-4">
+                    <div className="mt-8 flex-grow flex flex-col">
                         <AuthForm />
                     </div>
                 </div>
