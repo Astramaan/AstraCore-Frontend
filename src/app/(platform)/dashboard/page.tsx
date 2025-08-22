@@ -63,14 +63,14 @@ const ActiveCustomers = () => {
     )
 }
 
-const QuickLinkCard = ({icon, label, color} : {icon: React.ReactNode, label: string, color: string}) => (
+const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: string, color: string}) => (
     <div className="bg-background rounded-2xl p-4 flex items-center gap-2">
         <div className={`p-2.5 rounded-full`} style={{backgroundColor: color}}>
             {icon}
         </div>
         <p className="font-gilroy-medium text-base">{label}</p>
     </div>
-)
+);
 
 
 export default function DashboardPage() {
@@ -190,7 +190,7 @@ export default function DashboardPage() {
                         </div>
                         <CardTitle className="font-gilroy-semibold text-xl md:text-2xl">Exit Survey</CardTitle>
                     </div>
-                    <div className="flex items-center gap-4 self-end">
+                    <div className="flex items-center gap-4 self-end md:self-center">
                         <p className="text-base md:text-lg font-gilroy-medium">Total Response: <span className="text-2xl md:text-4xl font-gilroy-bold">129</span></p>
                         <Button variant="ghost" size="icon" className="bg-background rounded-full">
                             <ArrowRight />
