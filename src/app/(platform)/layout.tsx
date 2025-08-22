@@ -59,9 +59,9 @@ const PlatformHeader = () => {
 
 const navItems = [
     { href: "/dashboard", icon: <LayoutGrid />, label: "Dashboard" },
-    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Ma.." },
-    { href: "/subscription", icon: <Briefcase />, label: "Subscription Ma.." },
-    { href: "/organizations", icon: <Users />, label: "Organization Ma.." },
+    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Management" },
+    { href: "/subscription", icon: <Briefcase />, label: "Subscription Management" },
+    { href: "/organizations", icon: <Users />, label: "Organization Management" },
     { href: "/support", icon: <Headset />, label: "Support" },
     { href: "/analytics", icon: <BarChart2 />, label: "Product Analytics" }
 ];
@@ -82,7 +82,7 @@ const PlatformNav = () => {
                                 className={`flex items-center gap-2.5 p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
                             >
                                 {item.icon}
-                                <span className="text-lg font-gilroy-medium">{item.label}</span>
+                                <span className="text-lg font-gilroy-medium whitespace-nowrap">{item.label}</span>
                             </div>
                         </Link>
                     ))}
