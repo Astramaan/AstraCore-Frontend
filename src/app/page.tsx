@@ -36,16 +36,8 @@ export default function LoginPage() {
 
             <div className="flex flex-col justify-center py-12 px-10">
                 <div className="mx-auto w-full max-w-md">
-                <div className="hidden md:block">
                     <Logo />
                     <h2 className="mt-8 text-lg text-foreground/80 tracking-tight font-body">Log in and let’s get to work on your projects.</h2>
-                </div>
-                 <div className="md:hidden mb-6">
-                    <Logo />
-                    <p className="mt-2 text-foreground/80">Log in and let’s get to work on your projects.</p>
-                </div>
-
-
                 <div className="mt-8">
                     <AuthForm />
                 </div>
