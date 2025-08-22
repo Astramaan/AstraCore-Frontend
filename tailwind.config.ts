@@ -14,6 +14,9 @@ export default {
         title: ['Plus Jakarta Sans', 'sans-serif'],
         headline: ['Plus Jakarta Sans', 'sans-serif'],
         code: ['monospace'],
+        'gilroy-bold': ['Gilroy-Bold', 'sans-serif'],
+        'gilroy-semibold': ['Gilroy-SemiBold', 'sans-serif'],
+        'gilroy-medium': ['Gilroy-Medium', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -69,7 +72,14 @@ export default {
         grey: {
             '1': 'hsl(var(--grey-1))',
             '2': 'hsl(var(--grey-2))',
-        }
+        },
+        'accent-color-01': 'hsl(var(--accent-color-01))',
+        'accent-color-02': 'hsl(var(--accent-color-02))',
+        'accent-color-03': 'hsl(var(--accent-color-03))',
+        'accent-color-04': 'hsl(var(--accent-color-04))',
+        'accent-color-05': 'hsl(var(--accent-color-05))',
+        'green-light': 'hsl(var(--green-light))',
+        'green': 'hsl(var(--green))',
       },
       borderRadius: {
         lg: 'var(--radius)',

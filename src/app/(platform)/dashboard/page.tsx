@@ -1,75 +1,245 @@
+'use client';
+
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Briefcase, Users, Star, FileWarning } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Calendar, ArrowRight, Users, Bell, HandCoins, UserMinus, FileText, MessagesSquare, Milestone } from 'lucide-react';
+import { RevenueChart } from '@/components/charts/revenue-chart';
+import { SubscriptionChart } from '@/components/charts/subscription-chart';
+import { ChurnChart } from '@/components/charts/churn-chart';
+import { ExitSurveyChart } from '@/components/charts/exit-survey-chart';
+
+const FilterToggle = () => {
+  const [active, setActive] = React.useState('Month');
+  return (
+    <div className="relative bg-white rounded-full p-1 flex w-48 text-lg">
+      <div 
+        className="absolute top-1 bottom-1 bg-primary transition-all duration-300 rounded-full"
+        style={{
+          width: 'calc(50% - 4px)',
+          left: active === 'Month' ? '4px' : 'calc(50% + 2px)',
+        }}
+      />
+      <button 
+        onClick={() => setActive('Month')}
+        className={`relative z-10 w-1/2 py-2.5 text-center transition-colors duration-300 rounded-full ${active === 'Month' ? 'text-white' : 'text-black'}`}
+      >
+        Month
+      </button>
+      <button 
+        onClick={() => setActive('Year')}
+        className={`relative z-10 w-1/2 py-2.5 text-center transition-colors duration-300 rounded-full ${active === 'Year' ? 'text-white' : 'text-black'}`}
+      >
+        Year
+      </button>
+    </div>
+  );
+};
+
+
+const ActiveCustomers = () => {
+    return (
+        <div className="flex items-center gap-4">
+            <div className="flex -space-x-4">
+                {[...Array(5)].map((_, i) => (
+                    <Avatar key={i} className="border-4 border-white">
+                        <AvatarImage src={`https://placehold.co/50x50.png?text=${i}`} data-ai-hint="person portrait" />
+                        <AvatarFallback>U{i}</AvatarFallback>
+                    </Avatar>
+                ))}
+                <Avatar className="border-4 border-white bg-primary text-primary-foreground">
+                    <AvatarFallback>+6</AvatarFallback>
+                </Avatar>
+            </div>
+            <Button variant="ghost" size="icon" className="bg-white rounded-full h-14 w-14">
+                <ArrowRight />
+            </Button>
+            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-gilroy-medium hover:bg-gray-100">
+                <Users className="mr-2 h-6 w-6"/>
+                Invite
+            </Button>
+        </div>
+    )
+}
+
+const QuickLinkCard = ({icon, label, color} : {icon: React.ReactNode, label: string, color: string}) => (
+    <div className="bg-background rounded-2xl p-4 flex items-center gap-2">
+        <div className={`p-2.5 rounded-full`} style={{backgroundColor: color}}>
+            {icon}
+        </div>
+        <p className="font-gilroy-medium text-base">{label}</p>
+    </div>
+)
+
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight font-headline">Platform Dashboard</h2>
-        <div className="flex items-center space-x-2">
-          <Button>Download Report</Button>
+    <div className="flex-1 space-y-6">
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-6">
+          <div className="space-y-2">
+            <p className="text-base font-gilroy-medium">Filter</p>
+            <FilterToggle />
+          </div>
+          <div className="space-y-2">
+            <p className="text-base font-gilroy-medium">Select Month</p>
+            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-gilroy-medium">
+              <Calendar className="mr-2 h-6 w-6" />
+              April 2025
+            </Button>
+          </div>
+        </div>
+        <div className="space-y-2">
+            <p className="text-lg font-gilroy-medium">Active Customers</p>
+            <ActiveCustomers />
         </div>
       </div>
-
-      {/* Role: Super Admin / Org Admin */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
-            <Briefcase className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">128</div>
-            <p className="text-xs text-muted-foreground">+10% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">573</div>
-            <p className="text-xs text-muted-foreground">+201 since last hour</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Top Vendor</CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">BuildCo</div>
-            <p className="text-xs text-muted-foreground">4.9 average rating</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Open Snags</CardTitle>
-            <FileWarning className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">+5 since yesterday</p>
-          </CardContent>
-        </Card>
-      </div>
-
-       <div className="grid gap-4">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="font-headline">Recent Organization Activity</CardTitle>
-                    <CardDescription>Overview of recently onboarded organizations.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    {/* Placeholder for organization activity */}
-                    <div className="text-center text-muted-foreground py-8">
-                        <p>Organization activity will be displayed here.</p>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="rounded-[50px]">
+              <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-2">
+                      <div className="p-3.5 border rounded-full">
+                          <HandCoins className="h-6 w-6" />
+                      </div>
+                      <div>
+                          <CardTitle className="font-gilroy-semibold text-2xl">Subscriptions Analytics</CardTitle>
+                          <CardDescription className="font-gilroy-medium">Monthly active Subscriptions</CardDescription>
+                      </div>
                     </div>
-                </CardContent>
-            </Card>
-        </div>
+                    <p className="text-4xl font-gilroy-bold">200 <span className="text-green-500 text-2xl">↑</span></p>
+                  </div>
+              </CardHeader>
+              <CardContent>
+                  <div className="h-[250px] w-full">
+                      <SubscriptionChart />
+                  </div>
+              </CardContent>
+          </Card>
+           <Card className="rounded-[50px]">
+              <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-2">
+                      <div className="p-3.5 border rounded-full">
+                          <HandCoins className="h-6 w-6" />
+                      </div>
+                      <div>
+                          <CardTitle className="font-gilroy-semibold text-2xl">Revenue (MRR/ARR)</CardTitle>
+                          <CardDescription className="font-gilroy-medium">Monthly Recurring Revenue</CardDescription>
+                      </div>
+                    </div>
+                    <p className="text-4xl font-gilroy-bold">1.90L <span className="text-green-500 text-2xl">↑</span></p>
+                  </div>
+              </CardHeader>
+              <CardContent>
+                  <div className="h-[250px] w-full">
+                     <RevenueChart />
+                  </div>
+              </CardContent>
+          </Card>
+           <Card className="rounded-[50px]">
+              <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-2">
+                      <div className="p-3.5 border rounded-full">
+                          <UserMinus className="h-6 w-6" />
+                      </div>
+                      <div>
+                          <CardTitle className="font-gilroy-semibold text-2xl">Subscriptions Churn</CardTitle>
+                          <CardDescription className="font-gilroy-medium">Unsubscribed Users</CardDescription>
+                      </div>
+                    </div>
+                     <p className="text-4xl font-gilroy-bold">69 <span className="text-red-500 text-2xl">↓</span></p>
+                  </div>
+              </CardHeader>
+              <CardContent>
+                  <div className="h-[250px] w-full">
+                      <ChurnChart />
+                  </div>
+              </CardContent>
+          </Card>
+           <Card className="rounded-[50px]">
+              <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <div className="p-3.5 border rounded-full">
+                          <Milestone className="h-6 w-6" />
+                      </div>
+                      <div>
+                          <CardTitle className="font-gilroy-semibold text-2xl">Quick Links</CardTitle>
+                      </div>
+                    </div>
+                  </div>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 gap-4">
+                  <QuickLinkCard icon={<FileText className="h-6 w-6" />} label="Lead Management" color="hsl(var(--accent-color-01))" />
+                  <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
+                  <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
+                  <QuickLinkCard icon={<Bell className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
+              </CardContent>
+          </Card>
+      </div>
+
+       <Card className="rounded-[50px]">
+            <CardHeader>
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                        <div className="p-3.5 border rounded-full">
+                            <FileText className="h-6 w-6" />
+                        </div>
+                        <CardTitle className="font-gilroy-semibold text-2xl">Exit Survey</CardTitle>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <p className="text-lg font-gilroy-medium">Total Response: <span className="text-4xl font-gilroy-bold">129</span></p>
+                        <Button variant="ghost" size="icon" className="bg-background rounded-full">
+                            <ArrowRight />
+                        </Button>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div className="h-[250px]">
+                        <ExitSurveyChart />
+                    </div>
+                    <div className="space-y-4">
+                        {/* Placeholder for list of survey responses */}
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
+                                <div>
+                                    <p className="font-gilroy-medium">Brick & Bolt</p>
+                                    <p className="text-sm text-muted-foreground">Pricing too high</p>
+                                </div>
+                            </div>
+                            <Button variant="outline" className="rounded-full">Contact</Button>
+                        </div>
+                         <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
+                                <div>
+                                    <p className="font-gilroy-medium">Powerplay</p>
+                                    <p className="text-sm text-muted-foreground">Missing Features</p>
+                                </div>
+                            </div>
+                            <Button variant="outline" className="rounded-full">Contact</Button>
+                        </div>
+                         <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
+                                <div>
+                                    <p className="font-gilroy-medium">Harish mane</p>
+                                    <p className="text-sm text-muted-foreground">Technical issues</p>
+                                </div>
+                            </div>
+                            <Button variant="outline" className="rounded-full">Contact</Button>
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
     </div>
   );
 }
