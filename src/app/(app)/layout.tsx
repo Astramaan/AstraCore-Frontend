@@ -26,6 +26,7 @@ import {
   User,
   LogOut,
   ChevronDown,
+  Building,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -33,10 +34,9 @@ import { Button } from '@/components/ui/button';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/projects', icon: FolderKanban, label: 'Projects' },
-  { href: '/tasks', icon: ListTodo, label: 'Tasks' },
-  { href: '/vendors', icon: Truck, label: 'Vendors' },
-  { href: '/snags', icon: FileWarning, label: 'Snag List' },
+  { href: '/organizations', icon: Building, label: 'Organizations' },
+  { href: '/projects', icon: FolderKanban, label: 'All Projects' },
+  { href: '/settings', icon: Settings, label: 'Settings' },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -57,7 +57,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname === item.href}
+                  isActive={pathname.startsWith(item.href)}
                   tooltip={{ children: item.label, side: 'right', align: 'center' }}
                 >
                   <Link href={item.href}>
@@ -75,11 +75,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Button variant="ghost" className="w-full justify-start gap-2 p-2 h-auto">
                    <Avatar className="h-8 w-8">
                      <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="person portrait" />
-                     <AvatarFallback>U</AvatarFallback>
+                     <AvatarFallback>PA</AvatarFallback>
                    </Avatar>
                    <div className='text-left group-data-[collapsible=icon]:hidden'>
-                       <p className='font-medium text-sm'>Admin User</p>
-                       <p className='text-xs text-muted-foreground'>admin@astramaan.com</p>
+                       <p className='font-medium text-sm'>Platform Admin</p>
+                       <p className='text-xs text-muted-foreground'>platform@astracore.com</p>
                    </div>
                    <ChevronDown className="ml-auto h-4 w-4 group-data-[collapsible=icon]:hidden" />
                 </Button>

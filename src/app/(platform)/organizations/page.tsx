@@ -5,48 +5,54 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 
-const projects = [
-    { name: "Sky Tower Construction", organization: "MegaCorp", status: "In Progress", deadline: "2024-12-31" },
-    { name: "Downtown Plaza Renovation", organization: "Innovate Inc.", status: "On Hold", deadline: "2025-06-30" },
-    { name: "Sunrise Bridge", organization: "InfraBuild", status: "Completed", deadline: "2024-03-15" },
-    { name: "Oceanview Residences", organization: "Luxury Homes", status: "In Progress", deadline: "2024-09-01" },
-    { name: "Eco Park Development", organization: "GreenScape", status: "Not Started", deadline: "2025-01-20" },
+const organizations = [
+    { id: 1, name: "MegaCorp Construction", plan: "Enterprise", status: "Active", users: 150, projects: 25 },
+    { id: 2, name: "Innovate Inc.", plan: "Business", status: "Active", users: 50, projects: 10 },
+    { id: 3, name: "InfraBuild Co.", plan: "Enterprise", status: "Active", users: 250, projects: 40 },
+    { id: 4, name: "Luxury Homes LLC", plan: "Business", status: "Trial", users: 15, projects: 3 },
+    { id: 5, name: "GreenScape Solutions", plan: "Starter", status: "Inactive", users: 5, projects: 1 },
 ];
 
-export default function ProjectsPage() {
+export default function OrganizationsPage() {
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight font-headline">All Projects</h2>
+                <h2 className="text-3xl font-bold tracking-tight font-headline">Organizations</h2>
+                <Button>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Invite Organization
+                </Button>
             </div>
             
             <Card>
                 <CardHeader>
-                    <CardTitle>Project List</CardTitle>
-                    <CardDescription>An overview of all projects across all organizations.</CardDescription>
+                    <CardTitle>Organization List</CardTitle>
+                    <CardDescription>Manage all onboarded organizations.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Project Name</TableHead>
-                                <TableHead>Organization</TableHead>
+                                <TableHead>Organization Name</TableHead>
+                                <TableHead>Subscription Plan</TableHead>
                                 <TableHead>Status</TableHead>
-                                <TableHead>Deadline</TableHead>
+                                <TableHead>Users</TableHead>
+                                <TableHead>Projects</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {projects.map((project) => (
-                                <TableRow key={project.name}>
-                                    <TableCell className="font-medium">{project.name}</TableCell>
-                                    <TableCell>{project.organization}</TableCell>
+                            {organizations.map((org) => (
+                                <TableRow key={org.id}>
+                                    <TableCell className="font-medium">{org.name}</TableCell>
+                                    <TableCell>{org.plan}</TableCell>
                                     <TableCell>
-                                        <Badge variant={project.status === 'Completed' ? 'default' : 'secondary'} className={project.status === 'Completed' ? "bg-green-500" : ""}>
-                                            {project.status}
+                                        <Badge variant={org.status === 'Active' ? 'default' : org.status === 'Trial' ? 'secondary' : 'destructive'}>
+                                            {org.status}
                                         </Badge>
                                     </TableCell>
-                                    <TableCell>{project.deadline}</TableCell>
+                                    <TableCell>{org.users}</TableCell>
+                                    <TableCell>{org.projects}</TableCell>
                                     <TableCell className="text-right">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -57,7 +63,8 @@ export default function ProjectsPage() {
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
                                                 <DropdownMenuItem>View Details</DropdownMenuItem>
-                                                <DropdownMenuItem>Monitor Project</DropdownMenuItem>
+                                                <DropdownMenuItem>Manage Subscription</DropdownMenuItem>
+                                                <DropdownMenuItem>Suspend Organization</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
