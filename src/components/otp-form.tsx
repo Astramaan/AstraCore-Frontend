@@ -1,7 +1,8 @@
+
 "use client";
 
-import React, { useState, useRef, useEffect, useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useFormStatus, useActionState } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -99,11 +100,11 @@ export default function OtpForm() {
             <div className="flex justify-between items-center text-sm">
                 <div>
                     <span className="text-muted-foreground">Didn’t receive OTP? </span>
-                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-primary underline disabled:text-muted-foreground disabled:no-underline">
+                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-black underline disabled:text-muted-foreground disabled:no-underline">
                         Resend
                     </button>
                 </div>
-                <div className="text-muted-foreground font-mono">
+                <div className="text-black font-mono">
                     00:{timer.toString().padStart(2, '0')}
                 </div>
             </div>
