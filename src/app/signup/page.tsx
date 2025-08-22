@@ -6,7 +6,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}
-      <div className="md:hidden flex flex-col h-screen">
+      <div className="md:hidden flex flex-col min-h-screen">
         <div className="relative w-full h-[250px] shrink-0">
            <Image 
               src="https://placehold.co/430x250.png"

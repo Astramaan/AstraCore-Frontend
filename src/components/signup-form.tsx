@@ -40,7 +40,7 @@ export default function SignupForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              className={`pl-20 rounded-full bg-background h-[54px] border-0`}
               disabled={pending}
             />
           </div>
@@ -57,7 +57,7 @@ export default function SignupForm() {
               type="tel"
               required
               placeholder="Your phone number"
-              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              className={`pl-20 rounded-full bg-background h-[54px] border-0`}
               disabled={pending}
             />
           </div>
@@ -74,7 +74,7 @@ export default function SignupForm() {
               type="text"
               required
               placeholder="Your organization's name"
-              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              className={`pl-20 rounded-full bg-background h-[54px] border-0`}
               disabled={pending}
             />
           </div>
@@ -90,7 +90,7 @@ export default function SignupForm() {
               name="password" 
               type={showPassword ? "text" : "password"} 
               required 
-              className={`pl-20 pr-12 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              className={`pl-20 pr-12 rounded-full bg-background h-[54px] border-0`}
               disabled={pending}
             />
             <button
@@ -113,7 +113,7 @@ export default function SignupForm() {
         )}
       </div>
 
-      <div className="mt-auto pt-6">
+      <div className="mt-6 pt-6">
         <div className="mb-4">
           <SubmitButton />
         </div>
