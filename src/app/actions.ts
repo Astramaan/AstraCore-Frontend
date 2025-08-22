@@ -28,6 +28,28 @@ export async function authenticate(
   }
 }
 
+export async function signup(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
+    const organization = formData.get('organization') as string;
+    const password = formData.get('password') as string;
+
+    console.log(`Attempting to sign up with:`, { email, phone, organization });
+    
+    // In a real app, you would create a user in a database.
+    // We will just redirect to the dashboard on successful "signup".
+    redirect('/dashboard');
+
+  } catch (error) {
+    return { error: 'An unexpected error occurred during signup.' };
+  }
+}
+
+
 export async function createSnag(
   prevState: string | undefined,
   formData: FormData

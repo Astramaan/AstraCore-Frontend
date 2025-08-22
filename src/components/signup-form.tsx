@@ -3,31 +3,31 @@
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import React, { useState } from "react";
-import { authenticate } from "@/app/actions";
+import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
+import { Mail, LockKeyhole, Eye, EyeOff, Phone, Building2 } from "lucide-react";
 import Link from "next/link";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
-      {pending ? "Signing in..." : "Login"}
+      {pending ? "Signing up..." : "Sign up"}
     </Button>
   );
 }
 
-export default function AuthForm() {
-  const [state, action] = useActionState(authenticate, undefined);
+export default function SignupForm() {
+  const [state, action] = useActionState(signup, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const { pending } = useFormStatus();
 
   return (
     <form action={action} className="flex-grow flex flex-col">
-      <div className="flex-grow">
+      <div className="flex-grow space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email ID</Label>
           <div className="relative flex items-center">
@@ -46,10 +46,42 @@ export default function AuthForm() {
           </div>
         </div>
 
-        <div className="space-y-2 mt-6">
-          <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+        <div className="space-y-2">
+          <Label htmlFor="phone">Phone Number</Label>
+          <div className="relative flex items-center">
+            <Phone className="absolute left-6 h-5 w-5 text-foreground" />
+            <div className="absolute left-14 h-6 w-px bg-grey-2" />
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              required
+              placeholder="Your phone number"
+              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              disabled={pending}
+            />
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="organization">Organization Name</Label>
+          <div className="relative flex items-center">
+            <Building2 className="absolute left-6 h-5 w-5 text-foreground" />
+            <div className="absolute left-14 h-6 w-px bg-grey-2" />
+            <Input
+              id="organization"
+              name="organization"
+              type="text"
+              required
+              placeholder="Your organization's name"
+              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              disabled={pending}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="password">Create Password</Label>
           <div className="relative flex items-center">
             <LockKeyhole className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -71,14 +103,11 @@ export default function AuthForm() {
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
-          <a href="#" className="block text-right text-sm font-medium text-grey-1 hover:text-primary underline mt-1">
-              Forgot password?
-          </a>
         </div>
 
         {state?.error && (
-          <Alert variant="destructive" className="mt-6">
-            <AlertTitle>Authentication Error</AlertTitle>
+          <Alert variant="destructive" className="mt-4">
+            <AlertTitle>Signup Error</AlertTitle>
             <AlertDescription>{state.error}</AlertDescription>
           </Alert>
         )}
@@ -89,10 +118,10 @@ export default function AuthForm() {
           <SubmitButton />
         </div>
 
-         <div className="text-center text-sm">
-          <span className="text-muted-foreground">New to Astramaan? </span>
-          <Link href="/signup" className="font-semibold text-black hover:text-primary underline">
-              Signup
+        <div className="text-center text-sm">
+          <span className="text-muted-foreground">Already have an account? </span>
+          <Link href="/" className="font-semibold text-black hover:text-primary underline">
+              Login
           </Link>
         </div>
       </div>
