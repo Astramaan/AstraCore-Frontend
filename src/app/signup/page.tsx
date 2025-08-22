@@ -16,7 +16,7 @@ export default function SignupPage() {
               data-ai-hint="construction site"
           />
         </div>
-        <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col">
+        <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative">
             <div className="mb-6">
               <Logo />
             </div>
