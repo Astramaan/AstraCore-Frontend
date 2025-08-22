@@ -29,7 +29,7 @@ export default function OtpVerificationPage() {
         <div className="w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
             <div className="pt-4 pl-4 pb-4">
-              <div className="relative h-full w-full overflow-hidden rounded-[40px]">
+              <div className="relative h-full w-full overflow-hidden rounded-tl-[40px] rounded-bl-[40px]">
                 <Image 
                     src="https://placehold.co/396x507.png"
                     alt="Abstract blue background"

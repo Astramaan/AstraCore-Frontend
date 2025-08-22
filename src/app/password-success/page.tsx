@@ -28,24 +28,35 @@ export default function PasswordSuccessPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}
-      <div className="md:hidden flex flex-col items-center justify-center min-h-screen bg-card p-6 text-center">
-        <div className="absolute top-8">
-            <Logo />
-        </div>
-        <div className='flex-grow flex flex-col justify-center items-center'>
-            <div className="relative mb-6 flex items-center justify-center">
-                <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
-                <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-                <div className="w-10 h-10 bg-primary/20 rounded-full absolute flex items-center justify-center">
-                    <Check className="w-8 h-8 text-primary" />
-                </div>
-            </div>
-            <h1 className="text-2xl font-semibold mb-2">Password Created Successfully</h1>
-            <p className="text-muted-foreground mb-6">You're all set! You can now Login with your new password.</p>
-        </div>
-        <p className="text-sm text-muted-foreground pb-[env(safe-area-inset-bottom)]">
-          Redirecting in {countdown}s. <Link href="/" className="underline text-primary">Login now</Link>
-        </p>
+      <div className="md:hidden flex flex-col min-h-screen">
+          <div className="relative w-full h-[250px] shrink-0">
+              <Image 
+                  src="https://placehold.co/430x250.png"
+                  alt="Abstract green shapes"
+                  layout="fill"
+                  objectFit="cover"
+                  data-ai-hint="abstract green"
+              />
+          </div>
+          <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col items-center text-center">
+              <div className="absolute top-8 left-4">
+                  <Logo />
+              </div>
+              <div className='flex-grow flex flex-col justify-center items-center'>
+                  <div className="relative mb-6 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
+                      <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
+                      <div className="w-10 h-10 bg-primary/20 rounded-full absolute flex items-center justify-center">
+                          <Check className="w-8 h-8 text-primary" />
+                      </div>
+                  </div>
+                  <h1 className="text-2xl font-semibold mb-2">Password Created Successfully</h1>
+                  <p className="text-muted-foreground mb-6">You're all set! You can now Login with your new password.</p>
+              </div>
+              <p className="text-sm text-muted-foreground pb-[env(safe-area-inset-bottom)]">
+                  Redirecting in {countdown}s. <Link href="/" className="underline text-primary">Login now</Link>
+              </p>
+          </div>
       </div>
 
       {/* Desktop view */}
@@ -53,7 +64,7 @@ export default function PasswordSuccessPage() {
         <div className="w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
             <div className="pt-4 pl-4 pb-4">
-              <div className="relative h-full w-full overflow-hidden rounded-[40px]">
+              <div className="relative h-full w-full overflow-hidden rounded-tl-[40px] rounded-bl-[40px]">
                 <Image 
                     src="https://placehold.co/396x507.png"
                     alt="Abstract green shapes"
