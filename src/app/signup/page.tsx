@@ -29,19 +29,15 @@ export default function SignupPage() {
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
         <div className="w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
-              <div className="relative group">
-                <div className="p-4 h-full">
-                    <div className="relative h-full w-full">
-                         <Image 
-                            src="https://placehold.co/800x1200.png"
-                            alt="Abstract blue background"
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-tl-[40px] rounded-bl-[40px]"
-                            data-ai-hint="construction site"
-                        />
-                    </div>
-                </div>
+              <div className="relative overflow-hidden">
+                <Image 
+                    src="https://placehold.co/800x1200.png"
+                    alt="Abstract blue background"
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-tl-[40px] rounded-bl-[40px]"
+                    data-ai-hint="construction site"
+                />
               </div>
 
               <div className="flex flex-col py-12 px-10">
