@@ -86,7 +86,7 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
              {flow === 'forgot-password' && (
                 <div className="space-y-2">
                     <SubmitButton />
-                    <Button variant="ghost" className="w-full rounded-full h-[54px] text-foreground" asChild>
+                    <Button variant="ghost" className="w-full rounded-full h-[54px] text-foreground bg-background hover:bg-muted" asChild>
                         <Link href="/">Back</Link>
                     </Button>
                 </div>

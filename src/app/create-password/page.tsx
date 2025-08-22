@@ -44,7 +44,7 @@ export default function CreatePasswordPage() {
             <div className="flex flex-col py-12 px-10">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <Logo />
-                    <div className="mt-8 flex-grow flex flex-col">
+                    <div className="mt-8 flex-grow flex flex-col py-4">
                       <CreatePasswordForm />
                     </div>
                 </div>
