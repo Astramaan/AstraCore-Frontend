@@ -23,8 +23,7 @@ export default function LoginPage() {
             >
                 <div className="md:hidden absolute inset-0 bg-primary/80"></div>
                 <div className="relative z-10">
-                    <p className="text-lg">Welcome to</p>
-                    <h1 className="mt-2 text-4xl font-bold font-headline">Astramaan</h1>
+                    
                 </div>
             </div>
         </div>
@@ -33,8 +32,9 @@ export default function LoginPage() {
             <div className="mx-auto w-full max-w-md">
               <div>
                 <Logo />
-                <p className="mt-4 text-sm text-muted-foreground">
-                  Log in and let's get to work on your projects.
+                <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-foreground sm:text-3xl font-headline">Sign in to your account</h2>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Welcome back! Please enter your details.
                 </p>
               </div>
 
