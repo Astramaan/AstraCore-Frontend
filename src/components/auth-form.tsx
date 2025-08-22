@@ -75,16 +75,16 @@ export default function AuthForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-6 text-foreground pr-[24px]"
+              className="absolute right-6 text-foreground"
               aria-label={showPassword ? "Hide password" : "Show password"}
               disabled={pending}
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
-          <a href="#" className="block text-right text-sm font-medium text-grey-1 hover:text-primary underline mt-1">
+          <Link href="/forgot-password" className="block text-right text-sm font-medium text-grey-1 hover:text-primary underline mt-1">
               Forgot password?
-          </a>
+          </Link>
         </div>
       </div>
 

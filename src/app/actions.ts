@@ -77,3 +77,17 @@ export async function createSnag(
     return { error: 'Failed to report snag.' };
   }
 }
+
+export async function requestPasswordReset(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    const email = formData.get('email');
+    console.log(`Requesting password reset for: ${email}`);
+    // In a real app, you would send a reset link to the email.
+    return { success: 'If an account with this email exists, a password reset link has been sent.' };
+  } catch (error) {
+    return { error: 'Failed to request password reset.' };
+  }
+}
