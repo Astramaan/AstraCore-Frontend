@@ -59,9 +59,9 @@ const PlatformHeader = () => {
 
 const navItems = [
     { href: "/dashboard", icon: <LayoutGrid />, label: "Dashboard" },
-    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Management" },
-    { href: "/subscription", icon: <Briefcase />, label: "Subscription Management" },
-    { href: "/organizations", icon: <Users />, label: "Organization Management" },
+    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Ma.." },
+    { href: "/subscription", icon: <Briefcase />, label: "Subscription Ma.." },
+    { href: "/organizations", icon: <Users />, label: "Organization Ma.." },
     { href: "/support", icon: <Headset />, label: "Support" },
     { href: "/analytics", icon: <BarChart2 />, label: "Product Analytics" }
 ];
