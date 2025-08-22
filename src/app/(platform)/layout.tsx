@@ -2,13 +2,13 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Bell, Users, ChevronDown, LayoutGrid, BarChart2, Briefcase, Users2, Headset, Settings, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import Logo from '@/components/logo';
 
 const PlatformHeader = () => {
     return (
@@ -16,7 +16,7 @@ const PlatformHeader = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center gap-4">
-                        <Image src="/logo.png" alt="AstraCore Logo" width={132} height={49} />
+                        <Logo />
                         <div className="w-px h-12 bg-gray-300 hidden md:block" />
                         <h1 className="text-2xl md:text-4xl font-gilroy-bold text-black">Dashboard</h1>
                     </div>
