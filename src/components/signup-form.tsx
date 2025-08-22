@@ -7,11 +7,12 @@ import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Eye, EyeOff, Phone, Building2 } from "lucide-react";
+import { Eye, EyeOff, Building2 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import LockIcon from "./icons/lock";
 import EmailIcon from "./icons/email-icon";
+import PhoneIcon from "./icons/phone-icon";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -62,7 +63,7 @@ export default function SignupForm() {
         <div className="space-y-2">
           <Label htmlFor="phone">Phone Number</Label>
           <div className="relative flex items-center">
-            <Phone className="absolute left-6 h-5 w-5 text-foreground" />
+            <PhoneIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
             <Input
               id="phone"
