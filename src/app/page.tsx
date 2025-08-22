@@ -30,7 +30,7 @@ export default function LoginPage() {
         <div className="overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
             <div className="relative h-full w-full overflow-hidden">
-                 <div className="pt-4 pl-4 pb-4 h-full">
+                <div className="pt-4 pl-4 pb-4 h-full">
                     <Image 
                         src="https://placehold.co/396x507.png"
                         alt="Abstract blue background"
