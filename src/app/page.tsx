@@ -6,8 +6,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}
-      <div className="md:hidden relative">
-        <div className="absolute top-0 left-0 w-full h-[323px]">
+      <div className="md:hidden flex flex-col h-screen">
+        <div className="relative w-full h-[323px] shrink-0">
            <Image 
               src="https://placehold.co/430x323.png"
               alt="Abstract blue background"
@@ -16,14 +16,12 @@ export default function LoginPage() {
               data-ai-hint="construction site"
           />
         </div>
-        <div className="relative pt-[254px]">
-          <div className="bg-card rounded-t-[50px] px-4 py-8">
-              <div className="mb-6">
-                <Logo />
-              </div>
-              <p className="text-lg text-muted-foreground mb-6">Log in and let’s get to work on<br/>your projects.</p>
-              <AuthForm />
-          </div>
+        <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col">
+            <div className="mb-6">
+              <Logo />
+            </div>
+            <p className="text-lg text-muted-foreground mb-6">Log in and let’s get to work on<br/>your projects.</p>
+            <AuthForm />
         </div>
       </div>
 
