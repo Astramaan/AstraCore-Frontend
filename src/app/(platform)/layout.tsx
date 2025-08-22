@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Bell, Users,ChevronDown } from 'lucide-react';
+import { Bell, Users, ChevronDown, LayoutGrid, BarChart2, Briefcase, Users2, Headset, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -31,7 +31,7 @@ const PlatformHeader = () => {
                             <DropdownMenuTrigger asChild>
                                 <div className="flex items-center gap-2 cursor-pointer">
                                     <Avatar className="h-14 w-14">
-                                        <AvatarImage src="https://placehold.co/55x55" alt="Balaji Naik" />
+                                        <AvatarImage src="https://placehold.co/55x55" alt="Balaji Naik" data-ai-hint="person portrait"/>
                                         <AvatarFallback>BN</AvatarFallback>
                                     </Avatar>
                                     <div>
@@ -57,15 +57,35 @@ const PlatformHeader = () => {
     );
 };
 
+const navItems = [
+    { href: "/dashboard", icon: <LayoutGrid />, label: "Dashboard" },
+    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Ma.." },
+    { href: "/subscription", icon: <Briefcase />, label: "Subscription Ma.." },
+    { href: "/organizations", icon: <Users />, label: "Organization Ma.." },
+    { href: "/support", icon: <Headset />, label: "Support" },
+    { href: "/analytics", icon: <BarChart2 />, label: "Product Analytics" }
+];
 
-const PlatformBottomNav = () => {
-    // A placeholder for the bottom navigation from the design
+
+const PlatformNav = () => {
+    const [activeItem, setActiveItem] = React.useState('Dashboard');
+    
     return (
         <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-164px)] max-w-[1276px] z-20">
-             <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2">
-                 <div className="flex items-center justify-between">
-                     {/* Placeholder for nav items */}
-                     <p className="text-white text-center w-full py-6">Bottom Navigation Placeholder</p>
+             <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative">
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-[5px] bg-white rounded-full" />
+                 <div className="flex items-center justify-around">
+                    {navItems.map((item) => (
+                        <Link href={item.href} key={item.label}>
+                            <div
+                                onClick={() => setActiveItem(item.label)}
+                                className={`flex items-center gap-2.5 p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
+                            >
+                                {item.icon}
+                                <span className="text-lg font-gilroy-medium">{item.label}</span>
+                            </div>
+                        </Link>
+                    ))}
                  </div>
              </div>
         </nav>
@@ -75,16 +95,12 @@ const PlatformBottomNav = () => {
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-32">
         <PlatformHeader />
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {children}
         </main>
-        {/* The bottom nav from the design is complex and seems to be for a different view.
-            I'm leaving it out for now to focus on the main dashboard content.
-            We can add it back later if needed.
-        <PlatformBottomNav />
-        */}
+        <PlatformNav />
     </div>
   );
 }
