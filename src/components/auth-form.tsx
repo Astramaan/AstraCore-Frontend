@@ -26,8 +26,9 @@ export default function AuthForm() {
     <form action={action} className="space-y-6">
       <div className="space-y-2">
         <Label htmlFor="email">Email ID</Label>
-        <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <div className="relative flex items-center">
+          <Mail className="absolute left-3 h-5 w-5 text-muted-foreground" />
+          <div className="absolute left-9 h-6 w-px bg-grey-2" />
           <Input
             id="email"
             name="email"
@@ -35,7 +36,7 @@ export default function AuthForm() {
             autoComplete="email"
             required
             placeholder="name@company.com"
-            className="pl-10 rounded-full"
+            className="pl-12 rounded-full"
           />
         </div>
       </div>
@@ -47,9 +48,10 @@ export default function AuthForm() {
                 Forgot password?
             </a>
         </div>
-        <div className="relative">
-          <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input id="password" name="password" type="password" required className="pl-10 rounded-full"/>
+        <div className="relative flex items-center">
+          <LockKeyhole className="absolute left-3 h-5 w-5 text-muted-foreground" />
+          <div className="absolute left-9 h-6 w-px bg-grey-2" />
+          <Input id="password" name="password" type="password" required className="pl-12 rounded-full"/>
         </div>
       </div>
 
