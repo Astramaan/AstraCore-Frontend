@@ -79,7 +79,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                    </Avatar>
                    <div className='text-left group-data-[collapsible=icon]:hidden'>
                        <p className='font-medium text-sm'>Admin User</p>
-                       <p className='text-xs text-muted-foreground'>admin@astracore.com</p>
+                       <p className='text-xs text-muted-foreground'>admin@astramaan.com</p>
                    </div>
                    <ChevronDown className="ml-auto h-4 w-4 group-data-[collapsible=icon]:hidden" />
                 </Button>
