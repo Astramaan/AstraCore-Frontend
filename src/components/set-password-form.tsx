@@ -72,7 +72,7 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
                 autoComplete="email"
                 required
                 placeholder="name@company.com"
-                className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : ""}`}
+                className={`pl-20 rounded-full bg-background h-[54px]`}
                 disabled={pending}
               />
             </div>
