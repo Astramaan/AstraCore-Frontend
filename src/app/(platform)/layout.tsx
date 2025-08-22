@@ -111,8 +111,8 @@ const PlatformNav = () => {
     const [activeItem, setActiveItem] = React.useState('Dashboard');
     
     return (
-        <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-auto z-20">
-             <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative">
+        <nav className="fixed bottom-4 left-0 right-0 z-20 flex justify-center">
+             <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative mx-4">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 md:w-24 h-[5px] bg-white rounded-full" />
                  <div className="flex items-center justify-center lg:justify-around gap-1">
                     {navItems.map((item) => (
