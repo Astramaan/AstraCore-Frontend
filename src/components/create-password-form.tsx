@@ -63,7 +63,7 @@ export default function CreatePasswordForm() {
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
-             <p className="text-sm text-grey-1 pt-1">Use 8 or more characters with a combination of letters, numbers, and symbols.</p>
+             <p className="text-sm text-grey-1 pt-1 px-2">Use 8 or more characters with a combination of letters, numbers, and symbols.</p>
           </div>
         </div>
 
