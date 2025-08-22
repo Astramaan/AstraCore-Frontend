@@ -10,8 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['"Space Grotesk"', 'sans-serif'],
+        body: ['Gilroy-Medium', 'sans-serif'],
+        title: ['Gilroy-SemiBold', 'sans-serif'],
+        headline: ['Gilroy-Bold', 'sans-serif'],
         code: ['monospace'],
         // To use your custom font, add it here after declaring it in globals.css
         // For example:
