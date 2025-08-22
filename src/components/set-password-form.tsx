@@ -8,7 +8,7 @@ import { requestPasswordReset } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Mail } from "lucide-react";
+import EmailIcon from "./icons/email-icon";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 
@@ -65,7 +65,7 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
           <div className="space-y-2">
             <Label htmlFor="email">{config.label}</Label>
             <div className="relative flex items-center">
-              <Mail className="absolute left-6 h-5 w-5 text-foreground" />
+              <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
               <div className="absolute left-14 h-6 w-px bg-grey-2" />
               <Input
                 id="email"

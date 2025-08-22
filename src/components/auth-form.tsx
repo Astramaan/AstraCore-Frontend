@@ -7,10 +7,11 @@ import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Mail, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import LockIcon from "./icons/lock";
+import EmailIcon from "./icons/email-icon";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -43,7 +44,7 @@ export default function AuthForm() {
         <div className="space-y-2">
           <Label htmlFor="email">Email ID</Label>
           <div className="relative flex items-center">
-            <Mail className="absolute left-6 h-5 w-5 text-foreground" />
+            <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
             <Input
               id="email"
