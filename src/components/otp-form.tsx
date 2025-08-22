@@ -72,7 +72,7 @@ export default function OtpForm() {
         <div className="flex-grow space-y-6">
             <div className="text-lg text-grey-1">
                 Check your inbox at user@example.com Incorrect email?{' '}
-                <a href="#" className="text-primary underline">
+                <a href="#" className="text-primary underline hover:text-primary/80">
                     Edit it
                 </a>
             </div>
@@ -100,7 +100,7 @@ export default function OtpForm() {
             <div className="flex justify-between items-center text-sm">
                 <div>
                     <span className="text-muted-foreground">Didn’t receive OTP? </span>
-                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-black underline disabled:text-muted-foreground disabled:no-underline">
+                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-black underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
                         Resend
                     </button>
                 </div>
