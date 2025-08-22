@@ -26,7 +26,10 @@ export default function OtpVerificationPage() {
 
       {/* Desktop view */}
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
-        <div className="overflow-hidden rounded-[50px] bg-card text-card-foreground">
+        <div 
+          className="overflow-hidden rounded-[50px] bg-card text-card-foreground" 
+          style={{ maxWidth: '844px', width: '100%', height: '539px' }}
+        >
           <div className="grid grid-cols-2 h-full">
             <div className="relative h-full w-full overflow-hidden">
                 <div className="pt-4 pl-4 pb-4 h-full">
