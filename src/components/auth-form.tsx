@@ -7,14 +7,14 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { AlertCircle } from "lucide-react";
+import { Mail, LockKeyhole } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full" aria-disabled={pending}>
-      {pending ? "Signing in..." : "Sign in"}
+      {pending ? "Signing in..." : "Login"}
     </Button>
   );
 }
@@ -25,15 +25,19 @@ export default function AuthForm() {
   return (
     <form action={action} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="email">Email address</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          placeholder="name@company.com"
-        />
+        <Label htmlFor="email">Email ID</Label>
+        <div className="relative">
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="name@company.com"
+            className="pl-10"
+          />
+        </div>
       </div>
 
       <div className="space-y-2">
@@ -43,12 +47,14 @@ export default function AuthForm() {
                 Forgot password?
             </a>
         </div>
-        <Input id="password" name="password" type="password" required />
+        <div className="relative">
+          <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Input id="password" name="password" type="password" required className="pl-10"/>
+        </div>
       </div>
 
       {state?.error && (
         <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
           <AlertTitle>Authentication Error</AlertTitle>
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
@@ -59,16 +65,15 @@ export default function AuthForm() {
       </div>
 
       <div className="relative">
-        <Separator className="my-8" />
         <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-sm">
-            <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+            <span className="bg-card px-2 text-muted-foreground">New to Astramaan?</span>
         </div>
       </div>
         <Button variant="outline" className="w-full">
-            Sign in with OTP
+            Signup
         </Button>
     </form>
   );
