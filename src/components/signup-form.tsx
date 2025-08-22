@@ -26,8 +26,8 @@ export default function SignupForm() {
   const { pending } = useFormStatus();
 
   return (
-    <form action={action} className="flex flex-col">
-      <div className="space-y-4">
+    <form action={action} className="flex flex-col flex-grow">
+      <div className="space-y-4 flex-grow">
         <div className="space-y-2">
           <Label htmlFor="email">Email ID</Label>
           <div className="relative flex items-center">
@@ -113,7 +113,7 @@ export default function SignupForm() {
         )}
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 md:mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
         <div className="mb-4">
           <SubmitButton />
         </div>
