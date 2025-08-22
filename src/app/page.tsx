@@ -22,7 +22,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="flex flex-col justify-center p-8 sm:p-12">
+            <div className="flex flex-col justify-center py-8 sm:py-12 px-10">
                 <div className="mx-auto w-full max-w-md">
                 <div>
                     <Logo />
