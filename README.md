@@ -1,4 +1,4 @@
-# Firebase Studio
+# AstraCore
 
 This is a NextJS starter in Firebase Studio.
 
