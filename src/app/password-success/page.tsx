@@ -52,37 +52,38 @@ export default function PasswordSuccessPage() {
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
         <div className="w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
-              <div className="relative overflow-hidden">
+            <div className="pt-4 pl-4 pb-4">
+              <div className="relative h-full w-full overflow-hidden rounded-[40px]">
                 <Image 
                     src="https://placehold.co/396x507.png"
                     alt="Abstract green shapes"
                     layout="fill"
                     objectFit="cover"
-                    className="rounded-tl-[40px] rounded-bl-[40px]"
                     data-ai-hint="abstract green"
                 />
               </div>
+            </div>
 
-              <div className="flex flex-col py-12 px-10">
-                  <div className="mx-auto w-full max-w-md flex flex-col h-full text-center">
-                      <Logo className="mx-auto" />
-                      <div className="flex-grow flex flex-col justify-center items-center">
-                        <div className="relative mb-6 flex items-center justify-center">
-                          <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
-                          <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-                          <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
-                            <Check className="w-8 h-8 text-primary" />
-                          </div>
+            <div className="flex flex-col py-12 px-10">
+                <div className="mx-auto w-full max-w-md flex flex-col h-full text-center">
+                    <Logo className="mx-auto" />
+                    <div className="flex-grow flex flex-col justify-center items-center">
+                      <div className="relative mb-6 flex items-center justify-center">
+                        <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
+                        <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
+                        <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
+                          <Check className="w-8 h-8 text-primary" />
                         </div>
+                      </div>
 
-                        <h1 className="text-2xl font-semibold text-black mb-2">Password Created Successfully</h1>
-                        <p className="text-lg text-grey-2">You're all set! You can now Login<br/>with your new password.</p>
-                      </div>
-                      <div className="text-grey-1 text-sm">
-                        <p>Redirecting you to the login page in {countdown} seconds. If it doesn't happen automatically, <Link href="/" className="underline text-primary">click here</Link>.</p>
-                      </div>
-                  </div>
-              </div>
+                      <h1 className="text-2xl font-semibold text-black mb-2">Password Created Successfully</h1>
+                      <p className="text-lg text-grey-2">You're all set! You can now Login<br/>with your new password.</p>
+                    </div>
+                    <div className="text-grey-1 text-sm">
+                      <p>Redirecting you to the login page in {countdown} seconds. If it doesn't happen automatically, <Link href="/" className="underline text-primary">click here</Link>.</p>
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>

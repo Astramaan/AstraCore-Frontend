@@ -28,25 +28,26 @@ export default function ForgotPasswordPage() {
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
         <div className="w-[844px] h-[539px] overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
-              <div className="relative overflow-hidden">
+            <div className="pt-4 pl-4 pb-4">
+              <div className="relative h-full w-full overflow-hidden rounded-[40px]">
                 <Image 
                     src="https://placehold.co/396x507.png"
                     alt="Abstract blue background"
                     layout="fill"
                     objectFit="cover"
-                    className="rounded-tl-[40px] rounded-bl-[40px]"
                     data-ai-hint="construction site"
                 />
               </div>
+            </div>
 
-              <div className="flex flex-col py-12 px-10">
-                  <div className="mx-auto w-full max-w-md flex flex-col h-full">
-                      <Logo />
-                      <div className="mt-8 flex-grow flex flex-col">
-                        <SetPasswordForm flow="forgot-password" />
-                      </div>
-                  </div>
-              </div>
+            <div className="flex flex-col py-12 px-10">
+                <div className="mx-auto w-full max-w-md flex flex-col h-full">
+                    <Logo />
+                    <div className="mt-8 flex-grow flex flex-col">
+                      <SetPasswordForm flow="forgot-password" />
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
