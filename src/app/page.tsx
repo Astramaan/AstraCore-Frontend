@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4 sm:p-6 md:p-8">
+    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4 sm:p-6 md:p-8 font-body">
       <div className="w-full max-w-4xl overflow-hidden rounded-2xl bg-card text-card-foreground shadow-2xl md:grid md:grid-cols-2">
         
         <div className="relative h-48 md:h-full">
@@ -33,7 +33,7 @@ export default function LoginPage() {
               <div>
                 <Logo />
                 <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-foreground sm:text-3xl font-headline">Sign in to your account</h2>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                <p className="mt-2 text-sm leading-6 text-muted-foreground font-body">
                   Welcome back! Please enter your details.
                 </p>
               </div>
