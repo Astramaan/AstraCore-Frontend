@@ -51,7 +51,7 @@ export default function AuthForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : ""}`}
+              className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
             />
           </div>
@@ -69,7 +69,7 @@ export default function AuthForm() {
               name="password" 
               type={showPassword ? "text" : "password"} 
               required 
-              className={`pl-20 pr-12 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : ""}`}
+              className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
               disabled={pending}
             />
             <button
