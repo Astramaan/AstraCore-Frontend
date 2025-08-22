@@ -116,7 +116,7 @@ const PlatformNav = () => {
         <nav className="fixed bottom-4 left-0 right-0 z-20 px-4 sm:px-6 lg:px-8">
              <div className="container mx-auto">
                 <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative">
-                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 md:w-24 h-[5px] bg-white rounded-full" />
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-neutral-900/20 rounded-b-xl border-b border-l border-r border-gray-300" />
                     <div className="flex items-center justify-between">
                         {navItems.map((item) => (
                             <Link href={item.href} key={item.label}>
