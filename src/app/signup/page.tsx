@@ -28,7 +28,7 @@ export default function SignupPage() {
       {/* Desktop view */}
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
         <div className="w-full max-w-4xl overflow-hidden rounded-[50px] bg-card text-card-foreground">
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 h-[539px]">
               <div className="relative group">
                 <div className="p-4 h-full">
                     <div className="relative h-full w-full">
@@ -44,13 +44,13 @@ export default function SignupPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center py-12 px-10">
-                  <div className="mx-auto w-full max-w-md">
+              <div className="flex flex-col py-12 px-10">
+                  <div className="mx-auto w-full max-w-md flex flex-col h-full">
                       <Logo />
                       <h2 className="mt-8 text-lg text-grey-1 tracking-tight font-body">Sign up to manage and grow your projects.</h2>
-                  <div className="mt-8">
-                      <SignupForm />
-                  </div>
+                      <div className="mt-8 flex-grow">
+                          <SignupForm />
+                      </div>
                   </div>
               </div>
           </div>

@@ -43,10 +43,10 @@ export default function SetPasswordPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center py-12 px-10">
-                  <div className="mx-auto w-full max-w-md">
+              <div className="flex flex-col py-12 px-10">
+                  <div className="mx-auto w-full max-w-md flex flex-col h-full">
                       <Logo />
-                      <div className="mt-8">
+                      <div className="mt-8 flex-grow">
                         <SetPasswordForm flow="set-password" />
                       </div>
                   </div>
