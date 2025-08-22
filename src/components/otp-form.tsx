@@ -1,8 +1,8 @@
 
 "use client";
 
-import React, { useState, useRef, useEffect, useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useFormStatus, useActionState } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -91,7 +91,7 @@ export default function OtpForm() {
                         onKeyDown={(e) => handleKeyDown(e, index)}
                         onFocus={(e) => e.target.select()}
                         ref={(el) => (inputRefs.current[index] = el)}
-                        className="w-14 h-12 md:w-16 md:h-14 text-center text-xl font-bold rounded-lg bg-background border-border focus:border-primary focus:ring-primary"
+                        className="w-[78px] h-[57px] text-center text-xl font-bold rounded-[15px] bg-background border-border focus:border-primary focus:ring-primary"
                     />
                 ))}
                 </div>
