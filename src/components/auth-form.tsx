@@ -13,7 +13,7 @@ import { Separator } from "./ui/separator";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" aria-disabled={pending}>
+    <Button type="submit" className="w-full rounded-full" aria-disabled={pending}>
       {pending ? "Signing in..." : "Login"}
     </Button>
   );
@@ -35,7 +35,7 @@ export default function AuthForm() {
             autoComplete="email"
             required
             placeholder="name@company.com"
-            className="pl-10"
+            className="pl-10 rounded-full"
           />
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function AuthForm() {
         </div>
         <div className="relative">
           <LockKeyhole className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input id="password" name="password" type="password" required className="pl-10"/>
+          <Input id="password" name="password" type="password" required className="pl-10 rounded-full"/>
         </div>
       </div>
 
