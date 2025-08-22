@@ -172,6 +172,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                   </div>
+              </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <QuickLinkCard icon={<Plus className="h-6 w-6" />} label="Create New Plan" color="hsl(var(--accent-color-01))" />
                   <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
