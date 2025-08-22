@@ -1,15 +1,15 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import React, { useState } from "react";
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -24,6 +24,17 @@ export default function AuthForm() {
   const [state, action] = useActionState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const { pending } = useFormStatus();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        variant: "destructive",
+        title: "Authentication Error",
+        description: state.error,
+      });
+    }
+  }, [state, toast]);
 
   return (
     <form action={action} className="flex-grow flex flex-col">
@@ -40,7 +51,7 @@ export default function AuthForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              className={`pl-20 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : ""}`}
               disabled={pending}
             />
           </div>
@@ -58,13 +69,13 @@ export default function AuthForm() {
               name="password" 
               type={showPassword ? "text" : "password"} 
               required 
-              className={`pl-20 pr-12 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : "border-0"}`}
+              className={`pl-20 pr-12 rounded-full bg-background h-[54px] ${state?.error ? "border-destructive" : ""}`}
               disabled={pending}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-6 text-foreground"
+              className="absolute right-6 text-foreground pr-[24px]"
               aria-label={showPassword ? "Hide password" : "Show password"}
               disabled={pending}
             >
@@ -75,13 +86,6 @@ export default function AuthForm() {
               Forgot password?
           </a>
         </div>
-
-        {state?.error && (
-          <Alert variant="destructive" className="mt-6">
-            <AlertTitle>Authentication Error</AlertTitle>
-            <AlertDescription>{state.error}</AlertDescription>
-          </Alert>
-        )}
       </div>
 
       <div className="mt-auto pt-6">

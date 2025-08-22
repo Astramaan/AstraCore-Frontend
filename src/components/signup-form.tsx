@@ -2,14 +2,14 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Mail, LockKeyhole, Eye, EyeOff, Phone, Building2 } from "lucide-react";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -24,6 +24,17 @@ export default function SignupForm() {
   const [state, action] = useActionState(signup, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const { pending } = useFormStatus();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        variant: "destructive",
+        title: "Signup Error",
+        description: state.error,
+      });
+    }
+  }, [state, toast]);
 
   return (
     <form action={action} className="flex flex-col flex-grow">
@@ -40,7 +51,7 @@ export default function SignupForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className={`pl-20 rounded-full bg-background h-[54px] border-0`}
+              className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
             />
           </div>
@@ -57,7 +68,7 @@ export default function SignupForm() {
               type="tel"
               required
               placeholder="Your phone number"
-              className={`pl-20 rounded-full bg-background h-[54px] border-0`}
+              className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
             />
           </div>
@@ -74,7 +85,7 @@ export default function SignupForm() {
               type="text"
               required
               placeholder="Your organization's name"
-              className={`pl-20 rounded-full bg-background h-[54px] border-0`}
+              className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
             />
           </div>
@@ -90,7 +101,7 @@ export default function SignupForm() {
               name="password" 
               type={showPassword ? "text" : "password"} 
               required 
-              className={`pl-20 pr-12 rounded-full bg-background h-[54px] border-0`}
+              className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
               disabled={pending}
             />
             <button
@@ -104,16 +115,9 @@ export default function SignupForm() {
             </button>
           </div>
         </div>
-
-        {state?.error && (
-          <Alert variant="destructive" className="mt-4">
-            <AlertTitle>Signup Error</AlertTitle>
-            <AlertDescription>{state.error}</AlertDescription>
-          </Alert>
-        )}
       </div>
 
-      <div className="mt-6 md:mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
+      <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
         <div className="mb-4">
           <SubmitButton />
         </div>

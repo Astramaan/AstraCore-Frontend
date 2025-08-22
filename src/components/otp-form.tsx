@@ -5,7 +5,7 @@ import { useActionState, useFormStatus } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { useToast } from '@/hooks/use-toast';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -21,6 +21,17 @@ export default function OtpForm() {
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: state.error,
+      });
+    }
+  }, [state, toast]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,13 +107,6 @@ export default function OtpForm() {
             </div>
         </div>
         
-        {state?.error && (
-          <Alert variant="destructive">
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{state.error}</AlertDescription>
-          </Alert>
-        )}
-
         <div className='pt-4'>
             <SubmitButton />
         </div>

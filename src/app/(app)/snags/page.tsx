@@ -1,5 +1,5 @@
 'use client';
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { createSnag } from "@/app/actions";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, CheckCircle, UploadCloud } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 
 const reportedSnags = [
     { id: 1, title: "Leaky faucet in master bathroom", project: "Oceanview Residences", status: "Reported", imageUrl: "https://placehold.co/600x400.png", dataAiHint: "leaky faucet" },
@@ -30,6 +31,23 @@ function SubmitButton() {
 
 export default function SnagsPage() {
     const [state, action] = useActionState(createSnag, undefined);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (state?.error) {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: state.error,
+            });
+        }
+        if (state?.success) {
+            toast({
+                title: "Success",
+                description: state.success,
+            });
+        }
+    }, [state, toast]);
 
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
@@ -65,20 +83,6 @@ export default function SnagsPage() {
                                     </Label>
                                 </div> 
                             </div>
-                            {state?.error && (
-                                <Alert variant="destructive">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertTitle>Error</AlertTitle>
-                                <AlertDescription>{state.error}</AlertDescription>
-                                </Alert>
-                            )}
-                            {state?.success && (
-                                <Alert variant="default" className="bg-green-100 dark:bg-green-900/20 border-green-300 dark:border-green-700">
-                                <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-                                <AlertTitle>Success</AlertTitle>
-                                <AlertDescription>{state.success}</AlertDescription>
-                                </Alert>
-                            )}
                         </CardContent>
                         <CardFooter>
                             <SubmitButton />
