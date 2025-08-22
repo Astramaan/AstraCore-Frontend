@@ -20,7 +20,7 @@ export default function LoginPage() {
             <div className="mb-6">
               <Logo />
             </div>
-            <p className="text-lg text-muted-foreground mb-6">Log in and let’s get to work on<br/>your projects.</p>
+            <p className="text-lg text-grey-1 mb-6">Log in and let’s get to work on<br/>your projects.</p>
             <AuthForm />
         </div>
       </div>
@@ -47,7 +47,7 @@ export default function LoginPage() {
               <div className="flex flex-col justify-center py-12 px-10">
                   <div className="mx-auto w-full max-w-md">
                       <Logo />
-                      <h2 className="mt-8 text-lg text-foreground/80 tracking-tight font-body">Log in and let’s get to work on your projects.</h2>
+                      <h2 className="mt-8 text-lg text-grey-1 tracking-tight font-body">Log in and let’s get to work on your projects.</h2>
                   <div className="mt-8">
                       <AuthForm />
                   </div>
