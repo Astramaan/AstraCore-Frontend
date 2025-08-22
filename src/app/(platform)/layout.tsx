@@ -111,10 +111,10 @@ const PlatformNav = () => {
     const [activeItem, setActiveItem] = React.useState('Dashboard');
     
     return (
-        <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-[calc(100%-164px)] max-w-[1276px] z-20">
+        <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-auto z-20">
              <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 md:w-24 h-[5px] bg-white rounded-full" />
-                 <div className="flex items-center justify-around">
+                 <div className="flex items-center justify-center lg:justify-around gap-1">
                     {navItems.map((item) => (
                         <Link href={item.href} key={item.label}>
                             <div
@@ -122,7 +122,7 @@ const PlatformNav = () => {
                                 className={`flex items-center gap-2.5 p-3 md:p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
                             >
                                 {item.icon}
-                                <span className="text-lg font-gilroy-medium whitespace-nowrap hidden md:inline">{item.label}</span>
+                                <span className="text-lg font-gilroy-medium whitespace-nowrap hidden lg:inline">{item.label}</span>
                             </div>
                         </Link>
                     ))}
