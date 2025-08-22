@@ -109,7 +109,7 @@ export default function OtpForm() {
             </div>
         </div>
         
-        <div className='pt-4'>
+        <div className='pt-4 mt-auto'>
             <SubmitButton />
         </div>
     </form>
