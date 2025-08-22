@@ -99,12 +99,12 @@ const PlatformHeader = () => {
 };
 
 const navItems = [
-    { href: "/dashboard", icon: <LayoutGrid />, label: "Dashboard" },
-    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Management" },
-    { href: "/subscription", icon: <Briefcase />, label: "Subscription Management" },
-    { href: "/organizations", icon: <Users />, label: "Organization Management" },
-    { href: "/support", icon: <Headset />, label: "Support" },
-    { href: "/analytics", icon: <BarChart2 />, label: "Product Analytics" }
+    { href: "/dashboard", icon: <LayoutGrid />, label: "Dashboard", shortLabel: "Dashboard" },
+    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Management", shortLabel: "Onboarding" },
+    { href: "/subscription", icon: <Briefcase />, label: "Subscription Management", shortLabel: "Subscription" },
+    { href: "/organizations", icon: <Users />, label: "Organization Management", shortLabel: "Organization" },
+    { href: "/support", icon: <Headset />, label: "Support", shortLabel: "Support" },
+    { href: "/analytics", icon: <BarChart2 />, label: "Product Analytics", shortLabel: "Analytics" }
 ];
 
 
@@ -124,7 +124,8 @@ const PlatformNav = () => {
                                     className={`flex items-center gap-2.5 p-3 md:p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
                                 >
                                     {item.icon}
-                                    <span className="text-lg font-gilroy-medium whitespace-nowrap hidden lg:inline">{item.label}</span>
+                                    <span className="text-lg font-gilroy-medium whitespace-nowrap hidden xl:inline">{item.label}</span>
+                                    <span className="text-lg font-gilroy-medium whitespace-nowrap hidden lg:inline xl:hidden">{item.shortLabel}</span>
                                 </div>
                             </Link>
                         ))}
