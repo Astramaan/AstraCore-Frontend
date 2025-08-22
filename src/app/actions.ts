@@ -1,3 +1,4 @@
+
 "use server";
 
 import { redirect } from 'next/navigation';
@@ -100,7 +101,7 @@ export async function createPassword(
     const password = formData.get('password');
     console.log(`Creating new password.`);
     // In a real app, you would save the new password for the user.
-    redirect('/dashboard');
+    redirect('/password-success');
   } catch (error) {
     return { error: 'Failed to create new password.' };
   }
