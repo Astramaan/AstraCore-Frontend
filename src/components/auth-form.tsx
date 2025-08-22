@@ -2,12 +2,13 @@
 
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
+import React, { useState } from "react";
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { Mail, LockKeyhole } from "lucide-react";
+import { Mail, LockKeyhole, Eye, EyeOff } from "lucide-react";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -20,6 +21,7 @@ function SubmitButton() {
 
 export default function AuthForm() {
   const [state, action] = useActionState(authenticate, undefined);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form action={action} className="flex-grow flex flex-col">
@@ -48,7 +50,15 @@ export default function AuthForm() {
           <div className="relative flex items-center">
             <LockKeyhole className="absolute left-6 h-5 w-5 text-muted-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
-            <Input id="password" name="password" type="password" required className="pl-20 rounded-full"/>
+            <Input id="password" name="password" type={showPassword ? "text" : "password"} required className="pl-20 pr-12 rounded-full"/>
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 text-muted-foreground"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
           </div>
           <a href="#" className="block text-right text-sm font-medium text-grey-1 hover:text-primary underline mt-1">
               Forgot password?
