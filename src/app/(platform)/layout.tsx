@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -112,22 +113,24 @@ const PlatformNav = () => {
     
     return (
         <nav className="fixed bottom-4 left-0 right-0 z-20 flex justify-center">
-             <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative mx-4">
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 md:w-24 h-[5px] bg-white rounded-full" />
-                 <div className="flex items-center justify-center lg:justify-around gap-1">
-                    {navItems.map((item) => (
-                        <Link href={item.href} key={item.label}>
-                            <div
-                                onClick={() => setActiveItem(item.label)}
-                                className={`flex items-center gap-2.5 p-3 md:p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
-                            >
-                                {item.icon}
-                                <span className="text-lg font-gilroy-medium whitespace-nowrap hidden lg:inline">{item.label}</span>
-                            </div>
-                        </Link>
-                    ))}
-                 </div>
-             </div>
+             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative">
+                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 md:w-24 h-[5px] bg-white rounded-full" />
+                    <div className="flex items-center justify-center md:justify-around gap-1">
+                        {navItems.map((item) => (
+                            <Link href={item.href} key={item.label}>
+                                <div
+                                    onClick={() => setActiveItem(item.label)}
+                                    className={`flex items-center gap-2.5 p-3 md:p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
+                                >
+                                    {item.icon}
+                                    <span className="text-lg font-gilroy-medium whitespace-nowrap hidden md:hidden lg:inline">{item.label}</span>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </nav>
     )
 }
