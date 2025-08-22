@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -19,7 +20,7 @@ function SubmitButton() {
 }
 
 export default function AuthForm() {
-  const [state, action] = useFormState(authenticate, undefined);
+  const [state, action] = useActionState(authenticate, undefined);
 
   return (
     <form action={action} className="space-y-6">

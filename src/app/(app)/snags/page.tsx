@@ -1,5 +1,6 @@
 'use client';
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { createSnag } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,7 +29,7 @@ function SubmitButton() {
 }
 
 export default function SnagsPage() {
-    const [state, action] = useFormState(createSnag, undefined);
+    const [state, action] = useActionState(createSnag, undefined);
 
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
