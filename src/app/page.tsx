@@ -32,7 +32,7 @@ export default function LoginPage() {
             <div className="mx-auto w-full max-w-md">
               <div>
                 <Logo />
-                <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-foreground sm:text-3xl font-headline">Log in and let’s get to work on your projects.</h2>
+                <h2 className="mt-8 text-lg tracking-tight text-foreground">Log in and let’s get to work on your projects.</h2>
               </div>
 
               <div className="mt-8">
