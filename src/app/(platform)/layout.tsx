@@ -3,94 +3,70 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Bell, Users, ChevronDown, LayoutGrid, BarChart2, Briefcase, Users2, Headset, Settings, Menu } from 'lucide-react';
+import { Bell, Users, ChevronDown, Settings, Menu, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Logo from '@/components/logo';
+import { PlatformSidebar } from '@/components/platform-sidebar';
+import { Input } from '@/components/ui/input';
 
 const PlatformHeader = () => {
     return (
-        <header className="bg-background sticky top-0 z-10">
+        <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center gap-4">
-                        <Logo />
-                        <div className="w-px h-12 bg-gray-300 hidden md:block" />
-                        <h1 className="text-2xl md:text-4xl font-bold text-black">Dashboard</h1>
+                        <div className="md:hidden">
+                             <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                        <Menu className="h-6 w-6" />
+                                    </Button>
+                                </SheetTrigger>
+                                <SheetContent side="left" className="p-0 w-64">
+                                    <PlatformSidebar />
+                                </SheetContent>
+                            </Sheet>
+                        </div>
+                        <h1 className="text-2xl font-medium text-zinc-900">Home</h1>
                     </div>
-                    {/* Desktop Header */}
-                    <div className="hidden md:flex items-center gap-4">
-                        <Button variant="ghost" size="icon" className="bg-white rounded-full">
-                            <Bell className="h-6 w-6" />
-                        </Button>
-                        <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-gray-100">
-                            <Users className="mr-2 h-6 w-6"/>
-                            Employee Management
-                        </Button>
-                        <div className="w-px h-12 bg-gray-300" />
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <div className="flex items-center gap-2 cursor-pointer">
-                                    <Avatar className="h-14 w-14">
-                                        <AvatarImage src="https://placehold.co/55x55" alt="Balaji Naik" data-ai-hint="person portrait"/>
-                                        <AvatarFallback>BN</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <p className="font-medium text-lg">Balaji Naik</p>
-                                        <p className="text-gray-500 text-base">Super Admin</p>
-                                    </div>
-                                    <ChevronDown />
-                                </div>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem><Link href="/settings">Profile</Link></DropdownMenuItem>
-                                <DropdownMenuItem><Link href="/settings">Settings</Link></DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem><Link href="/">Log out</Link></DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                    {/* Mobile Header */}
-                    <div className="md:hidden">
-                        <Sheet>
-                            <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                    <Menu className="h-6 w-6" />
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent>
-                                <div className="flex flex-col h-full">
-                                    <div className="flex items-center gap-2 p-4 border-b">
-                                        <Avatar className="h-14 w-14">
-                                            <AvatarImage src="https://placehold.co/55x55" alt="Balaji Naik" data-ai-hint="person portrait"/>
-                                            <AvatarFallback>BN</AvatarFallback>
+                    
+                    <div className="flex items-center gap-6">
+                         <div className="relative w-80 hidden lg:block">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-stone-400" />
+                            <Input placeholder="Search Task, Meetings, Projects..." className="pl-11 rounded-[10px] border-stone-300"/>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Button variant="ghost" size="icon" className="relative rounded-full">
+                                <Bell className="h-6 w-6" />
+                                <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
+                            </Button>
+                            <div className="w-px h-10 bg-stone-300 hidden md:block" />
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <div className="flex items-center gap-2 cursor-pointer">
+                                        <Avatar className="h-10 w-10">
+                                            <AvatarImage src="https://placehold.co/40x40" alt="Anil Kumar" data-ai-hint="person portrait"/>
+                                            <AvatarFallback>AK</AvatarFallback>
                                         </Avatar>
-                                        <div>
-                                            <p className="font-medium text-lg">Balaji Naik</p>
-                                            <p className="text-gray-500 text-base">Super Admin</p>
+                                        <div className="hidden md:block">
+                                            <p className="font-medium text-lg">Anil Kumar</p>
+                                            <p className="text-stone-500 text-sm -mt-1">Senior Architect</p>
                                         </div>
                                     </div>
-                                    <div className="flex-grow p-4 space-y-2">
-                                        <Button variant="ghost" className="w-full justify-start gap-2">
-                                            <Users /> Employee Management
-                                        </Button>
-                                        <Button variant="ghost" className="w-full justify-start gap-2">
-                                            <Bell /> Notifications
-                                        </Button>
-                                        <Button variant="ghost" className="w-full justify-start gap-2">
-                                            <Settings /> Settings
-                                        </Button>
-                                    </div>
-                                    <div className="p-4 border-t">
-                                        <Button variant="outline" className="w-full">Log out</Button>
-                                    </div>
-                                </div>
-                            </SheetContent>
-                        </Sheet>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem><Link href="/settings">Profile</Link></DropdownMenuItem>
+                                    <DropdownMenuItem><Link href="/settings">Settings</Link></DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,53 +74,19 @@ const PlatformHeader = () => {
     );
 };
 
-const navItems = [
-    { href: "/dashboard", icon: <LayoutGrid />, label: "Dashboard", shortLabel: "Dashboard" },
-    { href: "/onboarding", icon: <Users2 />, label: "Onboarding Management", shortLabel: "Onboarding" },
-    { href: "/subscription", icon: <Briefcase />, label: "Subscription Management", shortLabel: "Subscription" },
-    { href: "/organizations", icon: <Users />, label: "Organization Management", shortLabel: "Organization" },
-    { href: "/support", icon: <Headset />, label: "Support", shortLabel: "Support" },
-    { href: "/analytics", icon: <BarChart2 />, label: "Product Analytics", shortLabel: "Analytics" }
-];
-
-
-const PlatformNav = () => {
-    const [activeItem, setActiveItem] = React.useState('Dashboard');
-    
-    return (
-        <nav className="fixed bottom-4 left-0 right-0 z-20 px-4 sm:px-6 lg:px-8">
-             <div className="container mx-auto">
-                <div className="bg-neutral-900/20 rounded-[50px] border border-gray-300 backdrop-blur-[5px] p-2 relative">
-                    {/* <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-neutral-900/20 rounded-b-xl border-b border-l border-r border-gray-300" /> */}
-                    <div className="flex items-center justify-between">
-                        {navItems.map((item) => (
-                            <Link href={item.href} key={item.label}>
-                                <div
-                                    onClick={() => setActiveItem(item.label)}
-                                    className={`flex items-center gap-2.5 p-3 md:p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
-                                >
-                                    {item.icon}
-                                    <span className="text-lg font-medium whitespace-nowrap hidden xl:inline">{item.label}</span>
-                                    <span className="text-lg font-medium whitespace-nowrap hidden lg:inline xl:hidden">{item.shortLabel}</span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </nav>
-    )
-}
-
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background pb-32">
-        <PlatformHeader />
-        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {children}
-        </main>
-        <PlatformNav />
+    <div className="min-h-screen bg-white flex">
+        <div className="hidden md:block w-52 border-r border-stone-300">
+            <PlatformSidebar />
+        </div>
+        <div className="flex-1 flex flex-col">
+            <PlatformHeader />
+            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+              {children}
+            </main>
+        </div>
     </div>
   );
 }
