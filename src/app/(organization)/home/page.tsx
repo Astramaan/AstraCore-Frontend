@@ -124,7 +124,7 @@ export default function OrganizationHomePage() {
                         <PlusCircle className="w-4 h-4 mr-2"/>
                         Assign task
                     </Button>
-                    <Button variant="outline" className="w-40 rounded-full h-[54px] border-primary text-primary hover:bg-primary/10 hover:text-primary">
+                    <Button className="w-40 rounded-full h-[54px]">
                         <Plus className="w-4 h-4 mr-2"/>
                         Add Employee
                     </Button>
