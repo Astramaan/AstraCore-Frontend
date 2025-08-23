@@ -76,7 +76,7 @@ export default function PasswordSuccessPage() {
                 </div>
             </div>
 
-            <div className="flex flex-col py-6 px-10">
+            <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full text-center">
                     <Logo className="mx-auto" />
                     <div className="flex-grow flex flex-col justify-center items-center">

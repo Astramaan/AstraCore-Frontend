@@ -28,7 +28,6 @@ export default function OtpVerificationPage() {
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
         <div 
           className="overflow-hidden rounded-[50px] bg-card text-card-foreground" 
-          style={{ maxWidth: '844px', width: '100%', height: '539px' }}
         >
           <div className="grid grid-cols-2 h-full">
             <div className="relative h-full w-full overflow-hidden">
@@ -44,7 +43,7 @@ export default function OtpVerificationPage() {
                 </div>
             </div>
 
-            <div className="flex flex-col py-6 px-10">
+            <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <Logo />
                     <div className="mt-8 flex-grow flex flex-col">
