@@ -41,7 +41,10 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
                     </div>
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
-                <p className="text-sm text-stone-500">{task.status}</p>
+                <div className="text-right">
+                    <p className="text-xs text-stone-500">Due Date</p>
+                    <p className="text-sm text-stone-500">{task.status}</p>
+                </div>
             </div>
         </Card>
     )
