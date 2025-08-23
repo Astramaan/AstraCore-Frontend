@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -55,7 +56,7 @@ const ActiveCustomers = () => {
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-14 w-14">
                 <ArrowRight />
             </Button>
-            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-gilroy-medium hover:bg-gray-100 hidden md:flex">
+            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-gray-100 hidden md:flex">
                 <Users className="mr-2 h-6 w-6"/>
                 Invite
             </Button>
@@ -68,7 +69,7 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
         <div className={`p-2.5 rounded-full`} style={{backgroundColor: color}}>
             {icon}
         </div>
-        <p className="font-gilroy-medium text-base">{label}</p>
+        <p className="font-medium text-base">{label}</p>
     </div>
 );
 
@@ -79,19 +80,19 @@ export default function DashboardPage() {
       <div className="flex flex-col md:flex-row items-start justify-between gap-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
           <div className="space-y-2 w-full md:w-auto">
-            <p className="text-base font-gilroy-medium">Filter</p>
+            <p className="text-base font-medium">Filter</p>
             <FilterToggle />
           </div>
           <div className="space-y-2 w-full md:w-auto">
-            <p className="text-base font-gilroy-medium">Select Month</p>
-            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-gilroy-medium w-full justify-center">
+            <p className="text-base font-medium">Select Month</p>
+            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center">
               <Calendar className="mr-2 h-6 w-6" />
               April 2025
             </Button>
           </div>
         </div>
         <div className="space-y-2 w-full md:w-auto">
-            <p className="text-lg font-gilroy-medium">Active Customers</p>
+            <p className="text-lg font-medium">Active Customers</p>
             <ActiveCustomers />
         </div>
       </div>
@@ -105,11 +106,11 @@ export default function DashboardPage() {
                           <HandCoins className="h-6 w-6" />
                       </div>
                       <div>
-                          <CardTitle className="font-gilroy-semibold text-xl md:text-2xl">Subscriptions Analytics</CardTitle>
-                          <CardDescription className="font-gilroy-medium">Monthly active Subscriptions</CardDescription>
+                          <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Analytics</CardTitle>
+                          <CardDescription className="font-medium">Monthly active Subscriptions</CardDescription>
                       </div>
                     </div>
-                    <p className="text-2xl md:text-4xl font-gilroy-bold">200 <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
+                    <p className="text-2xl md:text-4xl font-bold">200 <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
                   </div>
               </CardHeader>
               <CardContent>
@@ -126,11 +127,11 @@ export default function DashboardPage() {
                           <HandCoins className="h-6 w-6" />
                       </div>
                       <div>
-                          <CardTitle className="font-gilroy-semibold text-xl md:text-2xl">Revenue (MRR/ARR)</CardTitle>
-                          <CardDescription className="font-gilroy-medium">Monthly Recurring Revenue</CardDescription>
+                          <CardTitle className="font-semibold text-xl md:text-2xl">Revenue (MRR/ARR)</CardTitle>
+                          <CardDescription className="font-medium">Monthly Recurring Revenue</CardDescription>
                       </div>
                     </div>
-                    <p className="text-2xl md:text-4xl font-gilroy-bold">1.90L <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
+                    <p className="text-2xl md:text-4xl font-bold">1.90L <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
                   </div>
               </CardHeader>
               <CardContent>
@@ -147,11 +148,11 @@ export default function DashboardPage() {
                           <UserMinus className="h-6 w-6" />
                       </div>
                       <div>
-                          <CardTitle className="font-gilroy-semibold text-xl md:text-2xl">Subscriptions Churn</CardTitle>
-                          <CardDescription className="font-gilroy-medium">Unsubscribed Users</CardDescription>
+                          <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Churn</CardTitle>
+                          <CardDescription className="font-medium">Unsubscribed Users</CardDescription>
                       </div>
                     </div>
-                     <p className="text-2xl md:text-4xl font-gilroy-bold">69 <span className="text-red-500 text-xl md:text-2xl">↓</span></p>
+                     <p className="text-2xl md:text-4xl font-bold">69 <span className="text-red-500 text-xl md:text-2xl">↓</span></p>
                   </div>
               </CardHeader>
               <CardContent>
@@ -168,7 +169,7 @@ export default function DashboardPage() {
                           <Milestone className="h-6 w-6" />
                       </div>
                       <div>
-                          <CardTitle className="font-gilroy-semibold text-xl md:text-2xl">Quick Links</CardTitle>
+                          <CardTitle className="font-semibold text-xl md:text-2xl">Quick Links</CardTitle>
                       </div>
                     </div>
                   </div>
@@ -189,10 +190,10 @@ export default function DashboardPage() {
                         <div className="p-3.5 border rounded-full">
                             <FileText className="h-6 w-6" />
                         </div>
-                        <CardTitle className="font-gilroy-semibold text-xl md:text-2xl">Exit Survey</CardTitle>
+                        <CardTitle className="font-semibold text-xl md:text-2xl">Exit Survey</CardTitle>
                     </div>
                     <div className="flex items-center gap-4 self-end md:self-center">
-                        <p className="text-base md:text-lg font-gilroy-medium">Total Response: <span className="text-2xl md:text-4xl font-gilroy-bold">129</span></p>
+                        <p className="text-base md:text-lg font-medium">Total Response: <span className="text-2xl md:text-4xl font-bold">129</span></p>
                         <Button variant="ghost" size="icon" className="bg-background rounded-full">
                             <ArrowRight />
                         </Button>
@@ -210,7 +211,7 @@ export default function DashboardPage() {
                             <div className="flex items-center gap-2">
                                 <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
                                 <div>
-                                    <p className="font-gilroy-medium">Brick & Bolt</p>
+                                    <p className="font-medium">Brick & Bolt</p>
                                     <p className="text-sm text-muted-foreground">Pricing too high</p>
                                 </div>
                             </div>
@@ -220,7 +221,7 @@ export default function DashboardPage() {
                             <div className="flex items-center gap-2">
                                 <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
                                 <div>
-                                    <p className="font-gilroy-medium">Powerplay</p>
+                                    <p className="font-medium">Powerplay</p>
                                     <p className="text-sm text-muted-foreground">Missing Features</p>
                                 </div>
                             </div>
@@ -230,7 +231,7 @@ export default function DashboardPage() {
                             <div className="flex items-center gap-2">
                                 <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
                                 <div>
-                                    <p className="font-gilroy-medium">Harish mane</p>
+                                    <p className="font-medium">Harish mane</p>
                                     <p className="text-sm text-muted-foreground">Technical issues</p>
                                 </div>
                             </div>

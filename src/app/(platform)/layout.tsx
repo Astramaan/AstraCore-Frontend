@@ -18,14 +18,14 @@ const PlatformHeader = () => {
                     <div className="flex items-center gap-4">
                         <Logo />
                         <div className="w-px h-12 bg-gray-300 hidden md:block" />
-                        <h1 className="text-2xl md:text-4xl font-gilroy-bold text-black">Dashboard</h1>
+                        <h1 className="text-2xl md:text-4xl font-bold text-black">Dashboard</h1>
                     </div>
                     {/* Desktop Header */}
                     <div className="hidden md:flex items-center gap-4">
                         <Button variant="ghost" size="icon" className="bg-white rounded-full">
                             <Bell className="h-6 w-6" />
                         </Button>
-                        <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-gilroy-medium hover:bg-gray-100">
+                        <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-gray-100">
                             <Users className="mr-2 h-6 w-6"/>
                             Employee Management
                         </Button>
@@ -38,7 +38,7 @@ const PlatformHeader = () => {
                                         <AvatarFallback>BN</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <p className="font-gilroy-medium text-lg">Balaji Naik</p>
+                                        <p className="font-medium text-lg">Balaji Naik</p>
                                         <p className="text-gray-500 text-base">Super Admin</p>
                                     </div>
                                     <ChevronDown />
@@ -70,7 +70,7 @@ const PlatformHeader = () => {
                                             <AvatarFallback>BN</AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="font-gilroy-medium text-lg">Balaji Naik</p>
+                                            <p className="font-medium text-lg">Balaji Naik</p>
                                             <p className="text-gray-500 text-base">Super Admin</p>
                                         </div>
                                     </div>
@@ -124,8 +124,8 @@ const PlatformNav = () => {
                                     className={`flex items-center gap-2.5 p-3 md:p-5 rounded-[50px] cursor-pointer transition-colors duration-300 ${activeItem === item.label ? 'bg-primary text-white' : 'bg-white text-black'}`}
                                 >
                                     {item.icon}
-                                    <span className="text-lg font-gilroy-medium whitespace-nowrap hidden xl:inline">{item.label}</span>
-                                    <span className="text-lg font-gilroy-medium whitespace-nowrap hidden lg:inline xl:hidden">{item.shortLabel}</span>
+                                    <span className="text-lg font-medium whitespace-nowrap hidden xl:inline">{item.label}</span>
+                                    <span className="text-lg font-medium whitespace-nowrap hidden lg:inline xl:hidden">{item.shortLabel}</span>
                                 </div>
                             </Link>
                         ))}
