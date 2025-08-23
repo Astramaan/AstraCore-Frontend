@@ -120,7 +120,6 @@ const PlatformBottomNav = () => {
     return (
         <div className="fixed bottom-4 md:bottom-8 left-4 right-4 z-20">
              <div className="relative w-full h-auto md:h-28 bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around p-4 md:px-6 gap-2">
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-[5px] bg-white rounded-3xl" />
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-2 w-full mt-4 md:mt-0">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
