@@ -113,7 +113,7 @@ const OrganizationBottomNav = () => {
 
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-white">
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
             <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-background pb-32 md:pb-40">
