@@ -119,18 +119,18 @@ const PlatformBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4">
-             <div className="relative mx-auto h-auto w-full max-w-screen-lg bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-2 w-full">
+             <div className="relative mx-auto h-auto w-full max-w-screen-lg bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-4 px-6">
+                <div className="flex flex-wrap items-center justify-center gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
-                             <Link href={item.href} key={item.label} className="flex-1">
+                             <Link href={item.href} key={item.label} className="flex-1 min-w-max">
                                 <div className={cn(
-                                    "flex items-center justify-center text-center gap-1.5 md:gap-2.5 p-2 md:p-5 rounded-[40px] md:rounded-[50px] transition-colors duration-200 h-full",
+                                    "flex items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:p-5 md:rounded-[50px]",
                                     isActive ? "bg-primary text-white" : "bg-white text-black"
                                 )}>
-                                    <item.icon className="w-5 h-5 md:w-6 md:h-6" />
-                                    <span className="text-xs md:text-lg font-medium truncate">{item.label}</span>
+                                    <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap">{item.label}</span>
                                 </div>
                             </Link>
                         )
@@ -315,3 +315,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
