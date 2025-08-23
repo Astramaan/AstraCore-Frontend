@@ -112,12 +112,12 @@ export default function OrganizationHomePage() {
         <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">High Priority</Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">High Priority</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">
                         In Progress
                         <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
                     </Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">Pending</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">Pending</Button>
                 </div>
                  <div className="flex items-center gap-4">
                     <Button className="w-40 rounded-full h-[54px]">

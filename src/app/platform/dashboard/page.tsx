@@ -155,7 +155,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-2 w-full md:w-auto">
                     <p className="text-base font-medium">Select Month</p>
-                    <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center shadow-sm">
+                    <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center">
                     <Calendar className="mr-2 h-6 w-6" />
                     April 2025
                     </Button>
