@@ -37,7 +37,7 @@ export default function OtpVerificationPage() {
                         alt="Astramaan Company Logo"
                         width={396}
                         height={507}
-                        className="w-full h-full object-cover rounded-tl-[40px] rounded-bl-[40px]"
+                        className="object-cover rounded-tl-[40px] rounded-bl-[40px]"
                         data-ai-hint="company building"
                     />
                 </div>
