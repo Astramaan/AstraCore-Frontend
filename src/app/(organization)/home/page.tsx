@@ -24,7 +24,7 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-2xl flex flex-col justify-between p-4">
+        <Card className="w-full md:w-96 h-44 rounded-[50px] flex flex-col justify-between p-4">
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
@@ -54,7 +54,7 @@ const meetings = [
 ]
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
-    <Card className="w-full h-20 rounded-[10px] p-4 flex items-center justify-between">
+    <Card className="w-full h-20 rounded-[50px] p-4 flex items-center justify-between">
         <div>
             <p className="text-base font-medium">{meeting.client}</p>
             <p className="text-xs text-stone-500">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
@@ -78,7 +78,7 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-96 h-96 rounded-2xl">
+    <Card className="w-96 h-96 rounded-[50px]">
         <CardHeader>
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
