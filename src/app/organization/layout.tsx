@@ -4,7 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase } from 'lucide-react';
+import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -44,6 +44,7 @@ const OrganizationBottomNav = () => {
         { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
         { href: "/organization/leads", icon: Users, label: "Leads" },
         { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
+        { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
     ];
 
     const pathname = usePathname();
@@ -61,7 +62,7 @@ const OrganizationBottomNav = () => {
                                     isActive ? "bg-primary text-white" : "bg-white text-black"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap md:inline">{item.label}</span>
+                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
                                 </div>
                             </Link>
                         )
