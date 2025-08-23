@@ -34,6 +34,9 @@ const OrganizationHeader = () => {
                         <div className="md:hidden">
                            <Logo />
                         </div>
+                         <div className="hidden md:block">
+                            <Logo />
+                        </div>
                         <h1 className="text-2xl font-medium text-zinc-900 hidden md:block">{getTitle()}</h1>
                     </div>
                     
@@ -89,14 +92,14 @@ const navItems = [
 const OrganizationBottomNav = () => {
     const pathname = usePathname();
     return (
-        <div className="fixed bottom-0 left-0 right-0 h-24 bg-transparent md:hidden z-20">
+        <div className="fixed bottom-0 left-0 right-0 h-24 bg-transparent z-20">
             <div className="relative h-full flex items-end justify-center pb-2">
-                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[110%] h-20 bg-white rounded-t-3xl shadow-[0_-4px_15px_-5px_rgba(0,0,0,0.1)]"></div>
+                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full md:w-[600px] h-20 bg-white rounded-t-3xl shadow-[0_-4px_15px_-5px_rgba(0,0,0,0.1)]"></div>
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-8 bg-white rounded-b-xl flex items-center justify-center">
                     <div className="w-10 h-1.5 bg-gray-300 rounded-full"></div>
                 </div>
                
-                <nav className="relative w-full px-2">
+                <nav className="relative w-full md:w-[600px] px-2">
                     <ul className="flex justify-around items-center">
                         {navItems.map((item) => {
                             const isActive = pathname === item.href;
@@ -130,12 +133,9 @@ const OrganizationBottomNav = () => {
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-white flex">
-        <div className="hidden md:block w-52 border-r border-stone-300">
-            <OrganizationSidebar />
-        </div>
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background pb-28 md:pb-8">
+            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background pb-28">
               {children}
             </main>
             <OrganizationBottomNav />
@@ -143,5 +143,3 @@ export default function OrganizationLayout({ children }: { children: React.React
     </div>
   );
 }
-
-    
