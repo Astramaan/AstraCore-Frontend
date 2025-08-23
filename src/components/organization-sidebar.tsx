@@ -6,20 +6,21 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Calendar, GanttChartSquare, Users, FileText, Bot, LogOut, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Logo from './logo';
 
 const navItems = [
-    { href: "/home", icon: Home, label: "Home" },
-    { href: "/meetings", icon: Calendar, label: "Meetings" },
-    { href: "/projects", icon: GanttChartSquare, label: "Projects" },
-    { href: "/leads", icon: Users, label: "Leads" },
-    { href: "/vendors", icon: Briefcase, label: "Vendors" },
-    { href: "/blog", icon: FileText, label: "Blog" },
-    { href: "/snag-list", icon: Bot, label: "Snag List" },
+    { href: "/organization/home", icon: Home, label: "Home" },
+    { href: "/organization/meetings", icon: Calendar, label: "Meetings" },
+    { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
+    { href: "/organization/leads", icon: Users, label: "Leads" },
+    { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
+    { href: "/organization/blog", icon: FileText, label: "Blog" },
+    { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
 ];
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {
     const pathname = usePathname();
-    const isActive = pathname.endsWith(item.href);
+    const isActive = pathname.startsWith(item.href);
 
     return (
         <li className="relative">
@@ -37,10 +38,10 @@ const NavItem = ({ item }: { item: typeof navItems[0] }) => {
 
 export function OrganizationSidebar() {
     return (
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col bg-white">
             <div className="p-4 pt-8">
-                 <Link href="/dashboard" className="text-4xl font-bold text-stone-300 ml-4">
-                    Habi
+                 <Link href="/platform/dashboard" className="ml-4">
+                    <Logo />
                 </Link>
             </div>
             <nav className="flex-grow px-4 mt-8">

@@ -20,7 +20,7 @@ export async function authenticate(
     console.log(`Attempting to log in with email: ${email}`);
 
     // Simulate a successful login
-    redirect('/dashboard');
+    redirect('/platform/dashboard');
   } catch (error) {
       if((error as Error).message.includes('credentialssignin')) {
           return { error: 'Invalid credentials.' };

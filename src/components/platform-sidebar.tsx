@@ -9,10 +9,10 @@ import { cn } from '@/lib/utils';
 import Logo from './logo';
 
 const navItems = [
-    { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { href: "/organizations", icon: Building2, label: "Organizations" },
-    { href: "/projects", icon: GanttChartSquare, label: "All Projects" },
-    { href: "/settings", icon: Settings, label: "Settings" },
+    { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/platform/organizations", icon: Building2, label: "Organizations" },
+    { href: "/platform/projects", icon: GanttChartSquare, label: "All Projects" },
+    { href: "/platform/settings", icon: Settings, label: "Settings" },
 ];
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {
@@ -34,9 +34,9 @@ const NavItem = ({ item }: { item: typeof navItems[0] }) => {
 
 export function PlatformSidebar() {
     return (
-        <div className="h-full flex flex-col p-4 space-y-4">
+        <div className="h-full flex flex-col p-4 space-y-4 bg-white">
             <div className="p-4">
-                 <Link href="/dashboard">
+                 <Link href="/platform/dashboard">
                     <Logo />
                 </Link>
             </div>
@@ -48,5 +48,3 @@ export function PlatformSidebar() {
         </div>
     );
 }
-
-    
