@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Bell, ChevronDown, Menu, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,6 +13,18 @@ import { OrganizationSidebar } from '@/components/organization-sidebar';
 import { Input } from '@/components/ui/input';
 
 const OrganizationHeader = () => {
+    const pathname = usePathname();
+    const getTitle = () => {
+        if (pathname.includes('/home')) return 'Home';
+        if (pathname.includes('/meetings')) return 'Meetings';
+        if (pathname.includes('/projects')) return 'Projects';
+        if (pathname.includes('/leads')) return 'Leads';
+        if (pathname.includes('/vendors')) return 'Vendors';
+        if (pathname.includes('/blog')) return 'Blog';
+        if (pathname.includes('/snag-list')) return 'Snag List';
+        return 'Home';
+    }
+
     return (
         <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,7 +42,7 @@ const OrganizationHeader = () => {
                                 </SheetContent>
                             </Sheet>
                         </div>
-                        <h1 className="text-2xl font-medium text-zinc-900">Home</h1>
+                        <h1 className="text-2xl font-medium text-zinc-900">{getTitle()}</h1>
                     </div>
                     
                     <div className="flex items-center gap-6">
@@ -82,7 +95,7 @@ export default function OrganizationLayout({ children }: { children: React.React
         </div>
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background">
               {children}
             </main>
         </div>

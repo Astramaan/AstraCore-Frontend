@@ -24,11 +24,11 @@ const NavItem = ({ item }: { item: typeof navItems[0] }) => {
 
     return (
         <li className="relative">
-            <Link href={`/organization${item.href}`} className={cn(
+            <Link href={`${item.href}`} className={cn(
                 "flex items-center gap-3 text-lg p-3 rounded-r-none rounded-l-[10px]",
                 isActive ? "text-primary bg-primary/10" : "text-zinc-900 hover:bg-primary/5"
             )}>
-                <item.icon className="h-6 w-6" />
+                <item.icon className={cn("h-6 w-6", isActive && "text-primary")} />
                 <span>{item.label}</span>
             </Link>
             {isActive && <div className="absolute left-0 top-0 h-full w-[5px] bg-primary rounded-tr-[3px] rounded-br-[3px]" />}
@@ -40,7 +40,7 @@ export function OrganizationSidebar() {
     return (
         <div className="h-full flex flex-col">
             <div className="p-4 pt-8">
-                 <Link href="/dashboard" className="text-4xl font-bold text-stone-400">
+                 <Link href="/dashboard" className="text-4xl font-bold text-stone-300 ml-4">
                     Habi
                 </Link>
             </div>
