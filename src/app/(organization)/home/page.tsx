@@ -143,22 +143,22 @@ export default function OrganizationHomePage() {
                      {taskData.slice(0, 2).map(task => <TaskCard key={task.title} task={task} />)}
                 </div>
             </div>
+             <div className="mt-8">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-medium">Meetings</h2>
+                     <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
+                        see all meetings <ArrowRight className="w-4 h-4" />
+                    </Link>
+                </div>
+                <div className="space-y-3">
+                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
+                </div>
+            </div>
         </div>
 
         <aside className="w-full lg:w-96 space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl font-medium">Meetings</h2>
-                 <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
-                    see all meetings <ArrowRight className="w-4 h-4" />
-                </Link>
-            </div>
-            <div className="space-y-3">
-                {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
-            </div>
-            
             <TaskOverviewChart title="Tasks Overview" />
             <TaskOverviewChart title="Assigned Tasks Overview" />
-
         </aside>
     </div>
   );
