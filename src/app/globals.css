@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 224 71% 95%; /* #E8EEFB */
+    --background: 0 0% 95%; /* #F2F2F2 */
     --foreground: 0 0% 10%; /* #1a1a1a */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 10%;
@@ -22,7 +22,7 @@
     --destructive: 6 78% 56%; /* #E23D28 */
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 75%;
-    --input: 0 0% 80%;
+    --input: 0 0% 95%; /* #F2F2F2 */
     --ring: 185 86% 40%;
     --chart-1: 185 86% 40%;
     --chart-2: 33 100% 70%;
