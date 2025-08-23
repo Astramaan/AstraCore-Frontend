@@ -73,7 +73,6 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
 const overviewData = [
   { name: "In Progress", value: 400, color: "hsl(var(--primary))" },
   { name: "Pending", value: 300, color: "hsl(var(--secondary))" },
-  { name: "On Hold", value: 200, color: "hsl(var(--muted))" },
 ];
 
 
