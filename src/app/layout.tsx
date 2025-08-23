@@ -17,7 +17,7 @@ export default function RootLayout({
       <head>
         <link href="https://api.fontshare.com/v2/css?f[]=gilroy@700,500,600,400&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased font-sans">
         {children}
         <Toaster />
       </body>
