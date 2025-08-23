@@ -39,7 +39,7 @@ export default function CreatePasswordForm() {
 
   return (
     <>
-      <h2 className="text-lg text-grey-1 tracking-tight font-body mb-8">You're almost there.<br/>Create your password.</h2>
+      <h2 className="text-lg text-grey-1 tracking-tight mb-8">You're almost there.<br/>Create your password.</h2>
       <form action={action} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">

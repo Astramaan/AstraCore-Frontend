@@ -10,13 +10,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Gilroy-Medium', 'sans-serif'],
-        title: ['Gilroy-Bold', 'sans-serif'],
-        headline: ['Gilroy-Bold', 'sans-serif'],
+        body: ['"Gilroy-Medium"', 'sans-serif'],
+        title: ['"Gilroy-Bold"', 'sans-serif'],
+        headline: ['"Gilroy-Bold"', 'sans-serif'],
         code: ['monospace'],
-        'gilroy-bold': ['Gilroy-Bold', 'sans-serif'],
-        'gilroy-semibold': ['Gilroy-SemiBold', 'sans-serif'],
-        'gilroy-medium': ['Gilroy-Medium', 'sans-serif'],
+        'gilroy-bold': ['"Gilroy-Bold"', 'sans-serif'],
+        'gilroy-semibold': ['"Gilroy-SemiBold"', 'sans-serif'],
+        'gilroy-medium': ['"Gilroy-Medium"', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

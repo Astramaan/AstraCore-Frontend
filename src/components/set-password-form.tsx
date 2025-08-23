@@ -59,7 +59,7 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
 
   return (
     <>
-      <h2 className="text-lg text-grey-1 tracking-tight font-body mb-8">{config.title}</h2>
+      <h2 className="text-lg text-grey-1 tracking-tight mb-8">{config.title}</h2>
       <form action={action} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
