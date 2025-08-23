@@ -87,11 +87,11 @@ const OrganizationBottomNav = () => {
     const pathname = usePathname();
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 z-20 md:bottom-8 md:left-8 md:right-8">
+        <div className="fixed bottom-4 left-4 right-4 z-20">
              <div className="relative w-full h-auto max-w-screen-md mx-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
                 <div className="grid grid-cols-5 gap-2 w-full">
                     {navItems.map((item) => {
-                        const isActive = pathname === item.href;
+                        const isActive = pathname.startsWith(item.href);
                         return (
                              <Link href={item.href} key={item.label} className="flex-1">
                                 <div className={cn(
@@ -116,7 +116,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     <div className="min-h-screen bg-white flex">
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background pb-32 md:pb-40">
+            <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-background pb-32 md:pb-40">
               {children}
             </main>
             <OrganizationBottomNav />
