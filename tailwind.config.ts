@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -10,9 +11,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Gilroy-Medium', 'sans-serif'],
-        'gilroy-bold': ['Gilroy-Bold', 'sans-serif'],
-        'gilroy-semibold': ['Gilroy-SemiBold', 'sans-serif'],
+        sans: ['Gilroy', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
