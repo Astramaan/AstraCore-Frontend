@@ -155,7 +155,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="space-y-2 w-full md:w-auto">
                     <p className="text-base font-medium">Select Month</p>
-                    <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center border-none shadow-sm">
+                    <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center shadow-sm">
                     <Calendar className="mr-2 h-6 w-6" />
                     April 2025
                     </Button>
@@ -172,7 +172,7 @@ export default function DashboardPage() {
                     <CardHeader>
                         <div className="flex justify-between items-start">
                             <div className="flex items-center gap-2">
-                            <div className="p-3.5 border rounded-full">
+                            <div className="p-3.5 rounded-full">
                                 <HandCoins className="h-6 w-6" />
                             </div>
                             <div>
@@ -193,7 +193,7 @@ export default function DashboardPage() {
                     <CardHeader>
                         <div className="flex justify-between items-start">
                             <div className="flex items-center gap-2">
-                            <div className="p-3.5 border rounded-full">
+                            <div className="p-3.5 rounded-full">
                                 <HandCoins className="h-6 w-6" />
                             </div>
                             <div>
@@ -214,7 +214,7 @@ export default function DashboardPage() {
                     <CardHeader>
                         <div className="flex justify-between items-start">
                             <div className="flex items-center gap-2">
-                            <div className="p-3.5 border rounded-full">
+                            <div className="p-3.5 rounded-full">
                                 <UserMinus className="h-6 w-6" />
                             </div>
                             <div>
@@ -235,7 +235,7 @@ export default function DashboardPage() {
                     <CardHeader>
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
-                            <div className="p-3.5 border rounded-full">
+                            <div className="p-3.5 rounded-full">
                                 <Milestone className="h-6 w-6" />
                             </div>
                             <div>
@@ -257,7 +257,7 @@ export default function DashboardPage() {
                     <CardHeader>
                         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <div className="p-3.5 border rounded-full">
+                                <div className="p-3.5 rounded-full">
                                     <FileText className="h-6 w-6" />
                                 </div>
                                 <CardTitle className="font-semibold text-xl md:text-2xl">Exit Survey</CardTitle>

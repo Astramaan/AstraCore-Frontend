@@ -24,7 +24,7 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-2xl border-[0.5px] border-stone-300 flex flex-col justify-between p-4">
+        <Card className="w-full md:w-96 h-44 rounded-2xl flex flex-col justify-between p-4">
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
@@ -78,7 +78,7 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-96 h-96 rounded-2xl border-[0.5px] border-stone-300">
+    <Card className="w-96 h-96 rounded-2xl">
         <CardHeader>
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
@@ -112,19 +112,19 @@ export default function OrganizationHomePage() {
         <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" className="rounded-[10px] text-neutral-500">High Priority</Button>
-                    <Button variant="outline" className="rounded-[10px] text-neutral-500">
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">High Priority</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">
                         In Progress
                         <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
                     </Button>
-                    <Button variant="outline" className="rounded-[10px] text-neutral-500">Pending</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">Pending</Button>
                 </div>
                  <div className="flex items-center gap-4">
-                    <Button className="w-32 rounded-[10px]">
+                    <Button className="w-40 rounded-full h-[54px]">
                         <PlusCircle className="w-4 h-4 mr-2"/>
                         Assign task
                     </Button>
-                    <Button variant="outline" className="w-40 rounded-[10px] border-primary text-primary hover:bg-primary/10 hover:text-primary">
+                    <Button variant="outline" className="w-40 rounded-full h-[54px] text-primary hover:bg-primary/10 hover:text-primary">
                         <Plus className="w-4 h-4 mr-2"/>
                         Add Employee
                     </Button>
