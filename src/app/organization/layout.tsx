@@ -87,8 +87,8 @@ const OrganizationBottomNav = () => {
     const pathname = usePathname();
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 z-20 md:bottom-8">
-             <div className="relative mx-auto h-auto w-full bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] p-2">
+        <div className="fixed bottom-4 left-4 right-4 z-20">
+             <div className="relative mx-auto h-auto w-full max-w-screen-lg bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] p-2">
                 <div className="flex items-center justify-around gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
@@ -99,7 +99,7 @@ const OrganizationBottomNav = () => {
                                     isActive ? "bg-primary text-white" : "bg-white text-black"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-                                    <span className="text-xs font-medium md:text-lg md:whitespace-nowrap">{item.label}</span>
+                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap">{item.label}</span>
                                 </div>
                             </Link>
                         )
@@ -116,7 +116,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     <div className="min-h-screen bg-white">
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
-            <main className="max-w-[1440px] mx-auto flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 w-full">
+            <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
               {children}
             </main>
             <OrganizationBottomNav />
