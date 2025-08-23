@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MoreHorizontal, Plus, PlusCircle, Video } from "lucide-react";
+import { MoreHorizontal, Plus, PlusCircle, Video, ArrowRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
 
@@ -147,7 +147,7 @@ export default function OrganizationHomePage() {
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-medium">Meetings</h2>
                  <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
-                    see all meetings
+                    see all meetings <ArrowRight className="w-4 h-4" />
                 </Link>
             </div>
             <div className="space-y-3">
@@ -161,4 +161,3 @@ export default function OrganizationHomePage() {
     </div>
   );
 }
-

@@ -4,18 +4,15 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Calendar, GanttChartSquare, Users, FileText, Bot, LogOut, Briefcase } from 'lucide-react';
+import { LayoutDashboard, Building2, GanttChartSquare, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Logo from './logo';
 
 const navItems = [
-    { href: "/organization/home", icon: Home, label: "Home" },
-    { href: "/meetings", icon: Calendar, label: "Meetings" },
-    { href: "/projects", icon: GanttChartSquare, label: "Projects" },
-    { href: "/leads", icon: Users, label: "Leads" },
-    { href: "/vendors", icon: Briefcase, label: "Vendors" },
-    { href: "/blog", icon: FileText, label: "Blog" },
-    { href: "/snag-list", icon: Bot, label: "Snag List" },
+    { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/organizations", icon: Building2, label: "Organizations" },
+    { href: "/projects", icon: GanttChartSquare, label: "All Projects" },
+    { href: "/settings", icon: Settings, label: "Settings" },
 ];
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {
@@ -23,39 +20,31 @@ const NavItem = ({ item }: { item: typeof navItems[0] }) => {
     const isActive = pathname === item.href;
 
     return (
-        <li className="relative">
+        <li>
             <Link href={item.href} className={cn(
-                "flex items-center gap-3 text-lg p-3 rounded-r-none rounded-l-[10px]",
-                isActive ? "text-primary bg-primary/10" : "text-zinc-900 hover:bg-primary/5"
+                "flex items-center gap-3 p-3 rounded-md",
+                isActive ? "bg-primary/10 text-primary" : "text-zinc-600 hover:bg-zinc-100"
             )}>
-                <item.icon className="h-6 w-6" />
+                <item.icon className="h-5 w-5" />
                 <span>{item.label}</span>
             </Link>
-            {isActive && <div className="absolute left-0 top-0 h-full w-[5px] bg-primary rounded-tr-[3px] rounded-br-[3px]" />}
         </li>
     );
 };
 
 export function PlatformSidebar() {
     return (
-        <div className="h-full flex flex-col">
-            <div className="p-4 pt-2">
-                 <Link href="/dashboard" className="text-4xl font-bold text-stone-400">
-                    Habi
+        <div className="h-full flex flex-col p-4 space-y-4 border-r">
+            <div className="p-4">
+                 <Link href="/dashboard">
+                    <Logo />
                 </Link>
             </div>
-            <nav className="flex-grow px-4">
+            <nav className="flex-grow">
                 <ul className="space-y-2">
                     {navItems.map(item => <NavItem key={item.label} item={item} />)}
                 </ul>
             </nav>
-            <div className="p-4 mt-auto">
-                 <Link href="/" className="flex items-center gap-3 text-lg p-3 text-zinc-900">
-                    <LogOut className="h-6 w-6" />
-                    <span>Logout</span>
-                </Link>
-            </div>
         </div>
     );
 }
-
