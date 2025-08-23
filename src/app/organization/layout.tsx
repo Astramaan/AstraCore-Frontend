@@ -88,8 +88,8 @@ const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 left-4 right-4 z-20">
-             <div className="relative w-full h-auto max-w-screen-md mx-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
-                <div className="grid grid-cols-5 gap-2 w-full">
+             <div className="relative w-full h-auto mx-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 w-full">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
                         return (
