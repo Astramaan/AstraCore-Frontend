@@ -108,9 +108,9 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
 const PlatformBottomNav = () => {
     const navItems = [
         { href: "/platform/dashboard", icon: LayoutGrid, label: "Dashboard" },
-        { href: "#", icon: User, label: "Onboarding Ma.." },
-        { href: "#", icon: HandCoins, label: "Subscription Ma.." },
-        { href: "#", icon: Briefcase, label: "Organization Ma.." },
+        { href: "#", icon: User, label: "Onboarding Management" },
+        { href: "#", icon: HandCoins, label: "Subscription Management" },
+        { href: "#", icon: Briefcase, label: "Organization Management" },
         { href: "#", icon: MessageSquare, label: "Support" },
         { href: "#", icon: BarChart, label: "Product Analytics" }
     ];
@@ -119,18 +119,18 @@ const PlatformBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4">
-             <div className="relative mx-auto h-auto w-full max-w-screen-lg bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-4 px-6">
-                <div className="flex flex-wrap items-center justify-center gap-2">
+             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-4 px-6 max-w-max">
+                <div className="flex items-center justify-center gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
-                             <Link href={item.href} key={item.label} className="flex-1 min-w-max">
+                             <Link href={item.href} key={item.label}>
                                 <div className={cn(
-                                    "flex items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:p-5 md:rounded-[50px]",
+                                    "flex items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:p-5 md:rounded-[50px] min-w-max",
                                     isActive ? "bg-primary text-white" : "bg-white text-black"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap">{item.label}</span>
+                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
                                 </div>
                             </Link>
                         )
@@ -145,7 +145,7 @@ const PlatformBottomNav = () => {
 export default function DashboardPage() {
   return (
     <div className="space-y-6 bg-background pb-48 md:pb-40">
-        <div className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
+        <main className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
             <PlatformHeader />
             <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
@@ -310,10 +310,8 @@ export default function DashboardPage() {
                         </div>
                     </CardContent>
                 </Card>
-        </div>
+        </main>
         <PlatformBottomNav />
     </div>
   );
 }
-
-    
