@@ -10,7 +10,6 @@ const Logo = ({ className }: { className?: string }) => {
         width="132" 
         height="50" 
         className={cn(className)}
-        priority
     />
   );
 };

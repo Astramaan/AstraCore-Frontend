@@ -11,9 +11,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Gilroy-Medium"', 'sans-serif'],
-        'gilroy-bold': ['"Gilroy-Bold"', 'sans-serif'],
-        'gilroy-semibold': ['"Gilroy-SemiBold"', 'sans-serif'],
-        'gilroy-medium': ['"Gilroy-Medium"', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
