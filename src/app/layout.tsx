@@ -2,6 +2,8 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
+import { gilroy } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Astramaan',
@@ -15,10 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link href="https://api.fontshare.com/v2/css?f[]=gilroy@700,500,600,400&display=swap" rel="stylesheet" />
-      </head>
-      <body className="antialiased font-sans">
+      <body className={cn("antialiased font-sans", gilroy.variable)}>
         {children}
         <Toaster />
       </body>

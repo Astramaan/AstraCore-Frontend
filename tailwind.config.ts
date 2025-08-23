@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Gilroy', 'sans-serif'],
+        sans: ["var(--font-gilroy)", 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
