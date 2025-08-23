@@ -10,9 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Plus Jakarta Sans', 'sans-serif'],
-        title: ['Plus Jakarta Sans', 'sans-serif'],
-        headline: ['Plus Jakarta Sans', 'sans-serif'],
+        body: ['Gilroy-Medium', 'sans-serif'],
+        title: ['Gilroy-Bold', 'sans-serif'],
+        headline: ['Gilroy-Bold', 'sans-serif'],
         code: ['monospace'],
         'gilroy-bold': ['Gilroy-Bold', 'sans-serif'],
         'gilroy-semibold': ['Gilroy-SemiBold', 'sans-serif'],
