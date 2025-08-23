@@ -27,7 +27,7 @@ const OrganizationHeader = () => {
 
     return (
         <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center gap-4">
                         <Logo />
@@ -87,8 +87,8 @@ const OrganizationBottomNav = () => {
     const pathname = usePathname();
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 z-20">
-             <div className="relative w-full h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
+        <div className="fixed bottom-4 md:bottom-8 left-4 right-4 z-20">
+             <div className="relative w-full max-w-screen-md mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 w-full">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
@@ -116,7 +116,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     <div className="min-h-screen bg-white">
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
-            <main className="flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
+            <main className="max-w-[1440px] mx-auto flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 w-full">
               {children}
             </main>
             <OrganizationBottomNav />

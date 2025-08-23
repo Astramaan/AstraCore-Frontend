@@ -144,171 +144,173 @@ const PlatformBottomNav = () => {
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-6 bg-background pb-48 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
-        <PlatformHeader />
-      <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
-          <div className="space-y-2 w-full md:w-auto">
-            <p className="text-base font-medium">Filter</p>
-            <FilterToggle />
-          </div>
-          <div className="space-y-2 w-full md:w-auto">
-            <p className="text-base font-medium">Select Month</p>
-            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center border-none shadow-sm">
-              <Calendar className="mr-2 h-6 w-6" />
-              April 2025
-            </Button>
-          </div>
-        </div>
-        <div className="space-y-2 w-full md:w-auto">
-            <p className="text-lg font-medium">Active Customers</p>
-            <ActiveCustomers />
-        </div>
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="rounded-[50px]">
-              <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-2">
-                      <div className="p-3.5 border rounded-full">
-                          <HandCoins className="h-6 w-6" />
-                      </div>
-                      <div>
-                          <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Analytics</CardTitle>
-                          <CardDescription className="font-medium">Monthly active Subscriptions</CardDescription>
-                      </div>
-                    </div>
-                    <p className="text-2xl md:text-4xl font-bold">200 <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
-                  </div>
-              </CardHeader>
-              <CardContent>
-                  <div className="h-[250px] w-full">
-                      <SubscriptionChart />
-                  </div>
-              </CardContent>
-          </Card>
-           <Card className="rounded-[50px]">
-              <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-2">
-                      <div className="p-3.5 border rounded-full">
-                          <HandCoins className="h-6 w-6" />
-                      </div>
-                      <div>
-                          <CardTitle className="font-semibold text-xl md:text-2xl">Revenue (MRR/ARR)</CardTitle>
-                          <CardDescription className="font-medium">Monthly Recurring Revenue</CardDescription>
-                      </div>
-                    </div>
-                    <p className="text-2xl md:text-4xl font-bold">1.90L <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
-                  </div>
-              </CardHeader>
-              <CardContent>
-                  <div className="h-[250px] w-full">
-                     <RevenueChart />
-                  </div>
-              </CardContent>
-          </Card>
-           <Card className="rounded-[50px]">
-              <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-2">
-                      <div className="p-3.5 border rounded-full">
-                          <UserMinus className="h-6 w-6" />
-                      </div>
-                      <div>
-                          <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Churn</CardTitle>
-                          <CardDescription className="font-medium">Unsubscribed Users</CardDescription>
-                      </div>
-                    </div>
-                     <p className="text-2xl md:text-4xl font-bold">69 <span className="text-red-500 text-xl md:text-2xl">↓</span></p>
-                  </div>
-              </CardHeader>
-              <CardContent>
-                  <div className="h-[250px] w-full">
-                      <ChurnChart />
-                  </div>
-              </CardContent>
-          </Card>
-           <Card className="rounded-[50px]">
-              <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2">
-                      <div className="p-3.5 border rounded-full">
-                          <Milestone className="h-6 w-6" />
-                      </div>
-                      <div>
-                          <CardTitle className="font-semibold text-xl md:text-2xl">Quick Links</CardTitle>
-                      </div>
-                    </div>
-                  </div>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <QuickLinkCard icon={<Plus className="h-6 w-6" />} label="Create New Plan" color="hsl(var(--accent-color-01))" />
-                  <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
-                  <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
-                  <QuickLinkCard icon={<Bell className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
-              </CardContent>
-          </Card>
-      </div>
+    <div className="space-y-6 bg-background pb-48 md:pb-40">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
+            <PlatformHeader />
+            <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
+                <div className="space-y-2 w-full md:w-auto">
+                    <p className="text-base font-medium">Filter</p>
+                    <FilterToggle />
+                </div>
+                <div className="space-y-2 w-full md:w-auto">
+                    <p className="text-base font-medium">Select Month</p>
+                    <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center border-none shadow-sm">
+                    <Calendar className="mr-2 h-6 w-6" />
+                    April 2025
+                    </Button>
+                </div>
+                </div>
+                <div className="space-y-2 w-full md:w-auto">
+                    <p className="text-lg font-medium">Active Customers</p>
+                    <ActiveCustomers />
+                </div>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className="rounded-[50px]">
+                    <CardHeader>
+                        <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-2">
+                            <div className="p-3.5 border rounded-full">
+                                <HandCoins className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Analytics</CardTitle>
+                                <CardDescription className="font-medium">Monthly active Subscriptions</CardDescription>
+                            </div>
+                            </div>
+                            <p className="text-2xl md:text-4xl font-bold">200 <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-[250px] w-full">
+                            <SubscriptionChart />
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="rounded-[50px]">
+                    <CardHeader>
+                        <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-2">
+                            <div className="p-3.5 border rounded-full">
+                                <HandCoins className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <CardTitle className="font-semibold text-xl md:text-2xl">Revenue (MRR/ARR)</CardTitle>
+                                <CardDescription className="font-medium">Monthly Recurring Revenue</CardDescription>
+                            </div>
+                            </div>
+                            <p className="text-2xl md:text-4xl font-bold">1.90L <span className="text-green-500 text-xl md:text-2xl">↑</span></p>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-[250px] w-full">
+                            <RevenueChart />
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="rounded-[50px]">
+                    <CardHeader>
+                        <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-2">
+                            <div className="p-3.5 border rounded-full">
+                                <UserMinus className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Churn</CardTitle>
+                                <CardDescription className="font-medium">Unsubscribed Users</CardDescription>
+                            </div>
+                            </div>
+                            <p className="text-2xl md:text-4xl font-bold">69 <span className="text-red-500 text-xl md:text-2xl">↓</span></p>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-[250px] w-full">
+                            <ChurnChart />
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="rounded-[50px]">
+                    <CardHeader>
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                            <div className="p-3.5 border rounded-full">
+                                <Milestone className="h-6 w-6" />
+                            </div>
+                            <div>
+                                <CardTitle className="font-semibold text-xl md:text-2xl">Quick Links</CardTitle>
+                            </div>
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <QuickLinkCard icon={<Plus className="h-6 w-6" />} label="Create New Plan" color="hsl(var(--accent-color-01))" />
+                        <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
+                        <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
+                        <QuickLinkCard icon={<Bell className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
+                    </CardContent>
+                </Card>
+            </div>
 
-       <Card className="rounded-[50px]">
-            <CardHeader>
-                <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <div className="p-3.5 border rounded-full">
-                            <FileText className="h-6 w-6" />
-                        </div>
-                        <CardTitle className="font-semibold text-xl md:text-2xl">Exit Survey</CardTitle>
-                    </div>
-                    <div className="flex items-center gap-4 self-end md:self-center">
-                        <p className="text-base md:text-lg font-medium">Total Response: <span className="text-2xl md:text-4xl font-bold">129</span></p>
-                        <Button variant="ghost" size="icon" className="bg-background rounded-full">
-                            <ArrowRight />
-                        </Button>
-                    </div>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-                    <div className="h-[250px] w-full max-w-sm mx-auto">
-                        <ExitSurveyChart />
-                    </div>
-                    <div className="space-y-4">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+            <Card className="rounded-[50px]">
+                    <CardHeader>
+                        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
-                                <div>
-                                    <p className="font-medium">Brick & Bolt</p>
-                                    <p className="text-sm text-muted-foreground">Pricing too high</p>
+                                <div className="p-3.5 border rounded-full">
+                                    <FileText className="h-6 w-6" />
+                                </div>
+                                <CardTitle className="font-semibold text-xl md:text-2xl">Exit Survey</CardTitle>
+                            </div>
+                            <div className="flex items-center gap-4 self-end md:self-center">
+                                <p className="text-base md:text-lg font-medium">Total Response: <span className="text-2xl md:text-4xl font-bold">129</span></p>
+                                <Button variant="ghost" size="icon" className="bg-background rounded-full">
+                                    <ArrowRight />
+                                </Button>
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                            <div className="h-[250px] w-full max-w-sm mx-auto">
+                                <ExitSurveyChart />
+                            </div>
+                            <div className="space-y-4">
+                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
+                                        <div>
+                                            <p className="font-medium">Brick & Bolt</p>
+                                            <p className="text-sm text-muted-foreground">Pricing too high</p>
+                                        </div>
+                                    </div>
+                                    <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
+                                </div>
+                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
+                                        <div>
+                                            <p className="font-medium">Powerplay</p>
+                                            <p className="text-sm text-muted-foreground">Missing Features</p>
+                                        </div>
+                                    </div>
+                                    <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
+                                </div>
+                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
+                                        <div>
+                                            <p className="font-medium">Harish mane</p>
+                                            <p className="text-sm text-muted-foreground">Technical issues</p>
+                                        </div>
+                                    </div>
+                                    <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
                                 </div>
                             </div>
-                            <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
                         </div>
-                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                            <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
-                                <div>
-                                    <p className="font-medium">Powerplay</p>
-                                    <p className="text-sm text-muted-foreground">Missing Features</p>
-                                </div>
-                            </div>
-                            <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
-                        </div>
-                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                            <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
-                                <div>
-                                    <p className="font-medium">Harish mane</p>
-                                    <p className="text-sm text-muted-foreground">Technical issues</p>
-                                </div>
-                            </div>
-                            <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
-                        </div>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
+                    </CardContent>
+                </Card>
+        </div>
         <PlatformBottomNav />
     </div>
   );
