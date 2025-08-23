@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Calendar, GanttChartSquare, Users, FileText, Bot, LogOut, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Logo from './logo';
 
 const navItems = [
     { href: "/home", icon: Home, label: "Home" },
