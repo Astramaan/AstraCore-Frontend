@@ -6,11 +6,12 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, ArrowRight, Users, Bell, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus } from 'lucide-react';
+import { Calendar, ArrowRight, Users, Bell, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare } from 'lucide-react';
 import { RevenueChart } from '@/components/charts/revenue-chart';
 import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
 import { ExitSurveyChart } from '@/components/charts/exit-survey-chart';
+import Link from 'next/link';
 
 const FilterToggle = () => {
   const [active, setActive] = React.useState('Month');
@@ -77,7 +78,7 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-6">
+    <div className="flex-1 space-y-6 p-4 md:p-8">
       <div className="flex flex-col md:flex-row items-start justify-between gap-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
           <div className="space-y-2 w-full md:w-auto">
@@ -245,3 +246,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    

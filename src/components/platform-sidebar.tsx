@@ -17,7 +17,7 @@ const navItems = [
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {
     const pathname = usePathname();
-    const isActive = pathname === item.href;
+    const isActive = pathname.startsWith(item.href);
 
     return (
         <li>
@@ -34,7 +34,7 @@ const NavItem = ({ item }: { item: typeof navItems[0] }) => {
 
 export function PlatformSidebar() {
     return (
-        <div className="h-full flex flex-col p-4 space-y-4 border-r">
+        <div className="h-full flex flex-col p-4 space-y-4">
             <div className="p-4">
                  <Link href="/dashboard">
                     <Logo />
@@ -48,3 +48,5 @@ export function PlatformSidebar() {
         </div>
     );
 }
+
+    
