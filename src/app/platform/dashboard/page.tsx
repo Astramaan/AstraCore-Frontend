@@ -144,7 +144,7 @@ const PlatformBottomNav = () => {
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-8 pt-10 bg-background pb-48 md:pb-40">
+    <div className="flex-1 space-y-6 bg-background pb-48 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6">
         <PlatformHeader />
       <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
@@ -313,4 +313,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
