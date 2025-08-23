@@ -34,12 +34,12 @@ export default function OtpVerificationPage() {
             <div className="relative h-full w-full overflow-hidden">
                 <div className="pt-4 pl-4 pb-4 h-full">
                     <Image 
-                        src="https://placehold.co/396x507.png"
-                        alt="Abstract blue background"
+                        src="/images/logoimage.png"
+                        alt="Astramaan Company Logo"
                         width={396}
                         height={507}
                         className="w-full h-full object-cover rounded-tl-[40px] rounded-bl-[40px]"
-                        data-ai-hint="construction site"
+                        data-ai-hint="company building"
                     />
                 </div>
             </div>
