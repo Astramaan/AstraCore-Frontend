@@ -118,8 +118,8 @@ const PlatformBottomNav = () => {
     const pathname = '/platform/dashboard'; // Assuming this is the active page
 
     return (
-        <div className="fixed bottom-4 md:bottom-8 left-4 right-4 z-20">
-             <div className="relative w-full h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4">
+             <div className="relative mx-auto h-auto w-full max-w-screen-lg bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-2 w-full">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
@@ -145,7 +145,7 @@ const PlatformBottomNav = () => {
 export default function DashboardPage() {
   return (
     <div className="space-y-6 bg-background pb-48 md:pb-40">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
+        <div className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
             <PlatformHeader />
             <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
