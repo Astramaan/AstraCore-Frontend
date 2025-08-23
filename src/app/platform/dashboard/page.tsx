@@ -118,23 +118,25 @@ const PlatformBottomNav = () => {
     const pathname = '/platform/dashboard'; // Assuming this is the active page
 
     return (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-164px)] max-w-[1276px] z-20">
-             <div className="relative w-full h-28 bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex items-center justify-around px-6">
+        <div className="fixed bottom-4 md:bottom-8 left-4 right-4 z-20">
+             <div className="relative w-full h-auto md:h-28 bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around p-4 md:px-6 gap-2">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-[5px] bg-white rounded-3xl" />
-                {navItems.map((item) => {
-                    const isActive = pathname === item.href;
-                    return (
-                         <Link href={item.href} key={item.label}>
-                            <div className={cn(
-                                "flex items-center gap-2.5 p-5 rounded-[50px] transition-colors duration-200",
-                                isActive ? "bg-primary text-white" : "bg-white text-black"
-                            )}>
-                                <item.icon className="w-6 h-6" />
-                                <span className="text-lg font-medium">{item.label}</span>
-                            </div>
-                        </Link>
-                    )
-                })}
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-2 w-full mt-4 md:mt-0">
+                    {navItems.map((item) => {
+                        const isActive = pathname === item.href;
+                        return (
+                             <Link href={item.href} key={item.label} className="flex-1">
+                                <div className={cn(
+                                    "flex items-center justify-center text-center gap-1.5 md:gap-2.5 p-2 md:p-5 rounded-[40px] md:rounded-[50px] transition-colors duration-200 h-full",
+                                    isActive ? "bg-primary text-white" : "bg-white text-black"
+                                )}>
+                                    <item.icon className="w-5 h-5 md:w-6 md:h-6" />
+                                    <span className="text-xs md:text-lg font-medium truncate">{item.label}</span>
+                                </div>
+                            </Link>
+                        )
+                    })}
+                </div>
             </div>
         </div>
     );
@@ -143,7 +145,7 @@ const PlatformBottomNav = () => {
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-6 p-4 md:p-8 pt-10 bg-background pb-40">
+    <div className="flex-1 space-y-6 p-4 md:p-8 pt-10 bg-background pb-48 md:pb-40">
         <PlatformHeader />
       <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
