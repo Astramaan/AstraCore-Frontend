@@ -120,11 +120,11 @@ export default function OrganizationHomePage() {
                     <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] border-none shadow-sm">Pending</Button>
                 </div>
                  <div className="flex items-center gap-4">
-                    <Button className="w-32 rounded-[10px]">
+                    <Button className="w-40 rounded-full h-[54px]">
                         <PlusCircle className="w-4 h-4 mr-2"/>
                         Assign task
                     </Button>
-                    <Button variant="outline" className="w-40 rounded-[10px] border-primary text-primary hover:bg-primary/10 hover:text-primary">
+                    <Button variant="outline" className="w-40 rounded-full h-[54px] border-primary text-primary hover:bg-primary/10 hover:text-primary">
                         <Plus className="w-4 h-4 mr-2"/>
                         Add Employee
                     </Button>
