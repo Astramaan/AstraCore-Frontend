@@ -4,11 +4,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, ChevronDown, Menu, Search, Home, Calendar, GanttChartSquare, Users, FileText, Bot, Briefcase } from 'lucide-react';
+import { Bell, Search, Home, Calendar, GanttChartSquare, Users, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { OrganizationSidebar } from '@/components/organization-sidebar';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import Logo from '@/components/logo';
@@ -31,12 +30,7 @@ const OrganizationHeader = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center gap-4">
-                        <div className="md:hidden">
-                           <Logo />
-                        </div>
-                         <div className="hidden md:block">
-                            <Logo />
-                        </div>
+                        <Logo />
                         <h1 className="text-2xl font-medium text-zinc-900 hidden md:block">{getTitle()}</h1>
                     </div>
                     
@@ -81,53 +75,40 @@ const OrganizationHeader = () => {
     );
 };
 
-const navItems = [
-    { href: "/organization/home", icon: Home, label: "Home" },
-    { href: "/organization/meetings", icon: Calendar, label: "Meetings" },
-    { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
-    { href: "/organization/leads", icon: Users, label: "Leads" },
-    { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
-];
-
 const OrganizationBottomNav = () => {
+    const navItems = [
+        { href: "/organization/home", icon: Home, label: "Home" },
+        { href: "/organization/meetings", icon: Calendar, label: "Meetings" },
+        { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
+        { href: "/organization/leads", icon: Users, label: "Leads" },
+        { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
+    ];
+
     const pathname = usePathname();
+
     return (
-        <div className="fixed bottom-0 left-0 right-0 h-24 bg-transparent z-20">
-            <div className="relative h-full flex items-end justify-center pb-2">
-                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full md:w-[600px] h-20 bg-white rounded-t-3xl shadow-[0_-4px_15px_-5px_rgba(0,0,0,0.1)]"></div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-8 bg-white rounded-b-xl flex items-center justify-center">
-                    <div className="w-10 h-1.5 bg-gray-300 rounded-full"></div>
+        <div className="fixed bottom-4 left-4 right-4 z-20 md:bottom-8 md:left-8 md:right-8">
+             <div className="relative w-full h-auto max-w-screen-md mx-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex flex-col md:flex-row items-center justify-around py-4 px-6 gap-2">
+                <div className="grid grid-cols-5 gap-2 w-full">
+                    {navItems.map((item) => {
+                        const isActive = pathname === item.href;
+                        return (
+                             <Link href={item.href} key={item.label} className="flex-1">
+                                <div className={cn(
+                                    "flex items-center justify-center text-center gap-1.5 md:gap-2.5 p-2 md:p-5 rounded-[40px] md:rounded-[50px] transition-colors duration-200 h-full",
+                                    isActive ? "bg-primary text-white" : "bg-white text-black"
+                                )}>
+                                    <item.icon className="w-5 h-5 md:w-6 md:h-6" />
+                                    <span className="text-xs md:text-lg font-medium truncate">{item.label}</span>
+                                </div>
+                            </Link>
+                        )
+                    })}
                 </div>
-               
-                <nav className="relative w-full md:w-[600px] px-2">
-                    <ul className="flex justify-around items-center">
-                        {navItems.map((item) => {
-                            const isActive = pathname === item.href;
-                            return (
-                                <li key={item.label} className="flex-1">
-                                    <Link href={item.href}>
-                                        <div className={cn(
-                                            "flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-colors duration-200",
-                                            isActive ? "text-primary" : "text-muted-foreground"
-                                        )}>
-                                            <div className={cn(
-                                                "p-3 rounded-full transition-colors duration-200",
-                                                isActive && "bg-primary text-white"
-                                            )}>
-                                                <item.icon className="w-6 h-6" />
-                                            </div>
-                                            <span className="text-xs font-medium truncate">{item.label}</span>
-                                        </div>
-                                    </Link>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </nav>
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
@@ -135,7 +116,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     <div className="min-h-screen bg-white flex">
         <div className="flex-1 flex flex-col">
             <OrganizationHeader />
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background pb-28">
+            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background pb-32 md:pb-40">
               {children}
             </main>
             <OrganizationBottomNav />
