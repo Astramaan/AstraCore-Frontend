@@ -20,11 +20,11 @@ const navItems = [
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {
     const pathname = usePathname();
-    const isActive = pathname.startsWith(item.href);
+    const isActive = pathname === item.href;
 
     return (
         <li className="relative">
-            <Link href={`${item.href}`} className={cn(
+            <Link href={item.href} className={cn(
                 "flex items-center gap-3 text-lg p-3 rounded-r-none rounded-l-[10px]",
                 isActive ? "text-primary bg-primary/10" : "text-zinc-900 hover:bg-primary/5"
             )}>

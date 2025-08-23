@@ -17,7 +17,7 @@ const navItems = [
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {
     const pathname = usePathname();
-    const isActive = pathname.startsWith(item.href);
+    const isActive = pathname === item.href;
 
     return (
         <li>
