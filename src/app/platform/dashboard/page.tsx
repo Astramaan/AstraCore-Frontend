@@ -1,17 +1,47 @@
 
-
 'use client';
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, ArrowRight, Users, Bell, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare } from 'lucide-react';
+import { Calendar, ArrowRight, Users, Bell, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare, LayoutGrid, BarChart, User, MessageSquare, Briefcase } from 'lucide-react';
 import { RevenueChart } from '@/components/charts/revenue-chart';
 import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
 import { ExitSurveyChart } from '@/components/charts/exit-survey-chart';
 import Link from 'next/link';
+import Logo from '@/components/logo';
+import { cn } from '@/lib/utils';
+
+const PlatformHeader = () => (
+    <header className="flex justify-between items-center w-full">
+        <div className="flex items-center gap-4">
+            <Logo />
+            <h1 className="text-4xl font-bold font-sans">Dashboard</h1>
+        </div>
+        <div className="flex items-center gap-6">
+            <Button variant="ghost" size="icon" className="bg-white rounded-full h-14 w-14">
+                <Bell className="h-6 w-6" />
+            </Button>
+            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-gray-100 hidden md:flex">
+                <Users className="mr-2 h-6 w-6"/>
+                Employee Management
+            </Button>
+            <div className="flex items-center gap-2">
+                <Avatar className="h-14 w-14">
+                    <AvatarImage src="https://placehold.co/55x55" data-ai-hint="person portrait" />
+                    <AvatarFallback>BN</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="text-lg font-medium">Balaji Naik</p>
+                    <p className="text-base text-grey-2">Super Admin</p>
+                </div>
+            </div>
+        </div>
+    </header>
+);
+
 
 const FilterToggle = () => {
   const [active, setActive] = React.useState('Month');
@@ -46,12 +76,12 @@ const ActiveCustomers = () => {
         <div className="flex items-center gap-4">
             <div className="flex -space-x-4">
                 {[...Array(5)].map((_, i) => (
-                    <Avatar key={i} className="border-4 border-white">
-                        <AvatarImage src={`https://placehold.co/50x50.png?text=${i}`} data-ai-hint="person portrait" />
-                        <AvatarFallback>U{i}</AvatarFallback>
+                    <Avatar key={i} className="border-4 border-white w-12 h-12">
+                        <AvatarImage src={`https://placehold.co/50x50.png`} data-ai-hint="person portrait" />
+                        <AvatarFallback>U{i+1}</AvatarFallback>
                     </Avatar>
                 ))}
-                <Avatar className="border-4 border-white bg-primary text-primary-foreground">
+                <Avatar className="border-4 border-white bg-primary text-primary-foreground w-12 h-12">
                     <AvatarFallback>+6</AvatarFallback>
                 </Avatar>
             </div>
@@ -75,11 +105,47 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
     </div>
 );
 
+const PlatformBottomNav = () => {
+    const navItems = [
+        { href: "/platform/dashboard", icon: LayoutGrid, label: "Dashboard" },
+        { href: "#", icon: User, label: "Onboarding Ma.." },
+        { href: "#", icon: HandCoins, label: "Subscription Ma.." },
+        { href: "#", icon: Briefcase, label: "Organization Ma.." },
+        { href: "#", icon: MessageSquare, label: "Support" },
+        { href: "#", icon: BarChart, label: "Product Analytics" }
+    ];
+
+    const pathname = '/platform/dashboard'; // Assuming this is the active page
+
+    return (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-164px)] max-w-[1276px] z-20">
+             <div className="relative w-full h-28 bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] flex items-center justify-around px-6">
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-[5px] bg-white rounded-3xl" />
+                {navItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                         <Link href={item.href} key={item.label}>
+                            <div className={cn(
+                                "flex items-center gap-2.5 p-5 rounded-[50px] transition-colors duration-200",
+                                isActive ? "bg-primary text-white" : "bg-white text-black"
+                            )}>
+                                <item.icon className="w-6 h-6" />
+                                <span className="text-lg font-medium">{item.label}</span>
+                            </div>
+                        </Link>
+                    )
+                })}
+            </div>
+        </div>
+    );
+};
+
 
 export default function DashboardPage() {
   return (
-    <div className="flex-1 space-y-6">
-      <div className="flex flex-col md:flex-row items-start justify-between gap-6">
+    <div className="flex-1 space-y-6 p-4 md:p-8 pt-10 bg-background pb-40">
+        <PlatformHeader />
+      <div className="flex flex-col md:flex-row items-start justify-between gap-6 mt-8">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
           <div className="space-y-2 w-full md:w-auto">
             <p className="text-base font-medium">Filter</p>
@@ -87,7 +153,7 @@ export default function DashboardPage() {
           </div>
           <div className="space-y-2 w-full md:w-auto">
             <p className="text-base font-medium">Select Month</p>
-            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center">
+            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center border-none shadow-sm">
               <Calendar className="mr-2 h-6 w-6" />
               April 2025
             </Button>
@@ -208,7 +274,6 @@ export default function DashboardPage() {
                         <ExitSurveyChart />
                     </div>
                     <div className="space-y-4">
-                        {/* Placeholder for list of survey responses */}
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
                                 <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
@@ -243,6 +308,7 @@ export default function DashboardPage() {
                 </div>
             </CardContent>
         </Card>
+        <PlatformBottomNav />
     </div>
   );
 }
