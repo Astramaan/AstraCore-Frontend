@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useFormStatus } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -31,6 +30,9 @@ export default function OtpForm() {
         title: "Error",
         description: state.error,
       });
+      // Clear OTP on error
+      setOtp(new Array(4).fill(""));
+      inputRefs.current[0]?.focus();
     }
   }, [state, toast]);
 
@@ -72,9 +74,11 @@ export default function OtpForm() {
     setPending(true);
     const formData = new FormData();
     otp.forEach((digit, index) => {
+        // use a consistent key for the action
         formData.append(`otp-${index}`, digit);
     })
-    const result = await verifyOtp(undefined, formData);
+    
+    const result = await verifyOtp(state, formData);
     setState(result);
     setPending(false);
   }
