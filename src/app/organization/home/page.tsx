@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MoreHorizontal, Plus, PlusCircle, Video, ArrowRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
+import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 
 
 const taskData = [
@@ -24,13 +25,13 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-2xl flex flex-col justify-between p-4">
+        <Card className="w-full h-44 rounded-[50px] flex flex-col justify-between p-4">
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
                     <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                 </div>
-                <p className="text-sm text-stone-500">{task.date}</p>
+                <p className="text-sm text-muted-foreground">{task.date}</p>
                 <p className="text-base text-zinc-900 mt-2">{task.description}</p>
             </div>
             <div className="flex justify-between items-center">
@@ -41,7 +42,10 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
                     </div>
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
-                <p className="text-sm text-stone-500">{task.status}</p>
+                <div className="text-right">
+                    <p className="text-xs text-muted-foreground">Due Date</p>
+                    <p className="text-sm text-muted-foreground">{task.status}</p>
+                </div>
             </div>
         </Card>
     )
@@ -54,17 +58,17 @@ const meetings = [
 ]
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
-    <Card className="w-full h-20 rounded-[10px] p-4 flex items-center justify-between">
+    <Card className="w-full h-20 rounded-[50px] p-4 flex items-center justify-between">
         <div>
             <p className="text-base font-medium">{meeting.client}</p>
-            <p className="text-xs text-stone-500">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
+            <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
         </div>
         <div className="text-right">
             <p className="text-sm font-medium">{meeting.time}</p>
-            <p className="text-sm text-stone-500">{meeting.date}</p>
+            <p className="text-sm text-muted-foreground">{meeting.date}</p>
         </div>
         <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon"><Video className="w-5 h-5 text-sky-500" /></Button>
+            <Button variant="ghost" size="icon"><GoogleMeetIcon className="w-5 h-5" /></Button>
             <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
         </div>
     </Card>
@@ -78,7 +82,7 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-96 h-96 rounded-2xl">
+    <Card className="w-full md:w-96 h-96 rounded-[50px]">
         <CardHeader>
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
@@ -109,17 +113,17 @@ const TaskOverviewChart = ({title}: {title: string}) => (
 export default function OrganizationHomePage() {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-        <div className="flex-1">
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-4">
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">High Priority</Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">
+        <main className="flex-1">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <div className="flex items-center gap-4 overflow-x-auto pb-2">
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] shadow-sm flex-shrink-0">High Priority</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] shadow-sm flex-shrink-0">
                         In Progress
                         <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
                     </Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px] shadow-sm">Pending</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] shadow-sm flex-shrink-0">Pending</Button>
                 </div>
-                 <div className="flex items-center gap-4">
+                 <div className="hidden lg:flex items-center gap-4">
                     <Button className="w-40 rounded-full h-[54px]">
                         <PlusCircle className="w-4 h-4 mr-2"/>
                         Assign task
@@ -143,22 +147,34 @@ export default function OrganizationHomePage() {
                      {taskData.slice(0, 2).map(task => <TaskCard key={task.title} task={task} />)}
                 </div>
             </div>
-        </div>
+        </main>
 
-        <aside className="w-full lg:w-96 space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl font-medium">Meetings</h2>
-                 <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
-                    see all meetings <ArrowRight className="w-4 h-4" />
-                </Link>
+        <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0 mt-6 lg:mt-0">
+            <div className="flex lg:hidden justify-end items-center gap-4">
+                <Button className="flex-1 lg:flex-none rounded-full h-[54px]">
+                    <PlusCircle className="w-4 h-4 mr-2"/>
+                    Assign task
+                </Button>
+                <Button className="flex-1 lg:flex-none rounded-full h-[54px] bg-primary text-white">
+                    <Plus className="w-4 h-4 mr-2"/>
+                    Add Employee
+                </Button>
             </div>
-            <div className="space-y-3">
-                {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
+
+            <div>
+                <div className="flex justify-between items-center mb-3">
+                    <h2 className="text-xl font-medium">Meetings</h2>
+                    <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
+                        see all meetings <ArrowRight className="w-4 h-4" />
+                    </Link>
+                </div>
+                <div className="space-y-3">
+                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
+                </div>
             </div>
             
-            <TaskOverviewChart title="Tasks Overview" />
+            <TaskOverviewChart title="My tasks overview" />
             <TaskOverviewChart title="Assigned Tasks Overview" />
-
         </aside>
     </div>
   );
