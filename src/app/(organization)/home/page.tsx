@@ -25,7 +25,7 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-[50px] flex flex-col justify-between p-4">
+        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between p-4">
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
@@ -81,7 +81,7 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-96 h-96 rounded-[50px]">
+    <Card className="w-96 h-96 rounded-[40px]">
         <CardHeader>
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
