@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -114,12 +113,12 @@ export default function OrganizationHomePage() {
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">High Priority</Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px]">High Priority</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px]">
                         In Progress
                         <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
                     </Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">Pending</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px]">Pending</Button>
                 </div>
             </div>
 
@@ -138,17 +137,17 @@ export default function OrganizationHomePage() {
         </main>
 
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
-             <div className="flex justify-end items-center gap-4">
-                <Button className="w-40 rounded-full h-[54px]">
+            <div className="flex justify-end items-center gap-4">
+                <Button className="flex-1 lg:flex-none rounded-full h-[54px]">
                     <PlusCircle className="w-4 h-4 mr-2"/>
                     Assign task
                 </Button>
-                <Button className="w-40 rounded-full h-[54px] bg-primary text-white">
+                <Button className="flex-1 lg:flex-none rounded-full h-[54px] bg-primary text-white">
                     <Plus className="w-4 h-4 mr-2"/>
                     Add Employee
                 </Button>
             </div>
-            
+
             <div>
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
