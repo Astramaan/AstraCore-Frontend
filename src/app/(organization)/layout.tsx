@@ -58,7 +58,7 @@ const OrganizationBottomNav = () => {
                         return (
                              <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
                                 <div className={cn(
-                                    "flex items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
+                                    "flex items-center justify-center text-center gap-1.5 p-2 rounded-full transition-colors duration-200 h-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
                                     isActive ? "bg-primary text-white" : "bg-white text-black"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
