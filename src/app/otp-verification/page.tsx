@@ -12,8 +12,8 @@ export default function OtpVerificationPage() {
            <Image 
               src="https://placehold.co/430x250.png"
               alt="Abstract blue background"
-              layout="fill"
-              objectFit="cover"
+              fill
+              className="object-cover"
               data-ai-hint="construction site"
           />
         </div>

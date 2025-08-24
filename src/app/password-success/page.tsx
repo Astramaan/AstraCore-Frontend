@@ -33,8 +33,8 @@ export default function PasswordSuccessPage() {
               <Image 
                   src="https://placehold.co/430x250.png"
                   alt="Abstract green shapes"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
+                  className="object-cover"
                   data-ai-hint="abstract green"
               />
           </div>

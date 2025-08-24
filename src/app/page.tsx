@@ -12,8 +12,8 @@ export default function LoginPage() {
            <Image 
               src="https://placehold.co/430x323.png"
               alt="Abstract blue background"
-              layout="fill"
-              objectFit="cover"
+              fill
+              className="object-cover"
               data-ai-hint="construction site"
           />
         </div>
