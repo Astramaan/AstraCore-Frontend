@@ -4,101 +4,84 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, ChevronDown, Menu, Search } from 'lucide-react';
+import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { OrganizationSidebar } from '@/components/organization-sidebar';
-import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import Logo from '@/components/logo';
 
-const OrganizationHeader = () => {
-    const pathname = usePathname();
-    const getTitle = () => {
-        if (pathname.includes('/home')) return 'Home';
-        if (pathname.includes('/meetings')) return 'Meetings';
-        if (pathname.includes('/projects')) return 'Projects';
-        if (pathname.includes('/leads')) return 'Leads';
-        if (pathname.includes('/vendors')) return 'Vendors';
-        if (pathname.includes('/blog')) return 'Blog';
-        if (pathname.includes('/snag-list')) return 'Snag List';
-        return 'Home';
-    }
-
-    return (
-        <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    <div className="flex items-center gap-4">
-                        <div className="md:hidden">
-                             <Sheet>
-                                <SheetTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <Menu className="h-6 w-6" />
-                                    </Button>
-                                </SheetTrigger>
-                                <SheetContent side="left" className="p-0 w-64">
-                                    <OrganizationSidebar />
-                                </SheetContent>
-                            </Sheet>
-                        </div>
-                        <h1 className="text-2xl font-medium text-zinc-900">{getTitle()}</h1>
-                    </div>
-                    
-                    <div className="flex items-center gap-6">
-                         <div className="relative w-80 hidden lg:block">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-stone-400" />
-                            <Input placeholder="Search Task, Meetings, Projects..." className="pl-11 rounded-[10px] border-stone-300"/>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <Button variant="ghost" size="icon" className="relative rounded-full">
-                                <Bell className="h-6 w-6" />
-                                <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
-                            </Button>
-                            <div className="w-px h-10 bg-stone-300 hidden md:block" />
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <div className="flex items-center gap-2 cursor-pointer">
-                                        <Avatar className="h-10 w-10">
-                                            <AvatarImage src="https://placehold.co/40x40" alt="Anil Kumar" data-ai-hint="person portrait"/>
-                                            <AvatarFallback>AK</AvatarFallback>
-                                        </Avatar>
-                                        <div className="hidden md:block">
-                                            <p className="font-medium text-lg">Anil Kumar</p>
-                                            <p className="text-stone-500 text-sm -mt-1">Senior Architect</p>
-                                        </div>
-                                    </div>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem><Link href="/settings">Profile</Link></DropdownMenuItem>
-                                    <DropdownMenuItem><Link href="/settings">Settings</Link></DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>Logout</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                    </div>
+const OrganizationHeader = () => (
+    <header className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
+        <div className="flex items-center gap-4 self-start">
+            <Logo />
+        </div>
+        <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
+            <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14">
+                <Bell className="h-6 w-6" />
+            </Button>
+            <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-gray-100 hidden md:flex">
+                <Users className="mr-2 h-6 w-6"/>
+                Employee Management
+            </Button>
+            <div className="flex items-center gap-2 flex-1 justify-end">
+                <Avatar className="h-12 w-12 md:h-14 md:w-14">
+                    <AvatarImage src="https://placehold.co/55x55" data-ai-hint="person portrait" />
+                    <AvatarFallback>BN</AvatarFallback>
+                </Avatar>
+                <div className="hidden sm:block">
+                    <p className="text-base md:text-lg font-medium">Balaji Naik</p>
+                    <p className="text-sm md:text-base text-grey-2">Super Admin</p>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
+);
+
+const OrganizationBottomNav = () => {
+    const navItems = [
+        { href: "/organization/home", icon: Home, label: "Home" },
+        { href: "/organization/meetings", icon: Calendar, label: "Meetings" },
+        { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
+        { href: "/organization/leads", icon: Users, label: "Leads" },
+        { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
+        { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
+    ];
+
+    const pathname = usePathname();
+
+    return (
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4">
+             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-lg">
+                <div className="flex items-center justify-around gap-1 md:gap-2">
+                    {navItems.map((item) => {
+                        const isActive = pathname.startsWith(item.href);
+                        return (
+                             <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
+                                <div className={cn(
+                                    "flex items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
+                                    isActive ? "bg-primary text-white" : "bg-white text-black"
+                                )}>
+                                    <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
+                                </div>
+                            </Link>
+                        )
+                    })}
+                </div>
+            </div>
+        </div>
     );
 };
 
 
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white flex">
-        <div className="hidden md:block w-52 border-r border-stone-300">
-            <OrganizationSidebar />
-        </div>
-        <div className="flex-1 flex flex-col">
+    <div className="min-h-screen bg-background">
+        <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
             <OrganizationHeader />
-            <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-background">
-              {children}
-            </main>
-        </div>
+            {children}
+        </main>
+        <OrganizationBottomNav />
     </div>
   );
 }

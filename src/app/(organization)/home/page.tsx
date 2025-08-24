@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MoreHorizontal, Plus, PlusCircle, Video, ArrowRight } from "lucide-react";
+import { MoreHorizontal, Plus, PlusCircle, ArrowRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -82,7 +82,7 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-96 h-96 rounded-[40px]">
+    <Card className="w-full md:w-96 h-96 rounded-[40px]">
         <CardHeader>
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
@@ -115,13 +115,13 @@ export default function OrganizationHomePage() {
     <div className="flex flex-col md:flex-row gap-6">
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-4">
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px]">High Priority</Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px]">
+                <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0">High Priority</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0">
                         In Progress
                         <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
                     </Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px]">Pending</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0">Pending</Button>
                 </div>
             </div>
 
@@ -139,13 +139,13 @@ export default function OrganizationHomePage() {
             </div>
         </main>
 
-        <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
+        <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
             <div className="flex justify-end items-center gap-4">
-                <Button className="flex-1 lg:flex-none rounded-full h-[54px]">
+                <Button className="flex-1 md:flex-none rounded-full h-[54px]">
                     <PlusCircle className="w-4 h-4 mr-2"/>
                     Assign task
                 </Button>
-                <Button className="flex-1 lg:flex-none rounded-full h-[54px] bg-primary text-white">
+                <Button className="flex-1 md:flex-none rounded-full h-[54px] bg-primary text-white">
                     <Plus className="w-4 h-4 mr-2"/>
                     Add Employee
                 </Button>
