@@ -111,7 +111,7 @@ const TaskOverviewChart = ({title}: {title: string}) => (
 export default function OrganizationHomePage() {
   return (
     <div className="flex flex-col lg:flex-row gap-6">
-        <div className="flex-1">
+        <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] min-h-[54px] max-h-[54px]">High Priority</Button>
@@ -135,7 +135,7 @@ export default function OrganizationHomePage() {
                      {taskData.slice(0, 2).map(task => <TaskCard key={task.title} task={task} />)}
                 </div>
             </div>
-        </div>
+        </main>
 
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
              <div className="flex justify-end items-center gap-4">
