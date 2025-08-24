@@ -149,14 +149,16 @@ export default function OrganizationHomePage() {
                 </Button>
             </div>
             
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl font-medium">Meetings</h2>
-                 <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
-                    see all meetings <ArrowRight className="w-4 h-4" />
-                </Link>
-            </div>
-            <div className="space-y-3">
-                {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
+            <div>
+                <div className="flex justify-between items-center mb-3">
+                    <h2 className="text-xl font-medium">Meetings</h2>
+                    <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
+                        see all meetings <ArrowRight className="w-4 h-4" />
+                    </Link>
+                </div>
+                <div className="space-y-3">
+                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
+                </div>
             </div>
             
             <TaskOverviewChart title="Tasks Overview" />
