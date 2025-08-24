@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, ArrowRight, MoreHorizontal } from "lucide-react";
+import { Plus, ArrowRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -151,7 +151,7 @@ export default function OrganizationHomePage() {
             <div>
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
-                    <Link href="#" className="text-sm text-cyan-500 flex items-center gap-1">
+                    <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
                         see all meetings <ArrowRight className="w-4 h-4" />
                     </Link>
                 </div>
