@@ -16,8 +16,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PlusCircle, CalendarIcon, ChevronDown, UploadCloud, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AssignTaskSheet() {
+  const isMobile = useIsMobile();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -26,12 +29,15 @@ export function AssignTaskSheet() {
             Assign task
         </Button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="w-full h-auto p-0 rounded-t-[40px]">
+      <SheetContent 
+        side={isMobile ? "bottom" : "right"} 
+        className="w-full p-0 md:max-w-2xl"
+      >
         <SheetHeader className="p-6 bg-yellow-500/10">
           <SheetTitle className="flex items-center justify-between text-xl font-medium">
             Assign task
             <SheetClose asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="rounded-full">
                     <X className="h-5 w-5"/>
                 </Button>
             </SheetClose>
@@ -41,15 +47,15 @@ export function AssignTaskSheet() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-6">
               <div className="relative">
-                <Label htmlFor="task-title" className="absolute -top-2.5 left-2.5 bg-white px-1 text-sm text-zinc-900">Task Title*</Label>
+                <Label htmlFor="task-title" className="absolute -top-2.5 left-2.5 bg-card px-1 text-sm text-zinc-900">Task Title*</Label>
                 <Input id="task-title" placeholder="Write a task name" />
               </div>
               <div className="relative">
-                <Label htmlFor="description" className="absolute -top-2.5 left-2.5 bg-white px-1 text-sm text-zinc-900">Description</Label>
+                <Label htmlFor="description" className="absolute -top-2.5 left-2.5 bg-card px-1 text-sm text-zinc-900">Description</Label>
                 <Textarea id="description" placeholder="What is this task about?" className="h-24"/>
               </div>
               <div className="relative">
-                <Label htmlFor="members" className="absolute -top-2.5 left-2.5 bg-white px-1 text-sm text-zinc-900">Members*</Label>
+                <Label htmlFor="members" className="absolute -top-2.5 left-2.5 bg-card px-1 text-sm text-zinc-900">Members*</Label>
                 <div className="relative">
                   <Input id="members" placeholder="Add members" className="pr-10"/>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -63,14 +69,14 @@ export function AssignTaskSheet() {
             <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="relative">
-                        <Label htmlFor="due-date" className="absolute -top-2.5 left-2.5 bg-white px-1 text-sm text-zinc-900">Due Date*</Label>
+                        <Label htmlFor="due-date" className="absolute -top-2.5 left-2.5 bg-card px-1 text-sm text-zinc-900">Due Date*</Label>
                         <div className="relative">
                             <Input id="due-date" placeholder="Select date"/>
                             <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         </div>
                     </div>
                     <div className="relative">
-                        <Label htmlFor="type" className="absolute -top-2.5 left-2.5 bg-white px-1 text-sm text-zinc-900">Type</Label>
+                        <Label htmlFor="type" className="absolute -top-2.5 left-2.5 bg-card px-1 text-sm text-zinc-900">Type</Label>
                         <div className="relative">
                             <Input id="type" placeholder="Select type"/>
                             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -78,7 +84,7 @@ export function AssignTaskSheet() {
                     </div>
                 </div>
                 <div className="relative">
-                    <Label className="absolute -top-2.5 left-2.5 bg-white px-1 text-sm text-zinc-900">Attach Files</Label>
+                    <Label className="absolute -top-2.5 left-2.5 bg-card px-1 text-sm text-zinc-900">Attach Files</Label>
                     <div className="border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center">
                         <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                             <UploadCloud className="w-6 h-6 text-gray-500" />
@@ -91,12 +97,12 @@ export function AssignTaskSheet() {
                     <p className="text-base font-medium mb-2">Priority</p>
                     <RadioGroup defaultValue="high" className="flex gap-4">
                         <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="high" id="high" />
-                        <Label htmlFor="high" className="border border-stone-300 rounded-lg px-5 py-2.5">High</Label>
+                            <RadioGroupItem value="high" id="high" />
+                            <Label htmlFor="high" className="border border-stone-300 rounded-lg px-5 py-2.5 cursor-pointer">High</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="low" id="low" />
-                        <Label htmlFor="low" className="border border-stone-300 rounded-lg px-5 py-2.5">Low</Label>
+                            <RadioGroupItem value="low" id="low" />
+                            <Label htmlFor="low" className="border border-stone-300 rounded-lg px-5 py-2.5 cursor-pointer">Low</Label>
                         </div>
                     </RadioGroup>
                 </div>
