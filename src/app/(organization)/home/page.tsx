@@ -77,6 +77,7 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
 const overviewData = [
   { name: "In Progress", value: 400, color: "hsl(var(--primary))" },
   { name: "Pending", value: 300, color: "hsl(var(--secondary))" },
+  { name: "On Hold", value: 200, color: "hsl(var(--muted))" },
 ];
 
 
@@ -111,7 +112,7 @@ const TaskOverviewChart = ({title}: {title: string}) => (
 
 export default function OrganizationHomePage() {
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
+    <div className="flex flex-col md:flex-row gap-6">
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
