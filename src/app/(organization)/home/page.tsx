@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, PlusCircle, ArrowRight } from "lucide-react";
+import { Plus, PlusCircle, ArrowRight, MoreHorizontal } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -161,7 +161,7 @@ export default function OrganizationHomePage() {
                 </div>
             </div>
             
-            <TaskOverviewChart title="My tasks overview" />
+            <TaskOverviewChart title="My Tasks Overview" />
             <TaskOverviewChart title="Assigned Tasks Overview" />
         </aside>
     </div>
