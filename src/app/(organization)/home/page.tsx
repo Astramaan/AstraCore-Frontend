@@ -30,7 +30,7 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
                     <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                 </div>
-                <p className="text-sm text-stone-500">{task.date}</p>
+                <p className="text-sm text-muted-foreground">{task.date}</p>
                 <p className="text-base text-zinc-900 mt-2">{task.description}</p>
             </div>
             <div className="flex justify-between items-center">
@@ -42,8 +42,8 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
                 <div className="text-right">
-                    <p className="text-xs text-stone-500">Due Date</p>
-                    <p className="text-sm text-stone-500">{task.status}</p>
+                    <p className="text-xs text-muted-foreground">Due Date</p>
+                    <p className="text-sm text-muted-foreground">{task.status}</p>
                 </div>
             </div>
         </Card>
@@ -60,11 +60,11 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     <Card className="w-full h-20 rounded-[50px] p-4 flex items-center justify-between">
         <div>
             <p className="text-base font-medium">{meeting.client}</p>
-            <p className="text-xs text-stone-500">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
+            <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
         </div>
         <div className="text-right">
             <p className="text-sm font-medium">{meeting.time}</p>
-            <p className="text-sm text-stone-500">{meeting.date}</p>
+            <p className="text-sm text-muted-foreground">{meeting.date}</p>
         </div>
         <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon"><Video className="w-5 h-5 text-sky-500" /></Button>
@@ -126,7 +126,7 @@ export default function OrganizationHomePage() {
                         <PlusCircle className="w-4 h-4 mr-2"/>
                         Assign task
                     </Button>
-                    <Button className="w-40 rounded-full h-[54px]">
+                    <Button className="w-40 rounded-full h-[54px] bg-primary text-white">
                         <Plus className="w-4 h-4 mr-2"/>
                         Add Employee
                     </Button>
