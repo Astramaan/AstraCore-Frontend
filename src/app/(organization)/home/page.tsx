@@ -143,7 +143,7 @@ export default function OrganizationHomePage() {
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
             <div className="flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet />
-                <Button className="flex-1 md:flex-none rounded-full h-[54px] bg-primary text-white">
+                <Button className="flex-1 md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground">
                     <Plus className="w-4 h-4 mr-2"/>
                     Add Employee
                 </Button>
