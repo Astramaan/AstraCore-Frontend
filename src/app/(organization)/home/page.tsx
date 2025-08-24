@@ -161,7 +161,7 @@ export default function OrganizationHomePage() {
                 </div>
             </div>
             
-            <TaskOverviewChart title="My tasks overvew" />
+            <TaskOverviewChart title="My tasks overview" />
             <TaskOverviewChart title="Assigned Tasks Overview" />
         </aside>
     </div>
