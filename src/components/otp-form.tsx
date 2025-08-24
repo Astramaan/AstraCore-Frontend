@@ -2,14 +2,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useActionState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
+function SubmitButton({ pending }: { pending: boolean }) {
   return (
     <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
       {pending ? 'Verifying...' : 'Verify & Continue'}
@@ -18,7 +17,8 @@ function SubmitButton() {
 }
 
 export default function OtpForm() {
-  const [state, action] = useActionState(verifyOtp, undefined);
+  const [state, setState] = useState<{ error?: string } | undefined>(undefined);
+  const [pending, setPending] = useState(false);
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -67,8 +67,20 @@ export default function OtpForm() {
     setTimer(28); // Reset timer
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setPending(true);
+    const formData = new FormData();
+    otp.forEach((digit, index) => {
+        formData.append(`otp-${index}`, digit);
+    })
+    const result = await verifyOtp(undefined, formData);
+    setState(result);
+    setPending(false);
+  }
+
   return (
-    <form action={action} className="space-y-6 flex flex-col flex-grow">
+    <form onSubmit={handleSubmit} className="space-y-6 flex flex-col flex-grow">
         <div className="flex-grow space-y-6">
             <div className="text-lg text-grey-1">
                 Check your inbox at user@example.com Incorrect email?{' '}
@@ -92,6 +104,7 @@ export default function OtpForm() {
                         onFocus={(e) => e.target.select()}
                         ref={(el) => (inputRefs.current[index] = el)}
                         className="w-[78px] h-[57px] text-center text-xl font-bold rounded-[15px] bg-background border-border focus:border-primary focus:ring-primary"
+                        disabled={pending}
                     />
                 ))}
                 </div>
@@ -100,7 +113,7 @@ export default function OtpForm() {
             <div className="flex justify-between items-center text-sm">
                 <div>
                     <span className="text-muted-foreground">Didn’t receive OTP? </span>
-                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-black underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
+                    <button type="button" onClick={handleResend} disabled={timer > 0 || pending} className="font-medium text-black underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
                         Resend
                     </button>
                 </div>
@@ -111,7 +124,7 @@ export default function OtpForm() {
         </div>
         
         <div className='pt-4 mt-auto'>
-            <SubmitButton />
+            <SubmitButton pending={pending} />
         </div>
     </form>
   );

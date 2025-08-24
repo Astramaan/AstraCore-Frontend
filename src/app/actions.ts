@@ -51,17 +51,26 @@ export async function signup(
 }
 
 export async function verifyOtp(
-    prevState: string | undefined,
+    prevState: { error?: string } | undefined,
     formData: FormData
-) {
+): Promise<{ error?: string } | undefined> {
     try {
         const otp = Array.from(formData.values()).join('');
         console.log(`Verifying OTP: ${otp}`);
-        // In a real app, you'd validate the OTP.
-        redirect('/create-password');
+
+        if (otp.length < 4 || !/^\d+$/.test(otp)) {
+          return { error: 'Invalid OTP format. Please enter 4 digits.' };
+        }
+
+        if (otp !== '1234') { // Mock OTP check
+            return { error: 'Invalid OTP. Please try again.' };
+        }
+        
     } catch (error) {
         return { error: 'Failed to verify OTP.' };
     }
+    // Redirect on success
+    redirect('/create-password');
 }
 
 
