@@ -36,7 +36,7 @@ export default function SignupPage() {
                         src="/images/logoimage.png"
                         alt="Astramaan Company Logo"
                         width={396}
-                        height={0}
+                        height={507}
                         sizes="100vw"
                         className="w-[396px] h-full object-cover rounded-tl-[40px] rounded-bl-[40px]"
                         data-ai-hint="company building"
