@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -160,7 +161,7 @@ export default function OrganizationHomePage() {
                 </div>
             </div>
             
-            <TaskOverviewChart title="Tasks Overview" />
+            <TaskOverviewChart title="My tasks overvew" />
             <TaskOverviewChart title="Assigned Tasks Overview" />
         </aside>
     </div>
