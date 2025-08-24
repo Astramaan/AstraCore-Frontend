@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MoreHorizontal, Plus, PlusCircle, Video, ArrowRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
+import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 
 
 const taskData = [
@@ -67,7 +68,7 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
             <p className="text-sm text-muted-foreground">{meeting.date}</p>
         </div>
         <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon"><Video className="w-5 h-5 text-sky-500" /></Button>
+            <Button variant="ghost" size="icon"><GoogleMeetIcon className="w-5 h-5" /></Button>
             <Button variant="ghost" size="icon"><MoreHorizontal className="w-5 h-5" /></Button>
         </div>
     </Card>
