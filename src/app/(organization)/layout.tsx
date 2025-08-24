@@ -19,7 +19,7 @@ const OrganizationHeader = () => (
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14">
                 <Bell className="h-6 w-6" />
             </Button>
-            <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-gray-100 hidden md:flex">
+            <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex">
                 <Users className="mr-2 h-6 w-6"/>
                 Employee Management
             </Button>
