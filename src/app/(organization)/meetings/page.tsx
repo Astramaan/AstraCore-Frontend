@@ -21,16 +21,16 @@ const leadMeetings = [
 ];
 
 const MeetingRow = ({ meeting }: { meeting: typeof clientMeetings[0] }) => (
-    <div className="flex items-center p-4 border-b border-stone-200 hover:bg-stone-50">
-        <div className="w-1/4 font-medium">{meeting.name}</div>
-        <div className="w-1/4"><Badge variant="secondary">{meeting.id}</Badge></div>
-        <div className="w-1/4">{meeting.date}</div>
-        <div className="w-1/4">{meeting.time}</div>
-        <div className="w-1/4 flex items-center gap-2">
+    <div className="grid grid-cols-6 items-center p-4 border-b border-stone-200 hover:bg-stone-50">
+        <div className="col-span-1 font-medium">{meeting.name}</div>
+        <div className="col-span-1"><Badge variant="secondary">{meeting.id}</Badge></div>
+        <div className="col-span-1">{meeting.date}</div>
+        <div className="col-span-1">{meeting.time}</div>
+        <div className="col-span-1 flex items-center gap-2">
             <GoogleMeetIcon className="w-5 h-5" />
             <span>Meet</span>
         </div>
-        <div className="w-auto flex justify-end">
+        <div className="col-span-1 flex justify-end">
             <Button variant="ghost" size="icon">
                 <MoreHorizontal className="w-5 h-5" />
             </Button>
@@ -53,13 +53,13 @@ export default function MeetingsPage() {
             <div>
                 <h2 className="text-xl font-semibold text-muted-foreground mb-4">Client Meetings</h2>
                 <div className="bg-card rounded-lg border">
-                    <div className="flex items-center p-4 bg-muted/50 border-b rounded-t-lg">
-                        <div className="w-1/4 font-semibold text-muted-foreground">Name</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Client ID</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Date</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Time</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Link</div>
-                        <div className="w-auto"></div>
+                    <div className="grid grid-cols-6 items-center p-4 bg-muted/50 border-b rounded-t-lg">
+                        <div className="col-span-1 font-semibold text-muted-foreground">Name</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Client ID</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Date</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Time</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Link</div>
+                        <div className="col-span-1"></div>
                     </div>
                     <div>
                         {clientMeetings.map((meeting, index) => (
@@ -72,13 +72,13 @@ export default function MeetingsPage() {
              <div>
                 <h2 className="text-xl font-semibold text-muted-foreground mb-4">Lead Meetings</h2>
                 <div className="bg-card rounded-lg border">
-                     <div className="flex items-center p-4 bg-muted/50 border-b rounded-t-lg">
-                        <div className="w-1/4 font-semibold text-muted-foreground">Name</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Lead ID</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Date</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Time</div>
-                        <div className="w-1/4 font-semibold text-muted-foreground">Link</div>
-                        <div className="w-auto"></div>
+                     <div className="grid grid-cols-6 items-center p-4 bg-muted/50 border-b rounded-t-lg">
+                        <div className="col-span-1 font-semibold text-muted-foreground">Name</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Lead ID</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Date</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Time</div>
+                        <div className="col-span-1 font-semibold text-muted-foreground">Link</div>
+                        <div className="col-span-1"></div>
                     </div>
                     <div>
                         {leadMeetings.map((meeting, index) => (

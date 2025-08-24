@@ -127,7 +127,7 @@ export default function OrganizationHomePage() {
             </div>
 
             <div>
-                <h2 className="text-xl font-medium mb-4">My Task</h2>
+                <h2 className="text-xl font-medium mb-4">My Tasks</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {taskData.map(task => <TaskCard key={task.title} task={task} />)}
                 </div>
