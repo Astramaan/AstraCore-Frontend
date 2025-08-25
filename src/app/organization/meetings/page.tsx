@@ -21,7 +21,7 @@ const leadMeetings = [
 
 const MeetingListItem = ({ meeting, isLast }: { meeting: typeof clientMeetings[0], isLast?: boolean }) => (
     <div className={`flex flex-col md:flex-row items-start md:items-center p-4 gap-4 ${!isLast ? 'border-b border-zinc-200' : ''}`}>
-        <div className="flex items-center gap-4 w-full md:w-1/4">
+        <div className="flex items-center gap-4 w-full md:w-auto">
             <Avatar className="w-12 h-12">
                 <AvatarImage src="https://placehold.co/48x48" data-ai-hint="abstract building" />
                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
@@ -34,17 +34,15 @@ const MeetingListItem = ({ meeting, isLast }: { meeting: typeof clientMeetings[0
 
         <div className="hidden md:block h-12 w-px bg-zinc-200" />
         
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex-1 flex flex-col md:flex-row justify-between gap-4">
             <div className="space-y-1">
                 <p className="text-sm text-zinc-500">Contact: <span className="text-zinc-900 font-medium">{meeting.email} | {meeting.phone}</span></p>
                 <p className="text-sm text-zinc-500">Client ID: <span className="text-zinc-900 font-medium">{meeting.id}</span></p>
             </div>
-
-            <div className="hidden md:block h-12 w-px bg-zinc-200" />
             
-            <div className="space-y-1">
+            <div className="space-y-1 md:text-right">
                 <p className="text-sm text-zinc-500">Date & Time : <span className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center gap-2 text-sm text-zinc-500">
+                <div className="flex items-center md:justify-end gap-2 text-sm text-zinc-500">
                     Link: 
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
                         <GoogleMeetIcon className="w-4 h-4" />
