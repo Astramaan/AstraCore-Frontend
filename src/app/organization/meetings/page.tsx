@@ -65,7 +65,7 @@ export default function MeetingsPage() {
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                        <Input placeholder="Search Meetings..." className="pl-9 rounded-full h-11 bg-white" />
+                        <Input placeholder="Search Meetings..." className="pl-9 rounded-full h-[54px] bg-white" />
                     </div>
                     <Dialog>
                         <DialogTrigger asChild>
