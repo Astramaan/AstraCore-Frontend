@@ -20,7 +20,7 @@ const leadMeetings = [
 ];
 
 const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1.5fr_auto] md:items-center p-4 gap-4 w-full relative border-b border-zinc-200">
+    <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1.5fr_auto] md:items-center p-4 gap-4 w-full border-b border-zinc-200">
         {/* Column 1: Avatar and Project Info */}
         <div className="flex items-center gap-4">
             <Avatar className="w-14 h-14 hidden md:flex">
