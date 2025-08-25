@@ -11,7 +11,7 @@ import Logo from './logo';
 const navItems = [
     { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/platform/organizations", icon: Building2, label: "Organizations" },
-    { href: "/platform/projects", icon: GanttChartSquare, label: "All Projects" },
+    { href: "/platform/all-projects", icon: GanttChartSquare, label: "All Projects" },
     { href: "/platform/settings", icon: Settings, label: "Settings" },
 ];
 
