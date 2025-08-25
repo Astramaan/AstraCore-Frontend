@@ -19,6 +19,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
+import { AlertDialogTrigger } from './ui/alert-dialog';
 
 export interface Lead {
     organization: string;
@@ -40,6 +41,7 @@ interface LeadDetailsSheetProps {
     isOpen: boolean;
     onClose: () => void;
     lead: Lead | null;
+    onDelete: (id: string) => void;
 }
 
 const DetailField = ({ label, value, isEditing, onChange, name }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string }) => (
@@ -55,7 +57,7 @@ const DetailField = ({ label, value, isEditing, onChange, name }: { label: strin
     </div>
 );
 
-const LeadDetailsContent = ({ lead: initialLead, onClose }: { lead: Lead, onClose: () => void }) => {
+const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Lead, onClose: () => void, onDelete: (id: string) => void }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [lead, setLead] = useState(initialLead);
 
@@ -106,7 +108,9 @@ const LeadDetailsContent = ({ lead: initialLead, onClose }: { lead: Lead, onClos
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                                    <AlertDialogTrigger asChild>
+                                        <DropdownMenuItem className="text-red-600" onClick={() => onDelete(lead.leadId)}>Delete</DropdownMenuItem>
+                                    </AlertDialogTrigger>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <DialogClose asChild>
@@ -192,7 +196,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose }: { lead: Lead, onClos
 };
 
 
-export function LeadDetailsSheet({ isOpen, onClose, lead }: LeadDetailsSheetProps) {
+export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete }: LeadDetailsSheetProps) {
   const isMobile = useIsMobile();
 
   if (!lead) return null;
@@ -217,7 +221,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead }: LeadDetailsSheetProp
               }
           }}
       >
-          <LeadDetailsContent lead={lead} onClose={onClose} />
+          <LeadDetailsContent lead={lead} onClose={onClose} onDelete={onDelete}/>
       </DialogOrSheetContent>
     </DialogOrSheet>
   );

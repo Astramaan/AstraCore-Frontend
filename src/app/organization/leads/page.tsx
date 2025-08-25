@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreVertical, Search, Plus, Phone, ChevronDown, Trash2, ShieldAlert, RefreshCw, X } from 'lucide-react';
+import { MoreVertical, Search, Plus, Phone, ChevronDown, Trash2, ShieldAlert, RefreshCw, X, Edit } from 'lucide-react';
 import { AddLeadSheet } from '@/components/add-lead-sheet';
 import {
   AlertDialog,
@@ -360,6 +360,10 @@ export default function LeadsPage() {
                 isOpen={!!selectedLeadDetails}
                 onClose={() => setSelectedLeadDetails(null)}
                 lead={selectedLeadDetails}
+                onDelete={(id) => {
+                    setSelectedLeadDetails(null);
+                    handleSingleDelete(id);
+                }}
             />
 
         </div>
