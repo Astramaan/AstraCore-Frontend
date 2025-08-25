@@ -33,7 +33,7 @@ const MeetingRow = ({ meeting }: { meeting: typeof clientMeetings[0] }) => (
         </div>
         <div className="col-span-1 flex justify-end">
             <Button variant="ghost" size="icon">
-                <MoreHorizontal className="w-5 h-5 text-stone-300" />
+                <MoreHorizontal className="h-5 w-5 text-stone-300" />
             </Button>
         </div>
     </div>
