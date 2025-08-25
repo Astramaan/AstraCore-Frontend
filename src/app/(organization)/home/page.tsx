@@ -147,7 +147,7 @@ export default function OrganizationHomePage() {
                 </Button>
             </div>
 
-            <div>
+            <div className="mt-12">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
