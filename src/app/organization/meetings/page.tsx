@@ -133,108 +133,112 @@ export default function MeetingsPage() {
 
             {/* Desktop View */}
             <div className="hidden md:block space-y-8">
-                <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-4 md:p-6">
-                        <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
-                        <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
-                            {clientMeetings.map((meeting, index) => (
-                                <React.Fragment key={meeting.id}>
-                                    <div className="contents">
-                                        <div className="flex items-center gap-4 p-4">
-                                            <div>
-                                                <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
-                                                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                <div>
+                    <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
+                    <Card className="rounded-[50px] bg-white">
+                        <CardContent className="p-4 md:p-6">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                                {clientMeetings.map((meeting, index) => (
+                                    <React.Fragment key={meeting.id}>
+                                        <div className="contents">
+                                            <div className="flex items-center gap-4 p-4">
+                                                <div>
+                                                    <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
+                                                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                                                </div>
+                                            </div>
+                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                            <div className="flex flex-col p-4">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                                                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                                            </div>
+                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                            <div className="flex flex-col items-start gap-2 p-4">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                                                <div className="flex items-center gap-2 text-lg">
+                                                    <span className="text-grey-2">Link: </span> 
+                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                                                        <GoogleMeetIcon className="w-6 h-6" />
+                                                        Google Meet
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div className="justify-self-center p-4">
+                                                <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                                </Button>
                                             </div>
                                         </div>
-                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                        <div className="flex flex-col p-4">
-                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                                            <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                                        </div>
-                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                        <div className="flex flex-col items-start gap-2 p-4">
-                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                                            <div className="flex items-center gap-2 text-lg">
-                                                <span className="text-grey-2">Link: </span> 
-                                                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                                                    <GoogleMeetIcon className="w-6 h-6" />
-                                                    Google Meet
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div className="justify-self-center p-4">
-                                            <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                    {index < clientMeetings.length - 1 && (
-                                        <div className="col-span-full h-px bg-zinc-200" />
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
+                                        {index < clientMeetings.length - 1 && (
+                                            <div className="col-span-full h-px bg-zinc-200" />
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
 
-                <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-4 md:p-6">
-                        <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
-                        <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
-                            {leadMeetings.map((meeting, index) => (
-                                <React.Fragment key={meeting.id}>
-                                    <div className="contents">
-                                        <div className="flex items-center gap-4 p-4">
-                                            <div>
-                                                <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
-                                                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                <div>
+                    <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
+                    <Card className="rounded-[50px] bg-white">
+                        <CardContent className="p-4 md:p-6">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                                {leadMeetings.map((meeting, index) => (
+                                    <React.Fragment key={meeting.id}>
+                                        <div className="contents">
+                                            <div className="flex items-center gap-4 p-4">
+                                                <div>
+                                                    <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
+                                                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                                                </div>
+                                            </div>
+                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                            <div className="flex flex-col p-4">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                                                <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                                            </div>
+                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                            <div className="flex flex-col items-start gap-2 p-4">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                                                <div className="flex items-center gap-2 text-lg">
+                                                    <span className="text-grey-2">Link: </span> 
+                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                                                        <GoogleMeetIcon className="w-6 h-6" />
+                                                        Google Meet
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div className="justify-self-center p-4">
+                                                <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                                </Button>
                                             </div>
                                         </div>
-                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                        <div className="flex flex-col p-4">
-                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                                            <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                                        </div>
-                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                        <div className="flex flex-col items-start gap-2 p-4">
-                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                                            <div className="flex items-center gap-2 text-lg">
-                                                <span className="text-grey-2">Link: </span> 
-                                                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                                                    <GoogleMeetIcon className="w-6 h-6" />
-                                                    Google Meet
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div className="justify-self-center p-4">
-                                            <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                    {index < leadMeetings.length - 1 && (
-                                        <div className="col-span-full h-px bg-zinc-200" />
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
+                                        {index < leadMeetings.length - 1 && (
+                                            <div className="col-span-full h-px bg-zinc-200" />
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
 
             {/* Mobile View */}
             <div className="md:hidden space-y-6">
-                <div className="bg-white rounded-[20px] overflow-hidden">
+                <div>
                     <h2 className="text-xl font-medium text-zinc-800 p-4">Client Meetings</h2>
-                    <div>
+                    <div className="bg-white rounded-[20px] overflow-hidden">
                         {clientMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
                         ))}
                     </div>
                 </div>
-                 <div className="bg-white rounded-[20px] overflow-hidden">
+                 <div>
                     <h2 className="text-xl font-medium text-zinc-800 p-4">Lead Meetings</h2>
-                    <div>
+                    <div className="bg-white rounded-[20px] overflow-hidden">
                          {leadMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
                         ))}
