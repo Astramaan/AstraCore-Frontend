@@ -41,15 +41,9 @@ const OrganizationHeader = () => {
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14">
                 <Bell className="h-6 w-6" />
             </Button>
-            <Link href="/organization/employee-management">
-              <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex">
-                  <Users className="mr-2 h-6 w-6"/>
-                  Employee Management
-              </Button>
-            </Link>
             <div className="flex items-center gap-2 flex-1 justify-end">
                 <Avatar className="h-12 w-12 md:h-14 md:w-14">
-                    <AvatarImage src="https://placehold.co/55x55" data-ai-hint="person portrait" />
+                    <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:block">
@@ -70,7 +64,6 @@ const OrganizationBottomNav = () => {
         { href: "/organization/leads", icon: Users, label: "Leads" },
         { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
         { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
-        { href: "/organization/employee-management", icon: UserCog, label: "Employees" },
     ];
 
     const pathname = usePathname();
