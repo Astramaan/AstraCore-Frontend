@@ -101,18 +101,6 @@ export default function VendorsPage() {
                 <h1 className="text-2xl font-semibold">Vendors</h1>
                 <div className="flex items-center gap-4">
                     <AddVendorSheet />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="flex-1 px-8 rounded-full border-stone-300 text-neutral-500 text-base font-normal h-[54px]">
-                                <SlidersHorizontal className="mr-2 h-5 w-5" />
-                                Selection
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem>Select All</DropdownMenuItem>
-                            <DropdownMenuItem>Deselect All</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
             </div>
 
