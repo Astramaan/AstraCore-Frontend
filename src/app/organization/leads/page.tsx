@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from "@/components/ui/dialog";
 
 type Lead = {
@@ -204,7 +205,21 @@ export default function LeadsPage() {
 
     const handleContact = (lead: Lead) => {
         setContactedLead(lead);
-        setIsUpdateLevelDialogOpen(true);
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                setIsUpdateLevelDialogOpen(true);
+                document.removeEventListener('visibilitychange', handleVisibilityChange);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        
+        const link = document.createElement('a');
+        link.href = `tel:${lead.phone}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
 
@@ -272,9 +287,11 @@ export default function LeadsPage() {
             
             <Dialog open={isUpdateLevelDialogOpen} onOpenChange={setIsUpdateLevelDialogOpen}>
                 <DialogContent className="sm:max-w-sm rounded-3xl p-8">
-                     <Button variant="ghost" size="icon" className="absolute top-4 right-4 rounded-full" onClick={() => setIsUpdateLevelDialogOpen(false)}>
-                        <X className="h-4 w-4" />
-                    </Button>
+                    <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="absolute top-4 right-4 rounded-full">
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </DialogClose>
                     <div className="text-center flex flex-col items-center">
                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
                             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
@@ -291,6 +308,3 @@ export default function LeadsPage() {
         </div>
     )
 }
-
-
-      
