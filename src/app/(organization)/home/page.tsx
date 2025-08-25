@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, ArrowRight } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
-import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
 
 
@@ -26,7 +25,7 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between p-4">
+        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between px-4 py-10">
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
