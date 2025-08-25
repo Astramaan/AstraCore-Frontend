@@ -161,10 +161,6 @@ export function AssignTaskSheet() {
                   </div>
                   Assign task
                   <div className="flex items-center gap-4 ml-auto">
-                      <div className="flex items-center gap-2">
-                        <Label htmlFor="task-visibility" className="text-sm font-normal">Task Visibility</Label>
-                        <Switch id="task-visibility" />
-                      </div>
                       <DialogOrSheetClose asChild>
                           <Button variant="ghost" className="rounded-full text-sm font-normal h-auto px-4 py-2 bg-gray-100 hover:bg-gray-200">
                               <X className="h-4 w-4 mr-1"/>
