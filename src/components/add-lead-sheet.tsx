@@ -118,8 +118,8 @@ export function AddLeadSheet() {
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
-                title="New Lead added"
-                message="Congratulations! You have successfully added a new lead."
+                title="New Lead Added"
+                message="You can now follow up and manage this lead in AstraCore."
             />
         </>
     );
