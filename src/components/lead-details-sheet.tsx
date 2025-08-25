@@ -19,7 +19,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
-import { AlertDialogTrigger } from './ui/alert-dialog';
 
 export interface Lead {
     organization: string;
@@ -108,9 +107,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Le
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </DropdownMenuItem>
-                                    <AlertDialogTrigger asChild>
-                                        <DropdownMenuItem className="text-red-600" onClick={() => onDelete(lead.leadId)}>Delete</DropdownMenuItem>
-                                    </AlertDialogTrigger>
+                                    <DropdownMenuItem className="text-red-600" onClick={() => onDelete(lead.leadId)}>Delete</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <DialogClose asChild>

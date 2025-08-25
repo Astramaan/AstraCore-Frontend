@@ -206,6 +206,7 @@ export default function LeadsPage() {
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
     const [contactedLead, setContactedLead] = useState<Lead | null>(null);
     const [isUpdateLevelDialogOpen, setIsUpdateLevelDialogOpen] = useState(false);
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLeadDetails, setSelectedLeadDetails] = useState<Lead | null>(null);
 
@@ -238,14 +239,17 @@ export default function LeadsPage() {
         setAllLeads(prev => prev.filter(lead => !leadToDelete.includes(lead.leadId)));
         setSelectedLeads(prev => prev.filter(id => !leadToDelete.includes(id)));
         setLeadToDelete([]);
+        setIsDeleteConfirmationOpen(false);
     }
 
     const handleSingleDelete = (id: string) => {
         setLeadToDelete([id]);
+        setIsDeleteConfirmationOpen(true);
     }
     
     const handleDeleteMultiple = () => {
         setLeadToDelete(selectedLeads);
+        setIsDeleteConfirmationOpen(true);
     }
 
     const handleContact = (lead: Lead) => {
@@ -286,7 +290,7 @@ export default function LeadsPage() {
                 </div>
             </div>
 
-            <AlertDialog>
+            <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
                  <Card className="rounded-[50px] overflow-hidden">
                     <CardContent className="p-6">
                         <div className="flex flex-col">
@@ -362,7 +366,8 @@ export default function LeadsPage() {
                 lead={selectedLeadDetails}
                 onDelete={(id) => {
                     setSelectedLeadDetails(null);
-                    handleSingleDelete(id);
+                    // A slight delay to allow the sheet to close before opening the dialog
+                    setTimeout(() => handleSingleDelete(id), 100);
                 }}
             />
 
