@@ -109,16 +109,16 @@ const ProjectCard = ({ project }: { project: typeof activeProjects[0] }) => (
 export default function ProjectsPage() {
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-semibold">Projects</h1>
-                <Button className="bg-primary/10 text-primary border border-primary rounded-[10px]">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Project
-                </Button>
-            </div>
-
+             <h1 className="text-2xl font-semibold">Projects</h1>
+            
             <div>
-                <h2 className="text-xl text-black font-medium mb-4">Active Projects</h2>
+                 <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl text-black font-medium">Active Projects</h2>
+                    <Button className="bg-primary/10 text-primary border border-primary rounded-[10px]">
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Add Project
+                    </Button>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {activeProjects.map((project, index) => (
                         <ProjectCard key={index} project={project} />
