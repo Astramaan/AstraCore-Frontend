@@ -98,7 +98,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, clearSelec
     return (
         <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-[828px] h-20 bg-white rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-6 z-50">
             <div className="flex items-center gap-4">
-                <Checkbox id="select-all-floating" checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
+                <Checkbox id="select-all-floating" className="w-6 h-6 rounded-full" checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
                 <label htmlFor="select-all-floating" className="text-lg font-medium">{allSelected ? 'Deselect all' : 'Select all'}</label>
             </div>
             <p className="text-lg font-medium">{selectedCount} Selected</p>
