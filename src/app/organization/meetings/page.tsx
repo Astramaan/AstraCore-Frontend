@@ -19,40 +19,40 @@ const leadMeetings = [
     { name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
-const MeetingListItem = ({ meeting, isLast }: { meeting: typeof clientMeetings[0], isLast?: boolean }) => (
-    <div className={`flex flex-col md:flex-row items-start md:items-center p-4 gap-4 ${!isLast ? 'border-b border-zinc-200' : ''}`}>
-        <div className="flex items-center gap-4 w-full md:w-auto">
-            <Avatar className="w-12 h-12">
-                <AvatarImage src="https://placehold.co/48x48" data-ai-hint="abstract building" />
+const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
+    <div className="flex flex-col md:flex-row items-start md:items-center p-4 gap-4 w-full">
+        <div className="flex items-center gap-4 flex-1">
+            <Avatar className="w-14 h-14 hidden md:flex">
+                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div>
-                <p className="font-semibold text-base text-zinc-900">{meeting.name}</p>
-                <p className="text-sm text-zinc-500">City: {meeting.city}</p>
+            <div className="w-44">
+                <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
+                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
             </div>
         </div>
 
-        <div className="hidden md:block h-12 w-px bg-zinc-200" />
+        <div className="hidden md:block h-14 w-px bg-stone-300/0" />
         
-        <div className="flex-1 flex flex-col md:flex-row justify-between gap-4">
-            <div className="space-y-1">
-                <p className="text-sm text-zinc-500">Contact: <span className="text-zinc-900 font-medium">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-sm text-zinc-500">Client ID: <span className="text-zinc-900 font-medium">{meeting.id}</span></p>
-            </div>
+        <div className="flex flex-col gap-2 flex-1 md:w-96">
+            <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+            <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+        </div>
             
-            <div className="space-y-1 md:text-right">
-                <p className="text-sm text-zinc-500">Date & Time : <span className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center md:justify-end gap-2 text-sm text-zinc-500">
-                    Link: 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                        <GoogleMeetIcon className="w-4 h-4" />
-                        Google Meet
-                    </a>
-                </div>
+        <div className="hidden md:block h-14 w-px bg-stone-300/0" />
+
+        <div className="flex flex-col justify-between items-start md:items-end gap-2 h-full flex-1">
+            <p className="text-lg"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+            <div className="flex items-center gap-2 text-lg">
+                <span className="text-grey-2">Link: </span>
+                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                    <GoogleMeetIcon className="w-6 h-6" />
+                    Google Meet
+                </a>
             </div>
         </div>
 
-        <Button variant="ghost" size="icon" className="w-8 h-8 ml-auto">
+        <Button variant="ghost" size="icon" className="w-8 h-8 md:ml-4">
             <MoreHorizontal className="h-5 w-5 text-zinc-500" />
         </Button>
     </div>
@@ -76,23 +76,23 @@ export default function MeetingsPage() {
                 </div>
             </div>
 
-            <Card className="rounded-[20px]">
+            <Card className="rounded-[20px] bg-white">
                 <CardContent className="p-4">
                     <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
                     <div className="divide-y divide-zinc-200">
-                        {clientMeetings.map((meeting, index) => (
-                            <MeetingListItem key={meeting.id} meeting={meeting} isLast={index === clientMeetings.length - 1}/>
+                        {clientMeetings.map((meeting) => (
+                            <MeetingListItem key={meeting.id} meeting={meeting} />
                         ))}
                     </div>
                 </CardContent>
             </Card>
 
-            <Card className="rounded-[20px]">
+            <Card className="rounded-[20px] bg-white">
                  <CardContent className="p-4">
                     <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
                     <div className="divide-y divide-zinc-200">
-                        {leadMeetings.map((meeting, index) => (
-                            <MeetingListItem key={meeting.id} meeting={meeting} isLast={index === leadMeetings.length - 1} />
+                        {leadMeetings.map((meeting) => (
+                            <MeetingListItem key={meeting.id} meeting={meeting} isLead />
                         ))}
                     </div>
                 </CardContent>
@@ -100,4 +100,3 @@ export default function MeetingsPage() {
         </div>
     );
 }
-
