@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -40,7 +41,7 @@ interface LeadDetailsSheetProps {
     isOpen: boolean;
     onClose: () => void;
     lead: Lead | null;
-    onDelete: (id: string) => void;
+    onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const DetailField = ({ label, value, isEditing, onChange, name }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string }) => (
@@ -56,7 +57,7 @@ const DetailField = ({ label, value, isEditing, onChange, name }: { label: strin
     </div>
 );
 
-const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Lead, onClose: () => void, onDelete: (id: string) => void }) => {
+const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Lead, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [lead, setLead] = useState(initialLead);
 
@@ -107,7 +108,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Le
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onDelete(lead.leadId); }}>Delete</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onDelete(e as any); }}>Delete</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <DialogClose asChild>

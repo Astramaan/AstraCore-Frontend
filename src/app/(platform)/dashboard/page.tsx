@@ -47,7 +47,7 @@ const ActiveCustomers = () => {
             <div className="flex -space-x-4">
                 {[...Array(5)].map((_, i) => (
                     <Avatar key={i} className="border-4 border-white">
-                        <AvatarImage src={`https://placehold.co/50x50.png?text=${i}`} data-ai-hint="person portrait" />
+                        <AvatarImage src={`https://placehold.co/50x50.png`} data-ai-hint="person portrait" />
                         <AvatarFallback>U{i}</AvatarFallback>
                     </Avatar>
                 ))}
@@ -211,7 +211,7 @@ export default function DashboardPage() {
                         {/* Placeholder for list of survey responses */}
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Brick & Bolt</p>
                                     <p className="text-sm text-muted-foreground">Pricing too high</p>
@@ -221,7 +221,7 @@ export default function DashboardPage() {
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Powerplay</p>
                                     <p className="text-sm text-muted-foreground">Missing Features</p>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Harish mane</p>
                                     <p className="text-sm text-muted-foreground">Technical issues</p>

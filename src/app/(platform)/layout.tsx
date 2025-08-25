@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -48,7 +49,7 @@ const PlatformHeader = () => {
                                 <DropdownMenuTrigger asChild>
                                     <div className="flex items-center gap-2 cursor-pointer">
                                         <Avatar className="h-10 w-10">
-                                            <AvatarImage src="https://placehold.co/40x40" alt="Anil Kumar" data-ai-hint="person portrait"/>
+                                            <AvatarImage src="https://placehold.co/40x40.png" alt="Anil Kumar" data-ai-hint="person portrait"/>
                                             <AvatarFallback>AK</AvatarFallback>
                                         </Avatar>
                                         <div className="hidden md:block">

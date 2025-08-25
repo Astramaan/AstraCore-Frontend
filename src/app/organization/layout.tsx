@@ -5,7 +5,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
+import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot, UserCog } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -15,37 +15,41 @@ const OrganizationHeader = () => {
     const pathname = usePathname();
     let pageTitle = '';
 
-    if (pathname === '/organization/home') {
+    if (pathname.startsWith('/organization/home')) {
         pageTitle = 'Home';
-    } else if (pathname === '/organization/meetings') {
+    } else if (pathname.startsWith('/organization/meetings')) {
         pageTitle = 'Meetings';
-    } else if (pathname === '/organization/projects') {
+    } else if (pathname.startsWith('/organization/projects')) {
         pageTitle = 'Projects';
-    } else if (pathname === '/organization/leads') {
+    } else if (pathname.startsWith('/organization/leads')) {
         pageTitle = 'Leads';
-    } else if (pathname === '/organization/vendors') {
+    } else if (pathname.startsWith('/organization/vendors')) {
         pageTitle = 'Vendors';
-    } else if (pathname === '/organization/snag-list') {
+    } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
+    } else if (pathname.startsWith('/organization/employee-management')) {
+        pageTitle = 'Employee Management';
     }
 
     return (
     <header className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
         <div className="flex items-center gap-4 self-start">
             <Logo />
-            {pageTitle && <h1 className="text-2xl font-semibold text-zinc-900 hidden md:block">{pageTitle}</h1>}
+             {pageTitle && <h1 className="text-2xl font-semibold text-zinc-900 hidden md:block">{pageTitle}</h1>}
         </div>
         <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14">
                 <Bell className="h-6 w-6" />
             </Button>
-            <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex">
-                <Users className="mr-2 h-6 w-6"/>
-                Employee Management
-            </Button>
+            <Link href="/organization/employee-management">
+              <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex">
+                  <Users className="mr-2 h-6 w-6"/>
+                  Employee Management
+              </Button>
+            </Link>
             <div className="flex items-center gap-2 flex-1 justify-end">
                 <Avatar className="h-12 w-12 md:h-14 md:w-14">
-                    <AvatarImage src="https://placehold.co/55x55" data-ai-hint="person portrait" />
+                    <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:block">
@@ -66,12 +70,13 @@ const OrganizationBottomNav = () => {
         { href: "/organization/leads", icon: Users, label: "Leads" },
         { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
         { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
+        { href: "/organization/employee-management", icon: UserCog, label: "Employees" },
     ];
 
     const pathname = usePathname();
 
     return (
-        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4">
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4 w-full">
              <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-lg">
                 <div className="flex items-center justify-around gap-1 md:gap-2">
                     {navItems.map((item) => {

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -41,13 +42,13 @@ const leadsData: Lead[] = [
         pincode: "560008",
         tokenAmount: "1,00,000",
         level: "Level 1",
-        profileImage: "https://placehold.co/94x94",
-        coverImage: "https://placehold.co/712x144",
+        profileImage: "https://placehold.co/94x94.png",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: [
-            "https://placehold.co/150x150",
-            "https://placehold.co/150x150",
-            "https://placehold.co/150x150",
-            "https://placehold.co/150x150",
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png",
         ]
     },
     {
@@ -61,10 +62,10 @@ const leadsData: Lead[] = [
         pincode: "560066",
         tokenAmount: "2,50,000",
         level: "Level 2",
-        profileImage: "https://placehold.co/94x94",
-        coverImage: "https://placehold.co/712x144",
+        profileImage: "https://placehold.co/94x94.png",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: [
-            "https://placehold.co/150x150"
+            "https://placehold.co/150x150.png"
         ]
     },
     {
@@ -78,8 +79,8 @@ const leadsData: Lead[] = [
         pincode: "600017",
         tokenAmount: "75,000",
         level: "Level 1",
-        profileImage: "https://placehold.co/94x94",
-        coverImage: "https://placehold.co/712x144",
+        profileImage: "https://placehold.co/94x94.png",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: []
     },
      {
@@ -93,11 +94,11 @@ const leadsData: Lead[] = [
         pincode: "500033",
         tokenAmount: "5,00,000",
         level: "Level 3",
-        profileImage: "https://placehold.co/94x94",
-        coverImage: "https://placehold.co/712x144",
+        profileImage: "https://placehold.co/94x94.png",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: [
-            "https://placehold.co/150x150",
-            "https://placehold.co/150x150"
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png"
         ]
     },
 ];
@@ -293,18 +294,6 @@ export default function LeadsPage() {
         setSelectedLeadDetails(lead);
     }
 
-    const handleDeleteFromDetails = (id: string) => {
-        setLeadToDelete([id]);
-        setIsDeleteConfirmationOpen(true);
-    };
-    
-    const closeDetailsAndConfirmDelete = (e: Event) => {
-        if (selectedLeadDetails) {
-            onDelete(selectedLeadDetails.leadId);
-        }
-        e.preventDefault()
-    };
-    
     const onDeleteFromDetails = (id: string) => {
         setLeadToDelete([id]);
         setIsDeleteConfirmationOpen(true);

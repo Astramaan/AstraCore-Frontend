@@ -15,63 +15,63 @@ const vendors = [
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
     {
         companyName: "Company Name",
         phone: "1234567890",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        image: "https://placehold.co/100x100"
+        image: "https://placehold.co/100x100.png"
     },
 ];
 

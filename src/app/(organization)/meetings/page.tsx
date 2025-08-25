@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -26,7 +27,7 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
         <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
                 <Avatar className="w-14 h-14">
-                    <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                    <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
                     <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
@@ -61,6 +62,20 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
 )
 
 export default function MeetingsPage() {
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filterMeetings = (meetings: typeof clientMeetings) => {
+        if (!searchTerm) return meetings;
+        return meetings.filter(meeting =>
+            meeting.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            meeting.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            meeting.id.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    };
+
+    const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm]);
+    const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm]);
+
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -68,7 +83,12 @@ export default function MeetingsPage() {
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                        <Input placeholder="Search Meetings..." className="pl-9 rounded-full h-11 bg-white" />
+                        <Input 
+                            placeholder="Search Meetings..." 
+                            className="pl-9 rounded-full h-11 bg-white" 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                     <CreateMeetingSheet />
                 </div>
@@ -80,12 +100,12 @@ export default function MeetingsPage() {
                     <CardContent className="p-4 md:p-6">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
                         <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
-                            {clientMeetings.map((meeting, index) => (
+                            {filteredClientMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
                                     <div className="contents">
                                         <div className="flex items-center gap-4 p-4">
                                             <Avatar className="w-14 h-14 shrink-0">
-                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                                                <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
                                                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
                                             </Avatar>
                                             <div>
@@ -116,7 +136,7 @@ export default function MeetingsPage() {
                                             </Button>
                                         </div>
                                     </div>
-                                    {index < clientMeetings.length - 1 && (
+                                    {index < filteredClientMeetings.length - 1 && (
                                         <div className="col-span-7 h-px bg-zinc-200" />
                                     )}
                                 </React.Fragment>
@@ -129,12 +149,12 @@ export default function MeetingsPage() {
                     <CardContent className="p-4 md:p-6">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
                         <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
-                            {leadMeetings.map((meeting, index) => (
+                            {filteredLeadMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
                                     <div className="contents">
                                         <div className="flex items-center gap-4 p-4">
                                             <Avatar className="w-14 h-14 shrink-0">
-                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                                                <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
                                                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
                                             </Avatar>
                                             <div>
@@ -165,7 +185,7 @@ export default function MeetingsPage() {
                                             </Button>
                                         </div>
                                     </div>
-                                    {index < leadMeetings.length - 1 && (
+                                    {index < filteredLeadMeetings.length - 1 && (
                                         <div className="col-span-7 h-px bg-zinc-200" />
                                     )}
                                 </React.Fragment>
@@ -180,7 +200,7 @@ export default function MeetingsPage() {
                 <div className="bg-white rounded-[20px] overflow-hidden">
                     <h2 className="text-xl font-medium text-zinc-800 p-4">Client Meetings</h2>
                     <div>
-                        {clientMeetings.map((meeting) => (
+                        {filteredClientMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
                         ))}
                     </div>
@@ -188,7 +208,7 @@ export default function MeetingsPage() {
                  <div className="bg-white rounded-[20px] overflow-hidden">
                     <h2 className="text-xl font-medium text-zinc-800 p-4">Lead Meetings</h2>
                     <div>
-                         {leadMeetings.map((meeting) => (
+                         {filteredLeadMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
                         ))}
                     </div>
