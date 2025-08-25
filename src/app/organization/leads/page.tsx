@@ -7,8 +7,20 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreVertical, Search, Plus, Phone, ChevronDown, Trash2 } from 'lucide-react';
+import { MoreVertical, Search, Plus, Phone, ChevronDown, Trash2, ShieldAlert } from 'lucide-react';
 import { AddLeadSheet } from '@/components/add-lead-sheet';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 const leads = [
     {
@@ -37,7 +49,7 @@ const leads = [
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected }: { lead: typeof leads[0], onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean }) => (
+const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete }: { lead: typeof leads[0], onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
     <div className="flex flex-col gap-4 py-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
              <div className="flex items-center gap-4 flex-1">
@@ -90,7 +102,9 @@ const LeadCard = ({ lead, onSelectionChange, isSelected }: { lead: typeof leads[
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                        <AlertDialogTrigger asChild>
+                            <DropdownMenuItem className="text-red-600" onClick={() => onSingleDelete(lead.leadId)}>Delete</DropdownMenuItem>
+                        </AlertDialogTrigger>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
@@ -100,11 +114,11 @@ const LeadCard = ({ lead, onSelectionChange, isSelected }: { lead: typeof leads[
 );
 
 
-const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, clearSelection }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, clearSelection: () => void }) => {
+const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMultiple }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void }) => {
     if (selectedCount === 0) return null;
 
     return (
-        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-[828px] h-20 bg-white rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-6 z-50">
+        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[828px] h-20 bg-white rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-6 z-50">
             <div className="flex items-center gap-4">
                 <Checkbox id="select-all-floating" className="w-6 h-6 rounded-full" checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
                 <label htmlFor="select-all-floating" className="text-lg font-medium">{allSelected ? 'Deselect all' : 'Select all'}</label>
@@ -123,17 +137,21 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, clearSelec
                     <DropdownMenuItem>Level 3</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="destructive" className="h-14 px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-lg font-medium">
-                <Trash2 className="mr-2" />
-                Delete
-            </Button>
+             <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="h-14 px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-lg font-medium" onClick={onDeleteMultiple}>
+                    <Trash2 className="mr-2" />
+                    Delete
+                </Button>
+            </AlertDialogTrigger>
         </div>
     )
 }
 
 
 export default function LeadsPage() {
+    const [allLeads, setAllLeads] = useState(leads);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
+    const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
 
     const handleSelectionChange = (id: string, checked: boolean) => {
         setSelectedLeads(prev => 
@@ -141,15 +159,30 @@ export default function LeadsPage() {
         );
     };
 
-    const allLeadsSelected = useMemo(() => selectedLeads.length === leads.length && leads.length > 0, [selectedLeads.length, leads.length]);
+    const allLeadsSelected = useMemo(() => selectedLeads.length === allLeads.length && allLeads.length > 0, [selectedLeads.length, allLeads.length]);
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
-            setSelectedLeads(leads.map(lead => lead.leadId));
+            setSelectedLeads(allLeads.map(lead => lead.leadId));
         } else {
             setSelectedLeads([]);
         }
     };
+    
+    const handleDelete = () => {
+        console.log("Deleting leads:", leadToDelete);
+        setAllLeads(prev => prev.filter(lead => !leadToDelete.includes(lead.leadId)));
+        setSelectedLeads(prev => prev.filter(id => !leadToDelete.includes(id)));
+        setLeadToDelete([]);
+    }
+
+    const handleSingleDelete = (id: string) => {
+        setLeadToDelete([id]);
+    }
+    
+    const handleDeleteMultiple = () => {
+        setLeadToDelete(selectedLeads);
+    }
 
 
     return (
@@ -165,27 +198,48 @@ export default function LeadsPage() {
                 </div>
             </div>
 
-            <Card className="rounded-[50px] overflow-hidden">
-                <CardContent className="p-6">
-                    <div className="flex flex-col">
-                        {leads.map((lead) => (
-                            <LeadCard 
-                                key={lead.leadId} 
-                                lead={lead} 
-                                onSelectionChange={handleSelectionChange}
-                                isSelected={selectedLeads.includes(lead.leadId)}
-                            />
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+            <AlertDialog>
+                 <Card className="rounded-[50px] overflow-hidden">
+                    <CardContent className="p-6">
+                        <div className="flex flex-col">
+                            {allLeads.map((lead) => (
+                                <LeadCard 
+                                    key={lead.leadId} 
+                                    lead={lead} 
+                                    onSelectionChange={handleSelectionChange}
+                                    isSelected={selectedLeads.includes(lead.leadId)}
+                                    onSingleDelete={handleSingleDelete}
+                                />
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
 
-            <FloatingActionBar 
-                selectedCount={selectedLeads.length}
-                onSelectAll={handleSelectAll}
-                allSelected={allLeadsSelected}
-                clearSelection={() => setSelectedLeads([])}
-            />
+                <FloatingActionBar 
+                    selectedCount={selectedLeads.length}
+                    onSelectAll={handleSelectAll}
+                    allSelected={allLeadsSelected}
+                    onDeleteMultiple={handleDeleteMultiple}
+                />
+
+                <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Confirm Lead Deletion?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                        Deleting this lead will permanently remove all associated data from AstraCore. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-muted">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete} className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     )
 }
