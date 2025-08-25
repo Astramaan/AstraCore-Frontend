@@ -32,7 +32,7 @@ const MeetingRow = ({ meeting, isLead = false }: { meeting: typeof clientMeeting
             <span>Meet</span>
         </div>
         <div className="col-span-1 flex justify-end">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="text-stone-300">
                 <MoreHorizontal className="w-5 h-5" />
             </Button>
         </div>
@@ -72,7 +72,7 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
                     <span className="text-black text-base font-normal">Meet</span>
                 </div>
             </div>
-             <div className="absolute top-6 right-6">
+             <div className="absolute top-2 right-2">
                 <Button variant="ghost" size="icon">
                     <MoreHorizontal className="w-5 h-5" />
                 </Button>
@@ -107,14 +107,14 @@ export default function MeetingsPage() {
                     </div>
                     <div>
                         {clientMeetings.map((meeting) => (
-                            <MeetingRow key={meeting.id} meeting={meeting} />
+                            <MeetingRow key={`desktop-${meeting.id}`} meeting={meeting} />
                         ))}
                     </div>
                 </div>
                  {/* Mobile View */}
                 <div className="md:hidden space-y-4">
                     {clientMeetings.map((meeting) => (
-                        <MeetingCard key={meeting.id} meeting={meeting} />
+                        <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
                     ))}
                 </div>
             </div>
@@ -133,14 +133,14 @@ export default function MeetingsPage() {
                     </div>
                     <div>
                         {leadMeetings.map((meeting) => (
-                            <MeetingRow key={meeting.id} meeting={meeting} isLead={true}/>
+                            <MeetingRow key={`desktop-lead-${meeting.id}`} meeting={meeting} isLead={true}/>
                         ))}
                     </div>
                 </div>
                  {/* Mobile View */}
                 <div className="md:hidden space-y-4">
                     {leadMeetings.map((meeting) => (
-                        <MeetingCard key={meeting.id} meeting={meeting} isLead={true}/>
+                        <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead={true}/>
                     ))}
                 </div>
             </div>
