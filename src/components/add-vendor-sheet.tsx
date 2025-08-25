@@ -101,14 +101,35 @@ const ServiceableCityInput = () => {
 
 const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) => void }) => {
     const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
+    
+    // State for controlled inputs
+    const [companyName, setCompanyName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [gstNumber, setGstNumber] = useState('');
+    const [bankName, setBankName] = useState('');
+    const [accountHolder, setAccountHolder] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [confirmAccountNumber, setConfirmAccountNumber] = useState('');
+    const [ifscCode, setIfscCode] = useState('');
 
-    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Input handlers for validation
+    const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
+    };
+
+    const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>, maxLength?: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\D/g, '');
-        if (value.length <= 10) {
-            setPhoneNumber(value);
+        if (maxLength) {
+            setter(value.slice(0, maxLength));
+        } else {
+            setter(value);
         }
     };
+    
+    const handleAlphanumericChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
+    };
+
 
     const handleDayToggle = (day: string) => {
         setSelectedDays(prev => 
@@ -118,8 +139,6 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const companyName = formData.get('company-name') as string;
         onVendorAdded(companyName || 'New Vendor');
     };
 
@@ -135,7 +154,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                                 <Input id="logo-upload" type="file" className="hidden" />
                             </label>
                             <div className="space-y-4 flex-1">
-                                <FormField id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" />
+                                <FormField id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
                             </div>
                         </div>
                          <div className="relative flex flex-col justify-start items-start gap-2">
@@ -146,8 +165,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                                 type="tel" 
                                 placeholder="Enter phone number" 
                                 value={phoneNumber}
-                                onChange={handlePhoneChange}
-                                maxLength={10}
+                                onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
                                 className="w-full h-[54px] bg-input rounded-full px-6 text-lg" />
                          </div>
                          <FormField id="email" label="Email*" type="email" placeholder="Enter email" />
@@ -157,7 +175,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                         </div>
                         <FileUploadField id="cin-cert" label="CIN Certificate" />
                         <FileUploadField id="gst-cert" label="GST Certificate" />
-                        <FormField id="gst-number" label="GST Number*" placeholder="Enter GST number" />
+                        <FormField id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
                         <FileUploadField id="brochure" label="Product Brochure" />
 
                         <ServiceableCityInput />
@@ -175,11 +193,11 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                     <div className="space-y-6">
                         <div className="rounded-3xl border border-stone-300 p-4 space-y-6">
                             <h3 className="text-lg font-medium">Account details</h3>
-                            <FormField id="bank-name" label="Bank Name*" placeholder="Enter bank name"/>
-                            <FormField id="account-holder" label="Account Holder Name*" placeholder="Enter name"/>
-                            <FormField id="account-number" label="Account Number*" placeholder="Enter account number"/>
-                            <FormField id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number"/>
-                            <FormField id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code"/>
+                            <FormField id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
+                            <FormField id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
+                            <FormField id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
+                            <FormField id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
+                            <FormField id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
                             <FormField id="upi-id" label="UPI ID" placeholder="Enter UPI ID"/>
                         </div>
                     </div>
@@ -197,6 +215,18 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
 
 
 const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
+    const [productName, setProductName] = useState('');
+    const [price, setPrice] = useState('');
+
+    const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
+    };
+
+    const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value.replace(/\D/g, ''));
+    };
+
+
     return (
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -209,8 +239,8 @@ const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
                     </div>
                 </div>
                 <div className="space-y-6">
-                    <FormField id="product-name" label="Product Name*" placeholder="Enter product name" />
-                    <FormField id="price" label="Price" placeholder="Enter price" />
+                    <FormField id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
+                    <FormField id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
                         <Textarea id="description" className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
@@ -321,3 +351,5 @@ export function AddVendorSheet() {
         </>
     );
 }
+
+    
