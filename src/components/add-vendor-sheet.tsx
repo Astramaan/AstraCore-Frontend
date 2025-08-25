@@ -101,6 +101,14 @@ const ServiceableCityInput = () => {
 
 const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) => void }) => {
     const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\D/g, '');
+        if (value.length <= 10) {
+            setPhoneNumber(value);
+        }
+    };
 
     const handleDayToggle = (day: string) => {
         setSelectedDays(prev => 
@@ -130,7 +138,18 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                                 <FormField id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" />
                             </div>
                         </div>
-                         <FormField id="phone" label="Phone Number*" type="tel" placeholder="Enter phone number" />
+                         <div className="relative flex flex-col justify-start items-start gap-2">
+                             <Label htmlFor="phone" className="text-zinc-900 text-lg font-medium px-2">Phone Number*</Label>
+                             <Input 
+                                id="phone" 
+                                name="phone"
+                                type="tel" 
+                                placeholder="Enter phone number" 
+                                value={phoneNumber}
+                                onChange={handlePhoneChange}
+                                maxLength={10}
+                                className="w-full h-[54px] bg-input rounded-full px-6 text-lg" />
+                         </div>
                          <FormField id="email" label="Email*" type="email" placeholder="Enter email" />
                          <div className="space-y-2">
                             <Label htmlFor="address" className="text-zinc-900 text-lg font-medium px-2">Address*</Label>
@@ -302,5 +321,3 @@ export function AddVendorSheet() {
         </>
     );
 }
-
-    
