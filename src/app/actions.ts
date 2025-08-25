@@ -115,3 +115,19 @@ export async function createPassword(
     return { error: 'Failed to create new password.' };
   }
 }
+
+
+export async function addEmployee(
+  prevState: any,
+  formData: FormData
+) {
+    try {
+        const name = formData.get('employee-name');
+        const email = formData.get('employee-email');
+        console.log(`Adding employee: ${name} (${email})`);
+        // In a real app, you would save this to a database.
+        return { success: true, message: 'Employee added successfully!' };
+    } catch (error) {
+        return { success: false, message: 'Failed to add employee.' };
+    }
+}
