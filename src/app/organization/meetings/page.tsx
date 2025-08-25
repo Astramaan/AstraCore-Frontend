@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -28,10 +27,6 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
     <div className="bg-white p-4 border-b border-stone-200 last:border-b-0">
         <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
-                <Avatar className="w-14 h-14">
-                    <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                </Avatar>
                 <div>
                     <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
                     <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -143,15 +138,11 @@ export default function MeetingsPage() {
                 <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-4 md:p-6">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
-                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                        <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
                             {clientMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
                                     <div className="contents">
                                         <div className="flex items-center gap-4 p-4">
-                                            <Avatar className="w-14 h-14 shrink-0">
-                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                                                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                            </Avatar>
                                             <div>
                                                 <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                 <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -181,7 +172,7 @@ export default function MeetingsPage() {
                                         </div>
                                     </div>
                                     {index < clientMeetings.length - 1 && (
-                                        <div className="col-span-7 h-px bg-zinc-200" />
+                                        <div className="col-span-full h-px bg-zinc-200" />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -192,15 +183,11 @@ export default function MeetingsPage() {
                 <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-4 md:p-6">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
-                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                        <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
                             {leadMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
                                     <div className="contents">
                                         <div className="flex items-center gap-4 p-4">
-                                            <Avatar className="w-14 h-14 shrink-0">
-                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                                                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                            </Avatar>
                                             <div>
                                                 <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                 <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -230,7 +217,7 @@ export default function MeetingsPage() {
                                         </div>
                                     </div>
                                     {index < leadMeetings.length - 1 && (
-                                        <div className="col-span-7 h-px bg-zinc-200" />
+                                        <div className="col-span-full h-px bg-zinc-200" />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -261,3 +248,5 @@ export default function MeetingsPage() {
         </div>
     );
 }
+
+    
