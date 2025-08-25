@@ -78,7 +78,7 @@ const ServiceableCityInput = () => {
     return (
         <div className="space-y-2">
             <Label className="text-zinc-900 text-lg font-medium px-2">Serviceable City</Label>
-            <div className="bg-input rounded-[27px] p-2 flex flex-wrap gap-2 min-h-[54px]">
+            <div className="bg-input rounded-full p-2 flex flex-wrap gap-2 min-h-[54px] items-center">
                 {cities.map(city => (
                     <div key={city} className="flex items-center gap-1 bg-white rounded-full px-3 py-1 text-sm">
                         {city}
@@ -91,8 +91,8 @@ const ServiceableCityInput = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={cities.length === 0 ? "Add cities..." : ""}
-                    className="flex-1 bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 h-8 text-sm"
+                    placeholder={cities.length === 0 ? "Add cities and press Enter..." : ""}
+                    className="flex-1 bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 h-8 text-sm p-0 m-0"
                 />
             </div>
         </div>
@@ -188,10 +188,6 @@ const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
                     <div className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center">
                          <Upload className="w-8 h-8 text-zinc-400" />
                     </div>
-                    <Button>
-                        <Plus className="mr-2" />
-                        Add
-                    </Button>
                 </div>
                 <div className="space-y-6">
                     <FormField id="product-name" label="Product Name*" placeholder="Enter product name" />
@@ -200,6 +196,10 @@ const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
                         <Textarea id="description" className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
                     </div>
+                    <Button>
+                        <Plus className="mr-2" />
+                        Add
+                    </Button>
                 </div>
             </div>
             <div className="border-t pt-6 mt-6">
@@ -303,3 +303,4 @@ export function AddVendorSheet() {
     );
 }
 
+    
