@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreVertical, Search, Plus, Phone, ChevronDown, Trash2, ShieldAlert } from 'lucide-react';
+import { MoreVertical, Search, Plus, Phone, ChevronDown, Trash2, ShieldAlert, RefreshCw, X } from 'lucide-react';
 import { AddLeadSheet } from '@/components/add-lead-sheet';
 import {
   AlertDialog,
@@ -19,37 +19,54 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
+type Lead = {
+    organization: string;
+    leadId: string;
+    fullName: string;
+    contact: string;
+    phone: string;
+};
 
-const leads = [
+const leadsData: Lead[] = [
     {
         organization: "Golden Ventures",
         leadId: "GOLDMYS7890",
         fullName: "Balaji Naik",
         contact: "Employee@abc.com | +91 1234567890",
+        phone: "9380032186"
     },
     {
         organization: "Silver Innovations",
         leadId: "SILVERBLR123",
         fullName: "Anil Kumar",
         contact: "anil.k@silver.io | +91 9876543210",
+        phone: "9876543210"
     },
     {
         organization: "Bronze Builders",
         leadId: "BRONZECHE456",
         fullName: "Sunita Reddy",
         contact: "s.reddy@bronze.dev | +91 8765432109",
+        phone: "8765432109"
     },
      {
         organization: "Platinum Partners",
         leadId: "PLATINUMHYD789",
         fullName: "Rajesh Singh",
         contact: "raj.singh@platinum.co | +91 7654321098",
+        phone: "7654321098"
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete }: { lead: typeof leads[0], onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
+const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void }) => (
     <div className="flex flex-col gap-4 py-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
              <div className="flex items-center gap-4 flex-1">
@@ -89,7 +106,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete }: { lea
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium w-full md:w-auto">
+                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
                     <Phone className="mr-2"/>
                     Contact
                 </Button>
@@ -149,9 +166,11 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 
 
 export default function LeadsPage() {
-    const [allLeads, setAllLeads] = useState(leads);
+    const [allLeads, setAllLeads] = useState(leadsData);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
+    const [contactedLead, setContactedLead] = useState<Lead | null>(null);
+    const [isUpdateLevelDialogOpen, setIsUpdateLevelDialogOpen] = useState(false);
 
     const handleSelectionChange = (id: string, checked: boolean) => {
         setSelectedLeads(prev => 
@@ -170,7 +189,6 @@ export default function LeadsPage() {
     };
     
     const handleDelete = () => {
-        console.log("Deleting leads:", leadToDelete);
         setAllLeads(prev => prev.filter(lead => !leadToDelete.includes(lead.leadId)));
         setSelectedLeads(prev => prev.filter(id => !leadToDelete.includes(id)));
         setLeadToDelete([]);
@@ -183,6 +201,11 @@ export default function LeadsPage() {
     const handleDeleteMultiple = () => {
         setLeadToDelete(selectedLeads);
     }
+
+    const handleContact = (lead: Lead) => {
+        setContactedLead(lead);
+        setIsUpdateLevelDialogOpen(true);
+    };
 
 
     return (
@@ -209,6 +232,7 @@ export default function LeadsPage() {
                                     onSelectionChange={handleSelectionChange}
                                     isSelected={selectedLeads.includes(lead.leadId)}
                                     onSingleDelete={handleSingleDelete}
+                                    onContact={handleContact}
                                 />
                             ))}
                         </div>
@@ -245,6 +269,28 @@ export default function LeadsPage() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+            
+            <Dialog open={isUpdateLevelDialogOpen} onOpenChange={setIsUpdateLevelDialogOpen}>
+                <DialogContent className="sm:max-w-sm rounded-3xl p-8">
+                     <Button variant="ghost" size="icon" className="absolute top-4 right-4 rounded-full" onClick={() => setIsUpdateLevelDialogOpen(false)}>
+                        <X className="h-4 w-4" />
+                    </Button>
+                    <div className="text-center flex flex-col items-center">
+                        <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                <RefreshCw className="w-8 h-8 text-primary" />
+                            </div>
+                        </div>
+                        <DialogTitle className="text-lg font-semibold">Update the leads level</DialogTitle>
+                        <p className="text-base text-zinc-900">{contactedLead?.fullName}, {contactedLead?.phone}</p>
+                        <p className="text-sm text-muted-foreground mt-2">For the better leads management</p>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
         </div>
     )
 }
+
+
+      
