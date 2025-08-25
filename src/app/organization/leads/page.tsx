@@ -82,9 +82,17 @@ const LeadCard = ({ lead, onSelectionChange, isSelected }: { lead: typeof leads[
                     Contact
                 </Button>
                 
-                <Button variant="ghost" size="icon">
-                    <MoreVertical className="w-6 h-6" />
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
         <div className="h-px bg-stone-200" />
