@@ -1,13 +1,13 @@
 
 'use client';
 
+import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
 import { MoreHorizontal, PlusCircle, Search } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 const clientMeetings = [
     { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -85,7 +85,7 @@ export default function MeetingsPage() {
                             {clientMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
                                     <div className="contents">
-                                        <div className="grid grid-cols-[auto_1fr_auto_1fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
+                                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
                                             <Avatar className="w-14 h-14">
                                                 <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                                                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
@@ -124,7 +124,7 @@ export default function MeetingsPage() {
                                         </div>
                                     </div>
                                     {index < clientMeetings.length - 1 && (
-                                        <div className="col-span-2 h-px bg-zinc-200 mx-4" />
+                                        <div className="col-span-full h-px bg-zinc-200 mx-4" />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -139,7 +139,7 @@ export default function MeetingsPage() {
                             {leadMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
                                     <div className="contents">
-                                        <div className="grid grid-cols-[auto_1fr_auto_1fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
+                                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
                                             <Avatar className="w-14 h-14">
                                                 <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                                                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
@@ -178,7 +178,7 @@ export default function MeetingsPage() {
                                         </div>
                                     </div>
                                     {index < leadMeetings.length - 1 && (
-                                        <div className="col-span-2 h-px bg-zinc-200 mx-4" />
+                                        <div className="col-span-full h-px bg-zinc-200 mx-4" />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -213,5 +213,3 @@ export default function MeetingsPage() {
         </div>
     );
 }
-
-    
