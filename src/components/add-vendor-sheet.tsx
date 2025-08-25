@@ -65,7 +65,7 @@ export function AddVendorSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                    <Button variant="outline" className="flex-1 px-6 py-2.5 bg-primary/10 rounded-[10px] border border-primary text-primary text-base font-normal">
+                    <Button variant="outline" className="flex-1 px-6 bg-primary/10 rounded-full border border-primary text-primary text-base font-normal h-[54px]">
                         <Plus className="mr-2 h-4 w-4" />
                         Add Vendor
                     </Button>

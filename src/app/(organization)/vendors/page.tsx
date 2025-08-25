@@ -103,7 +103,7 @@ export default function VendorsPage() {
                     <AddVendorSheet />
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="flex-1 px-8 py-2.5 rounded-[10px] border-stone-300 text-neutral-500 text-base font-normal">
+                            <Button variant="outline" className="flex-1 px-8 rounded-full border-stone-300 text-neutral-500 text-base font-normal h-[54px]">
                                 <SlidersHorizontal className="mr-2 h-5 w-5" />
                                 Selection
                             </Button>
