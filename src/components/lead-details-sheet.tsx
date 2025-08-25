@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -10,12 +10,14 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, MoreVertical } from "lucide-react";
+import { X, MoreVertical, Save, Edit } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import Image from 'next/image';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { Input } from './ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 export interface Lead {
     organization: string;
@@ -39,74 +41,152 @@ interface LeadDetailsSheetProps {
     lead: Lead | null;
 }
 
-const DetailField = ({ label, value }: { label: string, value: string }) => (
-    <div className="relative rounded-[10px] border border-stone-300 h-12 flex items-center px-4">
-        <div className="absolute -top-2.5 left-2 px-1 bg-white">
-            <p className="text-stone-400 text-sm leading-none">{label}</p>
-        </div>
-        <p className="text-black text-base leading-tight">{value}</p>
+const DetailField = ({ label, value, isEditing, onChange, name }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string }) => (
+    <div className="relative">
+        <Label htmlFor={name} className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm">{label}</Label>
+        {isEditing ? (
+            <Input id={name} name={name} value={value} onChange={onChange} className="h-12" />
+        ) : (
+             <div className="h-12 flex items-center px-4">
+                <p className="text-black text-base leading-tight">{value}</p>
+            </div>
+        )}
     </div>
-)
+);
 
-const LeadDetailsContent = ({ lead }: { lead: Lead }) => {
+const LeadDetailsContent = ({ lead: initialLead, onClose }: { lead: Lead, onClose: () => void }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [lead, setLead] = useState(initialLead);
+
+    useEffect(() => {
+        setLead(initialLead);
+    }, [initialLead]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setLead(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSelectChange = (value: string) => {
+        setLead(prev => ({ ...prev, level: value }));
+    };
+    
+    const handleSave = () => {
+        // Here you would typically call an action to save the data
+        console.log("Saving lead:", lead);
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setLead(initialLead);
+        setIsEditing(false);
+    }
+
     return (
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-80px)]">
-            <div className="relative h-36 rounded-[10px] overflow-hidden">
-                <Image src={lead.coverImage} layout="fill" objectFit="cover" alt="Cover Image" data-ai-hint="abstract background"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            </div>
+        <>
+            <DialogHeader className="p-4 border-b">
+                <DialogTitle className="flex items-center font-medium">
+                    {isEditing ? 'Edit Lead Details' : 'Lead Details'}
+                    {isEditing ? (
+                        <div className="ml-auto flex items-center gap-2">
+                             <Button variant="ghost" onClick={handleCancel}>Cancel</Button>
+                             <Button onClick={handleSave}><Save className="mr-2 h-4 w-4" /> Save</Button>
+                        </div>
+                    ) : (
+                        <div className="ml-auto flex items-center gap-2">
+                             <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                        <MoreVertical />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => setIsEditing(true)}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <DialogClose asChild>
+                                <Button variant="ghost" size="icon" className="rounded-full">
+                                    <X className="h-5 w-5" />
+                                </Button>
+                            </DialogClose>
+                        </div>
+                    )}
+                </DialogTitle>
+            </DialogHeader>
 
-            <div className="relative -mt-16 ml-4">
-                <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
-            </div>
-            
-            <div className="flex justify-between items-start">
-                <div>
-                     <h3 className="text-2xl font-semibold">{lead.fullName}</h3>
-                     <p className="text-muted-foreground">{lead.leadId}</p>
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+                <div className="relative h-36 rounded-[10px] overflow-hidden">
+                    <Image src={lead.coverImage} layout="fill" objectFit="cover" alt="Cover Image" data-ai-hint="abstract background"/>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-            
 
-            <div className="space-y-6">
-                <h4 className="text-lg font-medium">Personal Information</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <DetailField label="Name" value={lead.fullName} />
-                    <DetailField label="Lead ID" value={lead.leadId} />
-                    <DetailField label="Phone Number" value={lead.phone} />
-                    <DetailField label="Email" value={lead.email} />
-                    <div className="md:col-span-2">
-                        <DetailField label="Current address" value={lead.address} />
+                <div className="relative -mt-16 ml-4">
+                    <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
+                </div>
+                
+                <div className="flex justify-between items-start -mt-4">
+                    <div>
+                         <h3 className="text-2xl font-semibold">{lead.fullName}</h3>
+                         <p className="text-muted-foreground">{lead.leadId}</p>
                     </div>
-                     <DetailField label="Site location Pin code" value={lead.pincode} />
-                     <DetailField label="Lead Level" value={lead.level} />
-                     <DetailField label="Tentative Total amount" value={`₹ ${lead.tokenAmount}`} />
-                     <div className="md:col-span-2">
-                        <Button className="w-full h-12 bg-primary/10 text-primary border border-primary hover:bg-primary/20">Request 1% Token</Button>
-                     </div>
+                </div>
+                
+                <div className="space-y-6">
+                    <h4 className="text-lg font-medium">Personal Information</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <DetailField label="Name" name="fullName" value={lead.fullName} isEditing={isEditing} onChange={handleInputChange} />
+                        <div className="relative rounded-[10px] border border-stone-300 h-12 flex items-center px-4">
+                             <Label className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm">Lead ID</Label>
+                             <p className="text-black text-base leading-tight">{lead.leadId}</p>
+                        </div>
+                        <DetailField label="Phone Number" name="phone" value={lead.phone} isEditing={isEditing} onChange={handleInputChange} />
+                        <DetailField label="Email" name="email" value={lead.email} isEditing={isEditing} onChange={handleInputChange} />
+                        <div className="md:col-span-2">
+                             <DetailField label="Current address" name="address" value={lead.address} isEditing={isEditing} onChange={handleInputChange} />
+                        </div>
+                         <DetailField label="Site location Pin code" name="pincode" value={lead.pincode} isEditing={isEditing} onChange={handleInputChange} />
+                         
+                         <div className="relative">
+                            <Label htmlFor="level" className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm z-10">Lead Level</Label>
+                            {isEditing ? (
+                                <Select name="level" value={lead.level} onValueChange={handleSelectChange}>
+                                    <SelectTrigger id="level" className="h-12">
+                                        <SelectValue placeholder="Select Level" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Level 1">Level 1</SelectItem>
+                                        <SelectItem value="Level 2">Level 2</SelectItem>
+                                        <SelectItem value="Level 3">Level 3</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            ) : (
+                                <div className="h-12 flex items-center px-4 border border-stone-300 rounded-[10px]">
+                                    <p className="text-black text-base leading-tight">{lead.level}</p>
+                                </div>
+                            )}
+                        </div>
+
+                         <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} />
+                         <div className="md:col-span-2">
+                            <Button className="w-full h-12 bg-primary/10 text-primary border border-primary hover:bg-primary/20">Request 1% Token</Button>
+                         </div>
+                    </div>
+                </div>
+                
+                <div className="space-y-4">
+                    <h4 className="text-lg font-medium">Site Images</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {lead.siteImages.map((img, index) => (
+                            <Image key={index} src={img} width={150} height={150} alt={`Site image ${index+1}`} className="rounded-[10px] aspect-square object-cover" data-ai-hint="construction site photo" />
+                        ))}
+                    </div>
                 </div>
             </div>
-            
-            <div className="space-y-4">
-                <h4 className="text-lg font-medium">Site Images</h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {lead.siteImages.map((img, index) => (
-                        <Image key={index} src={img} width={150} height={150} alt={`Site image ${index+1}`} className="rounded-[10px] aspect-square object-cover" data-ai-hint="construction site photo" />
-                    ))}
-                </div>
-            </div>
-        </div>
+        </>
     );
 };
 
@@ -118,9 +198,6 @@ export function LeadDetailsSheet({ isOpen, onClose, lead }: LeadDetailsSheetProp
 
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
 
   return (
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
@@ -132,21 +209,16 @@ export function LeadDetailsSheet({ isOpen, onClose, lead }: LeadDetailsSheetProp
               : "md:max-w-xl lg:max-w-2xl"
           )}
           {...(isMobile ? { side: "bottom" } : { side: "right" })}
+          onInteractOutside={(e) => {
+              // Prevent closing when clicking on dropdown menus inside
+              if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
+                  e.preventDefault();
+              }
+          }}
       >
-          <DialogOrSheetHeader className="p-4 border-b">
-              <DialogOrSheetTitle className="flex items-center font-medium">
-                  Lead Details
-                  <DialogOrSheetClose asChild>
-                    <Button variant="ghost" size="icon" className="ml-auto rounded-full">
-                        <X className="h-5 w-5" />
-                    </Button>
-                  </DialogOrSheetClose>
-              </DialogOrSheetTitle>
-          </DialogOrSheetHeader>
-          <LeadDetailsContent lead={lead} />
+          <LeadDetailsContent lead={lead} onClose={onClose} />
       </DialogOrSheetContent>
     </DialogOrSheet>
   );
 }
-
 
