@@ -98,19 +98,19 @@ export function AddLeadSheet() {
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
-                        <DialogOrSheetTitle className="flex items-center justify-between text-2xl font-semibold">
-                            <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-between text-2xl font-semibold">
+                            <DialogOrSheetTitle className="flex items-center gap-2">
                                 <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1">
                                     <Plus className="h-6 w-6"/>
                                 </div>
                                 Add New Lead
-                            </div>
+                            </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
                                 <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-[50px]">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </DialogOrSheetClose>
-                        </DialogOrSheetTitle>
+                        </div>
                     </DialogOrSheetHeader>
                     <AddLeadForm onFormSuccess={handleSuccess} />
                 </DialogOrSheetContent>

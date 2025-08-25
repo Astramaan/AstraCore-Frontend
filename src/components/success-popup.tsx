@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { Dialog, DialogContent } from './ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Check, X } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -19,6 +19,9 @@ export function SuccessPopup({ isOpen, onClose, title, message }: SuccessPopupPr
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-md rounded-3xl p-8">
+                 <DialogHeader>
+                    <DialogTitle className="sr-only">{title}</DialogTitle>
+                </DialogHeader>
                 <div className="text-center flex flex-col items-center">
                     <div className="relative mb-6 flex items-center justify-center">
                       <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
