@@ -78,7 +78,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                 />
                 <div className="flex flex-col gap-2">
-                    <p className="text-lg"><span className="text-grey-1">Organization: </span><span className="text-black font-medium">{lead.organization}</span></p>
+                    <p className="text-lg"><span className="text-grey-1">Full Name: </span><span className="text-black font-medium">{lead.fullName}</span></p>
                     <p className="text-lg"><span className="text-grey-1">Lead ID: </span><span className="text-black font-medium">{lead.leadId}</span></p>
                 </div>
             </div>
@@ -86,7 +86,6 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
             <div className="flex flex-col gap-2 flex-1">
-                <p className="text-lg"><span className="text-grey-1">Full Name: </span><span className="text-black font-medium">{lead.fullName}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{lead.contact}</span></p>
             </div>
             
