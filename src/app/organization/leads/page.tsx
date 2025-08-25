@@ -102,7 +102,7 @@ const leadsData: Lead[] = [
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void }) => (
+const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void }) => (
     <div className="flex flex-col gap-4 py-4 cursor-pointer" onClick={() => onViewDetails(lead)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
              <div className="flex items-center gap-4 flex-1"  onClick={(e) => e.stopPropagation()}>
@@ -130,14 +130,14 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-full md:w-48 justify-between">
-                            Lead Level
+                            {lead.level}
                             <ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem>Level 1</DropdownMenuItem>
-                        <DropdownMenuItem>Level 2</DropdownMenuItem>
-                        <DropdownMenuItem>Level 3</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 1')}>Level 1</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 2')}>Level 2</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -166,7 +166,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
 );
 
 
-const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMultiple }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void }) => {
+const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMultiple, onBulkLevelChange }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void, onBulkLevelChange: (level: string) => void }) => {
     if (selectedCount === 0) return null;
 
     return (
@@ -184,9 +184,9 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem>Level 1</DropdownMenuItem>
-                    <DropdownMenuItem>Level 2</DropdownMenuItem>
-                    <DropdownMenuItem>Level 3</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 1')}>Level 1</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 2')}>Level 2</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 3')}>Level 3</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
              <AlertDialogTrigger asChild>
@@ -213,7 +213,6 @@ export default function LeadsPage() {
     const filteredLeads = useMemo(() => {
         if (!searchTerm) return allLeads;
         return allLeads.filter(lead =>
-            lead.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
             lead.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             lead.leadId.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -240,7 +239,9 @@ export default function LeadsPage() {
         setSelectedLeads(prev => prev.filter(id => !leadToDelete.includes(id)));
         setLeadToDelete([]);
         setIsDeleteConfirmationOpen(false);
-        setSelectedLeadDetails(null);
+        if (selectedLeadDetails && leadToDelete.includes(selectedLeadDetails.leadId)) {
+            setSelectedLeadDetails(null);
+        }
     }
 
     const handleSingleDelete = (id: string) => {
@@ -270,6 +271,43 @@ export default function LeadsPage() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    };
+
+    const handleLevelChange = (leadId: string, level: string) => {
+        setAllLeads(prevLeads =>
+            prevLeads.map(lead =>
+                lead.leadId === leadId ? { ...lead, level } : lead
+            )
+        );
+    };
+
+    const handleBulkLevelChange = (level: string) => {
+        setAllLeads(prevLeads =>
+            prevLeads.map(lead =>
+                selectedLeads.includes(lead.leadId) ? { ...lead, level } : lead
+            )
+        );
+    };
+
+    const handleViewDetails = (lead: Lead) => {
+        setSelectedLeadDetails(lead);
+    }
+
+    const handleDeleteFromDetails = (id: string) => {
+        setLeadToDelete([id]);
+        setIsDeleteConfirmationOpen(true);
+    };
+    
+    const closeDetailsAndConfirmDelete = (e: Event) => {
+        if (selectedLeadDetails) {
+            onDelete(selectedLeadDetails.leadId);
+        }
+        e.preventDefault()
+    };
+    
+    const onDeleteFromDetails = (id: string) => {
+        setLeadToDelete([id]);
+        setIsDeleteConfirmationOpen(true);
     };
 
 
@@ -303,7 +341,8 @@ export default function LeadsPage() {
                                     isSelected={selectedLeads.includes(lead.leadId)}
                                     onSingleDelete={handleSingleDelete}
                                     onContact={handleContact}
-                                    onViewDetails={setSelectedLeadDetails}
+                                    onViewDetails={handleViewDetails}
+                                    onLevelChange={handleLevelChange}
                                 />
                             ))}
                         </div>
@@ -315,6 +354,7 @@ export default function LeadsPage() {
                     onSelectAll={handleSelectAll}
                     allSelected={allLeadsSelected}
                     onDeleteMultiple={handleDeleteMultiple}
+                    onBulkLevelChange={handleBulkLevelChange}
                 />
 
                 <AlertDialogContent className="max-w-md rounded-[50px]">
@@ -365,11 +405,15 @@ export default function LeadsPage() {
                 isOpen={!!selectedLeadDetails}
                 onClose={() => setSelectedLeadDetails(null)}
                 lead={selectedLeadDetails}
-                onDelete={(id) => {
-                    handleSingleDelete(id);
-                }}
+                onDelete={(e) => {
+                    e.preventDefault();
+                    if(selectedLeadDetails) {
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
+                    }
+                  }}
             />
 
         </div>
     )
-}
+
+    
