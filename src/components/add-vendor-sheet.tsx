@@ -186,6 +186,11 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                                 {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
                             </div>
                         </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField id="available-time-from" label="Available Time From" type="time" />
+                            <FormField id="available-time-to" label="Available Time To" type="time" />
+                        </div>
                         
                     </div>
 
@@ -245,7 +250,7 @@ const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
                         <Textarea id="description" className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
                     </div>
-                    <Button>
+                     <Button>
                         <Plus className="mr-2" />
                         Add
                     </Button>
@@ -351,5 +356,3 @@ export function AddVendorSheet() {
         </>
     );
 }
-
-    
