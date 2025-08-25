@@ -3,7 +3,6 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical } from "lucide-react";
@@ -17,7 +16,7 @@ const activeProjects = [
         contact: "admin@abc.com | +91 1234567890",
         startDate: "21st Sept 2024",
         status: "On Going",
-        statusColor: "text-green-400",
+        statusColor: "text-green-600",
         image: "https://placehold.co/59x59"
     },
     {
@@ -37,7 +36,7 @@ const activeProjects = [
         contact: "admin@abc.com | +91 1234567890",
         startDate: "21st Sept 2024",
         status: "On Going",
-        statusColor: "text-green-400",
+        statusColor: "text-green-600",
         image: "https://placehold.co/59x59"
     },
 ];
@@ -82,7 +81,7 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
                 <MoreVertical className="w-6 h-6" />
             </Button>
         </div>
-        {!isLast && <div className="h-px bg-stone-300/0" />}
+        {!isLast && <div className="h-px bg-stone-300" />}
     </div>
 );
 
