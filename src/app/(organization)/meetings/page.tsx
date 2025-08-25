@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -8,10 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
-import { MoreVertical, PlusCircle, Search, ChevronDown, Calendar as CalendarIcon, Clock } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
+import { MoreVertical, Search } from "lucide-react";
+import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
 
 const clientMeetings = [
     { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -73,68 +70,7 @@ export default function MeetingsPage() {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                         <Input placeholder="Search Meetings..." className="pl-9 rounded-full h-11 bg-white" />
                     </div>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button className="rounded-full h-11 px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary">
-                                <PlusCircle className="mr-2 h-5 w-5" />
-                                Create
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-md md:max-w-lg rounded-[20px]">
-                            <DialogHeader>
-                                <DialogTitle className="text-xl text-center">Create New Meetings</DialogTitle>
-                            </DialogHeader>
-                            <div className="grid gap-8 pt-4">
-                                <div className="grid grid-cols-2 gap-6">
-                                     <div className="relative">
-                                        <Label htmlFor="select-type" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Select</Label>
-                                        <Select>
-                                            <SelectTrigger id="select-type" className="h-12">
-                                                <SelectValue placeholder="Client / Lead" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="client">Client</SelectItem>
-                                                <SelectItem value="lead">Lead</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                    <div className="relative">
-                                        <Label htmlFor="add-members" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Add</Label>
-                                        <Select>
-                                            <SelectTrigger id="add-members" className="h-12">
-                                                <SelectValue placeholder="Team Members" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="member1">Member 1</SelectItem>
-                                                <SelectItem value="member2">Member 2</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                </div>
-                                <div className="relative">
-                                    <Label htmlFor="meeting-link" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Meetings Link</Label>
-                                    <Input id="meeting-link" placeholder="Paste Meetings link here" className="h-12" />
-                                </div>
-                                 <div className="grid grid-cols-2 gap-6">
-                                    <div className="relative">
-                                        <Label htmlFor="date" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Date</Label>
-                                        <div className="relative">
-                                            <Input id="date" placeholder="Select date" className="h-12" />
-                                            <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        </div>
-                                    </div>
-                                    <div className="relative">
-                                        <Label htmlFor="time" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Time</Label>
-                                         <div className="relative">
-                                            <Input id="time" placeholder="Select time" className="h-12" />
-                                            <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <Button className="w-full h-12 rounded-[10px] text-lg">Create</Button>
-                            </div>
-                        </DialogContent>
-                    </Dialog>
+                    <CreateMeetingSheet />
                 </div>
             </div>
 
