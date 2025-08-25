@@ -26,7 +26,7 @@ const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between px-4 py-10">
+        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between px-6 py-10">
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
@@ -59,7 +59,7 @@ const meetings = [
 ]
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
-    <Card className="w-full h-20 rounded-[50px] p-4 flex items-center justify-between">
+    <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between">
         <div>
             <p className="text-base font-medium">{meeting.client}</p>
             <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
@@ -81,11 +81,11 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-full md:w-96 h-96 rounded-[40px]">
-        <CardHeader>
+    <Card className="w-full md:w-96 h-96 rounded-[40px] px-6 py-4">
+        <CardHeader className="p-0 mb-2">
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
-        <CardContent className="h-64">
+        <CardContent className="h-64 p-0">
             <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                     <Pie data={overviewData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={80} outerRadius={110} paddingAngle={5} >
@@ -147,7 +147,7 @@ export default function OrganizationHomePage() {
                 </Button>
             </div>
 
-            <div className="mt-12">
+            <div className="mt-[2.3rem]">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
