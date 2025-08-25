@@ -90,7 +90,8 @@ const LeadDetailsContent = ({ lead }: { lead: Lead }) => {
                         <DetailField label="Current address" value={lead.address} />
                     </div>
                      <DetailField label="Site location Pin code" value={lead.pincode} />
-                     <DetailField label="1% Token Amount" value={`₹ ${lead.tokenAmount}`} />
+                     <DetailField label="Lead Level" value={lead.level} />
+                     <DetailField label="Tentative Total amount" value={`₹ ${lead.tokenAmount}`} />
                      <div className="md:col-span-2">
                         <Button className="w-full h-12 bg-primary/10 text-primary border border-primary hover:bg-primary/20">Request 1% Token</Button>
                      </div>
@@ -147,4 +148,5 @@ export function LeadDetailsSheet({ isOpen, onClose, lead }: LeadDetailsSheetProp
     </DialogOrSheet>
   );
 }
+
 
