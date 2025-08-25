@@ -118,7 +118,7 @@ export default function ProjectsPage() {
             </div>
 
             <div>
-                <h2 className="text-xl text-muted-foreground font-medium mb-4">Active Projects</h2>
+                <h2 className="text-xl text-black font-medium mb-4">Active Projects</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {activeProjects.map((project, index) => (
                         <ProjectCard key={index} project={project} />
@@ -127,7 +127,7 @@ export default function ProjectsPage() {
             </div>
 
             <div>
-                <h2 className="text-xl text-muted-foreground font-medium mb-4">Completed Projects</h2>
+                <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {completedProjects.map((project, index) => (
                         <ProjectCard key={index} project={project} />
