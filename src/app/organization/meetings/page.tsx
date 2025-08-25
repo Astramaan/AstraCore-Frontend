@@ -2,7 +2,6 @@
 'use client';
 
 import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -164,7 +163,6 @@ export default function MeetingsPage() {
                                                 </a>
                                             </div>
                                         </div>
-                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                         <div className="justify-self-center p-4">
                                             <Button variant="ghost" size="icon" className="w-8 h-8">
                                                 <MoreVertical className="h-5 w-5 text-zinc-500" />
@@ -209,7 +207,6 @@ export default function MeetingsPage() {
                                                 </a>
                                             </div>
                                         </div>
-                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                         <div className="justify-self-center p-4">
                                             <Button variant="ghost" size="icon" className="w-8 h-8">
                                                 <MoreVertical className="h-5 w-5 text-zinc-500" />
@@ -248,5 +245,3 @@ export default function MeetingsPage() {
         </div>
     );
 }
-
-    
