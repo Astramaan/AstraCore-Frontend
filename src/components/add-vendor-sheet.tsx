@@ -187,9 +187,13 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <FormField id="available-time-from" label="Available Time From" type="time" />
-                            <FormField id="available-time-to" label="Available Time To" type="time" />
+                        <div className="space-y-2">
+                            <Label className="text-zinc-900 text-lg font-medium px-2">Available Time</Label>
+                            <div className="flex items-center gap-2 bg-input rounded-full h-[54px] px-4">
+                                <Input type="time" id="available-time-from" name="available-time-from" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" />
+                                <span>to</span>
+                                <Input type="time" id="available-time-to" name="available-time-to" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" />
+                            </div>
                         </div>
                         
                     </div>
@@ -304,8 +308,8 @@ export function AddVendorSheet() {
 
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+    const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
+    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
 
