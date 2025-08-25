@@ -76,20 +76,20 @@ const vendors = [
 ];
 
 const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
-    <Card className="rounded-[30px] border border-stone-300 p-4">
+    <Card className="rounded-[30px] p-4 bg-card shadow-sm">
         <CardContent className="p-0 space-y-4">
             <div className="flex items-start gap-4">
-                <Avatar className="w-24 h-24 rounded-[20px] border border-stone-300">
+                <Avatar className="w-24 h-24 rounded-[20px]">
                     <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
                     <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div className="space-y-1">
-                    <p className="text-black text-lg font-medium">{vendor.companyName}</p>
-                    <p className="text-black text-base">{vendor.phone}</p>
-                    <p className="text-black text-base">{vendor.email}</p>
+                <div className="space-y-1 flex-1">
+                    <p className="text-black text-lg font-semibold">{vendor.companyName}</p>
+                    <p className="text-muted-foreground text-base">{vendor.phone}</p>
+                    <p className="text-muted-foreground text-base">{vendor.email}</p>
                 </div>
             </div>
-            <p className="text-neutral-500 text-sm">{vendor.address}</p>
+            <p className="text-muted-foreground text-sm">{vendor.address}</p>
         </CardContent>
     </Card>
 );
