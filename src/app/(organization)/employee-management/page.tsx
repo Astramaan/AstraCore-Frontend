@@ -1,0 +1,116 @@
+
+'use client';
+
+import { AddEmployeeSheet } from '@/components/add-employee-sheet';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
+import React from 'react';
+
+const roles = [
+    { 
+        name: "Super Admin", 
+        icon: <Shield className="w-6 h-6 text-black" />, 
+        bgColor: "bg-red-200/30",
+        admin: "Balaji Naik", 
+        active: 2, 
+        total: 2 
+    },
+    { 
+        name: "Sales", 
+        icon: <Briefcase className="w-6 h-6 text-black" />, 
+        bgColor: "bg-yellow-400/30",
+        admin: "Balaji Naik", 
+        active: 3, 
+        total: 8
+    },
+    { 
+        name: "Software Development", 
+        icon: <Code className="w-6 h-6 text-black" />, 
+        bgColor: "bg-blue-300/30",
+        admin: "Balaji Naik", 
+        active: 12, 
+        total: 12
+    },
+    { 
+        name: "Design", 
+        icon: <Palette className="w-6 h-6 text-black" />, 
+        bgColor: "bg-purple-300/30",
+        admin: "Balaji Naik", 
+        active: 4, 
+        total: 4
+    },
+    { 
+        name: "Support & Feedback", 
+        icon: <Users className="w-6 h-6 text-black" />,
+        bgColor: "bg-green-300/30",
+        admin: "Balaji Naik", 
+        active: 20, 
+        total: 20
+    },
+    { 
+        name: "Human Resources", 
+        icon: <Users className="w-6 h-6 text-black" />, 
+        bgColor: "bg-pink-300/30",
+        admin: "Balaji Naik", 
+        active: 0, 
+        total: 2
+    },
+];
+
+const RoleCard = ({ role }: { role: typeof roles[0] }) => (
+    <>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+            <div className="flex items-center gap-4 flex-1">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                    {role.icon}
+                </div>
+                <p className="text-2xl font-semibold w-60">{role.name}</p>
+            </div>
+            
+            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+
+            <div className="flex flex-col gap-2 flex-1">
+                <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
+                <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-green-600 font-medium">{String(role.active).padStart(2, '0')}</span></p>
+            </div>
+            
+            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+
+            <div className="flex items-center gap-4 flex-1">
+                 <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
+                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">View Members</Button>
+            </div>
+        </div>
+        <Separator />
+    </>
+);
+
+export default function EmployeeManagementPage() {
+    return (
+        <div className="space-y-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <h1 className="text-2xl font-semibold text-zinc-900">Employee Management</h1>
+                <div className="flex items-center gap-4 w-full md:w-auto">
+                    <div className="relative w-full md:w-64">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                        <Input placeholder="Search Employee" className="pl-12 h-14 rounded-full bg-white text-lg" />
+                    </div>
+                     <AddEmployeeSheet />
+                </div>
+            </div>
+
+            <Card className="rounded-[50px] overflow-hidden">
+                <CardContent className="p-6">
+                    <div className="flex flex-col">
+                        {roles.map((role) => (
+                            <RoleCard key={role.name} role={role} />
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
