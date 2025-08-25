@@ -145,3 +145,17 @@ export async function addProject(
         return { success: false, message: 'Failed to add project.' };
     }
 }
+
+export async function addLead(
+  prevState: any,
+  formData: FormData
+) {
+    try {
+        const name = formData.get('name');
+        console.log(`Adding lead: ${name}`);
+        // In a real app, you would save this to a database.
+        return { success: true, message: 'Lead added successfully!' };
+    } catch (error) {
+        return { success: false, message: 'Failed to add lead.' };
+    }
+}
