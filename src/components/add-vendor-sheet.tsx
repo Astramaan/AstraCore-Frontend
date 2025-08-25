@@ -160,8 +160,8 @@ const AddVendorForm = () => {
             </div>
             
             <div className="flex justify-end pt-8">
-                <Button type="submit" className="w-40 h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
-                    Add Vendor
+                <Button type="submit" className="w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
+                    Add vendor & continue
                 </Button>
             </div>
         </div>
