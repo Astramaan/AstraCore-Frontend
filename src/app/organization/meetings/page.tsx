@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
-import { MoreHorizontal, PlusCircle, Search } from "lucide-react";
+import { MoreVertical, PlusCircle, Search } from "lucide-react";
 
 const clientMeetings = [
     { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -52,7 +52,7 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
 
             <div className="absolute top-2 right-2">
                 <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="w-5 h-5" />
+                    <MoreVertical className="w-5 h-5" />
                 </Button>
             </div>
         </CardContent>
@@ -118,7 +118,7 @@ export default function MeetingsPage() {
                                             
                                             <div className="justify-self-end">
                                                 <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreHorizontal className="h-5 w-5 text-zinc-500" />
+                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
                                                 </Button>
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@ export default function MeetingsPage() {
                                             
                                             <div className="justify-self-end">
                                                 <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreHorizontal className="h-5 w-5 text-zinc-500" />
+                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
                                                 </Button>
                                             </div>
                                         </div>
