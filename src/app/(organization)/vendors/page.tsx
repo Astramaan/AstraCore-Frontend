@@ -76,10 +76,10 @@ const vendors = [
 ];
 
 const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
-    <Card className="rounded-[20px] border border-stone-300 p-4">
+    <Card className="rounded-[30px] border border-stone-300 p-4">
         <CardContent className="p-0 space-y-4">
             <div className="flex items-start gap-4">
-                <Avatar className="w-24 h-24 rounded-[10px] border border-stone-300">
+                <Avatar className="w-24 h-24 rounded-[20px] border border-stone-300">
                     <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
                     <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
                 </Avatar>
