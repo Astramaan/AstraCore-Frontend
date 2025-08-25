@@ -21,7 +21,7 @@ const leadMeetings = [
     { name: "Charan Project", id: "LEAD2024-4", date: "1 Sept 2024", time: "11:00 am" },
 ];
 
-const MeetingRow = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
+const MeetingRow = ({ meeting }: { meeting: typeof clientMeetings[0] }) => (
     <div className="grid grid-cols-6 items-center p-4 border-b border-stone-200 hover:bg-stone-50">
         <div className="col-span-1 font-medium">{meeting.name}</div>
         <div className="col-span-1"><Badge variant="secondary">{meeting.id}</Badge></div>
@@ -133,7 +133,7 @@ export default function MeetingsPage() {
                     </div>
                     <div>
                         {leadMeetings.map((meeting) => (
-                            <MeetingRow key={`desktop-lead-${meeting.id}`} meeting={meeting} isLead={true}/>
+                            <MeetingRow key={`desktop-lead-${meeting.id}`} meeting={meeting} />
                         ))}
                     </div>
                 </div>
