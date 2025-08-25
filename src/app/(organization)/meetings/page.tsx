@@ -32,8 +32,8 @@ const MeetingRow = ({ meeting, isLead = false }: { meeting: typeof clientMeeting
             <span>Meet</span>
         </div>
         <div className="col-span-1 flex justify-end">
-            <Button variant="ghost" size="icon" className="text-stone-300">
-                <MoreHorizontal className="w-5 h-5" />
+            <Button variant="ghost" size="icon">
+                <MoreHorizontal className="w-5 h-5 text-stone-300" />
             </Button>
         </div>
     </div>
