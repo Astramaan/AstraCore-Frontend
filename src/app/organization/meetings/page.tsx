@@ -26,25 +26,22 @@ const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMe
                 <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div className="w-44">
+            <div className="flex flex-col">
                 <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
                 <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
             </div>
         </div>
 
-        <div className="hidden md:block h-14 w-px bg-stone-300/0" />
+        <div className="hidden md:block h-14 w-px bg-stone-300" />
         
-        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 flex-1 md:w-auto">
-            <div className="flex flex-col gap-2">
-                <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-lg md:hidden"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
-            </div>
-            <p className="text-lg hidden md:block"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+        <div className="flex flex-col flex-1">
+            <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+            <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
         </div>
             
-        <div className="hidden md:block h-14 w-px bg-stone-300/0" />
+        <div className="hidden md:block h-14 w-px bg-stone-300" />
 
-        <div className="flex flex-col justify-between items-start md:items-end gap-2 h-full flex-1">
+        <div className="flex flex-col items-start md:items-end gap-2 h-full flex-1">
             <p className="text-lg"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
             <div className="flex items-center gap-2 text-lg">
                 <span className="text-grey-2">Link: </span>
@@ -55,7 +52,7 @@ const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMe
             </div>
         </div>
 
-        <Button variant="ghost" size="icon" className="w-8 h-8 md:ml-4">
+        <Button variant="ghost" size="icon" className="w-8 h-8 md:ml-4 absolute md:relative top-4 right-4">
             <MoreHorizontal className="h-5 w-5 text-zinc-500" />
         </Button>
     </div>
