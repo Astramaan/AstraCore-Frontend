@@ -148,8 +148,8 @@ export function AssignTaskSheet() {
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "w-full p-0 rounded-t-3xl" 
-              : "sm:max-w-4xl p-0 rounded-[2rem]"
+              ? "w-full p-0 rounded-t-[50px]" 
+              : "sm:max-w-4xl p-0 rounded-[50px]"
           )}
           {...(isMobile && { side: "bottom" })}
       >
