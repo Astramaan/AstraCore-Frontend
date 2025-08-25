@@ -9,16 +9,16 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const clientMeetings = [
     { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "CHA2024-2", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "CHA2024-3", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "CHA2024-4", date: "1 Sept 2024", time: "11:00 am" },
 ];
 
 const leadMeetings = [
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
-    { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "LEAD2024", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "LEAD2024-2", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "LEAD2024-3", date: "1 Sept 2024", time: "11:00 am" },
+    { name: "Charan Project", id: "LEAD2024-4", date: "1 Sept 2024", time: "11:00 am" },
 ];
 
 const MeetingRow = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
@@ -106,15 +106,15 @@ export default function MeetingsPage() {
                         <div className="col-span-1"></div>
                     </div>
                     <div>
-                        {clientMeetings.map((meeting, index) => (
-                            <MeetingRow key={index} meeting={meeting} />
+                        {clientMeetings.map((meeting) => (
+                            <MeetingRow key={meeting.id} meeting={meeting} />
                         ))}
                     </div>
                 </div>
                  {/* Mobile View */}
                 <div className="md:hidden space-y-4">
-                    {clientMeetings.map((meeting, index) => (
-                        <MeetingCard key={index} meeting={meeting} />
+                    {clientMeetings.map((meeting) => (
+                        <MeetingCard key={meeting.id} meeting={meeting} />
                     ))}
                 </div>
             </div>
@@ -132,15 +132,15 @@ export default function MeetingsPage() {
                         <div className="col-span-1"></div>
                     </div>
                     <div>
-                        {leadMeetings.map((meeting, index) => (
-                            <MeetingRow key={index} meeting={meeting} isLead={true}/>
+                        {leadMeetings.map((meeting) => (
+                            <MeetingRow key={meeting.id} meeting={meeting} isLead={true}/>
                         ))}
                     </div>
                 </div>
                  {/* Mobile View */}
                 <div className="md:hidden space-y-4">
-                    {leadMeetings.map((meeting, index) => (
-                        <MeetingCard key={index} meeting={meeting} isLead={true}/>
+                    {leadMeetings.map((meeting) => (
+                        <MeetingCard key={meeting.id} meeting={meeting} isLead={true}/>
                     ))}
                 </div>
             </div>
