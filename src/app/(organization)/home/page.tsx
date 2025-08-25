@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, ArrowRight } from "lucide-react";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
+import { AddEmployeeSheet } from "@/components/add-employee-sheet";
 
 
 const taskData = [
@@ -104,10 +105,7 @@ export default function OrganizationHomePage() {
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
             <div className="flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet />
-                <Button variant="outline" className="flex-1 md:flex-none rounded-full h-[54px] text-primary hover:bg-primary/10 hover:text-primary border border-primary">
-                    <Plus className="w-4 h-4 mr-2"/>
-                    Add Employee
-                </Button>
+                <AddEmployeeSheet />
             </div>
 
             <div className="mt-[2.3rem]">
