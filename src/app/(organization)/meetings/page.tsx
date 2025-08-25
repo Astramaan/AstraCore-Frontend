@@ -21,7 +21,7 @@ const leadMeetings = [
 ];
 
 const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <Card className="rounded-[20px] border border-stone-300 bg-white">
+    <Card className="rounded-[50px] border border-stone-300 bg-white">
         <CardContent className="p-6 space-y-4 relative">
              <div className="flex items-start gap-4">
                 <Avatar className="w-14 h-14">
@@ -77,40 +77,31 @@ export default function MeetingsPage() {
             </div>
 
             {/* Desktop View */}
-            <div className="hidden md:block">
-                <Card className="rounded-[20px] bg-white">
+            <div className="hidden md:block space-y-8">
+                <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-4 md:p-6">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
-                        <div className="grid grid-cols-[auto_1fr] items-center">
+                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
                             {clientMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
-                                    <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
-                                        {/* Column 1: Avatar & Name/City */}
-                                        <div className="flex items-start gap-4">
-                                            <Avatar className="w-14 h-14">
+                                    <div className="contents">
+                                        <div className="flex items-center gap-4 p-4">
+                                            <Avatar className="w-14 h-14 shrink-0">
                                                 <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                                                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
                                             </Avatar>
-                                            <div className="flex flex-col">
+                                            <div>
                                                 <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                 <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
                                             </div>
                                         </div>
-
-                                        {/* Divider */}
-                                        <div className="h-full w-px bg-stone-200 mx-4 justify-self-center" />
-
-                                        {/* Column 2: Contact & ID */}
-                                        <div className="flex flex-col">
+                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                        <div className="flex flex-col p-4">
                                             <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                                             <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
                                         </div>
-                                        
-                                        {/* Divider */}
-                                        <div className="h-full w-px bg-stone-200 mx-4 justify-self-center" />
-
-                                        {/* Column 3: Date, Time, Link */}
-                                        <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
+                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                        <div className="flex flex-col items-start gap-2 p-4">
                                             <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                                             <div className="flex items-center gap-2 text-lg">
                                                 <span className="text-grey-2">Link: </span>
@@ -120,19 +111,15 @@ export default function MeetingsPage() {
                                                 </a>
                                             </div>
                                         </div>
-                                        
-                                        {/* Divider */}
-                                        <div className="h-full w-px bg-stone-200 mx-4 justify-self-center" />
-
-                                        {/* Column 4: Actions */}
-                                        <div className="justify-self-end">
+                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                        <div className="justify-self-center p-4">
                                             <Button variant="ghost" size="icon" className="w-8 h-8">
                                                 <MoreVertical className="h-5 w-5 text-zinc-500" />
                                             </Button>
                                         </div>
                                     </div>
                                     {index < clientMeetings.length - 1 && (
-                                        <div className="col-start-1 col-span-7 h-px bg-zinc-200" />
+                                        <div className="col-span-7 h-px bg-zinc-200" />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -140,39 +127,30 @@ export default function MeetingsPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="rounded-[20px] bg-white mt-8">
+                <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-4 md:p-6">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
-                          <div className="grid grid-cols-[auto_1fr] items-center">
+                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
                             {leadMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
-                                    <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
-                                        {/* Column 1: Avatar & Name/City */}
-                                        <div className="flex items-start gap-4">
-                                            <Avatar className="w-14 h-14">
+                                    <div className="contents">
+                                        <div className="flex items-center gap-4 p-4">
+                                            <Avatar className="w-14 h-14 shrink-0">
                                                 <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                                                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
                                             </Avatar>
-                                            <div className="flex flex-col">
+                                            <div>
                                                 <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                 <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
                                             </div>
                                         </div>
-
-                                        {/* Divider */}
-                                        <div className="h-full w-px bg-stone-200 mx-4 justify-self-center" />
-
-                                        {/* Column 2: Contact & ID */}
-                                        <div className="flex flex-col">
+                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                        <div className="flex flex-col p-4">
                                             <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                                             <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
                                         </div>
-                                        
-                                        {/* Divider */}
-                                        <div className="h-full w-px bg-stone-200 mx-4 justify-self-center" />
-
-                                        {/* Column 3: Date, Time, Link */}
-                                        <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
+                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                        <div className="flex flex-col items-start gap-2 p-4">
                                             <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                                             <div className="flex items-center gap-2 text-lg">
                                                 <span className="text-grey-2">Link: </span>
@@ -182,19 +160,15 @@ export default function MeetingsPage() {
                                                 </a>
                                             </div>
                                         </div>
-                                        
-                                        {/* Divider */}
-                                        <div className="h-full w-px bg-stone-200 mx-4 justify-self-center" />
-
-                                        {/* Column 4: Actions */}
-                                        <div className="justify-self-end">
+                                        <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
+                                        <div className="justify-self-center p-4">
                                             <Button variant="ghost" size="icon" className="w-8 h-8">
                                                 <MoreVertical className="h-5 w-5 text-zinc-500" />
                                             </Button>
                                         </div>
                                     </div>
                                     {index < leadMeetings.length - 1 && (
-                                        <div className="col-start-1 col-span-7 h-px bg-zinc-200" />
+                                        <div className="col-span-7 h-px bg-zinc-200" />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -205,7 +179,7 @@ export default function MeetingsPage() {
 
             {/* Mobile View */}
             <div className="md:hidden space-y-6">
-                <Card className="rounded-[20px] bg-white">
+                <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-4">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4">Client Meetings</h2>
                         <div className="space-y-4">
@@ -215,7 +189,7 @@ export default function MeetingsPage() {
                         </div>
                     </CardContent>
                 </Card>
-                 <Card className="rounded-[20px] bg-white">
+                 <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-4">
                         <h2 className="text-xl font-medium text-zinc-800 mb-4">Lead Meetings</h2>
                         <div className="space-y-4">
