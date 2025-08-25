@@ -56,16 +56,6 @@ const AssignTaskForm = () => {
                     <Avatar className="w-8 h-8"><AvatarImage src="https://placehold.co/32x32" data-ai-hint="person portrait" /></Avatar>
                 </div>
             </div>
-             <div className="space-y-2">
-                <Label className="text-zinc-900 font-medium">Attach Files</Label>
-                <div className="border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-background">
-                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                        <UploadCloud className="w-6 h-6 text-gray-500" />
-                    </div>
-                    <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
-                    <p className="text-xs text-gray-400">JPG, PNG, PDF • Up to 10Mb</p>
-                </div>
-            </div>
         </div>
 
         <div className="space-y-6">
@@ -112,6 +102,16 @@ const AssignTaskForm = () => {
                 <div className="flex items-center gap-4">
                     <Button variant="outline" className="rounded-full bg-primary text-primary-foreground border-primary px-6">High</Button>
                     <Button variant="outline" className="rounded-full bg-background border-stone-300 px-6">Low</Button>
+                </div>
+            </div>
+             <div className="space-y-2">
+                <Label className="text-zinc-900 font-medium">Attach Files</Label>
+                <div className="border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-background">
+                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                        <UploadCloud className="w-6 h-6 text-gray-500" />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
+                    <p className="text-xs text-gray-400">JPG, PNG, PDF • Up to 10Mb</p>
                 </div>
             </div>
         </div>
