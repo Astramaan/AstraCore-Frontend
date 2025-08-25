@@ -27,14 +27,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
-
-type Lead = {
-    organization: string;
-    leadId: string;
-    fullName: string;
-    contact: string;
-    phone: string;
-};
+import { LeadDetailsSheet, type Lead } from '@/components/lead-details-sheet';
 
 const leadsData: Lead[] = [
     {
@@ -42,35 +35,77 @@ const leadsData: Lead[] = [
         leadId: "GOLDMYS7890",
         fullName: "Balaji Naik",
         contact: "Employee@abc.com | +91 1234567890",
-        phone: "9380032186"
+        phone: "9380032186",
+        email: "balaji.naik@goldenventures.com",
+        address: "43, Second Floor, Leela Palace Rd, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
+        pincode: "560008",
+        tokenAmount: "1,00,000",
+        level: "Level 1",
+        profileImage: "https://placehold.co/94x94",
+        coverImage: "https://placehold.co/712x144",
+        siteImages: [
+            "https://placehold.co/150x150",
+            "https://placehold.co/150x150",
+            "https://placehold.co/150x150",
+            "https://placehold.co/150x150",
+        ]
     },
     {
         organization: "Silver Innovations",
         leadId: "SILVERBLR123",
         fullName: "Anil Kumar",
         contact: "anil.k@silver.io | +91 9876543210",
-        phone: "9876543210"
+        phone: "9876543210",
+        email: "anil.k@silver.io",
+        address: "123, Silver Street, Whitefield, Bengaluru, Karnataka 560066",
+        pincode: "560066",
+        tokenAmount: "2,50,000",
+        level: "Level 2",
+        profileImage: "https://placehold.co/94x94",
+        coverImage: "https://placehold.co/712x144",
+        siteImages: [
+            "https://placehold.co/150x150"
+        ]
     },
     {
         organization: "Bronze Builders",
         leadId: "BRONZECHE456",
         fullName: "Sunita Reddy",
         contact: "s.reddy@bronze.dev | +91 8765432109",
-        phone: "8765432109"
+        phone: "8765432109",
+        email: "s.reddy@bronze.dev",
+        address: "Plot 45, Bronze Avenue, T. Nagar, Chennai, Tamil Nadu 600017",
+        pincode: "600017",
+        tokenAmount: "75,000",
+        level: "Level 1",
+        profileImage: "https://placehold.co/94x94",
+        coverImage: "https://placehold.co/712x144",
+        siteImages: []
     },
      {
         organization: "Platinum Partners",
         leadId: "PLATINUMHYD789",
         fullName: "Rajesh Singh",
         contact: "raj.singh@platinum.co | +91 7654321098",
-        phone: "7654321098"
+        phone: "7654321098",
+        email: "raj.singh@platinum.co",
+        address: "Door 789, Platinum Heights, Jubilee Hills, Hyderabad, Telangana 500033",
+        pincode: "500033",
+        tokenAmount: "5,00,000",
+        level: "Level 3",
+        profileImage: "https://placehold.co/94x94",
+        coverImage: "https://placehold.co/712x144",
+        siteImages: [
+            "https://placehold.co/150x150",
+            "https://placehold.co/150x150"
+        ]
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void }) => (
-    <div className="flex flex-col gap-4 py-4">
+const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void }) => (
+    <div className="flex flex-col gap-4 py-4 cursor-pointer" onClick={() => onViewDetails(lead)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-             <div className="flex items-center gap-4 flex-1">
+             <div className="flex items-center gap-4 flex-1"  onClick={(e) => e.stopPropagation()}>
                 <Checkbox 
                     id={`select-${lead.leadId}`} 
                     className="w-6 h-6 rounded-full" 
@@ -91,7 +126,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-4 flex-wrap" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-full md:w-48 justify-between">
@@ -120,7 +155,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem>Edit</DropdownMenuItem>
                         <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-red-600" onClick={() => onSingleDelete(lead.leadId)}>Delete</DropdownMenuItem>
+                            <DropdownMenuItem className="text-red-600" onClick={(e) => { e.stopPropagation(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -172,6 +207,7 @@ export default function LeadsPage() {
     const [contactedLead, setContactedLead] = useState<Lead | null>(null);
     const [isUpdateLevelDialogOpen, setIsUpdateLevelDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedLeadDetails, setSelectedLeadDetails] = useState<Lead | null>(null);
 
     const filteredLeads = useMemo(() => {
         if (!searchTerm) return allLeads;
@@ -262,6 +298,7 @@ export default function LeadsPage() {
                                     isSelected={selectedLeads.includes(lead.leadId)}
                                     onSingleDelete={handleSingleDelete}
                                     onContact={handleContact}
+                                    onViewDetails={setSelectedLeadDetails}
                                 />
                             ))}
                         </div>
@@ -318,6 +355,12 @@ export default function LeadsPage() {
                     </div>
                 </DialogContent>
             </Dialog>
+            
+            <LeadDetailsSheet 
+                isOpen={!!selectedLeadDetails}
+                onClose={() => setSelectedLeadDetails(null)}
+                lead={selectedLeadDetails}
+            />
 
         </div>
     )
