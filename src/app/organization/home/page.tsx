@@ -81,7 +81,7 @@ const overviewData = [
 
 
 const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-full md:w-96 h-96 rounded-[40px]">
+    <Card className="w-full h-96 rounded-[40px]">
         <CardHeader>
             <CardTitle className="text-xl font-medium">{title}</CardTitle>
         </CardHeader>
@@ -111,9 +111,9 @@ const TaskOverviewChart = ({title}: {title: string}) => (
 
 export default function OrganizationHomePage() {
   return (
-    <div className="flex flex-col md:flex-row gap-6">
-        <main className="flex-1">
-            <div className="flex justify-between items-center mb-6">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <main className="xl:col-span-2 space-y-8">
+            <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
                     <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0">High Priority</Button>
                     <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0">
@@ -130,7 +130,7 @@ export default function OrganizationHomePage() {
                     {taskData.map(task => <TaskCard key={task.title} task={task} />)}
                 </div>
             </div>
-            <div className="mt-8">
+            <div>
                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                      {taskData.slice(0, 2).map(task => <TaskCard key={task.title} task={task} />)}
@@ -138,7 +138,7 @@ export default function OrganizationHomePage() {
             </div>
         </main>
 
-        <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
+        <aside className="w-full space-y-6">
             <div className="flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet />
                 <Button variant="outline" className="flex-1 md:flex-none rounded-full h-[54px] text-primary hover:bg-primary/10 hover:text-primary border border-primary">
@@ -159,8 +159,10 @@ export default function OrganizationHomePage() {
                 </div>
             </div>
             
-            <TaskOverviewChart title="My tasks overview" />
-            <TaskOverviewChart title="Assigned Tasks Overview" />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-6">
+              <TaskOverviewChart title="My tasks overview" />
+              <TaskOverviewChart title="Assigned Tasks Overview" />
+            </div>
         </aside>
     </div>
   );
