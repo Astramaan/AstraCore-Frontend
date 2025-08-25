@@ -21,8 +21,8 @@ const leadMeetings = [
 ];
 
 const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <Card className="rounded-[50px] border border-stone-300 bg-white">
-        <CardContent className="p-6 space-y-4 relative">
+    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0">
+        <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
@@ -42,7 +42,7 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
             <div className="space-y-1">
                  <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                 <div className="flex items-center gap-2 text-base">
-                    <span className="text-grey-2">Link: </span>
+                    <span className="text-grey-2">Link: </span> 
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
                         <GoogleMeetIcon className="w-6 h-6" />
                         Google Meet
@@ -50,13 +50,13 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
                 </div>
             </div>
 
-            <div className="absolute top-2 right-2">
+            <div className="absolute top-0 right-0">
                 <Button variant="ghost" size="icon">
                     <MoreVertical className="w-5 h-5" />
                 </Button>
             </div>
-        </CardContent>
-    </Card>
+        </div>
+    </div>
 )
 
 export default function MeetingsPage() {
@@ -104,7 +104,7 @@ export default function MeetingsPage() {
                                         <div className="flex flex-col items-start gap-2 p-4">
                                             <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                                             <div className="flex items-center gap-2 text-lg">
-                                                <span className="text-grey-2">Link: </span>
+                                                <span className="text-grey-2">Link: </span> 
                                                 <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
                                                     <GoogleMeetIcon className="w-6 h-6" />
                                                     Google Meet
@@ -153,7 +153,7 @@ export default function MeetingsPage() {
                                         <div className="flex flex-col items-start gap-2 p-4">
                                             <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                                             <div className="flex items-center gap-2 text-lg">
-                                                <span className="text-grey-2">Link: </span>
+                                                <span className="text-grey-2">Link: </span> 
                                                 <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
                                                     <GoogleMeetIcon className="w-6 h-6" />
                                                     Google Meet
@@ -179,26 +179,22 @@ export default function MeetingsPage() {
 
             {/* Mobile View */}
             <div className="md:hidden space-y-6">
-                <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-4">
-                        <h2 className="text-xl font-medium text-zinc-800 mb-4">Client Meetings</h2>
-                        <div className="space-y-4">
-                            {clientMeetings.map((meeting) => (
-                                <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
-                 <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-4">
-                        <h2 className="text-xl font-medium text-zinc-800 mb-4">Lead Meetings</h2>
-                        <div className="space-y-4">
-                             {leadMeetings.map((meeting) => (
-                                <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
+                <div className="bg-white rounded-[20px] overflow-hidden">
+                    <h2 className="text-xl font-medium text-zinc-800 p-4">Client Meetings</h2>
+                    <div>
+                        {clientMeetings.map((meeting) => (
+                            <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
+                        ))}
+                    </div>
+                </div>
+                 <div className="bg-white rounded-[20px] overflow-hidden">
+                    <h2 className="text-xl font-medium text-zinc-800 p-4">Lead Meetings</h2>
+                    <div>
+                         {leadMeetings.map((meeting) => (
+                            <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );
