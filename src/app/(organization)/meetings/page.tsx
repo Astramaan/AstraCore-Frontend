@@ -20,7 +20,7 @@ const leadMeetings = [
     { name: "Charan Project", id: "CHA2024", date: "1 Sept 2024", time: "11:00 am" },
 ];
 
-const MeetingRow = ({ meeting }: { meeting: typeof clientMeetings[0] }) => (
+const MeetingRow = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
     <div className="grid grid-cols-6 items-center p-4 border-b border-stone-200 hover:bg-stone-50">
         <div className="col-span-1 font-medium">{meeting.name}</div>
         <div className="col-span-1"><Badge variant="secondary">{meeting.id}</Badge></div>
@@ -43,22 +43,22 @@ export default function MeetingsPage() {
     return (
         <div className="space-y-8">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Meetings</h1>
-                <Button>
+                <h1 className="text-xl font-medium">Meetings</h1>
+                <Button className="bg-primary/10 text-primary hover:bg-primary/20">
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Create
                 </Button>
             </div>
 
             <div>
-                <h2 className="text-xl font-semibold text-muted-foreground mb-4">Client Meetings</h2>
+                <h2 className="text-lg font-normal text-muted-foreground mb-4">Client Meetings</h2>
                 <div className="bg-card rounded-lg border">
-                    <div className="grid grid-cols-6 items-center p-4 bg-muted/50 border-b rounded-t-lg">
-                        <div className="col-span-1 font-semibold text-muted-foreground">Name</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Client ID</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Date</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Time</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Link</div>
+                    <div className="grid grid-cols-6 items-center p-4 bg-yellow-500/10 rounded-t-lg border-b">
+                        <div className="col-span-1 font-medium text-zinc-900">Name</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Client ID</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Date</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Time</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Link</div>
                         <div className="col-span-1"></div>
                     </div>
                     <div>
@@ -70,19 +70,19 @@ export default function MeetingsPage() {
             </div>
 
              <div>
-                <h2 className="text-xl font-semibold text-muted-foreground mb-4">Lead Meetings</h2>
+                <h2 className="text-lg font-normal text-muted-foreground mb-4">Lead Meetings</h2>
                 <div className="bg-card rounded-lg border">
-                     <div className="grid grid-cols-6 items-center p-4 bg-muted/50 border-b rounded-t-lg">
-                        <div className="col-span-1 font-semibold text-muted-foreground">Name</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Lead ID</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Date</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Time</div>
-                        <div className="col-span-1 font-semibold text-muted-foreground">Link</div>
+                     <div className="grid grid-cols-6 items-center p-4 bg-yellow-500/10 rounded-t-lg border-b">
+                        <div className="col-span-1 font-medium text-zinc-900">Name</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Lead ID</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Date</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Time</div>
+                        <div className="col-span-1 font-medium text-zinc-900">Link</div>
                         <div className="col-span-1"></div>
                     </div>
                     <div>
                         {leadMeetings.map((meeting, index) => (
-                            <MeetingRow key={index} meeting={meeting} />
+                            <MeetingRow key={index} meeting={meeting} isLead={true}/>
                         ))}
                     </div>
                 </div>
