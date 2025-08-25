@@ -34,9 +34,12 @@ const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMe
 
         <div className="hidden md:block h-14 w-px bg-stone-300/0" />
         
-        <div className="flex flex-col gap-2 flex-1 md:w-96">
-            <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-            <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 flex-1 md:w-auto">
+            <div className="flex flex-col gap-2">
+                <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                <p className="text-lg md:hidden"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+            </div>
+            <p className="text-lg hidden md:block"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
         </div>
             
         <div className="hidden md:block h-14 w-px bg-stone-300/0" />
