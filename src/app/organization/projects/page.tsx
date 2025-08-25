@@ -5,106 +5,87 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical } from "lucide-react";
-import Image from 'next/image';
+import React from 'react';
 
 const activeProjects = [
     {
         id: "CHA2024",
         name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
         status: "On Going",
-        statusColor: "text-lime-600",
-        image: "https://placehold.co/270x323"
+        statusColor: "text-green-400",
+        image: "https://placehold.co/59x59"
     },
     {
         id: "CHA2024",
         name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
         status: "Delay",
         statusColor: "text-red-600",
-        image: "https://placehold.co/270x323"
+        image: "https://placehold.co/59x59"
     },
     {
         id: "CHA2024",
         name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
         status: "On Going",
-        statusColor: "text-lime-600",
-        image: "https://placehold.co/270x323"
-    },
-     {
-        id: "CHA2024",
-        name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
-        status: "Delay",
-        statusColor: "text-red-600",
-        image: "https://placehold.co/270x323"
+        statusColor: "text-green-400",
+        image: "https://placehold.co/59x59"
     },
 ];
 
 const completedProjects = [
-    {
-        id: "CHA2024",
-        name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
-        status: "Completed",
-        statusColor: "text-cyan-500",
-        image: "https://placehold.co/270x323"
-    },
-    {
-        id: "CHA2024",
-        name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
-        status: "Completed",
-        statusColor: "text-cyan-500",
-        image: "https://placehold.co/270x323"
-    },
-    {
-        id: "CHA2024",
-        name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
-        status: "Completed",
-        statusColor: "text-cyan-500",
-        image: "https://placehold.co/270x323"
-    },
      {
         id: "CHA2024",
         name: "Charan Project",
-        location: "Marathalli, Bengaluru",
-        startDate: "21 Sept 2024",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
         status: "Completed",
         statusColor: "text-cyan-500",
-        image: "https://placehold.co/270x323"
+        image: "https://placehold.co/59x59"
     },
 ];
 
-
-const ProjectCard = ({ project }: { project: typeof activeProjects[0] }) => (
-    <Card className="rounded-3xl border border-stone-300 w-64 overflow-hidden">
-        <CardHeader className="p-0 relative">
-            <Image src={project.image} alt={project.name} width={270} height={323} data-ai-hint="building construction" />
-            <Badge className="absolute top-4 left-4 bg-slate-50/10 text-white rounded-[50px] border-white backdrop-blur-sm">{project.id}</Badge>
-            <Badge className={`absolute top-4 right-4 bg-white rounded-[50px] backdrop-blur-sm ${project.statusColor}`}>
-                <div className={`w-2 h-2 rounded-full mr-2 ${project.status === 'On Going' ? 'bg-lime-600' : project.status === 'Delay' ? 'bg-red-600' : 'bg-cyan-500'}`} />
-                {project.status}
-            </Badge>
-        </CardHeader>
-        <CardContent className="p-4 bg-white">
-            <p className="text-lg font-semibold">{project.name}</p>
-            <p className="text-base text-gray-600">{project.location}</p>
-            <p className="text-base text-gray-600 mt-4">{project.startDate}</p>
-        </CardContent>
-    </Card>
+const ProjectListItem = ({ project, isLast = false }: { project: typeof activeProjects[0], isLast?: boolean }) => (
+    <div className="flex flex-col">
+        <div className="flex justify-between items-center py-4">
+            <div className="flex items-center gap-4">
+                <Avatar className="w-14 h-14">
+                    <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                    <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="w-44">
+                    <p className="text-xl font-semibold text-black">{project.name}</p>
+                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{project.city}</span></p>
+                </div>
+            </div>
+            <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+            <div className="hidden md:flex flex-col gap-2 w-96">
+                <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
+                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+            </div>
+             <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+            <div className="h-12 flex-col justify-between items-end hidden md:inline-flex">
+                 <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
+                 <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+            </div>
+            <Button variant="ghost" size="icon">
+                <MoreVertical className="w-6 h-6" />
+            </Button>
+        </div>
+        {!isLast && <div className="h-px bg-stone-300/0" />}
+    </div>
 );
+
 
 export default function ProjectsPage() {
     return (
@@ -119,20 +100,24 @@ export default function ProjectsPage() {
 
             <div>
                 <h2 className="text-xl text-muted-foreground font-medium mb-4">Active Projects</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {activeProjects.map((project, index) => (
-                        <ProjectCard key={index} project={project} />
-                    ))}
-                </div>
+                <Card className="rounded-[50px]">
+                    <CardContent className="p-4 md:p-6">
+                        {activeProjects.map((project, index) => (
+                            <ProjectListItem key={index} project={project} isLast={index === activeProjects.length - 1} />
+                        ))}
+                    </CardContent>
+                </Card>
             </div>
 
             <div>
                 <h2 className="text-xl text-muted-foreground font-medium mb-4">Completed Projects</h2>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {completedProjects.map((project, index) => (
-                        <ProjectCard key={index} project={project} />
-                    ))}
-                </div>
+                 <Card className="rounded-[50px]">
+                    <CardContent className="p-4 md:p-6">
+                        {completedProjects.map((project, index) => (
+                            <ProjectListItem key={index} project={project} isLast={index === completedProjects.length - 1} />
+                        ))}
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
