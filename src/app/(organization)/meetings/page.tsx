@@ -29,19 +29,19 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
                     <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                    <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
+                    <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
             </div>
             
             <div>
-                <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+                <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                <p className="text-base"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
             </div>
             
             <div className="space-y-1">
-                 <p className="text-lg"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center gap-2 text-lg">
+                 <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                <div className="flex items-center gap-2 text-base">
                     <span className="text-grey-2">Link: </span>
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
                         <GoogleMeetIcon className="w-6 h-6" />
