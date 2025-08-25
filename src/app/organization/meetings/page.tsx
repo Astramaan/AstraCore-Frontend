@@ -20,10 +20,14 @@ const leadMeetings = [
 ];
 
 const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr_1.5fr_auto] md:items-center p-4 gap-4 w-full border-b border-zinc-200">
-        {/* Column 1: Avatar and Project Info */}
+    <div className="relative flex flex-col md:grid md:grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] md:items-center p-4 gap-x-4 w-full border-b border-zinc-200">
+        <Avatar className="w-14 h-14 hidden md:flex">
+            <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+            <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+        </Avatar>
+
         <div className="flex items-center gap-4">
-            <Avatar className="w-14 h-14 hidden md:flex">
+            <Avatar className="w-14 h-14 md:hidden">
                 <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
                 <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
             </Avatar>
@@ -33,31 +37,26 @@ const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMe
             </div>
         </div>
 
-        {/* Column 2: Contact Info */}
-        <div className="flex items-center">
-            <div className="hidden md:block h-14 w-px bg-stone-300 mr-4" />
-            <div className="flex flex-col">
-                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+        <div className="hidden md:block h-full w-px bg-stone-300" />
+
+        <div className="flex flex-col mt-4 md:mt-0">
+            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+            <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+        </div>
+
+        <div className="hidden md:block h-full w-px bg-stone-300" />
+        
+        <div className="flex flex-col items-start md:items-end gap-2 h-full mt-4 md:mt-0">
+            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+            <div className="flex items-center gap-2 text-lg">
+                <span className="text-grey-2">Link: </span>
+                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                    <GoogleMeetIcon className="w-6 h-6" />
+                    Google Meet
+                </a>
             </div>
         </div>
 
-        {/* Column 3: Date, Time and Link */}
-        <div className="flex items-center md:justify-self-end">
-            <div className="hidden md:block h-14 w-px bg-stone-300 mr-4" />
-            <div className="flex flex-col items-start md:items-end gap-2 h-full">
-                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center gap-2 text-lg">
-                    <span className="text-grey-2">Link: </span>
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                        <GoogleMeetIcon className="w-6 h-6" />
-                        Google Meet
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        {/* Column 4: More Options Button */}
         <div className="absolute md:relative top-4 right-4 md:top-auto md:right-auto justify-self-end">
             <Button variant="ghost" size="icon" className="w-8 h-8">
                 <MoreHorizontal className="h-5 w-5 text-zinc-500" />
