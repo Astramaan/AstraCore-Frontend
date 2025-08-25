@@ -91,7 +91,7 @@ export default function ProjectsPage() {
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-semibold">Projects</h1>
-                <Button className="bg-primary/10 text-primary border border-primary rounded-[10px]">
+                <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px]">
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Add Project
                 </Button>
