@@ -11,10 +11,29 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import Logo from '@/components/logo';
 
-const OrganizationHeader = () => (
+const OrganizationHeader = () => {
+    const pathname = usePathname();
+    let pageTitle = '';
+
+    if (pathname === '/organization/home') {
+        pageTitle = 'Home';
+    } else if (pathname === '/organization/meetings') {
+        pageTitle = 'Meetings';
+    } else if (pathname === '/organization/projects') {
+        pageTitle = 'Projects';
+    } else if (pathname === '/organization/leads') {
+        pageTitle = 'Leads';
+    } else if (pathname === '/organization/vendors') {
+        pageTitle = 'Vendors';
+    } else if (pathname === '/organization/snag-list') {
+        pageTitle = 'Snag List';
+    }
+
+    return (
     <header className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
         <div className="flex items-center gap-4 self-start">
             <Logo />
+            {pageTitle && <h1 className="text-2xl font-semibold text-zinc-900 hidden md:block">{pageTitle}</h1>}
         </div>
         <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14">
@@ -36,7 +55,8 @@ const OrganizationHeader = () => (
             </div>
         </div>
     </header>
-);
+    );
+};
 
 const OrganizationBottomNav = () => {
     const navItems = [

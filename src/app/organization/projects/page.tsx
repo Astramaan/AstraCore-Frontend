@@ -89,8 +89,7 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
 export default function ProjectsPage() {
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-semibold">Projects</h1>
+            <div className="flex justify-end items-center">
                 <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px]">
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Add Project
