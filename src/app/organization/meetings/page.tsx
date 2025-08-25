@@ -21,7 +21,7 @@ const leadMeetings = [
 ];
 
 const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <Card className="rounded-[20px] border border-stone-300">
+    <Card className="rounded-[20px] border border-stone-300 bg-white">
         <CardContent className="p-6 space-y-4 relative">
              <div className="flex items-start gap-4">
                 <Avatar className="w-14 h-14">
@@ -67,7 +67,7 @@ export default function MeetingsPage() {
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                        <Input placeholder="Search Meetings..." className="pl-9 rounded-full h-11" />
+                        <Input placeholder="Search Meetings..." className="pl-9 rounded-full h-11 bg-white" />
                     </div>
                     <Button className="rounded-full h-11 px-6 bg-primary/10 text-primary hover:bg-primary/20">
                         <PlusCircle className="mr-2 h-5 w-5" />
@@ -84,43 +84,41 @@ export default function MeetingsPage() {
                         <div className="grid grid-cols-[auto_1fr] items-center">
                             {clientMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
-                                    <div className="contents">
-                                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
-                                            <Avatar className="w-14 h-14">
-                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                                                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            
-                                            <div className="flex flex-col">
-                                                <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
-                                                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
-                                            </div>
+                                    <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
+                                        <Avatar className="w-14 h-14">
+                                            <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                                            <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        
+                                        <div className="flex flex-col">
+                                            <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
+                                            <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                                        </div>
 
-                                            <div className="h-full w-px bg-stone-200" />
-                                            
-                                            <div className="flex flex-col">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                                                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                                            </div>
+                                        <div className="h-full w-px bg-stone-200" />
+                                        
+                                        <div className="flex flex-col">
+                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                                            <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                                        </div>
 
-                                            <div className="h-full w-px bg-stone-200" />
+                                        <div className="h-full w-px bg-stone-200" />
 
-                                            <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                                                <div className="flex items-center gap-2 text-lg">
-                                                    <span className="text-grey-2">Link: </span>
-                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                                                        <GoogleMeetIcon className="w-6 h-6" />
-                                                        Google Meet
-                                                    </a>
-                                                </div>
+                                        <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
+                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                                            <div className="flex items-center gap-2 text-lg">
+                                                <span className="text-grey-2">Link: </span>
+                                                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                                                    <GoogleMeetIcon className="w-6 h-6" />
+                                                    Google Meet
+                                                </a>
                                             </div>
-                                            
-                                            <div className="justify-self-end">
-                                                <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                </Button>
-                                            </div>
+                                        </div>
+                                        
+                                        <div className="justify-self-end">
+                                            <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                            </Button>
                                         </div>
                                     </div>
                                     {index < clientMeetings.length - 1 && (
@@ -138,43 +136,41 @@ export default function MeetingsPage() {
                           <div className="grid grid-cols-[auto_1fr] items-center">
                             {leadMeetings.map((meeting, index) => (
                                 <React.Fragment key={meeting.id}>
-                                    <div className="contents">
-                                        <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
-                                            <Avatar className="w-14 h-14">
-                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                                                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            
-                                            <div className="flex flex-col">
-                                                <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
-                                                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
-                                            </div>
+                                    <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
+                                        <Avatar className="w-14 h-14">
+                                            <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                                            <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                        
+                                        <div className="flex flex-col">
+                                            <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
+                                            <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                                        </div>
 
-                                            <div className="h-full w-px bg-stone-200" />
-                                            
-                                            <div className="flex flex-col">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                                                <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                                            </div>
+                                        <div className="h-full w-px bg-stone-200" />
+                                        
+                                        <div className="flex flex-col">
+                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                                            <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                                        </div>
 
-                                            <div className="h-full w-px bg-stone-200" />
+                                        <div className="h-full w-px bg-stone-200" />
 
-                                            <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                                                <div className="flex items-center gap-2 text-lg">
-                                                    <span className="text-grey-2">Link: </span>
-                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                                                        <GoogleMeetIcon className="w-6 h-6" />
-                                                        Google Meet
-                                                    </a>
-                                                </div>
+                                        <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
+                                            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                                            <div className="flex items-center gap-2 text-lg">
+                                                <span className="text-grey-2">Link: </span>
+                                                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                                                    <GoogleMeetIcon className="w-6 h-6" />
+                                                    Google Meet
+                                                </a>
                                             </div>
-                                            
-                                            <div className="justify-self-end">
-                                                <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                </Button>
-                                            </div>
+                                        </div>
+                                        
+                                        <div className="justify-self-end">
+                                            <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                            </Button>
                                         </div>
                                     </div>
                                     {index < leadMeetings.length - 1 && (
