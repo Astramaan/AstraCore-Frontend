@@ -20,7 +20,7 @@ export async function authenticate(
     console.log(`Attempting to log in with email: ${email}`);
 
     // Simulate a successful login
-    redirect('/platform/dashboard');
+    redirect('/organization/home');
   } catch (error) {
       if((error as Error).message.includes('credentialssignin')) {
           return { error: 'Invalid credentials.' };
@@ -129,5 +129,19 @@ export async function addEmployee(
         return { success: true, message: 'Employee added successfully!' };
     } catch (error) {
         return { success: false, message: 'Failed to add employee.' };
+    }
+}
+
+export async function addProject(
+  prevState: any,
+  formData: FormData
+) {
+    try {
+        const name = formData.get('name');
+        console.log(`Adding project: ${name}`);
+        // In a real app, you would save this to a database.
+        return { success: true, message: 'Project added successfully!' };
+    } catch (error) {
+        return { success: false, message: 'Failed to add project.' };
     }
 }
