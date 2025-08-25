@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
 import { MoreHorizontal, PlusCircle, Search } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const clientMeetings = [
     { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -19,52 +20,44 @@ const leadMeetings = [
     { name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
-const MeetingListItem = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <div className="relative flex flex-col md:grid md:grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] md:items-center p-4 gap-x-4 w-full border-b border-zinc-200">
-        <Avatar className="w-14 h-14 hidden md:flex">
-            <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-            <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-        </Avatar>
-
-        <div className="flex items-center gap-4">
-            <Avatar className="w-14 h-14 md:hidden">
-                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-                <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
-                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
+    <Card className="rounded-[20px] border border-stone-300">
+        <CardContent className="p-6 space-y-4 relative">
+             <div className="flex items-start gap-4">
+                <Avatar className="w-14 h-14">
+                    <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
+                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                </div>
             </div>
-        </div>
-
-        <div className="hidden md:block h-full w-px bg-stone-300" />
-
-        <div className="flex flex-col mt-4 md:mt-0">
-            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-            <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
-        </div>
-
-        <div className="hidden md:block h-full w-px bg-stone-300" />
-        
-        <div className="flex flex-col items-start md:items-end gap-2 h-full mt-4 md:mt-0">
-            <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-            <div className="flex items-center gap-2 text-lg">
-                <span className="text-grey-2">Link: </span>
-                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                    <GoogleMeetIcon className="w-6 h-6" />
-                    Google Meet
-                </a>
+            
+            <div>
+                <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                <p className="text-lg"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
             </div>
-        </div>
+            
+            <div className="space-y-1">
+                 <p className="text-lg"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                <div className="flex items-center gap-2 text-lg">
+                    <span className="text-grey-2">Link: </span>
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                        <GoogleMeetIcon className="w-6 h-6" />
+                        Google Meet
+                    </a>
+                </div>
+            </div>
 
-        <div className="absolute md:relative top-4 right-4 md:top-auto md:right-auto justify-self-end">
-            <Button variant="ghost" size="icon" className="w-8 h-8">
-                <MoreHorizontal className="h-5 w-5 text-zinc-500" />
-            </Button>
-        </div>
-    </div>
-);
-
+            <div className="absolute top-2 right-2">
+                <Button variant="ghost" size="icon">
+                    <MoreHorizontal className="w-5 h-5" />
+                </Button>
+            </div>
+        </CardContent>
+    </Card>
+)
 
 export default function MeetingsPage() {
     return (
@@ -83,27 +76,142 @@ export default function MeetingsPage() {
                 </div>
             </div>
 
-            <Card className="rounded-[20px] bg-white">
-                <CardContent className="p-4 md:p-6">
-                    <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
-                    <div className="divide-y divide-zinc-200">
-                        {clientMeetings.map((meeting) => (
-                            <MeetingListItem key={meeting.id} meeting={meeting} />
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+            {/* Desktop View */}
+            <div className="hidden md:block">
+                <Card className="rounded-[20px] bg-white">
+                    <CardContent className="p-4 md:p-6">
+                        <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
+                        <div className="grid grid-cols-[auto_1fr] items-center">
+                            {clientMeetings.map((meeting, index) => (
+                                <React.Fragment key={meeting.id}>
+                                    <div className="contents">
+                                        <div className="grid grid-cols-[auto_1fr_auto_1fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
+                                            <Avatar className="w-14 h-14">
+                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                                                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            
+                                            <div className="flex flex-col">
+                                                <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
+                                                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                                            </div>
 
-            <Card className="rounded-[20px] bg-white">
-                 <CardContent className="p-4 md:p-6">
-                    <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
-                    <div className="divide-y divide-zinc-200">
-                        {leadMeetings.map((meeting) => (
-                            <MeetingListItem key={meeting.id} meeting={meeting} isLead />
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+                                            <div className="h-full w-px bg-stone-200" />
+                                            
+                                            <div className="flex flex-col">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                                                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                                            </div>
+
+                                            <div className="h-full w-px bg-stone-200" />
+
+                                            <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                                                <div className="flex items-center gap-2 text-lg">
+                                                    <span className="text-grey-2">Link: </span>
+                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                                                        <GoogleMeetIcon className="w-6 h-6" />
+                                                        Google Meet
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="justify-self-end">
+                                                <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                    <MoreHorizontal className="h-5 w-5 text-zinc-500" />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {index < clientMeetings.length - 1 && (
+                                        <div className="col-span-2 h-px bg-zinc-200 mx-4" />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card className="rounded-[20px] bg-white mt-8">
+                    <CardContent className="p-4 md:p-6">
+                        <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
+                          <div className="grid grid-cols-[auto_1fr] items-center">
+                            {leadMeetings.map((meeting, index) => (
+                                <React.Fragment key={meeting.id}>
+                                    <div className="contents">
+                                        <div className="grid grid-cols-[auto_1fr_auto_1fr_auto_1fr_auto] items-center p-4 gap-x-4 w-full">
+                                            <Avatar className="w-14 h-14">
+                                                <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
+                                                <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            
+                                            <div className="flex flex-col">
+                                                <p className="font-semibold text-xl text-zinc-900">{meeting.name}</p>
+                                                <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                                            </div>
+
+                                            <div className="h-full w-px bg-stone-200" />
+                                            
+                                            <div className="flex flex-col">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                                                <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                                            </div>
+
+                                            <div className="h-full w-px bg-stone-200" />
+
+                                            <div className="flex flex-col items-start gap-2 h-full justify-self-end text-right">
+                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                                                <div className="flex items-center gap-2 text-lg">
+                                                    <span className="text-grey-2">Link: </span>
+                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                                                        <GoogleMeetIcon className="w-6 h-6" />
+                                                        Google Meet
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="justify-self-end">
+                                                <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                    <MoreHorizontal className="h-5 w-5 text-zinc-500" />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {index < leadMeetings.length - 1 && (
+                                        <div className="col-span-2 h-px bg-zinc-200 mx-4" />
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* Mobile View */}
+            <div className="md:hidden space-y-6">
+                <Card className="rounded-[20px] bg-white">
+                    <CardContent className="p-4">
+                        <h2 className="text-xl font-medium text-zinc-800 mb-4">Client Meetings</h2>
+                        <div className="space-y-4">
+                            {clientMeetings.map((meeting) => (
+                                <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+                 <Card className="rounded-[20px] bg-white">
+                    <CardContent className="p-4">
+                        <h2 className="text-xl font-medium text-zinc-800 mb-4">Lead Meetings</h2>
+                        <div className="space-y-4">
+                             {leadMeetings.map((meeting) => (
+                                <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 }
+
+    
