@@ -107,7 +107,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Le
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600" onClick={() => onDelete(lead.leadId)}>Delete</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onDelete(lead.leadId); }}>Delete</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <DialogClose asChild>

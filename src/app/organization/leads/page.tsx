@@ -155,7 +155,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem>Edit</DropdownMenuItem>
                         <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-red-600" onClick={(e) => { e.stopPropagation(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
+                            <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -240,6 +240,7 @@ export default function LeadsPage() {
         setSelectedLeads(prev => prev.filter(id => !leadToDelete.includes(id)));
         setLeadToDelete([]);
         setIsDeleteConfirmationOpen(false);
+        setSelectedLeadDetails(null);
     }
 
     const handleSingleDelete = (id: string) => {
@@ -365,9 +366,7 @@ export default function LeadsPage() {
                 onClose={() => setSelectedLeadDetails(null)}
                 lead={selectedLeadDetails}
                 onDelete={(id) => {
-                    setSelectedLeadDetails(null);
-                    // A slight delay to allow the sheet to close before opening the dialog
-                    setTimeout(() => handleSingleDelete(id), 100);
+                    handleSingleDelete(id);
                 }}
             />
 
