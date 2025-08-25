@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Label } from './ui/label';
 
 export interface Lead {
     organization: string;
@@ -221,4 +222,3 @@ export function LeadDetailsSheet({ isOpen, onClose, lead }: LeadDetailsSheetProp
     </DialogOrSheet>
   );
 }
-
