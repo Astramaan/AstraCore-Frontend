@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, ArrowRight } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
 
@@ -73,42 +72,6 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     </Card>
 )
 
-const overviewData = [
-  { name: "In Progress", value: 400, color: "hsl(var(--primary))" },
-  { name: "Pending", value: 300, color: "hsl(var(--secondary))" },
-  { name: "On Hold", value: 200, color: "hsl(var(--muted))" },
-];
-
-
-const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-full md:w-96 h-96 rounded-[40px] px-6 py-4">
-        <CardHeader className="p-0 mb-2">
-            <CardTitle className="text-xl font-medium">{title}</CardTitle>
-        </CardHeader>
-        <CardContent className="h-64 p-0">
-            <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                    <Pie data={overviewData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={80} outerRadius={110} paddingAngle={5} >
-                         {overviewData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} stroke={entry.color} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
-            </ResponsiveContainer>
-        </CardContent>
-        <div className="flex justify-center items-center gap-4 -mt-4">
-            {overviewData.map(item => (
-                <div key={item.name} className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full" style={{backgroundColor: item.color}}/>
-                    <span className="text-sm">{item.name}</span>
-                </div>
-            ))}
-        </div>
-    </Card>
-)
-
-
 export default function OrganizationHomePage() {
   return (
     <div className="flex flex-col md:flex-row gap-6">
@@ -158,9 +121,6 @@ export default function OrganizationHomePage() {
                     {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
                 </div>
             </div>
-            
-            <TaskOverviewChart title="My tasks overview" />
-            <TaskOverviewChart title="Assigned Tasks Overview" />
         </aside>
     </div>
   );
