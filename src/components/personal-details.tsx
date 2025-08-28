@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -44,7 +45,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
             <div className="space-y-6">
                 <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-semibold text-black">Personal Details</h2>
-                    <Button asChild variant="outline" className="h-14 px-10 rounded-full bg-white text-black hover:bg-primary/10 hover:text-primary text-lg font-medium">
+                    <Button asChild variant="outline" className="h-14 px-10 rounded-full bg-white text-black hover:bg-primary hover:text-white text-lg font-medium">
                         <Link href="/organization/employee-management">
                             <ArrowLeft className="mr-2 h-5 w-5" />
                             Back
@@ -98,7 +99,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                 </div>
                             </div>
                              <div className="space-y-4">
-                                <Button className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-primary/10 hover:text-primary text-lg font-medium">Reset Password</Button>
+                                <Button className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-primary hover:text-white text-lg font-medium">Reset Password</Button>
                                 <AlertDialogTrigger asChild>
                                     <Button variant="destructive" className="w-full h-14 px-10 rounded-full bg-background hover:bg-destructive/10 text-red-600 text-lg font-medium">Deactivate user</Button>
                                 </AlertDialogTrigger>
@@ -122,7 +123,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                    <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary hover:text-white">Cancel</AlertDialogCancel>
                     <AlertDialogAction className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Deactivate</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

@@ -83,12 +83,12 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary/10 hover:text-primary">High Priority</Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary/10 hover:text-primary">
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white">High Priority</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white">
                         In Progress
                         <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
                     </Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary/10 hover:text-primary">Pending</Button>
+                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white">Pending</Button>
                 </div>
             </div>
 

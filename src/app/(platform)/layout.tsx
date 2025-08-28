@@ -40,7 +40,7 @@ const PlatformHeader = () => {
                             <Input placeholder="Search Task, Meetings, Projects..." className="pl-11 rounded-[10px] border-stone-300"/>
                         </div>
                         <div className="flex items-center gap-4">
-                            <Button variant="ghost" size="icon" className="relative rounded-full">
+                            <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-primary hover:text-white">
                                 <Bell className="h-6 w-6" />
                                 <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
                             </Button>
