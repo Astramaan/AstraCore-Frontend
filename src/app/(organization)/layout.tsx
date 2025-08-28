@@ -32,6 +32,8 @@ const OrganizationHeader = () => {
         pageTitle = 'Employee Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
+    } else if (pathname.startsWith('/organization/profile')) {
+        pageTitle = 'My Profile'
     }
 
     return (
@@ -53,7 +55,7 @@ const OrganizationHeader = () => {
                   Employee Management
               </Button>
             </Link>
-            <div className="flex items-center gap-2 flex-1 justify-end">
+            <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
                 <Avatar className="h-12 w-12 md:h-14 md:w-14">
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
@@ -62,7 +64,7 @@ const OrganizationHeader = () => {
                     <p className="text-base md:text-lg font-medium">Balaji Naik</p>
                     <p className="text-sm md:text-base text-grey-2">Super Admin</p>
                 </div>
-            </div>
+            </Link>
         </div>
     </header>
     );
