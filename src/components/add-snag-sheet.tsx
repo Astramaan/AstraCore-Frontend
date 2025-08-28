@@ -16,6 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, X, Camera, Image as ImageIcon } from "lucide-react";
 import Image from 'next/image';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+
+const activeProjects = [
+    { id: "CHA2024", name: "Charan Project" },
+    { id: "SAT2024", name: "Satish Project" },
+];
 
 const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [images, setImages] = useState<string[]>([]);
@@ -40,6 +46,19 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+                <div className="space-y-2">
+                    <Label htmlFor="project-select">Project*</Label>
+                    <Select>
+                        <SelectTrigger id="project-select">
+                            <SelectValue placeholder="Select a project" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {activeProjects.map(project => (
+                                <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
                 <div className="space-y-2">
                     <Label htmlFor="snag-title">Snag Title*</Label>
                     <Input id="snag-title" placeholder="Enter a title for the snag" />
