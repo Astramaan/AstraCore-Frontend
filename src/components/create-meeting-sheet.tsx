@@ -113,12 +113,12 @@ export function CreateMeetingSheet() {
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
   return (
     <DialogOrSheet>
       <DialogOrSheetTrigger asChild>
-        <Button className="rounded-full h-[54px] px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary">
+        <Button className="rounded-full h-[54px] px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary text-lg font-medium">
             <PlusCircle className="mr-2 h-5 w-5" />
             Create
         </Button>
