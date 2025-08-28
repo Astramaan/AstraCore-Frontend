@@ -102,7 +102,6 @@ const ServiceableCityInput = () => {
 const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) => void }) => {
     const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
     
-    // State for controlled inputs
     const [logo, setLogo] = useState<File | null>(null);
     const [companyName, setCompanyName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -121,8 +120,6 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
     const [ifscCode, setIfscCode] = useState('');
     const [upiId, setUpiId] = useState('');
 
-
-    // Input handlers for validation
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
     };
@@ -292,6 +289,7 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [editingMaterial, setEditingMaterial] = useState<any | null>(null);
+    const [productImage, setProductImage] = useState<File | null>(null);
 
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
@@ -309,12 +307,13 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
             name: productName,
             price: price ? `₹${Number(price).toLocaleString('en-IN')}` : 'N/A',
             description: description,
-            image: "https://placehold.co/100x100.png"
+            image: productImage ? URL.createObjectURL(productImage) : "https://placehold.co/100x100.png"
         };
         setMaterials(prev => [...prev, newMaterial]);
         setProductName('');
         setPrice('');
         setDescription('');
+        setProductImage(null);
     }
 
     const handleDelete = (id: number) => {
@@ -325,6 +324,13 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
         setMaterials(prev => prev.map(m => m.id === updatedMaterial.id ? updatedMaterial : m));
         setEditingMaterial(null);
     }
+    
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setProductImage(e.target.files[0]);
+        }
+    };
+
 
     if (editingMaterial) {
         return <EditMaterialForm material={editingMaterial} onSave={handleSaveEdit} onCancel={() => setEditingMaterial(null)} />;
@@ -338,8 +344,12 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
                         <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
                      </div>
                     <div className="space-y-6">
-                        <div className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center">
-                             <Upload className="w-8 h-8 text-zinc-400" />
+                         <div className="space-y-2">
+                            <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
+                            <label htmlFor="product-image-upload" className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
+                                {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
+                                <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
+                            </label>
                         </div>
                     </div>
                     <div className="space-y-6">
@@ -401,12 +411,11 @@ export function AddVendorSheet() {
         setTimeout(() => {
             setShowSuccess(false);
             setStep('addMaterials');
-        }, 2000); // Show success for 2s then switch to next step
+        }, 2000);
     };
 
     const handleClose = () => {
         setIsOpen(false);
-        // Reset state after a delay to allow for closing animation
         setTimeout(() => {
             setStep('addVendor');
             setVendorName('');
@@ -467,7 +476,3 @@ export function AddVendorSheet() {
         </>
     );
 }
-
-    
-
-    
