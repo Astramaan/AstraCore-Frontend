@@ -99,7 +99,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-semibold">List</h1>
+                <h2 className="text-2xl font-normal">List</h2>
                 <div className="flex items-center gap-4">
                     <AddVendorSheet />
                 </div>
