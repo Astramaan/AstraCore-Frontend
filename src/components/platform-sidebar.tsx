@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Building2, GanttChartSquare, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Logo from './logo';
+import { HabiLogo } from './habi-logo';
 
 const navItems = [
     { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -37,7 +37,7 @@ export function PlatformSidebar() {
         <div className="h-full flex flex-col p-4 space-y-4 bg-white">
             <div className="p-4">
                  <Link href="/platform/dashboard">
-                    <Logo />
+                    <HabiLogo />
                 </Link>
             </div>
             <nav className="flex-grow">
