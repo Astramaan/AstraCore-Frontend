@@ -140,7 +140,7 @@ export function AssignTaskSheet() {
   return (
     <DialogOrSheet>
       <DialogOrSheetTrigger asChild>
-        <Button className="flex-1 md:flex-none rounded-full h-[54px] font-sans">
+        <Button className="flex-1 md:flex-none rounded-full h-[54px] font-sans bg-primary text-primary-foreground hover:bg-primary/90">
             <PlusCircle className="w-4 h-4 mr-2"/>
             Assign task
         </Button>
