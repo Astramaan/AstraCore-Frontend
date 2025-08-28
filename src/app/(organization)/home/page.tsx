@@ -92,6 +92,11 @@ export default function OrganizationHomePage() {
                 </div>
             </div>
 
+            <div className="flex md:hidden flex-wrap items-center gap-4 mb-6">
+                <AssignTaskSheet />
+                <AddEmployeeSheet />
+            </div>
+
             <div>
                 <h2 className="text-xl font-medium mb-4">My Tasks</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -107,7 +112,7 @@ export default function OrganizationHomePage() {
         </main>
 
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
-            <div className="flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
+            <div className="hidden md:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet />
                 <AddEmployeeSheet />
             </div>
