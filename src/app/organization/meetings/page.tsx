@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -26,10 +25,6 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
     <div className="bg-white p-4 border-b border-stone-200 last:border-b-0">
         <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
-                <Avatar className="w-14 h-14">
-                    <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
-                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                </Avatar>
                 <div>
                     <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
                     <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -79,7 +74,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-semibold text-zinc-900">Meetings</h1>
+                <h1 className="text-2xl font-semibold text-zinc-900">Client Meetings</h1>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
@@ -100,15 +95,11 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
                                 {filteredClientMeetings.map((meeting, index) => (
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
                                             <div className="flex items-center gap-4 p-4">
-                                                <Avatar className="w-14 h-14 shrink-0">
-                                                    <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                                                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                                </Avatar>
                                                 <div>
                                                     <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                     <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -138,7 +129,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                             </div>
                                         </div>
                                         {index < filteredClientMeetings.length - 1 && (
-                                            <div className="col-span-7 h-px bg-zinc-200" />
+                                            <div className="col-span-6 h-px bg-zinc-200" />
                                         )}
                                     </React.Fragment>
                                 ))}
@@ -151,15 +142,11 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
                                 {filteredLeadMeetings.map((meeting, index) => (
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
                                             <div className="flex items-center gap-4 p-4">
-                                                <Avatar className="w-14 h-14 shrink-0">
-                                                    <AvatarImage src="https://placehold.co/56x56" data-ai-hint="abstract building" />
-                                                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                                </Avatar>
                                                 <div>
                                                     <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                     <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -189,7 +176,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                             </div>
                                         </div>
                                         {index < filteredLeadMeetings.length - 1 && (
-                                            <div className="col-span-7 h-px bg-zinc-200" />
+                                            <div className="col-span-6 h-px bg-zinc-200" />
                                         )}
                                     </React.Fragment>
                                 ))}
