@@ -122,7 +122,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
-                        see all meetings <ArrowRight className="w-4 h-4" />
+                        see all meetings
                     </Link>
                 </div>
                 <div className="space-y-3">
