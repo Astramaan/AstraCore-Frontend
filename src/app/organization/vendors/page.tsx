@@ -77,7 +77,7 @@ const vendors = [
 ];
 
 const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
-    <Card className="rounded-[30px] p-4 bg-card shadow-sm">
+    <Card className="rounded-[30px] p-6 bg-card shadow-sm">
         <CardContent className="p-0 space-y-4">
             <div className="flex items-start gap-4">
                 <Avatar className="w-24 h-24 rounded-[20px]">
@@ -99,7 +99,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h2 className="text-2xl font-normal">List</h2>
+                <h2 className="text-2xl font-medium">Vendors</h2>
                 <div className="flex items-center gap-4">
                     <AddVendorSheet />
                 </div>
