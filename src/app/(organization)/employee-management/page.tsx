@@ -103,7 +103,7 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-semibold text-zinc-900">Employee Management</h1>
+                <h1 className="text-2xl font-medium text-zinc-900">Employee Management</h1>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />

@@ -40,7 +40,7 @@ const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h1 className="text-2xl font-semibold text-zinc-900 hidden md:block">{pageTitle}</h1>
+                    <h1 className="text-2xl font-medium text-zinc-900 hidden md:block">{pageTitle}</h1>
                 </>
              )}
         </div>

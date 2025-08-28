@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -74,7 +73,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-semibold text-zinc-900">Client Meetings</h1>
+                <h1 className="text-2xl font-medium text-zinc-900">Client Meetings</h1>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
@@ -122,14 +121,14 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                                 </div>
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="justify-self-center p-4">
+                                            <div className="justify-self-end p-4">
                                                 <Button variant="ghost" size="icon" className="w-8 h-8">
                                                     <MoreVertical className="h-5 w-5 text-zinc-500" />
                                                 </Button>
                                             </div>
                                         </div>
                                         {index < filteredClientMeetings.length - 1 && (
-                                            <div className="col-span-6 h-px bg-zinc-200" />
+                                            <div className="col-span-7 h-px bg-zinc-200" />
                                         )}
                                     </React.Fragment>
                                 ))}
@@ -169,14 +168,14 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                                 </div>
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="justify-self-center p-4">
+                                            <div className="justify-self-end p-4">
                                                 <Button variant="ghost" size="icon" className="w-8 h-8">
                                                     <MoreVertical className="h-5 w-5 text-zinc-500" />
                                                 </Button>
                                             </div>
                                         </div>
                                         {index < filteredLeadMeetings.length - 1 && (
-                                            <div className="col-span-6 h-px bg-zinc-200" />
+                                            <div className="col-span-7 h-px bg-zinc-200" />
                                         )}
                                     </React.Fragment>
                                 ))}
