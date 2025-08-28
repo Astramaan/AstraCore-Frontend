@@ -1,5 +1,5 @@
 
-import type {Metadata} from 'next';
+import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { gilroy } from '@/lib/fonts';
@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   title: 'Astramaan',
   description: 'Project Management for the modern age.',
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 export default function RootLayout({
   children,
