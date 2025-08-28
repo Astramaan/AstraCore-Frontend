@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -129,7 +130,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="flex items-center gap-4 flex-wrap" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-full md:w-48 justify-between">
+                        <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
                             {lead.level}
                             <ChevronDown />
                         </Button>
@@ -141,7 +142,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
+                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-primary/10 hover:text-primary text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
                     <Phone className="mr-2"/>
                     Contact
                 </Button>
@@ -178,7 +179,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
             <p className="text-lg font-medium">{selectedCount} Selected</p>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-48 justify-between">
+                    <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-48 justify-between hover:bg-primary/10 hover:text-primary">
                         Lead Level
                         <ChevronDown />
                     </Button>
@@ -363,7 +364,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-muted">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={handleDelete} className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

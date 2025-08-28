@@ -55,10 +55,10 @@ const ActiveCustomers = () => {
                     <AvatarFallback>+6</AvatarFallback>
                 </Avatar>
             </div>
-            <Button variant="ghost" size="icon" className="bg-white rounded-full h-14 w-14">
+            <Button variant="ghost" size="icon" className="bg-white rounded-full h-14 w-14 hover:bg-primary/10 hover:text-primary">
                 <ArrowRight />
             </Button>
-            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-gray-100 hidden md:flex">
+            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex">
                 <Users className="mr-2 h-6 w-6"/>
                 Invite
             </Button>
@@ -87,7 +87,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
           </div>
           <div className="space-y-2 w-full md:w-auto">
             <p className="text-base font-medium">Select Month</p>
-            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center">
+            <Button variant="outline" className="h-14 bg-white rounded-full px-10 text-lg font-medium w-full justify-center hover:bg-primary/10 hover:text-primary">
               <Calendar className="mr-2 h-6 w-6" />
               April 2025
             </Button>
@@ -196,7 +196,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
                     </div>
                     <div className="flex items-center gap-4 self-end md:self-center">
                         <p className="text-base md:text-lg font-medium">Total Response: <span className="text-2xl md:text-4xl font-bold">129</span></p>
-                        <Button variant="ghost" size="icon" className="bg-background rounded-full">
+                        <Button variant="ghost" size="icon" className="bg-background rounded-full hover:bg-primary/10 hover:text-primary">
                             <ArrowRight />
                         </Button>
                     </div>
@@ -217,7 +217,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
                                     <p className="text-sm text-muted-foreground">Pricing too high</p>
                                 </div>
                             </div>
-                            <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
+                            <Button variant="outline" className="rounded-full w-full md:w-auto hover:bg-primary/10 hover:text-primary">Contact</Button>
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
                                     <p className="text-sm text-muted-foreground">Missing Features</p>
                                 </div>
                             </div>
-                            <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
+                            <Button variant="outline" className="rounded-full w-full md:w-auto hover:bg-primary/10 hover:text-primary">Contact</Button>
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
@@ -237,7 +237,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
                                     <p className="text-sm text-muted-foreground">Technical issues</p>
                                 </div>
                             </div>
-                            <Button variant="outline" className="rounded-full w-full md:w-auto">Contact</Button>
+                            <Button variant="outline" className="rounded-full w-full md:w-auto hover:bg-primary/10 hover:text-primary">Contact</Button>
                         </div>
                     </div>
                 </div>

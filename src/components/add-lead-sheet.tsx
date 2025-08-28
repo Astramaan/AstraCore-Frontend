@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -87,7 +88,7 @@ export function AddLeadSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                     <Button className="h-14 px-10 rounded-full bg-white text-black hover:bg-muted text-lg font-medium">
+                     <Button className="h-14 px-10 rounded-full bg-white text-black hover:bg-primary/10 hover:text-primary text-lg font-medium">
                         <Plus className="mr-2"/>
                         Add New Lead
                     </Button>
