@@ -2,7 +2,6 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -23,35 +22,32 @@ const leadMeetings = [
 
 const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
     <div className="bg-white p-4 border-b border-stone-200 last:border-b-0">
-        <div className="space-y-4 relative">
-             <div className="flex items-start gap-4">
-                <Avatar className="w-14 h-14">
-                    <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
-                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+        <div className="flex justify-between items-start">
+            <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                    <div>
+                        <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
+                        <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                    </div>
+                </div>
+                
                 <div>
-                    <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
-                    <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                    <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                    <p className="text-base"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+                </div>
+                
+                <div className="space-y-1">
+                     <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                    <div className="flex items-center gap-2 text-base">
+                        <span className="text-grey-2">Link: </span> 
+                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                            <GoogleMeetIcon className="w-6 h-6" />
+                            Google Meet
+                        </a>
+                    </div>
                 </div>
             </div>
-            
             <div>
-                <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-base"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
-            </div>
-            
-            <div className="space-y-1">
-                 <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center gap-2 text-base">
-                    <span className="text-grey-2">Link: </span> 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                        <GoogleMeetIcon className="w-6 h-6" />
-                        Google Meet
-                    </a>
-                </div>
-            </div>
-
-            <div className="absolute top-0 right-0">
                 <Button variant="ghost" size="icon">
                     <MoreVertical className="w-5 h-5" />
                 </Button>
@@ -99,15 +95,11 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Client Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
                                 {filteredClientMeetings.map((meeting, index) => (
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
                                             <div className="flex items-center gap-4 p-4">
-                                                <Avatar className="w-14 h-14 shrink-0">
-                                                    <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
-                                                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                                </Avatar>
                                                 <div>
                                                     <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                     <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -130,7 +122,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                                 </div>
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="justify-self-center p-4">
+                                            <div className="justify-self-end p-4">
                                                 <Button variant="ghost" size="icon" className="w-8 h-8">
                                                     <MoreVertical className="h-5 w-5 text-zinc-500" />
                                                 </Button>
@@ -150,15 +142,11 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-xl font-medium text-zinc-800 mb-4 px-4">Lead Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[auto_1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
                                 {filteredLeadMeetings.map((meeting, index) => (
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
                                             <div className="flex items-center gap-4 p-4">
-                                                <Avatar className="w-14 h-14 shrink-0">
-                                                    <AvatarImage src="https://placehold.co/56x56.png" data-ai-hint="abstract building" />
-                                                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                                                </Avatar>
                                                 <div>
                                                     <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
                                                     <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
@@ -181,7 +169,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                                 </div>
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="justify-self-center p-4">
+                                            <div className="justify-self-end p-4">
                                                 <Button variant="ghost" size="icon" className="w-8 h-8">
                                                     <MoreVertical className="h-5 w-5 text-zinc-500" />
                                                 </Button>
