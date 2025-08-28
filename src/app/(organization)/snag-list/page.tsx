@@ -1,28 +1,53 @@
 
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
-const projects = [
+interface Snag {
+    id: string;
+    title: string;
+    description: string;
+    createdBy: string;
+    createdAt: string;
+    status: 'Open' | 'Closed' | 'In Progress';
+    subStatus: string;
+    statusColor: string;
+    image: string;
+}
+
+interface Project {
+    projectName: string;
+    projectId: string;
+    snags: Snag[];
+}
+
+
+const projectsData: Project[] = [
     {
         projectName: 'Charan Project',
         projectId: 'CHA2024',
         snags: [
             {
+                id: 'SNAG001',
                 title: 'Material Damage',
                 description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
                 createdBy: 'Yaswanth',
@@ -33,6 +58,7 @@ const projects = [
                 image: 'https://placehold.co/60x60'
             },
             {
+                id: 'SNAG002',
                 title: 'Material Damage',
                 description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
                 createdBy: 'Yaswanth',
@@ -43,6 +69,7 @@ const projects = [
                 image: 'https://placehold.co/60x60'
             },
              {
+                id: 'SNAG003',
                 title: 'Material Damage',
                 description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
                 createdBy: 'Yaswanth',
@@ -59,6 +86,7 @@ const projects = [
         projectId: 'SAT2024',
         snags: [
              {
+                id: 'SNAG004',
                 title: 'Material Damage',
                 description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
                 createdBy: 'Yaswanth',
@@ -72,73 +100,222 @@ const projects = [
     }
 ];
 
-const SnagRow = ({ snag, isHighlighted }: { snag: typeof projects[0]['snags'][0], isHighlighted?: boolean }) => (
-  <div className={cn("grid grid-cols-12 items-center py-3 gap-4", isHighlighted && "bg-yellow-500/10 rounded-lg")}>
-    <div className="col-span-1 flex justify-center"><Checkbox /></div>
-    <div className="col-span-3 flex items-center gap-4">
-      <Image src={snag.image} alt={snag.title} width={60} height={60} className="rounded-lg" data-ai-hint="defect photo"/>
-      <p className="font-medium">{snag.title}</p>
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
+    <div className="flex flex-col gap-4 py-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="flex items-center gap-4 flex-1">
+                <Checkbox 
+                    id={`select-${snag.id}`} 
+                    className="w-6 h-6 rounded-full" 
+                    checked={isSelected}
+                    onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
+                />
+                <Image src={snag.image} alt={snag.title} width={60} height={60} className="rounded-lg" data-ai-hint="defect photo"/>
+                <div className="flex flex-col gap-1 w-60">
+                    <p className="font-medium text-lg text-black">{snag.title}</p>
+                    <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
+                </div>
+            </div>
+
+            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+
+            <div className="flex flex-col gap-2 flex-1">
+                <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
+                <p className="text-sm text-grey-1">{snag.createdAt}</p>
+            </div>
+            
+            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+
+            <div className="flex items-center gap-4 flex-wrap">
+                <div>
+                  <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
+                  <p className="text-sm text-grey-1">{snag.subStatus}</p>
+                </div>
+                
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <AlertDialogTrigger asChild>
+                            <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
+                        </AlertDialogTrigger>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        </div>
+        <div className="h-px bg-stone-200" />
     </div>
-    <div className="col-span-3">
-        <p className="line-clamp-2">{snag.description}</p>
-    </div>
-    <div className="col-span-2 text-center">
-        <p>{snag.createdBy}</p>
-        <p className="text-sm text-muted-foreground">{snag.createdAt}</p>
-    </div>
-    <div className="col-span-2 text-center">
-        <p className={snag.statusColor}>{snag.status}</p>
-        <p className="text-sm text-muted-foreground">{snag.subStatus}</p>
-    </div>
-    <div className="col-span-1 flex justify-center">
-      <Button variant="ghost" size="icon"><MoreVertical className="w-5 h-5" /></Button>
-    </div>
-  </div>
 );
 
 
+const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMultiple, onBulkStatusChange }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void, onBulkStatusChange: (status: Snag['status']) => void }) => {
+    if (selectedCount === 0) return null;
+
+    return (
+        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[828px] h-20 bg-white rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-6 z-50">
+            <div className="flex items-center gap-4">
+                <Checkbox id="select-all-floating" className="w-6 h-6 rounded-full" checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
+                <label htmlFor="select-all-floating" className="text-lg font-medium">{allSelected ? 'Deselect all' : 'Select all'}</label>
+            </div>
+            <p className="text-lg font-medium">{selectedCount} Selected</p>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-48 justify-between hover:bg-primary/10 hover:text-primary">
+                        Change Status
+                        <ChevronDown />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem onSelect={() => onBulkStatusChange('Open')}>Open</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onBulkStatusChange('In Progress')}>In Progress</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onBulkStatusChange('Closed')}>Closed</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+             <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="h-14 px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-lg font-medium" onClick={onDeleteMultiple}>
+                    <Trash2 className="mr-2" />
+                    Delete
+                </Button>
+            </AlertDialogTrigger>
+        </div>
+    )
+}
+
+
 export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const [openProjects, setOpenProjects] = useState<string[]>(projects.map(p => p.projectName));
+    const [allProjects, setAllProjects] = useState(projectsData);
+    const [selectedSnags, setSelectedSnags] = useState<string[]>([]);
+    const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
+    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+
+    const allSnags = useMemo(() => allProjects.flatMap(p => p.snags), [allProjects]);
+    const filteredSnags = useMemo(() => allSnags, [allSnags]); // Add filtering logic later if needed
+
+    const handleSelectionChange = (id: string, checked: boolean) => {
+        setSelectedSnags(prev => 
+            checked ? [...prev, id] : prev.filter(snagId => snagId !== id)
+        );
+    };
+
+    const allSnagsSelected = useMemo(() => selectedSnags.length === filteredSnags.length && filteredSnags.length > 0, [selectedSnags.length, filteredSnags.length]);
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedSnags(filteredSnags.map(snag => snag.id));
+        } else {
+            setSelectedSnags([]);
+        }
+    };
+    
+    const handleDelete = () => {
+        setAllProjects(prevProjects => 
+            prevProjects.map(project => ({
+                ...project,
+                snags: project.snags.filter(snag => !snagToDelete.includes(snag.id))
+            })).filter(project => project.snags.length > 0)
+        );
+        setSelectedSnags(prev => prev.filter(id => !snagToDelete.includes(id)));
+        setSnagToDelete([]);
+        setIsDeleteConfirmationOpen(false);
+    }
+
+    const handleSingleDelete = (id: string) => {
+        setSnagToDelete([id]);
+        setIsDeleteConfirmationOpen(true);
+    }
+    
+    const handleDeleteMultiple = () => {
+        setSnagToDelete(selectedSnags);
+        setIsDeleteConfirmationOpen(true);
+    }
+    
+    const handleBulkStatusChange = (status: Snag['status']) => {
+      const statusColors = {
+        'Open': 'text-red-600',
+        'In Progress': 'text-yellow-600',
+        'Closed': 'text-cyan-500'
+      };
+      const subStatusText = {
+        'Open': 'unresolved',
+        'In Progress': 'active',
+        'Closed': 'resolved'
+      }
+
+      setAllProjects(prevProjects => 
+        prevProjects.map(project => ({
+          ...project,
+          snags: project.snags.map(snag => 
+            selectedSnags.includes(snag.id) ? { ...snag, status, statusColor: statusColors[status], subStatus: subStatusText[status] } : snag
+          )
+        }))
+      );
+    };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-24">
         <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-medium">Snag List</h2>
+            <h2 className="text-2xl font-normal">List</h2>
             <AddSnagSheet />
         </div>
         
-        <Card className="rounded-2xl">
-            <CardContent className="p-0">
-                <div className="grid grid-cols-12 p-4 text-muted-foreground font-medium">
-                    <div className="col-span-1"></div>
-                    <div className="col-span-3">Snag Title</div>
-                    <div className="col-span-3">Description</div>
-                    <div className="col-span-2 text-center">Created By</div>
-                    <div className="col-span-2 text-center">Status</div>
-                    <div className="col-span-1"></div>
-                </div>
+         <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
+            {allProjects.map((project) => (
+                <Card key={project.projectId} className="rounded-[50px] overflow-hidden">
+                     <CardContent className="p-6">
+                        <div className="flex items-center gap-2 mb-4">
+                           <h2 className="text-xl font-medium">{project.projectName}</h2>
+                           <div className="px-2.5 py-1 bg-zinc-100 rounded-md text-xs">{project.projectId}</div>
+                        </div>
+                        <div className="flex flex-col">
+                            {project.snags.map((snag) => (
+                                <SnagCard 
+                                    key={snag.id} 
+                                    snag={snag}
+                                    isSelected={selectedSnags.includes(snag.id)}
+                                    onSelectionChange={handleSelectionChange}
+                                    onSingleDelete={handleSingleDelete}
+                                />
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            ))}
 
-                <Accordion type="multiple" value={openProjects} onValueChange={setOpenProjects} className="w-full">
-                    {projects.map((project, index) => (
-                        <AccordionItem value={project.projectName} key={project.projectName} className="border-t">
-                            <AccordionTrigger className="p-4 hover:no-underline">
-                                 <div className="flex items-center gap-2">
-                                    <h2 className="text-xl font-medium">{project.projectName}</h2>
-                                    <div className="px-2.5 py-1 bg-zinc-100 rounded-md text-xs">{project.projectId}</div>
-                                 </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="px-4 pb-4">
-                               <div className="divide-y divide-border">
-                                   {project.snags.map((snag, snagIndex) => (
-                                        <SnagRow key={snagIndex} snag={snag} isHighlighted={index === 1 && snagIndex === 0} />
-                                    ))}
-                               </div>
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            </CardContent>
-        </Card>
+            <FloatingActionBar 
+                selectedCount={selectedSnags.length}
+                onSelectAll={handleSelectAll}
+                allSelected={allSnagsSelected}
+                onDeleteMultiple={handleDeleteMultiple}
+                onBulkStatusChange={handleBulkStatusChange}
+            />
+
+            <AlertDialogContent className="max-w-md rounded-[50px]">
+                <AlertDialogHeader className="items-center text-center">
+                     <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                      <div className="w-full h-full bg-red-600/5 rounded-full" />
+                      <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                      <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                    </div>
+                    <AlertDialogTitle className="text-2xl font-semibold">
+                        {snagToDelete.length > 1 ? "Delete Selected Snags?" : "Confirm Snag Deletion?"}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-lg text-grey-2">
+                        {snagToDelete.length > 1 
+                            ? "The selected snags and all associated data will be permanently removed." 
+                            : "Deleting this snag will permanently remove all associated data. This action cannot be undone."
+                        }
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                    <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDelete} className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     </div>
   );
 }
