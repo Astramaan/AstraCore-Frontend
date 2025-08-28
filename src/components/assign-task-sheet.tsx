@@ -135,12 +135,12 @@ export function AssignTaskSheet() {
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
   return (
     <DialogOrSheet>
       <DialogOrSheetTrigger asChild>
-        <Button className="flex-1 md:flex-none rounded-full h-[54px]">
+        <Button className="flex-1 md:flex-none rounded-full h-[54px] font-sans">
             <PlusCircle className="w-4 h-4 mr-2"/>
             Assign task
         </Button>
