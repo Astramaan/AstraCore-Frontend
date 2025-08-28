@@ -9,7 +9,7 @@ import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'l
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import Logo from '@/components/logo';
+import { HabiLogo } from '@/components/habi-logo';
 
 const OrganizationHeader = () => {
     const pathname = usePathname();
@@ -29,20 +29,27 @@ const OrganizationHeader = () => {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/employee-management')) {
         pageTitle = 'Employee Management';
+    } else if (pathname.startsWith('/organization/subscription-management')) {
+        pageTitle = 'Subscription management'
     }
 
     return (
     <header className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
         <div className="flex items-center gap-4 self-start">
-            <Logo />
-             {pageTitle && <h1 className="text-2xl font-semibold text-zinc-900 hidden md:block">{pageTitle}</h1>}
+            <HabiLogo />
+             {pageTitle && (
+                <>
+                    <div className="w-px h-8 bg-stone-300 hidden md:block" />
+                    <h1 className="text-2xl font-semibold text-zinc-900 hidden md:block">{pageTitle}</h1>
+                </>
+             )}
         </div>
         <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14">
                 <Bell className="h-6 w-6" />
             </Button>
             <Link href="/organization/employee-management">
-              <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex">
+              <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary hidden md:flex items-center">
                   <Users className="mr-2 h-6 w-6"/>
                   Employee Management
               </Button>
