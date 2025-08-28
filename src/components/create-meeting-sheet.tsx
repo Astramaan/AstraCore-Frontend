@@ -118,7 +118,7 @@ export function CreateMeetingSheet() {
   return (
     <DialogOrSheet>
       <DialogOrSheetTrigger asChild>
-        <Button className="rounded-full h-11 px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary">
+        <Button className="rounded-full h-[54px] px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary">
             <PlusCircle className="mr-2 h-5 w-5" />
             Create
         </Button>
