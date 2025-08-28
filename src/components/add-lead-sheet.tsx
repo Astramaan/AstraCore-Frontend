@@ -88,7 +88,7 @@ export function AddLeadSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                     <Button className="h-14 px-10 rounded-full bg-white text-black hover:bg-primary/10 hover:text-primary text-lg font-medium">
+                     <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
                         <Plus className="mr-2"/>
                         Add New Lead
                     </Button>
