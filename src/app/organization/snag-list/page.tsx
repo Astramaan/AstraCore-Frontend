@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -102,7 +103,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
   return (
     <div className="space-y-6">
         <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-normal">Snag List</h2>
+            <h2 className="text-2xl font-normal">List</h2>
             <AddSnagSheet />
         </div>
         
