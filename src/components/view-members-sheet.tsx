@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { MoreVertical } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export interface Role {
     name: string;
@@ -94,9 +95,17 @@ const MemberCard = ({ member }: { member: Member }) => (
                 <p className="text-lg"><span className="text-grey-1">Status: </span><span className={member.status === 'Active' ? "text-green-600" : "text-red-600"}>{member.status}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Last Active: </span><span className="text-black font-medium">{member.lastActive}</span></p>
             </div>
-             <Button variant="ghost" size="icon">
-                <MoreVertical className="w-6 h-6" />
-            </Button>
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <MoreVertical className="w-6 h-6" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem>Deactivate user</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
         <Separator />
     </>
@@ -158,4 +167,3 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
         </Sheet>
     );
 }
-
