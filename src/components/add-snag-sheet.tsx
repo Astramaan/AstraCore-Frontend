@@ -49,7 +49,7 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <div className="space-y-2">
                     <Label htmlFor="project-select">Project*</Label>
                     <Select>
-                        <SelectTrigger id="project-select">
+                        <SelectTrigger id="project-select" className="bg-background rounded-full h-12">
                             <SelectValue placeholder="Select a project" />
                         </SelectTrigger>
                         <SelectContent>
@@ -61,11 +61,11 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="snag-title">Snag Title*</Label>
-                    <Input id="snag-title" placeholder="Enter a title for the snag" />
+                    <Input id="snag-title" placeholder="Enter a title for the snag" className="bg-background rounded-full h-12" />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="snag-description">Description</Label>
-                    <Textarea id="snag-description" placeholder="Describe the issue in detail" />
+                    <Textarea id="snag-description" placeholder="Describe the issue in detail" className="bg-background rounded-2xl" />
                 </div>
                 <div className="space-y-2">
                     <Label>Attach Photos/Videos</Label>
@@ -88,7 +88,7 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 </div>
 
                 <div className="flex gap-4">
-                     <Button type="button" variant="outline" className="flex-1" onClick={() => fileInputRef.current?.click()}>
+                     <Button type="button" variant="outline" className="flex-1 rounded-full" onClick={() => fileInputRef.current?.click()}>
                         <ImageIcon className="mr-2" />
                         Upload
                     </Button>
@@ -100,14 +100,14 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                         multiple
                         onChange={handleImageUpload}
                     />
-                    <Button type="button" variant="outline" className="flex-1">
+                    <Button type="button" variant="outline" className="flex-1 rounded-full">
                         <Camera className="mr-2" />
                         Take Photo
                     </Button>
                 </div>
             </div>
             <div className="px-6 py-4 border-t">
-                <Button type="submit" className="w-full">Report Snag</Button>
+                <Button type="submit" className="w-full rounded-full">Report Snag</Button>
             </div>
         </form>
     );
@@ -129,7 +129,7 @@ export function AddSnagSheet() {
             New snag
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md p-0 rounded-lg">
+      <DialogContent className="sm:max-w-md p-0 rounded-lg bg-card">
         <DialogHeader className="p-4 border-b">
           <DialogTitle className="flex justify-between items-center">
             Report a New Snag
