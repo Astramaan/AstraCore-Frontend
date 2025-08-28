@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { AddEmployeeSheet } from '@/components/add-employee-sheet';
@@ -7,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 
 const roles = [
     { 
@@ -88,7 +89,17 @@ const RoleCard = ({ role }: { role: typeof roles[0] }) => (
     </>
 );
 
-export default function EmployeeManagementPage() {
+export default function EmployeeManagementPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredRoles = useMemo(() => {
+        if (!searchTerm) return roles;
+        return roles.filter(role =>
+            role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            role.admin.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [searchTerm]);
+
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -96,7 +107,12 @@ export default function EmployeeManagementPage() {
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
-                        <Input placeholder="Search Employee" className="pl-12 h-14 rounded-full bg-white text-lg" />
+                        <Input 
+                            placeholder="Search Employee" 
+                            className="pl-12 h-14 rounded-full bg-white text-lg" 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                      <AddEmployeeSheet />
                 </div>
@@ -105,7 +121,7 @@ export default function EmployeeManagementPage() {
             <Card className="rounded-[50px] overflow-hidden">
                 <CardContent className="p-6">
                     <div className="flex flex-col">
-                        {roles.map((role) => (
+                        {filteredRoles.map((role) => (
                             <RoleCard key={role.name} role={role} />
                         ))}
                     </div>

@@ -2,38 +2,40 @@
 
 'use client';
 
+import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, ArrowRight } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
+import { AddEmployeeSheet } from "@/components/add-employee-sheet";
+import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 
 
-const taskData = [
-    { title: "Product Weekly update", date: "25 May 2024", description: "This week, our team ma...", priority: "Low", status: "on hold", category: "Meetings" },
-    { title: "New Landing Page Design", date: "26 May 2024", description: "Create mockups for the new...", priority: "High", status: "In Progress", category: "Design" },
-    { title: "API Integration", date: "27 May 2024", description: "Integrate with the new paym...", priority: "Medium", status: "Pending", category: "Development" },
-    { title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user...", priority: "Low", status: "Completed", category: "QA" },
+const taskData: Task[] = [
+    { id: "TSK001", title: "Product Weekly update", date: "25 May 2024", description: "This week, our team made significant progress on the new feature development, hitting all key milestones. We also addressed several critical bugs and are on track for the upcoming sprint review.", priority: "Low", status: "on hold", category: "Meetings", project: "AstraCore App", clientId: "CL001", attachments: [{ type: 'pdf', name: 'update.pdf', url: '#' }, { type: 'image', name: 'screenshot.png', url: 'https://placehold.co/65x65' }] },
+    { id: "TSK002", title: "New Landing Page Design", date: "26 May 2024", description: "Create mockups for the new landing page, focusing on a clean, modern aesthetic and improved user experience. The design should be responsive and optimized for both desktop and mobile devices.", priority: "High", status: "In Progress", category: "Design", project: "Website Redesign", clientId: "CL002", attachments: [{ type: 'image', name: 'moodboard.png', url: 'https://placehold.co/65x65' }] },
+    { id: "TSK003", title: "API Integration", date: "27 May 2024", description: "Integrate with the new payment gateway API. This includes implementing authentication, handling payment requests, and processing transaction responses. Ensure robust error handling is in place.", priority: "Medium", status: "Pending", category: "Development", project: "E-commerce Platform", clientId: "CL003", attachments: [] },
+    { id: "TSK004", title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "Completed", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
 ]
 
-const TaskCard = ({ task }: { task: typeof taskData[0] }) => {
+const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
         "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between px-4 py-10">
+        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between px-6 py-10 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
                     <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{task.date}</p>
-                <p className="text-base text-zinc-900 mt-2">{task.description}</p>
+                <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
             </div>
             <div className="flex justify-between items-center">
                 <div className="flex items-center">
@@ -59,7 +61,7 @@ const meetings = [
 ]
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
-    <Card className="w-full h-20 rounded-[50px] p-4 flex items-center justify-between">
+    <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between">
         <div>
             <p className="text-base font-medium">{meeting.client}</p>
             <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
@@ -73,43 +75,9 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     </Card>
 )
 
-const overviewData = [
-  { name: "In Progress", value: 400, color: "hsl(var(--primary))" },
-  { name: "Pending", value: 300, color: "hsl(var(--secondary))" },
-  { name: "On Hold", value: 200, color: "hsl(var(--muted))" },
-];
+export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-
-const TaskOverviewChart = ({title}: {title: string}) => (
-    <Card className="w-full md:w-96 h-96 rounded-[40px]">
-        <CardHeader>
-            <CardTitle className="text-xl font-medium">{title}</CardTitle>
-        </CardHeader>
-        <CardContent className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                    <Pie data={overviewData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={80} outerRadius={110} paddingAngle={5} >
-                         {overviewData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} stroke={entry.color} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
-            </ResponsiveContainer>
-        </CardContent>
-        <div className="flex justify-center items-center gap-4 -mt-4">
-            {overviewData.map(item => (
-                <div key={item.name} className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full" style={{backgroundColor: item.color}}/>
-                    <span className="text-sm">{item.name}</span>
-                </div>
-            ))}
-        </div>
-    </Card>
-)
-
-
-export default function OrganizationHomePage() {
   return (
     <div className="flex flex-col md:flex-row gap-6">
         <main className="flex-1">
@@ -124,30 +92,32 @@ export default function OrganizationHomePage() {
                 </div>
             </div>
 
+            <div className="flex md:hidden flex-wrap items-center gap-4 mb-6">
+                <AssignTaskSheet />
+                <AddEmployeeSheet />
+            </div>
+
             <div>
                 <h2 className="text-xl font-medium mb-4">My Tasks</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {taskData.map(task => <TaskCard key={task.title} task={task} />)}
+                    {taskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
             <div className="mt-8">
                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     {taskData.slice(0, 2).map(task => <TaskCard key={task.title} task={task} />)}
+                     {taskData.slice(0, 2).map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
         </main>
 
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
-            <div className="flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
+            <div className="hidden md:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet />
-                <Button variant="outline" className="flex-1 md:flex-none rounded-full h-[54px] text-primary hover:bg-primary/10 hover:text-primary border border-primary">
-                    <Plus className="w-4 h-4 mr-2"/>
-                    Add Employee
-                </Button>
+                <AddEmployeeSheet />
             </div>
 
-            <div>
+            <div className="mt-8">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
@@ -158,10 +128,15 @@ export default function OrganizationHomePage() {
                     {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
                 </div>
             </div>
-            
-            <TaskOverviewChart title="My tasks overview" />
-            <TaskOverviewChart title="Assigned Tasks Overview" />
         </aside>
+        
+        {selectedTask && (
+            <TaskDetailsSheet
+                isOpen={!!selectedTask}
+                onClose={() => setSelectedTask(null)}
+                task={selectedTask}
+            />
+        )}
     </div>
   );
 }

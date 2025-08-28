@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { AddEmployeeSheet } from '@/components/add-employee-sheet';
@@ -88,7 +89,7 @@ const RoleCard = ({ role }: { role: typeof roles[0] }) => (
     </>
 );
 
-export default function EmployeeManagementPage() {
+export default function EmployeeManagementPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
 
     const filteredRoles = useMemo(() => {

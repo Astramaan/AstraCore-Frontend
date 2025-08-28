@@ -61,7 +61,7 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
     </div>
 )
 
-export default function MeetingsPage() {
+export default function MeetingsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
 
     const filterMeetings = (meetings: typeof clientMeetings) => {

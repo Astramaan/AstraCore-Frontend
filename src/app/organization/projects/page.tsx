@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical } from "lucide-react";
 import React from 'react';
+import { AddProjectSheet } from "@/components/add-project-sheet";
 
 const activeProjects = [
     {
@@ -86,18 +87,16 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
 );
 
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     return (
         <div className="space-y-8">
-            <div className="flex justify-end items-center">
-                <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px]">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Project
-                </Button>
-            </div>
-
+            <h1 className="text-2xl font-semibold">Projects</h1>
+            
             <div>
-                <h2 className="text-xl text-muted-foreground font-medium mb-4">Active Projects</h2>
+                 <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl text-black font-medium">Active Projects</h2>
+                    <AddProjectSheet />
+                </div>
                 <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {activeProjects.map((project, index) => (
@@ -108,7 +107,7 @@ export default function ProjectsPage() {
             </div>
 
             <div>
-                <h2 className="text-xl text-muted-foreground font-medium mb-4">Completed Projects</h2>
+                <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
                  <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {completedProjects.map((project, index) => (

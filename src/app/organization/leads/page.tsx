@@ -201,7 +201,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function LeadsPage() {
+export default function LeadsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [allLeads, setAllLeads] = useState(leadsData);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);

@@ -75,7 +75,7 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     </Card>
 )
 
-export default function OrganizationHomePage() {
+export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   return (

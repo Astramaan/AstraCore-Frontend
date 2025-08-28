@@ -3,7 +3,7 @@ import AuthForm from "@/components/auth-form";
 import Logo from "@/components/logo";
 import Image from "next/image";
 
-export default function LoginPage() {
+export default function LoginPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}

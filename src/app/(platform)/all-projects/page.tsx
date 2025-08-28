@@ -13,7 +13,7 @@ const projects = [
     { name: "Eco Park Development", organization: "GreenScape", status: "Not Started", deadline: "2025-01-20" },
 ];
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">

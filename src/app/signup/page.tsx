@@ -3,7 +3,7 @@ import SignupForm from "@/components/signup-form";
 import Logo from "@/components/logo";
 import Image from "next/image";
 
-export default function SignupPage() {
+export default function SignupPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}

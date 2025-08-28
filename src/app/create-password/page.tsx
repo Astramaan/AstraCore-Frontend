@@ -3,7 +3,7 @@ import CreatePasswordForm from "@/components/create-password-form";
 import Logo from "@/components/logo";
 import Image from "next/image";
 
-export default function CreatePasswordPage() {
+export default function CreatePasswordPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}

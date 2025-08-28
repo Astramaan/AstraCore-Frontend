@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { Check } from 'lucide-react';
 import Link from 'next/link';
 
-export default function PasswordSuccessPage() {
+export default function PasswordSuccessPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const router = useRouter();
   const [countdown, setCountdown] = useState(5);
 

@@ -3,7 +3,7 @@ import OtpForm from "@/components/otp-form";
 import Logo from "@/components/logo";
 import Image from "next/image";
 
-export default function OtpVerificationPage() {
+export default function OtpVerificationPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}
