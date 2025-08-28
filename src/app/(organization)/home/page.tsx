@@ -56,25 +56,27 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
 }
 
 const meetings = [
-    { client: "Charan Project", id: "BAL2025", time: "4:00 PM", date: "10 August 2024"},
-    { client: "Lead Discussion", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024"},
-    { client: "Internal Sync", id: "INT2025", time: "6:00 PM", date: "10 August 2024"},
+    { client: "Charan Project", id: "BAL2025", time: "4:00 PM", date: "10 August 2024", link: "https://meet.google.com/abc-xyz" },
+    { client: "Lead Discussion", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw" },
+    { client: "Internal Sync", id: "INT2025", time: "6:00 PM", date: "10 August 2024", link: "https://meet.google.com/ghi-rst" },
 ]
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
-    <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between">
-        <div className="flex-1">
-            <p className="text-base font-medium">{meeting.client}</p>
-            <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
-        </div>
-        <div className="text-right">
-            <p className="text-sm font-medium">{meeting.time}</p>
-            <p className="text-sm text-muted-foreground">{meeting.date}</p>
-        </div>
-        <div className="flex items-center gap-2 pl-4">
-            <ArrowRight className="w-5 h-5 text-muted-foreground" />
-        </div>
-    </Card>
+    <a href={meeting.link} target="_blank" rel="noopener noreferrer">
+        <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between cursor-pointer hover:bg-muted/50">
+            <div className="flex-1">
+                <p className="text-base font-medium">{meeting.client}</p>
+                <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
+            </div>
+            <div className="text-right">
+                <p className="text-sm font-medium">{meeting.time}</p>
+                <p className="text-sm text-muted-foreground">{meeting.date}</p>
+            </div>
+            <div className="flex items-center gap-2 pl-4">
+                <ArrowRight className="w-5 h-5 text-muted-foreground" />
+            </div>
+        </Card>
+    </a>
 )
 
 type FilterType = "High Priority" | "In Progress" | "Pending" | null;
@@ -179,7 +181,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             <div className="mt-8">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
-                    <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
+                    <Link href="/organization/meetings" className="text-sm text-cyan-500">
                         see all meetings
                     </Link>
                 </div>
