@@ -124,8 +124,8 @@ export function AddSnagSheet() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-         <Button variant="destructive" className="bg-red-500/10 text-red-600 border border-red-600 hover:bg-red-500/20 rounded-full h-[54px]">
-            <Plus className="mr-2 h-4 w-4" />
+         <Button className="h-14 px-10 rounded-full bg-white text-black hover:bg-primary/10 hover:text-primary text-lg font-medium">
+            <Plus className="mr-2"/>
             New snag
         </Button>
       </DialogTrigger>

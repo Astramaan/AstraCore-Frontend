@@ -21,6 +21,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 interface Snag {
     id: string;
@@ -32,72 +34,63 @@ interface Snag {
     subStatus: string;
     statusColor: string;
     image: string;
-}
-
-interface Project {
-    projectName: string;
     projectId: string;
-    snags: Snag[];
+    projectName: string;
 }
 
-
-const projectsData: Project[] = [
+const projectsData: Snag[] = [
     {
-        projectName: 'Charan Project',
+        id: 'SNAG001',
+        title: 'Material Damage',
+        description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
+        createdBy: 'Yaswanth',
+        createdAt: '01 June 2024, 11:00am',
+        status: 'Open',
+        subStatus: 'unresolved',
+        statusColor: 'text-red-600',
+        image: 'https://placehold.co/60x60',
         projectId: 'CHA2024',
-        snags: [
-            {
-                id: 'SNAG001',
-                title: 'Material Damage',
-                description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
-                createdBy: 'Yaswanth',
-                createdAt: '01 June 2024, 11:00am',
-                status: 'Open',
-                subStatus: 'unresolved',
-                statusColor: 'text-red-600',
-                image: 'https://placehold.co/60x60'
-            },
-            {
-                id: 'SNAG002',
-                title: 'Material Damage',
-                description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
-                createdBy: 'Yaswanth',
-                createdAt: '01 June 2024, 11:00am',
-                status: 'Closed',
-                subStatus: 'Resolved',
-                statusColor: 'text-cyan-500',
-                image: 'https://placehold.co/60x60'
-            },
-             {
-                id: 'SNAG003',
-                title: 'Material Damage',
-                description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
-                createdBy: 'Yaswanth',
-                createdAt: '01 June 2024, 11:00am',
-                status: 'Closed',
-                subStatus: 'Resolved',
-                statusColor: 'text-cyan-500',
-                image: 'https://placehold.co/60x60'
-            },
-        ]
+        projectName: 'Charan Project'
     },
     {
-        projectName: 'Satish Project',
+        id: 'SNAG002',
+        title: 'Material Damage',
+        description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
+        createdBy: 'Yaswanth',
+        createdAt: '01 June 2024, 11:00am',
+        status: 'Closed',
+        subStatus: 'Resolved',
+        statusColor: 'text-cyan-500',
+        image: 'https://placehold.co/60x60',
+        projectId: 'CHA2024',
+        projectName: 'Charan Project'
+    },
+     {
+        id: 'SNAG003',
+        title: 'Material Damage',
+        description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
+        createdBy: 'Yaswanth',
+        createdAt: '01 June 2024, 11:00am',
+        status: 'Closed',
+        subStatus: 'Resolved',
+        statusColor: 'text-cyan-500',
+        image: 'https://placehold.co/60x60',
+        projectId: 'CHA2024',
+        projectName: 'Charan Project'
+    },
+    {
+        id: 'SNAG004',
+        title: 'Material Damage',
+        description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
+        createdBy: 'Yaswanth',
+        createdAt: '01 June 2024, 11:00am',
+        status: 'Open',
+        subStatus: 'unresolved',
+        statusColor: 'text-red-600',
+        image: 'https://placehold.co/60x60',
         projectId: 'SAT2024',
-        snags: [
-             {
-                id: 'SNAG004',
-                title: 'Material Damage',
-                description: 'Delivered Materials damaged fjvjvjlvjlvjlvnvjl cmdmvdkmvdkmvvknflvn',
-                createdBy: 'Yaswanth',
-                createdAt: '01 June 2024, 11:00am',
-                status: 'Open',
-                subStatus: 'unresolved',
-                statusColor: 'text-red-600',
-                image: 'https://placehold.co/60x60'
-            },
-        ]
-    }
+        projectName: 'Satish Project'
+    },
 ];
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
@@ -114,6 +107,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 <div className="flex flex-col gap-1 w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
+                    <p className="text-sm text-grey-1">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
@@ -187,13 +181,21 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 
 
 export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-    const [allProjects, setAllProjects] = useState(projectsData);
+    const [allSnags, setAllSnags] = useState(projectsData);
     const [selectedSnags, setSelectedSnags] = useState<string[]>([]);
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const allSnags = useMemo(() => allProjects.flatMap(p => p.snags), [allProjects]);
-    const filteredSnags = useMemo(() => allSnags, [allSnags]); // Add filtering logic later if needed
+    const filteredSnags = useMemo(() => {
+        if (!searchTerm) return allSnags;
+        return allSnags.filter(snag =>
+            snag.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            snag.projectId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            snag.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            snag.createdBy.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [allSnags, searchTerm]);
 
     const handleSelectionChange = (id: string, checked: boolean) => {
         setSelectedSnags(prev => 
@@ -212,11 +214,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     };
     
     const handleDelete = () => {
-        setAllProjects(prevProjects => 
-            prevProjects.map(project => ({
-                ...project,
-                snags: project.snags.filter(snag => !snagToDelete.includes(snag.id))
-            })).filter(project => project.snags.length > 0)
+        setAllSnags(prevSnags => 
+            prevSnags.filter(snag => !snagToDelete.includes(snag.id))
         );
         setSelectedSnags(prev => prev.filter(id => !snagToDelete.includes(id)));
         setSnagToDelete([]);
@@ -245,45 +244,47 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         'Closed': 'resolved'
       }
 
-      setAllProjects(prevProjects => 
-        prevProjects.map(project => ({
-          ...project,
-          snags: project.snags.map(snag => 
+      setAllSnags(prevSnags => 
+        prevSnags.map(snag => 
             selectedSnags.includes(snag.id) ? { ...snag, status, statusColor: statusColors[status], subStatus: subStatusText[status] } : snag
           )
-        }))
       );
     };
 
   return (
     <div className="space-y-6 pb-24">
-        <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-normal">List</h2>
-            <AddSnagSheet />
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <h2 className="text-2xl font-medium text-zinc-900">Snag List</h2>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+                <div className="relative w-full md:w-64">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                    <Input 
+                        placeholder="Search Snags" 
+                        className="pl-12 h-14 rounded-full bg-white text-lg" 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <AddSnagSheet />
+            </div>
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-            {allProjects.map((project) => (
-                <Card key={project.projectId} className="rounded-[50px] overflow-hidden">
-                     <CardContent className="p-6">
-                        <div className="flex items-center gap-2 mb-4">
-                           <h2 className="text-xl font-medium">{project.projectName}</h2>
-                           <div className="px-2.5 py-1 bg-zinc-100 rounded-md text-xs">{project.projectId}</div>
-                        </div>
-                        <div className="flex flex-col">
-                            {project.snags.map((snag) => (
-                                <SnagCard 
-                                    key={snag.id} 
-                                    snag={snag}
-                                    isSelected={selectedSnags.includes(snag.id)}
-                                    onSelectionChange={handleSelectionChange}
-                                    onSingleDelete={handleSingleDelete}
-                                />
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
-            ))}
+            <Card className="rounded-[50px] overflow-hidden">
+                 <CardContent className="p-6">
+                    <div className="flex flex-col">
+                        {filteredSnags.map((snag) => (
+                            <SnagCard 
+                                key={snag.id} 
+                                snag={snag}
+                                isSelected={selectedSnags.includes(snag.id)}
+                                onSelectionChange={handleSelectionChange}
+                                onSingleDelete={handleSingleDelete}
+                            />
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
 
             <FloatingActionBar 
                 selectedCount={selectedSnags.length}
