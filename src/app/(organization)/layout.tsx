@@ -5,7 +5,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot, UserCog } from 'lucide-react';
+import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
