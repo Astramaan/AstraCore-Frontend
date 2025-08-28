@@ -103,7 +103,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 <div>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto_auto] items-center">
                                 {filteredClientMeetings.map((meeting, index) => (
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
@@ -158,7 +158,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-2xl font-medium text-zinc-900 mb-4">Lead Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
+                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto_auto] items-center">
                                 {filteredLeadMeetings.map((meeting, index) => (
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
