@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Logo from '@/components/logo';
+import { HabiLogo } from '@/components/habi-logo';
 import Image from 'next/image';
 import { Check } from 'lucide-react';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
           </div>
           <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col items-center text-center">
               <div className="absolute top-8 left-4">
-                  <Logo />
+                  <HabiLogo />
               </div>
               <div className='flex-grow flex flex-col justify-center items-center'>
                   <div className="relative mb-6 flex items-center justify-center">
@@ -78,7 +78,7 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
 
             <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full text-center">
-                    <Logo className="mx-auto" />
+                    <HabiLogo className="mx-auto" />
                     <div className="flex-grow flex flex-col justify-center items-center">
                       <div className="relative mb-6 flex items-center justify-center">
                         <div className="w-20 h-20 bg-lime-600/5 rounded-full" />

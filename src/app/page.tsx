@@ -1,6 +1,6 @@
 
 import AuthForm from "@/components/auth-form";
-import Logo from "@/components/logo";
+import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
 export default function LoginPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
@@ -19,7 +19,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key: stri
         </div>
         <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col">
             <div className="mb-6">
-              <Logo />
+              <HabiLogo />
             </div>
             <p className="text-lg text-grey-1 mb-6">Log in and let’s get to work on<br/>your projects.</p>
             <AuthForm />
@@ -45,7 +45,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key: stri
 
             <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
-                    <Logo />
+                    <HabiLogo />
                     <h2 className="mt-8 text-lg text-grey-1 tracking-tight">Log in and let’s get to work on your projects.</h2>
                     <div className="mt-8 flex-grow flex flex-col">
                         <AuthForm />

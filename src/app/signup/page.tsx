@@ -1,6 +1,6 @@
 
 import SignupForm from "@/components/signup-form";
-import Logo from "@/components/logo";
+import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
 export default function SignupPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
@@ -19,7 +19,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key: str
         </div>
         <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col">
             <div className="mb-6">
-              <Logo />
+              <HabiLogo />
             </div>
             <p className="text-lg text-grey-1 mb-6">Sign up to manage and grow<br/>your projects.</p>
             <SignupForm />
@@ -46,7 +46,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key: str
 
             <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
-                    <Logo />
+                    <HabiLogo />
                     <h2 className="mt-8 text-lg text-grey-1 tracking-tight">Sign up to manage and grow your projects.</h2>
                     <div className="mt-8 flex-grow flex flex-col">
                         <SignupForm />

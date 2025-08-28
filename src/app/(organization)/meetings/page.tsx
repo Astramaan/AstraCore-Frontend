@@ -23,7 +23,7 @@ const leadMeetings = [
 ];
 
 const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0">
+    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer">
         <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
                 <div>

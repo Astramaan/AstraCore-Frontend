@@ -1,6 +1,6 @@
 
 import SetPasswordForm from "@/components/set-password-form";
-import Logo from "@/components/logo";
+import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
 export default function SetPasswordPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
@@ -19,7 +19,7 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
         </div>
         <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col">
             <div className="mb-6">
-              <Logo />
+              <HabiLogo />
             </div>
             <SetPasswordForm flow="set-password" />
         </div>
@@ -44,7 +44,7 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
 
             <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
-                    <Logo />
+                    <HabiLogo />
                     <div className="mt-8 flex-grow flex flex-col">
                       <SetPasswordForm flow="set-password" />
                     </div>

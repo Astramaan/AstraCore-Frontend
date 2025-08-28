@@ -1,6 +1,6 @@
 
 import OtpForm from "@/components/otp-form";
-import Logo from "@/components/logo";
+import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
 export default function OtpVerificationPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
@@ -19,7 +19,7 @@ export default function OtpVerificationPage({ searchParams }: { searchParams: { 
         </div>
         <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] relative flex flex-col">
             <div className="mb-6">
-              <Logo />
+              <HabiLogo />
             </div>
             <OtpForm />
         </div>
@@ -46,7 +46,7 @@ export default function OtpVerificationPage({ searchParams }: { searchParams: { 
 
             <div className="flex flex-col py-6 px-10 w-[448px]">
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
-                    <Logo />
+                    <HabiLogo />
                     <div className="mt-8 flex-grow flex flex-col">
                       <OtpForm />
                     </div>
