@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -98,6 +98,8 @@ const SnagRow = ({ snag, isHighlighted }: { snag: typeof projects[0]['snags'][0]
 
 
 export default function SnagListPage() {
+  const [openProjects, setOpenProjects] = useState<string[]>(projects.map(p => p.projectName));
+
   return (
     <div className="space-y-6">
         <div className="flex justify-between items-center">
@@ -116,7 +118,7 @@ export default function SnagListPage() {
                     <div className="col-span-1"></div>
                 </div>
 
-                <Accordion type="multiple" defaultValue={projects.map(p => p.projectName)} className="w-full">
+                <Accordion type="multiple" value={openProjects} onValueChange={setOpenProjects} className="w-full">
                     {projects.map((project, index) => (
                         <AccordionItem value={project.projectName} key={project.projectName} className="border-t">
                             <AccordionTrigger className="p-4 hover:no-underline">
