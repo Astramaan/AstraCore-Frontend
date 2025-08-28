@@ -28,7 +28,7 @@ const FormField = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputE
     </div>
 );
 
-const FileUploadField = ({ label, id }: { label: string, id: string }) => (
+const FileUploadField = ({ label, id, onChange }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => (
     <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input">
         <Label htmlFor={id} className="px-4 text-lg text-zinc-900 whitespace-nowrap">{label}</Label>
         <div className="border-l border-stone-300 h-full mx-2"></div>
@@ -37,7 +37,7 @@ const FileUploadField = ({ label, id }: { label: string, id: string }) => (
                 <Upload className="w-4 h-4" />
                 Upload
             </label>
-            <Input id={id} type="file" className="hidden" />
+            <Input id={id} type="file" className="hidden" onChange={onChange} />
         </div>
     </div>
 )
@@ -103,14 +103,24 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
     const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
     
     // State for controlled inputs
+    const [logo, setLogo] = useState<File | null>(null);
     const [companyName, setCompanyName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [cinCert, setCinCert] = useState<File | null>(null);
+    const [gstCert, setGstCert] = useState<File | null>(null);
     const [gstNumber, setGstNumber] = useState('');
+    const [brochure, setBrochure] = useState<File | null>(null);
+    const [availableTimeFrom, setAvailableTimeFrom] = useState('');
+    const [availableTimeTo, setAvailableTimeTo] = useState('');
     const [bankName, setBankName] = useState('');
     const [accountHolder, setAccountHolder] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [confirmAccountNumber, setConfirmAccountNumber] = useState('');
     const [ifscCode, setIfscCode] = useState('');
+    const [upiId, setUpiId] = useState('');
+
 
     // Input handlers for validation
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,6 +138,12 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
     
     const handleAlphanumericChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
+    };
+    
+    const handleFileChange = (setter: React.Dispatch<React.SetStateAction<File | null>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setter(e.target.files[0]);
+        }
     };
 
 
@@ -150,8 +166,8 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                     <div className="space-y-6">
                         <div className="flex gap-4 items-center">
                             <label htmlFor="logo-upload" className="w-24 h-24 bg-input rounded-2xl border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
-                                <Upload className="w-8 h-8 text-zinc-400" />
-                                <Input id="logo-upload" type="file" className="hidden" />
+                                {logo ? <Image src={URL.createObjectURL(logo)} alt="logo" width={96} height={96} className="rounded-2xl object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
+                                <Input id="logo-upload" type="file" className="hidden" onChange={handleFileChange(setLogo)} />
                             </label>
                             <div className="space-y-4 flex-1">
                                 <FormField id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
@@ -168,15 +184,15 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                                 onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
                                 className="w-full h-[54px] bg-input rounded-full px-6 text-lg" />
                          </div>
-                         <FormField id="email" label="Email*" type="email" placeholder="Enter email" />
+                         <FormField id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                          <div className="space-y-2">
                             <Label htmlFor="address" className="text-zinc-900 text-lg font-medium px-2">Address*</Label>
-                            <Textarea id="address" className="h-36 bg-input rounded-3xl" placeholder="Enter address"/>
+                            <Textarea id="address" className="h-36 bg-input rounded-3xl" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                         </div>
-                        <FileUploadField id="cin-cert" label="CIN Certificate" />
-                        <FileUploadField id="gst-cert" label="GST Certificate" />
+                        <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} />
+                        <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} />
                         <FormField id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
-                        <FileUploadField id="brochure" label="Product Brochure" />
+                        <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)}/>
 
                         <ServiceableCityInput />
 
@@ -190,9 +206,9 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                         <div className="space-y-2">
                             <Label className="text-zinc-900 text-lg font-medium px-2">Available Time</Label>
                             <div className="flex items-center gap-2 bg-input rounded-full h-[54px] px-4">
-                                <Input type="time" id="available-time-from" name="available-time-from" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" />
+                                <Input type="time" id="available-time-from" name="available-time-from" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
                                 <span>to</span>
-                                <Input type="time" id="available-time-to" name="available-time-to" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" />
+                                <Input type="time" id="available-time-to" name="available-time-to" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
                             </div>
                         </div>
                         
@@ -207,7 +223,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                             <FormField id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
                             <FormField id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
                             <FormField id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
-                            <FormField id="upi-id" label="UPI ID" placeholder="Enter UPI ID"/>
+                            <FormField id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                         </div>
                     </div>
                 </div>
@@ -451,5 +467,7 @@ export function AddVendorSheet() {
         </>
     );
 }
+
+    
 
     
