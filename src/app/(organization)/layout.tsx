@@ -5,11 +5,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bell, Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
+import { Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { HabiLogo } from '@/components/habi-logo';
+import { NotificationPopover } from '@/components/notification-popover';
 
 const OrganizationHeader = () => {
     const pathname = usePathname();
@@ -45,9 +46,7 @@ const OrganizationHeader = () => {
              )}
         </div>
         <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
-            <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary">
-                <Bell className="h-6 w-6" />
-            </Button>
+            <NotificationPopover />
             <Link href="/organization/employee-management">
               <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary hover:text-white hidden md:flex items-center">
                   <Users className="mr-2 h-6 w-6"/>
