@@ -95,11 +95,11 @@ const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
     </Card>
 );
 
-export default function VendorsPage() {
+export default function VendorsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-semibold">Vendors</h1>
+                <h2 className="text-2xl font-medium">Vendors</h2>
                 <div className="flex items-center gap-4">
                     <AddVendorSheet />
                 </div>

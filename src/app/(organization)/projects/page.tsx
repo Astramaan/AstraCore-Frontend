@@ -87,10 +87,10 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
 );
 
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     return (
         <div className="space-y-8">
-            <h1 className="text-2xl font-semibold">Projects</h1>
+            <h2 className="text-2xl font-medium">Projects</h2>
             
             <div>
                  <div className="flex justify-between items-center mb-4">

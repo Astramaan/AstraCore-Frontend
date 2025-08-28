@@ -97,13 +97,13 @@ const SnagRow = ({ snag, isHighlighted }: { snag: typeof projects[0]['snags'][0]
 );
 
 
-export default function SnagListPage() {
+export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [openProjects, setOpenProjects] = useState<string[]>(projects.map(p => p.projectName));
 
   return (
     <div className="space-y-6">
         <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-semibold">Snag List</h1>
+            <h2 className="text-2xl font-medium">Snag List</h2>
             <AddSnagSheet />
         </div>
         

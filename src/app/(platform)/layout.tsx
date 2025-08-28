@@ -31,7 +31,7 @@ const PlatformHeader = () => {
                                 </SheetContent>
                             </Sheet>
                         </div>
-                        <h1 className="text-2xl font-medium text-zinc-900">Dashboard</h1>
+                        <h2 className="text-2xl font-medium text-zinc-900">Dashboard</h2>
                     </div>
                     
                     <div className="flex items-center gap-6">
