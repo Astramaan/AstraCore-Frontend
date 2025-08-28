@@ -21,9 +21,18 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { addEmployee } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
+import { Checkbox } from './ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+
+const FloatingLabelInput = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
+    <div className="relative flex flex-col justify-start items-start gap-2">
+        <Label htmlFor={id} className="text-grey-2 text-lg font-medium">{label}</Label>
+        <Input id={id} className="w-full h-14 bg-background rounded-[50px] px-6 text-lg" {...props} />
+    </div>
+);
+
 
 const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
-    const [role, setRole] = useState('sales');
     const { toast } = useToast();
 
     const [state, formAction] = useActionState(addEmployee, { success: false, message: '' });
@@ -39,62 +48,49 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             });
         }
     }, [state, onFormSuccess, toast]);
+    
+    const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
+
 
     return (
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
             <div className="grid grid-cols-1 gap-y-6">
-            
+                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" placeholder="Balaji Naik" />
+                <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" placeholder="admin@abc.com" />
+                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" placeholder="+91 1234567890" />
+
                 <div className="space-y-2">
-                    <Label htmlFor="employee-name" className="text-zinc-900 font-medium">Name*</Label>
-                    <div className="relative flex items-center">
-                        <User className="absolute left-4 h-5 w-5 text-gray-400" />
-                        <Input id="employee-name" name="employee-name" placeholder="Enter name" className="pl-12 bg-background rounded-lg h-12" />
-                    </div>
+                    <Label htmlFor="role-type" className="text-grey-2 text-lg font-medium">Role Type</Label>
+                    <Select name="role-type">
+                        <SelectTrigger id="role-type" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg">
+                            <SelectValue placeholder="Admin" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="admin">Admin</SelectItem>
+                            <SelectItem value="employee">Employee</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="employee-email" className="text-zinc-900 font-medium">Email*</Label>
-                     <div className="relative flex items-center">
-                        <Mail className="absolute left-4 h-5 w-5 text-gray-400" />
-                        <Input id="employee-email" name="employee-email" type="email" placeholder="Enter email" className="pl-12 bg-background rounded-lg h-12" />
+                    <Label className="text-grey-2 text-lg font-medium">Roles</Label>
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                        {roles.map(role => (
+                            <div key={role} className="flex items-center gap-2">
+                                <Checkbox id={`role-${role.toLowerCase()}`} name="roles" value={role.toLowerCase()} className="w-6 h-6 rounded-full" />
+                                <Label htmlFor={`role-${role.toLowerCase()}`} className="text-black text-lg font-medium">
+                                    {role}
+                                </Label>
+                            </div>
+                        ))}
                     </div>
                 </div>
-
-                <div className="space-y-2">
-                    <Label htmlFor="employee-phone" className="text-zinc-900 font-medium">Phone Number*</Label>
-                     <div className="relative flex items-center">
-                        <Phone className="absolute left-4 h-5 w-5 text-gray-400" />
-                        <Input id="employee-phone" name="employee-phone" type="tel" placeholder="Enter phone number" className="pl-12 bg-background rounded-lg h-12" />
-                    </div>
-                </div>
-
-                <div className="space-y-4">
-                    <Label className="text-zinc-900 font-medium">Role</Label>
-                    <RadioGroup value={role} onValueChange={setRole} className="gap-4" name="role">
-                        <div className="grid grid-cols-2 gap-4">
-                            {['Sales', 'Support', 'Architect', 'Site Engineer'].map(value => (
-                                <div key={value} className="flex items-center space-x-2 bg-background p-3 rounded-lg">
-                                    <RadioGroupItem value={value.toLowerCase().replace(' ', '')} id={`role-${value.toLowerCase()}`} />
-                                    <Label htmlFor={`role-${value.toLowerCase()}`} className="font-normal text-sm">{value}</Label>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="flex items-center space-x-2 bg-background p-3 rounded-lg">
-                            <RadioGroupItem value="custom" id="role-custom" />
-                            <Label htmlFor="role-custom" className="font-normal text-sm flex-1">Custom Role</Label>
-                             {role === 'custom' && (
-                                <Input name="custom-role" placeholder="Enter custom role" className="h-8 bg-white" />
-                            )}
-                        </div>
-                    </RadioGroup>
-                </div>
-            
             </div>
             
-            <div className="flex justify-end pt-8">
-                <Button type="submit" className="px-14 h-12 text-lg rounded-full">
-                    Add Employee
+            <div className="flex justify-center pt-8">
+                <Button type="submit" className="w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+                    Add
                 </Button>
             </div>
         </div>
@@ -113,46 +109,41 @@ export function AddEmployeeSheet() {
     setShowSuccess(true);
   };
 
-
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+  const DialogOrSheet = isMobile ? Dialog : Dialog;
+  const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
+  const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
+  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
+  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
   return (
     <>
     <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
       <DialogOrSheetTrigger asChild>
-        <Button variant="outline" className="flex-1 md:flex-none rounded-full h-[54px] text-primary hover:bg-primary/10 hover:text-primary border border-primary">
-            <Plus className="w-4 h-4 mr-2"/>
-            Add Employee
+        <Button className="h-14 px-10 rounded-full bg-white text-black hover:bg-primary/10 hover:text-primary text-lg font-medium">
+            <Plus className="mr-2"/>
+            Add New Employee
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            isMobile 
-              ? "w-full p-0 rounded-t-[50px]" 
-              : "sm:max-w-2xl p-0 rounded-[50px]"
+            "p-0 rounded-[50px] w-[452px]"
           )}
-          {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b">
-              <DialogOrSheetTitle className="flex items-center text-xl font-medium">
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                    <Plus className="h-5 w-5 text-gray-600"/>
-                  </div>
-                  Add New Employee
-                  <div className="flex items-center gap-4 ml-auto">
-                      <DialogOrSheetClose asChild>
-                          <Button variant="ghost" className="rounded-full text-sm font-normal h-auto px-4 py-2 bg-gray-100 hover:bg-gray-200">
-                              <X className="h-4 w-4 mr-1"/>
-                              Close
-                          </Button>
-                      </DialogOrSheetClose>
-                  </div>
-              </DialogOrSheetTitle>
+              <div className="flex items-center justify-between">
+                <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+                    <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
+                        <Plus className="h-6 w-6"/>
+                    </div>
+                    Add New Employee
+                </DialogOrSheetTitle>
+                <DialogOrSheetClose asChild>
+                    <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
+                        <X className="h-6 w-6" />
+                    </Button>
+                </DialogOrSheetClose>
+              </div>
           </DialogOrSheetHeader>
           <AddEmployeeForm onFormSuccess={handleSuccess} />
       </DialogOrSheetContent>
