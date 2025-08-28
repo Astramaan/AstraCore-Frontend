@@ -42,13 +42,13 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
     return (
         <AlertDialog>
             <div className="space-y-6">
-                <Card className="rounded-[50px] p-8">
+                <Card className="rounded-[50px] p-4 md:p-8">
                     <CardContent className="p-0">
                         <div className="flex flex-col md:flex-row gap-8">
                             <div className="shrink-0">
-                                <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                                <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full mx-auto md:mx-0" data-ai-hint="person portrait"/>
                             </div>
-                            <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 <div className="space-y-6">
                                     <div className="space-y-1">
                                         <p className="text-base text-grey-1">Full Name</p>
