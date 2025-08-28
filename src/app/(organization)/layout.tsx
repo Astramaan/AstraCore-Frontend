@@ -94,7 +94,7 @@ const OrganizationBottomNav = () => {
                                     isActive ? "bg-primary text-white" : "bg-white text-black"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap">{item.label}</span>
+                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
                                 </div>
                             </Link>
                         )
