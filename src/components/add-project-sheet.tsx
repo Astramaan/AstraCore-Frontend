@@ -149,7 +149,7 @@ export function AddProjectSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                    <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px]">
+                    <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20">
                         <PlusCircle className="mr-2 h-4 w-4" />
                         Add Project
                     </Button>
