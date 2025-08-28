@@ -62,7 +62,7 @@ const meetings = [
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between">
-        <div>
+        <div className="flex-1">
             <p className="text-base font-medium">{meeting.client}</p>
             <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
         </div>
@@ -70,7 +70,8 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
             <p className="text-sm font-medium">{meeting.time}</p>
             <p className="text-sm text-muted-foreground">{meeting.date}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pl-4">
+            <ArrowRight className="w-5 h-5 text-muted-foreground" />
         </div>
     </Card>
 )
