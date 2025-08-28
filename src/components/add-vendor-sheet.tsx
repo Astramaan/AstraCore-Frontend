@@ -222,29 +222,36 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
     );
 };
 
+const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSave: (updatedMaterial: any) => void, onCancel: () => void }) => {
+    const [productName, setProductName] = useState(material.name);
+    const [price, setPrice] = useState(material.price.replace('₹', '').replace(',', ''));
+    const [description, setDescription] = useState(material.description);
 
-const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
-    const [productName, setProductName] = useState('');
-    const [price, setPrice] = useState('');
-
-    const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
     };
 
     const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/\D/g, ''));
     };
-
+    
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSave({
+            ...material,
+            name: productName,
+            price: `₹${Number(price).toLocaleString('en-IN')}`,
+            description
+        });
+    }
 
     return (
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                 <div className="lg:col-span-2">
-                    <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
-                 </div>
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            <h3 className="text-lg font-medium">Edit Material: <span className="font-semibold text-primary">{material.name}</span></h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="space-y-6">
                     <div className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center">
-                         <Upload className="w-8 h-8 text-zinc-400" />
+                         <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image" />
                     </div>
                 </div>
                 <div className="space-y-6">
@@ -252,29 +259,104 @@ const AddMaterialForm = ({ vendorName }: { vendorName: string }) => {
                     <FormField id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
-                        <Textarea id="description" className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
+                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
                     </div>
-                     <Button>
-                        <Plus className="mr-2" />
-                        Add
-                    </Button>
+                     <div className="flex gap-2">
+                        <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
+                        <Button type="submit">Save Changes</Button>
+                    </div>
                 </div>
             </div>
+        </form>
+    );
+};
+
+const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: string, materials: any[], setMaterials: React.Dispatch<React.SetStateAction<any[]>> }) => {
+    const [productName, setProductName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [editingMaterial, setEditingMaterial] = useState<any | null>(null);
+
+    const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
+    };
+
+    const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setter(e.target.value.replace(/\D/g, ''));
+    };
+    
+    const handleAdd = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!productName) return;
+        const newMaterial = {
+            id: Date.now(),
+            name: productName,
+            price: price ? `₹${Number(price).toLocaleString('en-IN')}` : 'N/A',
+            description: description,
+            image: "https://placehold.co/100x100.png"
+        };
+        setMaterials(prev => [...prev, newMaterial]);
+        setProductName('');
+        setPrice('');
+        setDescription('');
+    }
+
+    const handleDelete = (id: number) => {
+        setMaterials(prev => prev.filter(m => m.id !== id));
+    }
+    
+    const handleSaveEdit = (updatedMaterial: any) => {
+        setMaterials(prev => prev.map(m => m.id === updatedMaterial.id ? updatedMaterial : m));
+        setEditingMaterial(null);
+    }
+
+    if (editingMaterial) {
+        return <EditMaterialForm material={editingMaterial} onSave={handleSaveEdit} onCancel={() => setEditingMaterial(null)} />;
+    }
+
+    return (
+        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+            <form onSubmit={handleAdd}>
+                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                     <div className="lg:col-span-2">
+                        <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
+                     </div>
+                    <div className="space-y-6">
+                        <div className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center">
+                             <Upload className="w-8 h-8 text-zinc-400" />
+                        </div>
+                    </div>
+                    <div className="space-y-6">
+                        <FormField id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
+                        <FormField id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
+                        <div className="space-y-2">
+                            <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
+                            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
+                        </div>
+                         <Button type="submit">
+                            <Plus className="mr-2" />
+                            Add
+                        </Button>
+                    </div>
+                </div>
+            </form>
             <div className="border-t pt-6 mt-6">
                 <h3 className="text-lg font-medium mb-4">Materials</h3>
                 <div className="space-y-4">
-                     <div className="flex items-center gap-4 p-4 rounded-[10px] border border-stone-300">
-                        <Image src="https://placehold.co/100x100.png" width={100} height={100} alt="Tata Steel" className="rounded-[10px] border border-stone-300" data-ai-hint="product image" />
-                        <div className="flex-1 space-y-1">
-                            <p className="font-semibold">Tata Steel</p>
-                            <p className="text-sm text-muted-foreground line-clamp-2">Brand: TATA, Diameter: 32 mm & above, Single Piece Length: 12 meter, Grade: Fe 550SD, Material: Carbon Steel, Yield Strength (Min): 620 MPa</p>
+                     {materials.map(material => (
+                         <div key={material.id} className="flex items-center gap-4 p-4 rounded-[10px] border border-stone-300">
+                            <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image" />
+                            <div className="flex-1 space-y-1">
+                                <p className="font-semibold">{material.name}</p>
+                                <p className="text-sm text-muted-foreground line-clamp-2">{material.description}</p>
+                            </div>
+                            <p className="font-medium">{material.price}</p>
+                            <div className="flex gap-2">
+                                <Button size="icon" variant="ghost" onClick={() => setEditingMaterial(material)}><Edit className="w-4 h-4" /></Button>
+                                <Button size="icon" variant="ghost" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(material.id)}><Trash2 className="w-4 h-4" /></Button>
+                            </div>
                         </div>
-                        <p className="font-medium">₹30,000</p>
-                        <div className="flex gap-2">
-                            <Button size="icon" variant="ghost"><Edit className="w-4 h-4" /></Button>
-                            <Button size="icon" variant="ghost" className="text-red-500 hover:text-red-600"><Trash2 className="w-4 h-4" /></Button>
-                        </div>
-                    </div>
+                     ))}
                 </div>
             </div>
         </div>
@@ -287,6 +369,15 @@ export function AddVendorSheet() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState<'addVendor' | 'addMaterials'>('addVendor');
     const [vendorName, setVendorName] = useState('');
+    const [materials, setMaterials] = useState([
+        {
+            id: 1,
+            name: "Tata Steel",
+            price: "₹30,000",
+            description: "Brand: TATA, Diameter: 32 mm & above, Single Piece Length: 12 meter, Grade: Fe 550SD, Material: Carbon Steel, Yield Strength (Min): 620 MPa",
+            image: "https://placehold.co/100x100.png",
+        }
+    ]);
 
     const handleVendorAdded = (name: string) => {
         setVendorName(name);
@@ -308,8 +399,8 @@ export function AddVendorSheet() {
 
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
 
@@ -347,7 +438,7 @@ export function AddVendorSheet() {
                     {step === 'addVendor' ? (
                         <AddVendorForm onVendorAdded={handleVendorAdded} />
                     ) : (
-                        <AddMaterialForm vendorName={vendorName} />
+                        <AddMaterialForm vendorName={vendorName} materials={materials} setMaterials={setMaterials} />
                     )}
                 </DialogOrSheetContent>
             </DialogOrSheet>
@@ -360,3 +451,5 @@ export function AddVendorSheet() {
         </>
     );
 }
+
+    
