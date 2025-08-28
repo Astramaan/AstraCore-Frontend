@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -30,7 +31,7 @@ const projects = [
                 status: 'Open',
                 subStatus: 'unresolved',
                 statusColor: 'text-red-600',
-                image: 'https://placehold.co/60x60.png'
+                image: 'https://placehold.co/60x60'
             },
             {
                 title: 'Material Damage',
@@ -40,7 +41,7 @@ const projects = [
                 status: 'Closed',
                 subStatus: 'Resolved',
                 statusColor: 'text-cyan-500',
-                image: 'https://placehold.co/60x60.png'
+                image: 'https://placehold.co/60x60'
             },
              {
                 title: 'Material Damage',
@@ -50,7 +51,7 @@ const projects = [
                 status: 'Closed',
                 subStatus: 'Resolved',
                 statusColor: 'text-cyan-500',
-                image: 'https://placehold.co/60x60.png'
+                image: 'https://placehold.co/60x60'
             },
         ]
     },
@@ -66,7 +67,7 @@ const projects = [
                 status: 'Open',
                 subStatus: 'unresolved',
                 statusColor: 'text-red-600',
-                image: 'https://placehold.co/60x60.png'
+                image: 'https://placehold.co/60x60'
             },
         ]
     }

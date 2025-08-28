@@ -49,7 +49,7 @@ const OrganizationHeader = () => {
             </Link>
             <div className="flex items-center gap-2 flex-1 justify-end">
                 <Avatar className="h-12 w-12 md:h-14 md:w-14">
-                    <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                    <AvatarImage src="https://placehold.co/55x55" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:block">
@@ -70,7 +70,6 @@ const OrganizationBottomNav = () => {
         { href: "/organization/leads", icon: Users, label: "Leads" },
         { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
         { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
-        { href: "/organization/employee-management", icon: UserCog, label: "Employees" },
     ];
 
     const pathname = usePathname();

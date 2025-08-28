@@ -18,7 +18,7 @@ const activeProjects = [
         startDate: "21st Sept 2024",
         status: "On Going",
         statusColor: "text-green-600",
-        image: "https://placehold.co/59x59.png"
+        image: "https://placehold.co/59x59"
     },
     {
         id: "CHA2024",
@@ -28,7 +28,7 @@ const activeProjects = [
         startDate: "21st Sept 2024",
         status: "Delay",
         statusColor: "text-red-600",
-        image: "https://placehold.co/59x59.png"
+        image: "https://placehold.co/59x59"
     },
     {
         id: "CHA2024",
@@ -38,7 +38,7 @@ const activeProjects = [
         startDate: "21st Sept 2024",
         status: "On Going",
         statusColor: "text-green-600",
-        image: "https://placehold.co/59x59.png"
+        image: "https://placehold.co/59x59"
     },
 ];
 
@@ -51,7 +51,7 @@ const completedProjects = [
         startDate: "21st Sept 2024",
         status: "Completed",
         statusColor: "text-cyan-500",
-        image: "https://placehold.co/59x59.png"
+        image: "https://placehold.co/59x59"
     },
 ];
 

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -371,6 +372,9 @@ export default function LeadsPage() {
             
             <Dialog open={isUpdateLevelDialogOpen} onOpenChange={setIsUpdateLevelDialogOpen}>
                 <DialogContent className="sm:max-w-sm rounded-3xl p-8">
+                    <DialogHeader>
+                      <DialogTitle className="sr-only">Update Lead Level</DialogTitle>
+                    </DialogHeader>
                     <DialogClose asChild>
                         <Button variant="ghost" size="icon" className="absolute top-4 right-4 rounded-full">
                             <X className="h-4 w-4" />
@@ -402,5 +406,5 @@ export default function LeadsPage() {
             />
 
         </div>
-    )
+    );
 }
