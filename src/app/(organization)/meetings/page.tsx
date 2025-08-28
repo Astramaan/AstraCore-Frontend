@@ -9,6 +9,7 @@ import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
 import { MoreVertical, Search } from "lucide-react";
 import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const clientMeetings = [
     { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -48,9 +49,17 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
             </div>
 
             <div className="absolute top-0 right-0">
-                <Button variant="ghost" size="icon">
-                    <MoreVertical className="w-5 h-5" />
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-5 h-5" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     </div>
@@ -122,9 +131,17 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                             <div className="justify-self-end p-4">
-                                                <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                </Button>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                            <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </div>
                                         </div>
                                         {index < filteredClientMeetings.length - 1 && (
@@ -169,9 +186,17 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                             <div className="justify-self-end p-4">
-                                                <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                </Button>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                            <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </div>
                                         </div>
                                         {index < filteredLeadMeetings.length - 1 && (
