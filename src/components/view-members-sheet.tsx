@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { MoreVertical } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
 export interface Role {
     name: string;
@@ -26,6 +27,7 @@ export interface Role {
 }
 
 interface Member {
+    id: string;
     name: string;
     avatar: string;
     contact: string;
@@ -36,15 +38,16 @@ interface Member {
 
 const membersData: { [key: string]: Member[] } = {
     "Super Admin": [
-        { name: "Balaji Naik", avatar: "https://placehold.co/56x56", contact: "balaji@astracore.com | +91 1234567890", role: "Admin", status: "Active", lastActive: "2 days ago" },
-        { name: "Priya Mehra", avatar: "https://placehold.co/56x56", contact: "priya@astracore.com | +91 9876543210", role: "Admin", status: "Active", lastActive: "2 days ago" }
+        { id: "1", name: "Balaji Naik", avatar: "https://placehold.co/56x56", contact: "balaji@astracore.com | +91 1234567890", role: "Admin", status: "Active", lastActive: "2 days ago" },
+        { id: "2", name: "Priya Mehra", avatar: "https://placehold.co/56x56", contact: "priya@astracore.com | +91 9876543210", role: "Admin", status: "Active", lastActive: "2 days ago" }
     ],
     "Sales": [
-         { name: "Rohan Sharma", avatar: "https://placehold.co/56x56", contact: "rohan@astracore.com | +91 1234567891", role: "Sales Executive", status: "Active", lastActive: "1 day ago" },
-         { name: "Anjali Gupta", avatar: "https://placehold.co/56x56", contact: "anjali@astracore.com | +91 1234567892", role: "Sales Manager", status: "Active", lastActive: "3 hours ago" },
-         { name: "Vikram Singh", avatar: "https://placehold.co/56x56", contact: "vikram@astracore.com | +91 1234567893", role: "Sales Head", status: "Inactive", lastActive: "1 week ago" }
+         { id: "3", name: "Rohan Sharma", avatar: "https://placehold.co/56x56", contact: "rohan@astracore.com | +91 1234567891", role: "Sales Executive", status: "Active", lastActive: "1 day ago" },
+         { id: "4", name: "Anjali Gupta", avatar: "https://placehold.co/56x56", contact: "anjali@astracore.com | +91 1234567892", role: "Sales Manager", status: "Active", lastActive: "3 hours ago" },
+         { id: "5", name: "Vikram Singh", avatar: "https://placehold.co/56x56", contact: "vikram@astracore.com | +91 1234567893", role: "Sales Head", status: "Inactive", lastActive: "1 week ago" }
     ],
     "Software Development": Array.from({ length: 12 }, (_, i) => ({
+        id: `dev-${i+1}`,
         name: `Dev ${i+1}`,
         avatar: `https://placehold.co/56x56?text=D${i+1}`,
         contact: `dev${i+1}@astracore.com | +91 888888888${i}`,
@@ -53,6 +56,7 @@ const membersData: { [key: string]: Member[] } = {
         lastActive: `${i+1} hours ago`
     })),
      "Design": Array.from({ length: 4 }, (_, i) => ({
+        id: `design-${i+1}`,
         name: `Designer ${i+1}`,
         avatar: `https://placehold.co/56x56?text=DS${i+1}`,
         contact: `design${i+1}@astracore.com | +91 777777777${i}`,
@@ -61,6 +65,7 @@ const membersData: { [key: string]: Member[] } = {
         lastActive: `${i+1} days ago`
     })),
     "Support & Feedback": Array.from({ length: 20 }, (_, i) => ({
+        id: `support-${i+1}`,
         name: `Support ${i+1}`,
         avatar: `https://placehold.co/56x56?text=S${i+1}`,
         contact: `support${i+1}@astracore.com | +91 666666666${i}`,
@@ -74,13 +79,13 @@ const membersData: { [key: string]: Member[] } = {
 const MemberCard = ({ member }: { member: Member }) => (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <div className="flex items-center gap-4 flex-1">
+            <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src={member.avatar} />
                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <p className="text-lg font-medium w-44">{member.name}</p>
-            </div>
+            </Link>
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
@@ -102,7 +107,9 @@ const MemberCard = ({ member }: { member: Member }) => (
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href={`/organization/employee-management/${member.id}/edit`}>Edit</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Deactivate user</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
