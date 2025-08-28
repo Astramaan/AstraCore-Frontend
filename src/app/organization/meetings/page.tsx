@@ -137,6 +137,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
 
                 <div>
+                    <h1 className="text-2xl font-medium text-zinc-900 mb-4">Lead Meetings</h1>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
                             <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center">
@@ -186,6 +187,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
             {/* Mobile View */}
             <div className="md:hidden space-y-6">
                 <div>
+                    <h2 className="text-xl font-medium mb-4">Client Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                         {filteredClientMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
@@ -193,6 +195,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     </div>
                 </div>
                 <div>
+                     <h2 className="text-xl font-medium mb-4">Lead Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                          {filteredLeadMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
