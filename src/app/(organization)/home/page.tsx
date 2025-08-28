@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
 import { AddEmployeeSheet } from "@/components/add-employee-sheet";
 import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
+import { cn } from '@/lib/utils';
 
 
 const taskData: Task[] = [
@@ -28,7 +29,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between px-6 py-10 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
+        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
@@ -62,7 +63,7 @@ const meetings = [
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between">
-        <div>
+        <div className="flex-1">
             <p className="text-base font-medium">{meeting.client}</p>
             <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
         </div>
@@ -70,25 +71,83 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
             <p className="text-sm font-medium">{meeting.time}</p>
             <p className="text-sm text-muted-foreground">{meeting.date}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pl-4">
+            <ArrowRight className="w-5 h-5 text-muted-foreground" />
         </div>
     </Card>
 )
 
+type FilterType = "High Priority" | "In Progress" | "Pending" | null;
+
 export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+  
+  const handleFilterClick = (filter: FilterType) => {
+    if (activeFilter === filter) {
+      setActiveFilter(null); // Deselect if clicking the same filter
+    } else {
+      setActiveFilter(filter);
+    }
+  };
+
+  const filteredTasks = useMemo(() => {
+    if (!activeFilter) {
+      return taskData;
+    }
+    return taskData.filter(task => {
+        if (activeFilter === 'High Priority') {
+            return task.priority === 'High';
+        }
+        if (activeFilter === 'In Progress') {
+            return task.status === 'In Progress';
+        }
+        if (activeFilter === 'Pending') {
+            return task.status === 'Pending';
+        }
+        return true;
+    });
+  }, [activeFilter]);
+  
+  const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, []);
+
 
   return (
     <div className="flex flex-col md:flex-row gap-6">
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white">High Priority</Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white">
-                        In Progress
-                        <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">12</Badge>
+                    <Button 
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white",
+                            activeFilter === 'High Priority' && "bg-primary text-white"
+                        )}
+                        onClick={() => handleFilterClick('High Priority')}
+                    >
+                        High Priority
                     </Button>
-                    <Button variant="outline" className="rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white">Pending</Button>
+                    <Button 
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white",
+                            activeFilter === 'In Progress' && "bg-primary text-white"
+                        )}
+                        onClick={() => handleFilterClick('In Progress')}
+                    >
+                        In Progress
+                        <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>
+                    </Button>
+                    <Button 
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white",
+                            activeFilter === 'Pending' && "bg-primary text-white"
+                        )}
+                        onClick={() => handleFilterClick('Pending')}
+                    >
+                        Pending
+                    </Button>
                 </div>
             </div>
 
@@ -100,7 +159,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             <div>
                 <h2 className="text-xl font-medium mb-4">My Tasks</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {taskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                    {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
             <div className="mt-8">
@@ -121,7 +180,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500 flex items-center gap-1">
-                        see all meetings <ArrowRight className="w-4 h-4" />
+                        see all meetings
                     </Link>
                 </div>
                 <div className="space-y-3">
