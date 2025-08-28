@@ -25,11 +25,14 @@ export const RoleAccessCard = () => {
                     <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                 </div>
                 <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted">
-                    <Plus className="mr-2 h-6 w-6"/>
-                    Create Role
+                    <Plus className="mr-2 h-6 w-6 md:hidden"/>
+                    <span className="hidden md:inline">
+                      <Plus className="mr-2 h-6 w-6"/>
+                    </span>
+                    <span className="hidden md:inline">Create Role</span>
                 </Button>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 px-6 pb-6">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 px-6 pb-6">
                 {roles.map(role => (
                     <div key={role.name} className="flex justify-between items-center pb-4 border-b">
                          <div className="flex items-center gap-4">

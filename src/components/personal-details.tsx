@@ -44,11 +44,18 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
             <div className="space-y-6">
                 <Card className="rounded-[50px] p-4 md:p-8">
                     <CardContent className="p-0">
-                        <div className="flex flex-col md:flex-row gap-8">
-                            <div className="shrink-0">
-                                <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full mx-auto md:mx-0" data-ai-hint="person portrait"/>
+                        <div className="flex flex-col lg:flex-row gap-8">
+                            <div className="shrink-0 flex flex-col items-center md:flex-row md:items-start lg:flex-col lg:items-center gap-4">
+                                <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                                <div className="space-y-4 md:hidden lg:flex lg:flex-col">
+                                    <Button className="w-full h-14 px-10 rounded-full text-white text-lg font-medium">
+                                        <Edit className="mr-2 h-5 w-5" />
+                                        Edit Profile
+                                    </Button>
+                                    <Button variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">Change Password</Button>
+                                </div>
                             </div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                 <div className="space-y-6">
                                     <div className="space-y-1">
                                         <p className="text-base text-grey-1">Full Name</p>
@@ -57,6 +64,10 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                     <div className="space-y-1">
                                         <p className="text-base text-grey-1">Email Id</p>
                                         <p className="text-lg text-black font-medium">{employee.email}</p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-base text-grey-1">Last Login</p>
+                                        <p className="text-lg text-black font-medium">{employee.lastLogin}</p>
                                     </div>
                                     <div className="space-y-1">
                                         <p className="text-base text-grey-1">Date of Birth</p>
@@ -73,22 +84,16 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                         <p className="text-lg text-primary font-medium">{employee.role}</p>
                                     </div>
                                     <div className="space-y-1">
+                                        <p className="text-base text-grey-1">Date Joined</p>
+                                        <p className="text-lg text-black font-medium">{employee.dateJoined}</p>
+                                    </div>
+                                    <div className="space-y-1">
                                         <p className="text-base text-grey-1">Address</p>
                                         <p className="text-lg text-black font-medium leading-tight">{employee.address}</p>
                                     </div>
                                 </div>
-                                 <div className="space-y-6">
-                                    <div className="space-y-1">
-                                        <p className="text-base text-grey-1">Last Login</p>
-                                        <p className="text-lg text-black font-medium">{employee.lastLogin}</p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <p className="text-base text-grey-1">Date Joined</p>
-                                        <p className="text-lg text-black font-medium">{employee.dateJoined}</p>
-                                    </div>
-                                </div>
                             </div>
-                             <div className="space-y-4">
+                             <div className="space-y-4 hidden md:block lg:hidden xl:block">
                                 <Button className="w-full h-14 px-10 rounded-full text-white text-lg font-medium">
                                     <Edit className="mr-2 h-5 w-5" />
                                     Edit Profile

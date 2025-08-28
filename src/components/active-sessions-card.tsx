@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Laptop, Smartphone, Tablet } from 'lucide-react';
+import { Laptop, Smartphone, Tablet, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
@@ -37,7 +37,10 @@ export const ActiveSessionsCard = () => {
                                 <p className="text-base text-grey-2">{session.browser} • {session.lastActive}</p>
                             </div>
                         </div>
-                        <Button variant="destructive" className="h-14 px-10 rounded-full bg-background text-red-600 hover:bg-destructive/10 text-lg font-medium">Remove</Button>
+                        <Button variant="destructive" className="h-14 px-10 rounded-full bg-background text-red-600 hover:bg-destructive/10 text-lg font-medium hidden md:flex">Remove</Button>
+                         <Button size="icon" variant="ghost" className="md:hidden p-3.5 bg-background rounded-full">
+                            <X className="h-6 w-6 text-destructive" />
+                        </Button>
                     </div>
                 ))}
             </CardContent>
