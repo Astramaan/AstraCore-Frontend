@@ -38,7 +38,7 @@ interface Snag {
     projectName: string;
 }
 
-const projectsData: Snag[] = [
+const allSnagsData: Snag[] = [
     {
         id: 'SNAG001',
         title: 'Material Damage',
@@ -181,7 +181,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 
 
 export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-    const [allSnags, setAllSnags] = useState(projectsData);
+    const [allSnags, setAllSnags] = useState(allSnagsData);
     const [selectedSnags, setSelectedSnags] = useState<string[]>([]);
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
