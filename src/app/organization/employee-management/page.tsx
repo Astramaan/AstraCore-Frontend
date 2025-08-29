@@ -1,6 +1,7 @@
 
 'use client';
 
+import { AddEmployeeSheet } from '@/components/add-employee-sheet';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -82,7 +83,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
             <div className="flex items-center gap-4 flex-1">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-primary hover:text-white text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator />
