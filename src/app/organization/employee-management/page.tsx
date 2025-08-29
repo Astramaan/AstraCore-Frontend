@@ -1,8 +1,6 @@
 
-
 'use client';
 
-import { AddEmployeeSheet } from '@/components/add-employee-sheet';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -125,7 +123,6 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                     <AddEmployeeSheet />
                      <CreateDepartmentSheet />
                 </div>
             </div>
