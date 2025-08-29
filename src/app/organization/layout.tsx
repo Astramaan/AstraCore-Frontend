@@ -29,12 +29,14 @@ const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/employee-management')) {
-        pageTitle = 'Employee Management';
+        pageTitle = 'Departments';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
         pageTitle = 'My Profile'
     }
+    
+    const isEmployeeManagementActive = pathname.startsWith('/organization/employee-management');
 
     return (
     <header className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
@@ -50,7 +52,10 @@ const OrganizationHeader = () => {
         <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
             <NotificationPopover />
             <Link href="/organization/employee-management">
-              <Button className="bg-white text-black rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hover:bg-primary hover:text-white hidden md:flex items-center">
+              <Button className={cn(
+                  "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hidden md:flex items-center",
+                  isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary hover:text-white"
+              )}>
                   <Users className="mr-2 h-6 w-6"/>
                   Employee Management
               </Button>
