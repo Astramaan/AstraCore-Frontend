@@ -91,7 +91,7 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
             
             {selectedAttachment && (
                 <Dialog open={!!selectedAttachment} onOpenChange={() => setSelectedAttachment(null)}>
-                    <DialogContent className="max-w-3xl h-[90vh] p-0 rounded-lg">
+                    <DialogContent className="max-w-3xl h-[90vh] p-0 flex flex-col rounded-lg">
                         <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
                             <DialogTitle>{selectedAttachment.name}</DialogTitle>
                             <DialogClose asChild>
@@ -100,7 +100,7 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
                                 </Button>
                             </DialogClose>
                         </DialogHeader>
-                        <div className="h-full p-4 relative">
+                        <div className="flex-1 p-4 relative">
                             {selectedAttachment.type === 'image' ? (
                                 <Image src={selectedAttachment.url} alt={selectedAttachment.name} layout="fill" objectFit="contain" />
                             ) : (
@@ -183,7 +183,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task }: TaskDetailsSheetProp
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 m-0 flex flex-col bg-white rounded-lg",
+            "p-0 m-0 flex flex-col bg-white rounded-[20px]",
             isMobile 
               ? "h-auto rounded-t-[50px]"
               : "sm:max-w-4xl rounded-[50px] !bottom-0 !top-auto !translate-y-0"
@@ -191,7 +191,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task }: TaskDetailsSheetProp
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                   Task Details
                   <div className="flex items-center gap-4 ml-auto">
                       <DialogOrSheetClose asChild>
