@@ -26,23 +26,29 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 const AssignTaskForm = () => {
     const [date, setDate] = React.useState<Date>();
+    const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('');
+    const [members, setMembers] = React.useState('');
+    const [type, setType] = React.useState('');
+    const [priority, setPriority] = React.useState('high');
+
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
         <div className="space-y-6">
             <div className="space-y-2">
-                <Label htmlFor="task-title" className="text-lg font-medium text-zinc-900">Task Title*</Label>
-                <Input id="task-title" placeholder="Write a task name" className="bg-background rounded-lg h-12" />
+                <Label htmlFor="task-title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Task Title*</Label>
+                <Input id="task-title" className="bg-background rounded-lg h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="space-y-2">
-                <Label htmlFor="description" className="text-lg font-medium text-zinc-900">Description</Label>
-                <Textarea id="description" placeholder="What is this task about?" className="h-32 bg-background rounded-lg"/>
+                <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900')}>Description</Label>
+                <Textarea id="description" className="h-32 bg-background rounded-lg" value={description} onChange={(e) => setDescription(e.target.value)}/>
             </div>
             <div className="space-y-2">
-                <Label htmlFor="members" className="text-lg font-medium text-zinc-900">Members*</Label>
-                 <Select>
+                <Label htmlFor="members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Members*</Label>
+                 <Select onValueChange={setMembers}>
                     <SelectTrigger className="h-12 bg-background rounded-lg">
                         <SelectValue placeholder="Add members" />
                     </SelectTrigger>
@@ -60,7 +66,7 @@ const AssignTaskForm = () => {
 
         <div className="space-y-6">
             <div className="space-y-2">
-                <Label className="text-lg font-medium text-zinc-900">Due Date*</Label>
+                <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Due Date*</Label>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -85,8 +91,8 @@ const AssignTaskForm = () => {
                 </Popover>
             </div>
              <div className="space-y-2">
-                <Label htmlFor="type" className="text-lg font-medium text-zinc-900">Type</Label>
-                <Select>
+                <Label htmlFor="type" className={cn("text-lg font-medium", type ? 'text-grey-1' : 'text-zinc-900')}>Type</Label>
+                <Select onValueChange={setType}>
                     <SelectTrigger id="type" className="h-12 bg-background rounded-lg">
                         <SelectValue placeholder="Select type" />
                     </SelectTrigger>
@@ -100,8 +106,8 @@ const AssignTaskForm = () => {
              <div className="space-y-4">
                 <p className="text-lg font-medium mb-2 text-zinc-900">Priority</p>
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" className="rounded-full bg-primary text-primary-foreground border-primary px-6">High</Button>
-                    <Button variant="outline" className="rounded-full bg-background border-stone-300 px-6">Low</Button>
+                    <Button variant="outline" className={cn("rounded-full px-6", priority === 'high' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background border-stone-300')} onClick={() => setPriority('high')}>High</Button>
+                    <Button variant="outline" className={cn("rounded-full px-6", priority === 'low' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background border-stone-300')} onClick={() => setPriority('low')}>Low</Button>
                 </div>
             </div>
              <div className="space-y-2">
@@ -148,8 +154,8 @@ export function AssignTaskSheet() {
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "p-0 bg-white h-screen m-0 flex flex-col rounded-t-[50px]" 
-              : "sm:max-w-4xl p-0 rounded-[50px]"
+              ? "p-0 bg-white h-full m-0 flex flex-col rounded-t-none" 
+              : "sm:max-w-4xl p-0 rounded-[50px] bg-white"
           )}
           {...(isMobile && { side: "bottom" })}
       >
