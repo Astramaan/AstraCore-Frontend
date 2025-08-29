@@ -54,14 +54,27 @@ const AddEmployeeForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void
     
     const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
 
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setName(value);
+        }
+    };
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (/^\d*$/.test(value) && value.length <= 10) {
+            setPhone(value);
+        }
+    };
 
     return (
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" value={name} onChange={handleNameChange} />
                 <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} />
 
                 <div className="space-y-2">
                     <Label htmlFor="role-type" className={cn("text-lg font-medium", roleType ? 'text-grey-1' : 'text-black')}>{ "Role Type"}</Label>
