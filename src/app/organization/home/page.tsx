@@ -132,7 +132,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     <Button 
                         variant="outline" 
                         className={cn(
-                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary",
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary text-lg font-medium",
                             activeFilter === 'High Priority' && "bg-primary text-white hover:bg-primary"
                         )}
                         onClick={() => handleFilterClick('High Priority')}
@@ -142,7 +142,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     <Button 
                         variant="outline" 
                         className={cn(
-                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary",
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary text-lg font-medium",
                             activeFilter === 'In Progress' && "bg-primary text-white hover:bg-primary"
                         )}
                         onClick={() => handleFilterClick('In Progress')}
@@ -153,7 +153,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     <Button 
                         variant="outline" 
                         className={cn(
-                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary",
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary text-lg font-medium",
                             activeFilter === 'Pending' && "bg-primary text-white hover:bg-primary"
                         )}
                         onClick={() => handleFilterClick('Pending')}
@@ -163,7 +163,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     <Button 
                         variant="outline" 
                         className={cn(
-                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary",
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-white hover:text-primary text-lg font-medium",
                             activeFilter === 'Completed' && "bg-primary text-white hover:bg-primary"
                         )}
                         onClick={() => handleFilterClick('Completed')}
