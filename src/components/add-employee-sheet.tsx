@@ -131,10 +131,10 @@ export function AddEmployeeSheet() {
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
-          side={'bottom'}
+          side={isMobile ? 'bottom' : undefined}
           className={cn(
-            "p-0 flex flex-col m-0 h-auto bg-white w-full rounded-t-[50px]",
-            !isMobile && "mx-auto sm:max-w-2xl !bottom-0 !top-auto !translate-y-0 rounded-b-none"
+            "p-0 flex flex-col m-0 h-auto bg-white rounded-t-[50px] w-full",
+            !isMobile && "sm:max-w-2xl !bottom-0 !top-auto !translate-y-0 rounded-b-none"
           )}
       >
           <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
@@ -146,7 +146,7 @@ export function AddEmployeeSheet() {
                     Add New Employee
                 </SheetTitle>
                 <DialogOrSheetClose asChild>
-                  <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
+                  <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                       <X className="h-6 w-6" />
                   </Button>
                 </DialogOrSheetClose>
