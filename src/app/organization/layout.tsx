@@ -5,12 +5,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
+import { Home, Calendar, GanttChartSquare, Users, Briefcase, Bot, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { HabiLogo } from '@/components/habi-logo';
 import { NotificationPopover } from '@/components/notification-popover';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const OrganizationHeader = () => {
     const pathname = usePathname();
@@ -39,8 +40,8 @@ const OrganizationHeader = () => {
     const isEmployeeManagementActive = pathname.startsWith('/organization/employee-management');
 
     return (
-    <header className="flex flex-col md:flex-row justify-between items-center w-full gap-4">
-        <div className="flex items-center gap-4 self-start">
+    <header className="flex flex-row justify-between items-center w-full gap-4">
+        <div className="flex items-center gap-4">
             <HabiLogo />
              {pageTitle && (
                 <>
@@ -49,11 +50,11 @@ const OrganizationHeader = () => {
                 </>
              )}
         </div>
-        <div className="flex items-center gap-2 md:gap-6 w-full md:w-auto">
+        <div className="hidden md:flex items-center gap-2 md:gap-6 w-full md:w-auto">
             <NotificationPopover />
             <Link href="/organization/employee-management">
               <Button className={cn(
-                  "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hidden md:flex items-center",
+                  "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium flex items-center",
                   isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
@@ -70,6 +71,39 @@ const OrganizationHeader = () => {
                     <p className="text-sm md:text-base text-grey-2">Super Admin</p>
                 </div>
             </Link>
+        </div>
+         <div className="md:hidden">
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <Menu className="h-6 w-6" />
+                    </Button>
+                </SheetTrigger>
+                <SheetContent>
+                    <div className="flex flex-col gap-4 pt-8">
+                         <NotificationPopover />
+                        <Link href="/organization/employee-management">
+                          <Button className={cn(
+                              "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
+                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                          )}>
+                              <Users className="mr-2 h-6 w-6"/>
+                              Employee Management
+                          </Button>
+                        </Link>
+                        <Link href="/organization/profile" className="flex items-center gap-2">
+                            <Avatar className="h-12 w-12">
+                                <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                                <AvatarFallback>BN</AvatarFallback>
+                            </Avatar>
+                            <div>
+                                <p className="text-base font-medium">Balaji Naik</p>
+                                <p className="text-sm text-grey-2">Super Admin</p>
+                            </div>
+                        </Link>
+                    </div>
+                </SheetContent>
+            </Sheet>
         </div>
     </header>
     );
