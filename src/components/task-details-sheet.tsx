@@ -95,12 +95,12 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
                         <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
                             <DialogTitle>{selectedAttachment.name}</DialogTitle>
                             <DialogClose asChild>
-                                <Button variant="ghost" size="icon" className="rounded-full">
-                                    <X className="h-5 w-5" />
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-gray-100 hover:bg-gray-200">
+                                    <X className="h-6 w-6" />
                                 </Button>
                             </DialogClose>
                         </DialogHeader>
-                        <div className="flex-1 p-4 relative">
+                        <div className="flex-1 p-4 relative bg-muted/30">
                             {selectedAttachment.type === 'image' ? (
                                 <Image src={selectedAttachment.url} alt={selectedAttachment.name} layout="fill" objectFit="contain" />
                             ) : (
