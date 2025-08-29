@@ -148,12 +148,12 @@ export function AssignTaskSheet() {
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "w-full p-0 rounded-t-[50px]" 
+              ? "p-0 bg-white h-full m-0 flex flex-col rounded-t-[50px]" 
               : "sm:max-w-4xl p-0 rounded-[50px]"
           )}
           {...(isMobile && { side: "bottom" })}
       >
-          <DialogOrSheetHeader className="p-6 border-b">
+          <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <DialogOrSheetTitle className="flex items-center text-xl font-medium">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-5 w-5 text-gray-600"/>
@@ -169,7 +169,9 @@ export function AssignTaskSheet() {
                   </div>
               </DialogOrSheetTitle>
           </DialogOrSheetHeader>
-          <AssignTaskForm />
+          <div className="flex-grow overflow-y-auto">
+            <AssignTaskForm />
+          </div>
       </DialogOrSheetContent>
     </DialogOrSheet>
   );
