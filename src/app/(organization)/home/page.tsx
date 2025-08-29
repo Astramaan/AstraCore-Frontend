@@ -29,7 +29,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     return (
-        <Card className="w-full md:w-96 h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
@@ -160,13 +160,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
 
             <div>
                 <h2 className="text-xl font-medium mb-4">My Tasks</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
             <div className="mt-8">
                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                      {taskData.slice(0, 2).map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
