@@ -29,6 +29,7 @@ export interface Task {
     project: string;
     clientId: string;
     attachments: { type: 'pdf' | 'image', name: string, url: string }[];
+    completedDate?: string;
 }
 
 interface TaskDetailsSheetProps {
@@ -73,7 +74,12 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
     };
 
     const handleCompleteTask = () => {
-        onUpdateTask({ ...task, status: 'Completed' });
+        const today = new Date();
+        const day = String(today.getDate());
+        const month = today.toLocaleString('default', { month: 'long' });
+        const year = today.getFullYear();
+        const completedDate = `${day} ${month} ${year}`;
+        onUpdateTask({ ...task, status: 'Completed', completedDate: completedDate });
     };
 
     return (
@@ -86,6 +92,9 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                 <DetailRow label="Due Date" value={task.date} />
                  <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
                 <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
+                {task.status === 'Completed' && task.completedDate && (
+                    <DetailRow label="Completed Date" value={task.completedDate} />
+                )}
 
                 <div>
                     <p className="text-lg text-stone-500 mb-4">Attachment</p>
