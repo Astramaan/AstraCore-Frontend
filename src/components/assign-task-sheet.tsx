@@ -40,16 +40,16 @@ const AssignTaskForm = () => {
         <div className="space-y-6">
             <div className="space-y-2">
                 <Label htmlFor="task-title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Task Title*</Label>
-                <Input id="task-title" className="bg-background rounded-lg h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Input id="task-title" className="bg-background rounded-full h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="space-y-2">
                 <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900')}>Description</Label>
-                <Textarea id="description" className="h-32 bg-background rounded-lg" value={description} onChange={(e) => setDescription(e.target.value)}/>
+                <Textarea id="description" className="h-32 bg-background rounded-2xl" value={description} onChange={(e) => setDescription(e.target.value)}/>
             </div>
             <div className="space-y-2">
                 <Label htmlFor="members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Members*</Label>
                  <Select onValueChange={setMembers}>
-                    <SelectTrigger className="h-12 bg-background rounded-lg">
+                    <SelectTrigger className="h-12 bg-background rounded-full">
                         <SelectValue placeholder="Add members" />
                     </SelectTrigger>
                     <SelectContent>
@@ -72,7 +72,7 @@ const AssignTaskForm = () => {
                         <Button
                         variant={"outline"}
                         className={cn(
-                            "w-full justify-start text-left font-normal h-12 bg-background rounded-lg",
+                            "w-full justify-start text-left font-normal h-12 bg-background rounded-full",
                             !date && "text-muted-foreground"
                         )}
                         >
@@ -93,7 +93,7 @@ const AssignTaskForm = () => {
              <div className="space-y-2">
                 <Label htmlFor="type" className={cn("text-lg font-medium", type ? 'text-grey-1' : 'text-zinc-900')}>Type</Label>
                 <Select onValueChange={setType}>
-                    <SelectTrigger id="type" className="h-12 bg-background rounded-lg">
+                    <SelectTrigger id="type" className="h-12 bg-background rounded-full">
                         <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -112,7 +112,7 @@ const AssignTaskForm = () => {
             </div>
              <div className="space-y-2">
                 <Label className="text-lg font-medium text-zinc-900">Attach Files</Label>
-                <div className="border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-background">
+                <div className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                         <UploadCloud className="w-6 h-6 text-gray-500" />
                     </div>
