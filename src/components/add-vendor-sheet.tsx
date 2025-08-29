@@ -21,10 +21,10 @@ import { Textarea } from './ui/textarea';
 import Image from 'next/image';
 import { SuccessPopup } from './success-popup';
 
-const FormField = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
+const FormField = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className="text-zinc-900 text-lg font-medium px-2">{label}</Label>
-        <Input id={id} className="w-full h-[54px] bg-input rounded-full px-6 text-lg" {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Input id={id} className="w-full h-[54px] bg-input rounded-full px-6 text-lg" value={value} {...props} />
     </div>
 );
 
@@ -77,7 +77,7 @@ const ServiceableCityInput = () => {
 
     return (
         <div className="space-y-2">
-            <Label className="text-zinc-900 text-lg font-medium px-2">Serviceable City</Label>
+            <Label className={cn("text-lg font-medium px-2", cities.length > 0 || inputValue ? 'text-grey-1' : 'text-zinc-900')}>Serviceable City</Label>
             <div className="bg-input rounded-full p-2 flex flex-wrap gap-2 min-h-[54px] items-center">
                 {cities.map(city => (
                     <div key={city} className="flex items-center gap-1 bg-white rounded-full px-3 py-1 text-sm">
@@ -171,7 +171,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                             </div>
                         </div>
                          <div className="relative flex flex-col justify-start items-start gap-2">
-                             <Label htmlFor="phone" className="text-zinc-900 text-lg font-medium px-2">Phone Number*</Label>
+                             <Label htmlFor="phone" className={cn("text-lg font-medium px-2", phoneNumber ? 'text-grey-1' : 'text-zinc-900')}>Phone Number*</Label>
                              <Input 
                                 id="phone" 
                                 name="phone"
@@ -183,7 +183,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                          </div>
                          <FormField id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                          <div className="space-y-2">
-                            <Label htmlFor="address" className="text-zinc-900 text-lg font-medium px-2">Address*</Label>
+                            <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
                             <Textarea id="address" className="h-36 bg-input rounded-3xl" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                         </div>
                         <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} />
@@ -201,7 +201,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                         </div>
 
                         <div className="space-y-2">
-                            <Label className="text-zinc-900 text-lg font-medium px-2">Available Time</Label>
+                            <Label className={cn("text-lg font-medium px-2", availableTimeFrom || availableTimeTo ? 'text-grey-1' : 'text-zinc-900')}>Available Time</Label>
                             <div className="flex items-center gap-2 bg-input rounded-full h-[54px] px-4">
                                 <Input type="time" id="available-time-from" name="available-time-from" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
                                 <span>to</span>
@@ -427,7 +427,7 @@ export function AddVendorSheet() {
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     return (
         <>

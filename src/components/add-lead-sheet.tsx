@@ -22,10 +22,10 @@ import { addLead } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 
-const FloatingLabelInput = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
+const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className="self-stretch text-grey-2 text-lg font-medium">{label}</Label>
-        <Input id={id} className="w-96 h-14 bg-background rounded-[50px] px-6 text-lg" {...props} />
+        <Label htmlFor={id} className={cn("self-stretch text-lg font-medium", value ? "text-grey-1" : "text-black")}>{label}</Label>
+        <Input id={id} className="w-96 h-14 bg-background rounded-[50px] px-6 text-lg" value={value} {...props} />
     </div>
 );
 
@@ -33,6 +33,11 @@ const FloatingLabelInput = ({ id, label, ...props }: React.InputHTMLAttributes<H
 const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addLead, { success: false, message: '' });
+
+    const [orgName, setOrgName] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         if (state.success) {
@@ -50,10 +55,10 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         <form action={formAction}>
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-4">
-                    <FloatingLabelInput id="organization-name" name="organization_name" label="Organization Name" />
-                    <FloatingLabelInput id="full-name" name="name" label="Full Name" />
-                    <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" />
-                    <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" />
+                    <FloatingLabelInput id="organization-name" name="organization_name" label="Organization Name" value={orgName} onChange={(e) => setOrgName(e.target.value)} />
+                    <FloatingLabelInput id="full-name" name="name" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                    <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 
                 <div className="flex justify-center pt-8">

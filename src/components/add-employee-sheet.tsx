@@ -23,16 +23,19 @@ import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
-const FloatingLabelInput = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
+const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className="text-grey-2 text-lg font-medium">{label}</Label>
-        <Input id={id} className="w-full h-14 bg-background rounded-[50px] px-6 text-lg" {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-black')}>{label}</Label>
+        <Input id={id} className="w-full h-14 bg-input rounded-[50px] px-6 text-lg" value={value} {...props} />
     </div>
 );
 
 
 const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
 
     const [state, formAction] = useActionState(addEmployee, { success: false, message: '' });
 
@@ -55,14 +58,14 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
             <div className="grid grid-cols-1 gap-y-6">
-                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" />
-                <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" />
-                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" />
+                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+                <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 <div className="space-y-2">
-                    <Label htmlFor="role-type" className="text-grey-2 text-lg font-medium">Role Type</Label>
+                    <Label htmlFor="role-type" className="text-grey-1 text-lg font-medium">Role Type</Label>
                     <Select name="role-type">
-                        <SelectTrigger id="role-type" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg">
+                        <SelectTrigger id="role-type" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                             <SelectValue placeholder="Admin" />
                         </SelectTrigger>
                         <SelectContent>
@@ -73,7 +76,7 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 </div>
                 
                 <div className="space-y-2">
-                    <Label className="text-grey-2 text-lg font-medium">Roles</Label>
+                    <Label className="text-lg font-medium text-black">Roles</Label>
                     <RadioGroup name="roles" className="grid grid-cols-2 gap-x-6 gap-y-4">
                         {roles.map(role => (
                             <div key={role} className="flex items-center gap-2">
