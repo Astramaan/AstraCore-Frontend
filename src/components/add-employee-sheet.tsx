@@ -8,12 +8,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, User, Mail, Phone, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -31,7 +30,7 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 );
 
 
-const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
+const AddEmployeeForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, onClose: () => void }) => {
     const { toast } = useToast();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -112,6 +111,8 @@ export function AddEmployeeSheet() {
     setIsOpen(false);
     setShowSuccess(true);
   };
+  
+  const handleClose = () => setIsOpen(false);
 
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
@@ -132,7 +133,7 @@ export function AddEmployeeSheet() {
       <DialogOrSheetContent 
           side={'bottom'}
           className={cn(
-            "p-0 flex flex-col m-0 h-auto rounded-t-[50px] bg-white w-full",
+            "p-0 flex flex-col m-0 h-auto bg-white w-full rounded-t-[50px]",
             !isMobile && "mx-auto sm:max-w-2xl !bottom-0 !top-auto !translate-y-0 rounded-b-none"
           )}
       >
@@ -144,10 +145,15 @@ export function AddEmployeeSheet() {
                     </div>
                     Add New Employee
                 </SheetTitle>
+                <DialogOrSheetClose asChild>
+                  <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
+                      <X className="h-6 w-6" />
+                  </Button>
+                </DialogOrSheetClose>
               </div>
           </SheetHeader>
           <div className="flex-grow overflow-y-auto no-scrollbar">
-            <AddEmployeeForm onFormSuccess={handleSuccess} />
+            <AddEmployeeForm onFormSuccess={handleSuccess} onClose={handleClose} />
           </div>
       </DialogOrSheetContent>
     </DialogOrSheet>
