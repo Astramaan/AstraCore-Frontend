@@ -29,19 +29,23 @@ const timeSlots = [
 
 const CreateMeetingForm = () => {
     const [date, setDate] = React.useState<Date>();
+    const [meetingLink, setMeetingLink] = React.useState('');
+    const [selectedType, setSelectedType] = React.useState('');
+    const [members, setMembers] = React.useState('');
+    const [time, setTime] = React.useState('');
 
     return (
     <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar bg-white">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
             <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="meeting-link" className="text-lg font-medium text-zinc-900">Meeting Link*</Label>
-                <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" />
+                <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>
+                <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} />
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="select-type" className="text-lg font-medium text-zinc-900">Select*</Label>
-                <Select>
+                <Label htmlFor="select-type" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Select*</Label>
+                <Select onValueChange={setSelectedType}>
                     <SelectTrigger id="select-type" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Client / Lead" />
                     </SelectTrigger>
@@ -53,8 +57,8 @@ const CreateMeetingForm = () => {
             </div>
 
              <div className="space-y-2">
-                <Label htmlFor="add-members" className="text-lg font-medium text-zinc-900">Add Members*</Label>
-                <Select>
+                <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                <Select onValueChange={setMembers}>
                     <SelectTrigger id="add-members" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Team Members" />
                     </SelectTrigger>
@@ -66,7 +70,7 @@ const CreateMeetingForm = () => {
             </div>
 
             <div className="space-y-2">
-                <Label className="text-lg font-medium text-zinc-900">Date*</Label>
+                <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Date*</Label>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -92,8 +96,8 @@ const CreateMeetingForm = () => {
             </div>
 
              <div className="space-y-2">
-                <Label className="text-lg font-medium text-zinc-900">Time*</Label>
-                <Select>
+                <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-zinc-900')}>Time*</Label>
+                <Select onValueChange={setTime}>
                     <SelectTrigger className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Select a time slot" />
                     </SelectTrigger>
