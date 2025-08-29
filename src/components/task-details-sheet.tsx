@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -34,6 +35,7 @@ interface TaskDetailsSheetProps {
     isOpen: boolean;
     onClose: () => void;
     task: Task | null;
+    onUpdateTask: (task: Task) => void;
 }
 
 const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) => (
@@ -45,7 +47,7 @@ const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) 
     </div>
 );
 
-const TaskDetailsContent = ({ task }: { task: Task }) => {
+const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: (task: Task) => void; }) => {
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
         "Medium": "bg-yellow-500/10 text-yellow-500",
@@ -64,6 +66,14 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
     
     const handleRemoveFile = (index: number) => {
         setAttachments(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleStartTask = () => {
+        onUpdateTask({ ...task, status: 'In Progress' });
+    };
+
+    const handleCompleteTask = () => {
+        onUpdateTask({ ...task, status: 'Completed' });
     };
 
     return (
@@ -158,9 +168,16 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
                     )}
                 </div>
                  <div className="flex justify-end pt-4">
-                    <Button className="px-14 h-12 text-lg rounded-full">
-                        Start
-                    </Button>
+                    {task.status !== 'In Progress' && task.status !== 'Completed' && (
+                        <Button onClick={handleStartTask} className="px-14 h-12 text-lg rounded-full">
+                            Start
+                        </Button>
+                    )}
+                    {task.status === 'In Progress' && (
+                        <Button onClick={handleCompleteTask} className="px-14 h-12 text-lg rounded-full">
+                            Mark as Complete
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>
@@ -168,7 +185,7 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
 };
 
 
-export function TaskDetailsSheet({ isOpen, onClose, task }: TaskDetailsSheetProps) {
+export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDetailsSheetProps) {
   const isMobile = useIsMobile();
 
   if (!task) return null;
@@ -203,7 +220,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task }: TaskDetailsSheetProp
               </DialogOrSheetTitle>
           </DialogOrSheetHeader>
           <div className='font-gilroy-medium text-[18px]'>
-            <TaskDetailsContent task={task} />
+            <TaskDetailsContent task={task} onUpdateTask={onUpdateTask} />
           </div>
       </DialogOrSheetContent>
     </DialogOrSheet>
