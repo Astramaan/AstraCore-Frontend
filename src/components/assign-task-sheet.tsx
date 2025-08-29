@@ -214,10 +214,10 @@ export function AssignTaskSheet() {
       </SheetTrigger>
       <SheetContent 
           className={cn(
-            "p-0 m-0 flex flex-col",
+            "p-0 m-0 flex flex-col bg-white",
             isMobile 
-              ? "h-auto bg-white rounded-t-[50px]"
-              : "sm:max-w-4xl bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
+              ? "h-auto rounded-t-[50px]"
+              : "sm:max-w-4xl rounded-[50px] !bottom-auto !top-auto !left-1/2 !-translate-x-1/2"
           )}
           side={"bottom"}
       >

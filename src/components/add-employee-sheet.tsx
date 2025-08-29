@@ -140,7 +140,9 @@ export function AddEmployeeSheet() {
       <SheetContent 
           className={cn(
             "p-0 flex flex-col m-0 bg-white",
-            isMobile ? "h-auto rounded-t-[50px]" : "sm:max-w-2xl rounded-[50px] !bottom-0 !top-auto !translate-y-0"
+            isMobile 
+                ? "h-auto rounded-t-[50px]" 
+                : "sm:max-w-2xl rounded-[50px] !bottom-auto !top-auto !left-1/2 !-translate-x-1/2"
           )}
           side={"bottom"}
       >
