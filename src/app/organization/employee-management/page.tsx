@@ -9,8 +9,10 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
+import { ViewMembersSheet, type Role } from '@/components/view-members-sheet';
+import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 
-const roles = [
+const roles: Role[] = [
     { 
         name: "Super Admin", 
         icon: <Shield className="w-6 h-6 text-black" />, 
@@ -61,7 +63,7 @@ const roles = [
     },
 ];
 
-const RoleCard = ({ role }: { role: typeof roles[0] }) => (
+const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
@@ -82,7 +84,7 @@ const RoleCard = ({ role }: { role: typeof roles[0] }) => (
 
             <div className="flex items-center gap-4 flex-1">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">View Members</Button>
+                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-primary hover:text-white text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator />
@@ -91,6 +93,7 @@ const RoleCard = ({ role }: { role: typeof roles[0] }) => (
 
 export default function EmployeeManagementPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
@@ -100,10 +103,18 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
         );
     }, [searchTerm]);
 
+    const handleViewMembers = (role: Role) => {
+        setSelectedRole(role);
+    };
+
+    const handleCloseSheet = () => {
+        setSelectedRole(null);
+    };
+
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-2xl font-semibold text-zinc-900">Employee Management</h1>
+                <h2 className="text-2xl font-medium text-zinc-900">Employee Management</h2>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
@@ -115,6 +126,7 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
                         />
                     </div>
                      <AddEmployeeSheet />
+                     <CreateDepartmentSheet />
                 </div>
             </div>
 
@@ -122,11 +134,17 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
                 <CardContent className="p-6">
                     <div className="flex flex-col">
                         {filteredRoles.map((role) => (
-                            <RoleCard key={role.name} role={role} />
+                            <RoleCard key={role.name} role={role} onViewMembers={handleViewMembers}/>
                         ))}
                     </div>
                 </CardContent>
             </Card>
+
+            <ViewMembersSheet 
+                isOpen={!!selectedRole}
+                onClose={handleCloseSheet}
+                role={selectedRole}
+            />
         </div>
     );
 }
