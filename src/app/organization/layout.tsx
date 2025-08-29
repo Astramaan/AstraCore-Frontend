@@ -29,7 +29,7 @@ const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/employee-management')) {
-        pageTitle = 'Departments';
+        pageTitle = 'Employee Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
