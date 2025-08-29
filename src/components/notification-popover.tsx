@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Bell, Users, FileText } from "lucide-react";
+import { AllNotificationsDialog } from "./all-notifications-dialog";
 
 const notifications = [
     {
@@ -61,7 +62,7 @@ export function NotificationPopover() {
                     ))}
                 </div>
                 <div className="p-2 border-t mt-2">
-                    <Button variant="link" className="w-full text-primary">View all notifications</Button>
+                    <AllNotificationsDialog />
                 </div>
             </PopoverContent>
         </Popover>
