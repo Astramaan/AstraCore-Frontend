@@ -9,6 +9,7 @@ import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
 import { MoreVertical, Search } from "lucide-react";
 import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const clientMeetings = [
     { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -22,7 +23,7 @@ const leadMeetings = [
 ];
 
 const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
-    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0">
+    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer">
         <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
                 <div>
@@ -48,9 +49,17 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
             </div>
 
             <div className="absolute top-0 right-0">
-                <Button variant="ghost" size="icon">
-                    <MoreVertical className="w-5 h-5" />
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-5 h-5" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     </div>
@@ -77,10 +86,10 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 <h2 className="text-2xl font-medium text-zinc-900">Client Meetings</h2>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                         <Input 
                             placeholder="Search Meetings..." 
-                            className="pl-9 rounded-full h-11 bg-white" 
+                            className="pl-12 h-14 rounded-full bg-white text-lg" 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -122,9 +131,17 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                             <div className="justify-self-end p-4">
-                                                <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                </Button>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                            <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </div>
                                         </div>
                                         {index < filteredClientMeetings.length - 1 && (
@@ -169,9 +186,17 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                             <div className="justify-self-end p-4">
-                                                <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                    <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                </Button>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="w-8 h-8">
+                                                            <MoreVertical className="h-5 w-5 text-zinc-500" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </div>
                                         </div>
                                         {index < filteredLeadMeetings.length - 1 && (

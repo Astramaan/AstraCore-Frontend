@@ -92,7 +92,7 @@ export function AddLeadSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                     <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                     <Button className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
                         <Plus className="mr-2"/>
                         Add New Lead
                     </Button>
@@ -111,7 +111,7 @@ export function AddLeadSheet() {
                                 Add New Lead
                             </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
-                                <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-[50px]">
+                                <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </DialogOrSheetClose>
