@@ -113,20 +113,27 @@ export function AddEmployeeSheet() {
     setShowSuccess(true);
   };
 
+  const DialogOrSheet = isMobile ? Sheet : Dialog;
+  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
+  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
+
   return (
     <>
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
+    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
+      <DialogOrSheetTrigger asChild>
         <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
             <Plus className="mr-2"/>
             Add New Employee
         </Button>
-      </SheetTrigger>
-      <SheetContent 
+      </DialogOrSheetTrigger>
+      <DialogOrSheetContent 
           side={'bottom'}
           className={cn(
-            "p-0 flex flex-col m-0 h-auto rounded-t-[50px] bg-white",
-            !isMobile && "mx-auto w-full max-w-2xl"
+            "p-0 flex flex-col m-0 h-auto rounded-t-[50px] bg-white w-full",
+            !isMobile && "mx-auto sm:max-w-2xl !bottom-0 !top-auto !translate-y-0 rounded-b-none"
           )}
       >
           <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
@@ -137,18 +144,13 @@ export function AddEmployeeSheet() {
                     </div>
                     Add New Employee
                 </SheetTitle>
-                <SheetClose asChild>
-                    <Button variant="ghost" size="icon" className="h-14 w-14 p-3.5 bg-background rounded-full">
-                        <X className="h-6 w-6" />
-                    </Button>
-                </SheetClose>
               </div>
           </SheetHeader>
           <div className="flex-grow overflow-y-auto no-scrollbar">
             <AddEmployeeForm onFormSuccess={handleSuccess} />
           </div>
-      </SheetContent>
-    </Sheet>
+      </DialogOrSheetContent>
+    </DialogOrSheet>
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
