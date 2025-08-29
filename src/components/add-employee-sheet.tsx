@@ -36,6 +36,8 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [roleType, setRoleType] = useState('');
+    const [selectedRole, setSelectedRole] = useState('');
 
     const [state, formAction] = useActionState(addEmployee, { success: false, message: '' });
 
@@ -63,8 +65,8 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 <div className="space-y-2">
-                    <Label htmlFor="role-type" className="text-lg font-medium text-grey-1">Role Type</Label>
-                    <Select name="role-type">
+                    <Label htmlFor="role-type" className={cn("text-lg font-medium", roleType ? 'text-grey-1' : 'text-black')}>Role Type</Label>
+                    <Select name="role-type" onValueChange={setRoleType}>
                         <SelectTrigger id="role-type" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                             <SelectValue placeholder="Select a role type" />
                         </SelectTrigger>
@@ -76,8 +78,8 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 </div>
                 
                 <div className="space-y-2">
-                    <Label className="text-lg font-medium text-black">Roles</Label>
-                    <RadioGroup name="roles" className="grid grid-cols-2 gap-x-6 gap-y-4">
+                    <Label className={cn("text-lg font-medium", selectedRole ? 'text-grey-1' : 'text-black')}>Roles</Label>
+                    <RadioGroup name="roles" className="grid grid-cols-2 gap-x-6 gap-y-4" onValueChange={setSelectedRole}>
                         {roles.map(role => (
                             <div key={role} className="flex items-center gap-2">
                                 <RadioGroupItem value={role.toLowerCase()} id={`role-${role.toLowerCase()}`} className="w-6 h-6" />
