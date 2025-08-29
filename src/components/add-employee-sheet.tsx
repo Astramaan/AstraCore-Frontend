@@ -113,51 +113,42 @@ export function AddEmployeeSheet() {
     setShowSuccess(true);
   };
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
-
   return (
     <>
-    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
-      <DialogOrSheetTrigger asChild>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
         <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
             <Plus className="mr-2"/>
             Add New Employee
         </Button>
-      </DialogOrSheetTrigger>
-      <DialogOrSheetContent 
-          side={isMobile ? 'bottom' : undefined}
+      </SheetTrigger>
+      <SheetContent 
+          side={'bottom'}
           className={cn(
-            "p-0 flex flex-col",
-            isMobile 
-            ? "m-0 h-auto rounded-t-[50px] bg-white"
-            : "w-full max-w-2xl bg-white rounded-[50px]"
+            "p-0 flex flex-col m-0 h-auto rounded-t-[50px] bg-white",
+            !isMobile && "mx-auto w-full max-w-2xl"
           )}
       >
-          <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
-                <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+                <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
                     Add New Employee
-                </DialogOrSheetTitle>
-                <DialogOrSheetClose asChild>
+                </SheetTitle>
+                <SheetClose asChild>
                     <Button variant="ghost" size="icon" className="h-14 w-14 p-3.5 bg-background rounded-full">
                         <X className="h-6 w-6" />
                     </Button>
-                </DialogOrSheetClose>
+                </SheetClose>
               </div>
-          </DialogOrSheetHeader>
+          </SheetHeader>
           <div className="flex-grow overflow-y-auto no-scrollbar">
             <AddEmployeeForm onFormSuccess={handleSuccess} />
           </div>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
