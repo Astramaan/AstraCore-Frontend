@@ -21,11 +21,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
 
+const timeSlots = [
+    "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+    "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
+    "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM",
+];
+
 const CreateMeetingForm = () => {
     const [date, setDate] = React.useState<Date>();
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar">
+    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar bg-white">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
             <div className="space-y-2 sm:col-span-2">
@@ -87,10 +93,16 @@ const CreateMeetingForm = () => {
 
              <div className="space-y-2">
                 <Label className="text-lg font-medium text-zinc-900">Time*</Label>
-                <div className="relative">
-                    <Input id="time" type="time" placeholder="Select time" className="h-14 bg-background rounded-full pr-10" />
-                    <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                </div>
+                <Select>
+                    <SelectTrigger className="h-14 bg-background rounded-full">
+                        <SelectValue placeholder="Select a time slot" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {timeSlots.map(time => (
+                             <SelectItem key={time} value={time}>{time}</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
             </div>
         
         </div>
