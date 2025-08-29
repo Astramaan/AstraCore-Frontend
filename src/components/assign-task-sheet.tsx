@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import {
@@ -15,21 +16,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Calendar as CalendarIcon, UploadCloud, X, Plus, Paperclip } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import type { Task } from "./task-details-sheet";
+import { SuccessPopup } from "./success-popup";
 
 
-const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
+interface AssignTaskFormProps {
+    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
+    onClose: () => void;
+}
+
+
+const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
     const [date, setDate] = useState<Date>();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [members, setMembers] = useState('');
-    const [type, setType] = useState('');
-    const [priority, setPriority] = useState<'high' | 'low' | null>(null);
+    const [category, setCategory] = useState('');
+    const [priority, setPriority] = useState<'High' | 'Low' | 'Medium' | null>(null);
     const [attachments, setAttachments] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -42,6 +51,24 @@ const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
     const handleRemoveFile = (index: number) => {
         setAttachments(prev => prev.filter((_, i) => i !== index));
     };
+
+    const handleSubmit = () => {
+        if (title && date && members && priority) {
+            onTaskAssigned({
+                title,
+                date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+                description,
+                priority,
+                category: category || 'General',
+                project: 'AstraCore App', // Placeholder
+                clientId: 'CL005', // Placeholder
+            });
+            onClose();
+        } else {
+            // Basic validation feedback
+            alert('Please fill all required fields');
+        }
+    }
 
 
     return (
@@ -98,15 +125,16 @@ const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
                 </Popover>
             </div>
              <div className="space-y-2">
-                <Label htmlFor="type" className={cn("text-lg font-medium", type ? 'text-grey-1' : 'text-zinc-900')}>Type</Label>
-                <Select onValueChange={setType}>
+                <Label htmlFor="type" className={cn("text-lg font-medium", category ? 'text-grey-1' : 'text-zinc-900')}>Type</Label>
+                <Select onValueChange={setCategory}>
                     <SelectTrigger id="type" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="meetings">Meetings</SelectItem>
-                        <SelectItem value="kt">KT</SelectItem>
-                        <SelectItem value="support">Support</SelectItem>
+                        <SelectItem value="Meetings">Meetings</SelectItem>
+                        <SelectItem value="Design">Design</SelectItem>
+                        <SelectItem value="Development">Development</SelectItem>
+                        <SelectItem value="QA">QA</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
@@ -118,12 +146,12 @@ const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
                         variant="outline" 
                         className={cn(
                             "rounded-full px-6", 
-                            priority === 'high' 
+                            priority === 'High' 
                                 ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90' 
                                 : 'bg-background border-stone-300',
                             !priority && "hover:bg-primary/10 hover:text-primary"
                         )} 
-                        onClick={() => setPriority('high')}
+                        onClick={() => setPriority('High')}
                     >
                         High
                     </Button>
@@ -132,12 +160,12 @@ const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
                         variant="outline" 
                         className={cn(
                             "rounded-full px-6", 
-                            priority === 'low' 
+                            priority === 'Low' 
                                 ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90' 
                                 : 'bg-background border-stone-300',
                             !priority && "hover:bg-primary/10 hover:text-primary"
                         )} 
-                        onClick={() => setPriority('low')}
+                        onClick={() => setPriority('Low')}
                     >
                         Low
                     </Button>
@@ -191,7 +219,7 @@ const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
         </div>
         
         <div className="flex justify-end pt-8">
-            <Button className="px-14 h-12 text-lg rounded-full" onClick={onClose}>
+            <Button className="px-14 h-12 text-lg rounded-full" onClick={handleSubmit}>
                 Assign
             </Button>
         </div>
@@ -200,46 +228,64 @@ const AssignTaskForm = ({onClose}: {onClose: () => void}) => {
 };
 
 
-export function AssignTaskSheet() {
-  const isMobile = useIsMobile();
-  const [isOpen, setIsOpen] = useState(false);
+interface AssignTaskSheetProps {
+    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
+}
 
-  return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
-            <PlusCircle className="w-5 h-5 md:mr-2"/>
-            <span className="hidden md:inline">Assign task</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent 
-          className={cn(
-            "p-0 m-0 flex flex-col bg-white",
-            isMobile 
-              ? "h-auto rounded-t-[50px]"
-              : "sm:max-w-4xl rounded-[50px] !bottom-auto !top-auto !left-1/2 !-translate-x-1/2"
-          )}
-          side={"bottom"}
-      >
-          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <div className="flex justify-between items-center">
-                <SheetTitle className="flex items-center text-2xl font-semibold">
-                    <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                        <Plus className="h-6 w-6 text-gray-600"/>
+export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
+    const isMobile = useIsMobile();
+    const [isOpen, setIsOpen] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const handleSuccess = (task: Omit<Task, 'id' | 'attachments' | 'status'>) => {
+        onTaskAssigned(task);
+        setIsOpen(false);
+        setShowSuccess(true);
+    };
+
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+
+    return (
+        <>
+            <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+                <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
+                    <PlusCircle className="w-5 h-5 md:mr-2"/>
+                    <span className="hidden md:inline">Assign task</span>
+                </Button>
+            </SheetTrigger>
+            <DialogContent
+                className={cn(
+                    "p-0 m-0 flex flex-col bg-white",
+                    "sm:max-w-4xl rounded-[50px] !bottom-auto !top-1/2 !-translate-y-1/2"
+                )}
+            >
+                <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                    <div className="flex justify-between items-center">
+                        <DialogTitle className="flex items-center text-2xl font-semibold">
+                            <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                <Plus className="h-6 w-6 text-gray-600"/>
+                            </div>
+                            Assign task
+                        </DialogTitle>
+                        <DialogClose asChild>
+                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                <X className="h-6 w-6" />
+                            </Button>
+                        </DialogClose>
                     </div>
-                    Assign task
-                </SheetTitle>
-                <SheetClose asChild>
-                    <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
-                        <X className="h-6 w-6" />
-                    </Button>
-                </SheetClose>
-              </div>
-          </SheetHeader>
-          <div className="flex-grow overflow-y-auto no-scrollbar">
-            <AssignTaskForm onClose={() => setIsOpen(false)} />
-          </div>
-      </SheetContent>
-    </Sheet>
-  );
+                </DialogHeader>
+                <div className="flex-grow overflow-y-auto no-scrollbar">
+                    <AssignTaskForm onTaskAssigned={handleSuccess} onClose={() => setIsOpen(false)} />
+                </div>
+            </DialogContent>
+            </DialogOrSheet>
+            <SuccessPopup
+                isOpen={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                title="Task Assigned!"
+                message="The new task has been successfully assigned and added to the list."
+            />
+        </>
+    );
 }

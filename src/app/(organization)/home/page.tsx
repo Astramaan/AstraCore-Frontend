@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -124,6 +125,16 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
     setSelectedTask(updatedTask);
   };
+  
+  const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
+    const fullTask: Task = {
+        ...newTask,
+        id: `TSK${String(taskData.length + 1).padStart(3, '0')}`,
+        status: 'Pending',
+        attachments: [] // Assuming no attachments for now from this form
+    };
+    setTaskData(prevTasks => [fullTask, ...prevTasks]);
+  };
 
 
   return (
@@ -202,7 +213,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     </DropdownMenu>
 
                      <div className="flex items-center gap-4">
-                        <AssignTaskSheet />
+                        <AssignTaskSheet onTaskAssigned={handleAddTask} />
                         <AddEmployeeSheet />
                     </div>
                 </div>
@@ -225,11 +236,11 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
 
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden md:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
-                 <AssignTaskSheet />
+                 <AssignTaskSheet onTaskAssigned={handleAddTask} />
                 <AddEmployeeSheet />
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 space-y-6">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500">
