@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { AddEmployeeSheet } from '@/components/add-employee-sheet';
@@ -10,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { ViewMembersSheet, type Role } from '@/components/view-members-sheet';
+import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 
 const roles: Role[] = [
     { 
@@ -83,7 +83,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
             <div className="flex items-center gap-4 flex-1">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-primary hover:text-white text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary hover:bg-primary/20 text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator />
@@ -113,7 +113,7 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h2 className="text-2xl font-medium text-zinc-900">Employee Management</h2>
+                <h2 className="text-2xl font-medium text-zinc-900">Departments</h2>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
@@ -124,7 +124,7 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                     <AddEmployeeSheet />
+                     <CreateDepartmentSheet />
                 </div>
             </div>
 
