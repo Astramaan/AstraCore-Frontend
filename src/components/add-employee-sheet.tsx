@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, UserPlus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { addEmployee } from '@/app/actions';
@@ -142,9 +141,9 @@ export function AddEmployeeSheet() {
             "p-0 flex flex-col m-0 bg-white",
             isMobile 
                 ? "h-auto rounded-t-[50px]" 
-                : "sm:max-w-2xl rounded-[50px] !bottom-auto !top-auto !left-1/2 !-translate-x-1/2"
+                : "sm:max-w-2xl rounded-[50px] !bottom-auto !top-1/2 !-translate-y-1/2 !left-1/2 !-translate-x-1/2"
           )}
-          side={"bottom"}
+          side={isMobile ? "bottom" : "left"}
       >
           <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
