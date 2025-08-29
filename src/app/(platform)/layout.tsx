@@ -40,7 +40,7 @@ const PlatformHeader = () => {
                             <Input placeholder="Search Task, Meetings, Projects..." className="pl-11 rounded-[10px] border-stone-300"/>
                         </div>
                         <div className="flex items-center gap-4">
-                            <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-primary hover:text-white">
+                            <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-primary/10 hover:text-primary">
                                 <Bell className="h-6 w-6" />
                                 <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
                             </Button>
@@ -79,7 +79,7 @@ const PlatformHeader = () => {
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background flex">
-        <div className="hidden md:block w-52 border-r border-stone-300">
+        <div className="hidden md:block w-64 border-r border-stone-300">
             <PlatformSidebar />
         </div>
         <div className="flex-1 flex flex-col">

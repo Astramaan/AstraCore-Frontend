@@ -263,7 +263,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
             <h3 className="text-lg font-medium">Edit Material: <span className="font-semibold text-primary">{material.name}</span></h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="space-y-6">
-                    <div className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center">
+                    <div className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center">
                          <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image" />
                     </div>
                 </div>
@@ -346,7 +346,7 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
                     <div className="space-y-6">
                          <div className="space-y-2">
                             <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
-                            <label htmlFor="product-image-upload" className="w-36 h-36 bg-zinc-100 rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
+                            <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
                                 {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
                                 <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
                             </label>
@@ -443,7 +443,7 @@ export function AddVendorSheet() {
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 rounded-[20px] bg-white",
+                        "p-0 rounded-[20px] bg-background",
                         isMobile 
                             ? "w-full rounded-t-3xl" 
                             : "md:max-w-4xl lg:max-w-6xl"
