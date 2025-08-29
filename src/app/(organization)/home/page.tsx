@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -176,8 +175,8 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     </Button>
                 </div>
 
-                {/* Mobile Filter Dropdown */}
-                <div className="md:hidden">
+                {/* Mobile Filter Dropdown & Actions */}
+                <div className="flex md:hidden justify-between items-center w-full">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
@@ -201,13 +200,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
+
+                     <div className="flex items-center gap-4">
+                        <AssignTaskSheet />
+                        <AddEmployeeSheet />
+                    </div>
                 </div>
 
-            </div>
-
-            <div className="flex md:hidden flex-wrap items-center gap-4 mb-6">
-                <AssignTaskSheet />
-                <AddEmployeeSheet />
             </div>
 
             <div>
