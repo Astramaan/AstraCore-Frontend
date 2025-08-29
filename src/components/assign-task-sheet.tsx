@@ -45,13 +45,13 @@ const AssignTaskForm = () => {
 
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
         <div className="space-y-6">
             <div className="space-y-2">
                 <Label htmlFor="task-title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Task Title*</Label>
-                <Input id="task-title" className="bg-background rounded-full h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Input id="task-title" className="bg-background rounded-full h-14" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="space-y-2">
                 <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900')}>Description</Label>
@@ -60,7 +60,7 @@ const AssignTaskForm = () => {
             <div className="space-y-2">
                 <Label htmlFor="members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Members*</Label>
                  <Select onValueChange={setMembers}>
-                    <SelectTrigger className="h-12 bg-background rounded-full" id="members">
+                    <SelectTrigger className="h-14 bg-background rounded-full" id="members">
                         <SelectValue placeholder="Add members" />
                     </SelectTrigger>
                     <SelectContent>
@@ -79,7 +79,7 @@ const AssignTaskForm = () => {
                         <Button
                         variant={"outline"}
                         className={cn(
-                            "w-full justify-start text-left font-normal h-12 bg-background rounded-full",
+                            "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
                             !date && "text-muted-foreground"
                         )}
                         >
@@ -100,7 +100,7 @@ const AssignTaskForm = () => {
              <div className="space-y-2">
                 <Label htmlFor="type" className={cn("text-lg font-medium", type ? 'text-grey-1' : 'text-zinc-900')}>Type</Label>
                 <Select onValueChange={setType}>
-                    <SelectTrigger id="type" className="h-12 bg-background rounded-full">
+                    <SelectTrigger id="type" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -199,8 +199,8 @@ export function AssignTaskSheet() {
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                    <Plus className="h-5 w-5 text-gray-600"/>
+                  <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                    <Plus className="h-6 w-6 text-gray-600"/>
                   </div>
                   Assign task
                   <div className="flex items-center gap-4 ml-auto">
