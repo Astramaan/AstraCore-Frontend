@@ -91,8 +91,8 @@ const AddEmployeeForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void
                 </div>
             </div>
             
-            <div className="flex justify-center pt-8">
-                <Button type="submit" className="w-full md:w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+            <div className="flex justify-end pt-8">
+                <Button type="submit" className="px-14 h-12 text-lg rounded-full">
                     Add
                 </Button>
             </div>
