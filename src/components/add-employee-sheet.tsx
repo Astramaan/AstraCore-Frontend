@@ -133,7 +133,7 @@ export function AddEmployeeSheet() {
           side={isMobile ? 'bottom' : 'right'}
           className={cn(
             isMobile 
-            ? "p-0 bg-white m-0 flex flex-col h-screen"
+            ? "p-0 bg-white m-0 flex flex-col h-auto rounded-t-[50px]"
             : "p-0 w-[452px] bg-white rounded-[50px] flex flex-col"
           )}
       >
@@ -146,7 +146,7 @@ export function AddEmployeeSheet() {
                     Add New Employee
                 </DialogOrSheetTitle>
                 <DialogOrSheetClose asChild>
-                    <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
+                    <Button variant="ghost" size="icon" className="h-14 w-14 p-3.5 bg-background rounded-full">
                         <X className="h-6 w-6" />
                     </Button>
                 </DialogOrSheetClose>
