@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { PlusCircle, Calendar as CalendarIcon, UploadCloud, X, Plus } from "lucide-react";
+import { PlusCircle, Calendar as CalendarIcon, UploadCloud, X, Plus, Paperclip } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -29,7 +29,7 @@ const AssignTaskForm = () => {
     const [description, setDescription] = useState('');
     const [members, setMembers] = useState('');
     const [type, setType] = useState('');
-    const [priority, setPriority] = useState('high');
+    const [priority, setPriority] = useState('');
     const [attachments, setAttachments] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -113,8 +113,48 @@ const AssignTaskForm = () => {
              <div className="space-y-4">
                 <p className="text-lg font-medium mb-2 text-zinc-900">Priority</p>
                 <div className="flex items-center gap-4">
-                    <Button variant="outline" className={cn("rounded-full px-6", priority === 'high' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background border-stone-300')} onClick={() => setPriority('high')}>High</Button>
-                    <Button variant="outline" className={cn("rounded-full px-6", priority === 'low' ? 'bg-primary text-primary-foreground border-primary' : 'bg-background border-stone-300')} onClick={() => setPriority('low')}>Low</Button>
+                    <Button 
+                        type="button" 
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full px-6", 
+                            priority === 'high' 
+                                ? 'bg-primary text-primary-foreground border-primary' 
+                                : 'bg-background border-stone-300',
+                            !priority && "hover:bg-primary/10 hover:text-primary"
+                        )} 
+                        onClick={() => setPriority('high')}
+                    >
+                        High
+                    </Button>
+                    <Button 
+                        type="button"
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full px-6", 
+                            priority === 'medium' 
+                                ? 'bg-primary text-primary-foreground border-primary' 
+                                : 'bg-background border-stone-300',
+                            !priority && "hover:bg-primary/10 hover:text-primary"
+                        )} 
+                        onClick={() => setPriority('medium')}
+                    >
+                        Medium
+                    </Button>
+                    <Button 
+                        type="button"
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full px-6", 
+                            priority === 'low' 
+                                ? 'bg-primary text-primary-foreground border-primary' 
+                                : 'bg-background border-stone-300',
+                            !priority && "hover:bg-primary/10 hover:text-primary"
+                        )} 
+                        onClick={() => setPriority('low')}
+                    >
+                        Low
+                    </Button>
                 </div>
             </div>
              <div className="space-y-2">
@@ -142,7 +182,10 @@ const AssignTaskForm = () => {
                         <div className="space-y-2">
                             {attachments.map((file, index) => (
                                 <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
-                                    <span className="text-sm truncate">{file.name}</span>
+                                    <div className="flex items-center gap-2">
+                                        <Paperclip className="h-4 w-4" />
+                                        <span className="text-sm truncate">{file.name}</span>
+                                    </div>
                                     <Button
                                         type="button"
                                         variant="ghost"
@@ -162,7 +205,7 @@ const AssignTaskForm = () => {
         </div>
         
         <div className="flex justify-end pt-8">
-            <Button className="px-14 h-12 text-lg rounded-full">
+            <Button className="px-14 h-12 text-lg rounded-lg">
                 Assign
             </Button>
         </div>
@@ -177,7 +220,7 @@ export function AssignTaskSheet() {
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
   const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
@@ -191,9 +234,10 @@ export function AssignTaskSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
+            "p-0 bg-white m-0 flex flex-col",
             isMobile 
-              ? "p-0 bg-white m-0 flex flex-col h-screen" 
-              : "sm:max-w-4xl p-0 rounded-[50px] bg-white"
+              ? "h-screen rounded-t-[50px]"
+              : "sm:max-w-4xl rounded-[50px]"
           )}
           {...(isMobile && { side: "bottom" })}
       >
