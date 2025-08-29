@@ -63,10 +63,10 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 <div className="space-y-2">
-                    <Label htmlFor="role-type" className="text-grey-1 text-lg font-medium">Role Type</Label>
+                    <Label htmlFor="role-type" className="text-lg font-medium text-grey-1">Role Type</Label>
                     <Select name="role-type">
                         <SelectTrigger id="role-type" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Admin" />
+                            <SelectValue placeholder="Select a role type" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="admin">Admin</SelectItem>
