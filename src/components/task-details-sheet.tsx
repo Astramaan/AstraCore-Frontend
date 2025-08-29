@@ -212,7 +212,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
             "p-0 m-0 flex flex-col bg-white rounded-[20px]",
             isMobile 
               ? "h-auto rounded-t-[50px]"
-              : "sm:max-w-4xl rounded-[50px] !bottom-0 !top-auto !translate-y-0"
+              : "sm:max-w-3xl bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
           )}
           {...(isMobile && { side: "bottom" })}
       >
