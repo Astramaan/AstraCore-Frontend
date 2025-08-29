@@ -204,49 +204,42 @@ export function AssignTaskSheet() {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
-
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
-      <DialogOrSheetTrigger asChild>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
         <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
             <PlusCircle className="w-5 h-5 md:mr-2"/>
             <span className="hidden md:inline">Assign task</span>
         </Button>
-      </DialogOrSheetTrigger>
-      <DialogOrSheetContent 
+      </SheetTrigger>
+      <SheetContent 
           className={cn(
             "p-0 m-0 flex flex-col",
             isMobile 
               ? "h-auto bg-white rounded-t-[50px]"
-              : "sm:max-w-4xl bg-white rounded-[50px]"
+              : "sm:max-w-4xl bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
           )}
-          {...(isMobile && { side: "bottom" })}
+          side={"bottom"}
       >
-          <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex justify-between items-center">
-                <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+                <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
                         <Plus className="h-6 w-6 text-gray-600"/>
                     </div>
                     Assign task
-                </DialogOrSheetTitle>
-                <DialogOrSheetClose asChild>
+                </SheetTitle>
+                <SheetClose asChild>
                     <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                         <X className="h-6 w-6" />
                     </Button>
-                </DialogOrSheetClose>
+                </SheetClose>
               </div>
-          </DialogOrSheetHeader>
+          </SheetHeader>
           <div className="flex-grow overflow-y-auto no-scrollbar">
             <AssignTaskForm onClose={() => setIsOpen(false)} />
           </div>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 }
