@@ -45,7 +45,7 @@ const AssignTaskForm = () => {
 
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
+    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] bg-white no-scrollbar">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
         <div className="space-y-6">
@@ -222,8 +222,8 @@ export function AssignTaskSheet() {
           className={cn(
             "p-0 m-0 flex flex-col",
             isMobile 
-              ? "h-screen bg-white"
-              : "sm:max-w-4xl bg-white rounded-[50px]"
+              ? "h-auto bg-white rounded-t-[50px]"
+              : "sm:max-w-4xl bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
           )}
           {...(isMobile && { side: "bottom" })}
       >
@@ -243,7 +243,7 @@ export function AssignTaskSheet() {
                   </div>
               </DialogOrSheetTitle>
           </DialogOrSheetHeader>
-          <div className="flex-grow overflow-y-auto">
+          <div className="flex-grow overflow-y-auto no-scrollbar">
             <AssignTaskForm />
           </div>
       </DialogOrSheetContent>

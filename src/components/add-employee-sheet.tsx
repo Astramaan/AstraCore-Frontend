@@ -58,7 +58,7 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
 
     return (
     <form action={formAction}>
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar">
+        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
             <div className="grid grid-cols-1 gap-y-6">
                 <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                 <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -130,11 +130,12 @@ export function AddEmployeeSheet() {
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
-          side={isMobile ? 'bottom' : 'right'}
+          side={isMobile ? 'bottom' : undefined}
           className={cn(
+            "p-0 flex flex-col",
             isMobile 
-            ? "p-0 bg-white m-0 flex flex-col h-auto rounded-t-[50px]"
-            : "p-0 w-[452px] bg-white rounded-[50px] flex flex-col"
+            ? "m-0 h-auto rounded-t-[50px] bg-white"
+            : "w-[452px] bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
