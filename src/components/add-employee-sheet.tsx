@@ -113,11 +113,11 @@ export function AddEmployeeSheet() {
     setShowSuccess(true);
   };
 
-  const DialogOrSheet = isMobile ? Dialog : Dialog;
-  const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
+  const DialogOrSheet = isMobile ? Sheet : Dialog;
+  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
+  const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
   const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
   return (
@@ -130,8 +130,11 @@ export function AddEmployeeSheet() {
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
+          side={isMobile ? 'bottom' : 'right'}
           className={cn(
-            "p-0 w-[452px] bg-white h-[80vh] rounded-t-[50px] flex flex-col"
+            isMobile 
+            ? "p-0 bg-white h-full m-0 flex flex-col rounded-t-[50px]"
+            : "p-0 w-[452px] bg-white rounded-[50px] flex flex-col"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
