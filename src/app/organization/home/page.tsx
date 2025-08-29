@@ -93,24 +93,27 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   };
 
   const filteredTasks = useMemo(() => {
-    if (!activeFilter) {
-      return taskData;
+    let tasks = taskData;
+    if (activeFilter) {
+        tasks = tasks.filter(task => {
+            if (activeFilter === 'High Priority') {
+                return task.priority === 'High';
+            }
+            if (activeFilter === 'In Progress') {
+                return task.status === 'In Progress';
+            }
+            if (activeFilter === 'Pending') {
+                return task.status === 'Pending';
+            }
+            if (activeFilter === 'Completed') {
+                return task.status === 'Completed';
+            }
+            return true;
+        });
+    } else {
+        tasks = tasks.filter(task => task.status !== 'Completed');
     }
-    return taskData.filter(task => {
-        if (activeFilter === 'High Priority') {
-            return task.priority === 'High';
-        }
-        if (activeFilter === 'In Progress') {
-            return task.status === 'In Progress';
-        }
-        if (activeFilter === 'Pending') {
-            return task.status === 'Pending';
-        }
-        if (activeFilter === 'Completed') {
-            return task.status === 'Completed';
-        }
-        return true;
-    });
+    return tasks;
   }, [activeFilter, taskData]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
