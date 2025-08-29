@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, ArrowRight, SlidersHorizontal, Check } from "lucide-react";
+import { Plus, ArrowRight, SlidersHorizontal, Check, Calendar } from "lucide-react";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
 import { AddEmployeeSheet } from "@/components/add-employee-sheet";
@@ -46,8 +46,9 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                     </div>
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
-                <div className="text-right">
-                    <p className="text-sm text-muted-foreground">{task.status}</p>
+                <div className="text-right flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">{task.date}</p>
                 </div>
             </div>
         </Card>
