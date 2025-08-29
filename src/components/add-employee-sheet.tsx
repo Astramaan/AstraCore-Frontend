@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -20,7 +21,6 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { addEmployee } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
-import { Checkbox } from './ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const FloatingLabelInput = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
@@ -74,16 +74,16 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 
                 <div className="space-y-2">
                     <Label className="text-grey-2 text-lg font-medium">Roles</Label>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                    <RadioGroup name="roles" className="grid grid-cols-2 gap-x-6 gap-y-4">
                         {roles.map(role => (
                             <div key={role} className="flex items-center gap-2">
-                                <Checkbox id={`role-${role.toLowerCase()}`} name="roles" value={role.toLowerCase()} className="w-6 h-6 rounded-full" />
+                                <RadioGroupItem value={role.toLowerCase()} id={`role-${role.toLowerCase()}`} className="w-6 h-6" />
                                 <Label htmlFor={`role-${role.toLowerCase()}`} className="text-black text-lg font-medium">
                                     {role}
                                 </Label>
                             </div>
                         ))}
-                    </div>
+                    </RadioGroup>
                 </div>
             </div>
             
