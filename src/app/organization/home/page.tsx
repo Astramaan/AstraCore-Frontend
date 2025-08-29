@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -147,7 +146,6 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         onClick={() => handleFilterClick('In Progress')}
                     >
                         In Progress
-                        <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>
                     </Button>
                     <Button 
                         variant="outline" 
@@ -168,7 +166,6 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         onClick={() => handleFilterClick('Completed')}
                     >
                         Completed
-                        <Badge className="ml-2 bg-green-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{completedCount}</Badge>
                     </Button>
                 </div>
             </div>
