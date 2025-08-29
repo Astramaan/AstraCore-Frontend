@@ -54,7 +54,7 @@ const OrganizationHeader = () => {
             <Link href="/organization/employee-management">
               <Button className={cn(
                   "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium hidden md:flex items-center",
-                  isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary hover:text-white"
+                  isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
                   Employee Management
