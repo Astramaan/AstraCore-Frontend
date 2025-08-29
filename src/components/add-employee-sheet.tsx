@@ -115,7 +115,7 @@ export function AddEmployeeSheet() {
 
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
+  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
   const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
@@ -135,7 +135,7 @@ export function AddEmployeeSheet() {
             "p-0 flex flex-col",
             isMobile 
             ? "m-0 h-auto rounded-t-[50px] bg-white"
-            : "w-[452px] bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
+            : "w-[452px] bg-white rounded-[50px]"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
