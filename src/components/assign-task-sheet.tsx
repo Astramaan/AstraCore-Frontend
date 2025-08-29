@@ -57,10 +57,6 @@ const AssignTaskForm = () => {
                         <SelectItem value="member2">Anil Kumar</SelectItem>
                     </SelectContent>
                 </Select>
-                <div className="flex gap-2 mt-2">
-                    <Avatar className="w-8 h-8"><AvatarImage src="https://placehold.co/32x32" data-ai-hint="person portrait" /></Avatar>
-                    <Avatar className="w-8 h-8"><AvatarImage src="https://placehold.co/32x32" data-ai-hint="person portrait" /></Avatar>
-                </div>
             </div>
         </div>
 
@@ -154,13 +150,13 @@ export function AssignTaskSheet() {
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "p-0 bg-white h-full m-0 flex flex-col rounded-t-none" 
+              ? "p-0 bg-white m-0 flex flex-col h-screen rounded-t-[50px]" 
               : "sm:max-w-4xl p-0 rounded-[50px] bg-white"
           )}
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+              <DialogOrSheetTitle className="flex items-center text-xl font-medium">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-5 w-5 text-gray-600"/>
                   </div>
