@@ -1,7 +1,7 @@
 
 'use client';
 
-import { AddEmployeeSheet } from '@/components/add-employee-sheet';
+import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,7 +9,6 @@ import { Separator } from '@/components/ui/separator';
 import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { ViewMembersSheet, type Role } from '@/components/view-members-sheet';
-import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 
 const roles: Role[] = [
     { 
