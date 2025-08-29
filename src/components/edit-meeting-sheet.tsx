@@ -1,27 +1,43 @@
 
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, Plus, Calendar as CalendarIcon } from "lucide-react";
+import { X, Calendar as CalendarIcon, Edit } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
-import type { Meeting } from './edit-meeting-sheet';
+
+export interface Meeting {
+    id: string;
+    type: 'client' | 'lead';
+    name: string;
+    city: string;
+    date: string;
+    time: string;
+    link: string;
+    email: string;
+    phone: string;
+}
+
+interface EditMeetingSheetProps {
+    isOpen: boolean;
+    onClose: () => void;
+    meeting: Meeting | null;
+    onMeetingUpdated: (meeting: Meeting) => void;
+}
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -29,20 +45,22 @@ const timeSlots = [
     "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM",
 ];
 
-const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
-    const [date, setDate] = React.useState<Date>();
-    const [meetingLink, setMeetingLink] = React.useState('');
-    const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | ''>('');
-    const [members, setMembers] = React.useState('');
-    const [time, setTime] = React.useState('');
-    const [name, setName] = useState('');
-    const [city, setCity] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meeting, onMeetingUpdated: (meeting: Meeting) => void, onClose: () => void }) => {
+    const [date, setDate] = useState<Date | undefined>(meeting.date ? new Date(meeting.date) : undefined);
+    const [meetingLink, setMeetingLink] = useState(meeting.link);
+    const [selectedType, setSelectedType] = useState<'client' | 'lead'>(meeting.type);
+    const [members, setMembers] = useState('member1'); // Mock
+    const [time, setTime] = useState(meeting.time);
+    const [name, setName] = useState(meeting.name);
+    const [city, setCity] = useState(meeting.city);
+    const [email, setEmail] = useState(meeting.email);
+    const [phone, setPhone] = useState(meeting.phone);
+
 
     const handleSubmit = () => {
-        if (name && selectedType && date && time) {
-            onMeetingCreated({
+        if (name && selectedType && date && time && meeting) {
+            onMeetingUpdated({
+                ...meeting,
                 name,
                 city,
                 email,
@@ -68,7 +86,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
             <div className="space-y-2">
                 <Label htmlFor="select-type" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Select*</Label>
-                <Select onValueChange={(value: 'client' | 'lead') => setSelectedType(value)}>
+                <Select value={selectedType} onValueChange={(value: 'client' | 'lead') => setSelectedType(value)}>
                     <SelectTrigger id="select-type" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Client / Lead" />
                     </SelectTrigger>
@@ -81,7 +99,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
              <div className="space-y-2">
                 <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
-                <Select onValueChange={setMembers}>
+                <Select value={members} onValueChange={setMembers}>
                     <SelectTrigger id="add-members" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Team Members" />
                     </SelectTrigger>
@@ -120,7 +138,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
              <div className="space-y-2">
                 <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-zinc-900')}>Time*</Label>
-                <Select onValueChange={setTime}>
+                <Select value={time} onValueChange={setTime}>
                     <SelectTrigger className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Select a time slot" />
                     </SelectTrigger>
@@ -153,7 +171,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         
         <div className="flex justify-end pt-8">
             <Button onClick={handleSubmit} className="px-14 h-12 text-lg rounded-full">
-                Create
+                Save Changes
             </Button>
         </div>
     </div>
@@ -161,27 +179,19 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 };
 
 
-export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void }) {
+export function EditMeetingSheet({ isOpen, onClose, meeting, onMeetingUpdated }: EditMeetingSheetProps) {
   const isMobile = useIsMobile();
-  const [isOpen, setIsOpen] = useState(false);
 
-  const handleClose = () => setIsOpen(false);
+  if (!meeting) return null;
 
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
-      <DialogOrSheetTrigger asChild>
-        <Button className="rounded-full h-[54px] bg-primary/10 text-primary hover:bg-primary/20 border border-primary text-lg font-medium">
-            <PlusCircle className="mr-2 h-5 w-5" />
-            Create
-        </Button>
-      </DialogOrSheetTrigger>
+    <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
           className={cn(
             "bg-white",
@@ -194,9 +204,9 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
           <DialogOrSheetHeader className="p-6 border-b">
               <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                    <Plus className="h-5 w-5 text-gray-600"/>
+                    <Edit className="h-5 w-5 text-gray-600"/>
                   </div>
-                  Create New Meeting
+                  Edit Meeting
                   <div className="flex items-center gap-4 ml-auto">
                       <DialogOrSheetClose asChild>
                         <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
@@ -206,7 +216,7 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
                   </div>
               </DialogOrSheetTitle>
           </DialogOrSheetHeader>
-          <CreateMeetingForm onMeetingCreated={onMeetingCreated} onClose={handleClose}/>
+          <EditMeetingForm meeting={meeting} onMeetingUpdated={onMeetingUpdated} onClose={onClose}/>
       </DialogOrSheetContent>
     </DialogOrSheet>
   );
