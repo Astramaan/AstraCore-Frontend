@@ -25,18 +25,18 @@ const CreateMeetingForm = () => {
     const [date, setDate] = React.useState<Date>();
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
             <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="meeting-link" className="text-lg font-medium text-zinc-900">Meeting Link*</Label>
-                <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-lg h-12" />
+                <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" />
             </div>
 
             <div className="space-y-2">
                 <Label htmlFor="select-type" className="text-lg font-medium text-zinc-900">Select*</Label>
                 <Select>
-                    <SelectTrigger id="select-type" className="h-12 bg-background rounded-lg">
+                    <SelectTrigger id="select-type" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Client / Lead" />
                     </SelectTrigger>
                     <SelectContent>
@@ -49,7 +49,7 @@ const CreateMeetingForm = () => {
              <div className="space-y-2">
                 <Label htmlFor="add-members" className="text-lg font-medium text-zinc-900">Add Members*</Label>
                 <Select>
-                    <SelectTrigger id="add-members" className="h-12 bg-background rounded-lg">
+                    <SelectTrigger id="add-members" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Team Members" />
                     </SelectTrigger>
                     <SelectContent>
@@ -66,7 +66,7 @@ const CreateMeetingForm = () => {
                         <Button
                         variant={"outline"}
                         className={cn(
-                            "w-full justify-start text-left font-normal h-12 bg-background rounded-lg",
+                            "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
                             !date && "text-muted-foreground"
                         )}
                         >
@@ -88,7 +88,7 @@ const CreateMeetingForm = () => {
              <div className="space-y-2">
                 <Label className="text-lg font-medium text-zinc-900">Time*</Label>
                 <div className="relative">
-                    <Input id="time" placeholder="Select time" className="h-12 bg-background rounded-lg pr-10" />
+                    <Input id="time" type="time" placeholder="Select time" className="h-14 bg-background rounded-full pr-10" />
                     <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 </div>
             </div>
@@ -125,6 +125,7 @@ export function CreateMeetingSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
+            "bg-white",
             isMobile 
               ? "w-full p-0 rounded-t-[50px]" 
               : "sm:max-w-2xl p-0 rounded-[50px]"
@@ -139,10 +140,9 @@ export function CreateMeetingSheet() {
                   Create New Meeting
                   <div className="flex items-center gap-4 ml-auto">
                       <DialogOrSheetClose asChild>
-                          <Button variant="ghost" className="rounded-full text-sm font-normal h-auto px-4 py-2 bg-gray-100 hover:bg-gray-200">
-                              <X className="h-4 w-4 mr-1"/>
-                              Close
-                          </Button>
+                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                            <X className="h-6 w-6" />
+                        </Button>
                       </DialogOrSheetClose>
                   </div>
               </DialogOrSheetTitle>
