@@ -49,7 +49,6 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     }, [state, onFormSuccess, toast]);
     
     const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
-    const departments = ["Sales", "Software Development", "Design", "Support & Feedback", "Human Resources"];
 
 
     return (
@@ -73,20 +72,6 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                     </Select>
                 </div>
                 
-                <div className="space-y-2">
-                    <Label htmlFor="department" className="text-grey-2 text-lg font-medium">Department</Label>
-                    <Select name="department">
-                        <SelectTrigger id="department" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Select Department" />
-                        </SelectTrigger>
-                        <SelectContent>
-                             {departments.map(dept => (
-                                <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-
                 <div className="space-y-2">
                     <Label className="text-grey-2 text-lg font-medium">Roles</Label>
                     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
