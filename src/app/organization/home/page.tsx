@@ -114,7 +114,6 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   }, [activeFilter, taskData]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
-  const completedCount = useMemo(() => taskData.filter(t => t.status === 'Completed').length, [taskData]);
 
   const handleTaskUpdate = (updatedTask: Task) => {
     setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
@@ -146,6 +145,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         onClick={() => handleFilterClick('In Progress')}
                     >
                         In Progress
+                        <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>
                     </Button>
                     <Button 
                         variant="outline" 
