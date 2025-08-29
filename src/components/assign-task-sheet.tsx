@@ -29,7 +29,7 @@ const AssignTaskForm = () => {
     const [description, setDescription] = useState('');
     const [members, setMembers] = useState('');
     const [type, setType] = useState('');
-    const [priority, setPriority] = useState('');
+    const [priority, setPriority] = useState<'high' | 'low' | null>(null);
     const [attachments, setAttachments] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -191,7 +191,7 @@ const AssignTaskForm = () => {
         </div>
         
         <div className="flex justify-end pt-8">
-            <Button className="px-14 h-12 text-lg rounded-lg">
+            <Button className="px-14 h-12 text-lg rounded-full">
                 Assign
             </Button>
         </div>
@@ -222,7 +222,7 @@ export function AssignTaskSheet() {
           className={cn(
             "p-0 m-0 flex flex-col",
             isMobile 
-              ? "h-screen bg-white rounded-t-[50px]"
+              ? "h-screen bg-white"
               : "sm:max-w-4xl bg-white rounded-[50px]"
           )}
           {...(isMobile && { side: "bottom" })}
