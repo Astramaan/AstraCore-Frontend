@@ -14,6 +14,7 @@ import { AddEmployeeSheet } from "@/components/add-employee-sheet";
 import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
 
 
 const initialTaskData: Task[] = [
@@ -120,6 +121,12 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   }, [activeFilter, taskData]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
+  const myTasksCount = filteredTasks.length;
+  const assignedTasksCount = 2; // Placeholder
+  const taskChartData = [
+      { name: "My Tasks", value: myTasksCount },
+      { name: "Assigned Tasks", value: assignedTasksCount },
+  ];
 
   const handleTaskUpdate = (updatedTask: Task) => {
     setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
@@ -240,7 +247,16 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 <AddEmployeeSheet />
             </div>
 
-            <div className="mt-8 space-y-6">
+            <Card className="rounded-[50px]">
+                <CardHeader>
+                    <CardTitle className="text-xl">Task Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <TaskOverviewChart data={taskChartData}/>
+                </CardContent>
+            </Card>
+
+            <div className="space-y-6">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500">
