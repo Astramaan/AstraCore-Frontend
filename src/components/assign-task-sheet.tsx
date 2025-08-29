@@ -213,9 +213,9 @@ export function AssignTaskSheet() {
   return (
     <DialogOrSheet>
       <DialogOrSheetTrigger asChild>
-        <Button className="flex-1 md:flex-none rounded-full h-[54px] font-sans bg-primary text-primary-foreground hover:bg-primary/90 text-lg">
-            <PlusCircle className="w-5 h-5 mr-2"/>
-            Assign task
+        <Button className="md:flex-none rounded-full h-[54px] font-sans bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:p-2.5">
+            <PlusCircle className="w-5 h-5 md:mr-2"/>
+            <span className="hidden md:inline">Assign task</span>
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
@@ -228,7 +228,7 @@ export function AssignTaskSheet() {
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                   <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-6 w-6 text-gray-600"/>
                   </div>

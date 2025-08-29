@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X } from "lucide-react";
+import { Plus, X, UserPlus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -114,8 +114,8 @@ export function AddEmployeeSheet() {
   
   const handleClose = () => setIsOpen(false);
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+  const DialogOrSheet = isMobile ? Dialog : Dialog;
+  const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
@@ -125,9 +125,9 @@ export function AddEmployeeSheet() {
     <>
     <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
       <DialogOrSheetTrigger asChild>
-        <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-            <Plus className="mr-2"/>
-            Add New Employee
+        <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
+            <UserPlus className="md:mr-2 h-6 w-6"/>
+            <span className="hidden md:inline">Add New Employee</span>
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
