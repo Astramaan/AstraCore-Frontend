@@ -192,14 +192,14 @@ export function AssignTaskSheet() {
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "p-0 bg-white m-0 flex flex-col h-screen rounded-t-[50px]" 
+              ? "p-0 bg-white m-0 flex flex-col h-screen" 
               : "sm:max-w-4xl p-0 rounded-[50px] bg-white"
           )}
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
-                  <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                  <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-6 w-6 text-gray-600"/>
                   </div>
                   Assign task
