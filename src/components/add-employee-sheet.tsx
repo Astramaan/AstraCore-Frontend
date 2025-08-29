@@ -59,7 +59,7 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     return (
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
-            <div className="grid grid-cols-1 gap-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
                 <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                 <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
@@ -77,9 +77,9 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                     </Select>
                 </div>
                 
-                <div className="space-y-2">
+                <div className="md:col-span-2 space-y-2">
                     <Label className={cn("text-lg font-medium", selectedRole ? 'text-grey-1' : 'text-black')}>Roles</Label>
-                    <RadioGroup name="roles" className="grid grid-cols-2 gap-x-6 gap-y-4" onValueChange={setSelectedRole}>
+                    <RadioGroup name="roles" className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4" onValueChange={setSelectedRole}>
                         {roles.map(role => (
                             <div key={role} className="flex items-center gap-2">
                                 <RadioGroupItem value={role.toLowerCase()} id={`role-${role.toLowerCase()}`} className="w-6 h-6" />
@@ -93,7 +93,7 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             </div>
             
             <div className="flex justify-center pt-8">
-                <Button type="submit" className="w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+                <Button type="submit" className="w-full md:w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
                     Add
                 </Button>
             </div>
@@ -135,7 +135,7 @@ export function AddEmployeeSheet() {
             "p-0 flex flex-col",
             isMobile 
             ? "m-0 h-auto rounded-t-[50px] bg-white"
-            : "w-[452px] bg-white rounded-[50px]"
+            : "w-full max-w-2xl bg-white rounded-[50px]"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
