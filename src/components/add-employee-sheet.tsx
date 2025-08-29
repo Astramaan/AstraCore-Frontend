@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -57,9 +56,9 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
             <div className="grid grid-cols-1 gap-y-6">
-                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" placeholder="Balaji Naik" />
-                <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" placeholder="admin@abc.com" />
-                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" placeholder="+91 1234567890" />
+                <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" />
+                <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" />
+                <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" />
 
                 <div className="space-y-2">
                     <Label htmlFor="role-type" className="text-grey-2 text-lg font-medium">Role Type</Label>
