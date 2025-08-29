@@ -14,11 +14,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Calendar as CalendarIcon, UploadCloud, X, Plus } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
-import React from 'react';
+import React, { useRef } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
@@ -31,10 +30,22 @@ const AssignTaskForm = () => {
     const [members, setMembers] = React.useState('');
     const [type, setType] = React.useState('');
     const [priority, setPriority] = React.useState('high');
+    const [attachments, setAttachments] = React.useState<File[]>([]);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
+        }
+    };
+    
+    const handleRemoveFile = (index: number) => {
+        setAttachments(prev => prev.filter((_, i) => i !== index));
+    };
 
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
+    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
         <div className="space-y-6">
@@ -49,7 +60,7 @@ const AssignTaskForm = () => {
             <div className="space-y-2">
                 <Label htmlFor="members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Members*</Label>
                  <Select onValueChange={setMembers}>
-                    <SelectTrigger className="h-12 bg-background rounded-full">
+                    <SelectTrigger className="h-12 bg-background rounded-full" id="members">
                         <SelectValue placeholder="Add members" />
                     </SelectTrigger>
                     <SelectContent>
@@ -108,13 +119,44 @@ const AssignTaskForm = () => {
             </div>
              <div className="space-y-2">
                 <Label className="text-lg font-medium text-zinc-900">Attach Files</Label>
-                <div className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background">
+                <div
+                    className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background cursor-pointer"
+                    onClick={() => fileInputRef.current?.click()}
+                >
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        multiple
+                    />
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                         <UploadCloud className="w-6 h-6 text-gray-500" />
                     </div>
                     <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
                     <p className="text-xs text-gray-400">JPG, PNG, PDF • Up to 10Mb</p>
                 </div>
+                 {attachments.length > 0 && (
+                    <div className="space-y-2 pt-4">
+                        <p className="text-sm font-medium">Attached files:</p>
+                        <div className="space-y-2">
+                            {attachments.map((file, index) => (
+                                <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
+                                    <span className="text-sm truncate">{file.name}</span>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-6 w-6"
+                                        onClick={() => handleRemoveFile(index)}
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
         </div>
@@ -142,8 +184,8 @@ export function AssignTaskSheet() {
   return (
     <DialogOrSheet>
       <DialogOrSheetTrigger asChild>
-        <Button className="flex-1 md:flex-none rounded-full h-[54px] font-sans bg-primary text-primary-foreground hover:bg-primary/90">
-            <PlusCircle className="w-4 h-4 mr-2"/>
+        <Button className="flex-1 md:flex-none rounded-full h-[54px] font-sans bg-primary text-primary-foreground hover:bg-primary/90 text-lg">
+            <PlusCircle className="w-5 h-5 mr-2"/>
             Assign task
         </Button>
       </DialogOrSheetTrigger>
@@ -156,15 +198,15 @@ export function AssignTaskSheet() {
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <DialogOrSheetTitle className="flex items-center text-xl font-medium">
+              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-5 w-5 text-gray-600"/>
                   </div>
                   Assign task
                   <div className="flex items-center gap-4 ml-auto">
                       <DialogOrSheetClose asChild>
-                          <Button variant="ghost" className="rounded-full text-sm font-normal h-auto px-4 py-2 bg-gray-100 hover:bg-gray-200">
-                              <X className="h-4 w-4 mr-1"/>
+                          <Button variant="ghost" className="rounded-full text-lg font-normal h-auto px-6 py-3 bg-gray-100 hover:bg-gray-200">
+                              <X className="h-5 w-5 mr-1"/>
                               Close
                           </Button>
                       </DialogOrSheetClose>
