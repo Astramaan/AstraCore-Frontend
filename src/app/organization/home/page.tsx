@@ -35,7 +35,6 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                     <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
                     <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">{task.date}</p>
                 <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
             </div>
             <div className="flex justify-between items-center">
