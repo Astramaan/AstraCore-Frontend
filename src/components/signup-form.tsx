@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useActionState } from "react";
@@ -15,6 +16,7 @@ import PhoneIcon from "./icons/phone-icon";
 import OrganizationIcon from "./icons/organization-icon";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
+import { cn } from "@/lib/utils";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -28,6 +30,10 @@ function SubmitButton() {
 export default function SignupForm() {
   const [state, action] = useActionState(signup, undefined);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [organization, setOrganization] = useState('');
+  const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
   const { toast } = useToast();
 
@@ -45,7 +51,7 @@ export default function SignupForm() {
     <form action={action} className="flex flex-col flex-grow">
       <div className="space-y-4 flex-grow">
         <div className="space-y-2">
-          <Label htmlFor="email">Email ID</Label>
+          <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
           <div className="relative flex items-center">
             <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -58,12 +64,14 @@ export default function SignupForm() {
               placeholder="name@company.com"
               className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number</Label>
+          <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-black')}>Phone Number</Label>
           <div className="relative flex items-center">
             <PhoneIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -75,12 +83,14 @@ export default function SignupForm() {
               placeholder="Your phone number"
               className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="organization">Organization Name</Label>
+          <Label htmlFor="organization" className={cn("text-lg font-medium", organization ? 'text-grey-1' : 'text-black')}>Organization Name</Label>
           <div className="relative flex items-center">
             <OrganizationIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -92,12 +102,14 @@ export default function SignupForm() {
               placeholder="Your organization's name"
               className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
+              value={organization}
+              onChange={(e) => setOrganization(e.target.value)}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Create Password</Label>
+          <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Create Password</Label>
           <div className="relative flex items-center">
             <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -108,6 +120,8 @@ export default function SignupForm() {
               required 
               className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
               disabled={pending}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"

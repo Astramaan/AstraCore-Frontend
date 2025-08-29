@@ -425,7 +425,7 @@ export function AddVendorSheet() {
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 

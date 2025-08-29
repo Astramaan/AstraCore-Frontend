@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useActionState, useEffect } from "react";
@@ -11,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import LockIcon from "./icons/lock";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
+import { cn } from "@/lib/utils";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -24,6 +26,7 @@ function SubmitButton() {
 export default function CreatePasswordForm() {
   const [state, action] = useActionState(createPassword, undefined);
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
   const { toast } = useToast();
 
@@ -43,7 +46,7 @@ export default function CreatePasswordForm() {
       <form action={action} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
-            <Label htmlFor="password">Create your password</Label>
+            <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Create your password</Label>
             <div className="relative flex items-center">
               <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
               <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -54,6 +57,8 @@ export default function CreatePasswordForm() {
                 required 
                 className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
                 disabled={pending}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"

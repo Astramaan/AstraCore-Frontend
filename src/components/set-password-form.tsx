@@ -3,7 +3,7 @@
 
 import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
-import React from "react";
+import React, { useState } from "react";
 import { requestPasswordReset } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -11,6 +11,7 @@ import { Input } from "./ui/input";
 import EmailIcon from "./icons/email-icon";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -36,6 +37,7 @@ const flowConfig = {
 
 export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forgot-password' }) {
   const [state, action] = useActionState(requestPasswordReset, undefined);
+  const [email, setEmail] = useState('');
   const { pending } = useFormStatus();
   const { toast } = useToast();
 
@@ -63,7 +65,7 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
       <form action={action} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
-            <Label htmlFor="email">{config.label}</Label>
+            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>{config.label}</Label>
             <div className="relative flex items-center">
               <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
               <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -76,6 +78,8 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
                 placeholder="name@company.com"
                 className={`pl-20 rounded-full bg-background h-[54px]`}
                 disabled={pending}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>

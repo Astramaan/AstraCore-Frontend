@@ -23,16 +23,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { addEmployee } from '@/app/actions';
 
 
-const FloatingLabelInput = ({ id, label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
+const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className="text-grey-2 text-lg font-medium">{label}</Label>
-        <Input id={id} className="w-full h-14 bg-background rounded-[50px] px-6 text-lg" {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium", value ? "text-grey-1" : "text-black")}>{label}</Label>
+        <Input id={id} className="w-full h-14 bg-background rounded-[50px] px-6 text-lg" value={value} {...props} />
     </div>
 );
 
 
 const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
+    const [departmentName, setDepartmentName] = useState('');
+    const [admin, setAdmin] = useState('');
 
     // Placeholder action, replace with actual create department action
     const [state, formAction] = useActionState(addEmployee, { success: false, message: '' });
@@ -53,11 +55,11 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
             <div className="grid grid-cols-1 gap-y-6">
-                <FloatingLabelInput id="department-name" name="department-name" label="Department Name" placeholder="e.g. Marketing" />
+                <FloatingLabelInput id="department-name" name="department-name" label="Department Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
 
                 <div className="space-y-2">
-                    <Label htmlFor="admin" className="text-grey-2 text-lg font-medium">Assign Admin</Label>
-                    <Select name="admin">
+                    <Label htmlFor="admin" className={cn("text-lg font-medium", admin ? "text-grey-1" : "text-black")}>Assign Admin</Label>
+                    <Select name="admin" onValueChange={setAdmin}>
                         <SelectTrigger id="admin" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg">
                             <SelectValue placeholder="Select an admin" />
                         </SelectTrigger>

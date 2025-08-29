@@ -141,9 +141,9 @@ export function AddProjectSheet() {
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     return (
         <>
@@ -163,7 +163,7 @@ export function AddProjectSheet() {
                     {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
-                        <DialogOrSheetTitle className="flex items-center text-xl font-medium">
+                        <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                             Add New Project
                             <div className="flex items-center gap-4 ml-auto">
                                 <DialogOrSheetClose asChild>

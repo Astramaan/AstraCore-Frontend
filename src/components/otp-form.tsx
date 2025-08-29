@@ -6,6 +6,8 @@ import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { Label } from './ui/label';
+import { cn } from '@/lib/utils';
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -22,6 +24,7 @@ export default function OtpForm() {
   const [timer, setTimer] = useState(28);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { toast } = useToast();
+  const hasOtp = otp.some(d => d);
 
   useEffect(() => {
     if (state?.error) {
@@ -94,7 +97,7 @@ export default function OtpForm() {
             </div>
 
             <div className="space-y-2">
-                <label className="text-lg font-medium">Enter OTP</label>
+                <Label className={cn("text-lg font-medium", hasOtp ? 'text-grey-1' : 'text-black')}>Enter OTP</Label>
                 <div className="flex justify-between gap-2 md:gap-4">
                 {otp.map((data, index) => (
                     <Input

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useActionState, useEffect } from "react";
@@ -13,6 +14,7 @@ import LockIcon from "./icons/lock";
 import EmailIcon from "./icons/email-icon";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
+import { cn } from "@/lib/utils";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -26,6 +28,8 @@ function SubmitButton() {
 export default function AuthForm() {
   const [state, action] = useActionState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
   const { toast } = useToast();
 
@@ -43,7 +47,7 @@ export default function AuthForm() {
     <form action={action} className="flex-grow flex flex-col">
       <div className="flex-grow">
         <div className="space-y-2">
-          <Label htmlFor="email">Email ID</Label>
+          <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
           <div className="relative flex items-center">
             <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
             <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -56,13 +60,15 @@ export default function AuthForm() {
               placeholder="name@company.com"
               className={`pl-20 rounded-full bg-background h-[54px]`}
               disabled={pending}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
 
         <div className="space-y-2 mt-6">
           <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Password</Label>
           </div>
           <div className="relative flex items-center">
             <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
@@ -74,6 +80,8 @@ export default function AuthForm() {
               required 
               className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
               disabled={pending}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"

@@ -133,7 +133,7 @@ export function AddEmployeeSheet() {
           side={isMobile ? 'bottom' : 'right'}
           className={cn(
             isMobile 
-            ? "p-0 bg-white h-full m-0 flex flex-col rounded-t-[50px]"
+            ? "p-0 bg-white m-0 flex flex-col h-screen"
             : "p-0 w-[452px] bg-white rounded-[50px] flex flex-col"
           )}
       >

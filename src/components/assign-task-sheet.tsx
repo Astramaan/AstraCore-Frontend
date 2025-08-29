@@ -33,15 +33,15 @@ const AssignTaskForm = () => {
         
         <div className="space-y-6">
             <div className="space-y-2">
-                <Label htmlFor="task-title" className="text-zinc-900 font-medium">Task Title*</Label>
+                <Label htmlFor="task-title" className="text-lg font-medium text-zinc-900">Task Title*</Label>
                 <Input id="task-title" placeholder="Write a task name" className="bg-background rounded-lg h-12" />
             </div>
             <div className="space-y-2">
-                <Label htmlFor="description" className="text-zinc-900 font-medium">Description</Label>
+                <Label htmlFor="description" className="text-lg font-medium text-zinc-900">Description</Label>
                 <Textarea id="description" placeholder="What is this task about?" className="h-32 bg-background rounded-lg"/>
             </div>
             <div className="space-y-2">
-                <Label htmlFor="members" className="text-zinc-900 font-medium">Members*</Label>
+                <Label htmlFor="members" className="text-lg font-medium text-zinc-900">Members*</Label>
                  <Select>
                     <SelectTrigger className="h-12 bg-background rounded-lg">
                         <SelectValue placeholder="Add members" />
@@ -60,7 +60,7 @@ const AssignTaskForm = () => {
 
         <div className="space-y-6">
             <div className="space-y-2">
-                <Label className="text-zinc-900 font-medium">Due Date*</Label>
+                <Label className="text-lg font-medium text-zinc-900">Due Date*</Label>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -85,7 +85,7 @@ const AssignTaskForm = () => {
                 </Popover>
             </div>
              <div className="space-y-2">
-                <Label htmlFor="type" className="text-zinc-900 font-medium">Type</Label>
+                <Label htmlFor="type" className="text-lg font-medium text-zinc-900">Type</Label>
                 <Select>
                     <SelectTrigger id="type" className="h-12 bg-background rounded-lg">
                         <SelectValue placeholder="Select type" />
@@ -98,14 +98,14 @@ const AssignTaskForm = () => {
                 </Select>
             </div>
              <div className="space-y-4">
-                <p className="text-base font-medium mb-2 text-zinc-900">Priority</p>
+                <p className="text-lg font-medium mb-2 text-zinc-900">Priority</p>
                 <div className="flex items-center gap-4">
                     <Button variant="outline" className="rounded-full bg-primary text-primary-foreground border-primary px-6">High</Button>
                     <Button variant="outline" className="rounded-full bg-background border-stone-300 px-6">Low</Button>
                 </div>
             </div>
              <div className="space-y-2">
-                <Label className="text-zinc-900 font-medium">Attach Files</Label>
+                <Label className="text-lg font-medium text-zinc-900">Attach Files</Label>
                 <div className="border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center bg-background">
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                         <UploadCloud className="w-6 h-6 text-gray-500" />
@@ -133,7 +133,7 @@ export function AssignTaskSheet() {
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
   const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
@@ -148,13 +148,13 @@ export function AssignTaskSheet() {
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "p-0 bg-white h-full m-0 flex flex-col rounded-t-[50px]" 
+              ? "p-0 bg-white h-screen m-0 flex flex-col rounded-t-[50px]" 
               : "sm:max-w-4xl p-0 rounded-[50px]"
           )}
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <DialogOrSheetTitle className="flex items-center text-xl font-medium">
+              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-5 w-5 text-gray-600"/>
                   </div>

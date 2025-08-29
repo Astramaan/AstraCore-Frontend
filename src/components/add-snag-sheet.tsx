@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus, X, Camera, Image as ImageIcon } from "lucide-react";
 import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { cn } from '@/lib/utils';
 
 const activeProjects = [
     { id: "CHA2024", name: "Charan Project" },
@@ -26,6 +27,9 @@ const activeProjects = [
 const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [images, setImages] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [project, setProject] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
   
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
@@ -47,8 +51,8 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         <form onSubmit={handleSubmit}>
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-2">
-                    <Label htmlFor="project-select">Project*</Label>
-                    <Select>
+                    <Label htmlFor="project-select" className={cn("text-lg font-medium", project ? "text-grey-1" : "text-black")}>Project*</Label>
+                    <Select onValueChange={setProject}>
                         <SelectTrigger id="project-select" className="bg-background rounded-full h-12">
                             <SelectValue placeholder="Select a project" />
                         </SelectTrigger>
@@ -60,15 +64,15 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                     </Select>
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="snag-title">Snag Title*</Label>
-                    <Input id="snag-title" placeholder="Enter a title for the snag" className="bg-background rounded-full h-12" />
+                    <Label htmlFor="snag-title" className={cn("text-lg font-medium", title ? "text-grey-1" : "text-black")}>Snag Title*</Label>
+                    <Input id="snag-title" placeholder="Enter a title for the snag" className="bg-background rounded-full h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="snag-description">Description</Label>
-                    <Textarea id="snag-description" placeholder="Describe the issue in detail" className="bg-background rounded-2xl" />
+                    <Label htmlFor="snag-description" className={cn("text-lg font-medium", description ? "text-grey-1" : "text-black")}>Description</Label>
+                    <Textarea id="snag-description" placeholder="Describe the issue in detail" className="bg-background rounded-2xl" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
                 <div className="space-y-2">
-                    <Label>Attach Photos/Videos</Label>
+                    <Label className="text-lg font-medium text-black">Attach Photos/Videos</Label>
                     <div className="grid grid-cols-3 gap-4">
                         {images.map((src, index) => (
                             <div key={index} className="relative w-full aspect-square">
@@ -131,7 +135,7 @@ export function AddSnagSheet() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md p-0 rounded-lg bg-card">
         <DialogHeader className="p-4 border-b">
-          <DialogTitle className="flex justify-between items-center">
+          <DialogTitle className="flex justify-between items-center text-2xl font-semibold">
             Report a New Snag
              <DialogClose asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">

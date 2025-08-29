@@ -29,12 +29,12 @@ const CreateMeetingForm = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         
             <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="meeting-link" className="text-zinc-900 font-medium">Meeting Link*</Label>
+                <Label htmlFor="meeting-link" className="text-lg font-medium text-zinc-900">Meeting Link*</Label>
                 <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-lg h-12" />
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="select-type" className="text-zinc-900 font-medium">Select*</Label>
+                <Label htmlFor="select-type" className="text-lg font-medium text-zinc-900">Select*</Label>
                 <Select>
                     <SelectTrigger id="select-type" className="h-12 bg-background rounded-lg">
                         <SelectValue placeholder="Client / Lead" />
@@ -47,7 +47,7 @@ const CreateMeetingForm = () => {
             </div>
 
              <div className="space-y-2">
-                <Label htmlFor="add-members" className="text-zinc-900 font-medium">Add Members*</Label>
+                <Label htmlFor="add-members" className="text-lg font-medium text-zinc-900">Add Members*</Label>
                 <Select>
                     <SelectTrigger id="add-members" className="h-12 bg-background rounded-lg">
                         <SelectValue placeholder="Team Members" />
@@ -60,7 +60,7 @@ const CreateMeetingForm = () => {
             </div>
 
             <div className="space-y-2">
-                <Label className="text-zinc-900 font-medium">Date*</Label>
+                <Label className="text-lg font-medium text-zinc-900">Date*</Label>
                 <Popover>
                     <PopoverTrigger asChild>
                         <Button
@@ -86,7 +86,7 @@ const CreateMeetingForm = () => {
             </div>
 
              <div className="space-y-2">
-                <Label className="text-zinc-900 font-medium">Time*</Label>
+                <Label className="text-lg font-medium text-zinc-900">Time*</Label>
                 <div className="relative">
                     <Input id="time" placeholder="Select time" className="h-12 bg-background rounded-lg pr-10" />
                     <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -111,7 +111,7 @@ export function CreateMeetingSheet() {
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
   const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
@@ -132,7 +132,7 @@ export function CreateMeetingSheet() {
           {...(isMobile && { side: "bottom" })}
       >
           <DialogOrSheetHeader className="p-6 border-b">
-              <DialogOrSheetTitle className="flex items-center text-xl font-medium">
+              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
                     <Plus className="h-5 w-5 text-gray-600"/>
                   </div>
