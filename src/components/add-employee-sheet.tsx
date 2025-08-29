@@ -127,8 +127,8 @@ export function AddEmployeeSheet() {
   
   const handleClose = () => setIsOpen(false);
 
-  const DialogOrSheet = isMobile ? Dialog : Dialog;
-  const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
+  const DialogOrSheet = isMobile ? Sheet : Dialog;
+  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
@@ -138,17 +138,17 @@ export function AddEmployeeSheet() {
     <>
     <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
       <DialogOrSheetTrigger asChild>
-        <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
+        <Button className="md:h-14 md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
             <UserPlus className="md:mr-2 h-6 w-6"/>
             <span className="hidden md:inline">Add New Employee</span>
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
-          side={isMobile ? 'bottom' : undefined}
           className={cn(
-            "p-0 flex flex-col m-0 h-auto bg-white rounded-t-[50px] w-full",
-            !isMobile && "sm:max-w-2xl !bottom-0 !top-auto !translate-y-0 rounded-b-none"
+            "p-0 flex flex-col m-0 bg-white",
+            isMobile ? "h-auto rounded-t-[50px]" : "sm:max-w-2xl rounded-[50px]"
           )}
+          {...(isMobile && { side: "bottom" })}
       >
           <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">

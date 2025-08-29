@@ -24,8 +24,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 const FloatingLabelInput = ({ id, label, placeholder, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
     <div className="relative">
-        <Label htmlFor={id} className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">{label}</Label>
-        <Input id={id} placeholder={placeholder} className="h-12 bg-background" {...props} />
+        <Label htmlFor={id} className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500">{label}</Label>
+        <Input id={id} placeholder={placeholder} className="h-14 bg-background rounded-full px-5" {...props} />
     </div>
 );
 
@@ -66,9 +66,9 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" placeholder="Enter Project Cost" />
                         <div className="relative">
-                            <Label htmlFor="status" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Status*</Label>
+                            <Label htmlFor="status" className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">Status*</Label>
                             <Select name="status">
-                                <SelectTrigger id="status" className="h-12 bg-background">
+                                <SelectTrigger id="status" className="h-14 bg-background rounded-full px-5">
                                     <SelectValue placeholder="Select Status" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -93,9 +93,9 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                     <h3 className="text-lg text-stone-500">Project Assign</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="relative">
-                            <Label htmlFor="architect" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Architect*</Label>
+                            <Label htmlFor="architect" className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">Architect*</Label>
                             <Select name="architect">
-                                <SelectTrigger id="architect" className="h-12 bg-background">
+                                <SelectTrigger id="architect" className="h-14 bg-background rounded-full px-5">
                                     <SelectValue placeholder="Select Architect" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -104,9 +104,9 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                             </Select>
                         </div>
                         <div className="relative">
-                            <Label htmlFor="site-supervisor" className="absolute -top-3 left-2 bg-white px-1 text-sm text-gray-500">Site Supervisior*</Label>
+                            <Label htmlFor="site-supervisor" className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">Site Supervisior*</Label>
                              <Select name="site_supervisor">
-                                <SelectTrigger id="site-supervisor" className="h-12 bg-background">
+                                <SelectTrigger id="site-supervisor" className="h-14 bg-background rounded-full px-5">
                                     <SelectValue placeholder="Select Supervisor" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -118,9 +118,9 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 </div>
 
                 <div className="flex justify-end pt-8">
-                    <Button type="submit" className="px-14 h-12 text-lg rounded-full">
+                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
                         Add Project
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </div>
             </div>
@@ -149,31 +149,31 @@ export function AddProjectSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                    <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20">
-                        <PlusCircle className="mr-2 h-4 w-4" />
+                    <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
+                        <PlusCircle className="mr-2 h-5 w-5" />
                         Add Project
                     </Button>
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
+                        "p-0",
                         isMobile
-                            ? "w-full p-0 rounded-t-[50px]"
-                            : "sm:max-w-2xl p-0 rounded-[50px]"
+                            ? "w-full rounded-t-[50px]"
+                            : "sm:max-w-3xl rounded-[50px]"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
-                        <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
-                            Add New Project
-                            <div className="flex items-center gap-4 ml-auto">
-                                <DialogOrSheetClose asChild>
-                                    <Button variant="ghost" className="rounded-full text-sm font-normal h-auto px-4 py-2 bg-gray-100 hover:bg-gray-200">
-                                        <X className="h-4 w-4 mr-1" />
-                                        Close
-                                    </Button>
-                                </DialogOrSheetClose>
-                            </div>
-                        </DialogOrSheetTitle>
+                         <div className="flex justify-between items-center">
+                            <DialogOrSheetTitle className="text-2xl font-semibold">
+                                Add New Project
+                            </DialogOrSheetTitle>
+                            <DialogOrSheetClose asChild>
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                    <X className="h-6 w-6" />
+                                </Button>
+                            </DialogOrSheetClose>
+                        </div>
                     </DialogOrSheetHeader>
                     <AddProjectForm onFormSuccess={handleSuccess} />
                 </DialogOrSheetContent>

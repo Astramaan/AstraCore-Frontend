@@ -1,13 +1,14 @@
 
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { PlusCircle, MoreVertical } from "lucide-react";
 import React from 'react';
 import { AddProjectSheet } from "@/components/add-project-sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const activeProjects = [
     {
@@ -68,23 +69,23 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
                     <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{project.city}</span></p>
                 </div>
             </div>
-            <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+            <div className="w-px h-14 bg-stone-300 hidden md:block" />
             <div className="hidden md:flex flex-col gap-2 w-96">
                 <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
                 <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
             </div>
-             <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+             <div className="w-px h-14 bg-stone-300 hidden md:block" />
             <div className="h-12 flex-col justify-between items-end hidden md:inline-flex">
                  <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
                  <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
             </div>
-            <DropdownMenu>
+             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon">
                         <MoreVertical className="w-6 h-6" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent>
                     <DropdownMenuItem>Edit</DropdownMenuItem>
                     <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>

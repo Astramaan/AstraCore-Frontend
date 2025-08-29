@@ -28,11 +28,12 @@ const FormField = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTM
     </div>
 );
 
-const FileUploadField = ({ label, id, onChange }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => (
+const FileUploadField = ({ label, id, onChange, fileName }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string }) => (
     <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input">
         <Label htmlFor={id} className="px-4 text-lg text-zinc-900 whitespace-nowrap">{label}</Label>
         <div className="border-l border-stone-300 h-full mx-2"></div>
         <div className="flex-1 flex items-center justify-end px-3">
+             {fileName && <span className="text-sm text-neutral-500 mr-2 truncate">{fileName}</span>}
             <label htmlFor={id} className="cursor-pointer text-sm text-neutral-500 flex items-center gap-1">
                 <Upload className="w-4 h-4" />
                 Upload
@@ -184,12 +185,12 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                          <FormField id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                          <div className="space-y-2">
                             <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
-                            <Textarea id="address" className="h-36 bg-input rounded-3xl" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                            <Textarea id="address" className="h-36 bg-input rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                         </div>
-                        <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} />
-                        <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} />
+                        <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
+                        <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
                         <FormField id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
-                        <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)}/>
+                        <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name}/>
 
                         <ServiceableCityInput />
 
@@ -436,8 +437,8 @@ export function AddVendorSheet() {
                 else setIsOpen(true);
             }}>
                 <DialogOrSheetTrigger asChild>
-                    <Button className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                        <Plus className="mr-2 h-4 w-4" />
+                    <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                        <Plus className="mr-2 h-5 w-5" />
                         Add Vendor
                     </Button>
                 </DialogOrSheetTrigger>
@@ -451,14 +452,16 @@ export function AddVendorSheet() {
                     {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
-                        <DialogOrSheetTitle className="flex items-center justify-between text-2xl font-semibold">
-                            {step === 'addVendor' ? 'Add New Vendor' : 'Add Materials'}
+                        <div className="flex items-center justify-between">
+                            <DialogOrSheetTitle className="text-2xl font-semibold">
+                                {step === 'addVendor' ? 'Add New Vendor' : 'Add Materials'}
+                            </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
-                                <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </DialogOrSheetClose>
-                        </DialogOrSheetTitle>
+                        </div>
                     </DialogOrSheetHeader>
                     {step === 'addVendor' ? (
                         <AddVendorForm onVendorAdded={handleVendorAdded} />

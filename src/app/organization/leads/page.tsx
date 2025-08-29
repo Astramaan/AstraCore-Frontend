@@ -142,7 +142,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="h-14 rounded-full bg-primary/10 text-primary hover:bg-primary/20 text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
+                <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary hover:bg-primary/20 text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
                     <Phone className="mr-2"/>
                     Contact
                 </Button>
@@ -171,17 +171,17 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
     if (selectedCount === 0) return null;
 
     return (
-        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[828px] h-20 bg-white rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-6 z-50">
-            <div className="flex items-center gap-4">
+        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[90%] md:max-w-[828px] h-20 bg-white rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-4 md:px-6 z-50">
+            <div className="hidden md:flex items-center gap-4">
                 <Checkbox id="select-all-floating" className="w-6 h-6 rounded-full" checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
                 <label htmlFor="select-all-floating" className="text-lg font-medium">{allSelected ? 'Deselect all' : 'Select all'}</label>
             </div>
-            <p className="text-lg font-medium">{selectedCount} Selected</p>
+            <p className="text-sm md:text-lg font-medium">{selectedCount} Selected</p>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-48 justify-between hover:bg-primary/10 hover:text-primary">
+                    <Button variant="outline" className="h-14 px-4 md:px-6 rounded-full text-grey-1 text-sm md:text-lg font-medium md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
                         Lead Level
-                        <ChevronDown />
+                        <ChevronDown className="ml-2"/>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -191,7 +191,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
                 </DropdownMenuContent>
             </DropdownMenu>
              <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="h-14 px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-lg font-medium" onClick={onDeleteMultiple}>
+                <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
                     <Trash2 className="mr-2" />
                     Delete
                 </Button>
@@ -364,8 +364,8 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel className="w-40 h-14 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete} className="w-40 h-14 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
