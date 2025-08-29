@@ -50,11 +50,12 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     }, [state, onFormSuccess, toast]);
     
     const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
+    const departments = ["Sales", "Software Development", "Design", "Support & Feedback", "Human Resources"];
 
 
     return (
     <form action={formAction}>
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
             <div className="grid grid-cols-1 gap-y-6">
                 <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" placeholder="Balaji Naik" />
                 <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" placeholder="admin@abc.com" />
@@ -69,6 +70,20 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                         <SelectContent>
                             <SelectItem value="admin">Admin</SelectItem>
                             <SelectItem value="employee">Employee</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                
+                <div className="space-y-2">
+                    <Label htmlFor="department" className="text-grey-2 text-lg font-medium">Department</Label>
+                    <Select name="department">
+                        <SelectTrigger id="department" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg">
+                            <SelectValue placeholder="Select Department" />
+                        </SelectTrigger>
+                        <SelectContent>
+                             {departments.map(dept => (
+                                <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                 </div>
@@ -127,10 +142,10 @@ export function AddEmployeeSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-[452px]"
+            "p-0 rounded-[50px] w-[452px] bg-white"
           )}
       >
-          <DialogOrSheetHeader className="p-6 border-b">
+          <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
                 <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
