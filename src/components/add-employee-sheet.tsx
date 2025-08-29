@@ -65,7 +65,7 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <FloatingLabelInput id="employee-phone" name="employee-phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 <div className="space-y-2">
-                    <Label htmlFor="role-type" className={cn("text-lg font-medium", roleType ? 'text-grey-1' : 'text-black')}>Role Type</Label>
+                    <Label htmlFor="role-type" className={cn("text-lg font-medium", roleType ? 'text-grey-1' : 'text-black')}>{ "Role Type"}</Label>
                     <Select name="role-type" onValueChange={setRoleType}>
                         <SelectTrigger id="role-type" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                             <SelectValue placeholder="Select a role type" />
@@ -131,7 +131,7 @@ export function AddEmployeeSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-[452px] bg-white"
+            "p-0 w-[452px] bg-white h-[80vh] rounded-t-[50px] flex flex-col"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
@@ -149,7 +149,9 @@ export function AddEmployeeSheet() {
                 </DialogOrSheetClose>
               </div>
           </DialogOrSheetHeader>
-          <AddEmployeeForm onFormSuccess={handleSuccess} />
+          <div className="flex-grow overflow-y-auto">
+            <AddEmployeeForm onFormSuccess={handleSuccess} />
+          </div>
       </DialogOrSheetContent>
     </DialogOrSheet>
     <SuccessPopup 
