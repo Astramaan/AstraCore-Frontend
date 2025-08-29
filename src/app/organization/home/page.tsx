@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 
 
 const initialTaskData: Task[] = [
-    { id: "TSK001", title: "Product Weekly update", date: "25 May 2024", description: "This week, our team made significant progress on the new feature development, hitting all key milestones. We also addressed several critical bugs and are on track for the upcoming sprint review.", priority: "Low", status: "Pending", category: "Meetings", project: "AstraCore App", clientId: "CL001", attachments: [{ type: 'pdf', name: 'update.pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }, { type: 'image', name: 'screenshot.png', url: 'https://placehold.co/600x400' }] },
+    { id: "TSK001", title: "Product Weekly update", date: "25 May 2024", description: "This week, our team made significant progress on the new feature development, hitting all key milestones. We also addressed several critical bugs and are on track for the upcoming sprint review.", priority: "Low", status: "on hold", category: "Meetings", project: "AstraCore App", clientId: "CL001", attachments: [{ type: 'pdf', name: 'update.pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }, { type: 'image', name: 'screenshot.png', url: 'https://placehold.co/600x400' }] },
     { id: "TSK002", title: "New Landing Page Design", date: "26 May 2024", description: "Create mockups for the new landing page, focusing on a clean, modern aesthetic and improved user experience. The design should be responsive and optimized for both desktop and mobile devices.", priority: "High", status: "In Progress", category: "Design", project: "Website Redesign", clientId: "CL002", attachments: [{ type: 'image', name: 'moodboard.png', url: 'https://placehold.co/800x600' }] },
     { id: "TSK003", title: "API Integration", date: "27 May 2024", description: "Integrate with the new payment gateway API. This includes implementing authentication, handling payment requests, and processing transaction responses. Ensure robust error handling is in place.", priority: "Medium", status: "Pending", category: "Development", project: "E-commerce Platform", clientId: "CL003", attachments: [] },
     { id: "TSK004", title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "Completed", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
@@ -78,7 +78,7 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     </a>
 )
 
-type FilterType = "High Priority" | "In Progress" | "Pending" | null;
+type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
 
 export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
@@ -107,11 +107,15 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
         if (activeFilter === 'Pending') {
             return task.status === 'Pending';
         }
+        if (activeFilter === 'Completed') {
+            return task.status === 'Completed';
+        }
         return true;
     });
   }, [activeFilter, taskData]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
+  const completedCount = useMemo(() => taskData.filter(t => t.status === 'Completed').length, [taskData]);
 
   const handleTaskUpdate = (updatedTask: Task) => {
     setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
@@ -154,6 +158,17 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         onClick={() => handleFilterClick('Pending')}
                     >
                         Pending
+                    </Button>
+                    <Button 
+                        variant="outline" 
+                        className={cn(
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 hover:bg-primary hover:text-white",
+                            activeFilter === 'Completed' && "bg-primary text-white"
+                        )}
+                        onClick={() => handleFilterClick('Completed')}
+                    >
+                        Completed
+                        <Badge className="ml-2 bg-green-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{completedCount}</Badge>
                     </Button>
                 </div>
             </div>
