@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import React, { useRef, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 
 const AssignTaskForm = () => {
@@ -132,20 +132,6 @@ const AssignTaskForm = () => {
                         variant="outline" 
                         className={cn(
                             "rounded-full px-6", 
-                            priority === 'medium' 
-                                ? 'bg-primary text-primary-foreground border-primary' 
-                                : 'bg-background border-stone-300',
-                            !priority && "hover:bg-primary/10 hover:text-primary"
-                        )} 
-                        onClick={() => setPriority('medium')}
-                    >
-                        Medium
-                    </Button>
-                    <Button 
-                        type="button"
-                        variant="outline" 
-                        className={cn(
-                            "rounded-full px-6", 
                             priority === 'low' 
                                 ? 'bg-primary text-primary-foreground border-primary' 
                                 : 'bg-background border-stone-300',
@@ -220,7 +206,7 @@ export function AssignTaskSheet() {
   const DialogOrSheet = isMobile ? Sheet : Dialog;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
   const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
@@ -234,10 +220,10 @@ export function AssignTaskSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 bg-white m-0 flex flex-col",
+            "p-0 m-0 flex flex-col",
             isMobile 
-              ? "h-screen rounded-t-[50px]"
-              : "sm:max-w-4xl rounded-[50px]"
+              ? "h-screen bg-white rounded-t-[50px]"
+              : "sm:max-w-4xl bg-white rounded-[50px]"
           )}
           {...(isMobile && { side: "bottom" })}
       >
