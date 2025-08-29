@@ -18,7 +18,7 @@ export function SuccessPopup({ isOpen, onClose, title, message }: SuccessPopupPr
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-md rounded-3xl p-8">
+            <DialogContent className="sm:max-w-md rounded-[50px] p-8 m-10">
                  <DialogHeader>
                     <DialogTitle className="sr-only">{title}</DialogTitle>
                 </DialogHeader>
