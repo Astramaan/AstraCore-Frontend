@@ -24,10 +24,10 @@ export function SuccessPopup({ isOpen, onClose, title, message }: SuccessPopupPr
                 </DialogHeader>
                 <div className="text-center flex flex-col items-center">
                     <div className="relative mb-6 flex items-center justify-center">
-                      <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
-                      <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-                      <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
-                        <Check className="w-8 h-8 text-primary" />
+                      <div className="w-20 h-20 bg-[#50C878]/5 rounded-full" />
+                      <div className="w-14 h-14 bg-[#50C878]/20 rounded-full absolute" />
+                      <div className="w-10 h-10 bg-[#50C878]/20 absolute flex items-center justify-center rounded-full">
+                        <Check className="w-8 h-8 text-[#50C878]" />
                       </div>
                     </div>
                     <h2 className="text-lg font-medium text-zinc-900 mb-2">{title}</h2>
