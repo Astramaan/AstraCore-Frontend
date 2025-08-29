@@ -54,6 +54,7 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
     
     const [attachments, setAttachments] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [selectedAttachment, setSelectedAttachment] = useState<Task['attachments'][0] | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -80,13 +81,35 @@ const TaskDetailsContent = ({ task }: { task: Task }) => {
                     <p className="text-lg text-stone-500 mb-4">Attachment</p>
                     <div className="flex gap-4">
                         {task.attachments.map((file, index) => (
-                            <a href={file.url} key={index} download={file.name} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
+                             <button onClick={() => setSelectedAttachment(file)} key={index} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
                                 {file.type === 'pdf' ? <PdfIcon className="w-10 h-10" /> : <Image src={file.url} alt={file.name} width={65} height={65} className="rounded" />}
-                            </a>
+                            </button>
                         ))}
                     </div>
                 </div>
             </div>
+            
+            {selectedAttachment && (
+                <Dialog open={!!selectedAttachment} onOpenChange={() => setSelectedAttachment(null)}>
+                    <DialogContent className="max-w-3xl h-[90vh] p-0 rounded-lg">
+                        <DialogHeader className="p-4 border-b flex flex-row items-center justify-between">
+                            <DialogTitle>{selectedAttachment.name}</DialogTitle>
+                            <DialogClose asChild>
+                                <Button variant="ghost" size="icon" className="rounded-full">
+                                    <X className="h-5 w-5" />
+                                </Button>
+                            </DialogClose>
+                        </DialogHeader>
+                        <div className="h-full p-4 relative">
+                            {selectedAttachment.type === 'image' ? (
+                                <Image src={selectedAttachment.url} alt={selectedAttachment.name} layout="fill" objectFit="contain" />
+                            ) : (
+                                <iframe src={selectedAttachment.url} className="w-full h-full" title={selectedAttachment.name} />
+                            )}
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
 
             <div className="border-t border-stone-300 -mx-6 px-6 pt-6 mt-8 space-y-4">
                 <div className="space-y-2">
@@ -160,7 +183,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task }: TaskDetailsSheetProp
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 m-0 flex flex-col bg-white",
+            "p-0 m-0 flex flex-col bg-white rounded-lg",
             isMobile 
               ? "h-auto rounded-t-[50px]"
               : "sm:max-w-4xl rounded-[50px] !bottom-0 !top-auto !translate-y-0"
