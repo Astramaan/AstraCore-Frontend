@@ -58,7 +58,7 @@ const AddEmployeeForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
 
     return (
     <form action={formAction}>
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] bg-white">
+        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(80vh-120px)] bg-white no-scrollbar">
             <div className="grid grid-cols-1 gap-y-6">
                 <FloatingLabelInput id="employee-name" name="employee-name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                 <FloatingLabelInput id="employee-email" name="employee-email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -152,7 +152,7 @@ export function AddEmployeeSheet() {
                 </DialogOrSheetClose>
               </div>
           </DialogOrSheetHeader>
-          <div className="flex-grow overflow-y-auto">
+          <div className="flex-grow overflow-y-auto no-scrollbar">
             <AddEmployeeForm onFormSuccess={handleSuccess} />
           </div>
       </DialogOrSheetContent>
