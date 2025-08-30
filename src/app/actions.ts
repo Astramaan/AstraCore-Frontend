@@ -49,17 +49,43 @@ export async function signup(
     const organization = formData.get('organization') as string;
     const password = formData.get('password') as string;
 
-    console.log(`Attempting to sign up with:`, { email, phone, organization });
+    // In a real app, you would use fetch to call your backend API
+    // Note: localhost endpoints won't be reachable from the Next.js server environment in production.
+    // This is a conceptual implementation.
     
-    // In a real app, you would create a user in a database.
-    // We will now redirect to the OTP page on successful "signup".
+    // 1. Check if email exists
+    const checkEmailRes = await fetch('http://localhost:4000/api/v1/check-email-existed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    if (checkEmailRes.status === 409) { // Assuming 409 Conflict for existing email
+      return 'An account with this email already exists.';
+    }
+
+    // 2. Send OTP
+    const otpRes = await fetch('http://localhost:4000/api/v1/send-otp-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    
+    if (!otpRes.ok) {
+        const errorData = await otpRes.json();
+        return errorData.message || 'Failed to send OTP.';
+    }
+
+    // For now, we'll continue to redirect to OTP verification page.
+    // In a real app, you might store the other form data in a session or cookie.
     redirect('/otp-verification');
 
   } catch (error) {
     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
       throw error;
     }
-    return { error: 'An unexpected error occurred during signup.' };
+    console.error('Signup error:', error);
+    return 'An unexpected error occurred during signup.';
   }
 }
 
@@ -74,15 +100,24 @@ export async function verifyOtp(
         if (otp.length < 4 || !/^\d+$/.test(otp)) {
           return { error: 'Invalid OTP format. Please enter 4 digits.' };
         }
-
-        if (otp !== '1234') { // Mock OTP check
-            return { error: 'Invalid OTP. Please try again.' };
-        }
         
+        // In a real app, you'd also pass the user identifier (e.g., email from session)
+        const verifyRes = await fetch('http://localhost:4000/api/v1/verify-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ otp /*, email: userEmail */ }),
+        });
+        
+        if (!verifyRes.ok) {
+            const errorData = await verifyRes.json();
+            return { error: errorData.message || 'Invalid OTP. Please try again.' };
+        }
+
     } catch (error) {
         if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
           throw error;
         }
+        console.error('OTP Verification error:', error);
         return { error: 'Failed to verify OTP.' };
     }
     // Redirect on success
@@ -124,13 +159,24 @@ export async function createPassword(
 ) {
   try {
     const password = formData.get('password');
-    console.log(`Creating new password.`);
-    // In a real app, you would save the new password for the user.
+    // In a real app, you'd also pass the user identifier (e.g., email from session)
+    const createPassRes = await fetch('http://localhost:4000/api/v1/create-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password /*, email: userEmail */ }),
+    });
+
+    if (!createPassRes.ok) {
+        const errorData = await createPassRes.json();
+        return { error: errorData.message || 'Failed to create password.' };
+    }
+
     redirect('/password-success');
   } catch (error) {
      if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
       throw error;
     }
+    console.error('Create Password error:', error);
     return { error: 'Failed to create new password.' };
   }
 }
