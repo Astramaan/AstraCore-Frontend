@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -21,11 +21,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
 import type { Meeting } from './edit-meeting-sheet';
+import { Switch } from './ui/switch';
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
     "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
     "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM",
+];
+
+const mockClients = [
+    { id: 'CHA2024', name: "Charan Project", city: "Mysuru", email: "admin@abc.com", phone: "+91 1234567890" },
+    { id: 'DEL2024', name: "Delta Project", city: "Bengaluru", email: "contact@delta.com", phone: "+91 9876543210" },
+    { id: 'GAM2024', name: "Gamma Project", city: "Chennai", email: "support@gamma.co", phone: "+91 8765432109" },
+];
+
+const mockLeads = [
+    { id: 'LEAD2024', name: "Alpha Lead", city: "Hyderabad", email: "sales@alpha.io", phone: "+91 7654321098" },
+    { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
 const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
@@ -38,6 +50,42 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [isManual, setIsManual] = useState(false);
+    const [selectedId, setSelectedId] = useState('');
+
+    useEffect(() => {
+        if (selectedType === 'client' && mockClients.length > 0) {
+            const client = mockClients.find(c => c.id === selectedId);
+            if (client) {
+                setName(client.name);
+                setCity(client.city);
+                setEmail(client.email);
+                setPhone(client.phone);
+            }
+        } else if (selectedType === 'lead' && mockLeads.length > 0) {
+             const lead = mockLeads.find(l => l.id === selectedId);
+            if (lead) {
+                setName(lead.name);
+                setCity(lead.city);
+                setEmail(lead.email);
+                setPhone(lead.phone);
+            }
+        } else {
+            setName('');
+            setCity('');
+            setEmail('');
+            setPhone('');
+        }
+    }, [selectedId, selectedType]);
+
+    const handleTypeChange = (value: 'client' | 'lead') => {
+        setSelectedType(value);
+        setSelectedId('');
+        setName('');
+        setCity('');
+        setEmail('');
+        setPhone('');
+    }
 
     const handleSubmit = () => {
         if (name && selectedType && date && time) {
@@ -52,6 +100,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 link: meetingLink,
             });
             onClose();
+        } else {
+            alert("Please fill all required fields.");
         }
     }
 
@@ -67,7 +117,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
             <div className="space-y-2">
                 <Label htmlFor="select-type" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Select*</Label>
-                <Select onValueChange={(value: 'client' | 'lead') => setSelectedType(value)}>
+                <Select onValueChange={handleTypeChange}>
                     <SelectTrigger id="select-type" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Client / Lead" />
                     </SelectTrigger>
@@ -130,23 +180,74 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     </SelectContent>
                 </Select>
             </div>
+
+             <div className="sm:col-span-2 space-y-4">
+                 {!isManual && selectedType && (
+                    <div className="space-y-2">
+                        <Label htmlFor="fetch-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>
+                            Fetch details from {selectedType === 'client' ? 'Client ID' : 'Lead ID'}*
+                        </Label>
+                        <Select onValueChange={setSelectedId}>
+                            <SelectTrigger id="fetch-id" className="h-14 bg-background rounded-full">
+                                <SelectValue placeholder={`Select a ${selectedType}`} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {(selectedType === 'client' ? mockClients : mockLeads).map(item => (
+                                    <SelectItem key={item.id} value={item.id}>{item.name} ({item.id})</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                 )}
+
+                <div className="flex items-center justify-end gap-2">
+                    <Label htmlFor="manual-switch" className="text-sm">Enter Details Manually</Label>
+                    <Switch id="manual-switch" checked={isManual} onCheckedChange={setIsManual} />
+                </div>
+            </div>
             
-            <div className="space-y-2">
-                <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
-                <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>City*</Label>
-                <Input id="city" placeholder="Enter City" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
-            </div>
-             <div className="space-y-2">
-                <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
-                <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-             <div className="space-y-2">
-                <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-zinc-900')}>Phone*</Label>
-                <Input id="phone" type="tel" placeholder="Enter Phone" className="bg-background rounded-full h-14" value={phone} onChange={(e) => setPhone(e.target.value)} />
-            </div>
+            {(isManual || !selectedType) && (
+                <>
+                    <div className="space-y-2">
+                        <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
+                        <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>City*</Label>
+                        <Input id="city" placeholder="Enter City" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                        <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-zinc-900')}>Phone*</Label>
+                        <Input id="phone" type="tel" placeholder="Enter Phone" className="bg-background rounded-full h-14" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    </div>
+                </>
+            )}
+            
+            {/* Show pre-filled data if not in manual mode and an ID is selected */}
+            {!isManual && selectedId && (
+                 <>
+                    <div className="space-y-1">
+                        <p className="text-sm text-grey-1">Name</p>
+                        <p className="text-lg font-medium text-zinc-900">{name}</p>
+                    </div>
+                     <div className="space-y-1">
+                        <p className="text-sm text-grey-1">City</p>
+                        <p className="text-lg font-medium text-zinc-900">{city}</p>
+                    </div>
+                     <div className="space-y-1">
+                        <p className="text-sm text-grey-1">Email</p>
+                        <p className="text-lg font-medium text-zinc-900">{email}</p>
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-sm text-grey-1">Phone</p>
+                        <p className="text-lg font-medium text-zinc-900">{phone}</p>
+                    </div>
+                </>
+            )}
         
         </div>
         
