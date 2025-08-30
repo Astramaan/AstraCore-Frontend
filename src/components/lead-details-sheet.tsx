@@ -42,6 +42,7 @@ interface LeadDetailsSheetProps {
     onClose: () => void;
     lead: Lead | null;
     onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    startInEditMode?: boolean;
 }
 
 const DetailField = ({ label, value, isEditing, onChange, name }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string }) => (
@@ -57,13 +58,20 @@ const DetailField = ({ label, value, isEditing, onChange, name }: { label: strin
     </div>
 );
 
-const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Lead, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void }) => {
-    const [isEditing, setIsEditing] = useState(false);
+const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditMode }: { lead: Lead, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void, startInEditMode?: boolean }) => {
+    const [isEditing, setIsEditing] = useState(startInEditMode || false);
     const [lead, setLead] = useState(initialLead);
 
     useEffect(() => {
         setLead(initialLead);
-    }, [initialLead]);
+        if (startInEditMode) {
+            setIsEditing(true);
+        }
+    }, [initialLead, startInEditMode]);
+    
+    useEffect(() => {
+        setIsEditing(startInEditMode || false);
+    }, [startInEditMode]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -194,7 +202,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete }: { lead: Le
 };
 
 
-export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete }: LeadDetailsSheetProps) {
+export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditMode = false }: LeadDetailsSheetProps) {
   const isMobile = useIsMobile();
 
   if (!lead) return null;
@@ -219,7 +227,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete }: LeadDetail
               }
           }}
       >
-          <LeadDetailsContent lead={lead} onClose={onClose} onDelete={onDelete}/>
+          <LeadDetailsContent lead={lead} onClose={onClose} onDelete={onDelete} startInEditMode={startInEditMode}/>
       </DialogOrSheetContent>
     </DialogOrSheet>
   );

@@ -103,7 +103,7 @@ const leadsData: Lead[] = [
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void }) => (
+const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void }) => (
     <div className="flex flex-col gap-4 py-4 cursor-pointer" onClick={() => onViewDetails(lead)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
              <div className="flex items-center gap-4 flex-1"  onClick={(e) => e.stopPropagation()}>
@@ -142,7 +142,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary hover:bg-primary/20 text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
+                <Button className="h-14 px-6 rounded-full bg-background text-black hover:bg-muted text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
                     <Phone className="mr-2"/>
                     Contact
                 </Button>
@@ -154,7 +154,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
@@ -210,6 +210,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLeadDetails, setSelectedLeadDetails] = useState<Lead | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     const filteredLeads = useMemo(() => {
         if (!searchTerm) return allLeads;
@@ -292,6 +293,12 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
     const handleViewDetails = (lead: Lead) => {
         setSelectedLeadDetails(lead);
+        setIsEditing(false);
+    }
+
+    const handleEdit = (lead: Lead) => {
+        setSelectedLeadDetails(lead);
+        setIsEditing(true);
     }
 
     const onDeleteFromDetails = (id: string) => {
@@ -332,6 +339,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                                     onContact={handleContact}
                                     onViewDetails={handleViewDetails}
                                     onLevelChange={handleLevelChange}
+                                    onEdit={handleEdit}
                                 />
                             ))}
                         </div>
@@ -403,8 +411,11 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                       onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
+                startInEditMode={isEditing}
             />
 
         </div>
     );
 }
+
+
