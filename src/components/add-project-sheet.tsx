@@ -36,6 +36,14 @@ const mockSupervisors = [
     { value: "supervisor3", label: "Supervisor 3" },
 ];
 
+const mockClients = [
+    { id: 'CHA2024', name: "Charan Project", city: "Mysuru", email: "admin@abc.com", phone: "+91 1234567890", type: 'client' as const },
+    { id: 'DEL2024', name: "Delta Project", city: "Bengaluru", email: "contact@delta.com", phone: "+91 9876543210", type: 'client' as const },
+    { id: 'GAM2024', name: "Gamma Project", city: "Chennai", email: "support@gamma.co", phone: "+91 8765432109", type: 'client' as const },
+    { id: 'LEAD2024', name: "Alpha Lead", city: "Hyderabad", email: "sales@alpha.io", phone: "+91 7654321098", type: 'lead' as const },
+    { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", email: "info@betaleads.com", phone: "+91 6543210987", type: 'lead' as const },
+];
+
 const FloatingLabelInput = ({ id, label, value, onChange, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, onChange: React.ChangeEventHandler<HTMLInputElement> }) => (
     <div className="space-y-2">
         <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
@@ -60,6 +68,9 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
 const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
+    const [selectedClient, setSelectedClient] = useState('');
+    const [clientComboboxOpen, setClientComboboxOpen] = useState(false);
+
     const [name, setName] = useState('');
     const [clientId, setClientId] = useState('');
     const [phone, setPhone] = useState('');
@@ -89,6 +100,23 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         }
     }, [state, onFormSuccess, toast]);
 
+    useEffect(() => {
+        if (selectedClient) {
+            const client = mockClients.find(c => c.id === selectedClient);
+            if (client) {
+                setName(client.name);
+                setClientId(client.id);
+                setPhone(client.phone);
+                setEmail(client.email);
+            }
+        } else {
+            setName('');
+            setClientId('');
+            setPhone('');
+            setEmail('');
+        }
+    }, [selectedClient]);
+
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         if (/^[a-zA-Z\s]*$/.test(value)) {
@@ -101,16 +129,47 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         setter(value);
     };
 
+    const isClientSelected = !!selectedClient;
+
     return (
         <form action={formAction}>
             <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Personal details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
-                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
-                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
-                        <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+                        <div className="sm:col-span-2">
+                             <div className="space-y-2">
+                                 <Label htmlFor="client-select" className={cn("text-lg font-medium px-2", selectedClient ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
+                                 <Popover open={clientComboboxOpen} onOpenChange={setClientComboboxOpen}>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="outline" role="combobox" aria-expanded={clientComboboxOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                            {selectedClient ? mockClients.find(c => c.id === selectedClient)?.name : "Select client or lead..."}
+                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                        <Command>
+                                            <CommandInput placeholder="Search client/lead..." />
+                                            <CommandList>
+                                                <CommandEmpty>No client or lead found.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {mockClients.map(c => (
+                                                        <CommandItem key={c.id} value={c.name} onSelect={() => { setSelectedClient(c.id); setClientComboboxOpen(false); }}>
+                                                            <Check className={cn("mr-2 h-4 w-4", selectedClient === c.id ? "opacity-100" : "opacity-0")} />
+                                                            {c.name}
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        </div>
+                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} readOnly={isClientSelected} />
+                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} readOnly={isClientSelected} />
+                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} readOnly={isClientSelected} />
+                        <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} readOnly={isClientSelected} />
                         <div className="sm:col-span-2">
                              <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
                         </div>
