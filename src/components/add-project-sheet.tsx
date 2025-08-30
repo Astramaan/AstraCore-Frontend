@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Calendar as CalendarIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,7 @@ import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
+import { Calendar } from './ui/calendar';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -65,9 +66,7 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
     </div>
 )
 
-const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
-    const { toast } = useToast();
-    const [state, formAction] = useActionState(addProject, { success: false, message: '' });
+const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
     const [selectedClient, setSelectedClient] = useState('');
     const [clientComboboxOpen, setClientComboboxOpen] = useState(false);
 
@@ -87,18 +86,6 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
 
-
-    useEffect(() => {
-        if (state.success) {
-            onFormSuccess();
-        } else if (state.message) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
-        }
-    }, [state, onFormSuccess, toast]);
 
     useEffect(() => {
         if (selectedClient) {
@@ -131,8 +118,14 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
 
     const isClientSelected = !!selectedClient;
 
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Here you would normally gather form data and pass to onNext
+        onNext();
+    };
+
     return (
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
             <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Personal details</h3>
@@ -143,7 +136,7 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                                  <Popover open={clientComboboxOpen} onOpenChange={setClientComboboxOpen}>
                                     <PopoverTrigger asChild>
                                         <Button variant="outline" role="combobox" aria-expanded={clientComboboxOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
-                                            {selectedClient ? mockClients.find(c => c.id === selectedClient)?.name : "Select client or lead..."}
+                                            {selectedClient ? `${mockClients.find(c => c.id === selectedClient)?.name} (${selectedClient})` : "Select client or lead..."}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
                                     </PopoverTrigger>
@@ -154,7 +147,7 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                                                 <CommandEmpty>No client or lead found.</CommandEmpty>
                                                 <CommandGroup>
                                                     {mockClients.map(c => (
-                                                        <CommandItem key={c.id} value={c.name} onSelect={() => { setSelectedClient(c.id); setClientComboboxOpen(false); }}>
+                                                        <CommandItem key={c.id} value={`${c.name} ${c.id}`} onSelect={() => { setSelectedClient(c.id); setClientComboboxOpen(false); }}>
                                                             <Check className={cn("mr-2 h-4 w-4", selectedClient === c.id ? "opacity-100" : "opacity-0")} />
                                                             {c.name} ({c.id})
                                                         </CommandItem>
@@ -271,15 +264,108 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     );
 };
 
+const projectStages = [
+    "Architectural", "Structural", "Electrical", "Plumbing",
+    "Flooring", "Painting", "Interior", "Construction"
+];
+
+const ProjectTimelineForm = ({ onFormSuccess, onBack }: { onFormSuccess: () => void, onBack: () => void }) => {
+    const { toast } = useToast();
+    const [state, formAction] = useActionState(addProject, { success: false, message: '' });
+    const [startDate, setStartDate] = useState<Date>();
+    const [stageDays, setStageDays] = useState<{[key: string]: string}>({});
+
+    const handleDaysChange = (stage: string, value: string) => {
+        const numericValue = value.replace(/\D/g, '');
+        setStageDays(prev => ({...prev, [stage]: numericValue}));
+    };
+    
+    useEffect(() => {
+        if (state.success) {
+            onFormSuccess();
+        } else if (state.message) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: state.message,
+            });
+        }
+    }, [state, onFormSuccess, toast]);
+
+    return (
+        <form action={formAction}>
+            <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
+                <div className="space-y-6">
+                    <h3 className="text-lg text-stone-500">Project Timeline (Stages)</h3>
+                     <div className="space-y-2">
+                        <Label className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                    !startDate && "text-muted-foreground"
+                                )}
+                                >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {startDate ? startDate.toLocaleDateString() : <span>Select start date</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                mode="single"
+                                selected={startDate}
+                                onSelect={setStartDate}
+                                initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {projectStages.map(stage => (
+                             <div key={stage} className="space-y-2">
+                                <Label htmlFor={`days-${stage}`} className="text-lg font-medium px-2 text-zinc-900">{stage}</Label>
+                                <Input 
+                                    id={`days-${stage}`} 
+                                    name={`days-${stage}`}
+                                    className="h-14 bg-background rounded-full px-5" 
+                                    placeholder="Enter days"
+                                    value={stageDays[stage] || ''}
+                                    onChange={(e) => handleDaysChange(stage, e.target.value)}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                 <div className="flex justify-between items-center pt-8">
+                    <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
+                        Back
+                    </Button>
+                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
+                        Create Project
+                    </Button>
+                </div>
+            </div>
+        </form>
+    );
+};
+
 export function AddProjectSheet() {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [step, setStep] = useState(1);
 
     const handleSuccess = () => {
         setIsOpen(false);
         setShowSuccess(true);
+        setTimeout(() => setStep(1), 500); // Reset step after closing
     };
+
+    const handleNext = () => setStep(2);
+    const handleBack = () => setStep(1);
 
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
@@ -288,9 +374,16 @@ export function AddProjectSheet() {
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
+    const title = step === 1 ? 'Add New Project' : 'Project Timeline';
+
     return (
         <>
-            <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
+            <DialogOrSheet open={isOpen} onOpenChange={(open) => {
+                if (!open) {
+                    setStep(1);
+                }
+                setIsOpen(open);
+            }}>
                 <DialogOrSheetTrigger asChild>
                     <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
                         <PlusCircle className="mr-2 h-5 w-5" />
@@ -309,7 +402,7 @@ export function AddProjectSheet() {
                     <DialogOrSheetHeader className="p-6 border-b">
                          <div className="flex justify-between items-center">
                             <DialogOrSheetTitle className="text-2xl font-semibold">
-                                Add New Project
+                                {title}
                             </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
                                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
@@ -318,7 +411,11 @@ export function AddProjectSheet() {
                             </DialogOrSheetClose>
                         </div>
                     </DialogOrSheetHeader>
-                    <AddProjectForm onFormSuccess={handleSuccess} />
+                    {step === 1 ? (
+                        <AddProjectForm onNext={handleNext} />
+                    ) : (
+                        <ProjectTimelineForm onFormSuccess={handleSuccess} onBack={handleBack} />
+                    )}
                 </DialogOrSheetContent>
             </DialogOrSheet>
             <SuccessPopup
