@@ -40,6 +40,9 @@ const mockLeads = [
     { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
+const allContacts = [...mockClients.map(c => ({...c, type: 'client' as const})), ...mockLeads.map(l => ({...l, type: 'lead' as const}))];
+
+
 const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
@@ -54,38 +57,25 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [selectedId, setSelectedId] = useState('');
 
     useEffect(() => {
-        if (selectedType === 'client' && mockClients.length > 0) {
-            const client = mockClients.find(c => c.id === selectedId);
-            if (client) {
-                setName(client.name);
-                setCity(client.city);
-                setEmail(client.email);
-                setPhone(client.phone);
-            }
-        } else if (selectedType === 'lead' && mockLeads.length > 0) {
-             const lead = mockLeads.find(l => l.id === selectedId);
-            if (lead) {
-                setName(lead.name);
-                setCity(lead.city);
-                setEmail(lead.email);
-                setPhone(lead.phone);
-            }
-        } else {
+        if (!selectedId) {
             setName('');
             setCity('');
             setEmail('');
             setPhone('');
-        }
-    }, [selectedId, selectedType]);
+            setSelectedType('');
+            return;
+        };
 
-    const handleTypeChange = (value: 'client' | 'lead') => {
-        setSelectedType(value);
-        setSelectedId('');
-        setName('');
-        setCity('');
-        setEmail('');
-        setPhone('');
-    }
+        const contact = allContacts.find(c => c.id === selectedId);
+        if (contact) {
+            setName(contact.name);
+            setCity(contact.city);
+            setEmail(contact.email);
+            setPhone(contact.phone);
+            setSelectedType(contact.type);
+        }
+    }, [selectedId]);
+
 
     const handleSubmit = () => {
         if (name && selectedType && date && time) {
@@ -116,20 +106,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="select-type" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Select*</Label>
-                <Select onValueChange={handleTypeChange}>
-                    <SelectTrigger id="select-type" className="h-14 bg-background rounded-full">
-                        <SelectValue placeholder="Client / Lead" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="client">Client</SelectItem>
-                        <SelectItem value="lead">Lead</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-
-             <div className="space-y-2">
-                <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                 <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
                 <Select onValueChange={setMembers}>
                     <SelectTrigger id="add-members" className="h-14 bg-background rounded-full">
                         <SelectValue placeholder="Team Members" />
@@ -140,7 +117,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     </SelectContent>
                 </Select>
             </div>
-
+            
             <div className="space-y-2">
                 <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Date*</Label>
                 <Popover>
@@ -180,33 +157,32 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     </SelectContent>
                 </Select>
             </div>
+            
+            <div className="space-y-2">
+                <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead ID*</Label>
+                <Select onValueChange={setSelectedId} value={selectedId}>
+                    <SelectTrigger id="client-lead-id" className="h-14 bg-background rounded-full">
+                        <SelectValue placeholder="Select Client or Lead ID" />
+                    </SelectTrigger>
+                    <SelectContent>
+                         {allContacts.map(contact => (
+                            <SelectItem key={contact.id} value={contact.id}>
+                                {contact.name} ({contact.type === 'client' ? 'Client' : 'Lead'})
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+
 
              <div className="sm:col-span-2 space-y-4">
-                 {!isManual && selectedType && (
-                    <div className="space-y-2">
-                        <Label htmlFor="fetch-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>
-                            Fetch details from {selectedType === 'client' ? 'Client ID' : 'Lead ID'}*
-                        </Label>
-                        <Select onValueChange={setSelectedId}>
-                            <SelectTrigger id="fetch-id" className="h-14 bg-background rounded-full">
-                                <SelectValue placeholder={`Select a ${selectedType}`} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {(selectedType === 'client' ? mockClients : mockLeads).map(item => (
-                                    <SelectItem key={item.id} value={item.id}>{item.name} ({item.id})</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                 )}
-
                 <div className="flex items-center justify-end gap-2">
                     <Label htmlFor="manual-switch" className="text-sm">Enter Details Manually</Label>
                     <Switch id="manual-switch" checked={isManual} onCheckedChange={setIsManual} />
                 </div>
             </div>
             
-            {(isManual || !selectedType) && (
+            {(isManual) && (
                 <>
                     <div className="space-y-2">
                         <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
@@ -227,7 +203,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 </>
             )}
             
-            {/* Show pre-filled data if not in manual mode and an ID is selected */}
             {!isManual && selectedId && (
                  <>
                     <div className="space-y-1">
