@@ -261,7 +261,7 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
     );
 };
 
-const defaultProjectStages = [
+const designStages = [
     "Soil Testing & Site Visit",
     "Architectural Concept Design",
     "Layout",
@@ -280,6 +280,9 @@ const defaultProjectStages = [
     "Structural Drawings",
     "Costing Estimator 2.0 (BOQ)",
     "Good For Construction Civil Architectural Interior Electrical Plumbing Misc (GFC) Solar Rainwater STP., etc.",
+];
+
+const constructionStages = [
     "Site Clearence",
     "Site Marking",
     "Surveyor",
@@ -361,6 +364,13 @@ const defaultProjectStages = [
     "Documents Handover",
 ];
 
+const timelineTemplates = {
+    'design': designStages,
+    'construction': constructionStages,
+    'both': [...designStages, ...constructionStages],
+    'custom': []
+}
+
 const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, setTimelineTemplate, setCustomStages, customStages }: { onFormSuccess: () => void, onBack: () => void, stages: string[], timelineTemplate: string, setTimelineTemplate: (val: string) => void, setCustomStages: (stages: string[]) => void, customStages: string[] }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
@@ -390,18 +400,18 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="flex justify-start items-center">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end w-full max-w-lg">
-                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={timelineTemplate} onValueChange={setTimelineTemplate}>
-                                    <SelectItem value="default">Default Timeline</SelectItem>
-                                    <SelectItem value="custom">Create Custom Timeline</SelectItem>
-                                </FloatingLabelSelect>
-                                {timelineTemplate === 'custom' && (
-                                   <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
-                                       {customStages.length > 0 ? 'Edit Custom Timeline' : 'Create Custom Timeline'}
-                                   </Button>
-                                )}
-                            </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end w-full max-w-lg">
+                             <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={timelineTemplate} onValueChange={setTimelineTemplate}>
+                                <SelectItem value="both">Design & Construction</SelectItem>
+                                <SelectItem value="design">Only Design (Architectural)</SelectItem>
+                                <SelectItem value="construction">Only Construction</SelectItem>
+                                <SelectItem value="custom">Create Custom Timeline</SelectItem>
+                            </FloatingLabelSelect>
+                            {timelineTemplate === 'custom' && (
+                               <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
+                                   {customStages.length > 0 ? 'Edit Custom Timeline' : 'Create Custom Timeline'}
+                               </Button>
+                            )}
                         </div>
                         <div className="space-y-2">
                             <Label className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
@@ -542,7 +552,7 @@ export function AddProjectSheet() {
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState(1);
-    const [timelineTemplate, setTimelineTemplate] = useState('default');
+    const [timelineTemplate, setTimelineTemplate] = useState('both');
     const [customStages, setCustomStages] = useState<string[]>([]);
 
     const handleSuccess = () => {
@@ -562,7 +572,10 @@ export function AddProjectSheet() {
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     const title = step === 1 ? 'Add New Project' : 'Project Timeline';
-    const stagesForTimeline = timelineTemplate === 'custom' && customStages.length > 0 ? customStages : defaultProjectStages;
+
+    const stagesForTimeline = timelineTemplate === 'custom' 
+        ? customStages 
+        : timelineTemplates[timelineTemplate as keyof typeof timelineTemplates] || [];
 
     return (
         <>
