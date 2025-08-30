@@ -8,25 +8,39 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    // This is a mock authentication.
-    // In a real application, you would validate credentials against a database or auth provider.
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
     if (!email || !password) {
-        return { error: 'Please provide both email and password.'}
+        return 'Please provide both email and password.';
     }
 
-    console.log(`Attempting to log in with email: ${email}`);
+    const response = await fetch('http://localhost:4000/api/v1/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+    });
 
-    // Simulate a successful login
-    redirect('/organization/home');
+    const data = await response.json();
+
+    if (!response.ok) {
+        // Assuming the API returns a message field with the error
+        return data.message || 'An unexpected error occurred.';
+    }
+
+    // Assuming a successful login will not have an error message
+    // and we can redirect. You might want to handle tokens or sessions here.
+    
   } catch (error) {
-      if((error as Error).message.includes('credentialssignin')) {
-          return { error: 'Invalid credentials.' };
+      if (error instanceof Error) {
+        return error.message;
       }
-      return { error: 'An unexpected error occurred.' };
+      return 'An unexpected error occurred.';
   }
+
+  redirect('/organization/home');
 }
 
 export async function signup(

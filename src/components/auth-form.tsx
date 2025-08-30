@@ -26,22 +26,21 @@ function SubmitButton() {
 }
 
 export default function AuthForm() {
-  const [state, action] = useActionState(authenticate, undefined);
+  const [errorMessage, action] = useActionState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { pending } = useFormStatus();
   const { toast } = useToast();
 
   useEffect(() => {
-    if (state?.error) {
+    if (errorMessage) {
       toast({
         variant: "destructive",
         title: "Authentication Error",
-        description: state.error,
+        description: errorMessage,
       });
     }
-  }, [state, toast]);
+  }, [errorMessage, toast]);
 
   return (
     <form action={action} className="flex-grow flex flex-col">
@@ -59,7 +58,6 @@ export default function AuthForm() {
               required
               placeholder="name@company.com"
               className={`pl-20 rounded-full bg-background h-[54px]`}
-              disabled={pending}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -79,7 +77,6 @@ export default function AuthForm() {
               type={showPassword ? "text" : "password"} 
               required 
               className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
-              disabled={pending}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -88,7 +85,6 @@ export default function AuthForm() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-6 text-foreground"
               aria-label={showPassword ? "Hide password" : "Show password"}
-              disabled={pending}
             >
               {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
             </button>
