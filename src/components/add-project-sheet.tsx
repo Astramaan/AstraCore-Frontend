@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -41,9 +40,13 @@ const mockClients = [
     { id: 'CHA2024', name: "Charan Project", city: "Mysuru", email: "admin@abc.com", phone: "+91 1234567890", type: 'client' as const },
     { id: 'DEL2024', name: "Delta Project", city: "Bengaluru", email: "contact@delta.com", phone: "+91 9876543210", type: 'client' as const },
     { id: 'GAM2024', name: "Gamma Project", city: "Chennai", email: "support@gamma.co", phone: "+91 8765432109", type: 'client' as const },
+];
+const mockLeads = [
     { id: 'LEAD2024', name: "Alpha Lead", city: "Hyderabad", email: "sales@alpha.io", phone: "+91 7654321098", type: 'lead' as const },
     { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", email: "info@betaleads.com", phone: "+91 6543210987", type: 'lead' as const },
 ];
+const allContacts = [...mockClients.map(c => ({...c, type: 'client' as const})), ...mockLeads.map(l => ({...l, type: 'lead' as const}))];
+
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="space-y-2">
@@ -82,6 +85,8 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
     const [siteSupervisor, setSiteSupervisor] = useState('');
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
+    const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
+
 
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -95,6 +100,17 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
         setter(value);
     };
 
+    const handleEmailSelect = (contactEmail: string) => {
+        const contact = allContacts.find(c => c.email === contactEmail);
+        if (contact) {
+            setName(contact.name);
+            setClientId(contact.id);
+            setPhone(contact.phone);
+            setEmail(contact.email);
+        }
+        setEmailComboboxOpen(false);
+    };
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onNext();
@@ -109,7 +125,49 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
                         <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
                         <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
                         <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
-                        <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+                        
+                        <div className="space-y-2">
+                             <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                             <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
+                                <PopoverTrigger asChild>
+                                    <Input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        className="h-14 bg-background rounded-full px-5"
+                                        value={email}
+                                        onChange={e => setEmail(e.target.value)}
+                                        onClick={() => setEmailComboboxOpen(true)}
+                                    />
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                    <Command>
+                                        <CommandInput 
+                                            placeholder="Search by email..."
+                                            value={email}
+                                            onValueChange={setEmail}
+                                        />
+                                        <CommandList>
+                                            <CommandEmpty>No contact found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {allContacts
+                                                    .filter(c => c.email.toLowerCase().includes(email.toLowerCase()))
+                                                    .map(contact => (
+                                                        <CommandItem
+                                                            key={contact.id}
+                                                            value={contact.email}
+                                                            onSelect={() => handleEmailSelect(contact.email)}
+                                                        >
+                                                            <Check className={cn("mr-2 h-4 w-4", email === contact.email ? "opacity-100" : "opacity-0")} />
+                                                            {contact.email}
+                                                        </CommandItem>
+                                                    ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                         <div className="sm:col-span-2">
                             <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
                         </div>
@@ -375,9 +433,11 @@ const ProjectTimelineForm = ({
     
     const handleSaveTemplate = (updatedTemplate: TimelineTemplate) => {
         setTemplates(prev => {
-            const existing = prev.find(t => t.id === updatedTemplate.id);
-            if (existing) {
-                return prev.map(t => t.id === updatedTemplate.id ? updatedTemplate : t);
+            const existingIndex = prev.findIndex(t => t.id === updatedTemplate.id);
+            if (existingIndex > -1) {
+                const newTemplates = [...prev];
+                newTemplates[existingIndex] = updatedTemplate;
+                return newTemplates;
             }
             return [...prev, updatedTemplate];
         });
@@ -386,11 +446,16 @@ const ProjectTimelineForm = ({
 
     const handleSelectChange = (value: string) => {
         if (value === 'custom_new') {
-            setSelectedTemplateId('custom_new');
+            setSelectedTemplateId('custom_new'); // Temporarily set to indicate creation mode
             setIsCustomTimelineDialogOpen(true);
         } else {
             setSelectedTemplateId(value);
         }
+    };
+    
+    const handleEditTemplate = () => {
+        if (selectedTemplateId === 'custom_new') return;
+        setIsCustomTimelineDialogOpen(true);
     };
 
     return (
@@ -398,7 +463,7 @@ const ProjectTimelineForm = ({
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full justify-start">
+                        <div className="flex justify-start items-center gap-6 w-full">
                             <div className="w-full sm:w-64">
                                 <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                     {templates.map(template => (
@@ -407,12 +472,11 @@ const ProjectTimelineForm = ({
                                     <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
                                 </FloatingLabelSelect>
                             </div>
-                            {selectedTemplateId !== 'custom_new' && (
-                                <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit Timeline
-                                </Button>
-                            )}
+                           
+                             <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit Timeline
+                            </Button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -452,13 +516,12 @@ const ProjectTimelineForm = ({
                 isOpen={isCustomTimelineDialogOpen}
                 onClose={() => {
                     setIsCustomTimelineDialogOpen(false);
-                    // If user closes without saving a new custom template, revert selection
                     if (selectedTemplateId === 'custom_new') {
-                        setSelectedTemplateId('both');
+                        setSelectedTemplateId(templates[0]?.id || '');
                     }
                 }}
                 onSave={handleSaveTemplate}
-                templateToEdit={selectedTemplateId === 'custom_new' ? null : templates.find(t => t.id === selectedTemplateId)}
+                templateToEdit={selectedTemplateId !== 'custom_new' ? templates.find(t => t.id === selectedTemplateId) : null}
             />
         </>
     );
@@ -546,7 +609,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 </DialogHeader>
                 <div className="p-6 space-y-4 overflow-y-auto flex-1">
                     <div className="space-y-2">
-                        <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? "text-grey-1" : "text-black")}>Template Name*</Label>
+                         <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? 'text-grey-1' : 'text-black')}>Template Name*</Label>
                         <Input
                             id="template-name"
                             placeholder="Template Name*"
