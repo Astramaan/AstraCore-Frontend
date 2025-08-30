@@ -33,7 +33,6 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addLead, { success: false, message: '' });
 
-    const [orgName, setOrgName] = useState('');
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
@@ -54,7 +53,6 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         <form action={formAction}>
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-4">
-                    <FloatingLabelInput id="organization-name" name="organization_name" label="Organization Name" value={orgName} onChange={(e) => setOrgName(e.target.value)} />
                     <FloatingLabelInput id="full-name" name="name" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                     <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
