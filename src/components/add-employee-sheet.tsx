@@ -116,7 +116,6 @@ const AddEmployeeForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void
 
 
 export function AddEmployeeSheet() {
-  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -138,12 +137,9 @@ export function AddEmployeeSheet() {
       </SheetTrigger>
       <SheetContent 
           className={cn(
-            "p-0 flex flex-col m-0 bg-white",
-            isMobile 
-                ? "h-auto rounded-t-[50px]" 
-                : "sm:max-w-2xl rounded-[50px] !bottom-auto !top-1/2 !-translate-y-1/2 !left-1/2 !-translate-x-1/2"
+            "p-0 flex flex-col m-0 bg-white sm:max-w-2xl rounded-t-[50px]"
           )}
-          side={isMobile ? "bottom" : "left"}
+          side="bottom"
       >
           <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
