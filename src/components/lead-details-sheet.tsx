@@ -45,13 +45,13 @@ interface LeadDetailsSheetProps {
     startInEditMode?: boolean;
 }
 
-const DetailField = ({ label, value, isEditing, onChange, name }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string }) => (
-    <div className="relative">
-        <Label htmlFor={name} className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm">{label}</Label>
+const DetailField = ({ label, value, isEditing, onChange, name, placeholder, type = 'text' }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string, placeholder?: string, type?: string }) => (
+    <div className="space-y-2">
+        <Label htmlFor={name} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         {isEditing ? (
-            <Input id={name} name={name} value={value} onChange={onChange} className="h-12" />
+            <Input id={name} name={name} value={value} onChange={onChange} className="h-14 bg-background rounded-full px-5" placeholder={placeholder || label} type={type}/>
         ) : (
-             <div className="h-12 flex items-center px-4">
+             <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
                 <p className="text-black text-base leading-tight">{value}</p>
             </div>
         )}
@@ -150,10 +150,14 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                     <h4 className="text-lg font-medium">Personal Information</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <DetailField label="Name" name="fullName" value={lead.fullName} isEditing={isEditing} onChange={handleInputChange} />
-                        <div className="relative rounded-[10px] border border-stone-300 h-12 flex items-center px-4">
-                             <Label className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm">Lead ID</Label>
-                             <p className="text-black text-base leading-tight">{lead.leadId}</p>
+
+                        <div className="space-y-2">
+                             <Label className="text-lg font-medium px-2 text-grey-1">Lead ID</Label>
+                             <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                <p className="text-black text-base leading-tight">{lead.leadId}</p>
+                             </div>
                         </div>
+
                         <DetailField label="Phone Number" name="phone" value={lead.phone} isEditing={isEditing} onChange={handleInputChange} />
                         <DetailField label="Email" name="email" value={lead.email} isEditing={isEditing} onChange={handleInputChange} />
                         <div className="md:col-span-2">
@@ -161,11 +165,11 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                         </div>
                          <DetailField label="Site location Pin code" name="pincode" value={lead.pincode} isEditing={isEditing} onChange={handleInputChange} />
                          
-                         <div className="relative">
-                            <Label htmlFor="level" className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm z-10">Lead Level</Label>
+                        <div className="space-y-2">
+                            <Label htmlFor="level" className={cn("text-lg font-medium px-2", lead.level ? 'text-grey-1' : 'text-zinc-900')}>Lead Level</Label>
                             {isEditing ? (
                                 <Select name="level" value={lead.level} onValueChange={handleSelectChange}>
-                                    <SelectTrigger id="level" className="h-12">
+                                    <SelectTrigger id="level" className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select Level" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -175,7 +179,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                                     </SelectContent>
                                 </Select>
                             ) : (
-                                <div className="h-12 flex items-center px-4 border border-stone-300 rounded-[10px]">
+                                <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
                                     <p className="text-black text-base leading-tight">{lead.level}</p>
                                 </div>
                             )}
@@ -214,10 +218,10 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[20px] border border-stone-300",
+            "p-0 bg-white border-stone-300",
             isMobile 
               ? "w-full rounded-t-3xl"
-              : "md:max-w-xl lg:max-w-2xl"
+              : "md:max-w-xl lg:max-w-2xl rounded-[20px]"
           )}
           {...(isMobile ? { side: "bottom" } : { side: "right" })}
           onInteractOutside={(e) => {
@@ -232,3 +236,4 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
+
