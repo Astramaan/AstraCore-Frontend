@@ -67,9 +67,6 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
 )
 
 const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
-    const [selectedClient, setSelectedClient] = useState('');
-    const [clientComboboxOpen, setClientComboboxOpen] = useState(false);
-
     const [name, setName] = useState('');
     const [clientId, setClientId] = useState('');
     const [phone, setPhone] = useState('');
@@ -85,23 +82,6 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
     const [siteSupervisor, setSiteSupervisor] = useState('');
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
-
-    useEffect(() => {
-        if (selectedClient) {
-            const client = mockClients.find(c => c.id === selectedClient);
-            if (client) {
-                setName(client.name);
-                setClientId(client.id);
-                setPhone(client.phone);
-                setEmail(client.email);
-            }
-        } else {
-            setName('');
-            setClientId('');
-            setPhone('');
-            setEmail('');
-        }
-    }, [selectedClient]);
 
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -126,39 +106,10 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Personal details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="sm:col-span-2">
-                            <div className="space-y-2">
-                                <Label htmlFor="client-select" className={cn("text-lg font-medium px-2", selectedClient ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
-                                <Popover open={clientComboboxOpen} onOpenChange={setClientComboboxOpen}>
-                                    <PopoverTrigger asChild>
-                                        <Button variant="outline" role="combobox" aria-expanded={clientComboboxOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
-                                            {selectedClient ? `${mockClients.find(c => c.id === selectedClient)?.name} (${selectedClient})` : "Select client or lead..."}
-                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                        <Command>
-                                            <CommandInput placeholder="Search client/lead..." />
-                                            <CommandList>
-                                                <CommandEmpty>No client or lead found.</CommandEmpty>
-                                                <CommandGroup>
-                                                    {mockClients.map(c => (
-                                                        <CommandItem key={c.id} value={`${c.name} ${c.id}`} onSelect={() => { setSelectedClient(c.id); setClientComboboxOpen(false); }}>
-                                                            <Check className={cn("mr-2 h-4 w-4", selectedClient === c.id ? "opacity-100" : "opacity-0")} />
-                                                            {c.name} ({c.id})
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
-                        </div>
-                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} readOnly={!!selectedClient} />
-                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} readOnly={!!selectedClient} />
-                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} readOnly={!!selectedClient} />
-                        <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} readOnly={!!selectedClient} />
+                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
+                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
+                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
+                        <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} />
                         <div className="sm:col-span-2">
                             <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
                         </div>
@@ -447,7 +398,7 @@ const ProjectTimelineForm = ({
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full">
+                        <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full justify-start">
                             <div className="w-full sm:w-64">
                                 <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                     {templates.map(template => (
@@ -583,7 +534,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white flex flex-col h-[90vh]">
-                <DialogHeader className="p-6 border-b shrink-0">
+                <DialogHeader className="p-6 border-b shrink-0 bg-white rounded-t-[20px]">
                     <DialogTitle className="flex items-center justify-between">
                         <span className="text-2xl font-semibold">{templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}</span>
                         <DialogClose asChild>
@@ -627,7 +578,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </div>
                     ))}
                 </div>
-                <div className="px-6 py-4 border-t flex justify-between items-center gap-2">
+                <div className="px-6 py-4 border-t flex justify-between items-center gap-2 sticky bottom-0 bg-white rounded-b-[20px]">
                      <div className="flex gap-2">
                         <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg">
                             <Plus className="mr-2 h-5 w-5"/>
