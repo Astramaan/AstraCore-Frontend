@@ -242,7 +242,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                                     selectedId === contact.id ? "opacity-100" : "opacity-0"
                                                 )}
                                             />
-                                            {contact.name} ({contact.type === 'client' ? 'Client' : 'Lead'})
+                                            {contact.name} ({contact.id})
                                         </CommandItem>
                                     ))}
                                 </CommandGroup>
