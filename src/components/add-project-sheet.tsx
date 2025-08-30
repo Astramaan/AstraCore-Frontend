@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Calendar as CalendarIcon, Banknote, Trash2, Edit } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -23,7 +23,6 @@ import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
-import { Calendar } from './ui/calendar';
 import { Textarea } from './ui/textarea';
 
 const mockArchitects = [
@@ -406,17 +405,10 @@ const ProjectTimelineForm = ({
 }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
-    const [startDate, setStartDate] = useState<Date>();
-    const [stageDays, setStageDays] = useState<{ [key: string]: string }>({});
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
     
     const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
     const stages = selectedTemplate?.stages || [];
-
-    const handleDaysChange = (stageName: string, value: string) => {
-        const numericValue = value.replace(/\D/g, '');
-        setStageDays(prev => ({ ...prev, [stageName]: numericValue }));
-    };
 
     useEffect(() => {
         if (state.success) {
@@ -438,6 +430,14 @@ const ProjectTimelineForm = ({
         }
     };
 
+    const handleSelectChange = (value: string) => {
+        if (value === 'custom_new') {
+            setIsCustomTimelineDialogOpen(true);
+        } else {
+            setSelectedTemplateId(value);
+        }
+    };
+
     return (
         <>
             <form action={formAction}>
@@ -445,7 +445,7 @@ const ProjectTimelineForm = ({
                     <div className="space-y-6">
                         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full">
                             <div className="w-full sm:w-64">
-                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
+                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                     {templates.map(template => (
                                         <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
                                     ))}
@@ -453,33 +453,9 @@ const ProjectTimelineForm = ({
                                 </FloatingLabelSelect>
                             </div>
                             <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
-                                {selectedTemplateId === 'custom_new' ? 'Create Custom Timeline' : 'Edit Timeline'}
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit Timeline
                             </Button>
-                        </div>
-                        <div className="space-y-2">
-                            <Label className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant={"outline"}
-                                        className={cn(
-                                            "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                                            !startDate && "text-muted-foreground"
-                                        )}
-                                    >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {startDate ? startDate.toLocaleDateString() : <span>Select start date</span>}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        mode="single"
-                                        selected={startDate}
-                                        onSelect={setStartDate}
-                                        initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -487,19 +463,17 @@ const ProjectTimelineForm = ({
                                 const isPaymentStage = stage.type === 'payment';
                                 return (
                                     <div key={stage.id} className="space-y-2">
-                                        <Label htmlFor={`days-${stage.name}`} className="text-lg font-medium px-2 text-zinc-900">{stage.name}</Label>
+                                        <Label className="text-lg font-medium px-2 text-zinc-900">{stage.name}</Label>
                                         {isPaymentStage ? (
                                             <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
+                                                <Banknote className="mr-2 h-5 w-5" />
                                                 Payment Reminder
                                             </div>
                                         ) : (
                                             <Input
-                                                id={`days-${stage.name}`}
                                                 name={`days-${stage.name}`}
                                                 className="h-14 bg-background rounded-full px-5"
                                                 placeholder="Enter days"
-                                                value={stageDays[stage.name] || ''}
-                                                onChange={(e) => handleDaysChange(stage.name, e.target.value)}
                                             />
                                         )}
                                     </div>
@@ -586,7 +560,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-xl p-0 rounded-[20px]">
+            <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white">
                 <DialogHeader className="p-6 border-b">
                     <DialogTitle className="flex items-center justify-between">
                         {templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}
@@ -602,7 +576,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         placeholder="Template Name*"
                         value={templateName}
                         onChange={e => setTemplateName(e.target.value)}
-                        className="h-12"
+                        className="h-12 bg-background rounded-full"
                     />
                     {stages.map((stage, index) => (
                         <div key={stage.id} className="flex items-center gap-2">
@@ -611,9 +585,9 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                     value={stage.name}
                                     onChange={(e) => handleStageChange(stage.id, e.target.value)}
                                     placeholder={stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
-                                    className={cn("h-12", stage.type === 'payment' && "pl-10")}
+                                    className={cn("h-12 bg-background rounded-full", stage.type === 'payment' && "pl-10")}
                                 />
-                                {stage.type === 'payment' && <Banknote className="h-4 w-4 text-green-500 absolute left-3 top-1/2 -translate-y-1/2" />}
+                                {stage.type === 'payment' && <Banknote className="h-4 w-4 text-green-500 absolute left-4 top-1/2 -translate-y-1/2" />}
                             </div>
                             <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)}>
                                 <Trash2 className="h-4 w-4 text-destructive" />
@@ -646,9 +620,9 @@ export function AddProjectSheet() {
     const [step, setStep] = useState(1);
     
     const [templates, setTemplates] = useState<TimelineTemplate[]>([
-        { id: 'both', name: 'Design & Construction', stages: [...initialDesignStages, ...initialConstructionStages] },
         { id: 'design', name: 'Only Design (Architectural)', stages: initialDesignStages },
         { id: 'construction', name: 'Only Construction', stages: initialConstructionStages },
+        { id: 'both', name: 'Design & Construction', stages: [...initialDesignStages, ...initialConstructionStages] },
     ]);
     const [selectedTemplateId, setSelectedTemplateId] = useState('both');
     
@@ -662,6 +636,13 @@ export function AddProjectSheet() {
     const handleNext = () => setStep(2);
     const handleBack = () => setStep(1);
 
+    const handleOpenChange = (open: boolean) => {
+        if (!open) {
+            setStep(1);
+        }
+        setIsOpen(open);
+    };
+
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
@@ -673,12 +654,7 @@ export function AddProjectSheet() {
 
     return (
         <>
-            <DialogOrSheet open={isOpen} onOpenChange={(open) => {
-                if (!open) {
-                    setStep(1);
-                }
-                setIsOpen(open);
-            }}>
+            <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
                 <DialogOrSheetTrigger asChild>
                     <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
                         <PlusCircle className="mr-2 h-5 w-5" />
@@ -729,3 +705,4 @@ export function AddProjectSheet() {
         </>
     );
 }
+
