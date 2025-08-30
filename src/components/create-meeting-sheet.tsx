@@ -43,6 +43,12 @@ const mockLeads = [
 
 const allContacts = [...mockClients.map(c => ({...c, type: 'client' as const})), ...mockLeads.map(l => ({...l, type: 'lead' as const}))];
 
+const mockMembers = [
+    { id: 'balaji', name: 'Balaji Naik' },
+    { id: 'anil', name: 'Anil Kumar' },
+    { id: 'yaswanth', name: 'Yaswanth' },
+];
+
 
 const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
     const [date, setDate] = React.useState<Date>();
@@ -57,6 +63,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [isManual, setIsManual] = useState(false);
     const [selectedId, setSelectedId] = useState('');
     const [comboboxOpen, setComboboxOpen] = useState(false);
+    const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
+
 
     useEffect(() => {
         if (!selectedId) {
@@ -108,16 +116,50 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             </div>
 
             <div className="space-y-2">
-                 <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
-                <Select onValueChange={setMembers}>
-                    <SelectTrigger id="add-members" className="h-14 bg-background rounded-full">
-                        <SelectValue placeholder="Team Members" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="member1">Member 1</SelectItem>
-                        <SelectItem value="member2">Member 2</SelectItem>
-                    </SelectContent>
-                </Select>
+                <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={memberComboboxOpen}
+                            className="w-full justify-between h-14 bg-background rounded-full"
+                        >
+                            {members
+                                ? mockMembers.find((member) => member.id === members)?.name
+                                : "Select a team member..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                        <Command>
+                            <CommandInput placeholder="Search team member..." />
+                            <CommandList>
+                                <CommandEmpty>No member found.</CommandEmpty>
+                                <CommandGroup>
+                                    {mockMembers.map((member) => (
+                                        <CommandItem
+                                            key={member.id}
+                                            value={member.id}
+                                            onSelect={(currentValue) => {
+                                                setMembers(currentValue === members ? "" : currentValue)
+                                                setMemberComboboxOpen(false)
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    members === member.id ? "opacity-100" : "opacity-0"
+                                                )}
+                                            />
+                                            {member.name}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
             </div>
             
             <div className="space-y-2">
