@@ -156,7 +156,7 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                                                     {mockClients.map(c => (
                                                         <CommandItem key={c.id} value={c.name} onSelect={() => { setSelectedClient(c.id); setClientComboboxOpen(false); }}>
                                                             <Check className={cn("mr-2 h-4 w-4", selectedClient === c.id ? "opacity-100" : "opacity-0")} />
-                                                            {c.name}
+                                                            {c.name} ({c.id})
                                                         </CommandItem>
                                                     ))}
                                                 </CommandGroup>
