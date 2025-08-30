@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Calendar as CalendarIcon, GripVertical, Trash2 } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Calendar as CalendarIcon, GripVertical, Trash2, Banknote } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -262,7 +262,11 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
 };
 
 const designStages = [
+    "1% Of Over all Quote",
+    "Level 3 lead Converted to Client",
+    "Project Manager is assigned",
     "Soil Testing & Site Visit",
+    "Mood Board Selection in App",
     "Architectural Concept Design",
     "Layout",
     "Presentation (ideation)",
@@ -279,17 +283,20 @@ const designStages = [
     "Sanction + Tender Drawings",
     "Structural Drawings",
     "Costing Estimator 2.0 (BOQ)",
-    "Good For Construction Civil Architectural Interior Electrical Plumbing Misc (GFC) Solar Rainwater STP., etc.",
+    "Good For Construction Civil Architectural Interior Electrical Plumbing Misc (GFC) Solar Rainwater STP., etc."
 ];
 
 const constructionStages = [
+    "20% Payment with Difference Amount of 1 %",
+    "Construction Started",
     "Site Clearence",
+    "Bhumi Pujan",
     "Site Marking",
     "Surveyor",
     "Grid + Foundation Marking",
     "Isolated Foundation",
     "Raft Foundation",
-    "Excavation",
+    "EXcavation",
     "Grid Marking",
     "Column Marking",
     "Excavation",
@@ -321,6 +328,7 @@ const constructionStages = [
     "Compaction",
     "Termite Treatment",
     "PCC",
+    "30% Of Overall Quote",
     "Starter Marking",
     "Bar Bending",
     "Columns",
@@ -344,6 +352,7 @@ const constructionStages = [
     "Shuttering",
     "Bar bending",
     "Concreting",
+    "20% of Total Quote",
     "Ground Floor",
     "Completion of Block work",
     "1st Floor",
@@ -355,14 +364,18 @@ const constructionStages = [
     "Tiles Laying",
     "Door & Window Installation",
     "Paint Work",
+    "15% of Overall Quote",
     "Toilet Fixtures",
     "Electrical Fixtures",
+    "10% of Overall Quote",
     "Window Grill",
     "Railing",
     "Inspection By Client",
+    "04% of Overall Quote",
     "Key Handover",
-    "Documents Handover",
+    "Documents Handover"
 ];
+
 
 const timelineTemplates = {
     'design': designStages,
@@ -371,7 +384,13 @@ const timelineTemplates = {
     'custom': []
 }
 
-const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, setTimelineTemplate, setCustomStages, customStages }: { onFormSuccess: () => void, onBack: () => void, stages: string[], timelineTemplate: string, setTimelineTemplate: (val: string) => void, setCustomStages: (stages: string[]) => void, customStages: string[] }) => {
+interface CustomStage {
+    id: number;
+    value: string;
+    type: 'stage' | 'payment';
+}
+
+const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, setTimelineTemplate, setCustomStages, customStages }: { onFormSuccess: () => void, onBack: () => void, stages: string[], timelineTemplate: string, setTimelineTemplate: (val: string) => void, setCustomStages: (stages: CustomStage[]) => void, customStages: CustomStage[] }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
     const [startDate, setStartDate] = useState<Date>();
@@ -400,13 +419,15 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end w-full max-w-lg">
-                             <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={timelineTemplate} onValueChange={setTimelineTemplate}>
-                                <SelectItem value="both">Design & Construction</SelectItem>
-                                <SelectItem value="design">Only Design (Architectural)</SelectItem>
-                                <SelectItem value="construction">Only Construction</SelectItem>
-                                <SelectItem value="custom">Create Custom Timeline</SelectItem>
-                            </FloatingLabelSelect>
+                         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full">
+                            <div className="w-full sm:w-64">
+                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={timelineTemplate} onValueChange={setTimelineTemplate}>
+                                    <SelectItem value="both">Design & Construction</SelectItem>
+                                    <SelectItem value="design">Only Design (Architectural)</SelectItem>
+                                    <SelectItem value="construction">Only Construction</SelectItem>
+                                    <SelectItem value="custom">Create Custom Timeline</SelectItem>
+                                </FloatingLabelSelect>
+                            </div>
                             {timelineTemplate === 'custom' && (
                                <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
                                    {customStages.length > 0 ? 'Edit Custom Timeline' : 'Create Custom Timeline'}
@@ -450,6 +471,7 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
                                         placeholder="Enter days"
                                         value={stageDays[stage] || ''}
                                         onChange={(e) => handleDaysChange(stage, e.target.value)}
+                                        readOnly={stage.toLowerCase().includes('payment') || stage.toLowerCase().includes('quote')}
                                     />
                                 </div>
                             ))}
@@ -475,28 +497,26 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
     );
 };
 
-const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOpen: boolean, onClose: () => void, onSave: (stages: string[]) => void, initialStages: string[] }) => {
-    const [stages, setStages] = useState(initialStages.length > 0 ? initialStages : ['']);
+const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOpen: boolean, onClose: () => void, onSave: (stages: CustomStage[]) => void, initialStages: CustomStage[] }) => {
+    const [stages, setStages] = useState<CustomStage[]>(initialStages.length > 0 ? initialStages : [{ id: Date.now(), value: '', type: 'stage' }]);
     const [templateName, setTemplateName] = useState('');
 
-    const handleAddStage = () => {
-        setStages([...stages, '']);
+    const addStage = (type: 'stage' | 'payment') => {
+        setStages([...stages, { id: Date.now(), value: '', type }]);
     };
 
-    const handleStageChange = (index: number, value: string) => {
-        const newStages = [...stages];
-        newStages[index] = value;
+    const handleStageChange = (id: number, value: string) => {
+        const newStages = stages.map(stage => stage.id === id ? { ...stage, value } : stage);
         setStages(newStages);
     };
     
-    const handleRemoveStage = (index: number) => {
-        const newStages = stages.filter((_, i) => i !== index);
+    const handleRemoveStage = (id: number) => {
+        const newStages = stages.filter(stage => stage.id !== id);
         setStages(newStages);
     };
 
     const handleSave = () => {
-        // Here you would also save the template with its name
-        onSave(stages.filter(s => s.trim() !== ''));
+        onSave(stages.filter(s => s.value.trim() !== ''));
         onClose();
     };
 
@@ -521,22 +541,29 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOp
                         className="h-12"
                     />
                     {stages.map((stage, index) => (
-                        <div key={index} className="flex items-center gap-2">
+                        <div key={stage.id} className="flex items-center gap-2">
                              <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
                             <Input 
-                                value={stage}
-                                onChange={(e) => handleStageChange(index, e.target.value)}
-                                placeholder={`Stage ${index + 1}`}
+                                value={stage.value}
+                                onChange={(e) => handleStageChange(stage.id, e.target.value)}
+                                placeholder={stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
                                 className="h-12"
+                                prefix={stage.type === 'payment' ? <Banknote className="h-4 w-4 mr-2 text-green-500" /> : undefined}
                             />
-                            <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(index)}>
+                            <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)}>
                                 <Trash2 className="h-4 w-4 text-destructive"/>
                             </Button>
                         </div>
                     ))}
-                    <Button variant="outline" onClick={handleAddStage}>
-                        Add Stage
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" onClick={() => addStage('stage')}>
+                            Add Stage
+                        </Button>
+                        <Button variant="outline" onClick={() => addStage('payment')} className="text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700">
+                             <Banknote className="h-4 w-4 mr-2" />
+                            Add Payment Stage
+                        </Button>
+                    </div>
                 </div>
                 <div className="px-6 py-4 border-t flex justify-end">
                     <Button onClick={handleSave}>Save Template</Button>
@@ -553,7 +580,7 @@ export function AddProjectSheet() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState(1);
     const [timelineTemplate, setTimelineTemplate] = useState('both');
-    const [customStages, setCustomStages] = useState<string[]>([]);
+    const [customStages, setCustomStages] = useState<CustomStage[]>([]);
 
     const handleSuccess = () => {
         setIsOpen(false);
@@ -568,13 +595,13 @@ export function AddProjectSheet() {
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+    const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     const title = step === 1 ? 'Add New Project' : 'Project Timeline';
 
     const stagesForTimeline = timelineTemplate === 'custom' 
-        ? customStages 
+        ? customStages.map(s => s.value) 
         : timelineTemplates[timelineTemplate as keyof typeof timelineTemplates] || [];
 
     return (
