@@ -461,20 +461,27 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {stages.map(stage => (
+                            {stages.map(stage => {
+                                const isPaymentStage = stage.toLowerCase().includes('payment') || stage.toLowerCase().includes('quote');
+                                return (
                                 <div key={stage} className="space-y-2">
                                     <Label htmlFor={`days-${stage}`} className="text-lg font-medium px-2 text-zinc-900">{stage}</Label>
-                                    <Input 
-                                        id={`days-${stage}`} 
-                                        name={`days-${stage}`}
-                                        className="h-14 bg-background rounded-full px-5" 
-                                        placeholder="Enter days"
-                                        value={stageDays[stage] || ''}
-                                        onChange={(e) => handleDaysChange(stage, e.target.value)}
-                                        readOnly={stage.toLowerCase().includes('payment') || stage.toLowerCase().includes('quote')}
-                                    />
+                                    {isPaymentStage ? (
+                                        <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
+                                            Payment Reminder
+                                        </div>
+                                    ) : (
+                                        <Input 
+                                            id={`days-${stage}`} 
+                                            name={`days-${stage}`}
+                                            className="h-14 bg-background rounded-full px-5" 
+                                            placeholder="Enter days"
+                                            value={stageDays[stage] || ''}
+                                            onChange={(e) => handleDaysChange(stage, e.target.value)}
+                                        />
+                                    )}
                                 </div>
-                            ))}
+                            )})}
                         </div>
                     </div>
                     <div className="flex justify-between items-center pt-8">
@@ -542,7 +549,6 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOp
                     />
                     {stages.map((stage, index) => (
                         <div key={stage.id} className="flex items-center gap-2">
-                             <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
                             <Input 
                                 value={stage.value}
                                 onChange={(e) => handleStageChange(stage.id, e.target.value)}
