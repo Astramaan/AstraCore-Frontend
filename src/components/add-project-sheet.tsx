@@ -390,9 +390,8 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="flex justify-between items-center">
-                            <h3 className="text-lg text-stone-500">Project Timeline (Stages)</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end w-full max-w-lg">
+                        <div className="flex justify-end items-center">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end w-full max-w-lg ml-auto">
                                 <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={timelineTemplate} onValueChange={setTimelineTemplate}>
                                     <SelectItem value="default">Default Timeline</SelectItem>
                                     <SelectItem value="custom">Create Custom Timeline</SelectItem>
