@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Calendar as CalendarIcon, GripVertical, Trash2, Banknote } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Calendar as CalendarIcon, Banknote, Trash2, Edit } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -261,147 +261,163 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
     );
 };
 
-const designStages = [
-    "1% Of Over all Quote",
-    "Level 3 lead Converted to Client",
-    "Project Manager is assigned",
-    "Soil Testing & Site Visit",
-    "Mood Board Selection in App",
-    "Architectural Concept Design",
-    "Layout",
-    "Presentation (ideation)",
-    "Interior Conceptual Design",
-    "Interior Layout",
-    "Interior Presentation (Ideation)",
-    "3D Conceptual From Exploration",
-    "Renders",
-    "Plans",
-    "Elevation",
-    "Sections",
-    "Views , videos",
-    "Structural Design",
-    "Sanction + Tender Drawings",
-    "Structural Drawings",
-    "Costing Estimator 2.0 (BOQ)",
-    "Good For Construction Civil Architectural Interior Electrical Plumbing Misc (GFC) Solar Rainwater STP., etc."
-];
-
-const constructionStages = [
-    "20% Payment with Difference Amount of 1 %",
-    "Construction Started",
-    "Site Clearence",
-    "Bhumi Pujan",
-    "Site Marking",
-    "Surveyor",
-    "Grid + Foundation Marking",
-    "Isolated Foundation",
-    "Raft Foundation",
-    "EXcavation",
-    "Grid Marking",
-    "Column Marking",
-    "Excavation",
-    "Column Marking",
-    "Dressing",
-    "Compaction",
-    "PCC",
-    "Bar Bending",
-    "Shuttering",
-    "Pedestal | Raft",
-    "Concreting",
-    "Removal of Shuttering",
-    "Starter Marking",
-    "Bar Bending",
-    "Columns",
-    "Shuttering",
-    "Concreting",
-    "Removal of Shuttering",
-    "Sump Construction",
-    "Back Filling",
-    "Plinth Work | Sump Slab",
-    "Stone Masonry",
-    "Barbending",
-    "Shuttering",
-    "Concreting",
-    "Removal of Shuttering",
-    "Backfilling",
-    "Plinth",
-    "Compaction",
-    "Termite Treatment",
-    "PCC",
-    "30% Of Overall Quote",
-    "Starter Marking",
-    "Bar Bending",
-    "Columns",
-    "Shuttering",
-    "Concreting",
-    "Removal Of Shuttering",
-    "Shuttering",
-    "Ground Floor Beams | Slab",
-    "Bar bending",
-    "Concreting (RMC)",
-    "1st Floor",
-    "Starter Marking",
-    "Bar Bending",
-    "Columns",
-    "Shuttering",
-    "Concreting",
-    "Ground Floor",
-    "Removal of Shuttering (Slab)",
-    "Block Work (Slowly)",
-    "1st Floor",
-    "Shuttering",
-    "Bar bending",
-    "Concreting",
-    "20% of Total Quote",
-    "Ground Floor",
-    "Completion of Block work",
-    "1st Floor",
-    "Removal of shuttering",
-    "Completion of Block work",
-    "Groundfloor (Keeping as standard)",
-    "Electrical Wiring",
-    "Plumbing",
-    "Tiles Laying",
-    "Door & Window Installation",
-    "Paint Work",
-    "15% of Overall Quote",
-    "Toilet Fixtures",
-    "Electrical Fixtures",
-    "10% of Overall Quote",
-    "Window Grill",
-    "Railing",
-    "Inspection By Client",
-    "04% of Overall Quote",
-    "Key Handover",
-    "Documents Handover"
-];
-
-
-const timelineTemplates = {
-    'design': designStages,
-    'construction': constructionStages,
-    'both': [...designStages, ...constructionStages],
-    'custom': []
-}
-
-interface CustomStage {
+export interface CustomStage {
     id: number;
-    value: string;
+    name: string;
     type: 'stage' | 'payment';
 }
 
-const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, setTimelineTemplate, setCustomStages, customStages }: { onFormSuccess: () => void, onBack: () => void, stages: string[], timelineTemplate: string, setTimelineTemplate: (val: string) => void, setCustomStages: (stages: CustomStage[]) => void, customStages: CustomStage[] }) => {
+export interface TimelineTemplate {
+    id: string;
+    name: string;
+    stages: CustomStage[];
+    isCustom?: boolean;
+}
+
+const initialDesignStages: CustomStage[] = [
+    { id: 1, name: "1% Of Over all Quote", type: 'payment' },
+    { id: 2, name: "Level 3 lead Converted to Client", type: 'stage' },
+    { id: 3, name: "Project Manager is assigned", type: 'stage' },
+    { id: 4, name: "Soil Testing & Site Visit", type: 'stage' },
+    { id: 5, name: "Mood Board Selection in App", type: 'stage' },
+    { id: 6, name: "Architectural Concept Design", type: 'stage' },
+    { id: 7, name: "Layout", type: 'stage' },
+    { id: 8, name: "Presentation (ideation)", type: 'stage' },
+    { id: 9, name: "Interior Conceptual Design", type: 'stage' },
+    { id: 10, name: "Interior Layout", type: 'stage' },
+    { id: 11, name: "Interior Presentation (Ideation)", type: 'stage' },
+    { id: 12, name: "3D Conceptual From Exploration", type: 'stage' },
+    { id: 13, name: "Renders", type: 'stage' },
+    { id: 14, name: "Plans", type: 'stage' },
+    { id: 15, name: "Elevation", type: 'stage' },
+    { id: 16, name: "Sections", type: 'stage' },
+    { id: 17, name: "Views , videos", type: 'stage' },
+    { id: 18, name: "Structural Design", type: 'stage' },
+    { id: 19, name: "Sanction + Tender Drawings", type: 'stage' },
+    { id: 20, name: "Structural Drawings", type: 'stage' },
+    { id: 21, name: "Costing Estimator 2.0 (BOQ)", type: 'stage' },
+    { id: 22, name: "Good For Construction Civil Architectural Interior Electrical Plumbing Misc (GFC) Solar Rainwater STP., etc.", type: 'stage' }
+];
+
+const initialConstructionStages: CustomStage[] = [
+    { id: 23, name: "20% Payment with Difference Amount of 1 %", type: 'payment' },
+    { id: 24, name: "Construction Started", type: 'stage' },
+    { id: 25, name: "Site Clearence", type: 'stage' },
+    { id: 26, name: "Bhumi Pujan", type: 'stage' },
+    { id: 27, name: "Site Marking", type: 'stage' },
+    { id: 28, name: "Surveyor", type: 'stage' },
+    { id: 29, name: "Grid + Foundation Marking", type: 'stage' },
+    { id: 30, name: "Isolated Foundation", type: 'stage' },
+    { id: 31, name: "Raft Foundation", type: 'stage' },
+    { id: 32, name: "EXcavation", type: 'stage' },
+    { id: 33, name: "Grid Marking", type: 'stage' },
+    { id: 34, name: "Column Marking", type: 'stage' },
+    { id: 35, name: "Excavation", type: 'stage' },
+    { id: 36, name: "Column Marking", type: 'stage' },
+    { id: 37, name: "Dressing", type: 'stage' },
+    { id: 38, name: "Compaction", type: 'stage' },
+    { id: 39, name: "PCC", type: 'stage' },
+    { id: 40, name: "Bar Bending", type: 'stage' },
+    { id: 41, name: "Shuttering", type: 'stage' },
+    { id: 42, name: "Pedestal | Raft", type: 'stage' },
+    { id: 43, name: "Concreting", type: 'stage' },
+    { id: 44, name: "Removal of Shuttering", type: 'stage' },
+    { id: 45, name: "Starter Marking", type: 'stage' },
+    { id: 46, name: "Bar Bending", type: 'stage' },
+    { id: 47, name: "Columns", type: 'stage' },
+    { id: 48, name: "Shuttering", type: 'stage' },
+    { id: 49, name: "Concreting", type: 'stage' },
+    { id: 50, name: "Removal of Shuttering", type: 'stage' },
+    { id: 51, name: "Sump Construction", type: 'stage' },
+    { id: 52, name: "Back Filling", type: 'stage' },
+    { id: 53, name: "Plinth Work | Sump Slab", type: 'stage' },
+    { id: 54, name: "Stone Masonry", type: 'stage' },
+    { id: 55, name: "Barbending", type: 'stage' },
+    { id: 56, name: "Shuttering", type: 'stage' },
+    { id: 57, name: "Concreting", type: 'stage' },
+    { id: 58, name: "Removal of Shuttering", type: 'stage' },
+    { id: 59, name: "Backfilling", type: 'stage' },
+    { id: 60, name: "Plinth", type: 'stage' },
+    { id: 61, name: "Compaction", type: 'stage' },
+    { id: 62, name: "Termite Treatment", type: 'stage' },
+    { id: 63, name: "PCC", type: 'stage' },
+    { id: 64, name: "30% Of Overall Quote", type: 'payment' },
+    { id: 65, name: "Starter Marking", type: 'stage' },
+    { id: 66, name: "Bar Bending", type: 'stage' },
+    { id: 67, name: "Columns", type: 'stage' },
+    { id: 68, name: "Shuttering", type: 'stage' },
+    { id: 69, name: "Concreting", type: 'stage' },
+    { id: 70, name: "Removal Of Shuttering", type: 'stage' },
+    { id: 71, name: "Shuttering", type: 'stage' },
+    { id: 72, name: "Ground Floor Beams | Slab", type: 'stage' },
+    { id: 73, name: "Bar bending", type: 'stage' },
+    { id: 74, name: "Concreting (RMC)", type: 'stage' },
+    { id: 75, name: "1st Floor", type: 'stage' },
+    { id: 76, name: "Starter Marking", type: 'stage' },
+    { id: 77, name: "Bar Bending", type: 'stage' },
+    { id: 78, name: "Columns", type: 'stage' },
+    { id: 79, name: "Shuttering", type: 'stage' },
+    { id: 80, name: "Concreting", type: 'stage' },
+    { id: 81, name: "Ground Floor", type: 'stage' },
+    { id: 82, name: "Removal of Shuttering (Slab)", type: 'stage' },
+    { id: 83, name: "Block Work (Slowly)", type: 'stage' },
+    { id: 84, name: "1st Floor", type: 'stage' },
+    { id: 85, name: "Shuttering", type: 'stage' },
+    { id: 86, name: "Bar bending", type: 'stage' },
+    { id: 87, name: "Concreting", type: 'stage' },
+    { id: 88, name: "20% of Total Quote", type: 'payment' },
+    { id: 89, name: "Ground Floor", type: 'stage' },
+    { id: 90, name: "Completion of Block work", type: 'stage' },
+    { id: 91, name: "1st Floor", type: 'stage' },
+    { id: 92, name: "Removal of shuttering", type: 'stage' },
+    { id: 93, name: "Completion of Block work", type: 'stage' },
+    { id: 94, name: "Groundfloor (Keeping as standard)", type: 'stage' },
+    { id: 95, name: "Electrical Wiring", type: 'stage' },
+    { id: 96, name: "Plumbing", type: 'stage' },
+    { id: 97, name: "Tiles Laying", type: 'stage' },
+    { id: 98, name: "Door & Window Installation", type: 'stage' },
+    { id: 99, name: "Paint Work", type: 'stage' },
+    { id: 100, name: "15% of Overall Quote", type: 'payment' },
+    { id: 101, name: "Toilet Fixtures", type: 'stage' },
+    { id: 102, name: "Electrical Fixtures", type: 'stage' },
+    { id: 103, name: "10% of Overall Quote", type: 'payment' },
+    { id: 104, name: "Window Grill", type: 'stage' },
+    { id: 105, name: "Railing", type: 'stage' },
+    { id: 106, name: "Inspection By Client", type: 'stage' },
+    { id: 107, name: "04% of Overall Quote", type: 'payment' },
+    { id: 108, name: "Key Handover", type: 'stage' },
+    { id: 109, name: "Documents Handover", type: 'stage' }
+];
+
+const ProjectTimelineForm = ({
+    onFormSuccess,
+    onBack,
+    templates,
+    setTemplates,
+    selectedTemplateId,
+    setSelectedTemplateId
+}: {
+    onFormSuccess: () => void;
+    onBack: () => void;
+    templates: TimelineTemplate[];
+    setTemplates: React.Dispatch<React.SetStateAction<TimelineTemplate[]>>;
+    selectedTemplateId: string;
+    setSelectedTemplateId: (id: string) => void;
+}) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
     const [startDate, setStartDate] = useState<Date>();
-    const [stageDays, setStageDays] = useState<{[key: string]: string}>({});
+    const [stageDays, setStageDays] = useState<{ [key: string]: string }>({});
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
-
-    const handleDaysChange = (stage: string, value: string) => {
-        const numericValue = value.replace(/\D/g, '');
-        setStageDays(prev => ({...prev, [stage]: numericValue}));
-    };
     
+    const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
+    const stages = selectedTemplate?.stages || [];
+
+    const handleDaysChange = (stageName: string, value: string) => {
+        const numericValue = value.replace(/\D/g, '');
+        setStageDays(prev => ({ ...prev, [stageName]: numericValue }));
+    };
+
     useEffect(() => {
         if (state.success) {
             onFormSuccess();
@@ -413,48 +429,54 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
             });
         }
     }, [state, onFormSuccess, toast]);
+    
+    const handleSaveTemplate = (updatedTemplate: TimelineTemplate) => {
+        setTemplates(prev => prev.map(t => t.id === updatedTemplate.id ? updatedTemplate : t));
+        if (!templates.find(t => t.id === updatedTemplate.id)) {
+            setTemplates(prev => [...prev, updatedTemplate]);
+            setSelectedTemplateId(updatedTemplate.id);
+        }
+    };
 
     return (
         <>
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full">
+                        <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-end w-full">
                             <div className="w-full sm:w-64">
-                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={timelineTemplate} onValueChange={setTimelineTemplate}>
-                                    <SelectItem value="both">Design & Construction</SelectItem>
-                                    <SelectItem value="design">Only Design (Architectural)</SelectItem>
-                                    <SelectItem value="construction">Only Construction</SelectItem>
-                                    <SelectItem value="custom">Create Custom Timeline</SelectItem>
+                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={setSelectedTemplateId}>
+                                    {templates.map(template => (
+                                        <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
+                                    ))}
+                                    <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
                                 </FloatingLabelSelect>
                             </div>
-                            {timelineTemplate === 'custom' && (
-                               <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
-                                   {customStages.length > 0 ? 'Edit Custom Timeline' : 'Create Custom Timeline'}
-                               </Button>
-                            )}
+                            <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
+                                {selectedTemplateId === 'custom_new' ? 'Create Custom Timeline' : 'Edit Timeline'}
+                            </Button>
                         </div>
                         <div className="space-y-2">
                             <Label className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                                        !startDate && "text-muted-foreground"
-                                    )}
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                            !startDate && "text-muted-foreground"
+                                        )}
                                     >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {startDate ? startDate.toLocaleDateString() : <span>Select start date</span>}
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {startDate ? startDate.toLocaleDateString() : <span>Select start date</span>}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                     <Calendar
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setStartDate}
-                                    initialFocus
+                                        mode="single"
+                                        selected={startDate}
+                                        onSelect={setStartDate}
+                                        initialFocus
                                     />
                                 </PopoverContent>
                             </Popover>
@@ -462,26 +484,27 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {stages.map(stage => {
-                                const isPaymentStage = stage.toLowerCase().includes('payment') || stage.toLowerCase().includes('quote');
+                                const isPaymentStage = stage.type === 'payment';
                                 return (
-                                <div key={stage} className="space-y-2">
-                                    <Label htmlFor={`days-${stage}`} className="text-lg font-medium px-2 text-zinc-900">{stage}</Label>
-                                    {isPaymentStage ? (
-                                        <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
-                                            Payment Reminder
-                                        </div>
-                                    ) : (
-                                        <Input 
-                                            id={`days-${stage}`} 
-                                            name={`days-${stage}`}
-                                            className="h-14 bg-background rounded-full px-5" 
-                                            placeholder="Enter days"
-                                            value={stageDays[stage] || ''}
-                                            onChange={(e) => handleDaysChange(stage, e.target.value)}
-                                        />
-                                    )}
-                                </div>
-                            )})}
+                                    <div key={stage.id} className="space-y-2">
+                                        <Label htmlFor={`days-${stage.name}`} className="text-lg font-medium px-2 text-zinc-900">{stage.name}</Label>
+                                        {isPaymentStage ? (
+                                            <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
+                                                Payment Reminder
+                                            </div>
+                                        ) : (
+                                            <Input
+                                                id={`days-${stage.name}`}
+                                                name={`days-${stage.name}`}
+                                                className="h-14 bg-background rounded-full px-5"
+                                                placeholder="Enter days"
+                                                value={stageDays[stage.name] || ''}
+                                                onChange={(e) => handleDaysChange(stage.name, e.target.value)}
+                                            />
+                                        )}
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
                     <div className="flex justify-between items-center pt-8">
@@ -494,36 +517,70 @@ const ProjectTimelineForm = ({ onFormSuccess, onBack, stages, timelineTemplate, 
                     </div>
                 </div>
             </form>
-            <CustomTimelineDialog 
-                isOpen={isCustomTimelineDialogOpen} 
-                onClose={() => setIsCustomTimelineDialogOpen(false)} 
-                onSave={setCustomStages}
-                initialStages={customStages}
+            <CustomTimelineDialog
+                isOpen={isCustomTimelineDialogOpen}
+                onClose={() => setIsCustomTimelineDialogOpen(false)}
+                onSave={handleSaveTemplate}
+                templateToEdit={selectedTemplateId === 'custom_new' ? null : selectedTemplate}
             />
         </>
     );
 };
 
-const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOpen: boolean, onClose: () => void, onSave: (stages: CustomStage[]) => void, initialStages: CustomStage[] }) => {
-    const [stages, setStages] = useState<CustomStage[]>(initialStages.length > 0 ? initialStages : [{ id: Date.now(), value: '', type: 'stage' }]);
+const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isOpen: boolean, onClose: () => void, onSave: (template: TimelineTemplate) => void, templateToEdit: TimelineTemplate | null | undefined }) => {
+    const { toast } = useToast();
     const [templateName, setTemplateName] = useState('');
+    const [stages, setStages] = useState<CustomStage[]>([{ id: Date.now(), name: '', type: 'stage' }]);
+
+    useEffect(() => {
+        if (templateToEdit) {
+            setTemplateName(templateToEdit.name);
+            setStages(templateToEdit.stages);
+        } else {
+            setTemplateName('');
+            setStages([{ id: Date.now(), name: '', type: 'stage' }]);
+        }
+    }, [templateToEdit, isOpen]);
 
     const addStage = (type: 'stage' | 'payment') => {
-        setStages([...stages, { id: Date.now(), value: '', type }]);
+        setStages([...stages, { id: Date.now(), name: '', type }]);
     };
 
     const handleStageChange = (id: number, value: string) => {
-        const newStages = stages.map(stage => stage.id === id ? { ...stage, value } : stage);
+        const newStages = stages.map(stage => stage.id === id ? { ...stage, name: value } : stage);
         setStages(newStages);
     };
-    
+
     const handleRemoveStage = (id: number) => {
         const newStages = stages.filter(stage => stage.id !== id);
         setStages(newStages);
     };
 
     const handleSave = () => {
-        onSave(stages.filter(s => s.value.trim() !== ''));
+        if (!templateName.trim()) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'Template Name is required.',
+            });
+            return;
+        }
+        const finalStages = stages.filter(s => s.name.trim() !== '');
+        if (finalStages.length === 0) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'A template must have at least one stage.',
+            });
+            return;
+        }
+        
+        onSave({
+            id: templateToEdit?.id || `custom-${Date.now()}`,
+            name: templateName,
+            stages: finalStages,
+            isCustom: true,
+        });
         onClose();
     };
 
@@ -532,7 +589,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOp
             <DialogContent className="sm:max-w-xl p-0 rounded-[20px]">
                 <DialogHeader className="p-6 border-b">
                     <DialogTitle className="flex items-center justify-between">
-                        Create Custom Timeline
+                        {templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}
                         <DialogClose asChild>
                             <Button variant="ghost" size="icon" className="rounded-full">
                                 <X className="h-5 w-5" />
@@ -541,23 +598,25 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOp
                     </DialogTitle>
                 </DialogHeader>
                 <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
-                    <Input 
-                        placeholder="Template Name" 
+                    <Input
+                        placeholder="Template Name*"
                         value={templateName}
                         onChange={e => setTemplateName(e.target.value)}
                         className="h-12"
                     />
                     {stages.map((stage, index) => (
                         <div key={stage.id} className="flex items-center gap-2">
-                            <Input 
-                                value={stage.value}
-                                onChange={(e) => handleStageChange(stage.id, e.target.value)}
-                                placeholder={stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
-                                className="h-12"
-                                prefix={stage.type === 'payment' ? <Banknote className="h-4 w-4 mr-2 text-green-500" /> : undefined}
-                            />
+                            <div className="relative flex-1">
+                                <Input
+                                    value={stage.name}
+                                    onChange={(e) => handleStageChange(stage.id, e.target.value)}
+                                    placeholder={stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
+                                    className={cn("h-12", stage.type === 'payment' && "pl-10")}
+                                />
+                                {stage.type === 'payment' && <Banknote className="h-4 w-4 text-green-500 absolute left-3 top-1/2 -translate-y-1/2" />}
+                            </div>
                             <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)}>
-                                <Trash2 className="h-4 w-4 text-destructive"/>
+                                <Trash2 className="h-4 w-4 text-destructive" />
                             </Button>
                         </div>
                     ))}
@@ -566,7 +625,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, initialStages }: { isOp
                             Add Stage
                         </Button>
                         <Button variant="outline" onClick={() => addStage('payment')} className="text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700">
-                             <Banknote className="h-4 w-4 mr-2" />
+                            <Banknote className="h-4 w-4 mr-2" />
                             Add Payment Stage
                         </Button>
                     </div>
@@ -585,8 +644,14 @@ export function AddProjectSheet() {
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState(1);
-    const [timelineTemplate, setTimelineTemplate] = useState('both');
-    const [customStages, setCustomStages] = useState<CustomStage[]>([]);
+    
+    const [templates, setTemplates] = useState<TimelineTemplate[]>([
+        { id: 'both', name: 'Design & Construction', stages: [...initialDesignStages, ...initialConstructionStages] },
+        { id: 'design', name: 'Only Design (Architectural)', stages: initialDesignStages },
+        { id: 'construction', name: 'Only Construction', stages: initialConstructionStages },
+    ]);
+    const [selectedTemplateId, setSelectedTemplateId] = useState('both');
+    
 
     const handleSuccess = () => {
         setIsOpen(false);
@@ -605,10 +670,6 @@ export function AddProjectSheet() {
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     const title = step === 1 ? 'Add New Project' : 'Project Timeline';
-
-    const stagesForTimeline = timelineTemplate === 'custom' 
-        ? customStages.map(s => s.value) 
-        : timelineTemplates[timelineTemplate as keyof typeof timelineTemplates] || [];
 
     return (
         <>
@@ -634,7 +695,7 @@ export function AddProjectSheet() {
                     {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
-                         <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center">
                             <DialogOrSheetTitle className="text-2xl font-semibold">
                                 {title}
                             </DialogOrSheetTitle>
@@ -648,14 +709,13 @@ export function AddProjectSheet() {
                     {step === 1 ? (
                         <AddProjectForm onNext={handleNext} />
                     ) : (
-                        <ProjectTimelineForm 
-                            onFormSuccess={handleSuccess} 
-                            onBack={handleBack} 
-                            stages={stagesForTimeline}
-                            timelineTemplate={timelineTemplate}
-                            setTimelineTemplate={setTimelineTemplate}
-                            customStages={customStages}
-                            setCustomStages={setCustomStages}
+                        <ProjectTimelineForm
+                            onFormSuccess={handleSuccess}
+                            onBack={handleBack}
+                            templates={templates}
+                            setTemplates={setTemplates}
+                            selectedTemplateId={selectedTemplateId}
+                            setSelectedTemplateId={setSelectedTemplateId}
                         />
                     )}
                 </DialogOrSheetContent>
