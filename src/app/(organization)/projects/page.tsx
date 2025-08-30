@@ -9,6 +9,7 @@ import { PlusCircle, MoreVertical } from "lucide-react";
 import React from 'react';
 import { AddProjectSheet } from "@/components/add-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 const activeProjects = [
     {
@@ -58,8 +59,8 @@ const completedProjects = [
 
 const ProjectListItem = ({ project, isLast = false }: { project: typeof activeProjects[0], isLast?: boolean }) => (
     <div className="flex flex-col">
-        <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-4">
+       <div className="flex justify-between items-center py-4">
+            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src={project.image} data-ai-hint="abstract building" />
                     <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
@@ -68,7 +69,7 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
                     <p className="text-xl font-semibold text-black">{project.name}</p>
                     <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{project.city}</span></p>
                 </div>
-            </div>
+            </Link>
             <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
             <div className="hidden md:flex flex-col gap-2 w-96">
                 <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
