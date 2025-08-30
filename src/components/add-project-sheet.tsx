@@ -24,7 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 const FloatingLabelInput = ({ id, label, placeholder, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
     <div className="relative">
-        <Label htmlFor={id} className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500">{label}</Label>
+        <Label htmlFor={id} className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">{label}</Label>
         <Input id={id} placeholder={placeholder} className="h-14 bg-background rounded-full px-5" {...props} />
     </div>
 );
@@ -156,7 +156,7 @@ export function AddProjectSheet() {
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0",
+                        "p-0 bg-card",
                         isMobile
                             ? "w-full rounded-t-[50px]"
                             : "sm:max-w-3xl rounded-[50px]"
