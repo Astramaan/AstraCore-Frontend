@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, Upload, Trash2, Edit, ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { Textarea } from './ui/textarea';
 import Image from 'next/image';
@@ -444,7 +444,7 @@ export function AddVendorSheet() {
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
+    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
 
     return (
         <>
