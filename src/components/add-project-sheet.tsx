@@ -265,7 +265,6 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
 };
 
 const projectStages = [
-    "Project Manager is assigned",
     "Soil Testing & Site Visit",
     "Architectural Concept Design",
     "Layout",
