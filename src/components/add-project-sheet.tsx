@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { Calendar } from './ui/calendar';
+import { Textarea } from './ui/textarea';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -45,10 +46,10 @@ const mockClients = [
     { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", email: "info@betaleads.com", phone: "+91 6543210987", type: 'lead' as const },
 ];
 
-const FloatingLabelInput = ({ id, label, value, onChange, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, onChange: React.ChangeEventHandler<HTMLInputElement> }) => (
+const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="space-y-2">
         <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} onChange={onChange} {...props} />
+        <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
     </div>
 );
 
@@ -260,7 +261,7 @@ const AddProjectForm = ({ onNext, timelineTemplate, setTimelineTemplate, setCust
                                  <SelectItem value="custom">Create Custom Timeline</SelectItem>
                              </FloatingLabelSelect>
                              {timelineTemplate === 'custom' && (
-                                <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)}>
+                                <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
                                     {customStages.length > 0 ? 'Edit Custom Timeline' : 'Create Custom Timeline'}
                                 </Button>
                              )}
