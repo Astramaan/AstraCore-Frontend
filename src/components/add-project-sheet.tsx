@@ -262,7 +262,7 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
 
                 <div className="flex justify-end pt-8">
                     <Button type="submit" className="px-10 h-14 text-lg rounded-full">
-                        Add Project
+                        Next
                         <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </div>
