@@ -3,18 +3,17 @@
 
 import React, { useState, useActionState, useEffect } from 'react';
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, UserPlus } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { addEmployee } from '@/app/actions';
@@ -128,39 +127,36 @@ export function AddEmployeeSheet() {
 
   return (
     <>
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
         <Button className="md:h-14 md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
             <UserPlus className="md:mr-2 h-6 w-6"/>
             <span className="hidden md:inline">Add New Employee</span>
         </Button>
-      </SheetTrigger>
-      <SheetContent 
-          className={cn(
-            "p-0 flex flex-col m-0 bg-white sm:max-w-2xl rounded-t-[50px]"
-          )}
-          side="bottom"
+      </DialogTrigger>
+      <DialogContent 
+          className="p-0 flex flex-col m-0 bg-white sm:max-w-2xl rounded-[50px]"
       >
-          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
-                <SheetTitle className="flex items-center text-2xl font-semibold">
+                <DialogTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
                     Add New Employee
-                </SheetTitle>
-                <SheetClose asChild>
+                </DialogTitle>
+                <DialogClose asChild>
                   <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                       <X className="h-6 w-6" />
                   </Button>
-                </SheetClose>
+                </DialogClose>
               </div>
-          </SheetHeader>
+          </DialogHeader>
           <div className="flex-grow overflow-y-auto no-scrollbar">
             <AddEmployeeForm onFormSuccess={handleSuccess} onClose={handleClose} />
           </div>
-      </SheetContent>
-    </Sheet>
+      </DialogContent>
+    </Dialog>
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}

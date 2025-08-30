@@ -3,20 +3,18 @@
 'use client';
 
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Calendar as CalendarIcon, UploadCloud, X, Plus, Paperclip } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -244,39 +242,36 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
 
     return (
         <>
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
                 <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
                     <PlusCircle className="w-5 h-5 md:mr-2"/>
                     <span className="hidden md:inline">Assign task</span>
                 </Button>
-            </SheetTrigger>
-            <SheetContent
-                className={cn(
-                    "p-0 m-0 flex flex-col bg-white sm:max-w-4xl rounded-t-[50px]"
-                )}
-                side="bottom"
+            </DialogTrigger>
+            <DialogContent
+                className="p-0 m-0 flex flex-col bg-white sm:max-w-4xl rounded-[50px]"
             >
-                <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
-                        <SheetTitle className="flex items-center text-2xl font-semibold">
+                        <DialogTitle className="flex items-center text-2xl font-semibold">
                             <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
                                 <Plus className="h-6 w-6 text-gray-600"/>
                             </div>
                             Assign task
-                        </SheetTitle>
-                        <SheetClose asChild>
+                        </DialogTitle>
+                        <DialogClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                 <X className="h-6 w-6" />
                             </Button>
-                        </SheetClose>
+                        </DialogClose>
                     </div>
-                </SheetHeader>
+                </DialogHeader>
                 <div className="flex-grow overflow-y-auto no-scrollbar">
                     <AssignTaskForm onTaskAssigned={handleSuccess} onClose={() => setIsOpen(false)} />
                 </div>
-            </SheetContent>
-            </Sheet>
+            </DialogContent>
+            </Dialog>
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
