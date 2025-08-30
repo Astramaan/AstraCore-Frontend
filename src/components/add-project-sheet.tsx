@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -21,18 +21,32 @@ import { addProject } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
+
+const mockArchitects = [
+    { value: "darshan@habi.one", label: "Darshan" },
+    { value: "anil@habi.one", label: "Anil Kumar" },
+    { value: "yaswanth@habi.one", label: "Yaswanth" },
+];
+
+const mockSupervisors = [
+    { value: "supervisor1", label: "Supervisor 1" },
+    { value: "supervisor2", label: "Supervisor 2" },
+    { value: "supervisor3", label: "Supervisor 3" },
+];
 
 const FloatingLabelInput = ({ id, label, value, onChange, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, onChange: React.ChangeEventHandler<HTMLInputElement> }) => (
     <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} onChange={onChange} {...props} />
     </div>
 );
 
-const FloatingLabelSelect = ({ id, label, value, onValueChange, children }: { id: string, label: string, value: string, onValueChange: (value: string) => void, children: React.ReactNode }) => (
+const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }: { id: string, label: string, value: string, onValueChange: (value: string) => void, children: React.ReactNode, name?: string }) => (
      <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Select name={id} value={value} onValueChange={onValueChange}>
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Select name={name || id} value={value} onValueChange={onValueChange}>
             <SelectTrigger id={id} className="h-14 bg-background rounded-full px-5">
                 <SelectValue placeholder={label.replace('*','')} />
             </SelectTrigger>
@@ -59,6 +73,8 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [siteLocationLink, setSiteLocationLink] = useState('');
     const [architect, setArchitect] = useState('');
     const [siteSupervisor, setSiteSupervisor] = useState('');
+    const [architectOpen, setArchitectOpen] = useState(false);
+    const [supervisorOpen, setSupervisorOpen] = useState(false);
 
 
     useEffect(() => {
@@ -73,15 +89,27 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         }
     }, [state, onFormSuccess, toast]);
 
+    const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setter(value);
+        }
+    };
+
+    const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setter(value);
+    };
+
     return (
         <form action={formAction}>
             <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Personal details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={e => setName(e.target.value)} />
+                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
                         <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
-                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
+                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
                         <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} />
                         <div className="sm:col-span-2">
                              <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
@@ -92,14 +120,18 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Project details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={e => setProjectCost(e.target.value)} />
+                        <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
                         <FloatingLabelSelect id="status" label="Status*" value={status} onValueChange={setStatus}>
                             <SelectItem value="on-going">On Going</SelectItem>
                             <SelectItem value="delay">Delay</SelectItem>
                             <SelectItem value="completed">Completed</SelectItem>
                         </FloatingLabelSelect>
-                        <FloatingLabelInput id="dimension" name="dimension" label="Dimension*" value={dimension} onChange={e => setDimension(e.target.value)} />
-                        <FloatingLabelInput id="floor" name="floor" label="Floor*" value={floor} onChange={e => setFloor(e.target.value)} />
+                        <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
+                        <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
+                            {Array.from({ length: 8 }, (_, i) => `G+${i + 1}`).map(f => (
+                                <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
+                            ))}
+                        </FloatingLabelSelect>
                         <div className="sm:col-span-2">
                              <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
                         </div>
@@ -112,12 +144,60 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Project Assign</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                         <FloatingLabelSelect id="architect" label="Architect*" value={architect} onValueChange={setArchitect}>
-                             <SelectItem value="darshan@habi.one">Darshan@habi.one</SelectItem>
-                        </FloatingLabelSelect>
-                         <FloatingLabelSelect id="site-supervisor" label="Site Supervisior*" value={siteSupervisor} onValueChange={setSiteSupervisor}>
-                             <SelectItem value="supervisor1">Supervisor 1</SelectItem>
-                        </FloatingLabelSelect>
+                        <div className="space-y-2">
+                             <Label htmlFor="architect" className={cn("text-lg font-medium px-2", architect ? 'text-grey-1' : 'text-zinc-900')}>Architect*</Label>
+                             <Popover open={architectOpen} onOpenChange={setArchitectOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline" role="combobox" aria-expanded={architectOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                        {architect ? mockArchitects.find(a => a.value === architect)?.label : "Select architect..."}
+                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                    <Command>
+                                        <CommandInput placeholder="Search architect..." />
+                                        <CommandList>
+                                            <CommandEmpty>No architect found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {mockArchitects.map(a => (
+                                                    <CommandItem key={a.value} value={a.label} onSelect={() => { setArchitect(a.value); setArchitectOpen(false); }}>
+                                                         <Check className={cn("mr-2 h-4 w-4", architect === a.value ? "opacity-100" : "opacity-0")} />
+                                                        {a.label}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <div className="space-y-2">
+                             <Label htmlFor="site-supervisor" className={cn("text-lg font-medium px-2", siteSupervisor ? 'text-grey-1' : 'text-zinc-900')}>Site Supervisor*</Label>
+                             <Popover open={supervisorOpen} onOpenChange={setSupervisorOpen}>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline" role="combobox" aria-expanded={supervisorOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                        {siteSupervisor ? mockSupervisors.find(s => s.value === siteSupervisor)?.label : "Select supervisor..."}
+                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                    <Command>
+                                        <CommandInput placeholder="Search supervisor..." />
+                                        <CommandList>
+                                            <CommandEmpty>No supervisor found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {mockSupervisors.map(s => (
+                                                    <CommandItem key={s.value} value={s.label} onSelect={() => { setSiteSupervisor(s.value); setSupervisorOpen(false); }}>
+                                                         <Check className={cn("mr-2 h-4 w-4", siteSupervisor === s.value ? "opacity-100" : "opacity-0")} />
+                                                        {s.label}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                     </div>
                 </div>
 
