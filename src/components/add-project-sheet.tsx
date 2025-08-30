@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus, GripVertical } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -435,6 +435,7 @@ const ProjectTimelineForm = ({
 
     const handleSelectChange = (value: string) => {
         if (value === 'custom_new') {
+            setSelectedTemplateId('custom_new');
             setIsCustomTimelineDialogOpen(true);
         } else {
             setSelectedTemplateId(value);
@@ -455,10 +456,12 @@ const ProjectTimelineForm = ({
                                     <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
                                 </FloatingLabelSelect>
                             </div>
-                            <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit Timeline
-                            </Button>
+                            {selectedTemplateId !== 'custom_new' && (
+                                <Button type="button" variant="outline" className="h-14 rounded-full" onClick={() => setIsCustomTimelineDialogOpen(true)}>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit Timeline
+                                </Button>
+                            )}
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -496,7 +499,13 @@ const ProjectTimelineForm = ({
             </form>
             <CustomTimelineDialog
                 isOpen={isCustomTimelineDialogOpen}
-                onClose={() => setIsCustomTimelineDialogOpen(false)}
+                onClose={() => {
+                    setIsCustomTimelineDialogOpen(false);
+                    // If user closes without saving a new custom template, revert selection
+                    if (selectedTemplateId === 'custom_new') {
+                        setSelectedTemplateId('both');
+                    }
+                }}
                 onSave={handleSaveTemplate}
                 templateToEdit={selectedTemplateId === 'custom_new' ? null : templates.find(t => t.id === selectedTemplateId)}
             />
@@ -510,12 +519,14 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     const [stages, setStages] = useState<CustomStage[]>([{ id: Date.now(), name: '', type: 'stage' }]);
 
     useEffect(() => {
-        if (templateToEdit) {
-            setTemplateName(templateToEdit.name);
-            setStages(templateToEdit.stages);
-        } else {
-            setTemplateName('');
-            setStages([{ id: Date.now(), name: '', type: 'stage' }]);
+        if (isOpen) {
+            if (templateToEdit) {
+                setTemplateName(templateToEdit.name);
+                setStages(templateToEdit.stages);
+            } else {
+                setTemplateName('');
+                setStages([{ id: Date.now(), name: '', type: 'stage' }]);
+            }
         }
     }, [templateToEdit, isOpen]);
 
@@ -529,8 +540,16 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     };
 
     const handleRemoveStage = (id: number) => {
-        const newStages = stages.filter(stage => stage.id !== id);
-        setStages(newStages);
+        if (stages.length > 1) {
+            const newStages = stages.filter(stage => stage.id !== id);
+            setStages(newStages);
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'A template must have at least one stage.',
+            });
+        }
     };
 
     const handleSave = () => {
@@ -566,10 +585,10 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
             <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white flex flex-col h-[90vh]">
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
-                        {templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}
+                        <span className="text-2xl font-semibold">{templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}</span>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full">
-                                <X className="h-5 w-5" />
+                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                <X className="h-6 w-6" />
                             </Button>
                         </DialogClose>
                     </DialogTitle>
