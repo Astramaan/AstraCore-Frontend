@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -423,11 +423,14 @@ const ProjectTimelineForm = ({
     }, [state, onFormSuccess, toast]);
     
     const handleSaveTemplate = (updatedTemplate: TimelineTemplate) => {
-        setTemplates(prev => prev.map(t => t.id === updatedTemplate.id ? updatedTemplate : t));
-        if (!templates.find(t => t.id === updatedTemplate.id)) {
-            setTemplates(prev => [...prev, updatedTemplate]);
-            setSelectedTemplateId(updatedTemplate.id);
-        }
+        setTemplates(prev => {
+            const existing = prev.find(t => t.id === updatedTemplate.id);
+            if (existing) {
+                return prev.map(t => t.id === updatedTemplate.id ? updatedTemplate : t);
+            }
+            return [...prev, updatedTemplate];
+        });
+        setSelectedTemplateId(updatedTemplate.id);
     };
 
     const handleSelectChange = (value: string) => {
@@ -495,7 +498,7 @@ const ProjectTimelineForm = ({
                 isOpen={isCustomTimelineDialogOpen}
                 onClose={() => setIsCustomTimelineDialogOpen(false)}
                 onSave={handleSaveTemplate}
-                templateToEdit={selectedTemplateId === 'custom_new' ? null : selectedTemplate}
+                templateToEdit={selectedTemplateId === 'custom_new' ? null : templates.find(t => t.id === selectedTemplateId)}
             />
         </>
     );
@@ -560,8 +563,8 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white">
-                <DialogHeader className="p-6 border-b">
+            <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white flex flex-col h-[90vh]">
+                <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
                         {templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}
                         <DialogClose asChild>
@@ -571,41 +574,52 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
-                    <Input
-                        placeholder="Template Name*"
-                        value={templateName}
-                        onChange={e => setTemplateName(e.target.value)}
-                        className="h-12 bg-background rounded-full"
-                    />
+                <div className="p-6 space-y-4 overflow-y-auto flex-1">
+                    <div className="space-y-2">
+                        <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? "text-grey-1" : "text-black")}>Template Name*</Label>
+                        <Input
+                            id="template-name"
+                            placeholder="Template Name*"
+                            value={templateName}
+                            onChange={e => setTemplateName(e.target.value)}
+                            className="h-[54px] bg-background rounded-full px-6 text-lg"
+                        />
+                    </div>
                     {stages.map((stage, index) => (
-                        <div key={stage.id} className="flex items-center gap-2">
-                            <div className="relative flex-1">
-                                <Input
-                                    value={stage.name}
-                                    onChange={(e) => handleStageChange(stage.id, e.target.value)}
-                                    placeholder={stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
-                                    className={cn("h-12 bg-background rounded-full", stage.type === 'payment' && "pl-10")}
-                                />
-                                {stage.type === 'payment' && <Banknote className="h-4 w-4 text-green-500 absolute left-4 top-1/2 -translate-y-1/2" />}
+                        <div key={stage.id} className="space-y-2">
+                             <Label htmlFor={`stage-name-${stage.id}`} className={cn("text-lg font-medium px-2", stage.name ? "text-grey-1" : "text-black")}>
+                                {stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
+                            </Label>
+                            <div className="flex items-center gap-2">
+                                <div className="relative flex-1">
+                                    <Input
+                                        id={`stage-name-${stage.id}`}
+                                        value={stage.name}
+                                        onChange={(e) => handleStageChange(stage.id, e.target.value)}
+                                        placeholder={stage.type === 'stage' ? 'Enter stage name' : 'Enter payment description'}
+                                        className={cn("h-[54px] bg-background rounded-full px-6 text-lg", stage.type === 'payment' && "pl-12")}
+                                    />
+                                    {stage.type === 'payment' && <Banknote className="h-5 w-5 text-green absolute left-4 top-1/2 -translate-y-1/2" />}
+                                </div>
+                                <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)} className="h-[54px] w-[54px]">
+                                    <Trash2 className="h-5 w-5 text-destructive" />
+                                </Button>
                             </div>
-                            <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)}>
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
                         </div>
                     ))}
-                    <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => addStage('stage')}>
-                            Add Stage
+                </div>
+                <div className="px-6 py-4 border-t flex justify-between items-center gap-2">
+                     <div className="flex gap-2">
+                        <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg">
+                            <Plus className="mr-2 h-5 w-5"/>
+                            Stage
                         </Button>
-                        <Button variant="outline" onClick={() => addStage('payment')} className="text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700">
-                            <Banknote className="h-4 w-4 mr-2" />
-                            Add Payment Stage
+                        <Button variant="outline" onClick={() => addStage('payment')} className="h-[54px] rounded-full text-lg text-green border-green hover:bg-green/10 hover:text-green">
+                            <Banknote className="mr-2 h-5 w-5" />
+                            Payment
                         </Button>
                     </div>
-                </div>
-                <div className="px-6 py-4 border-t flex justify-end">
-                    <Button onClick={handleSave}>Save Template</Button>
+                    <Button onClick={handleSave} className="h-[54px] rounded-full text-lg">Save Template</Button>
                 </div>
             </DialogContent>
         </Dialog>
@@ -705,4 +719,3 @@ export function AddProjectSheet() {
         </>
     );
 }
-
