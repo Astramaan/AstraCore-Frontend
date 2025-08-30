@@ -28,6 +28,11 @@ export async function authenticate(
     
   } catch (error) {
       if (error instanceof Error) {
+        // This is a special error thrown by Next.js to trigger a redirect.
+        // We must re-throw it to allow the redirect to happen.
+        if (error.message === 'NEXT_REDIRECT') {
+            throw error;
+        }
         return error.message;
       }
       return 'An unexpected error occurred.';
@@ -51,6 +56,9 @@ export async function signup(
     redirect('/otp-verification');
 
   } catch (error) {
+    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      throw error;
+    }
     return { error: 'An unexpected error occurred during signup.' };
   }
 }
@@ -72,6 +80,9 @@ export async function verifyOtp(
         }
         
     } catch (error) {
+        if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+          throw error;
+        }
         return { error: 'Failed to verify OTP.' };
     }
     // Redirect on success
@@ -117,6 +128,9 @@ export async function createPassword(
     // In a real app, you would save the new password for the user.
     redirect('/password-success');
   } catch (error) {
+     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      throw error;
+    }
     return { error: 'Failed to create new password.' };
   }
 }
