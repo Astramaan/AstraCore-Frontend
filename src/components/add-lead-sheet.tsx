@@ -24,7 +24,7 @@ import { SuccessPopup } from './success-popup';
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
         <Label htmlFor={id} className={cn("self-stretch text-lg font-medium", value ? "text-grey-1" : "text-black")}>{label}</Label>
-        <Input id={id} className="w-96 h-14 bg-background rounded-[50px] px-6 text-lg" value={value} {...props} />
+        <Input id={id} className="w-full h-14 bg-background rounded-full px-6 text-lg" value={value} {...props} />
     </div>
 );
 
@@ -61,7 +61,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 </div>
                 
                 <div className="flex justify-center pt-8">
-                    <Button type="submit" className="w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+                    <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg">
                         Add
                     </Button>
                 </div>
@@ -99,7 +99,7 @@ export function AddLeadSheet() {
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 rounded-[50px] w-[452px]"
+                        "p-0 rounded-[50px] w-[452px] bg-white"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
