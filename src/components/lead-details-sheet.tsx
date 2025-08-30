@@ -100,8 +100,8 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                     {isEditing ? 'Edit Lead Details' : 'Lead Details'}
                     {isEditing ? (
                         <div className="ml-auto flex items-center gap-2">
-                             <Button variant="ghost" onClick={handleCancel}>Cancel</Button>
-                             <Button onClick={handleSave}><Save className="mr-2 h-4 w-4" /> Save</Button>
+                             <Button variant="ghost" onClick={handleCancel} className="rounded-full">Cancel</Button>
+                             <Button onClick={handleSave} className="rounded-full"><Save className="mr-2 h-4 w-4" /> Save</Button>
                         </div>
                     ) : (
                         <div className="ml-auto flex items-center gap-2">
@@ -187,7 +187,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
                          <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} />
                          <div className="md:col-span-2">
-                            <Button className="w-full h-12 bg-primary/10 text-primary border border-primary hover:bg-primary/20">Request 1% Token</Button>
+                            <Button className="w-full h-12 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20">Request 1% Token</Button>
                          </div>
                     </div>
                 </div>
@@ -236,4 +236,5 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
+
 
