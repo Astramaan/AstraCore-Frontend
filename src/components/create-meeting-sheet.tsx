@@ -68,11 +68,13 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
     useEffect(() => {
         if (!selectedId) {
-            setName('');
-            setCity('');
-            setEmail('');
-            setPhone('');
-            setSelectedType('');
+            if (!isManual) {
+                setName('');
+                setCity('');
+                setEmail('');
+                setPhone('');
+                setSelectedType('');
+            }
             return;
         };
 
@@ -84,7 +86,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             setPhone(contact.phone);
             setSelectedType(contact.type);
         }
-    }, [selectedId]);
+    }, [selectedId, isManual]);
 
 
     const handleSubmit = () => {
@@ -211,6 +213,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             role="combobox"
                             aria-expanded={comboboxOpen}
                             className="w-full justify-between h-14 bg-background rounded-full"
+                            disabled={isManual}
                         >
                             {selectedId
                                 ? allContacts.find((contact) => contact.id === selectedId)?.name
@@ -253,12 +256,28 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
              <div className="sm:col-span-2 space-y-4">
                 <div className="flex items-center justify-end gap-2">
                     <Label htmlFor="manual-switch" className="text-sm">Enter Details Manually</Label>
-                    <Switch id="manual-switch" checked={isManual} onCheckedChange={setIsManual} />
+                    <Switch id="manual-switch" checked={isManual} onCheckedChange={(checked) => {
+                        setIsManual(checked);
+                        if (checked) setSelectedId('');
+                    }} />
                 </div>
             </div>
             
             {(isManual) && (
                 <>
+                     <div className="space-y-2">
+                        <Label htmlFor="type-select" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
+                        <Select value={selectedType} onValueChange={(value: 'client' | 'lead') => setSelectedType(value)}>
+                            <SelectTrigger id="type-select" className="h-14 bg-background rounded-full">
+                                <SelectValue placeholder="Client / Lead" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="client">Client</SelectItem>
+                                <SelectItem value="lead">Lead</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div />
                     <div className="space-y-2">
                         <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
                         <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
@@ -342,8 +361,8 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
       >
           <DialogOrSheetHeader className="p-6 border-b">
               <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                    <Plus className="h-5 w-5 text-gray-600"/>
+                  <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                    <Plus className="h-6 w-6 text-gray-600"/>
                   </div>
                   Create New Meeting
                   <div className="flex items-center gap-4 ml-auto">
