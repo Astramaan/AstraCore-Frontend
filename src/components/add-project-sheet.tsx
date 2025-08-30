@@ -22,16 +22,44 @@ import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
-const FloatingLabelInput = ({ id, label, placeholder, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) => (
-    <div className="relative">
-        <Label htmlFor={id} className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">{label}</Label>
-        <Input id={id} placeholder={placeholder} className="h-14 bg-background rounded-full px-5" {...props} />
+const FloatingLabelInput = ({ id, label, value, onChange, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, onChange: React.ChangeEventHandler<HTMLInputElement> }) => (
+    <div className="space-y-2">
+        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} onChange={onChange} {...props} />
     </div>
 );
+
+const FloatingLabelSelect = ({ id, label, value, onValueChange, children }: { id: string, label: string, value: string, onValueChange: (value: string) => void, children: React.ReactNode }) => (
+     <div className="space-y-2">
+        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Select name={id} value={value} onValueChange={onValueChange}>
+            <SelectTrigger id={id} className="h-14 bg-background rounded-full px-5">
+                <SelectValue placeholder={label.replace('*','')} />
+            </SelectTrigger>
+            <SelectContent>
+                {children}
+            </SelectContent>
+        </Select>
+    </div>
+)
 
 const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
+    const [name, setName] = useState('');
+    const [clientId, setClientId] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [currentLocation, setCurrentLocation] = useState('');
+    const [projectCost, setProjectCost] = useState('');
+    const [status, setStatus] = useState('');
+    const [dimension, setDimension] = useState('');
+    const [floor, setFloor] = useState('');
+    const [siteLocation, setSiteLocation] = useState('');
+    const [siteLocationLink, setSiteLocationLink] = useState('');
+    const [architect, setArchitect] = useState('');
+    const [siteSupervisor, setSiteSupervisor] = useState('');
+
 
     useEffect(() => {
         if (state.success) {
@@ -51,12 +79,12 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Personal details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="name" name="name" label="Name*" placeholder="Enter Full Name" />
-                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" placeholder="Enter Client ID" />
-                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" placeholder="Enter Phone Number" />
-                        <FloatingLabelInput id="email" name="email" label="Email*" placeholder="Enter email" type="email" />
+                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={e => setName(e.target.value)} />
+                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
+                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
+                        <FloatingLabelInput id="email" name="email" label="Email*" type="email" value={email} onChange={e => setEmail(e.target.value)} />
                         <div className="sm:col-span-2">
-                             <FloatingLabelInput id="current-location" name="current_location" label="Current location*" placeholder="Enter Current location" />
+                             <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
                         </div>
                     </div>
                 </div>
@@ -64,27 +92,19 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Project details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" placeholder="Enter Project Cost" />
-                        <div className="relative">
-                            <Label htmlFor="status" className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">Status*</Label>
-                            <Select name="status">
-                                <SelectTrigger id="status" className="h-14 bg-background rounded-full px-5">
-                                    <SelectValue placeholder="Select Status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="on-going">On Going</SelectItem>
-                                    <SelectItem value="delay">Delay</SelectItem>
-                                    <SelectItem value="completed">Completed</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <FloatingLabelInput id="dimension" name="dimension" label="Dimension*" placeholder="Site Dimension" />
-                        <FloatingLabelInput id="floor" name="floor" label="Floor*" placeholder="Add Floors" />
+                        <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={e => setProjectCost(e.target.value)} />
+                        <FloatingLabelSelect id="status" label="Status*" value={status} onValueChange={setStatus}>
+                            <SelectItem value="on-going">On Going</SelectItem>
+                            <SelectItem value="delay">Delay</SelectItem>
+                            <SelectItem value="completed">Completed</SelectItem>
+                        </FloatingLabelSelect>
+                        <FloatingLabelInput id="dimension" name="dimension" label="Dimension*" value={dimension} onChange={e => setDimension(e.target.value)} />
+                        <FloatingLabelInput id="floor" name="floor" label="Floor*" value={floor} onChange={e => setFloor(e.target.value)} />
                         <div className="sm:col-span-2">
-                             <FloatingLabelInput id="site-location" name="site_location" label="Site location*" placeholder="Add Site location" />
+                             <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
                         </div>
                          <div className="sm:col-span-2">
-                             <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site location link" placeholder="Paste Link here" />
+                             <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site location link" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
                         </div>
                     </div>
                 </div>
@@ -92,28 +112,12 @@ const AddProjectForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Project Assign</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="relative">
-                            <Label htmlFor="architect" className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">Architect*</Label>
-                            <Select name="architect">
-                                <SelectTrigger id="architect" className="h-14 bg-background rounded-full px-5">
-                                    <SelectValue placeholder="Select Architect" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                     <SelectItem value="darshan@habi.one">Darshan@habi.one</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="relative">
-                            <Label htmlFor="site-supervisor" className="absolute -top-3 left-4 bg-white px-1 text-sm text-gray-500 z-10">Site Supervisior*</Label>
-                             <Select name="site_supervisor">
-                                <SelectTrigger id="site-supervisor" className="h-14 bg-background rounded-full px-5">
-                                    <SelectValue placeholder="Select Supervisor" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="supervisor1">Supervisor 1</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                         <FloatingLabelSelect id="architect" label="Architect*" value={architect} onValueChange={setArchitect}>
+                             <SelectItem value="darshan@habi.one">Darshan@habi.one</SelectItem>
+                        </FloatingLabelSelect>
+                         <FloatingLabelSelect id="site-supervisor" label="Site Supervisior*" value={siteSupervisor} onValueChange={setSiteSupervisor}>
+                             <SelectItem value="supervisor1">Supervisor 1</SelectItem>
+                        </FloatingLabelSelect>
                     </div>
                 </div>
 
@@ -156,7 +160,7 @@ export function AddProjectSheet() {
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 bg-card",
+                        "p-0 bg-white",
                         isMobile
                             ? "w-full rounded-t-[50px]"
                             : "sm:max-w-3xl rounded-[50px]"
