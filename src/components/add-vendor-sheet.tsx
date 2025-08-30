@@ -13,18 +13,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X, Upload, Trash2, Edit } from "lucide-react";
+import { Plus, X, Upload, Trash2, Edit, ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { Textarea } from './ui/textarea';
 import Image from 'next/image';
 import { SuccessPopup } from './success-popup';
 
-const FormField = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
-    <div className="relative flex flex-col justify-start items-start gap-2">
+const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
+    <div className="space-y-2">
         <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Input id={id} className="w-full h-[54px] bg-input rounded-full px-6 text-lg" value={value} {...props} />
+        <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
     </div>
 );
 
@@ -100,7 +100,7 @@ const ServiceableCityInput = () => {
     );
 };
 
-const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) => void }) => {
+const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => {
     const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
     
     const [logo, setLogo] = useState<File | null>(null);
@@ -153,7 +153,7 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onVendorAdded(companyName || 'New Vendor');
+        onNext(companyName || 'New Vendor');
     };
 
     return (
@@ -168,28 +168,26 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                                 <Input id="logo-upload" type="file" className="hidden" onChange={handleFileChange(setLogo)} />
                             </label>
                             <div className="space-y-4 flex-1">
-                                <FormField id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
+                                <FloatingLabelInput id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
                             </div>
                         </div>
-                         <div className="relative flex flex-col justify-start items-start gap-2">
-                             <Label htmlFor="phone" className={cn("text-lg font-medium px-2", phoneNumber ? 'text-grey-1' : 'text-zinc-900')}>Phone Number*</Label>
-                             <Input 
-                                id="phone" 
-                                name="phone"
-                                type="tel" 
-                                placeholder="Enter phone number" 
-                                value={phoneNumber}
-                                onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
-                                className="w-full h-[54px] bg-input rounded-full px-6 text-lg" />
-                         </div>
-                         <FormField id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                         <FloatingLabelInput 
+                            id="phone" 
+                            name="phone"
+                            label="Phone Number*"
+                            type="tel" 
+                            placeholder="Enter phone number" 
+                            value={phoneNumber}
+                            onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
+                            />
+                         <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                          <div className="space-y-2">
                             <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
-                            <Textarea id="address" className="h-36 bg-input rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                            <Textarea id="address" className="h-36 bg-background rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                         </div>
                         <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
                         <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
-                        <FormField id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
+                        <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
                         <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name}/>
 
                         <ServiceableCityInput />
@@ -216,19 +214,20 @@ const AddVendorForm = ({ onVendorAdded }: { onVendorAdded: (vendorName: string) 
                     <div className="space-y-6">
                         <div className="rounded-3xl border border-stone-300 p-4 space-y-6">
                             <h3 className="text-lg font-medium">Account details</h3>
-                            <FormField id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
-                            <FormField id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
-                            <FormField id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
-                            <FormField id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
-                            <FormField id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
-                            <FormField id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
+                            <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
+                            <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
+                            <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
+                            <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
+                            <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
+                            <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                         </div>
                     </div>
                 </div>
                 
                 <div className="flex justify-end pt-8">
                     <Button type="submit" className="w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
-                        Add vendor & continue
+                        Next
+                        <ArrowRight className="ml-2 h-5 w-5"/>
                     </Button>
                 </div>
             </div>
@@ -269,8 +268,8 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
                     </div>
                 </div>
                 <div className="space-y-6">
-                    <FormField id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
-                    <FormField id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
+                    <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
+                    <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
                         <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
@@ -285,7 +284,16 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
     );
 };
 
-const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: string, materials: any[], setMaterials: React.Dispatch<React.SetStateAction<any[]>> }) => {
+const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: string, onBack: () => void, onVendorAdded: () => void }) => {
+    const [materials, setMaterials] = useState([
+        {
+            id: 1,
+            name: "Tata Steel",
+            price: "₹30,000",
+            description: "Brand: TATA, Diameter: 32 mm & above, Single Piece Length: 12 meter, Grade: Fe 550SD, Material: Carbon Steel, Yield Strength (Min): 620 MPa",
+            image: "https://placehold.co/100x100.png",
+        }
+    ]);
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
@@ -354,11 +362,11 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
                         </div>
                     </div>
                     <div className="space-y-6">
-                        <FormField id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
-                        <FormField id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
+                        <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
+                        <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                         <div className="space-y-2">
                             <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
-                            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
+                            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
                         </div>
                          <Button type="submit">
                             <Plus className="mr-2" />
@@ -386,6 +394,14 @@ const AddMaterialForm = ({ vendorName, materials, setMaterials }: { vendorName: 
                      ))}
                 </div>
             </div>
+             <div className="flex justify-between items-center pt-8">
+                <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
+                    Back
+                </Button>
+                <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                    Add vendor & continue
+                </Button>
+            </div>
         </div>
     )
 }
@@ -396,24 +412,24 @@ export function AddVendorSheet() {
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState<'addVendor' | 'addMaterials'>('addVendor');
     const [vendorName, setVendorName] = useState('');
-    const [materials, setMaterials] = useState([
-        {
-            id: 1,
-            name: "Tata Steel",
-            price: "₹30,000",
-            description: "Brand: TATA, Diameter: 32 mm & above, Single Piece Length: 12 meter, Grade: Fe 550SD, Material: Carbon Steel, Yield Strength (Min): 620 MPa",
-            image: "https://placehold.co/100x100.png",
-        }
-    ]);
 
-    const handleVendorAdded = (name: string) => {
+    const handleNext = (name: string) => {
         setVendorName(name);
+        setStep('addMaterials');
+    };
+
+    const handleBack = () => {
+        setStep('addVendor');
+    }
+
+    const handleVendorAdded = () => {
+        setIsOpen(false);
         setShowSuccess(true);
         setTimeout(() => {
-            setShowSuccess(false);
-            setStep('addMaterials');
-        }, 2000);
-    };
+            setStep('addVendor');
+            setVendorName('');
+        }, 500);
+    }
 
     const handleClose = () => {
         setIsOpen(false);
@@ -427,7 +443,7 @@ export function AddVendorSheet() {
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+    const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     return (
@@ -444,7 +460,7 @@ export function AddVendorSheet() {
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 rounded-[20px] bg-background",
+                        "p-0 rounded-[20px] bg-white",
                         isMobile 
                             ? "w-full rounded-t-3xl" 
                             : "md:max-w-4xl lg:max-w-6xl"
@@ -464,9 +480,9 @@ export function AddVendorSheet() {
                         </div>
                     </DialogOrSheetHeader>
                     {step === 'addVendor' ? (
-                        <AddVendorForm onVendorAdded={handleVendorAdded} />
+                        <AddVendorForm onNext={handleNext} />
                     ) : (
-                        <AddMaterialForm vendorName={vendorName} materials={materials} setMaterials={setMaterials} />
+                        <AddMaterialForm vendorName={vendorName} onBack={handleBack} onVendorAdded={handleVendorAdded} />
                     )}
                 </DialogOrSheetContent>
             </DialogOrSheet>
