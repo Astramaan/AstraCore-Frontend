@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, Plus, Calendar as CalendarIcon } from "lucide-react";
+import { PlusCircle, X, Plus, Calendar as CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
 import type { Meeting } from './edit-meeting-sheet';
 import { Switch } from './ui/switch';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -55,6 +56,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [phone, setPhone] = useState('');
     const [isManual, setIsManual] = useState(false);
     const [selectedId, setSelectedId] = useState('');
+    const [comboboxOpen, setComboboxOpen] = useState(false);
 
     useEffect(() => {
         if (!selectedId) {
@@ -160,18 +162,49 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             
             <div className="space-y-2">
                 <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead ID*</Label>
-                <Select onValueChange={setSelectedId} value={selectedId}>
-                    <SelectTrigger id="client-lead-id" className="h-14 bg-background rounded-full">
-                        <SelectValue placeholder="Select Client or Lead ID" />
-                    </SelectTrigger>
-                    <SelectContent>
-                         {allContacts.map(contact => (
-                            <SelectItem key={contact.id} value={contact.id}>
-                                {contact.name} ({contact.type === 'client' ? 'Client' : 'Lead'})
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={comboboxOpen}
+                            className="w-full justify-between h-14 bg-background rounded-full"
+                        >
+                            {selectedId
+                                ? allContacts.find((contact) => contact.id === selectedId)?.name
+                                : "Select Client or Lead..."}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                        <Command>
+                            <CommandInput placeholder="Search client or lead..." />
+                            <CommandList>
+                                <CommandEmpty>No results found.</CommandEmpty>
+                                <CommandGroup>
+                                    {allContacts.map((contact) => (
+                                        <CommandItem
+                                            key={contact.id}
+                                            value={contact.id}
+                                            onSelect={(currentValue) => {
+                                                setSelectedId(currentValue === selectedId ? "" : currentValue)
+                                                setComboboxOpen(false)
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    selectedId === contact.id ? "opacity-100" : "opacity-0"
+                                                )}
+                                            />
+                                            {contact.name} ({contact.type === 'client' ? 'Client' : 'Lead'})
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
             </div>
 
 
@@ -259,10 +292,9 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "bg-white",
             isMobile 
               ? "w-full p-0 rounded-t-[50px]" 
-              : "sm:max-w-2xl p-0 rounded-[50px]"
+              : "sm:max-w-2xl p-0 rounded-[50px] bg-white"
           )}
           {...(isMobile && { side: "bottom" })}
       >
