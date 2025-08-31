@@ -46,7 +46,7 @@ export default function VendorDetailsPage({ params }: { params: { id: string } }
     return (
         <div className="space-y-6">
              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-medium">Vendor Details</h2>
+                <h2 className="text-2xl font-medium">Details</h2>
                 <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
                     <Edit className="mr-2 h-5 w-5" />
                     Edit
