@@ -79,7 +79,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
 
                     <div className="space-y-2">
                         <Label className="text-lg font-medium px-2 text-grey-1">Serviceable City</Label>
-                        <div className="rounded-[20px] bg-background p-4 min-h-[56px]">
+                        <div className="bg-background p-4 min-h-[56px] rounded-[20px]">
                             <div className="flex flex-wrap gap-2">
                                 {vendor.serviceableCities.map((city: string) => (
                                     <div key={city} className="px-2.5 py-[5px] bg-white rounded-full">
