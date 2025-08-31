@@ -27,7 +27,7 @@ const DetailField = ({ label, value, isEditing, onChange, name, placeholder, typ
 
 const FileField = ({ label, fileName, isEditing, onFileChange }: { label: string; fileName: string | undefined, isEditing: boolean, onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const dummyPdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+    const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
 
     return (
         <div className="space-y-2">
