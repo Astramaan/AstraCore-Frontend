@@ -15,16 +15,30 @@ export async function authenticate(
         return 'Please provide both email and password.';
     }
 
-    // Simulate a successful login for any credentials since the
-    // backend API at localhost:4000 is not reachable from the server.
-    if (email && password) {
-      if (email === 'platform@admin.com') {
-        redirect('/platform/dashboard');
-      }
-      redirect('/organization/home');
+    // In a real app, you would use fetch to call your backend API for authentication.
+    // Note: localhost endpoints won't be reachable from the Next.js server environment in production.
+    // This is a conceptual implementation.
+    const response = await fetch('http://localhost:4000/api/v1/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        return errorData.message || 'Invalid credentials.';
     }
-
-    return "Invalid credentials.";
+    
+    const data = await response.json();
+    
+    // Assuming the API returns a role or user type to determine the redirect path
+    if (data.role === 'platform_admin') {
+        redirect('/platform/dashboard');
+    } else {
+        redirect('/organization/home');
+    }
     
   } catch (error) {
       if (error instanceof Error) {
@@ -32,6 +46,10 @@ export async function authenticate(
         // We must re-throw it to allow the redirect to happen.
         if (error.message === 'NEXT_REDIRECT') {
             throw error;
+        }
+        // Handle network errors or cases where the API is down
+        if (error.message.includes('fetch failed')) {
+            return "Could not connect to the authentication service. Please try again later.";
         }
         return error.message;
       }
