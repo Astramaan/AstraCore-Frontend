@@ -52,7 +52,7 @@ export const VendorMaterialsCard = ({ materials }: { materials: any[] }) => {
                     {filteredMaterials.map((material, index) => (
                         <React.Fragment key={material.id}>
                            <MaterialItem material={material} />
-                           {index < filteredMaterials.length - 1 && <Separator />}
+                           {index < filteredMaterials.length - 1 && <Separator style={{ backgroundColor: '#c0c0c0', height: '0.5px' }} />}
                         </React.Fragment>
                     ))}
                 </div>
