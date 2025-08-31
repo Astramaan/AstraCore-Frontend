@@ -194,7 +194,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                     <FloatingLabelTextarea id="address" label="Address*" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                     <FloatingLabelTextarea id="address" label="Address" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                     <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
                     <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
                     <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
@@ -398,22 +398,24 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                 <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                     Back
                 </Button>
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                                Notify Vendor
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>this will send the form to Vendor to add materials</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+                <div className="flex items-center gap-2">
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                                    Notify Vendor
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>this will send the form to Vendor to add materials</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                    Save
-                </Button>
+                    <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                        Save
+                    </Button>
+                </div>
             </div>
         </div>
     )
@@ -508,3 +510,4 @@ export function AddVendorSheet() {
         </>
     );
 }
+
