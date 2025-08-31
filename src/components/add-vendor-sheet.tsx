@@ -203,23 +203,24 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                       <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
-                       <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
-                    </div>
-
-                    <Separator className="my-6" />
-
-                    <div className="space-y-6">
-                        <h3 className="text-lg font-medium">Account details</h3>
-                        <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
-                        <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
-                        <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
-                        <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
-                        <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
-                        <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
+                        <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
                     </div>
                 </div>
+
+                <Separator className="my-6" />
+
+                <div className="space-y-6">
+                    <h3 className="text-lg font-medium">Account details</h3>
+                    <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
+                    <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
+                    <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
+                    <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
+                    <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
+                    <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
+                </div>
+
 
                 <div className="flex justify-end pt-8">
                     <Button type="submit" className="w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
