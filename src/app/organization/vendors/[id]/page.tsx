@@ -7,6 +7,7 @@ import { VendorMaterialsCard } from '@/components/vendor-materials-card';
 import { Button } from '@/components/ui/button';
 import { Edit, Save } from 'lucide-react';
 import React, { useState } from 'react';
+import { AddVendorSheet } from '@/components/add-vendor-sheet';
 
 const mockVendor = {
     id: "1",
@@ -46,45 +47,32 @@ export default function VendorDetailsPage({ params }: { params: { id: string } }
     const [vendor, setVendor] = useState(mockVendor);
     const [isEditing, setIsEditing] = useState(false);
     
-    const handleSave = () => {
-        setIsEditing(false);
+    const handleUpdate = (updatedVendor: any) => {
+        setVendor(updatedVendor);
         // Here you would typically save the vendor data
-        console.log("Saved Vendor Data:", vendor);
+        console.log("Updated Vendor Data:", updatedVendor);
     }
     
-    const handleCancel = () => {
-        setVendor(mockVendor); // Reset changes
-        setIsEditing(false);
-    }
-
     return (
         <div className="space-y-6">
              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-medium">Details</h2>
-                <div className="flex gap-4">
-                    {isEditing ? (
-                        <>
-                            <Button variant="outline" onClick={handleCancel} className="h-14 px-6 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
-                                Cancel
-                            </Button>
-                             <Button onClick={handleSave} className="h-14 px-6 rounded-full bg-primary text-white hover:bg-primary/90 text-lg font-medium">
-                                <Save className="mr-2 h-5 w-5" />
-                                Save
-                            </Button>
-                        </>
-                    ) : (
-                        <Button onClick={() => setIsEditing(true)} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                <AddVendorSheet 
+                    vendorToEdit={vendor}
+                    onVendorUpdated={handleUpdate}
+                    triggerButton={
+                         <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
                             <Edit className="mr-2 h-5 w-5" />
                             Edit
                         </Button>
-                    )}
-                </div>
+                    }
+                />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
-                <VendorDetailsCard vendor={vendor} setVendor={setVendor} isEditing={isEditing} />
+                <VendorDetailsCard vendor={vendor} setVendor={setVendor} isEditing={false} />
                 <div className="space-y-6 lg:w-[564px]">
-                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails) => setVendor(v => ({...v, accountDetails: newDetails}))} isEditing={isEditing} />
-                    <VendorMaterialsCard materials={vendor.materials} setMaterials={(newMaterials) => setVendor(v => ({...v, materials: newMaterials}))} isEditing={isEditing} />
+                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails) => setVendor(v => ({...v, accountDetails: newDetails}))} isEditing={false} />
+                    <VendorMaterialsCard materials={vendor.materials} setMaterials={(newMaterials) => setVendor(v => ({...v, materials: newMaterials}))} isEditing={false} />
                 </div>
             </div>
         </div>

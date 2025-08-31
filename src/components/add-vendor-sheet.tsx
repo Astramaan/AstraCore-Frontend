@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -73,8 +72,7 @@ const DayToggle = ({ day, selectedDays, onDayToggle }: { day: string, selectedDa
     )
 };
 
-const ServiceableCityInput = () => {
-    const [cities, setCities] = useState<string[]>(['Bengaluru']);
+const ServiceableCityInput = ({cities, setCities}: {cities: string[], setCities: (cities: string[]) => void}) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -115,26 +113,27 @@ const ServiceableCityInput = () => {
     );
 };
 
-const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => {
-    const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
+const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) => void, vendorToEdit?: any | null }) => {
+    const [selectedDays, setSelectedDays] = useState(vendorToEdit?.availability.days || ['M', 'T', 'W', 'Th', 'F']);
 
     const [logo, setLogo] = useState<File | null>(null);
-    const [companyName, setCompanyName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [email, setEmail] = useState('');
-    const [address, setAddress] = useState('');
+    const [companyName, setCompanyName] = useState(vendorToEdit?.companyName || '');
+    const [phoneNumber, setPhoneNumber] = useState(vendorToEdit?.phone || '');
+    const [email, setEmail] = useState(vendorToEdit?.email || '');
+    const [address, setAddress] = useState(vendorToEdit?.address || '');
     const [cinCert, setCinCert] = useState<File | null>(null);
     const [gstCert, setGstCert] = useState<File | null>(null);
-    const [gstNumber, setGstNumber] = useState('');
+    const [gstNumber, setGstNumber] = useState(vendorToEdit?.gstNumber || '');
     const [brochure, setBrochure] = useState<File | null>(null);
-    const [availableTimeFrom, setAvailableTimeFrom] = useState('');
-    const [availableTimeTo, setAvailableTimeTo] = useState('');
-    const [bankName, setBankName] = useState('');
-    const [accountHolder, setAccountHolder] = useState('');
-    const [accountNumber, setAccountNumber] = useState('');
-    const [confirmAccountNumber, setConfirmAccountNumber] = useState('');
-    const [ifscCode, setIfscCode] = useState('');
-    const [upiId, setUpiId] = useState('');
+    const [serviceableCities, setServiceableCities] = useState(vendorToEdit?.serviceableCities || ['Bengaluru']);
+    const [availableTimeFrom, setAvailableTimeFrom] = useState(vendorToEdit?.availability.time.split(' - ')[0] || '');
+    const [availableTimeTo, setAvailableTimeTo] = useState(vendorToEdit?.availability.time.split(' - ')[1] || '');
+    const [bankName, setBankName] = useState(vendorToEdit?.accountDetails.bankName || '');
+    const [accountHolder, setAccountHolder] = useState(vendorToEdit?.accountDetails.accountHolder || '');
+    const [accountNumber, setAccountNumber] = useState(vendorToEdit?.accountDetails.accountNumber || '');
+    const [confirmAccountNumber, setConfirmAccountNumber] = useState(vendorToEdit?.accountDetails.accountNumber || '');
+    const [ifscCode, setIfscCode] = useState(vendorToEdit?.accountDetails.ifscCode || '');
+    const [upiId, setUpiId] = useState(vendorToEdit?.accountDetails.upiId || '');
 
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/[^a-zA-Z\s]/g, ''));
@@ -195,12 +194,12 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                      <FloatingLabelTextarea id="address" label="Address" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
-                    <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
-                    <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
+                    <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name || vendorToEdit?.cinCertificate} />
+                    <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name || vendorToEdit?.gstCertificate} />
                     <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
-                    <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name}/>
+                    <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name || vendorToEdit?.brochure}/>
 
-                    <ServiceableCityInput />
+                    <ServiceableCityInput cities={serviceableCities} setCities={setServiceableCities} />
 
                      <div className="space-y-2">
                         <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
@@ -230,7 +229,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
 
                 <div className="flex justify-end pt-8">
                     <Button type="submit" className="w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
-                        Next
+                        {vendorToEdit ? 'Save & Next' : 'Next'}
                         <ArrowRight className="ml-2 h-5 w-5"/>
                     </Button>
                 </div>
@@ -288,8 +287,8 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
     );
 };
 
-const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: string, onBack: () => void, onVendorAdded: () => void }) => {
-    const [materials, setMaterials] = useState([
+const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }: { vendorName: string, onBack: () => void, onVendorAdded: () => void, initialMaterials?: any[] }) => {
+    const [materials, setMaterials] = useState(initialMaterials || [
         {
             id: 1,
             name: "Tata Steel",
@@ -421,12 +420,19 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
     )
 }
 
-export function AddVendorSheet() {
+interface AddVendorSheetProps {
+  vendorToEdit?: any | null;
+  onVendorUpdated?: (vendor: any) => void;
+  triggerButton?: React.ReactNode;
+}
+
+export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }: AddVendorSheetProps) {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState<'addVendor' | 'addMaterials'>('addVendor');
     const [vendorName, setVendorName] = useState('');
+    const isEditMode = !!vendorToEdit;
 
     const handleNext = (name: string) => {
         setVendorName(name);
@@ -439,7 +445,13 @@ export function AddVendorSheet() {
 
     const handleVendorAdded = () => {
         setIsOpen(false);
-        setShowSuccess(true);
+        if (isEditMode && onVendorUpdated) {
+            // onVendorUpdated(updatedData); // You'd pass the updated data here
+            // Don't show success popup on edit for now, or use a different one
+        } else {
+             setShowSuccess(true);
+        }
+       
         setTimeout(() => {
             setStep('addVendor');
             setVendorName('');
@@ -453,6 +465,11 @@ export function AddVendorSheet() {
             setVendorName('');
         }, 300);
     }
+    
+    const handleOpenChange = (open: boolean) => {
+        if (!open) handleClose();
+        else setIsOpen(true);
+    }
 
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
@@ -461,17 +478,20 @@ export function AddVendorSheet() {
     const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
+    const Trigger = triggerButton ? (
+        <div onClick={() => setIsOpen(true)}>{triggerButton}</div>
+    ) : (
+        <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+            <Plus className="mr-2 h-5 w-5" />
+            Add Vendor
+        </Button>
+    );
+
     return (
         <>
-            <DialogOrSheet open={isOpen} onOpenChange={(open) => {
-                if (!open) handleClose();
-                else setIsOpen(true);
-            }}>
+            <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
                 <DialogTrigger asChild>
-                    <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                        <Plus className="mr-2 h-5 w-5" />
-                        Add Vendor
-                    </Button>
+                    {Trigger}
                 </DialogTrigger>
                 <DialogOrSheetContent
                     className={cn(
@@ -485,7 +505,7 @@ export function AddVendorSheet() {
                     <DialogOrSheetHeader className="p-6 border-b">
                         <div className="flex items-center justify-between">
                             <DialogOrSheetTitle className="text-2xl font-semibold">
-                                {step === 'addVendor' ? 'Add New Vendor' : 'Add Materials'}
+                                {isEditMode ? 'Edit Vendor' : step === 'addVendor' ? 'Add New Vendor' : 'Add Materials'}
                             </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
                                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
@@ -495,19 +515,18 @@ export function AddVendorSheet() {
                         </div>
                     </DialogOrSheetHeader>
                     {step === 'addVendor' ? (
-                        <AddVendorForm onNext={handleNext} />
+                        <AddVendorForm onNext={handleNext} vendorToEdit={vendorToEdit} />
                     ) : (
-                        <AddMaterialForm vendorName={vendorName} onBack={handleBack} onVendorAdded={handleVendorAdded} />
+                        <AddMaterialForm vendorName={vendorName || vendorToEdit.companyName} onBack={handleBack} onVendorAdded={handleVendorAdded} initialMaterials={vendorToEdit?.materials} />
                     )}
                 </DialogOrSheetContent>
             </DialogOrSheet>
-            <SuccessPopup
+            {!isEditMode && <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
                 title="New Vendor Added!"
                 message="Vendor has been successfully added to your list."
-            />
+            />}
         </>
     );
 }
-
