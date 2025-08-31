@@ -11,7 +11,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, MoreVertical, Save, Edit } from "lucide-react";
+import { X, MoreVertical, Save, Edit, Trash2 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -80,6 +80,12 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
     const handleSelectChange = (value: string) => {
         setLead(prev => ({ ...prev, level: value }));
+    };
+
+    const handleRemoveSiteImage = (index: number) => {
+        const newImages = [...lead.siteImages];
+        newImages.splice(index, 1);
+        setLead(prev => ({ ...prev, siteImages: newImages }));
     };
     
     const handleSave = () => {
@@ -196,7 +202,18 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                     <h4 className="text-lg font-medium">Site Images</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {lead.siteImages.map((img, index) => (
-                            <Image key={index} src={img} width={150} height={150} alt={`Site image ${index+1}`} className="rounded-[10px] aspect-square object-cover" data-ai-hint="construction site photo" />
+                            <div key={index} className="relative group">
+                                <Image src={img} width={150} height={150} alt={`Site image ${index + 1}`} className="rounded-[10px] aspect-square object-cover" data-ai-hint="construction site photo" />
+                                {isEditing && (
+                                     <button 
+                                        onClick={() => handleRemoveSiteImage(index)}
+                                        className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                        aria-label="Remove image"
+                                    >
+                                        <Trash2 className="h-3 w-3" />
+                                    </button>
+                                )}
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -236,5 +253,6 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
+
 
 
