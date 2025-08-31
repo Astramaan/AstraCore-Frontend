@@ -21,10 +21,10 @@ import { Textarea } from './ui/textarea';
 import Image from 'next/image';
 import { SuccessPopup } from './success-popup';
 
-const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
+const FloatingLabelInput = ({ id, label, value, type, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, type?: string }) => (
     <div className="space-y-2">
         <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
+        <Input id={id} type={type} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
     </div>
 );
 
@@ -200,19 +200,14 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                          <div className="space-y-2">
                             <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
                             <div className="flex gap-2">
-                                {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
+                                {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={() => handleDayToggle(day)} />)}
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <Label className={cn("text-lg font-medium px-2", availableTimeFrom || availableTimeTo ? 'text-grey-1' : 'text-zinc-900')}>Available Time</Label>
-                            <div className="flex items-center gap-2 bg-input rounded-full h-[54px] px-4">
-                                <Input type="time" id="available-time-from" name="available-time-from" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
-                                <span>to</span>
-                                <Input type="time" id="available-time-to" name="available-time-to" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
-                            </div>
+                        <div className="grid grid-cols-2 gap-4">
+                           <FloatingLabelInput id="available-time-from" name="available-time-from" type="time" label="Available Time (From)" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
+                           <FloatingLabelInput id="available-time-to" name="available-time-to" type="time" label="Available Time (To)" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
                         </div>
-
                     </div>
 
                     {/* Right Column */}
