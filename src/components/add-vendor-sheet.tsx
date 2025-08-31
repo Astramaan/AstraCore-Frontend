@@ -29,6 +29,13 @@ const FloatingLabelInput = ({ id, label, value, type, ...props }: React.InputHTM
     </div>
 );
 
+const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string, value: string }) => (
+    <div className="space-y-2">
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Textarea id={id} className="h-36 bg-background rounded-3xl p-4" value={value} {...props} />
+    </div>
+)
+
 const FileUploadField = ({ label, id, onChange, fileName }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string }) => (
     <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input">
         <Label htmlFor={id} className="px-4 text-lg text-zinc-900 whitespace-nowrap">{label}</Label>
@@ -185,10 +192,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                     <div className="space-y-2">
-                        <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
-                        <Textarea id="address" className="h-36 bg-background rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
-                    </div>
+                     <FloatingLabelTextarea id="address" label="Address*" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                     <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
                     <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
                     <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
@@ -393,9 +397,12 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                     Back
                 </Button>
                 <div className="flex items-center gap-4">
-                    <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                        Notify
-                    </Button>
+                    <div className="text-center">
+                        <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                            Notify Vendor
+                        </Button>
+                        <p className="text-xs text-muted-foreground mt-1">this will send the form to Vendor to add materials</p>
+                    </div>
                     <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
                         Save
                     </Button>
@@ -494,5 +501,3 @@ export function AddVendorSheet() {
         </>
     );
 }
-
-    
