@@ -452,18 +452,18 @@ export function AddVendorSheet() {
                 if (!open) handleClose();
                 else setIsOpen(true);
             }}>
-                <DialogOrSheetTrigger asChild>
+                <DialogTrigger asChild>
                     <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
                         <Plus className="mr-2 h-5 w-5" />
                         Add Vendor
                     </Button>
-                </DialogOrSheetTrigger>
+                </DialogTrigger>
                 <DialogOrSheetContent
                     className={cn(
                         "p-0 rounded-[20px] bg-white",
                         isMobile
                             ? "w-full rounded-t-3xl"
-                            : "md:max-w-4xl lg:max-w-6xl"
+                            : "md:max-w-3xl"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
