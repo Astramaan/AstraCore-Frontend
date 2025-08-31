@@ -1,3 +1,5 @@
+
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -107,7 +109,6 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
-                    <p className="text-lg text-black">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
@@ -197,6 +198,17 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         );
     }, [allSnags, searchTerm]);
 
+    const groupedSnags = useMemo(() => {
+        return filteredSnags.reduce((acc, snag) => {
+            const projectKey = `${snag.projectName} (${snag.projectId})`;
+            if (!acc[projectKey]) {
+                acc[projectKey] = [];
+            }
+            acc[projectKey].push(snag);
+            return acc;
+        }, {} as Record<string, Snag[]>);
+    }, [filteredSnags]);
+
     const handleSelectionChange = (id: string, checked: boolean) => {
         setSelectedSnags(prev => 
             checked ? [...prev, id] : prev.filter(snagId => snagId !== id)
@@ -270,21 +282,28 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-            <Card className="rounded-[50px] overflow-hidden">
-                 <CardContent className="p-6">
-                    <div className="flex flex-col">
-                        {filteredSnags.map((snag) => (
-                            <SnagCard 
-                                key={snag.id} 
-                                snag={snag}
-                                isSelected={selectedSnags.includes(snag.id)}
-                                onSelectionChange={handleSelectionChange}
-                                onSingleDelete={handleSingleDelete}
-                            />
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+            <div className="space-y-6">
+                {Object.entries(groupedSnags).map(([projectKey, snags]) => (
+                    <Card key={projectKey} className="rounded-[50px] overflow-hidden">
+                        <div className="bg-muted px-6 py-4">
+                            <h3 className="text-xl font-semibold">{projectKey}</h3>
+                        </div>
+                        <CardContent className="p-6">
+                            <div className="flex flex-col">
+                                {snags.map((snag) => (
+                                    <SnagCard 
+                                        key={snag.id} 
+                                        snag={snag}
+                                        isSelected={selectedSnags.includes(snag.id)}
+                                        onSelectionChange={handleSelectionChange}
+                                        onSingleDelete={handleSingleDelete}
+                                    />
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
 
             <FloatingActionBar 
                 selectedCount={selectedSnags.length}
