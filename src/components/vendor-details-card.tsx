@@ -26,12 +26,20 @@ const DetailField = ({ label, value, isEditing, onChange, name, placeholder, typ
 
 const FileField = ({ label, fileName, isEditing, onFileChange }: { label: string; fileName: string | undefined, isEditing: boolean, onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const dummyPdfUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+
     return (
         <div className="space-y-2">
             <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
             <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                 <div className="p-2.5 bg-zinc-100 rounded-[10px] flex-1 flex justify-between items-center">
-                    <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
+                 <div className="p-2.5 bg-zinc-100 rounded-[15px] flex-1 flex justify-between items-center">
+                    {fileName && !isEditing ? (
+                        <a href={dummyPdfUrl} target="_blank" rel="noopener noreferrer" className="text-black text-sm font-normal truncate hover:underline">
+                            {fileName}
+                        </a>
+                    ) : (
+                         <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
+                    )}
                     {isEditing && (
                         <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-neutral-500 flex items-center gap-1">
                             <Upload className="w-4 h-4" />
