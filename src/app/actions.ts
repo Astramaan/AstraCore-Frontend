@@ -9,12 +9,16 @@ export async function authenticate(
 ) {
   try {
     const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
     // This is a mock authentication.
-    // In a real app, you would validate credentials.
-    if (email === 'platform@admin.com') {
+    // In a real app, you would validate credentials against a database.
+    if (email === 'platform@admin.com' && password === 'password') {
         redirect('/platform/dashboard');
-    } else {
+    } else if (email === 'user@example.com' && password === 'password') {
         redirect('/organization/home');
+    } else {
+        return 'Invalid credentials.';
     }
   } catch (error) {
       if (error instanceof Error) {
