@@ -1,11 +1,15 @@
 
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Label } from './ui/label';
 
 const DetailField = ({ label, value }: { label: string; value: string | undefined }) => (
-    <div className="relative rounded-[10px] border border-stone-300 h-14 px-4 flex items-center">
-        <label className="absolute -top-2.5 left-2 px-1 bg-white text-stone-400 text-sm">{label}</label>
-        <span>{value}</span>
+    <div className="space-y-2">
+        <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
+        <div className="h-14 flex items-center px-5 rounded-full bg-background">
+            <p className="text-black text-base leading-tight truncate">{value}</p>
+        </div>
     </div>
 );
 
