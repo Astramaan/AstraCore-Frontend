@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -187,7 +186,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                      <div className="space-y-2">
-                        <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+                        <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
                         <Textarea id="address" className="h-36 bg-background rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                     </div>
                     <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
@@ -247,7 +246,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
         setter(e.target.value.replace(/\D/g, ''));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.Event<HTMLFormElement>) => {
         e.preventDefault();
         onSave({
             ...material,
@@ -307,7 +306,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
         setter(e.target.value.replace(/\D/g, ''));
     };
 
-    const handleAdd = (e: React.FormEvent) => {
+    const handleAdd = (e: React.Event<HTMLFormElement>) => {
         e.preventDefault();
         if (!productName) return;
         const newMaterial = {
@@ -495,3 +494,5 @@ export function AddVendorSheet() {
         </>
     );
 }
+
+    
