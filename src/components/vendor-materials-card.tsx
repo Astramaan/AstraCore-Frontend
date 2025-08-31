@@ -27,7 +27,7 @@ export const VendorMaterialsCard = ({ materials }: { materials: any[] }) => {
             <CardContent className="p-0 space-y-4">
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-stone-300" />
-                    <Input placeholder="Search materials" className="pl-12 h-12 rounded-[10px] border-stone-300" />
+                    <Input placeholder="Search materials" className="pl-12 h-[54px] rounded-full border-0 bg-background" />
                 </div>
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
                     {materials.map((material, index) => (
