@@ -393,21 +393,19 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                      ))}
                 </div>
             </div>
-             <div className="flex justify-between items-center pt-8">
+             <div className="flex justify-between items-end pt-8">
                 <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                     Back
                 </Button>
-                <div className="flex items-center gap-4">
-                    <div className="text-center">
-                        <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                            Notify Vendor
-                        </Button>
-                        <p className="text-xs text-muted-foreground mt-1">this will send the form to Vendor to add materials</p>
-                    </div>
-                    <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                        Save
+                <div className="text-center">
+                    <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                        Notify Vendor
                     </Button>
+                    <p className="text-xs text-muted-foreground mt-1">this will send the form to Vendor to add materials</p>
                 </div>
+                <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                    Save
+                </Button>
             </div>
         </div>
     )
