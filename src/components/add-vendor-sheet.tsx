@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, Upload, Trash2, Edit, ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { Textarea } from './ui/textarea';
 import Image from 'next/image';
@@ -46,11 +46,16 @@ const FileUploadField = ({ label, id, onChange, fileName }: { label: string, id:
 const DayToggle = ({ day, selectedDays, onDayToggle }: { day: string, selectedDays: string[], onDayToggle: (day: string) => void }) => {
     const isActive = selectedDays.includes(day);
     return (
-        <Button 
+        <Button
             type="button"
-            size="icon" 
-            variant={isActive ? 'default' : 'outline'}
-            className={cn("w-9 h-9 rounded-full text-sm", isActive ? "bg-primary text-white" : "bg-input text-black border-input")}
+            size="icon"
+            variant="outline"
+            className={cn(
+                "w-9 h-9 rounded-full text-sm",
+                isActive
+                    ? "bg-primary text-white border-primary"
+                    : "bg-input text-black border-input"
+            )}
             onClick={() => onDayToggle(day)}
         >
             {day}
@@ -88,7 +93,7 @@ const ServiceableCityInput = () => {
                         </button>
                     </div>
                 ))}
-                <Input 
+                <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
@@ -102,7 +107,7 @@ const ServiceableCityInput = () => {
 
 const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => {
     const [selectedDays, setSelectedDays] = useState(['M', 'T', 'W', 'Th', 'F']);
-    
+
     const [logo, setLogo] = useState<File | null>(null);
     const [companyName, setCompanyName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -133,11 +138,11 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
             setter(value);
         }
     };
-    
+
     const handleAlphanumericChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
     };
-    
+
     const handleFileChange = (setter: React.Dispatch<React.SetStateAction<File | null>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             setter(e.target.files[0]);
@@ -146,7 +151,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
 
 
     const handleDayToggle = (day: string) => {
-        setSelectedDays(prev => 
+        setSelectedDays(prev =>
             prev.includes(day) ? prev.filter(d => d !== day) : [...prev, d]
         );
     }
@@ -171,12 +176,12 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                                 <FloatingLabelInput id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
                             </div>
                         </div>
-                         <FloatingLabelInput 
-                            id="phone" 
+                         <FloatingLabelInput
+                            id="phone"
                             name="phone"
                             label="Phone Number*"
-                            type="tel" 
-                            placeholder="Enter phone number" 
+                            type="tel"
+                            placeholder="Enter phone number"
                             value={phoneNumber}
                             onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
                             />
@@ -194,7 +199,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
 
                          <div className="space-y-2">
                             <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
-                            <div className="flex gap-2 p-2 bg-input rounded-full">
+                            <div className="flex gap-2">
                                 {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
                             </div>
                         </div>
@@ -207,7 +212,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                                 <Input type="time" id="available-time-to" name="available-time-to" className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 w-full" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
                             </div>
                         </div>
-                        
+
                     </div>
 
                     {/* Right Column */}
@@ -223,7 +228,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="flex justify-end pt-8">
                     <Button type="submit" className="w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
                         Next
@@ -247,7 +252,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
     const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/\D/g, ''));
     };
-    
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSave({
@@ -307,7 +312,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
     const handleNumberOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         setter(e.target.value.replace(/\D/g, ''));
     };
-    
+
     const handleAdd = (e: React.FormEvent) => {
         e.preventDefault();
         if (!productName) return;
@@ -328,12 +333,12 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
     const handleDelete = (id: number) => {
         setMaterials(prev => prev.filter(m => m.id !== id));
     }
-    
+
     const handleSaveEdit = (updatedMaterial: any) => {
         setMaterials(prev => prev.map(m => m.id === updatedMaterial.id ? updatedMaterial : m));
         setEditingMaterial(null);
     }
-    
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             setProductImage(e.target.files[0]);
@@ -444,7 +449,7 @@ export function AddVendorSheet() {
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
     return (
         <>
@@ -461,8 +466,8 @@ export function AddVendorSheet() {
                 <DialogOrSheetContent
                     className={cn(
                         "p-0 rounded-[20px] bg-white",
-                        isMobile 
-                            ? "w-full rounded-t-3xl" 
+                        isMobile
+                            ? "w-full rounded-t-3xl"
                             : "md:max-w-4xl lg:max-w-6xl"
                     )}
                     {...(isMobile && { side: "bottom" })}
@@ -486,7 +491,7 @@ export function AddVendorSheet() {
                     )}
                 </DialogOrSheetContent>
             </DialogOrSheet>
-            <SuccessPopup 
+            <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
                 title="New Vendor Added!"
