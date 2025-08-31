@@ -200,13 +200,13 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                          <div className="space-y-2">
                             <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
                             <div className="flex gap-2">
-                                {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={() => handleDayToggle(day)} />)}
+                                {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                           <FloatingLabelInput id="available-time-from" name="available-time-from" type="time" label="Available Time (From)" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
-                           <FloatingLabelInput id="available-time-to" name="available-time-to" type="time" label="Available Time (To)" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
+                           <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
+                           <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
                         </div>
                     </div>
 
@@ -272,7 +272,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
                     <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
-                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-input rounded-3xl" placeholder="Enter description"/>
+                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
                     </div>
                      <div className="flex gap-2">
                         <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
