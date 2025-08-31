@@ -368,7 +368,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                             <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
                             <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
                         </div>
-                         <Button type="submit">
+                         <Button type="submit" className="rounded-full">
                             <Plus className="mr-2" />
                             Add
                         </Button>
@@ -463,7 +463,7 @@ export function AddVendorSheet() {
                         "p-0 rounded-[20px] bg-white",
                         isMobile
                             ? "w-full rounded-t-3xl"
-                            : "md:max-w-3xl"
+                            : "md:max-w-2xl"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
