@@ -193,7 +193,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                     <FloatingLabelTextarea id="address" label="Address*" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                     <FloatingLabelTextarea id="address" label="Address" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                     <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
                     <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
                     <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
@@ -393,11 +393,11 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                      ))}
                 </div>
             </div>
-             <div className="flex justify-between items-end pt-8">
+             <div className="flex justify-between items-center pt-8">
                 <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                     Back
                 </Button>
-                <div className="flex items-end gap-4">
+                <div className="flex items-center gap-4">
                     <div className="text-center">
                         <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
                             Notify Vendor
