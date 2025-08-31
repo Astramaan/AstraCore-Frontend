@@ -152,7 +152,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
 
     const handleDayToggle = (day: string) => {
         setSelectedDays(prev =>
-            prev.includes(day) ? prev.filter(d => d !== day) : [...prev, d]
+            prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
         );
     }
 
