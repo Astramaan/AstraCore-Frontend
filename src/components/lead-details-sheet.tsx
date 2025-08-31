@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -11,7 +11,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, MoreVertical, Save, Edit, Trash2 } from "lucide-react";
+import { X, MoreVertical, Save, Edit, Trash2, UploadCloud } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -61,6 +61,7 @@ const DetailField = ({ label, value, isEditing, onChange, name, placeholder, typ
 const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditMode }: { lead: Lead, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void, startInEditMode?: boolean }) => {
     const [isEditing, setIsEditing] = useState(startInEditMode || false);
     const [lead, setLead] = useState(initialLead);
+    const siteImageUploadRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setLead(initialLead);
@@ -98,6 +99,17 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
         setLead(initialLead);
         setIsEditing(false);
     }
+    
+    const handleSiteImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const files = Array.from(e.target.files);
+            const newImageUrls = files.map(file => URL.createObjectURL(file));
+            setLead(prev => {
+                const updatedImages = [...prev.siteImages, ...newImageUrls].slice(0, 4);
+                return { ...prev, siteImages: updatedImages };
+            });
+        }
+    };
 
     return (
         <>
@@ -215,6 +227,25 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                                 )}
                             </div>
                         ))}
+                         {isEditing && lead.siteImages.length < 4 && (
+                            <div 
+                                className="w-full aspect-square rounded-[10px] border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer"
+                                onClick={() => siteImageUploadRef.current?.click()}
+                            >
+                                <UploadCloud className="h-8 w-8" />
+                                <span className="text-sm mt-2">Upload</span>
+                                <input
+                                    ref={siteImageUploadRef}
+                                    id="site-image-upload"
+                                    type="file"
+                                    className="hidden"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={handleSiteImageUpload}
+                                    disabled={lead.siteImages.length >= 4}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -253,6 +284,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
+
 
 
 
