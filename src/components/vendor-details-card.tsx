@@ -10,6 +10,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Upload, X } from 'lucide-react';
 import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
 
 const DetailField = ({ label, value, isEditing, onChange, name, placeholder, type = 'text' }: { label: string; value: string | undefined, isEditing: boolean, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, name: string, placeholder?: string, type?: string }) => (
     <div className="space-y-2">
@@ -32,13 +33,30 @@ const FileField = ({ label, fileName, isEditing, onFileChange }: { label: string
         <div className="space-y-2">
             <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
             <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                 <div className="p-2.5 bg-zinc-100 rounded-[15px] flex-1 flex justify-between items-center">
+                <div className="p-2.5 bg-zinc-100 rounded-[15px] flex-1 flex justify-between items-center">
                     {fileName && !isEditing ? (
-                        <a href={dummyPdfUrl} target="_blank" rel="noopener noreferrer" className="text-black text-sm font-normal truncate hover:underline">
-                            {fileName}
-                        </a>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <button className="text-black text-sm font-normal truncate hover:underline">
+                                    {fileName}
+                                </button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col">
+                                <DialogHeader className="p-4 border-b">
+                                    <DialogTitle>{fileName}</DialogTitle>
+                                     <DialogClose asChild>
+                                        <Button variant="ghost" size="icon" className="absolute right-4 top-4 rounded-full">
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </DialogClose>
+                                </DialogHeader>
+                                <div className="flex-1">
+                                    <iframe src={dummyPdfUrl} className="w-full h-full" title={fileName} />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     ) : (
-                         <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
+                        <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
                     )}
                     {isEditing && (
                         <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-neutral-500 flex items-center gap-1">
