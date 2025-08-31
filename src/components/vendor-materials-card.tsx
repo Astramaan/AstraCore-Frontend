@@ -19,7 +19,7 @@ const MaterialItem = ({ material }: { material: any }) => (
 
 export const VendorMaterialsCard = ({ materials }: { materials: any[] }) => {
     return (
-        <Card className="rounded-[20px] p-6">
+        <Card className="rounded-[50px] p-6">
             <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-lg">Materials</CardTitle>
             </CardHeader>

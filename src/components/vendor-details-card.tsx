@@ -48,7 +48,7 @@ const DayToggle = ({ day, selectedDays }: { day: string, selectedDays: string[] 
 
 export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
     return (
-        <Card className="rounded-[20px] p-6">
+        <Card className="rounded-[50px] p-6">
             <CardContent className="p-0">
                 <div className="flex items-start gap-6 mb-6">
                     <Image src={vendor.logo} width={150} height={150} alt={vendor.companyName} className="rounded-[10px] border border-stone-300" data-ai-hint="company logo"/>
