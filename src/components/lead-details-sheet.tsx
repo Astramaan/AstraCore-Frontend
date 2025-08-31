@@ -148,12 +148,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
             </DialogHeader>
 
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
-                <div className="relative h-36 rounded-[10px] overflow-hidden">
-                    <Image src={lead.coverImage} layout="fill" objectFit="cover" alt="Cover Image" data-ai-hint="abstract background"/>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                </div>
-
-                <div className="relative -mt-16 ml-4">
+                <div className="relative">
                     <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
                 </div>
                 
@@ -284,6 +279,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
+
 
 
 
