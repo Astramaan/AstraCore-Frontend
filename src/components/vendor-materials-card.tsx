@@ -11,7 +11,7 @@ import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 const MaterialItem = ({ material, isEditing, onEdit, onDelete }: { material: any, isEditing: boolean, onEdit: (material: any) => void, onDelete: (id: string) => void }) => (
-    <div className="flex items-center gap-4 p-4">
+    <div className="flex items-center gap-4">
         <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[25px] border border-stone-300" data-ai-hint="product image"/>
         <div className="flex-1 space-y-1">
             <p className="font-semibold">{material.name}</p>
