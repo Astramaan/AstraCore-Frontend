@@ -1,7 +1,6 @@
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useActionState, useEffect } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -348,31 +347,27 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
     return (
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
             <form onSubmit={handleAdd}>
-                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                 <div className="space-y-6">
                      <div className="lg:col-span-2">
                         <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
                      </div>
-                    <div className="space-y-6">
-                         <div className="space-y-2">
-                            <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
-                            <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
-                                {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
-                                <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
-                            </label>
-                        </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
+                        <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
+                            {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
+                            <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
+                        </label>
                     </div>
-                    <div className="space-y-6">
-                        <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
-                        <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
-                        <div className="space-y-2">
-                            <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
-                            <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
-                        </div>
-                         <Button type="submit" className="rounded-full">
-                            <Plus className="mr-2" />
-                            Add
-                        </Button>
+                    <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
+                    <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
+                    <div className="space-y-2">
+                        <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
+                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
                     </div>
+                    <Button type="submit" className="rounded-full">
+                        <Plus className="mr-2" />
+                        Add
+                    </Button>
                 </div>
             </form>
             <div className="border-t pt-6 mt-6">
@@ -463,7 +458,7 @@ export function AddVendorSheet() {
                         "p-0 rounded-[20px] bg-white",
                         isMobile
                             ? "w-full rounded-t-3xl"
-                            : "md:max-w-2xl"
+                            : "md:max-w-lg"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
