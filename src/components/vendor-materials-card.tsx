@@ -58,21 +58,21 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
                 <div className="flex-1 space-y-2">
                     <div>
                         <Label htmlFor="name">Product Name</Label>
-                        <Input id="name" name="name" value={editedMaterial.name} onChange={handleInputChange} />
+                        <Input id="name" name="name" value={editedMaterial.name} onChange={handleInputChange} className="rounded-full bg-background h-12" />
                     </div>
                      <div>
                         <Label htmlFor="price">Price</Label>
-                        <Input id="price" name="price" value={editedMaterial.price} onChange={handleInputChange} />
+                        <Input id="price" name="price" value={editedMaterial.price} onChange={handleInputChange} className="rounded-full bg-background h-12" />
                     </div>
                 </div>
             </div>
             <div>
                 <Label htmlFor="description">Description</Label>
-                <Textarea id="description" name="description" value={editedMaterial.description} onChange={handleInputChange} />
+                <Textarea id="description" name="description" value={editedMaterial.description} onChange={handleInputChange} className="rounded-[20px] bg-background" />
             </div>
             <div className="flex justify-end gap-2">
-                <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
-                <Button type="submit">
+                <Button type="button" variant="ghost" onClick={onCancel} className="rounded-full h-12 px-6">Cancel</Button>
+                <Button type="submit" className="rounded-full h-12 px-6">
                     <Save className="mr-2 h-4 w-4" />
                     Save Changes
                 </Button>
