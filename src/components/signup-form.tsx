@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useActionState } from "react";
+import { useActionState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import React, { useState, useEffect } from "react";
 import { signup } from "@/app/actions";

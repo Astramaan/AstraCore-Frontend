@@ -21,7 +21,7 @@ export default function OtpVerificationPage({ searchParams }: { searchParams: { 
             <div className="mb-6">
               <HabiLogo />
             </div>
-            <OtpForm />
+            <OtpForm searchParams={searchParams} />
         </div>
       </div>
 
@@ -48,7 +48,7 @@ export default function OtpVerificationPage({ searchParams }: { searchParams: { 
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <HabiLogo />
                     <div className="mt-8 flex-grow flex flex-col">
-                      <OtpForm />
+                      <OtpForm searchParams={searchParams} />
                     </div>
                 </div>
             </div>

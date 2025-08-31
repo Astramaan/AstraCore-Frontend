@@ -21,7 +21,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
             <div className="mb-6">
               <HabiLogo />
             </div>
-            <CreatePasswordForm />
+            <CreatePasswordForm searchParams={searchParams} />
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <HabiLogo />
                     <div className="mt-8 flex-grow flex flex-col">
-                      <CreatePasswordForm />
+                      <CreatePasswordForm searchParams={searchParams} />
                     </div>
                 </div>
             </div>

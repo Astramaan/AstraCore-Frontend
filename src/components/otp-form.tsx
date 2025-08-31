@@ -8,6 +8,7 @@ import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
+import { useFormStatus } from 'react-dom';
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -17,14 +18,17 @@ function SubmitButton({ pending }: { pending: boolean }) {
   );
 }
 
-export default function OtpForm() {
+export default function OtpForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [state, setState] = useState<{ error?: string } | undefined>(undefined);
-  const [pending, setPending] = useState(false);
+  const { pending, data } = useFormStatus();
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { toast } = useToast();
   const hasOtp = otp.some(d => d);
+  const email = searchParams.email || 'user@example.com';
+  
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (state?.error) {
@@ -47,51 +51,44 @@ export default function OtpForm() {
   }, []);
 
   const handleChange = (element: HTMLInputElement, index: number) => {
-    if (isNaN(Number(element.value))) return; // Allow only numbers
+    if (isNaN(Number(element.value))) return;
 
     const newOtp = [...otp];
     newOtp[index] = element.value;
     setOtp(newOtp);
 
-    // Focus next input
     if (element.value && index < 3) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    // Move to previous input on backspace if current input is empty
     if (e.key === "Backspace" && !otp[index] && index > 0) {
         inputRefs.current[index - 1]?.focus();
     }
   };
 
   const handleResend = () => {
-    // Add resend logic here
     console.log("Resending OTP...");
-    setTimer(28); // Reset timer
+    setTimer(28);
   };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setPending(true);
-    const formData = new FormData();
-    otp.forEach((digit, index) => {
-        // use a consistent key for the action
-        formData.append(`otp-${index}`, digit);
-    })
-    
-    const result = await verifyOtp(state, formData);
+  
+  const formAction = async (formData: FormData) => {
+    const result = await verifyOtp(undefined, formData);
     setState(result);
-    setPending(false);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 flex flex-col flex-grow">
+    <form ref={formRef} action={formAction} className="space-y-6 flex flex-col flex-grow">
+      <input type="hidden" name="email" value={searchParams.email || ''} />
+      <input type="hidden" name="phone" value={searchParams.phone || ''} />
+      <input type="hidden" name="organization" value={searchParams.organization || ''} />
+      <input type="hidden" name="password" value={searchParams.password || ''} />
+      
         <div className="flex-grow space-y-6">
             <div className="text-lg text-grey-1">
-                Check your inbox at user@example.com Incorrect email?{' '}
-                <a href="#" className="text-primary underline hover:text-primary/80">
+                Check your inbox at {email}. Incorrect email?{' '}
+                <a href="/signup" className="text-primary underline hover:text-primary/80">
                     Edit it
                 </a>
             </div>
@@ -103,7 +100,7 @@ export default function OtpForm() {
                     <Input
                         key={index}
                         type="text"
-                        name={`otp-${index}`}
+                        name="otp"
                         maxLength={1}
                         value={data}
                         onChange={(e) => handleChange(e.target, index)}

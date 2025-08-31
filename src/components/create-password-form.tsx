@@ -23,7 +23,7 @@ function SubmitButton() {
   );
 }
 
-export default function CreatePasswordForm() {
+export default function CreatePasswordForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [state, action] = useActionState(createPassword, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
@@ -44,6 +44,10 @@ export default function CreatePasswordForm() {
     <>
       <h2 className="text-lg text-grey-1 tracking-tight mb-8">You're almost there.<br/>Create your password.</h2>
       <form action={action} className="flex-grow flex flex-col">
+        <input type="hidden" name="email" value={searchParams.email || ''} />
+        <input type="hidden" name="phone" value={searchParams.phone || ''} />
+        <input type="hidden" name="organization" value={searchParams.organization || ''} />
+        
         <div className="flex-grow">
           <div className="space-y-2">
             <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Create your password</Label>

@@ -15,9 +15,6 @@ export async function authenticate(
         return 'Please provide both email and password.';
     }
 
-    // In a real app, you would use fetch to call your backend API for authentication.
-    // Note: localhost endpoints won't be reachable from the Next.js server environment in production.
-    // This is a conceptual implementation.
     const response = await fetch('http://localhost:4000/api/v1/login', {
         method: 'POST',
         headers: {
@@ -27,13 +24,16 @@ export async function authenticate(
     });
     
     if (!response.ok) {
-        const errorData = await response.json();
-        return errorData.message || 'Invalid credentials.';
+        try {
+            const errorData = await response.json();
+            return errorData.message || 'Invalid credentials.';
+        } catch (e) {
+            return 'Invalid credentials.';
+        }
     }
     
     const data = await response.json();
     
-    // Assuming the API returns a role or user type to determine the redirect path
     if (data.role === 'platform_admin') {
         redirect('/platform/dashboard');
     } else {
@@ -42,23 +42,20 @@ export async function authenticate(
     
   } catch (error) {
       if (error instanceof Error) {
-        // This is a special error thrown by Next.js to trigger a redirect.
-        // We must re-throw it to allow the redirect to happen.
-        if (error.message === 'NEXT_REDIRECT') {
+        if (error.message.includes('NEXT_REDIRECT')) {
             throw error;
         }
-        // Handle network errors or cases where the API is down
         if (error.message.includes('fetch failed')) {
             return "Could not connect to the authentication service. Please try again later.";
         }
-        return error.message;
+        return 'An unexpected error occurred during login.';
       }
       return 'An unexpected error occurred.';
   }
 }
 
 export async function signup(
-  prevState: string | undefined,
+  prevState: any,
   formData: FormData
 ) {
   try {
@@ -67,22 +64,16 @@ export async function signup(
     const organization = formData.get('organization') as string;
     const password = formData.get('password') as string;
 
-    // In a real app, you would use fetch to call your backend API
-    // Note: localhost endpoints won't be reachable from the Next.js server environment in production.
-    // This is a conceptual implementation.
-    
-    // 1. Check if email exists
-    const checkEmailRes = await fetch('http://localhost:4000/api/v1/check-email-existed', {
+     const checkEmailRes = await fetch('http://localhost:4000/api/v1/check-email-existed', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
     });
 
-    if (checkEmailRes.status === 409) { // Assuming 409 Conflict for existing email
-      return 'An account with this email already exists.';
+    if (checkEmailRes.status === 409) {
+      return { error: 'An account with this email already exists.' };
     }
 
-    // 2. Send OTP
     const otpRes = await fetch('http://localhost:4000/api/v1/send-otp-email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -91,19 +82,17 @@ export async function signup(
     
     if (!otpRes.ok) {
         const errorData = await otpRes.json();
-        return errorData.message || 'Failed to send OTP.';
+        return { error: errorData.message || 'Failed to send OTP.' };
     }
 
-    // For now, we'll continue to redirect to OTP verification page.
-    // In a real app, you might store the other form data in a session or cookie.
-    redirect('/otp-verification');
+    redirect(`/otp-verification?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&organization=${encodeURIComponent(organization)}&password=${encodeURIComponent(password)}`);
 
   } catch (error) {
-    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
       throw error;
     }
     console.error('Signup error:', error);
-    return 'An unexpected error occurred during signup.';
+    return { error: 'An unexpected error occurred during signup.' };
   }
 }
 
@@ -112,18 +101,17 @@ export async function verifyOtp(
     formData: FormData
 ): Promise<{ error?: string } | undefined> {
     try {
-        const otp = Array.from(formData.values()).join('');
-        console.log(`Verifying OTP: ${otp}`);
+        const otp = Array.from(formData.getAll('otp')).join('');
+        const email = formData.get('email') as string;
 
         if (otp.length < 4 || !/^\d+$/.test(otp)) {
           return { error: 'Invalid OTP format. Please enter 4 digits.' };
         }
         
-        // In a real app, you'd also pass the user identifier (e.g., email from session)
         const verifyRes = await fetch('http://localhost:4000/api/v1/verify-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ otp /*, email: userEmail */ }),
+            body: JSON.stringify({ otp, email }),
         });
         
         if (!verifyRes.ok) {
@@ -132,14 +120,19 @@ export async function verifyOtp(
         }
 
     } catch (error) {
-        if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+        if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
           throw error;
         }
         console.error('OTP Verification error:', error);
         return { error: 'Failed to verify OTP.' };
     }
-    // Redirect on success
-    redirect('/create-password');
+    
+    const phone = formData.get('phone') as string;
+    const organization = formData.get('organization') as string;
+    const password = formData.get('password') as string;
+    const email = formData.get('email') as string;
+
+    redirect(`/create-password?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&organization=${encodeURIComponent(organization)}&password=${encodeURIComponent(password)}`);
 }
 
 
@@ -158,7 +151,7 @@ export async function createSnag(
 }
 
 export async function requestPasswordReset(
-  prevState: string | undefined,
+  prevState: any,
   formData: FormData
 ) {
   try {
@@ -172,16 +165,19 @@ export async function requestPasswordReset(
 }
 
 export async function createPassword(
-  prevState: string | undefined,
+  prevState: any,
   formData: FormData
 ) {
   try {
     const password = formData.get('password');
-    // In a real app, you'd also pass the user identifier (e.g., email from session)
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+    const organization = formData.get('organization');
+
     const createPassRes = await fetch('http://localhost:4000/api/v1/create-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password /*, email: userEmail */ }),
+        body: JSON.stringify({ password, email, phone, organization }),
     });
 
     if (!createPassRes.ok) {
@@ -191,7 +187,7 @@ export async function createPassword(
 
     redirect('/password-success');
   } catch (error) {
-     if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
       throw error;
     }
     console.error('Create Password error:', error);
