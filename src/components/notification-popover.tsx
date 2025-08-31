@@ -52,7 +52,7 @@ export function NotificationPopover() {
                     <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 md:w-96 p-2 rounded-[20px]" align="end">
+            <PopoverContent className="w-80 md:w-96 p-2 rounded-[20px] bg-white" align="end">
                 <div className="p-4">
                     <h3 className="text-lg font-semibold">Notifications</h3>
                 </div>
