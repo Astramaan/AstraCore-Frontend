@@ -51,7 +51,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
         <Card className="rounded-[50px] p-10">
             <CardContent className="p-0">
                 <div className="flex items-start gap-6 mb-6">
-                    <Image src={vendor.logo} width={150} height={150} alt={vendor.companyName} className="rounded-[10px] border border-stone-300" data-ai-hint="company logo"/>
+                    <Image src={vendor.logo} width={150} height={150} alt={vendor.companyName} className="rounded-[15px] border border-stone-300" data-ai-hint="company logo"/>
                     <div className="space-y-6 flex-1">
                         <DetailField label="Company Name*" value={vendor.companyName} />
                         <DetailField label="Phone Number*" value={vendor.phone} />
@@ -62,7 +62,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
                     <DetailField label="Email*" value={vendor.email} />
                     <div className="space-y-2">
                         <Label className="text-lg font-medium px-2 text-grey-1">Address*</Label>
-                        <div className="rounded-[20px] bg-background p-4 min-h-[96px]">
+                        <div className="rounded-[15px] bg-background p-4 min-h-[96px]">
                              <p>{vendor.address}</p>
                         </div>
                     </div>
@@ -79,7 +79,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
 
                     <div className="space-y-2">
                         <Label className="text-lg font-medium px-2 text-grey-1">Serviceable City</Label>
-                        <div className="bg-background p-4 min-h-[56px] rounded-[20px]">
+                        <div className="bg-background p-4 min-h-[56px] rounded-[15px]">
                             <div className="flex flex-wrap gap-2">
                                 {vendor.serviceableCities.map((city: string) => (
                                     <div key={city} className="px-2.5 py-[5px] bg-white rounded-full">

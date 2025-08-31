@@ -7,7 +7,7 @@ import { Search, MoreVertical } from 'lucide-react';
 import Image from 'next/image';
 
 const MaterialItem = ({ material }: { material: any }) => (
-    <div className="flex items-center gap-4 p-4 rounded-[10px] border border-stone-300">
+    <div className="flex items-center gap-4 p-4 rounded-[15px] border border-stone-300">
         <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image"/>
         <div className="flex-1 space-y-1">
             <p className="font-semibold">{material.name}</p>
