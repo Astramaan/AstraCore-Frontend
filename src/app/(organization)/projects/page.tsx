@@ -60,14 +60,16 @@ const completedProjects = [
 const ProjectListItem = ({ project, isLast = false }: { project: typeof activeProjects[0], isLast?: boolean }) => (
      <div className="flex flex-col">
         <div className="flex justify-between items-center py-4">
-            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer group">
-                <Avatar className="w-14 h-14">
-                    <AvatarImage src={project.image} data-ai-hint="abstract building" />
-                    <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="w-44">
-                    <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
-                    <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black">{project.city}</span></p>
+            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
+                <div className="flex items-center gap-4 flex-1">
+                    <Avatar className="w-14 h-14">
+                        <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                        <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="w-44">
+                        <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
+                        <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black">{project.city}</span></p>
+                    </div>
                 </div>
                  <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
                 <div className="hidden md:flex flex-col gap-2 w-96">
