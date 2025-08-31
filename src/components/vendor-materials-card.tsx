@@ -1,5 +1,7 @@
 
-import React from 'react';
+'use client';
+
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Search, MoreVertical } from 'lucide-react';
@@ -19,6 +21,18 @@ const MaterialItem = ({ material }: { material: any }) => (
 );
 
 export const VendorMaterialsCard = ({ materials }: { materials: any[] }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredMaterials = useMemo(() => {
+        if (!searchTerm) {
+            return materials;
+        }
+        return materials.filter(material =>
+            material.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            material.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }, [materials, searchTerm]);
+
     return (
         <Card className="rounded-[50px] p-10">
             <CardHeader className="p-0 mb-4">
@@ -27,13 +41,18 @@ export const VendorMaterialsCard = ({ materials }: { materials: any[] }) => {
             <CardContent className="p-0 space-y-4">
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-stone-300" />
-                    <Input placeholder="Search materials" className="pl-12 h-[54px] rounded-full border-0 bg-background" />
+                    <Input 
+                        placeholder="Search materials" 
+                        className="pl-12 h-[54px] rounded-full border-0 bg-background"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                 </div>
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                    {materials.map((material, index) => (
+                    {filteredMaterials.map((material, index) => (
                         <React.Fragment key={material.id}>
                            <MaterialItem material={material} />
-                           {index < materials.length - 1 && <Separator />}
+                           {index < filteredMaterials.length - 1 && <Separator />}
                         </React.Fragment>
                     ))}
                 </div>
