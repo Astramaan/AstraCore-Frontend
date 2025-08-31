@@ -37,6 +37,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [pincode, setPincode] = useState('');
 
     useEffect(() => {
         if (state.success) {
@@ -57,6 +58,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                     <FloatingLabelInput id="full-name" name="name" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                     <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={(e) => setPincode(e.target.value)} />
                 </div>
                 
                 <div className="flex justify-center pt-8">
