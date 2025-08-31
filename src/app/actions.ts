@@ -9,44 +9,17 @@ export async function authenticate(
 ) {
   try {
     const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    if (!email || !password) {
-        return 'Please provide both email and password.';
-    }
-
-    const response = await fetch('http://localhost:4000/api/v1/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-    });
-    
-    if (!response.ok) {
-        try {
-            const errorData = await response.json();
-            return errorData.message || 'Invalid credentials.';
-        } catch (e) {
-            return 'Invalid credentials.';
-        }
-    }
-    
-    const data = await response.json();
-    
-    if (data.role === 'platform_admin') {
+    // This is a mock authentication.
+    // In a real app, you would validate credentials.
+    if (email === 'platform@admin.com') {
         redirect('/platform/dashboard');
     } else {
         redirect('/organization/home');
     }
-    
   } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('NEXT_REDIRECT')) {
             throw error;
-        }
-        if (error.message.includes('fetch failed')) {
-            return "Could not connect to the authentication service. Please try again later.";
         }
         return 'An unexpected error occurred during login.';
       }
@@ -63,28 +36,8 @@ export async function signup(
     const phone = formData.get('phone') as string;
     const organization = formData.get('organization') as string;
     const password = formData.get('password') as string;
-
-     const checkEmailRes = await fetch('http://localhost:4000/api/v1/check-email-existed', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
-
-    if (checkEmailRes.status === 409) {
-      return { error: 'An account with this email already exists.' };
-    }
-
-    const otpRes = await fetch('http://localhost:4000/api/v1/send-otp-email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
     
-    if (!otpRes.ok) {
-        const errorData = await otpRes.json();
-        return { error: errorData.message || 'Failed to send OTP.' };
-    }
-
+    // Mock action: Redirect to OTP page
     redirect(`/otp-verification?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&organization=${encodeURIComponent(organization)}&password=${encodeURIComponent(password)}`);
 
   } catch (error) {
@@ -100,38 +53,12 @@ export async function verifyOtp(
     prevState: { error?: string } | undefined,
     formData: FormData
 ): Promise<{ error?: string } | undefined> {
-    try {
-        const otp = Array.from(formData.getAll('otp')).join('');
-        const email = formData.get('email') as string;
-
-        if (otp.length < 4 || !/^\d+$/.test(otp)) {
-          return { error: 'Invalid OTP format. Please enter 4 digits.' };
-        }
-        
-        const verifyRes = await fetch('http://localhost:4000/api/v1/verify-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ otp, email }),
-        });
-        
-        if (!verifyRes.ok) {
-            const errorData = await verifyRes.json();
-            return { error: errorData.message || 'Invalid OTP. Please try again.' };
-        }
-
-    } catch (error) {
-        if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-          throw error;
-        }
-        console.error('OTP Verification error:', error);
-        return { error: 'Failed to verify OTP.' };
-    }
-    
     const phone = formData.get('phone') as string;
     const organization = formData.get('organization') as string;
     const password = formData.get('password') as string;
     const email = formData.get('email') as string;
 
+    // Mock action: Redirect to create password page
     redirect(`/create-password?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&organization=${encodeURIComponent(organization)}&password=${encodeURIComponent(password)}`);
 }
 
@@ -170,21 +97,8 @@ export async function createPassword(
 ) {
   try {
     const password = formData.get('password');
-    const email = formData.get('email');
-    const phone = formData.get('phone');
-    const organization = formData.get('organization');
-
-    const createPassRes = await fetch('http://localhost:4000/api/v1/create-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password, email, phone, organization }),
-    });
-
-    if (!createPassRes.ok) {
-        const errorData = await createPassRes.json();
-        return { error: errorData.message || 'Failed to create password.' };
-    }
-
+    // In a real app, you would save the password to a database.
+    console.log(`Creating password: ${password}`);
     redirect('/password-success');
   } catch (error) {
      if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
