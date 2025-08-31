@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { Textarea } from './ui/textarea';
 import { Calendar } from './ui/calendar';
+import { Separator } from './ui/separator';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -645,6 +646,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                             className="h-[54px] bg-background rounded-full px-6 text-lg"
                         />
                     </div>
+                    <Separator className="my-4" />
                     {stages.map((stage, index) => (
                         <div key={stage.id} className="space-y-2">
                              <Label htmlFor={`stage-name-${stage.id}`} className={cn("text-lg font-medium px-2", stage.name ? "text-grey-1" : "text-black")}>
