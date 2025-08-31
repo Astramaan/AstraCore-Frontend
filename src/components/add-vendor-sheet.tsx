@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from './ui/textarea';
 import Image from 'next/image';
 import { SuccessPopup } from './success-popup';
+import { Separator } from './ui/separator';
 
 const FloatingLabelInput = ({ id, label, value, type, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, type?: string }) => (
     <div className="space-y-2">
@@ -207,7 +208,9 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                        <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
                     </div>
 
-                    <div className="rounded-3xl border border-stone-300 p-4 space-y-6">
+                    <Separator className="my-6" />
+
+                    <div className="space-y-6">
                         <h3 className="text-lg font-medium">Account details</h3>
                         <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
                         <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
@@ -453,7 +456,7 @@ export function AddVendorSheet() {
                         "p-0 rounded-[20px] bg-white",
                         isMobile
                             ? "w-full rounded-t-3xl"
-                            : "md:max-w-2xl"
+                            : "md:max-w-md"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
