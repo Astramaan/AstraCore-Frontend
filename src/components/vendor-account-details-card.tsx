@@ -15,7 +15,7 @@ const DetailField = ({ label, value }: { label: string; value: string | undefine
 
 export const VendorAccountDetailsCard = ({ details }: { details: any }) => {
     return (
-        <Card className="rounded-[50px] p-6">
+        <Card className="rounded-[50px] p-10">
             <CardHeader className="p-0 mb-6">
                 <CardTitle className="text-lg">Account details</CardTitle>
             </CardHeader>
