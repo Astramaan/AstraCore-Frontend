@@ -457,7 +457,7 @@ export function AddVendorSheet() {
                         "p-0 rounded-[20px] bg-white",
                         isMobile
                             ? "w-full rounded-t-3xl"
-                            : "md:max-w-md"
+                            : "md:max-w-2xl"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
@@ -489,3 +489,4 @@ export function AddVendorSheet() {
         </>
     );
 }
+
