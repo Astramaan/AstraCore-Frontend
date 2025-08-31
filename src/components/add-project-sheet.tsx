@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -463,7 +464,7 @@ const ProjectTimelineForm = ({
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="flex justify-start items-center gap-6 w-full">
+                        <div className="flex justify-start items-center gap-4 w-full">
                             <div className="w-full sm:w-64">
                                 <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                     {templates.map(template => (
@@ -473,7 +474,7 @@ const ProjectTimelineForm = ({
                                 </FloatingLabelSelect>
                             </div>
                            
-                             <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
+                             <Button type="button" variant="outline" className="h-14 rounded-full mt-auto" onClick={handleEditTemplate}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit Timeline
                             </Button>
