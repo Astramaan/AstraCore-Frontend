@@ -1,10 +1,12 @@
 
+'use client';
+
 import { VendorDetailsCard } from '@/components/vendor-details-card';
 import { VendorAccountDetailsCard } from '@/components/vendor-account-details-card';
 import { VendorMaterialsCard } from '@/components/vendor-materials-card';
 import { Button } from '@/components/ui/button';
-import { Edit } from 'lucide-react';
-import React from 'react';
+import { Edit, Save } from 'lucide-react';
+import React, { useState } from 'react';
 
 const mockVendor = {
     id: "1",
@@ -41,22 +43,48 @@ const mockVendor = {
 
 export default function VendorDetailsPage({ params }: { params: { id: string } }) {
     // In a real app, you would fetch vendor data based on params.id
-    const vendor = mockVendor;
+    const [vendor, setVendor] = useState(mockVendor);
+    const [isEditing, setIsEditing] = useState(false);
+    
+    const handleSave = () => {
+        setIsEditing(false);
+        // Here you would typically save the vendor data
+        console.log("Saved Vendor Data:", vendor);
+    }
+    
+    const handleCancel = () => {
+        setVendor(mockVendor); // Reset changes
+        setIsEditing(false);
+    }
 
     return (
         <div className="space-y-6">
              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-medium">Details</h2>
-                <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                    <Edit className="mr-2 h-5 w-5" />
-                    Edit
-                </Button>
+                <div className="flex gap-4">
+                    {isEditing ? (
+                        <>
+                            <Button variant="outline" onClick={handleCancel} className="h-14 px-6 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
+                                Cancel
+                            </Button>
+                             <Button onClick={handleSave} className="h-14 px-6 rounded-full bg-primary text-white hover:bg-primary/90 text-lg font-medium">
+                                <Save className="mr-2 h-5 w-5" />
+                                Save
+                            </Button>
+                        </>
+                    ) : (
+                        <Button onClick={() => setIsEditing(true)} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                            <Edit className="mr-2 h-5 w-5" />
+                            Edit
+                        </Button>
+                    )}
+                </div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
-                <VendorDetailsCard vendor={vendor} />
+                <VendorDetailsCard vendor={vendor} setVendor={setVendor} isEditing={isEditing} />
                 <div className="space-y-6 lg:w-[564px]">
-                    <VendorAccountDetailsCard details={vendor.accountDetails} />
-                    <VendorMaterialsCard materials={vendor.materials} />
+                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails) => setVendor(v => ({...v, accountDetails: newDetails}))} isEditing={isEditing} />
+                    <VendorMaterialsCard materials={vendor.materials} setMaterials={(newMaterials) => setVendor(v => ({...v, materials: newMaterials}))} isEditing={isEditing} />
                 </div>
             </div>
         </div>
