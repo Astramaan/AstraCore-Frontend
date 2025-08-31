@@ -634,7 +634,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="p-6 space-y-4 overflow-y-auto flex-1">
+                <div className="flex-1 p-6 space-y-4 overflow-y-auto">
                     <div className="space-y-2">
                          <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? 'text-grey-1' : 'text-black')}>Template Name*</Label>
                         <Input
