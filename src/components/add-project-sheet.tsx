@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus, GripVertical } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus, GripVertical, Calendar as CalendarIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { Textarea } from './ui/textarea';
+import { Calendar } from './ui/calendar';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -416,6 +417,7 @@ const ProjectTimelineForm = ({
     const { toast } = useToast();
     const [state, formAction] = useActionState(addProject, { success: false, message: '' });
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
+    const [startDate, setStartDate] = useState<Date | undefined>();
     
     const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
     const stages = selectedTemplate?.stages || [];
@@ -464,8 +466,8 @@ const ProjectTimelineForm = ({
             <form action={formAction}>
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
-                        <div className="flex justify-start items-center gap-4 w-full">
-                            <div className="w-full sm:w-64">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                            <div className="w-full">
                                 <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                     {templates.map(template => (
                                         <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
@@ -473,8 +475,32 @@ const ProjectTimelineForm = ({
                                     <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
                                 </FloatingLabelSelect>
                             </div>
-                           
-                             <Button type="button" variant="outline" className="h-14 rounded-full mt-auto" onClick={handleEditTemplate}>
+                           <div className="space-y-2">
+                                <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                                !startDate && "text-muted-foreground"
+                                            )}
+                                        >
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Calendar
+                                            mode="single"
+                                            selected={startDate}
+                                            onSelect={setStartDate}
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                             <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit Timeline
                             </Button>
@@ -753,3 +779,4 @@ export function AddProjectSheet() {
         </>
     );
 }
+
