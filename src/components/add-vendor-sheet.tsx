@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -186,7 +187,7 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                      <div className="space-y-2">
-                        <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
+                        <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
                         <Textarea id="address" className="h-36 bg-background rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                     </div>
                     <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
@@ -392,9 +393,14 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                 <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                     Back
                 </Button>
-                <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                    Add vendor & continue
-                </Button>
+                <div className="flex items-center gap-4">
+                    <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                        Notify
+                    </Button>
+                    <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                        Save
+                    </Button>
+                </div>
             </div>
         </div>
     )
@@ -489,4 +495,3 @@ export function AddVendorSheet() {
         </>
     );
 }
-
