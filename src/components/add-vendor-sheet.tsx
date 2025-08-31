@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -163,63 +164,57 @@ const AddVendorForm = ({ onNext }: { onNext: (vendorName: string) => void }) => 
     return (
         <form onSubmit={handleSubmit}>
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Left Column */}
-                    <div className="space-y-6">
-                        <div className="flex gap-4 items-center">
-                            <label htmlFor="logo-upload" className="w-24 h-24 bg-input rounded-2xl border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
-                                {logo ? <Image src={URL.createObjectURL(logo)} alt="logo" width={96} height={96} className="rounded-2xl object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
-                                <Input id="logo-upload" type="file" className="hidden" onChange={handleFileChange(setLogo)} />
-                            </label>
-                            <div className="space-y-4 flex-1">
-                                <FloatingLabelInput id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
-                            </div>
+                <div className="space-y-6">
+                    <div className="flex gap-4 items-center">
+                        <label htmlFor="logo-upload" className="w-24 h-24 bg-input rounded-2xl border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
+                            {logo ? <Image src={URL.createObjectURL(logo)} alt="logo" width={96} height={96} className="rounded-2xl object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
+                            <Input id="logo-upload" type="file" className="hidden" onChange={handleFileChange(setLogo)} />
+                        </label>
+                        <div className="space-y-4 flex-1">
+                            <FloatingLabelInput id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
                         </div>
-                         <FloatingLabelInput
-                            id="phone"
-                            name="phone"
-                            label="Phone Number*"
-                            type="tel"
-                            placeholder="Enter phone number"
-                            value={phoneNumber}
-                            onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
-                            />
-                         <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                         <div className="space-y-2">
-                            <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
-                            <Textarea id="address" className="h-36 bg-background rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
-                        </div>
-                        <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
-                        <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
-                        <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
-                        <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name}/>
+                    </div>
+                     <FloatingLabelInput
+                        id="phone"
+                        name="phone"
+                        label="Phone Number*"
+                        type="tel"
+                        placeholder="Enter phone number"
+                        value={phoneNumber}
+                        onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
+                        />
+                     <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                     <div className="space-y-2">
+                        <Label htmlFor="address" className={cn("text-lg font-medium px-2", address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
+                        <Textarea id="address" className="h-36 bg-background rounded-3xl p-4" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
+                    </div>
+                    <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name} />
+                    <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name} />
+                    <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
+                    <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name}/>
 
-                        <ServiceableCityInput />
+                    <ServiceableCityInput />
 
-                         <div className="space-y-2">
-                            <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
-                            <div className="flex gap-2">
-                                {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                           <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
-                           <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
+                     <div className="space-y-2">
+                        <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
+                        <div className="flex gap-2">
+                            {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
                         </div>
                     </div>
 
-                    {/* Right Column */}
-                    <div className="space-y-6">
-                        <div className="rounded-3xl border border-stone-300 p-4 space-y-6">
-                            <h3 className="text-lg font-medium">Account details</h3>
-                            <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
-                            <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
-                            <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
-                            <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
-                            <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
-                            <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
-                        </div>
+                    <div className="grid grid-cols-2 gap-4">
+                       <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
+                       <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
+                    </div>
+
+                    <div className="rounded-3xl border border-stone-300 p-4 space-y-6">
+                        <h3 className="text-lg font-medium">Account details</h3>
+                        <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
+                        <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
+                        <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
+                        <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
+                        <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
+                        <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                     </div>
                 </div>
 
@@ -346,11 +341,11 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
 
     return (
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
-            <form onSubmit={handleAdd}>
-                 <div className="space-y-6">
-                     <div className="lg:col-span-2">
-                        <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
-                     </div>
+            <form onSubmit={handleAdd} className="space-y-6">
+                <div className="lg:col-span-2">
+                    <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
+                </div>
+                <div className="space-y-6">
                     <div className="space-y-2">
                         <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
                         <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
@@ -358,7 +353,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded }: { vendorName: st
                             <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
                         </label>
                     </div>
-                    <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
+                    <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={(e) => setProductName(e.target.value)} />
                     <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                     <div className="space-y-2">
                         <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
@@ -458,7 +453,7 @@ export function AddVendorSheet() {
                         "p-0 rounded-[20px] bg-white",
                         isMobile
                             ? "w-full rounded-t-3xl"
-                            : "md:max-w-lg"
+                            : "md:max-w-2xl"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
