@@ -33,7 +33,7 @@ const activeProjects = [
         image: "https://placehold.co/59x59"
     },
     {
-        id: "CHA2024",
+        id: "CHA2024-2",
         name: "Charan Project",
         city: "Mysuru",
         contact: "admin@abc.com | +91 1234567890",
@@ -46,7 +46,7 @@ const activeProjects = [
 
 const completedProjects = [
      {
-        id: "CHA2024",
+        id: "CHA2024-3",
         name: "Charan Project",
         city: "Mysuru",
         contact: "admin@abc.com | +91 1234567890",
@@ -67,7 +67,7 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
                 </Avatar>
                 <div className="w-44">
                     <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{project.city}</span></p>
+                    <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black">{project.city}</span></p>
                 </div>
                  <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
                 <div className="hidden md:flex flex-col gap-2 w-96">
@@ -110,7 +110,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                 <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {activeProjects.map((project, index) => (
-                            <ProjectListItem key={index} project={project} isLast={index === activeProjects.length - 1} />
+                            <ProjectListItem key={project.id} project={project} isLast={index === activeProjects.length - 1} />
                         ))}
                     </CardContent>
                 </Card>
@@ -121,7 +121,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                  <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {completedProjects.map((project, index) => (
-                            <ProjectListItem key={index} project={project} isLast={index === completedProjects.length - 1} />
+                            <ProjectListItem key={project.id} project={project} isLast={index === completedProjects.length - 1} />
                         ))}
                     </CardContent>
                 </Card>
