@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -24,6 +22,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 interface Snag {
     id: string;
@@ -95,8 +94,8 @@ const allSnagsData: Snag[] = [
 ];
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
-    <div className="flex flex-col gap-4 py-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="flex flex-col">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -108,20 +107,20 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
-                    <p className="text-sm text-grey-1">{snag.projectName} ({snag.projectId})</p>
+                    <p className="text-lg text-black">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex flex-col gap-2 flex-1 pl-10 md:pl-0">
+            <div className="flex flex-col gap-2 flex-1">
                 <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                 <p className="text-sm text-grey-1">{snag.createdAt}</p>
             </div>
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center justify-between w-full md:w-auto md:gap-4 flex-wrap pl-10 md:pl-0">
+            <div className="flex items-center justify-between w-full md:w-auto md:gap-4 flex-wrap">
                 <div>
                   <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                   <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -142,7 +141,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 </DropdownMenu>
             </div>
         </div>
-        <div className="h-px bg-stone-200" />
+        <Separator />
     </div>
 );
 
