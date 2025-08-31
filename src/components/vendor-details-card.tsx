@@ -82,7 +82,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
                         <div className="rounded-[20px] bg-background p-4 min-h-[56px]">
                             <div className="flex flex-wrap gap-2">
                                 {vendor.serviceableCities.map((city: string) => (
-                                    <div key={city} className="px-2.5 py-[5px] bg-white rounded-[10px] border border-stone-300">
+                                    <div key={city} className="px-2.5 py-[5px] bg-white rounded-[10px]">
                                         <span className="text-black text-sm font-normal">{city}</span>
                                     </div>
                                 ))}
@@ -93,7 +93,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
                              <Label className="text-lg font-medium px-2 text-grey-1">Days</Label>
-                             <div className="flex gap-2 items-center h-14 bg-background rounded-full px-5">
+                             <div className="flex gap-2 items-center h-14 rounded-full px-5">
                                 {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={vendor.availability.days} />)}
                             </div>
                         </div>
