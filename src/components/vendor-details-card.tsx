@@ -23,7 +23,7 @@ const FileField = ({ label, value }: { label: string; value: string | undefined 
         <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
         <div className="h-14 flex items-center px-5 rounded-full bg-background">
              <div className="p-2.5 bg-zinc-100 rounded-[10px] flex-1">
-                <span className="text-black text-sm font-normal">{value}</span>
+                <span className="text-black text-sm font-normal truncate">{value}</span>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@ const DayToggle = ({ day, selectedDays }: { day: string, selectedDays: string[] 
     return (
         <div
             className={cn(
-                "w-7 h-7 rounded-full flex items-center justify-center text-sm",
+                "w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0",
                 isActive
                     ? "bg-primary text-white"
                     : "bg-zinc-100 text-black"
@@ -93,7 +93,7 @@ export const VendorDetailsCard = ({ vendor }: { vendor: any }) => {
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
                              <Label className="text-lg font-medium px-2 text-grey-1">Days</Label>
-                             <div className="flex gap-2 items-center h-14 rounded-full px-5">
+                             <div className="flex gap-2 items-center h-14">
                                 {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={vendor.availability.days} />)}
                             </div>
                         </div>
