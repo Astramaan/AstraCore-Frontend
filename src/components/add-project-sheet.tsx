@@ -467,43 +467,43 @@ const ProjectTimelineForm = ({
                 <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
                     <div className="space-y-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-                            <div className="w-full">
+                            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
                                 <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                     {templates.map(template => (
                                         <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
                                     ))}
                                     <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
                                 </FloatingLabelSelect>
+                               <div className="space-y-2">
+                                    <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                                    !startDate && "text-muted-foreground"
+                                                )}
+                                            >
+                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0">
+                                            <Calendar
+                                                mode="single"
+                                                selected={startDate}
+                                                onSelect={setStartDate}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
+                                 <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit Timeline
+                                </Button>
                             </div>
-                           <div className="space-y-2">
-                                <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                                                !startDate && "text-muted-foreground"
-                                            )}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar
-                                            mode="single"
-                                            selected={startDate}
-                                            onSelect={setStartDate}
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
-                             <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit Timeline
-                            </Button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -624,7 +624,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white flex flex-col h-[90vh]">
-                <DialogHeader className="p-6 border-b shrink-0 bg-white rounded-t-[20px]">
+                <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
                         <span className="text-2xl font-semibold">{templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}</span>
                         <DialogClose asChild>
@@ -668,7 +668,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </div>
                     ))}
                 </div>
-                <div className="px-6 py-4 border-t flex justify-between items-center gap-2 sticky bottom-0 bg-white rounded-b-[20px]">
+                <div className="px-6 py-4 border-t flex justify-between items-center gap-2 shrink-0 bg-white rounded-b-[20px]">
                      <div className="flex gap-2">
                         <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg">
                             <Plus className="mr-2 h-5 w-5"/>
