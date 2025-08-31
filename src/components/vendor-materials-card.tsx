@@ -1,14 +1,14 @@
 
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
 import { Search, MoreVertical } from 'lucide-react';
 import Image from 'next/image';
+import { Separator } from './ui/separator';
 
 const MaterialItem = ({ material }: { material: any }) => (
-    <div className="flex items-center gap-4 p-4 rounded-[15px] border border-stone-300">
-        <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image"/>
+    <div className="flex items-center gap-4 p-4">
+        <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[25px] border border-stone-300" data-ai-hint="product image"/>
         <div className="flex-1 space-y-1">
             <p className="font-semibold">{material.name}</p>
             <p className="text-sm text-muted-foreground line-clamp-3">{material.description}</p>
@@ -30,8 +30,11 @@ export const VendorMaterialsCard = ({ materials }: { materials: any[] }) => {
                     <Input placeholder="Search materials" className="pl-12 h-12 rounded-[10px] border-stone-300" />
                 </div>
                 <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                    {materials.map(material => (
-                        <MaterialItem key={material.id} material={material} />
+                    {materials.map((material, index) => (
+                        <React.Fragment key={material.id}>
+                           <MaterialItem material={material} />
+                           {index < materials.length - 1 && <Separator />}
+                        </React.Fragment>
                     ))}
                 </div>
             </CardContent>
