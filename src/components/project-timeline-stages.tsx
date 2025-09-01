@@ -5,6 +5,7 @@ import React from 'react';
 import { Card, CardContent } from './ui/card';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { Button } from './ui/button';
 
 export interface CustomStage {
     id: number;
@@ -15,15 +16,31 @@ export interface CustomStage {
     duration: string;
     status: 'ongoing' | 'upcoming' | 'completed' | 'pending';
     type: 'stage' | 'payment';
+    siteImages?: string[];
 }
 
 
 const allStages: CustomStage[] = [
-    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'ongoing', type: 'stage' },
+    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'completed', type: 'stage' },
     { id: 2, title: "1% Of Over all Quote", subtitle: 'Payment Due', category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'completed', type: 'payment' },
-    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
+    { 
+        id: 4, 
+        title: 'Excavation', 
+        subtitle: 'Excavation Stage', 
+        category: 'Civil', 
+        image: 'https://placehold.co/100x100.png', 
+        duration: '2 Days', 
+        status: 'ongoing', 
+        type: 'stage',
+        siteImages: [
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png",
+        ]
+    },
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
-    { id: 6, title: '20% Payment', subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
+    { id: 6, title: "20% Payment", subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
 ];
 
 const StageCard = ({ stage }: { stage: CustomStage }) => {
@@ -41,7 +58,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                 stage.status === 'completed' ? 'bg-green-50' : 'bg-yellow-50'
             )}>
                 <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-lg object-cover w-full h-full" data-ai-hint="payment invoice" />
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[25px] object-cover w-full h-full" data-ai-hint="payment invoice" />
                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
                         {stage.category}
                     </div>
@@ -57,25 +74,42 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
         );
     }
 
+    const showApprovalUI = stage.status === 'ongoing' && stage.siteImages && stage.siteImages.length > 0;
+
     return (
         <div className={cn(
-            "rounded-[25px] border p-4 flex items-center gap-4",
+            "rounded-[25px] border p-4",
             stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200'
         )}>
-            <div className="relative w-24 h-24 shrink-0">
-                <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-lg object-cover w-full h-full" data-ai-hint="construction work" />
-                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
-                    {stage.category}
+            <div className="flex items-center gap-4">
+                <div className="relative w-24 h-24 shrink-0">
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[25px] object-cover w-full h-full" data-ai-hint="construction work" />
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
+                        {stage.category}
+                    </div>
+                </div>
+                <div className="flex-1 space-y-1">
+                    <p className="font-semibold text-lg">{stage.title}</p>
+                    <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
+                </div>
+                <div className="text-right">
+                    <p className="text-sm text-muted-foreground">{stage.duration}</p>
+                    <p className={cn("text-sm font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
                 </div>
             </div>
-            <div className="flex-1 space-y-1">
-                <p className="font-semibold text-lg">{stage.title}</p>
-                <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
-            </div>
-            <div className="text-right">
-                <p className="text-sm text-muted-foreground">{stage.duration}</p>
-                <p className={cn("text-sm font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
-            </div>
+            {showApprovalUI && (
+                <div className="mt-4 space-y-4">
+                    <div className="grid grid-cols-4 gap-2">
+                        {stage.siteImages?.map((img, index) => (
+                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-lg object-cover aspect-square" data-ai-hint="construction site photo" />
+                        ))}
+                    </div>
+                    <div className="flex gap-4">
+                        <Button variant="outline" className="flex-1 rounded-lg border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive">Reject</Button>
+                        <Button className="flex-1 rounded-lg bg-primary hover:bg-primary/90">Complete</Button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
