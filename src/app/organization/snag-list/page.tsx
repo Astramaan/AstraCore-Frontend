@@ -187,6 +187,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [snagSheetOpen, setSnagSheetOpen] = useState(false);
+    const [selectedProjectForSnag, setSelectedProjectForSnag] = useState<string | undefined>(undefined);
 
     const filteredSnags = useMemo(() => {
         if (!searchTerm) return allSnags;
@@ -202,11 +204,15 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         return filteredSnags.reduce((acc, snag) => {
             const projectKey = `${snag.projectName} (${snag.projectId})`;
             if (!acc[projectKey]) {
-                acc[projectKey] = [];
+                acc[projectKey] = {
+                    projectId: snag.projectId,
+                    projectName: snag.projectName,
+                    snags: []
+                };
             }
-            acc[projectKey].push(snag);
+            acc[projectKey].snags.push(snag);
             return acc;
-        }, {} as Record<string, Snag[]>);
+        }, {} as Record<string, {projectId: string; projectName: string; snags: Snag[]}>);
     }, [filteredSnags]);
 
     const handleSelectionChange = (id: string, checked: boolean) => {
@@ -263,6 +269,17 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
       );
     };
 
+    const handleAddSnagForProject = (projectId: string) => {
+        setSelectedProjectForSnag(projectId);
+        setSnagSheetOpen(true);
+    }
+
+    const openAddSnagSheet = () => {
+        setSelectedProjectForSnag(undefined);
+        setSnagSheetOpen(true);
+    }
+
+
   return (
     <div className="space-y-6 pb-24">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -277,13 +294,15 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <AddSnagSheet />
+                <Button onClick={openAddSnagSheet} className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                    New snag
+                </Button>
             </div>
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
             <div className="space-y-6">
-                {Object.entries(groupedSnags).map(([projectKey, snags]) => (
+                {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <div className="bg-muted p-6 flex justify-between items-center">
                             <h3 className="text-2xl font-semibold">{projectKey}</h3>
@@ -295,13 +314,13 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
                                     <DropdownMenuItem>View Project</DropdownMenuItem>
-                                    <DropdownMenuItem>Add Snag</DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
                         <CardContent className="p-6">
                             <div className="flex flex-col">
-                                {snags.map((snag) => (
+                                {projectData.snags.map((snag) => (
                                     <SnagCard 
                                         key={snag.id} 
                                         snag={snag}
@@ -347,6 +366,12 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+
+        <AddSnagSheet 
+            isOpen={snagSheetOpen} 
+            onOpenChange={setSnagSheetOpen} 
+            selectedProjectId={selectedProjectForSnag}
+        />
     </div>
   );
 }

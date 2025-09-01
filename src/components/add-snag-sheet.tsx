@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -24,12 +25,18 @@ const activeProjects = [
     { id: "SAT2024", name: "Satish Project" },
 ];
 
-const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
+const AddSnagForm = ({ onFormSuccess, selectedProjectId }: { onFormSuccess: () => void, selectedProjectId?: string }) => {
     const [images, setImages] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [project, setProject] = useState('');
+    const [project, setProject] = useState(selectedProjectId || '');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
+    useEffect(() => {
+        if(selectedProjectId) {
+            setProject(selectedProjectId);
+        }
+    }, [selectedProjectId]);
   
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
@@ -52,7 +59,7 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-2">
                     <Label htmlFor="project-select" className={cn("text-lg font-medium", project ? "text-grey-1" : "text-black")}>Project*</Label>
-                    <Select onValueChange={setProject}>
+                    <Select value={project} onValueChange={setProject}>
                         <SelectTrigger id="project-select" className="bg-background rounded-full h-12">
                             <SelectValue placeholder="Select a project" />
                         </SelectTrigger>
@@ -117,35 +124,43 @@ const AddSnagForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     );
 };
 
-export function AddSnagSheet() {
-  const [isOpen, setIsOpen] = useState(false);
+interface AddSnagSheetProps {
+    isOpen: boolean;
+    onOpenChange: (isOpen: boolean) => void;
+    selectedProjectId?: string;
+    trigger?: React.ReactNode;
+}
+
+export function AddSnagSheet({ isOpen, onOpenChange, selectedProjectId, trigger }: AddSnagSheetProps) {
 
   const handleSuccess = () => {
-    setIsOpen(false);
+    onOpenChange(false);
     // Optionally, show a success toast here
   };
 
+  const Trigger = trigger || (
+    <Button className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+        <Plus className="mr-2"/>
+        New snag
+    </Button>
+  );
+
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-         <Button className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-            <Plus className="mr-2"/>
-            New snag
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md p-0 rounded-lg bg-card">
-        <DialogHeader className="p-4 border-b">
-          <DialogTitle className="flex justify-between items-center text-2xl font-semibold">
-            Report a New Snag
-             <DialogClose asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                    <X className="h-4 w-4" />
-                </Button>
-            </DialogClose>
-          </DialogTitle>
-        </DialogHeader>
-        <AddSnagForm onFormSuccess={handleSuccess} />
-      </DialogContent>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        {trigger && <DialogTrigger asChild>{Trigger}</DialogTrigger>}
+        <DialogContent className="sm:max-w-md p-0 rounded-lg bg-card">
+            <DialogHeader className="p-4 border-b">
+                <DialogTitle className="flex justify-between items-center text-2xl font-semibold">
+                    Report a New Snag
+                    <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="rounded-full">
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </DialogClose>
+                </DialogTitle>
+            </DialogHeader>
+            <AddSnagForm onFormSuccess={handleSuccess} selectedProjectId={selectedProjectId} />
+        </DialogContent>
     </Dialog>
   );
 }
