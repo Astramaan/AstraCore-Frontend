@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -80,7 +81,7 @@ const VersionHistoryDialog = ({ open, onOpenChange, file, onFileClick }: { open:
                      {[file, ...file.history].map((version, index) => (
                         <div key={index} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => { onFileClick(version); onOpenChange(false); }}>
                             <div>
-                                <p className="font-semibold">{version.name} ({version.version})</p>
+                                <p className="font-semibold">{version.name}</p>
                                 <p className="text-sm text-muted-foreground">{version.date}</p>
                             </div>
                             <Badge variant="outline" className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm">{version.version?.replace('V ', 'Version ')}</Badge>
@@ -218,7 +219,7 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
 
     return (
         <>
-            <Card className="rounded-[50px] border-0 p-0">
+            <Card className="rounded-[50px] p-10 border-0">
                 <CardContent className="p-0 space-y-6">
                     <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
                     <Separator />
