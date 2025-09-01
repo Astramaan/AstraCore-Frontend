@@ -12,7 +12,7 @@ import { Card } from '@/components/ui/card';
 const mockProject = {
     id: "YAS2024",
     name: "Yash",
-    coverImage: "https://placehold.co/712x144",
+    coverImage: "https://placehold.co/1216x144",
     profileImage: "https://placehold.co/94x94",
     progress: 25,
     personalInfo: {
@@ -88,7 +88,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
         <div className="space-y-6">
             <ProjectInfoHeader project={project} />
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6 mt-20">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6 pt-12">
                 <div className="space-y-6">
                     <ProjectDetailsCard personalInfo={project.personalInfo} projectInfo={project.projectInfo} />
                     <ProjectVisualsCard visuals={project.visuals} />

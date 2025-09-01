@@ -29,7 +29,7 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
                     </div>
                 </div>
             </div>
-            <div className="absolute bottom-[-48px] left-6">
+            <div className="absolute bottom-[-48px] left-10">
                 <Image src={project.profileImage} width={94} height={94} alt={project.name} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
             </div>
         </div>
