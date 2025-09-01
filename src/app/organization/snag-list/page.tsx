@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -96,7 +97,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
     <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 px-10">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -108,6 +109,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
+                    <p className="text-lg text-black">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
@@ -317,7 +319,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
-                        <CardContent className="p-6">
+                        <CardContent className="p-0">
                             <div className="flex flex-col">
                                 {projectData.snags.map((snag) => (
                                     <SnagCard 
@@ -375,4 +377,3 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
   );
 }
 
-    
