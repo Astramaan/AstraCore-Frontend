@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, Plus } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -27,6 +27,7 @@ import { Search } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { SnagDetailsSheet, type Snag } from '@/components/snag-details-sheet';
+import { Plus } from 'lucide-react';
 
 const allSnagsData: Snag[] = [
     {
@@ -98,7 +99,6 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
-                    <p className="text-sm text-grey-1">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
