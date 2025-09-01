@@ -19,6 +19,7 @@ import Image from 'next/image';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 
 export interface Snag {
     id: string;
@@ -29,7 +30,7 @@ export interface Snag {
     status: 'Open' | 'Closed' | 'In Progress';
     subStatus: string;
     statusColor: string;
-    image: string;
+    images: string[];
     projectId: string;
     projectName: string;
 }
@@ -83,9 +84,25 @@ const SnagDetailsContent = ({ snag, onClose, onDelete }: { snag: Snag, onClose: 
 
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-4">
-                    <div className="w-full h-auto">
-                        <Image src={snag.image} width={300} height={200} alt={snag.title} className="rounded-lg w-full max-w-sm mx-auto object-cover" data-ai-hint="defect photo"/>
-                    </div>
+                     {snag.images && snag.images.length > 0 && (
+                        <Carousel className="w-full max-w-sm mx-auto">
+                            <CarouselContent>
+                                {snag.images.map((image, index) => (
+                                    <CarouselItem key={index}>
+                                        <div className="w-full aspect-video relative">
+                                            <Image src={image} alt={`${snag.title} - image ${index + 1}`} layout="fill" className="rounded-lg object-cover" data-ai-hint="defect photo"/>
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                             {snag.images.length > 1 && (
+                                <>
+                                    <CarouselPrevious />
+                                    <CarouselNext />
+                                </>
+                            )}
+                        </Carousel>
+                    )}
                     <h3 className="text-2xl font-semibold">{snag.title}</h3>
                     <p className="text-muted-foreground">{snag.description}</p>
                 </div>

@@ -1,11 +1,12 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Plus } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -25,21 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { SnagDetailsSheet } from '@/components/snag-details-sheet';
-
-interface Snag {
-    id: string;
-    title: string;
-    description: string;
-    createdBy: string;
-    createdAt: string;
-    status: 'Open' | 'Closed' | 'In Progress';
-    subStatus: string;
-    statusColor: string;
-    image: string;
-    projectId: string;
-    projectName: string;
-}
+import { SnagDetailsSheet, type Snag } from '@/components/snag-details-sheet';
 
 const allSnagsData: Snag[] = [
     {
@@ -51,7 +38,7 @@ const allSnagsData: Snag[] = [
         status: 'Open',
         subStatus: 'unresolved',
         statusColor: 'text-red-600',
-        image: 'https://placehold.co/100x100',
+        images: ['https://placehold.co/300x200', 'https://placehold.co/300x200', 'https://placehold.co/300x200', 'https://placehold.co/300x200'],
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -64,7 +51,7 @@ const allSnagsData: Snag[] = [
         status: 'Closed',
         subStatus: 'Resolved',
         statusColor: 'text-cyan-500',
-        image: 'https://placehold.co/100x100',
+        images: ['https://placehold.co/300x200'],
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -77,7 +64,7 @@ const allSnagsData: Snag[] = [
         status: 'Closed',
         subStatus: 'Resolved',
         statusColor: 'text-cyan-500',
-        image: 'https://placehold.co/100x100',
+        images: ['https://placehold.co/300x200', 'https://placehold.co/300x200'],
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -90,7 +77,7 @@ const allSnagsData: Snag[] = [
         status: 'Open',
         subStatus: 'unresolved',
         statusColor: 'text-red-600',
-        image: 'https://placehold.co/100x100',
+        images: ['https://placehold.co/300x200', 'https://placehold.co/300x200', 'https://placehold.co/300x200'],
         projectId: 'SAT2024',
         projectName: 'Satish Project'
     },
@@ -107,7 +94,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
-                <Image src={snag.image} alt={snag.title} width={100} height={100} className="rounded-[5px] object-cover" data-ai-hint="defect photo"/>
+                <Image src={snag.images[0]} alt={snag.title} width={100} height={100} className="rounded-[5px] object-cover" data-ai-hint="defect photo"/>
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
@@ -312,13 +299,13 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                 <AddSnagSheet 
+                <AddSnagSheet 
                     isOpen={snagSheetOpen} 
                     onOpenChange={setSnagSheetOpen}
                     selectedProjectId={selectedProjectForSnag}
                     trigger={
                          <Button onClick={openAddSnagSheet} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                            <Plus className="mr-2"/>
+                            <Edit className="mr-2"/>
                             New snag
                         </Button>
                     }
@@ -344,8 +331,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                             <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
                                                 <DropdownMenuItem>View Project</DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
-                                                <DropdownMenuItem onSelect={() => updateSnagStatus(projectData.snags[0].id, 'Closed')}>Solved</DropdownMenuItem>
-                                                <DropdownMenuItem onSelect={() => updateSnagStatus(projectData.snags[0].id, 'Open')}>Reopen</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
