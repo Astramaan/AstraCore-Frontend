@@ -4,11 +4,12 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { MoreVertical, X } from 'lucide-react';
+import { MoreVertical, X, Trash2, Replace } from 'lucide-react';
 import { Separator } from './ui/separator';
 import PdfIcon from './icons/pdf-icon';
 import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 interface File {
     name: string;
@@ -69,9 +70,23 @@ const FileSection = ({ title, files, onFileClick }: { title: string, files: File
                         {file.version && (
                             <Badge variant="outline" className="bg-cyan-500/10 text-cyan-500 border-cyan-500">{file.version}</Badge>
                         )}
-                        <Button variant="ghost" size="icon" className="w-6 h-6">
-                            <MoreVertical className="w-5 h-5" />
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="w-6 h-6">
+                                    <MoreVertical className="w-5 h-5" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem>
+                                    <Replace className="mr-2 h-4 w-4" />
+                                    Change
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="text-red-600">
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Remove
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
                 {index < files.length - 1 && <Separator />}
@@ -94,7 +109,7 @@ export const ProjectFilesCard = ({ files }: ProjectFilesCardProps) => {
     return (
         <>
             <Card className="rounded-[50px] p-0 border-0">
-                <CardContent className="p-0 mt-6 space-y-6">
+                <CardContent className="p-0 space-y-6">
                     <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} />
                     <Separator />
                     <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} />
