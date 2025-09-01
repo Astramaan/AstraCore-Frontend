@@ -52,48 +52,65 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
     );
 };
 
-const FileSection = ({ title, files, onFileClick }: { title: string, files: File[], onFileClick: (file: File) => void }) => (
-    <div className="space-y-4">
-        <p className="text-sm text-stone-400">{title}</p>
-        {files.map((file, index) => (
-            <React.Fragment key={index}>
-                <div className="flex items-center gap-4">
-                     <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
-                        <p className="text-sm">{index + 1}.</p>
-                        <PdfIcon className="w-6 h-6 shrink-0" />
-                        <div className="flex-1">
-                            <p className="text-base text-black font-medium">{file.name}</p>
-                            <p className="text-xs text-stone-400">{file.date}</p>
+const FileSection = ({ title, files, onFileClick }: { title: string, files: File[], onFileClick: (file: File) => void }) => {
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            // Logic to handle file change can be added here
+            console.log('File selected:', e.target.files[0]);
+        }
+    };
+    
+    return (
+        <div className="space-y-4">
+             <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileChange}
+            />
+            <p className="text-sm text-stone-400">{title}</p>
+            {files.map((file, index) => (
+                <React.Fragment key={index}>
+                    <div className="flex items-center gap-4">
+                         <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
+                            <p className="text-sm">{index + 1}.</p>
+                            <PdfIcon className="w-6 h-6 shrink-0" />
+                            <div className="flex-1">
+                                <p className="text-base text-black font-medium">{file.name}</p>
+                                <p className="text-xs text-stone-400">{file.date}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            {file.version && (
+                                <Badge variant="outline" className="bg-cyan-500/10 text-cyan-500 border-cyan-500">{file.version}</Badge>
+                            )}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="w-6 h-6">
+                                        <MoreVertical className="w-5 h-5" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem onSelect={() => fileInputRef.current?.click()}>
+                                        <Replace className="mr-2 h-4 w-4" />
+                                        Change
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600">
+                                        <Trash2 className="mr-2 h-4 w-4" />
+                                        Remove
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        {file.version && (
-                            <Badge variant="outline" className="bg-cyan-500/10 text-cyan-500 border-cyan-500">{file.version}</Badge>
-                        )}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="w-6 h-6">
-                                    <MoreVertical className="w-5 h-5" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem>
-                                    <Replace className="mr-2 h-4 w-4" />
-                                    Change
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600">
-                                    <Trash2 className="mr-2 h-4 w-4" />
-                                    Remove
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                </div>
-                {index < files.length - 1 && <Separator />}
-            </React.Fragment>
-        ))}
-    </div>
-);
+                    {index < files.length - 1 && <Separator />}
+                </React.Fragment>
+            ))}
+        </div>
+    );
+}
 
 export const ProjectFilesCard = ({ files }: ProjectFilesCardProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
