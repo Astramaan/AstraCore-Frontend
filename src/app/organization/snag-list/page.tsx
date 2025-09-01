@@ -285,7 +285,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
             <div className="space-y-6">
                 {Object.entries(groupedSnags).map(([projectKey, snags]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
-                        <div className="bg-muted px-6 py-4">
+                        <div className="bg-muted p-10">
                             <h3 className="text-xl font-semibold">{projectKey}</h3>
                         </div>
                         <CardContent className="p-6">
