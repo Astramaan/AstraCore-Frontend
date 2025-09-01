@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Plus } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -95,9 +95,9 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
-    <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 px-10">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean }) => (
+    <div className="flex flex-col px-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -142,7 +142,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 </DropdownMenu>
             </div>
         </div>
-        <Separator />
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -294,10 +294,17 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <Button onClick={openAddSnagSheet} className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                    <Plus className="mr-2"/>
-                    New snag
-                </Button>
+                 <AddSnagSheet 
+                    isOpen={snagSheetOpen} 
+                    onOpenChange={setSnagSheetOpen}
+                    selectedProjectId={selectedProjectForSnag}
+                    trigger={
+                         <Button onClick={openAddSnagSheet} className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                            <Plus className="mr-2"/>
+                            New snag
+                        </Button>
+                    }
+                />
             </div>
         </div>
         
@@ -319,15 +326,16 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>
-                        <CardContent className="p-0">
+                        <CardContent className="p-0 pb-10">
                             <div className="flex flex-col">
-                                {projectData.snags.map((snag) => (
+                                {projectData.snags.map((snag, index) => (
                                     <SnagCard 
                                         key={snag.id} 
                                         snag={snag}
                                         isSelected={selectedSnags.includes(snag.id)}
                                         onSelectionChange={handleSelectionChange}
                                         onSingleDelete={handleSingleDelete}
+                                        isLast={index === projectData.snags.length - 1}
                                     />
                                 ))}
                             </div>
@@ -367,7 +375,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-
         <AddSnagSheet 
             isOpen={snagSheetOpen} 
             onOpenChange={setSnagSheetOpen} 
