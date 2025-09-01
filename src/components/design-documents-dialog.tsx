@@ -31,7 +31,7 @@ export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => 
             Design & Documents
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+      <DialogContent className="max-w-xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
         <DialogHeader className="p-4 border-b flex-row items-center">
             <DialogTitle className="text-2xl font-semibold">Design & Documents</DialogTitle>
              <DialogClose asChild>
