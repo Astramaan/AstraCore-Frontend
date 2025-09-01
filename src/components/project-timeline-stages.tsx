@@ -51,7 +51,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                 stage.status === 'completed' ? 'bg-green-50' : 'bg-yellow-50'
             )}>
                 <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-lg object-cover" data-ai-hint="payment invoice" />
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-lg object-cover w-full h-full" data-ai-hint="payment invoice" />
                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
                         {stage.category}
                     </div>
@@ -73,7 +73,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
             stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200'
         )}>
             <div className="relative w-24 h-24 shrink-0">
-                <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-lg object-cover" data-ai-hint="construction work" />
+                <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-lg object-cover w-full h-full" data-ai-hint="construction work" />
                 <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
                     {stage.category}
                 </div>
@@ -104,7 +104,7 @@ const StageSection = ({ title, stages }: { title: string, stages: CustomStage[] 
 
 export const ProjectTimelineStages = () => {
     return (
-        <Card className="rounded-[50px] p-10 border-none shadow-none bg-transparent">
+        <Card className="rounded-[50px] p-0 md:p-10 border-none shadow-none bg-transparent">
             <CardContent className="p-0">
                 <Accordion type="multiple" defaultValue={["Design", "Construction"]} className="w-full space-y-4">
                    <StageSection title="Design" stages={mockDesignStages} />
