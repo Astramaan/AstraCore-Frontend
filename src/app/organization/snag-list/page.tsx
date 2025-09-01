@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -125,8 +125,18 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
                         <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
-                         <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Solved</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
+                        {snag.status === 'Open' && (
+                            <>
+                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
+                            </>
+                        )}
+                        {snag.status === 'In Progress' && (
+                             <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
+                        )}
+                        {snag.status === 'Closed' && (
+                            <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
+                        )}
                         <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
@@ -442,5 +452,3 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
-
-    
