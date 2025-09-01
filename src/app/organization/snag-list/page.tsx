@@ -84,7 +84,7 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void }) => (
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isLast: boolean }) => (
     <div className="flex flex-col cursor-pointer" onClick={() => onViewDetails(snag)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
@@ -135,7 +135,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </DropdownMenu>
             </div>
         </div>
-        <Separator className="mx-10" />
+        {!isLast && <Separator className="mx-10" />}
     </div>
 );
 
@@ -370,7 +370,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                             </AccordionTrigger>
                             <AccordionContent>
                                 <div className="flex flex-col">
-                                    {projectData.snags.map((snag) => (
+                                    {projectData.snags.map((snag, index) => (
                                         <SnagCard 
                                             key={snag.id} 
                                             snag={snag}
@@ -380,6 +380,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                             onStatusChange={updateSnagStatus}
                                             onViewDetails={handleViewDetails}
                                             onEdit={handleEditSnag}
+                                            isLast={index === projectData.snags.length - 1}
                                         />
                                     ))}
                                 </div>
@@ -441,3 +442,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
+    
