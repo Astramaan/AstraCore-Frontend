@@ -90,7 +90,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetails
                         </div>
                          <div className="space-y-2 self-end">
                             <a href={projectInfo.locationLink} target="_blank" rel="noopener noreferrer">
-                                <Button variant="outline" className="w-full h-14 rounded-full bg-sky-500/10 text-sky-500 border-sky-500 hover:bg-sky-500/20">Location</Button>
+                                <Button variant="outline" className="w-full h-14 rounded-full bg-sky-500/10 text-sky-500 border-sky-500 hover:bg-sky-500/20">Site location</Button>
                             </a>
                          </div>
                     </div>
