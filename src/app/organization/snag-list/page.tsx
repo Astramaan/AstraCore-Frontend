@@ -329,6 +329,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
+                                         <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-200" />
                                     </div>
                                 </div>
                             </AccordionTrigger>
