@@ -133,7 +133,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate }: { title: strin
                             {file.version && (
                                 <Badge
                                     variant="outline"
-                                    className="bg-cyan-500/10 text-cyan-500 border-cyan-500 cursor-pointer"
+                                    className="bg-background cursor-pointer h-14"
                                     onClick={() => setSelectedHistoryFile(file)}
                                 >
                                     {file.version.replace('V ', 'Version ')}
@@ -218,7 +218,7 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
 
     return (
         <>
-            <Card className="rounded-[50px] p-0 border-0">
+            <Card className="rounded-[50px] p-10 border-0">
                 <CardContent className="p-0 space-y-6">
                     <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
                     <Separator />
