@@ -105,8 +105,8 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                         ))}
                     </div>
                     <div className="flex gap-4">
-                        <Button variant="outline" className="flex-1 rounded-full border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive">Reject</Button>
-                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90">Complete</Button>
+                        <Button variant="outline" className="flex-1 rounded-full border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px]">Reject</Button>
+                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px]">Complete</Button>
                     </div>
                 </div>
             )}
