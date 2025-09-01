@@ -21,24 +21,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-
-interface Snag {
-    id: string;
-    title: string;
-    description: string;
-    createdBy: string;
-    createdAt: string;
-    status: 'Open' | 'Closed' | 'In Progress';
-    subStatus: string;
-    statusColor: string;
-    image: string;
-    projectId: string;
-    projectName: string;
-}
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { SnagDetailsSheet, type Snag } from '@/components/snag-details-sheet';
+import { Plus } from 'lucide-react';
 
 const allSnagsData: Snag[] = [
     {
@@ -50,7 +39,7 @@ const allSnagsData: Snag[] = [
         status: 'Open',
         subStatus: 'unresolved',
         statusColor: 'text-red-600',
-        image: 'https://placehold.co/60x60',
+        images: ['https://placehold.co/300x200', 'https://placehold.co/300x200', 'https://placehold.co/300x200', 'https://placehold.co/300x200'],
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -63,7 +52,7 @@ const allSnagsData: Snag[] = [
         status: 'Closed',
         subStatus: 'Resolved',
         statusColor: 'text-cyan-500',
-        image: 'https://placehold.co/60x60',
+        images: ['https://placehold.co/300x200'],
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -76,7 +65,7 @@ const allSnagsData: Snag[] = [
         status: 'Closed',
         subStatus: 'Resolved',
         statusColor: 'text-cyan-500',
-        image: 'https://placehold.co/60x60',
+        images: ['https://placehold.co/300x200', 'https://placehold.co/300x200'],
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -89,27 +78,27 @@ const allSnagsData: Snag[] = [
         status: 'Open',
         subStatus: 'unresolved',
         statusColor: 'text-red-600',
-        image: 'https://placehold.co/60x60',
+        images: ['https://placehold.co/300x200', 'https://placehold.co/300x200', 'https://placehold.co/300x200'],
         projectId: 'SAT2024',
         projectName: 'Satish Project'
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
-    <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isLast: boolean }) => (
+    <div className="flex flex-col cursor-pointer" onClick={() => onViewDetails(snag)}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
                     className="w-6 h-6 rounded-full" 
                     checked={isSelected}
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
+                    onClick={(e) => e.stopPropagation()}
                 />
-                <Image src={snag.image} alt={snag.title} width={60} height={60} className="rounded-lg" data-ai-hint="defect photo"/>
+                <Image src={snag.images[0]} alt={snag.title} width={100} height={100} className="rounded-[5px] object-cover" data-ai-hint="defect photo"/>
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
-                    <p className="text-sm text-grey-1">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
@@ -130,12 +119,25 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="w-6 h-6" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
+                        {snag.status === 'Open' && (
+                            <>
+                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
+                            </>
+                        )}
+                        {snag.status === 'In Progress' && (
+                             <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
+                        )}
+                        {snag.status === 'Closed' && (
+                            <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
+                        )}
+                        <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
@@ -143,7 +145,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 </DropdownMenu>
             </div>
         </div>
-        <Separator />
+        {!isLast && <Separator className="mx-10" />}
     </div>
 );
 
@@ -188,6 +190,10 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
     const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [snagSheetOpen, setSnagSheetOpen] = useState(false);
+    const [selectedProjectForSnag, setSelectedProjectForSnag] = useState<string | undefined>(undefined);
+    const [selectedSnagDetails, setSelectedSnagDetails] = useState<Snag | null>(null);
+    const [isEditingSnag, setIsEditingSnag] = useState(false);
 
     const filteredSnags = useMemo(() => {
         if (!searchTerm) return allSnags;
@@ -198,6 +204,21 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
             snag.createdBy.toLowerCase().includes(searchTerm.toLowerCase())
         );
     }, [allSnags, searchTerm]);
+
+    const groupedSnags = useMemo(() => {
+        return filteredSnags.reduce((acc, snag) => {
+            const projectKey = `${snag.projectName} (${snag.projectId})`;
+            if (!acc[projectKey]) {
+                acc[projectKey] = {
+                    projectId: snag.projectId,
+                    projectName: snag.projectName,
+                    snags: []
+                };
+            }
+            acc[projectKey].snags.push(snag);
+            return acc;
+        }, {} as Record<string, {projectId: string; projectName: string; snags: Snag[]}>);
+    }, [filteredSnags]);
 
     const handleSelectionChange = (id: string, checked: boolean) => {
         setSelectedSnags(prev => 
@@ -233,24 +254,77 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         setSnagToDelete(selectedSnags);
         setIsDeleteConfirmationOpen(true);
     }
+
+    const updateSnagStatus = (snagId: string, status: Snag['status']) => {
+        const statusColors = {
+            'Open': 'text-red-600',
+            'In Progress': 'text-yellow-600',
+            'Closed': 'text-cyan-500'
+        };
+        const subStatusText = {
+            'Open': 'unresolved',
+            'In Progress': 'active',
+            'Closed': 'resolved'
+        }
+        setAllSnags(prevSnags =>
+            prevSnags.map(snag =>
+                snag.id === snagId ? { ...snag, status, statusColor: statusColors[status], subStatus: subStatusText[status] } : snag
+            )
+        );
+    }
     
     const handleBulkStatusChange = (status: Snag['status']) => {
-      const statusColors = {
-        'Open': 'text-red-600',
-        'In Progress': 'text-yellow-600',
-        'Closed': 'text-cyan-500'
-      };
-      const subStatusText = {
-        'Open': 'unresolved',
-        'In Progress': 'active',
-        'Closed': 'resolved'
-      }
+        selectedSnags.forEach(snagId => updateSnagStatus(snagId, status));
+    };
 
-      setAllSnags(prevSnags => 
-        prevSnags.map(snag => 
-            selectedSnags.includes(snag.id) ? { ...snag, status, statusColor: statusColors[status], subStatus: subStatusText[status] } : snag
-          )
-      );
+    const handleAddSnagForProject = (projectId: string) => {
+        setSelectedProjectForSnag(projectId);
+        setSnagSheetOpen(true);
+    }
+
+    const openAddSnagSheet = () => {
+        setSelectedProjectForSnag(undefined);
+        setSnagSheetOpen(true);
+    }
+
+    const handleViewDetails = (snag: Snag) => {
+        setSelectedSnagDetails(snag);
+        setIsEditingSnag(false);
+    }
+    
+    const handleEditSnag = (snag: Snag) => {
+        setSelectedSnagDetails(snag);
+        setIsEditingSnag(true);
+    }
+
+    const onDeleteFromDetails = (id: string) => {
+        setSnagToDelete([id]);
+        setIsDeleteConfirmationOpen(true);
+    };
+
+    const handleUpdateSnag = (updatedSnag: Snag) => {
+        const statusColors = {
+            'Open': 'text-red-600',
+            'In Progress': 'text-yellow-600',
+            'Closed': 'text-cyan-500'
+        };
+        const subStatusText = {
+            'Open': 'unresolved',
+            'In Progress': 'active',
+            'Closed': 'resolved'
+        }
+        const fullUpdatedSnag = {
+            ...updatedSnag,
+            statusColor: statusColors[updatedSnag.status],
+            subStatus: subStatusText[updatedSnag.status]
+        };
+        
+        setAllSnags(prevSnags =>
+            prevSnags.map(snag =>
+                snag.id === fullUpdatedSnag.id ? fullUpdatedSnag : snag
+            )
+        );
+        setSelectedSnagDetails(fullUpdatedSnag);
     };
 
   return (
@@ -267,26 +341,64 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <AddSnagSheet />
+                <AddSnagSheet 
+                    isOpen={snagSheetOpen} 
+                    onOpenChange={setSnagSheetOpen}
+                    selectedProjectId={selectedProjectForSnag}
+                    trigger={
+                         <Button onClick={openAddSnagSheet} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                            <Plus className="mr-2"/>
+                            New snag
+                        </Button>
+                    }
+                />
             </div>
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-            <Card className="rounded-[50px] overflow-hidden">
-                 <CardContent className="p-6">
-                    <div className="flex flex-col">
-                        {filteredSnags.map((snag) => (
-                            <SnagCard 
-                                key={snag.id} 
-                                snag={snag}
-                                isSelected={selectedSnags.includes(snag.id)}
-                                onSelectionChange={handleSelectionChange}
-                                onSingleDelete={handleSingleDelete}
-                            />
-                        ))}
-                    </div>
-                </CardContent>
-            </Card>
+            <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(groupedSnags)}>
+                {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
+                    <Card key={projectKey} className="rounded-[50px] overflow-hidden">
+                        <AccordionItem value={projectKey} className="border-b-0">
+                             <AccordionTrigger className="w-full hover:no-underline px-10 py-6 group">
+                                <div className="flex justify-between items-center w-full">
+                                    <h3 className="text-lg font-semibold group-data-[state=open]:text-primary">{projectKey}</h3>
+                                    <div className="flex items-center gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                                                    <MoreVertical className="w-6 h-6" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                                                <DropdownMenuItem>View Project</DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <div className="flex flex-col">
+                                    {projectData.snags.map((snag, snagIndex) => (
+                                        <SnagCard 
+                                            key={snag.id} 
+                                            snag={snag}
+                                            isSelected={selectedSnags.includes(snag.id)}
+                                            onSelectionChange={handleSelectionChange}
+                                            onSingleDelete={handleSingleDelete}
+                                            onStatusChange={updateSnagStatus}
+                                            onViewDetails={handleViewDetails}
+                                            onEdit={handleEditSnag}
+                                            isLast={snagIndex === projectData.snags.length - 1}
+                                        />
+                                    ))}
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Card>
+                ))}
+            </Accordion>
 
             <FloatingActionBar 
                 selectedCount={selectedSnags.length}
@@ -319,6 +431,26 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+        <AddSnagSheet 
+            isOpen={snagSheetOpen} 
+            onOpenChange={setSnagSheetOpen} 
+            selectedProjectId={selectedProjectForSnag}
+        />
+         <SnagDetailsSheet 
+            isOpen={!!selectedSnagDetails}
+            onClose={() => setSelectedSnagDetails(null)}
+            snag={selectedSnagDetails}
+            onDelete={(e) => {
+                e.preventDefault();
+                if(selectedSnagDetails) {
+                  onDeleteFromDetails(selectedSnagDetails.id)
+                }
+              }}
+            onUpdate={handleUpdateSnag}
+            startInEditMode={isEditingSnag}
+        />
     </div>
   );
 }
+
+    

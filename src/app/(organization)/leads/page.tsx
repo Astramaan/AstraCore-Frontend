@@ -43,7 +43,7 @@ const leadsData: Lead[] = [
         tokenAmount: "1,00,000",
         level: "Level 1",
         profileImage: "https://placehold.co/94x94.png",
-        coverImage: "",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: [
             "https://placehold.co/150x150.png",
             "https://placehold.co/150x150.png",
@@ -63,7 +63,7 @@ const leadsData: Lead[] = [
         tokenAmount: "2,50,000",
         level: "Level 2",
         profileImage: "https://placehold.co/94x94.png",
-        coverImage: "",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: [
             "https://placehold.co/150x150.png"
         ]
@@ -80,7 +80,7 @@ const leadsData: Lead[] = [
         tokenAmount: "75,000",
         level: "Level 1",
         profileImage: "https://placehold.co/94x94.png",
-        coverImage: "",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: []
     },
      {
@@ -95,7 +95,7 @@ const leadsData: Lead[] = [
         tokenAmount: "5,00,000",
         level: "Level 3",
         profileImage: "https://placehold.co/94x94.png",
-        coverImage: "",
+        coverImage: "https://placehold.co/712x144.png",
         siteImages: [
             "https://placehold.co/150x150.png",
             "https://placehold.co/150x150.png"
@@ -304,6 +304,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     const onDeleteFromDetails = (id: string) => {
         setLeadToDelete([id]);
         setIsDeleteConfirmationOpen(true);
+        setSelectedLeadDetails(null);
     };
 
 
@@ -420,3 +421,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
 
 
+    
