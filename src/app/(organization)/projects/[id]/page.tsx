@@ -4,6 +4,8 @@ import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectInfoHeader } from '@/components/project-info-header';
+import { ProjectMaterialsCard } from '@/components/project-materials-card';
+import { ProjectTimelineStages } from '@/components/project-timeline-stages';
 
 const mockProject = {
     id: "YAS2024",
@@ -88,10 +90,12 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 <div className="space-y-6">
                     <ProjectDetailsCard personalInfo={project.personalInfo} projectInfo={project.projectInfo} />
                     <ProjectVisualsCard visuals={project.visuals} />
+                    <ProjectTimelineStages />
                 </div>
                 
-                <div className="w-full xl:w-[384px]">
-                     <ProjectFilesCard files={project.files} materials={project.materials} />
+                <div className="w-full xl:w-[384px] space-y-6">
+                     <ProjectFilesCard files={project.files} />
+                     <ProjectMaterialsCard materials={project.materials} />
                 </div>
             </div>
         </div>

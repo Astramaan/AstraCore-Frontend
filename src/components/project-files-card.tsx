@@ -4,24 +4,16 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import { MoreVertical, ArrowRight } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import { Separator } from './ui/separator';
 import PdfIcon from './icons/pdf-icon';
 import { Badge } from './ui/badge';
-import Image from 'next/image';
 import Link from 'next/link';
-import { TimelineDialog } from './timeline-dialog';
 
 interface File {
     name: string;
     date: string;
     version?: string;
-}
-
-interface Material {
-    name: string;
-    image: string;
-    description: string;
 }
 
 interface ProjectFilesCardProps {
@@ -33,7 +25,6 @@ interface ProjectFilesCardProps {
         sanction: File[];
         construction: File[];
     };
-    materials: Material[];
 }
 
 const FileSection = ({ title, files }: { title: string, files: File[] }) => (
@@ -65,7 +56,7 @@ const FileSection = ({ title, files }: { title: string, files: File[] }) => (
     </div>
 );
 
-export const ProjectFilesCard = ({ files, materials }: ProjectFilesCardProps) => {
+export const ProjectFilesCard = ({ files }: ProjectFilesCardProps) => {
     return (
         <Card className="rounded-[50px] border border-stone-300">
             <CardHeader className="flex flex-row justify-between items-center">
@@ -83,29 +74,6 @@ export const ProjectFilesCard = ({ files, materials }: ProjectFilesCardProps) =>
                 <FileSection title="Sanction Drawings" files={files.sanction} />
                 <Separator />
                 <FileSection title="Construction Drawings" files={files.construction} />
-                 <Separator />
-                <div>
-                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-medium">Materials</h3>
-                        <Button variant="link" className="text-cyan-500 p-0 h-auto">
-                            View more <ArrowRight className="w-4 h-4 ml-1" />
-                        </Button>
-                    </div>
-                    <div className="space-y-4">
-                        {materials.map((material, index) => (
-                             <React.Fragment key={index}>
-                                <div className="flex gap-4">
-                                    <Image src={material.image} alt={material.name} width={67} height={67} className="rounded-[10px] border border-stone-300" data-ai-hint="construction material" />
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium">{material.name}</p>
-                                        <p className="text-xs text-stone-400 line-clamp-3">{material.description}</p>
-                                    </div>
-                                </div>
-                                {index < materials.length - 1 && <Separator />}
-                             </React.Fragment>
-                        ))}
-                    </div>
-                </div>
             </CardContent>
         </Card>
     );
