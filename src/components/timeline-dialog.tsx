@@ -21,7 +21,7 @@ export const TimelineDialog = () => {
       <DialogTrigger asChild>
         <Button
             variant="link"
-            className="text-cyan-500 flex-1 h-[54px] rounded-full bg-white"
+            className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white"
         >
             Timeline
         </Button>

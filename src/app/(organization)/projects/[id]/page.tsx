@@ -96,8 +96,8 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 <div className="w-full xl:w-[384px] space-y-6">
                      <div className="flex gap-2 bg-zinc-100 p-1 rounded-full">
                         <TimelineDialog />
-                        <Button variant="link" className="text-cyan-500 flex-1 h-[54px] rounded-full bg-white">Payments</Button>
-                        <Button variant="link" className="text-cyan-500 flex-1 h-[54px] rounded-full bg-white">Design & Documents</Button>
+                        <Button variant="link" className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white">Payments</Button>
+                        <Button variant="link" className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white">Design & Documents</Button>
                     </div>
                      <ProjectFilesCard files={project.files} />
                      <ProjectMaterialsCard materials={project.materials} />
