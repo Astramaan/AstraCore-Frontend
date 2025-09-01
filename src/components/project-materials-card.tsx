@@ -21,8 +21,8 @@ interface ProjectMaterialsCardProps {
 
 export const ProjectMaterialsCard = ({ materials }: ProjectMaterialsCardProps) => {
     return (
-        <Card className="rounded-[50px] border border-stone-300">
-            <CardHeader>
+        <Card className="rounded-[50px] p-10 border-0">
+            <CardHeader className="p-0">
                  <div className="flex justify-between items-center">
                     <h3 className="text-lg font-medium">Materials</h3>
                     <Button variant="link" className="text-cyan-500 p-0 h-auto">
@@ -30,7 +30,7 @@ export const ProjectMaterialsCard = ({ materials }: ProjectMaterialsCardProps) =
                     </Button>
                 </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-0 mt-6 space-y-4">
                 {materials.map((material, index) => (
                      <React.Fragment key={index}>
                         <div className="flex gap-4">
