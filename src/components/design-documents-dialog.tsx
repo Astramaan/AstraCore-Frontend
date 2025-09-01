@@ -35,7 +35,7 @@ export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => 
         <DialogHeader className="p-4 border-b flex-row items-center">
             <DialogTitle className="text-2xl font-semibold">Design & Documents</DialogTitle>
              <DialogClose asChild>
-                <Button variant="ghost" size="icon" className="ml-auto rounded-full">
+                <Button variant="ghost" size="icon" className="ml-auto rounded-full bg-background w-[54px] h-[54px]">
                     <X className="h-5 w-5" />
                 </Button>
             </DialogClose>
