@@ -2,7 +2,7 @@
 import React from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard } from '@/components/project-files-card';
-import { ProjectTimelineGantt } from '@/components/project-timeline-gantt';
+import { ProjectTimelineStages } from '@/components/project-timeline-stages';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -92,7 +92,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 <div className="space-y-6">
                     <ProjectDetailsCard personalInfo={project.personalInfo} projectInfo={project.projectInfo} />
                     <ProjectVisualsCard visuals={project.visuals} />
-                    <ProjectTimelineGantt />
+                    <ProjectTimelineStages />
                 </div>
                 
                 <div className="w-full xl:w-[384px]">

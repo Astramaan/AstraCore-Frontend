@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/
 
 export const ProjectTimelineGantt = () => {
     return (
-        <Card className="rounded-[20px]">
+        <Card className="rounded-[50px]">
             <CardHeader>
                 <CardTitle>Project Timeline</CardTitle>
                 <CardDescription>Gantt View</CardDescription>
