@@ -19,18 +19,23 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
         <div className="relative">
             <div className="relative h-36 rounded-[10px] overflow-hidden">
                 <Image src={project.coverImage} layout="fill" objectFit="cover" alt={`${project.name} cover`} data-ai-hint="abstract background"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent p-4 flex flex-col justify-end">
-                    <div className="flex items-center gap-4">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center p-6">
+                     <div className="flex items-center gap-4">
+                        <Image src={project.profileImage} width={94} height={94} alt={project.name} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
+                        <div>
+                            <h2 className="text-2xl font-bold text-white">{project.name}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                    <div className="flex items-center gap-4 max-w-md ml-auto">
                         <div className="flex-1">
                             <p className="text-white text-sm">Progress</p>
-                            <Progress value={project.progress} className="w-full h-3 bg-zinc-100" />
+                            <Progress value={project.progress} className="w-full h-3 bg-zinc-100/50" />
                         </div>
                         <p className="text-white text-sm font-semibold">{project.progress}%</p>
                     </div>
                 </div>
-            </div>
-            <div className="absolute bottom-[-48px] left-10">
-                <Image src={project.profileImage} width={94} height={94} alt={project.name} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
             </div>
         </div>
     );

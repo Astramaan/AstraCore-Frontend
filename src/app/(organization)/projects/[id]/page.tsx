@@ -88,7 +88,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
         <div className="space-y-6">
             <ProjectInfoHeader project={project} />
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6 pt-12">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">
                     <ProjectDetailsCard personalInfo={project.personalInfo} projectInfo={project.projectInfo} />
                     <ProjectVisualsCard visuals={project.visuals} />
