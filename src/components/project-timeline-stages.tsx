@@ -33,7 +33,7 @@ const mockDesignStages: CustomStage[] = [
 const mockConstructionStages: CustomStage[] = [
     { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
-    { id: 6, name: "20% Payment", subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
+    { id: 6, title: '20% Payment', subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
 ];
 
 const StageCard = ({ stage }: { stage: CustomStage }) => {
@@ -105,10 +105,6 @@ const StageSection = ({ title, stages }: { title: string, stages: CustomStage[] 
 export const ProjectTimelineStages = () => {
     return (
         <Card className="rounded-[50px] p-10 border-none shadow-none bg-transparent">
-            <CardHeader className="p-0 mb-6">
-                <CardTitle>Project Timeline</CardTitle>
-                <CardDescription>(Stages)</CardDescription>
-            </CardHeader>
             <CardContent className="p-0">
                 <Accordion type="multiple" defaultValue={["Design", "Construction"]} className="w-full space-y-4">
                    <StageSection title="Design" stages={mockDesignStages} />
