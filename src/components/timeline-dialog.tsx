@@ -80,7 +80,7 @@ export const TimelineDialog = () => {
             <div className="p-6 space-y-6">
                 <Card className="border-none shadow-none">
                     <CardHeader className="p-0">
-                        <CardTitle>Project Team</CardTitle>
+                        <CardTitle>Team</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0 mt-4">
                         {projectTeam.map(member => <TeamMemberCard key={member.role} member={member} />)}
