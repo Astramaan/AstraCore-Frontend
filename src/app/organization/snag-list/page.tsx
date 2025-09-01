@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -98,7 +97,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast?: boolean }) => (
     <div className="flex flex-col px-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 px-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -333,7 +332,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="p-0 pb-6">
+                                <CardContent className="p-0 pb-10">
                                     <div className="flex flex-col">
                                         {projectData.snags.map((snag, index) => (
                                             <SnagCard 
@@ -392,4 +391,3 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
-
