@@ -8,6 +8,7 @@ import { ProjectMaterialsCard } from '@/components/project-materials-card';
 import { TimelineDialog } from '@/components/timeline-dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 
 const mockProject = {
     id: "YAS2024",
@@ -98,9 +99,8 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                      <div className="flex gap-2 bg-zinc-100 p-1 rounded-full">
                         <TimelineDialog />
                         <Button variant="link" className={cn("text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white", "hover:no-underline")}>Payments</Button>
-                        <Button variant="link" className={cn("text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white", "hover:no-underline")}>Design & Documents</Button>
+                        <DesignDocumentsDialog files={project.files} />
                     </div>
-                     <ProjectFilesCard files={project.files} />
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
             </div>
