@@ -125,11 +125,11 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)]">
                 <div className="space-y-4">
                      {snag.images && snag.images.length > 0 && (
-                        <Carousel className="w-full max-w-md mx-auto">
+                        <Carousel className="w-full max-w-sm mx-auto">
                             <CarouselContent>
                                 {snag.images.map((image, index) => (
                                     <CarouselItem key={index}>
-                                        <div className="w-full aspect-square relative">
+                                        <div className="w-full aspect-video relative">
                                             <Image src={image} alt={`${snag.title} - image ${index + 1}`} layout="fill" className="rounded-lg object-cover" data-ai-hint="defect photo"/>
                                         </div>
                                     </CarouselItem>
@@ -173,13 +173,13 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
              <div className="p-4 border-t mt-auto">
                 <div className="flex justify-end gap-4">
                     {snag.status === 'Open' && (
-                        <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })}>Mark as In Progress</Button>
+                        <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })} className="h-14 rounded-full px-8">Mark as In Progress</Button>
                     )}
                     {snag.status === 'In Progress' && (
-                        <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })}>Mark as Resolved</Button>
+                        <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })} className="h-14 rounded-full px-8">Mark as Resolved</Button>
                     )}
                      {snag.status === 'Closed' && (
-                        <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })}>Re-open Snag</Button>
+                        <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })} className="h-14 rounded-full px-8">Re-open Snag</Button>
                     )}
                 </div>
             </div>
