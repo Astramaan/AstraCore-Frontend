@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -82,7 +83,9 @@ const SnagDetailsContent = ({ snag, onClose, onDelete }: { snag: Snag, onClose: 
 
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
                 <div className="space-y-4">
-                    <Image src={snag.image} width={500} height={300} alt={snag.title} className="rounded-lg w-full object-cover" data-ai-hint="defect photo"/>
+                    <div className="w-full h-auto">
+                        <Image src={snag.image} width={300} height={200} alt={snag.title} className="rounded-lg w-full max-w-sm mx-auto object-cover" data-ai-hint="defect photo"/>
+                    </div>
                     <h3 className="text-2xl font-semibold">{snag.title}</h3>
                     <p className="text-muted-foreground">{snag.description}</p>
                 </div>
