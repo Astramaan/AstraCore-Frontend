@@ -17,9 +17,9 @@ interface DetailFieldProps {
 
 const DetailField = ({ label, value, fullWidth = false }: DetailFieldProps) => (
     <div className={cn("space-y-2", fullWidth ? 'md:col-span-2' : '')}>
-        <Label className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Label className={cn("text-base font-medium px-2 text-grey-1")}>{label}</Label>
         <div className="h-14 flex items-center px-5 rounded-full bg-background">
-            <p className="text-black text-base leading-tight truncate">{value}</p>
+            <p className="text-black text-lg leading-tight truncate">{value}</p>
         </div>
     </div>
 );
@@ -63,7 +63,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetails
                     </div>
 
                     <div className="space-y-6">
-                        <h3 className="text-lg font-medium">Personal Information</h3>
+                        <h3 className="text-xl font-medium">Personal Information</h3>
                         <DetailField label="Name" value={personalInfo.name} />
                         <DetailField label="Client ID" value={personalInfo.clientId} />
                         <DetailField label="Phone Number" value={personalInfo.phone} />
@@ -71,7 +71,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetails
                     </div>
                     
                     <div className="space-y-6">
-                        <h3 className="text-lg font-medium">Project Information</h3>
+                        <h3 className="text-xl font-medium">Project Information</h3>
                         <DetailField label="Project cost" value={projectInfo.cost} />
                         <DetailField label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
                         <div className="grid grid-cols-2 gap-x-8">
@@ -83,9 +83,9 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetails
 
                     <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 items-start">
                         <div className="space-y-2">
-                            <Label className={cn("text-lg font-medium px-2", personalInfo.address ? 'text-grey-1' : 'text-zinc-900')}>Current address</Label>
+                            <Label className={cn("text-base font-medium px-2 text-grey-1")}>Current address</Label>
                             <div className="h-auto flex items-center p-5 rounded-3xl bg-background min-h-[56px]">
-                                <p className="text-black text-base leading-tight">{personalInfo.address}</p>
+                                <p className="text-black text-lg leading-tight">{personalInfo.address}</p>
                             </div>
                         </div>
                          <div className="space-y-2 self-end">
