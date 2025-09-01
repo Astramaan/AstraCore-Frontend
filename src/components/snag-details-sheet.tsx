@@ -170,19 +170,21 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                     <DetailRow label="Status" value={<Badge className={cn("text-base", snag.statusColor)} variant="outline">{snag.status}</Badge>} />
                 </div>
             </div>
-             <div className="p-4 border-t mt-auto">
-                <div className="flex justify-end gap-4">
-                    {snag.status === 'Open' && (
-                        <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })} className="h-14 rounded-full px-8">Mark as In Progress</Button>
-                    )}
-                    {snag.status === 'In Progress' && (
-                        <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })} className="h-14 rounded-full px-8">Mark as Resolved</Button>
-                    )}
-                     {snag.status === 'Closed' && (
-                        <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })} className="h-14 rounded-full px-8">Re-open Snag</Button>
-                    )}
+            {!isEditing && (
+                 <div className="p-4 border-t mt-auto">
+                    <div className="flex justify-end gap-4">
+                        {snag.status === 'Open' && (
+                            <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })} className="h-14 rounded-full px-8">Mark as In Progress</Button>
+                        )}
+                        {snag.status === 'In Progress' && (
+                            <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })} className="h-14 rounded-full px-8">Mark as Resolved</Button>
+                        )}
+                         {snag.status === 'Closed' && (
+                            <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })} className="h-14 rounded-full px-8">Re-open Snag</Button>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
