@@ -41,11 +41,11 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
                 <p className="text-base font-medium">{member.name}</p>
             </div>
             <div className="flex items-center gap-2">
-                <Button variant="outline" className="rounded-lg text-primary border-primary bg-primary/10 hover:bg-primary/20 h-auto px-4 py-2">
+                <Button variant="outline" className="rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20 h-[54px] px-4 py-2">
                     <MessageSquare className="w-4 h-4 mr-2"/>
                     Chat
                 </Button>
-                <Button variant="outline" className="rounded-lg text-destructive border-destructive bg-destructive/10 hover:bg-destructive/20 h-auto px-4 py-2">
+                <Button variant="outline" className="rounded-full text-destructive border-destructive bg-destructive/10 hover:bg-destructive/20 h-[54px] px-4 py-2">
                      <UserX className="w-4 h-4 mr-2"/>
                     Remove
                 </Button>
@@ -67,7 +67,7 @@ export const TimelineDialog = () => {
             Timeline
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+      <DialogContent className="max-w-xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
         <DialogHeader className="p-4 border-b flex-row items-center">
             <DialogTitle className="text-2xl font-semibold">Project Timeline</DialogTitle>
              <DialogClose asChild>
