@@ -14,6 +14,7 @@ import { Button } from './ui/button';
 import { ProjectTimelineStages } from './project-timeline-stages';
 import { X } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 export const TimelineDialog = () => {
   return (
@@ -21,7 +22,7 @@ export const TimelineDialog = () => {
       <DialogTrigger asChild>
         <Button
             variant="link"
-            className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white"
+            className={cn("text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white", "hover:no-underline")}
         >
             Timeline
         </Button>
