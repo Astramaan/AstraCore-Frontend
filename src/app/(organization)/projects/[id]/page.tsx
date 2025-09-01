@@ -8,6 +8,7 @@ import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GanttChartSquare, CreditCard } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { TimelineDialog } from '@/components/timeline-dialog';
 
 const mockProject = {
     id: "YAS2024",
@@ -97,16 +98,13 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 
                 <div className="w-full xl:w-[384px]">
                      <Card className="rounded-[20px] border border-stone-300">
-                        <Tabs defaultValue="timeline" className="w-full">
+                        <Tabs defaultValue="files" className="w-full">
                             <TabsList className="grid w-full grid-cols-2 h-auto p-2 bg-transparent gap-2">
-                                <TabsTrigger value="timeline" className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400">Timeline</TabsTrigger>
-                                <TabsTrigger value="payment" className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400">Payment</TabsTrigger>
+                                <TimelineDialog />
+                                <TabsTrigger value="files" className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400">Files</TabsTrigger>
                             </TabsList>
-                            <TabsContent value="timeline" className="mt-0">
+                            <TabsContent value="files" className="mt-0">
                                <ProjectFilesCard files={project.files} materials={project.materials} />
-                            </TabsContent>
-                             <TabsContent value="payment" className="mt-0">
-                                <div className="p-4 text-center text-muted-foreground">Payment details will be shown here.</div>
                             </TabsContent>
                         </Tabs>
                     </Card>
