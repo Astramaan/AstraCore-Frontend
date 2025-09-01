@@ -9,6 +9,7 @@ import { TimelineDialog } from '@/components/timeline-dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
+import { PaymentsDialog } from '@/components/payments-dialog';
 
 const mockProject = {
     id: "YAS2024",
@@ -98,7 +99,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 <div className="w-full xl:w-[384px] space-y-6">
                      <div className="flex gap-2 bg-zinc-100 p-1 rounded-full">
                         <TimelineDialog />
-                        <Button variant="link" className={cn("text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white", "hover:no-underline")}>Payments</Button>
+                        <PaymentsDialog />
                         <DesignDocumentsDialog files={project.files} />
                     </div>
                      <ProjectMaterialsCard materials={project.materials} />

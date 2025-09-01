@@ -114,12 +114,13 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
     );
 };
 
-export const ProjectTimelineStages = () => {
+export const ProjectTimelineStages = ({ stages }: { stages?: CustomStage[] }) => {
+    const displayStages = stages || allStages;
     return (
         <Card className="rounded-[50px] p-0 border-none shadow-none bg-transparent">
             <CardContent className="p-0">
                 <div className="w-full space-y-4">
-                    {allStages.map((stage) => <StageCard key={stage.id} stage={stage} />)}
+                    {displayStages.map((stage) => <StageCard key={stage.id} stage={stage} />)}
                 </div>
             </CardContent>
         </Card>
