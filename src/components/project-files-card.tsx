@@ -133,7 +133,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate }: { title: strin
                             {file.version && (
                                 <Badge
                                     variant="outline"
-                                    className="bg-background cursor-pointer h-[26px] border-transparent text-foreground"
+                                    className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm"
                                     onClick={() => setSelectedHistoryFile(file)}
                                 >
                                     {file.version.replace('V ', 'Version ')}
