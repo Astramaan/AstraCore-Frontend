@@ -11,7 +11,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, MoreVertical, Edit, Trash2 } from "lucide-react";
+import { X, MoreVertical, Edit, Trash2, Save } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
 
 export interface Snag {
     id: string;
@@ -41,6 +44,7 @@ interface SnagDetailsSheetProps {
     snag: Snag | null;
     onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     onUpdate: (snag: Snag) => void;
+    startInEditMode?: boolean;
 }
 
 const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) => (
@@ -50,35 +54,70 @@ const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) 
     </div>
 );
 
-const SnagDetailsContent = ({ snag, onClose, onDelete, onUpdate }: { snag: Snag, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void, onUpdate: (snag: Snag) => void }) => {
+const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, startInEditMode = false }: { snag: Snag, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void, onUpdate: (snag: Snag) => void, startInEditMode?: boolean }) => {
+    const [isEditing, setIsEditing] = useState(startInEditMode);
+    const [snag, setSnag] = useState(initialSnag);
+
+    useEffect(() => {
+        setSnag(initialSnag);
+        setIsEditing(startInEditMode);
+    }, [initialSnag, startInEditMode]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setSnag(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = () => {
+        onUpdate(snag);
+        setIsEditing(false);
+    }
+    
+    const handleCancel = () => {
+        setSnag(initialSnag);
+        setIsEditing(false);
+    }
+    
     return (
         <>
             <DialogHeader className="p-4 border-b">
                 <DialogTitle className="flex items-center font-medium">
-                    Snag Details
+                    {isEditing ? 'Edit Snag' : 'Snag Details'}
                     <div className="ml-auto flex items-center gap-2">
-                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                    <MoreVertical />
+                        {isEditing ? (
+                            <>
+                                <Button variant="ghost" onClick={handleCancel}>Cancel</Button>
+                                <Button onClick={handleSave}>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    Save
                                 </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onDelete(e as any); }}>
-                                    <Trash2 className="mr-2 h-4 w-4" />
-                                    Delete
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full">
-                                <X className="h-5 w-5" />
-                            </Button>
-                        </DialogClose>
+                            </>
+                        ) : (
+                            <>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" size="icon">
+                                            <MoreVertical />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem onClick={() => setIsEditing(true)}>
+                                            <Edit className="mr-2 h-4 w-4" />
+                                            Edit
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onDelete(e as any); }}>
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <DialogClose asChild>
+                                    <Button variant="ghost" size="icon" className="rounded-full">
+                                        <X className="h-5 w-5" />
+                                    </Button>
+                                </DialogClose>
+                            </>
+                        )}
                     </div>
                 </DialogTitle>
             </DialogHeader>
@@ -86,7 +125,7 @@ const SnagDetailsContent = ({ snag, onClose, onDelete, onUpdate }: { snag: Snag,
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)]">
                 <div className="space-y-4">
                      {snag.images && snag.images.length > 0 && (
-                        <Carousel className="w-full max-w-md mx-auto">
+                        <Carousel className="w-full max-w-sm mx-auto">
                             <CarouselContent>
                                 {snag.images.map((image, index) => (
                                     <CarouselItem key={index}>
@@ -104,8 +143,22 @@ const SnagDetailsContent = ({ snag, onClose, onDelete, onUpdate }: { snag: Snag,
                             )}
                         </Carousel>
                     )}
-                    <h3 className="text-2xl font-semibold">{snag.title}</h3>
-                    <p className="text-muted-foreground">{snag.description}</p>
+                    {isEditing ? (
+                        <div className="space-y-2">
+                            <Label htmlFor="title">Title</Label>
+                            <Input id="title" name="title" value={snag.title} onChange={handleInputChange} className="text-2xl font-semibold h-auto p-0 border-0 focus-visible:ring-0" />
+                        </div>
+                    ) : (
+                        <h3 className="text-2xl font-semibold">{snag.title}</h3>
+                    )}
+                     {isEditing ? (
+                        <div className="space-y-2">
+                             <Label htmlFor="description">Description</Label>
+                             <Textarea id="description" name="description" value={snag.description} onChange={handleInputChange} className="text-muted-foreground" />
+                        </div>
+                    ) : (
+                        <p className="text-muted-foreground">{snag.description}</p>
+                    )}
                 </div>
 
                 <Separator />
@@ -135,7 +188,7 @@ const SnagDetailsContent = ({ snag, onClose, onDelete, onUpdate }: { snag: Snag,
 };
 
 
-export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate }: SnagDetailsSheetProps) {
+export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate, startInEditMode = false }: SnagDetailsSheetProps) {
   const isMobile = useIsMobile();
 
   if (!snag) return null;
@@ -159,7 +212,7 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate }: 
               }
           }}
       >
-          <SnagDetailsContent snag={snag} onClose={onClose} onDelete={onDelete} onUpdate={onUpdate} />
+          <SnagDetailsContent snag={snag} onClose={onClose} onDelete={onDelete} onUpdate={onUpdate} startInEditMode={startInEditMode} />
       </DialogOrSheetContent>
     </DialogOrSheet>
   );

@@ -83,7 +83,7 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void }) => (
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void }) => (
     <div className="flex flex-col cursor-pointer" onClick={() => onViewDetails(snag)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
@@ -124,7 +124,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                        <DropdownMenuItem onSelect={() => onViewDetails(snag)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
                          <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Solved</DropdownMenuItem>
                         <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
                         <DropdownMenuSeparator />
@@ -183,6 +183,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     const [snagSheetOpen, setSnagSheetOpen] = useState(false);
     const [selectedProjectForSnag, setSelectedProjectForSnag] = useState<string | undefined>(undefined);
     const [selectedSnagDetails, setSelectedSnagDetails] = useState<Snag | null>(null);
+    const [isEditingSnag, setIsEditingSnag] = useState(false);
 
     const filteredSnags = useMemo(() => {
         if (!searchTerm) return allSnags;
@@ -278,6 +279,12 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
     const handleViewDetails = (snag: Snag) => {
         setSelectedSnagDetails(snag);
+        setIsEditingSnag(false);
+    }
+    
+    const handleEditSnag = (snag: Snag) => {
+        setSelectedSnagDetails(snag);
+        setIsEditingSnag(true);
     }
 
     const onDeleteFromDetails = (id: string) => {
@@ -372,6 +379,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                             onSingleDelete={handleSingleDelete}
                                             onStatusChange={updateSnagStatus}
                                             onViewDetails={handleViewDetails}
+                                            onEdit={handleEditSnag}
                                         />
                                     ))}
                                 </div>
@@ -428,6 +436,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 }
               }}
             onUpdate={handleUpdateSnag}
+            startInEditMode={isEditingSnag}
         />
     </div>
   );
