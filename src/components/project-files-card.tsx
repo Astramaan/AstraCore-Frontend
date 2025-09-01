@@ -1,16 +1,26 @@
 
-
 'use client';
 
 import React, { useState, useRef } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { MoreVertical, X, Trash2, Replace } from 'lucide-react';
+import { MoreVertical, X, Trash2, Replace, ShieldAlert } from 'lucide-react';
 import { Separator } from './ui/separator';
 import PdfIcon from './icons/pdf-icon';
 import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface FileVersion {
     name: string;
@@ -93,10 +103,11 @@ const VersionHistoryDialog = ({ open, onOpenChange, file, onFileClick }: { open:
     )
 }
 
-const FileSection = ({ title, files, onFileClick, onFileUpdate }: { title: string, files: File[], onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void }) => {
+const FileSection = ({ title, files, onFileClick, onFileUpdate, onFileDelete }: { title: string, files: File[], onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void, onFileDelete: (fileId: string) => void }) => {
     const [selectedHistoryFile, setSelectedHistoryFile] = useState<File | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const [currentFileId, setCurrentFileId] = useState<string | null>(null);
+    const [fileToDelete, setFileToDelete] = useState<File | null>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0] && currentFileId) {
@@ -109,66 +120,96 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate }: { title: strin
         fileInputRef.current?.click();
     };
 
+    const confirmDelete = () => {
+        if (fileToDelete) {
+            onFileDelete(fileToDelete.id);
+            setFileToDelete(null);
+        }
+    }
+
     return (
-        <div className="space-y-4">
-             <input
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                onChange={handleFileChange}
-                accept=".pdf"
-            />
-            <p className="text-sm text-stone-400">{title}</p>
-            {files.map((file, index) => (
-                <React.Fragment key={file.id}>
-                    <div className="flex items-center gap-4">
-                         <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
-                            <p className="text-sm">{index + 1}.</p>
-                            <PdfIcon className="w-6 h-6 shrink-0" />
-                            <div className="flex-1">
-                                <p className="text-base text-black font-medium">{file.name}</p>
-                                <p className="text-xs text-stone-400">{file.date}</p>
+        <AlertDialog>
+            <div className="space-y-4">
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    onChange={handleFileChange}
+                    accept=".pdf"
+                />
+                <p className="text-sm text-stone-400">{title}</p>
+                {files.map((file, index) => (
+                    <React.Fragment key={file.id}>
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
+                                <p className="text-sm">{index + 1}.</p>
+                                <PdfIcon className="w-6 h-6 shrink-0" />
+                                <div className="flex-1">
+                                    <p className="text-base text-black font-medium">{file.name}</p>
+                                    <p className="text-xs text-stone-400">{file.date}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {file.version && (
+                                    <Badge
+                                        variant="outline"
+                                        className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm"
+                                        onClick={() => setSelectedHistoryFile(file)}
+                                    >
+                                        {file.version.replace('V ', 'Version ')}
+                                    </Badge>
+                                )}
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="w-6 h-6">
+                                            <MoreVertical className="w-5 h-5" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem onSelect={() => openFilePicker(file.id)}>
+                                            <Replace className="mr-2 h-4 w-4" />
+                                            Change
+                                        </DropdownMenuItem>
+                                        <AlertDialogTrigger asChild>
+                                            <DropdownMenuItem className="text-red-600" onSelect={(e) => {e.preventDefault(); setFileToDelete(file)}}>
+                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                Remove
+                                            </DropdownMenuItem>
+                                        </AlertDialogTrigger>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            {file.version && (
-                                <Badge
-                                    variant="outline"
-                                    className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm"
-                                    onClick={() => setSelectedHistoryFile(file)}
-                                >
-                                    {file.version.replace('V ', 'Version ')}
-                                </Badge>
-                            )}
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="w-6 h-6">
-                                        <MoreVertical className="w-5 h-5" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem onSelect={() => openFilePicker(file.id)}>
-                                        <Replace className="mr-2 h-4 w-4" />
-                                        Change
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600">
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Remove
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                        {index < files.length - 1 && <Separator />}
+                    </React.Fragment>
+                ))}
+                <VersionHistoryDialog 
+                    open={!!selectedHistoryFile}
+                    onOpenChange={(open) => !open && setSelectedHistoryFile(null)}
+                    file={selectedHistoryFile}
+                    onFileClick={onFileClick}
+                />
+                 <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                         </div>
-                    </div>
-                    {index < files.length - 1 && <Separator />}
-                </React.Fragment>
-            ))}
-             <VersionHistoryDialog 
-                open={!!selectedHistoryFile}
-                onOpenChange={(open) => !open && setSelectedHistoryFile(null)}
-                file={selectedHistoryFile}
-                onFileClick={onFileClick}
-            />
-        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">
+                            Confirm File Deletion?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                           Deleting this file will permanently remove it. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </div>
+        </AlertDialog>
     );
 }
 
@@ -211,6 +252,14 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         }
         setFiles(updatedFiles);
     };
+    
+    const handleFileDelete = (fileId: string) => {
+        const updatedFiles = JSON.parse(JSON.stringify(files));
+        for (const category in updatedFiles) {
+            updatedFiles[category] = updatedFiles[category].filter((f: File) => f.id !== fileId);
+        }
+        setFiles(updatedFiles);
+    }
 
 
     const handleCloseDialog = () => {
@@ -219,19 +268,19 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
 
     return (
         <>
-            <Card className="rounded-[50px] p-10 border-0">
+            <Card className="rounded-[50px] border-0">
                 <CardContent className="p-0 space-y-6">
-                    <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
+                    <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
                     <Separator />
-                    <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
+                    <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                     <Separator />
-                    <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
+                    <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                     <Separator />
-                    <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
+                    <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                     <Separator />
-                    <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
+                    <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                     <Separator />
-                    <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} />
+                    <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                 </CardContent>
             </Card>
             <PdfViewerDialog open={!!selectedFile} onOpenChange={(open) => !open && handleCloseDialog()} file={selectedFile} />
