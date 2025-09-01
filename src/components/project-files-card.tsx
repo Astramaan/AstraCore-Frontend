@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { MoreVertical, X, Trash2, Replace } from 'lucide-react';
@@ -83,7 +83,7 @@ const VersionHistoryDialog = ({ open, onOpenChange, file, onFileClick }: { open:
                                 <p className="font-semibold">{version.name} ({version.version})</p>
                                 <p className="text-sm text-muted-foreground">{version.date}</p>
                             </div>
-                            <Badge variant="outline" className="bg-cyan-500/10 text-cyan-500 border-cyan-500">{version.version}</Badge>
+                            <Badge variant="outline" className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm">{version.version?.replace('V ', 'Version ')}</Badge>
                         </div>
                     ))}
                 </div>
