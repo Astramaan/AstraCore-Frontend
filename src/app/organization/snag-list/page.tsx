@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, Plus } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, Edit, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -21,7 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -96,9 +96,9 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean }) => (
-    <div className="flex flex-col px-10 py-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast, onStatusChange }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean, onStatusChange: (id: string, status: Snag['status']) => void }) => (
+    <div className="flex flex-col">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 px-10 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -136,6 +136,9 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast 
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Solved</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
@@ -162,7 +165,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="h-14 px-4 md:px-6 rounded-full text-grey-1 text-sm md:text-lg font-medium md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
                         Change Status
-                        <ChevronDown className="ml-2"/>
+                        <MoreVertical className="ml-2"/>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -251,23 +254,26 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         setIsDeleteConfirmationOpen(true);
     }
     
+    const updateSnagStatus = (snagId: string, status: Snag['status']) => {
+        const statusColors = {
+            'Open': 'text-red-600',
+            'In Progress': 'text-yellow-600',
+            'Closed': 'text-cyan-500'
+        };
+        const subStatusText = {
+            'Open': 'unresolved',
+            'In Progress': 'active',
+            'Closed': 'resolved'
+        }
+        setAllSnags(prevSnags =>
+            prevSnags.map(snag =>
+                snag.id === snagId ? { ...snag, status, statusColor: statusColors[status], subStatus: subStatusText[status] } : snag
+            )
+        );
+    }
+    
     const handleBulkStatusChange = (status: Snag['status']) => {
-      const statusColors = {
-        'Open': 'text-red-600',
-        'In Progress': 'text-yellow-600',
-        'Closed': 'text-cyan-500'
-      };
-      const subStatusText = {
-        'Open': 'unresolved',
-        'In Progress': 'active',
-        'Closed': 'resolved'
-      }
-
-      setAllSnags(prevSnags => 
-        prevSnags.map(snag => 
-            selectedSnags.includes(snag.id) ? { ...snag, status, statusColor: statusColors[status], subStatus: subStatusText[status] } : snag
-          )
-      );
+        selectedSnags.forEach(snagId => updateSnagStatus(snagId, status));
     };
 
     const handleAddSnagForProject = (projectId: string) => {
@@ -327,15 +333,13 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                             <DropdownMenuContent>
                                                 <DropdownMenuItem>View Project</DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
-                                                <DropdownMenuItem>Solved</DropdownMenuItem>
-                                                <DropdownMenuItem>Reopen</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="p-0">
+                                <CardContent className="p-0 pb-6">
                                     <div className="flex flex-col">
                                         {projectData.snags.map((snag, index) => (
                                             <SnagCard 
@@ -345,6 +349,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 onSelectionChange={handleSelectionChange}
                                                 onSingleDelete={handleSingleDelete}
                                                 isLast={index === projectData.snags.length - 1}
+                                                onStatusChange={updateSnagStatus}
                                             />
                                         ))}
                                     </div>
@@ -394,6 +399,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
 
 
