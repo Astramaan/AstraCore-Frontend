@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Plus } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -96,8 +96,8 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
-    <div className="flex flex-col px-10 pt-10 pb-6">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean }) => (
+    <div className="flex flex-col p-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
@@ -144,7 +144,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 </DropdownMenu>
             </div>
         </div>
-        <Separator className="mt-4"/>
+        {!isLast && <Separator className="mt-4"/>}
     </div>
 );
 
@@ -302,7 +302,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                     selectedProjectId={selectedProjectForSnag}
                     trigger={
                          <Button onClick={openAddSnagSheet} className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                            <Plus className="mr-2"/>
+                            <Edit className="mr-2"/>
                             New snag
                         </Button>
                     }
@@ -315,9 +315,9 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                            <AccordionTrigger className="w-full hover:no-underline px-10 py-6">
+                             <AccordionTrigger className="w-full hover:no-underline px-10 py-6 group">
                                 <div className="flex justify-between items-center w-full">
-                                    <h3 className="text-lg font-semibold">{projectKey}</h3>
+                                    <h3 className="text-lg font-semibold group-data-[state=open]:text-primary">{projectKey}</h3>
                                     <div className="flex items-center gap-2">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -332,6 +332,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 <DropdownMenuItem>Reopen</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
+                                         <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                     </div>
                                 </div>
                             </AccordionTrigger>
@@ -345,6 +346,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 isSelected={selectedSnags.includes(snag.id)}
                                                 onSelectionChange={handleSelectionChange}
                                                 onSingleDelete={handleSingleDelete}
+                                                isLast={index === projectData.snags.length - 1}
                                             />
                                         ))}
                                     </div>
@@ -394,5 +396,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
 
