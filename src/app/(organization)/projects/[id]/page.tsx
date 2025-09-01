@@ -97,17 +97,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 </div>
                 
                 <div className="w-full xl:w-[384px]">
-                     <Card className="rounded-[20px] border border-stone-300">
-                        <Tabs defaultValue="files" className="w-full">
-                            <TabsList className="grid w-full grid-cols-2 h-auto p-2 bg-transparent gap-2">
-                                <TimelineDialog />
-                                <TabsTrigger value="files" className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400">Files</TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="files" className="mt-0">
-                               <ProjectFilesCard files={project.files} materials={project.materials} />
-                            </TabsContent>
-                        </Tabs>
-                    </Card>
+                     <ProjectFilesCard files={project.files} materials={project.materials} />
                 </div>
             </div>
         </div>

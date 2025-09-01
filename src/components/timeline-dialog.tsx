@@ -20,8 +20,8 @@ export const TimelineDialog = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-            variant="outline"
-            className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400"
+            variant="link"
+            className="text-cyan-500"
         >
             Timeline
         </Button>
