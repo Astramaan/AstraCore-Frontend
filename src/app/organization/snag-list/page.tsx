@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -96,8 +97,8 @@ const allSnagsData: Snag[] = [
 ];
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
-    <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-10 gap-4">
+    <div className="flex flex-col px-10 pt-10 pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -109,6 +110,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
+                    
                 </div>
             </div>
 
@@ -142,7 +144,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 </DropdownMenu>
             </div>
         </div>
-        <Separator />
+        <Separator className="mt-4"/>
     </div>
 );
 
@@ -313,7 +315,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                            <AccordionTrigger className="w-full hover:no-underline bg-white px-10 py-6">
+                            <AccordionTrigger className="w-full hover:no-underline px-10 py-6">
                                 <div className="flex justify-between items-center w-full">
                                     <h3 className="text-lg font-semibold">{projectKey}</h3>
                                     <div className="flex items-center gap-2">
@@ -392,4 +394,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
