@@ -1,12 +1,11 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -109,7 +108,6 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
-                    <p className="text-lg text-black">{snag.projectName} ({snag.projectId})</p>
                 </div>
             </div>
 
@@ -296,6 +294,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                     />
                 </div>
                 <Button onClick={openAddSnagSheet} className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                    <Plus className="mr-2"/>
                     New snag
                 </Button>
             </div>
@@ -305,8 +304,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
             <div className="space-y-6">
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
-                        <div className="bg-white px-10 py-6 flex justify-between items-center">
-                            <h3 className="text-2xl font-semibold">{projectKey}</h3>
+                        <div className="bg-white px-6 py-6 flex justify-between items-center">
+                            <h3 className="text-2xl font-semibold pl-10">{projectKey}</h3>
                              <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon">
@@ -377,3 +376,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
   );
 }
 
+    
