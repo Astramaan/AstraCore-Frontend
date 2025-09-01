@@ -112,7 +112,7 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 <DialogClose asChild>
-                                    <Button variant="ghost" size="icon" className="rounded-full">
+                                    <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                         <X className="h-5 w-5" />
                                     </Button>
                                 </DialogClose>
@@ -219,4 +219,3 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate, st
     </DialogOrSheet>
   );
 }
-
