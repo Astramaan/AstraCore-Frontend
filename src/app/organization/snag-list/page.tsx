@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, PlusCircle, ChevronsUpDown } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -98,7 +98,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast, onStatusChange }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean, onStatusChange: (id: string, status: Snag['status']) => void }) => (
     <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-4 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
