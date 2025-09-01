@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -26,6 +25,7 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { SnagDetailsSheet } from '@/components/snag-details-sheet';
 
 interface Snag {
     id: string;
@@ -96,8 +96,8 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast, onStatusChange }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean, onStatusChange: (id: string, status: Snag['status']) => void }) => (
-    <div className="flex flex-col">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void }) => (
+    <div className="flex flex-col cursor-pointer" onClick={() => onViewDetails(snag)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
@@ -105,8 +105,9 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast,
                     className="w-6 h-6 rounded-full" 
                     checked={isSelected}
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
+                    onClick={(e) => e.stopPropagation()}
                 />
-                <Image src={snag.image} alt={snag.title} width={100} height={100} className="rounded-[5px]" data-ai-hint="defect photo"/>
+                <Image src={snag.image} alt={snag.title} width={100} height={100} className="rounded-[5px] object-cover" data-ai-hint="defect photo"/>
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
@@ -131,12 +132,12 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast,
                 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="w-6 h-6" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenuItem onSelect={() => onViewDetails(snag)}>Edit</DropdownMenuItem>
                          <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Solved</DropdownMenuItem>
                         <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
                         <DropdownMenuSeparator />
@@ -147,7 +148,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast,
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator className="my-2 mx-10" />}
+        <Separator className="mx-10" />
     </div>
 );
 
@@ -194,6 +195,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     const [searchTerm, setSearchTerm] = useState('');
     const [snagSheetOpen, setSnagSheetOpen] = useState(false);
     const [selectedProjectForSnag, setSelectedProjectForSnag] = useState<string | undefined>(undefined);
+    const [selectedSnagDetails, setSelectedSnagDetails] = useState<Snag | null>(null);
 
     const filteredSnags = useMemo(() => {
         if (!searchTerm) return allSnags;
@@ -287,6 +289,14 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         setSnagSheetOpen(true);
     }
 
+    const handleViewDetails = (snag: Snag) => {
+        setSelectedSnagDetails(snag);
+    }
+
+    const onDeleteFromDetails = (id: string) => {
+        setSnagToDelete([id]);
+        setIsDeleteConfirmationOpen(true);
+    };
 
   return (
     <div className="space-y-6 pb-24">
@@ -331,9 +341,11 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                     <MoreVertical className="w-6 h-6" />
                                                 </Button>
                                             </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
+                                            <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
                                                 <DropdownMenuItem>View Project</DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={() => updateSnagStatus(projectData.snags[0].id, 'Closed')}>Solved</DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={() => updateSnagStatus(projectData.snags[0].id, 'Open')}>Reopen</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
@@ -341,15 +353,15 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                             </AccordionTrigger>
                             <AccordionContent>
                                 <div className="flex flex-col">
-                                    {projectData.snags.map((snag, index) => (
+                                    {projectData.snags.map((snag) => (
                                         <SnagCard 
                                             key={snag.id} 
                                             snag={snag}
                                             isSelected={selectedSnags.includes(snag.id)}
                                             onSelectionChange={handleSelectionChange}
                                             onSingleDelete={handleSingleDelete}
-                                            isLast={index === projectData.snags.length - 1}
                                             onStatusChange={updateSnagStatus}
+                                            onViewDetails={handleViewDetails}
                                         />
                                     ))}
                                 </div>
@@ -395,19 +407,17 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
             onOpenChange={setSnagSheetOpen} 
             selectedProjectId={selectedProjectForSnag}
         />
+         <SnagDetailsSheet 
+            isOpen={!!selectedSnagDetails}
+            onClose={() => setSelectedSnagDetails(null)}
+            snag={selectedSnagDetails}
+            onDelete={(e) => {
+                e.preventDefault();
+                if(selectedSnagDetails) {
+                  onDeleteFromDetails(selectedSnagDetails.id)
+                }
+              }}
+        />
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-    
-
-    
-
