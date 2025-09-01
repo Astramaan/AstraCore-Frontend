@@ -136,7 +136,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate }: { title: strin
                                     className="bg-cyan-500/10 text-cyan-500 border-cyan-500 cursor-pointer"
                                     onClick={() => setSelectedHistoryFile(file)}
                                 >
-                                    {file.version}
+                                    {file.version.replace('V ', 'Version ')}
                                 </Badge>
                             )}
                             <DropdownMenu>
