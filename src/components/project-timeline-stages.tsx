@@ -2,13 +2,7 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { Card, CardContent } from './ui/card';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
@@ -24,13 +18,10 @@ export interface CustomStage {
 }
 
 
-const mockDesignStages: CustomStage[] = [
+const allStages: CustomStage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'ongoing', type: 'stage' },
     { id: 2, title: "1% Of Over all Quote", subtitle: 'Payment Due', category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'completed', type: 'payment' },
     { id: 3, title: "Project Manager is assigned", subtitle: 'Team Allocation', category: 'Management', image: 'https://placehold.co/100x100.png', duration: '1 Day', status: 'completed', type: 'stage' },
-];
-
-const mockConstructionStages: CustomStage[] = [
     { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
     { id: 6, title: '20% Payment', subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
@@ -90,26 +81,13 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
     );
 };
 
-
-const StageSection = ({ title, stages }: { title: string, stages: CustomStage[] }) => (
-    <AccordionItem value={title}>
-        <AccordionTrigger className="text-xl font-semibold hover:no-underline">{title}</AccordionTrigger>
-        <AccordionContent>
-            <div className="space-y-4 pt-4">
-                {stages.map((stage) => <StageCard key={stage.id} stage={stage} />)}
-            </div>
-        </AccordionContent>
-    </AccordionItem>
-)
-
 export const ProjectTimelineStages = () => {
     return (
         <Card className="rounded-[50px] p-0 border-none shadow-none bg-transparent">
             <CardContent className="p-0">
-                <Accordion type="multiple" defaultValue={["Design", "Construction"]} className="w-full space-y-4">
-                   <StageSection title="Design" stages={mockDesignStages} />
-                   <StageSection title="Construction" stages={mockConstructionStages} />
-                </Accordion>
+                <div className="w-full space-y-4">
+                    {allStages.map((stage) => <StageCard key={stage.id} stage={stage} />)}
+                </div>
             </CardContent>
         </Card>
     );
