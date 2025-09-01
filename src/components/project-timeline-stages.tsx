@@ -68,7 +68,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                     <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
                 </div>
                 <div className="text-right">
-                    <p className={cn("text-sm font-medium", statusStyles[stage.status])}>{stage.status === 'completed' ? 'Paid' : 'Due'}</p>
+                    <p className={cn("text-base font-medium", statusStyles[stage.status])}>{stage.status === 'completed' ? 'Paid' : 'Due'}</p>
                 </div>
             </div>
         );
@@ -94,7 +94,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-muted-foreground">{stage.duration}</p>
-                    <p className={cn("text-sm font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
+                    <p className={cn("text-base font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
                 </div>
             </div>
             {showApprovalUI && (
