@@ -305,7 +305,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
             <div className="space-y-6">
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
-                        <div className="bg-muted px-10 py-6 flex justify-between items-center">
+                        <div className="bg-white px-10 py-6 flex justify-between items-center">
                             <h3 className="text-2xl font-semibold">{projectKey}</h3>
                              <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
