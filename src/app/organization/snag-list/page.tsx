@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -383,3 +383,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
+    
