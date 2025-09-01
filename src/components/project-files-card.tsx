@@ -70,7 +70,6 @@ export const ProjectFilesCard = ({ files, materials }: ProjectFilesCardProps) =>
         <Card className="rounded-[50px] border border-stone-300">
             <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle className="text-lg">Design & Documents</CardTitle>
-                <TimelineDialog />
             </CardHeader>
             <CardContent className="space-y-6">
                 <FileSection title="Initial" files={files.initial} />
