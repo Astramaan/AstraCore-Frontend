@@ -104,7 +104,7 @@ const StageSection = ({ title, stages }: { title: string, stages: CustomStage[] 
 
 export const ProjectTimelineStages = () => {
     return (
-        <Card className="rounded-[50px] p-0 md:p-10 border-none shadow-none bg-transparent">
+        <Card className="rounded-[50px] p-0 border-none shadow-none bg-transparent">
             <CardContent className="p-0">
                 <Accordion type="multiple" defaultValue={["Design", "Construction"]} className="w-full space-y-4">
                    <StageSection title="Design" stages={mockDesignStages} />
