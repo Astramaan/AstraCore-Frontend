@@ -6,6 +6,7 @@ import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { ProjectMaterialsCard } from '@/components/project-materials-card';
 import { TimelineDialog } from '@/components/timeline-dialog';
+import { Button } from '@/components/ui/button';
 
 const mockProject = {
     id: "YAS2024",
@@ -93,6 +94,11 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 </div>
                 
                 <div className="w-full xl:w-[384px] space-y-6">
+                     <div className="flex gap-2 bg-zinc-100 p-1 rounded-full">
+                        <TimelineDialog />
+                        <Button variant="link" className="text-cyan-500 flex-1">Payments</Button>
+                        <Button variant="link" className="text-cyan-500 flex-1 bg-white rounded-full">Design & Documents</Button>
+                    </div>
                      <ProjectFilesCard files={project.files} />
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
