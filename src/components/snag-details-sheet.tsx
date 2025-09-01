@@ -40,6 +40,7 @@ interface SnagDetailsSheetProps {
     onClose: () => void;
     snag: Snag | null;
     onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onUpdate: (snag: Snag) => void;
 }
 
 const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) => (
@@ -49,7 +50,7 @@ const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) 
     </div>
 );
 
-const SnagDetailsContent = ({ snag, onClose, onDelete }: { snag: Snag, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void }) => {
+const SnagDetailsContent = ({ snag, onClose, onDelete, onUpdate }: { snag: Snag, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void, onUpdate: (snag: Snag) => void }) => {
     return (
         <>
             <DialogHeader className="p-4 border-b">
@@ -82,10 +83,10 @@ const SnagDetailsContent = ({ snag, onClose, onDelete }: { snag: Snag, onClose: 
                 </DialogTitle>
             </DialogHeader>
 
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)]">
                 <div className="space-y-4">
                      {snag.images && snag.images.length > 0 && (
-                        <Carousel className="w-full max-w-sm mx-auto">
+                        <Carousel className="w-full max-w-md mx-auto">
                             <CarouselContent>
                                 {snag.images.map((image, index) => (
                                     <CarouselItem key={index}>
@@ -116,12 +117,25 @@ const SnagDetailsContent = ({ snag, onClose, onDelete }: { snag: Snag, onClose: 
                     <DetailRow label="Status" value={<Badge className={cn("text-base", snag.statusColor)} variant="outline">{snag.status}</Badge>} />
                 </div>
             </div>
+             <div className="p-4 border-t mt-auto">
+                <div className="flex justify-end gap-4">
+                    {snag.status === 'Open' && (
+                        <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })}>Mark as In Progress</Button>
+                    )}
+                    {snag.status === 'In Progress' && (
+                        <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })}>Mark as Resolved</Button>
+                    )}
+                     {snag.status === 'Closed' && (
+                        <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })}>Re-open Snag</Button>
+                    )}
+                </div>
+            </div>
         </>
     );
 };
 
 
-export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete }: SnagDetailsSheetProps) {
+export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate }: SnagDetailsSheetProps) {
   const isMobile = useIsMobile();
 
   if (!snag) return null;
@@ -145,7 +159,7 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete }: SnagDetail
               }
           }}
       >
-          <SnagDetailsContent snag={snag} onClose={onClose} onDelete={onDelete} />
+          <SnagDetailsContent snag={snag} onClose={onClose} onDelete={onDelete} onUpdate={onUpdate} />
       </DialogOrSheetContent>
     </DialogOrSheet>
   );

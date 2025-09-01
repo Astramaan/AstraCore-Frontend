@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -285,6 +285,31 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         setIsDeleteConfirmationOpen(true);
     };
 
+    const handleUpdateSnag = (updatedSnag: Snag) => {
+        const statusColors = {
+            'Open': 'text-red-600',
+            'In Progress': 'text-yellow-600',
+            'Closed': 'text-cyan-500'
+        };
+        const subStatusText = {
+            'Open': 'unresolved',
+            'In Progress': 'active',
+            'Closed': 'resolved'
+        }
+        const fullUpdatedSnag = {
+            ...updatedSnag,
+            statusColor: statusColors[updatedSnag.status],
+            subStatus: subStatusText[updatedSnag.status]
+        };
+        
+        setAllSnags(prevSnags =>
+            prevSnags.map(snag =>
+                snag.id === fullUpdatedSnag.id ? fullUpdatedSnag : snag
+            )
+        );
+        setSelectedSnagDetails(fullUpdatedSnag);
+    };
+
   return (
     <div className="space-y-6 pb-24">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -305,7 +330,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                     selectedProjectId={selectedProjectForSnag}
                     trigger={
                          <Button onClick={openAddSnagSheet} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                            <Edit className="mr-2"/>
+                            <Plus className="mr-2"/>
                             New snag
                         </Button>
                     }
@@ -402,6 +427,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                   onDeleteFromDetails(selectedSnagDetails.id)
                 }
               }}
+            onUpdate={handleUpdateSnag}
         />
     </div>
   );
