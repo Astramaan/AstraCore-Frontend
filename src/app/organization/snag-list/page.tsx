@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, PlusCircle } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, PlusCircle, ChevronsUpDown } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -51,7 +51,7 @@ const allSnagsData: Snag[] = [
         status: 'Open',
         subStatus: 'unresolved',
         statusColor: 'text-red-600',
-        image: 'https://placehold.co/80x80',
+        image: 'https://placehold.co/100x100',
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -64,7 +64,7 @@ const allSnagsData: Snag[] = [
         status: 'Closed',
         subStatus: 'Resolved',
         statusColor: 'text-cyan-500',
-        image: 'https://placehold.co/80x80',
+        image: 'https://placehold.co/100x100',
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -77,7 +77,7 @@ const allSnagsData: Snag[] = [
         status: 'Closed',
         subStatus: 'Resolved',
         statusColor: 'text-cyan-500',
-        image: 'https://placehold.co/80x80',
+        image: 'https://placehold.co/100x100',
         projectId: 'CHA2024',
         projectName: 'Charan Project'
     },
@@ -90,7 +90,7 @@ const allSnagsData: Snag[] = [
         status: 'Open',
         subStatus: 'unresolved',
         statusColor: 'text-red-600',
-        image: 'https://placehold.co/80x80',
+        image: 'https://placehold.co/100x100',
         projectId: 'SAT2024',
         projectName: 'Satish Project'
     },
@@ -98,7 +98,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast, onStatusChange }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast: boolean, onStatusChange: (id: string, status: Snag['status']) => void }) => (
     <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -106,7 +106,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast,
                     checked={isSelected}
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                 />
-                <Image src={snag.image} alt={snag.title} width={80} height={80} className="rounded-[5px]" data-ai-hint="defect photo"/>
+                <Image src={snag.image} alt={snag.title} width={100} height={100} className="rounded-[5px]" data-ai-hint="defect photo"/>
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
@@ -336,11 +336,12 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
+                                        <ChevronsUpDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                     </div>
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="p-0 pb-6">
+                                <CardContent className="p-0">
                                     <div className="flex flex-col">
                                         {projectData.snags.map((snag, index) => (
                                             <SnagCard 
@@ -400,6 +401,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
 
 
