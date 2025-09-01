@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -24,6 +23,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 interface Snag {
     id: string;
@@ -94,9 +94,9 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
-    <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 px-10">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast?: boolean }) => (
+    <div className="flex flex-col px-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -141,7 +141,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { sna
                 </DropdownMenu>
             </div>
         </div>
-        <Separator />
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -308,39 +308,49 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-            <div className="space-y-6">
+            <Accordion type="multiple" className="space-y-6">
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
-                        <div className="bg-white px-10 py-6 flex justify-between items-center">
-                            <h3 className="text-lg font-semibold">{projectKey}</h3>
-                             <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <MoreVertical className="w-6 h-6" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem>View Project</DropdownMenuItem>
-                                    <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
-                        <CardContent className="p-0 pb-10">
-                            <div className="flex flex-col">
-                                {projectData.snags.map((snag, index) => (
-                                    <SnagCard 
-                                        key={snag.id} 
-                                        snag={snag}
-                                        isSelected={selectedSnags.includes(snag.id)}
-                                        onSelectionChange={handleSelectionChange}
-                                        onSingleDelete={handleSingleDelete}
-                                    />
-                                ))}
-                            </div>
-                        </CardContent>
+                        <AccordionItem value={projectKey} className="border-b-0">
+                            <AccordionTrigger className="w-full hover:no-underline px-10 py-6">
+                                <div className="flex justify-between items-center w-full">
+                                    <h3 className="text-lg font-semibold">{projectKey}</h3>
+                                    <div className="flex items-center gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                                                    <MoreVertical className="w-6 h-6" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem>View Project</DropdownMenuItem>
+                                                <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                        {/* The chevron will be added by AccordionTrigger */}
+                                    </div>
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <CardContent className="p-0 pb-10">
+                                    <div className="flex flex-col">
+                                        {projectData.snags.map((snag, index) => (
+                                            <SnagCard 
+                                                key={snag.id} 
+                                                snag={snag}
+                                                isSelected={selectedSnags.includes(snag.id)}
+                                                onSelectionChange={handleSelectionChange}
+                                                onSingleDelete={handleSingleDelete}
+                                                isLast={index === projectData.snags.length - 1}
+                                            />
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </AccordionContent>
+                        </AccordionItem>
                     </Card>
                 ))}
-            </div>
+            </Accordion>
 
             <FloatingActionBar 
                 selectedCount={selectedSnags.length}
