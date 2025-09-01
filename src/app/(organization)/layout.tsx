@@ -115,8 +115,8 @@ const OrganizationBottomNav = () => {
         { href: "/organization/meetings", icon: Calendar, label: "Meetings" },
         { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
         { href: "/organization/leads", icon: Users, label: "Leads" },
-        { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
         { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
+        { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
     ];
 
     const pathname = usePathname();
