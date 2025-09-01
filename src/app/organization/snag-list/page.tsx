@@ -285,8 +285,19 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
             <div className="space-y-6">
                 {Object.entries(groupedSnags).map(([projectKey, snags]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
-                        <div className="bg-muted p-10">
-                            <h3 className="text-xl font-semibold">{projectKey}</h3>
+                        <div className="bg-muted p-10 flex justify-between items-center">
+                            <h3 className="text-2xl font-semibold">{projectKey}</h3>
+                             <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                        <MoreVertical className="w-6 h-6" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem>View Project</DropdownMenuItem>
+                                    <DropdownMenuItem>Add Snag</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                         <CardContent className="p-6">
                             <div className="flex flex-col">
