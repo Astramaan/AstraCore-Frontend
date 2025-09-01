@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -332,7 +333,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="p-0 pb-10">
+                                <CardContent className="p-0 pb-6">
                                     <div className="flex flex-col">
                                         {projectData.snags.map((snag, index) => (
                                             <SnagCard 
