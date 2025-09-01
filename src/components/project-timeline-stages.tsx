@@ -38,7 +38,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
     if (stage.type === 'payment') {
         return (
              <div className={cn(
-                "rounded-2xl border p-4 flex items-center gap-4",
+                "rounded-[25px] border p-4 flex items-center gap-4",
                 stage.status === 'completed' ? 'bg-green-50' : 'bg-yellow-50'
             )}>
                 <div className="relative w-24 h-24 shrink-0">
@@ -60,7 +60,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
 
     return (
         <div className={cn(
-            "rounded-2xl border p-4 flex items-center gap-4",
+            "rounded-[25px] border p-4 flex items-center gap-4",
             stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200'
         )}>
             <div className="relative w-24 h-24 shrink-0">
