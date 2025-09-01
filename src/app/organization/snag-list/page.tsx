@@ -336,7 +336,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
-                                        <ChevronsUpDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
                                     </div>
                                 </div>
                             </AccordionTrigger>
@@ -408,3 +407,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
 
+
+
+    
