@@ -116,7 +116,7 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete }: SnagDetail
             "p-0 bg-white border-stone-300",
             isMobile 
               ? "w-full rounded-t-3xl"
-              : "md:max-w-xl lg:max-w-2xl rounded-[20px]"
+              : "md:max-w-lg rounded-[20px]"
           )}
           {...(isMobile ? { side: "bottom" } : { side: "right" })}
           onInteractOutside={(e) => {
@@ -130,4 +130,3 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete }: SnagDetail
     </DialogOrSheet>
   );
 }
-
