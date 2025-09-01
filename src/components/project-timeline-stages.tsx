@@ -101,12 +101,12 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                 <div className="mt-4 space-y-4">
                     <div className="grid grid-cols-4 gap-2">
                         {stage.siteImages?.map((img, index) => (
-                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-lg object-cover aspect-square" data-ai-hint="construction site photo" />
+                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
                         ))}
                     </div>
                     <div className="flex gap-4">
-                        <Button variant="outline" className="flex-1 rounded-lg border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive">Reject</Button>
-                        <Button className="flex-1 rounded-lg bg-primary hover:bg-primary/90">Complete</Button>
+                        <Button variant="outline" className="flex-1 rounded-[15px] border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive">Reject</Button>
+                        <Button className="flex-1 rounded-[15px] bg-primary hover:bg-primary/90">Complete</Button>
                     </div>
                 </div>
             )}
