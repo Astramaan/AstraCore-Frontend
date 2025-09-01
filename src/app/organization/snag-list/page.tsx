@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit, PlusCircle } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Edit } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -147,7 +147,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast,
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator className="my-2" />}
+        {!isLast && <Separator className="my-2 mx-10" />}
     </div>
 );
 
@@ -308,7 +308,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                     selectedProjectId={selectedProjectForSnag}
                     trigger={
                          <Button onClick={openAddSnagSheet} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                            <PlusCircle className="mr-2"/>
+                            <Plus className="mr-2"/>
                             New snag
                         </Button>
                     }
@@ -408,5 +408,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
 
+
+    
 
     
