@@ -41,7 +41,7 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
                 <p className="text-base font-medium">{member.name}</p>
             </div>
             <div className="flex items-center gap-2">
-                <Button className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-destructive/10 text-black">
+                <Button className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-black/10 text-black">
                     <MessageSquare className="w-4 h-4 mr-2"/>
                     Chat
                 </Button>
@@ -67,7 +67,7 @@ export const TimelineDialog = () => {
             Timeline
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+      <DialogContent className="max-w-xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
         <DialogHeader className="p-4 border-b flex-row items-center">
             <DialogTitle className="text-2xl font-semibold">Project Timeline</DialogTitle>
              <DialogClose asChild>
