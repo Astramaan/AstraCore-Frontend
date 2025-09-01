@@ -41,7 +41,7 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
                 <p className="text-base font-medium">{member.name}</p>
             </div>
             <div className="flex items-center gap-2">
-                <Button className="rounded-full h-[54px] px-4 py-2 bg-green text-white hover:bg-green/90">
+                <Button className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-destructive/10 text-black">
                     <MessageSquare className="w-4 h-4 mr-2"/>
                     Chat
                 </Button>
