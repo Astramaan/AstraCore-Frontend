@@ -314,7 +314,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                            <AccordionTrigger className="w-full hover:no-underline px-10 py-6">
+                            <AccordionTrigger className="w-full hover:no-underline bg-white px-10 py-6">
                                 <div className="flex justify-between items-center w-full">
                                     <h3 className="text-lg font-semibold">{projectKey}</h3>
                                     <div className="flex items-center gap-2">
@@ -329,7 +329,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
-                                         <ChevronDown className="h-5 w-5 shrink-0 transition-transform duration-200" />
                                     </div>
                                 </div>
                             </AccordionTrigger>
