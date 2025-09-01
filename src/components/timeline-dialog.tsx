@@ -67,7 +67,7 @@ export const TimelineDialog = () => {
             Timeline
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+      <DialogContent className="max-w-2xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
         <DialogHeader className="p-4 border-b flex-row items-center">
             <DialogTitle className="text-2xl font-semibold">Project Timeline</DialogTitle>
              <DialogClose asChild>
@@ -76,26 +76,19 @@ export const TimelineDialog = () => {
                 </Button>
             </DialogClose>
         </DialogHeader>
-         <div className="grid md:grid-cols-[1.5fr_auto_1fr] flex-1 overflow-hidden">
-             <ScrollArea className="flex-1">
-                <div className="p-6">
-                     <ProjectTimelineStages />
-                </div>
-            </ScrollArea>
-            <Separator orientation="vertical" />
-            <ScrollArea>
-                <div className="p-6">
-                    <Card className="border-none shadow-none">
-                        <CardHeader className="p-0">
-                            <CardTitle>Project Team</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0 mt-4">
-                            {projectTeam.map(member => <TeamMemberCard key={member.role} member={member} />)}
-                        </CardContent>
-                    </Card>
-                </div>
-            </ScrollArea>
-         </div>
+         <ScrollArea className="flex-1">
+            <div className="p-6 space-y-6">
+                <Card className="border-none shadow-none">
+                    <CardHeader className="p-0">
+                        <CardTitle>Project Team</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0 mt-4">
+                        {projectTeam.map(member => <TeamMemberCard key={member.role} member={member} />)}
+                    </CardContent>
+                </Card>
+                <ProjectTimelineStages />
+            </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
