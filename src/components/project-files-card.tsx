@@ -41,17 +41,22 @@ const FileSection = ({ title, files }: { title: string, files: File[] }) => (
         {files.map((file, index) => (
             <React.Fragment key={index}>
                 <div className="flex items-center gap-4">
-                    <PdfIcon className="w-6 h-6 shrink-0" />
-                    <div className="flex-1">
-                        <p className="text-base text-black font-medium">{file.name}</p>
-                        <p className="text-xs text-stone-400">{file.date}</p>
+                    <div className="flex items-center gap-2 flex-1">
+                        <p className="text-sm">{index + 1}.</p>
+                        <PdfIcon className="w-6 h-6 shrink-0" />
+                        <div className="flex-1">
+                            <p className="text-base text-black font-medium">{file.name}</p>
+                            <p className="text-xs text-stone-400">{file.date}</p>
+                        </div>
                     </div>
-                    {file.version && (
-                        <Badge variant="outline" className="bg-cyan-500/10 text-cyan-500 border-cyan-500">{file.version}</Badge>
-                    )}
-                    <Button variant="ghost" size="icon" className="w-6 h-6">
-                        <MoreVertical className="w-5 h-5" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        {file.version && (
+                            <Badge variant="outline" className="bg-cyan-500/10 text-cyan-500 border-cyan-500">{file.version}</Badge>
+                        )}
+                        <Button variant="ghost" size="icon" className="w-6 h-6">
+                            <MoreVertical className="w-5 h-5" />
+                        </Button>
+                    </div>
                 </div>
                 {index < files.length - 1 && <Separator />}
             </React.Fragment>
@@ -61,7 +66,7 @@ const FileSection = ({ title, files }: { title: string, files: File[] }) => (
 
 export const ProjectFilesCard = ({ files, materials }: ProjectFilesCardProps) => {
     return (
-        <Card className="rounded-[20px] border border-stone-300">
+        <Card className="rounded-[20px] border-none shadow-none">
             <CardHeader>
                 <CardTitle className="text-lg">Design & Documents</CardTitle>
             </CardHeader>

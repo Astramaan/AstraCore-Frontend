@@ -7,6 +7,7 @@ import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GanttChartSquare, CreditCard } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 const mockProject = {
     id: "YAS2024",
@@ -87,7 +88,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
         <div className="space-y-6">
             <ProjectInfoHeader project={project} />
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6 mt-20">
                 <div className="space-y-6">
                     <ProjectDetailsCard personalInfo={project.personalInfo} projectInfo={project.projectInfo} />
                     <ProjectVisualsCard visuals={project.visuals} />
@@ -95,18 +96,20 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 </div>
                 
                 <div className="w-full xl:w-[384px]">
-                    <Tabs defaultValue="timeline" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2 h-auto rounded-2xl p-2 bg-muted">
-                            <TabsTrigger value="timeline" className="rounded-[10px] py-4 data-[state=active]:bg-white">Timeline</TabsTrigger>
-                            <TabsTrigger value="payment" className="rounded-[10px] py-4 data-[state=active]:bg-white">Payment</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="timeline">
-                           <ProjectFilesCard files={project.files} materials={project.materials} />
-                        </TabsContent>
-                         <TabsContent value="payment">
-                            <div className="p-4 text-center text-muted-foreground">Payment details will be shown here.</div>
-                        </TabsContent>
-                    </Tabs>
+                     <Card className="rounded-[20px] border border-stone-300">
+                        <Tabs defaultValue="timeline" className="w-full">
+                            <TabsList className="grid w-full grid-cols-2 h-auto p-2 bg-transparent gap-2">
+                                <TabsTrigger value="timeline" className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400">Timeline</TabsTrigger>
+                                <TabsTrigger value="payment" className="rounded-[10px] py-4 data-[state=active]:bg-zinc-100 data-[state=active]:text-black data-[state=inactive]:text-zinc-400">Payment</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="timeline" className="mt-0">
+                               <ProjectFilesCard files={project.files} materials={project.materials} />
+                            </TabsContent>
+                             <TabsContent value="payment" className="mt-0">
+                                <div className="p-4 text-center text-muted-foreground">Payment details will be shown here.</div>
+                            </TabsContent>
+                        </Tabs>
+                    </Card>
                 </div>
             </div>
         </div>
