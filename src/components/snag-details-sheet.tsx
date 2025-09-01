@@ -86,8 +86,8 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                     <div className="ml-auto flex items-center gap-2">
                         {isEditing ? (
                             <>
-                                <Button variant="ghost" onClick={handleCancel}>Cancel</Button>
-                                <Button onClick={handleSave}>
+                                <Button variant="ghost" onClick={handleCancel} className="h-14 rounded-full px-8">Cancel</Button>
+                                <Button onClick={handleSave} className="h-14 rounded-full px-8">
                                     <Save className="mr-2 h-4 w-4" />
                                     Save
                                 </Button>
@@ -125,11 +125,11 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
             <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)]">
                 <div className="space-y-4">
                      {snag.images && snag.images.length > 0 && (
-                        <Carousel className="w-full max-w-sm mx-auto">
+                        <Carousel className="w-full max-w-md mx-auto">
                             <CarouselContent>
                                 {snag.images.map((image, index) => (
                                     <CarouselItem key={index}>
-                                        <div className="w-full aspect-video relative">
+                                        <div className="w-full aspect-square relative">
                                             <Image src={image} alt={`${snag.title} - image ${index + 1}`} layout="fill" className="rounded-lg object-cover" data-ai-hint="defect photo"/>
                                         </div>
                                     </CarouselItem>
@@ -145,16 +145,16 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                     )}
                     {isEditing ? (
                         <div className="space-y-2">
-                            <Label htmlFor="title">Title</Label>
-                            <Input id="title" name="title" value={snag.title} onChange={handleInputChange} className="text-2xl font-semibold h-auto p-0 border-0 focus-visible:ring-0" />
+                            <Label htmlFor="title" className="px-2">Title</Label>
+                            <Input id="title" name="title" value={snag.title} onChange={handleInputChange} className="h-14 rounded-full bg-background" />
                         </div>
                     ) : (
                         <h3 className="text-2xl font-semibold">{snag.title}</h3>
                     )}
                      {isEditing ? (
                         <div className="space-y-2">
-                             <Label htmlFor="description">Description</Label>
-                             <Textarea id="description" name="description" value={snag.description} onChange={handleInputChange} className="text-muted-foreground" />
+                             <Label htmlFor="description" className="px-2">Description</Label>
+                             <Textarea id="description" name="description" value={snag.description} onChange={handleInputChange} className="text-muted-foreground min-h-[54px] rounded-3xl bg-background" />
                         </div>
                     ) : (
                         <p className="text-muted-foreground">{snag.description}</p>
@@ -217,3 +217,4 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate, st
     </DialogOrSheet>
   );
 }
+
