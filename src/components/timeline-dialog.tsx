@@ -76,7 +76,7 @@ export const TimelineDialog = () => {
                 </Button>
             </DialogClose>
         </DialogHeader>
-         <div className="grid md:grid-cols-[1fr_auto_1.5fr] flex-1 overflow-hidden">
+         <div className="grid md:grid-cols-[1.5fr_auto_1fr] flex-1 overflow-hidden">
              <ScrollArea className="flex-1">
                 <div className="p-6">
                      <ProjectTimelineStages />
