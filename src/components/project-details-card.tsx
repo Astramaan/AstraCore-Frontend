@@ -81,10 +81,14 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetails
                         <DetailField label="Status" value={projectInfo.status} />
                     </div>
 
-                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <DetailField label="Current address" value={personalInfo.address} />
+                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 items-end">
+                        <div className="space-y-2">
+                            <Label className={cn("text-lg font-medium px-2", personalInfo.address ? 'text-grey-1' : 'text-zinc-900')}>Current address</Label>
+                            <div className="h-auto flex items-center p-5 rounded-3xl bg-background min-h-[56px]">
+                                <p className="text-black text-base leading-tight">{personalInfo.address}</p>
+                            </div>
+                        </div>
                          <div className="space-y-2">
-                             <Label className="text-lg font-medium px-2 text-transparent hidden md:block">Location</Label>
                             <a href={projectInfo.locationLink} target="_blank" rel="noopener noreferrer">
                                 <Button variant="outline" className="w-full h-14 rounded-full bg-sky-500/10 text-sky-500 border-sky-500 hover:bg-sky-500/20">Location</Button>
                             </a>
