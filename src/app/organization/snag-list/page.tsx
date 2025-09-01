@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -96,9 +95,9 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast?: boolean }) => (
-    <div className="flex flex-col px-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void }) => (
+    <div className="flex flex-col">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-10 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -143,7 +142,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast 
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator />}
+        <Separator />
     </div>
 );
 
@@ -327,6 +326,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                             <DropdownMenuContent>
                                                 <DropdownMenuItem>View Project</DropdownMenuItem>
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
+                                                <DropdownMenuItem>Solved</DropdownMenuItem>
+                                                <DropdownMenuItem>Reopen</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </div>
@@ -342,7 +343,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 isSelected={selectedSnags.includes(snag.id)}
                                                 onSelectionChange={handleSelectionChange}
                                                 onSingleDelete={handleSingleDelete}
-                                                isLast={index === projectData.snags.length - 1}
                                             />
                                         ))}
                                     </div>
@@ -392,3 +392,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
