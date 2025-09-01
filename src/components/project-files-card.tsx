@@ -59,9 +59,6 @@ const FileSection = ({ title, files }: { title: string, files: File[] }) => (
 export const ProjectFilesCard = ({ files }: ProjectFilesCardProps) => {
     return (
         <Card className="rounded-[50px] p-10 border-0">
-            <CardHeader className="p-0 flex flex-row justify-between items-center">
-                <CardTitle className="text-lg">Design & Documents</CardTitle>
-            </CardHeader>
             <CardContent className="p-0 mt-6 space-y-6">
                 <FileSection title="Initial" files={files.initial} />
                 <Separator />
