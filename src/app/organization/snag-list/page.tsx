@@ -1,11 +1,12 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Search, Plus } from 'lucide-react';
+import { MoreVertical, Trash2, ShieldAlert, ChevronDown, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
@@ -96,7 +98,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, isLast?: boolean }) => (
     <div className="flex flex-col px-10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 px-10">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -308,7 +310,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-            <Accordion type="multiple" className="space-y-6">
+            <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(groupedSnags)}>
                 {Object.entries(groupedSnags).map(([projectKey, projectData]) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
@@ -327,12 +329,11 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                                 <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
-                                        {/* The chevron will be added by AccordionTrigger */}
                                     </div>
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <CardContent className="p-0 pb-10">
+                                <CardContent className="p-0 pb-6">
                                     <div className="flex flex-col">
                                         {projectData.snags.map((snag, index) => (
                                             <SnagCard 
@@ -392,4 +393,3 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
   );
 }
 
-    
