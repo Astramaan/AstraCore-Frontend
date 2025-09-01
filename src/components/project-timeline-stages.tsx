@@ -21,7 +21,6 @@ export interface CustomStage {
 const allStages: CustomStage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'ongoing', type: 'stage' },
     { id: 2, title: "1% Of Over all Quote", subtitle: 'Payment Due', category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'completed', type: 'payment' },
-    { id: 3, title: "Project Manager is assigned", subtitle: 'Team Allocation', category: 'Management', image: 'https://placehold.co/100x100.png', duration: '1 Day', status: 'completed', type: 'stage' },
     { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
     { id: 6, title: '20% Payment', subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
