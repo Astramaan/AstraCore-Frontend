@@ -152,7 +152,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                     </CardContent>
                 </Card>
             </div>
-             <DialogContent className="max-w-3xl p-0 rounded-[50px]">
+             <DialogContent className="max-w-3xl p-0 rounded-[50px] bg-white">
                 <EditProfileForm 
                     employee={employee}
                     onSave={handleSave}
