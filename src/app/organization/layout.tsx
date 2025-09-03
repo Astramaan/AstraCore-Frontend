@@ -72,7 +72,8 @@ const OrganizationHeader = () => {
                 </div>
             </Link>
         </div>
-         <div className="md:hidden">
+         <div className="md:hidden flex items-center gap-2">
+            <NotificationPopover />
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
@@ -81,16 +82,6 @@ const OrganizationHeader = () => {
                 </SheetTrigger>
                 <SheetContent>
                     <div className="flex flex-col gap-4 pt-8">
-                         <NotificationPopover />
-                        <Link href="/organization/employee-management">
-                          <Button className={cn(
-                              "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
-                          )}>
-                              <Users className="mr-2 h-6 w-6"/>
-                              Employee Management
-                          </Button>
-                        </Link>
                         <Link href="/organization/profile" className="flex items-center gap-2">
                             <Avatar className="h-12 w-12">
                                 <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
@@ -100,6 +91,15 @@ const OrganizationHeader = () => {
                                 <p className="text-base font-medium">Balaji Naik</p>
                                 <p className="text-sm text-grey-2">Super Admin</p>
                             </div>
+                        </Link>
+                        <Link href="/organization/employee-management">
+                          <Button className={cn(
+                              "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
+                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                          )}>
+                              <Users className="mr-2 h-6 w-6"/>
+                              Employee Management
+                          </Button>
                         </Link>
                     </div>
                 </SheetContent>
@@ -131,7 +131,7 @@ const OrganizationBottomNav = () => {
                              <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
                                 <div className={cn(
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
-                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
+                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
                                     <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
