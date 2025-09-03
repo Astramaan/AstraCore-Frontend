@@ -50,7 +50,8 @@ const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: s
                         <Trash2 className="w-4 h-4" />
                     </Button>
                 )}
-                <label htmlFor={id} className="cursor-pointer text-sm text-neutral-500 flex items-center gap-1">
+                <div className="border-l border-stone-300 h-6" />
+                <label htmlFor={id} className="cursor-pointer text-sm text-neutral-500 flex items-center gap-1 pl-2">
                     <Upload className="w-4 h-4" />
                     Upload
                 </label>

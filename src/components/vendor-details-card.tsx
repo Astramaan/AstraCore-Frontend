@@ -66,7 +66,8 @@ const FileField = ({ label, fileName, isEditing, onFileChange, onFileRemove }: {
                                     <Trash2 className="w-4 h-4"/>
                                 </button>
                             )}
-                            <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-neutral-500 flex items-center gap-1">
+                            <div className="border-l border-stone-300 h-6" />
+                            <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-neutral-500 flex items-center gap-1 pl-2">
                                 <Upload className="w-4 h-4" />
                                 Upload
                             </button>
