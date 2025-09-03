@@ -24,6 +24,11 @@ const initialTaskData: Task[] = [
     { id: "TSK004", title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "In Progress", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
 ]
 
+const assignedTasksData: Task[] = [
+    { id: "TSK005", title: "Database Migration", date: "30 May 2024", description: "Plan and execute the migration of the user database from the legacy system to the new cloud infrastructure. Ensure data integrity and minimal downtime.", priority: "High", status: "In Progress", category: "Backend", project: "Infrastructure Upgrade", clientId: "CL005", attachments: [] },
+    { id: "TSK006", title: "Onboarding Tutorial", date: "01 June 2024", description: "Create an interactive tutorial for new users to guide them through the main features of the application. Include tooltips and guided steps.", priority: "Medium", status: "Pending", category: "UX", project: "AstraCore App", clientId: "CL001", attachments: [] },
+];
+
 const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
@@ -122,7 +127,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
   const myTasksCount = filteredTasks.length;
-  const assignedTasksCount = 2; // Placeholder
+  const assignedTasksCount = assignedTasksData.length;
   const taskChartData = [
       { name: "My Tasks", value: myTasksCount },
       { name: "Assigned Tasks", value: assignedTasksCount },
@@ -235,7 +240,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             <div className="mt-8">
                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     {taskData.slice(0, 2).map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                     {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
         </main>
