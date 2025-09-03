@@ -154,7 +154,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         variant="outline" 
                         className={cn(
                             "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                            activeFilter === 'High Priority' ? "bg-primary text-white hover:bg-primary" : "hover:bg-white hover:text-primary"
+                            activeFilter === 'High Priority' ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
                         )}
                         onClick={() => handleFilterClick('High Priority')}
                     >
@@ -164,7 +164,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         variant="outline" 
                         className={cn(
                             "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                            activeFilter === 'In Progress' ? "bg-primary text-white hover:bg-primary" : "hover:bg-white hover:text-primary"
+                            activeFilter === 'In Progress' ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
                         )}
                         onClick={() => handleFilterClick('In Progress')}
                     >
@@ -175,7 +175,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         variant="outline" 
                         className={cn(
                             "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                            activeFilter === 'Pending' ? "bg-primary text-white hover:bg-primary" : "hover:bg-white hover:text-primary"
+                            activeFilter === 'Pending' ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
                         )}
                         onClick={() => handleFilterClick('Pending')}
                     >
@@ -185,7 +185,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         variant="outline" 
                         className={cn(
                             "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                            activeFilter === 'Completed' ? "bg-primary text-white hover:bg-primary" : "hover:bg-white hover:text-primary"
+                            activeFilter === 'Completed' ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
                         )}
                         onClick={() => handleFilterClick('Completed')}
                     >
