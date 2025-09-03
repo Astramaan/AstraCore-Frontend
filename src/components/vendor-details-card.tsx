@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useRef } from 'react';
@@ -8,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
 
@@ -25,7 +26,7 @@ const DetailField = ({ label, value, isEditing, onChange, name, placeholder, typ
     </div>
 );
 
-const FileField = ({ label, fileName, isEditing, onFileChange }: { label: string; fileName: string | undefined, isEditing: boolean, onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => {
+const FileField = ({ label, fileName, isEditing, onFileChange, onFileRemove }: { label: string; fileName: string | undefined, isEditing: boolean, onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void, onFileRemove: () => void }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
 
@@ -56,13 +57,20 @@ const FileField = ({ label, fileName, isEditing, onFileChange }: { label: string
                             </DialogContent>
                         </Dialog>
                     ) : (
-                        <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
+                         <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
                     )}
                     {isEditing && (
-                        <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-neutral-500 flex items-center gap-1">
-                            <Upload className="w-4 h-4" />
-                            Upload
-                        </button>
+                        <div className="flex items-center gap-1">
+                            {fileName && (
+                                <button type="button" onClick={onFileRemove} className="text-destructive p-1 rounded-full hover:bg-destructive/10">
+                                    <Trash2 className="w-4 h-4"/>
+                                </button>
+                            )}
+                            <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-neutral-500 flex items-center gap-1">
+                                <Upload className="w-4 h-4" />
+                                Upload
+                            </button>
+                        </div>
                     )}
                     <input ref={fileInputRef} type="file" className="hidden" onChange={onFileChange} />
                 </div>
@@ -105,6 +113,10 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
         if(e.target.files && e.target.files.length > 0) {
             setVendor((prev: any) => ({...prev, [name]: e.target.files![0].name }));
         }
+    }
+
+    const handleFileRemove = (name: string) => () => {
+        setVendor((prev: any) => ({...prev, [name]: ""}));
     }
 
     const handleCityKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -161,13 +173,13 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
-                        <FileField label="CIN Certificate" fileName={vendor.cinCertificate} isEditing={isEditing} onFileChange={handleFileChange('cinCertificate')} />
-                        <FileField label="GST Certificate" fileName={vendor.gstCertificate} isEditing={isEditing} onFileChange={handleFileChange('gstCertificate')} />
+                        <FileField label="CIN Certificate" fileName={vendor.cinCertificate} isEditing={isEditing} onFileChange={handleFileChange('cinCertificate')} onFileRemove={handleFileRemove('cinCertificate')} />
+                        <FileField label="GST Certificate" fileName={vendor.gstCertificate} isEditing={isEditing} onFileChange={handleFileChange('gstCertificate')} onFileRemove={handleFileRemove('gstCertificate')} />
                     </div>
                     
                     <div className="grid grid-cols-2 gap-6">
                         <DetailField label="GST Number*" name="gstNumber" value={vendor.gstNumber} isEditing={isEditing} onChange={handleInputChange} />
-                        <FileField label="Product Brochure" fileName={vendor.brochure} isEditing={isEditing} onFileChange={handleFileChange('brochure')} />
+                        <FileField label="Product Brochure" fileName={vendor.brochure} isEditing={isEditing} onFileChange={handleFileChange('brochure')} onFileRemove={handleFileRemove('brochure')}/>
                     </div>
 
                     <div className="space-y-2">

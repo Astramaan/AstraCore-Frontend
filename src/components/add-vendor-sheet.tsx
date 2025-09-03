@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -37,16 +38,23 @@ const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTM
     </div>
 )
 
-const FileUploadField = ({ label, id, onChange, fileName }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string }) => (
+const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string, onRemove?: () => void }) => (
     <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input">
         <Label htmlFor={id} className="px-4 text-lg text-zinc-900 whitespace-nowrap">{label}</Label>
         <div className="border-l border-stone-300 h-full mx-2"></div>
-        <div className="flex-1 flex items-center justify-end px-3">
-             {fileName && <span className="text-sm text-neutral-500 mr-2 truncate">{fileName}</span>}
-            <label htmlFor={id} className="cursor-pointer text-sm text-neutral-500 flex items-center gap-1">
-                <Upload className="w-4 h-4" />
-                Upload
-            </label>
+        <div className="flex-1 flex items-center justify-between px-3">
+             <span className="text-sm text-neutral-500 mr-2 truncate">{fileName || 'No file selected'}</span>
+             <div className="flex items-center gap-2">
+                {fileName && onRemove && (
+                    <Button type="button" size="icon" variant="ghost" className="h-6 w-6 text-destructive hover:text-destructive" onClick={onRemove}>
+                        <Trash2 className="w-4 h-4" />
+                    </Button>
+                )}
+                <label htmlFor={id} className="cursor-pointer text-sm text-neutral-500 flex items-center gap-1">
+                    <Upload className="w-4 h-4" />
+                    Upload
+                </label>
+             </div>
             <Input id={id} type="file" className="hidden" onChange={onChange} />
         </div>
     </div>
@@ -121,10 +129,16 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
     const [phoneNumber, setPhoneNumber] = useState(vendorToEdit?.phone || '');
     const [email, setEmail] = useState(vendorToEdit?.email || '');
     const [address, setAddress] = useState(vendorToEdit?.address || '');
+    
     const [cinCert, setCinCert] = useState<File | null>(null);
     const [gstCert, setGstCert] = useState<File | null>(null);
-    const [gstNumber, setGstNumber] = useState(vendorToEdit?.gstNumber || '');
     const [brochure, setBrochure] = useState<File | null>(null);
+    
+    const [cinCertName, setCinCertName] = useState(vendorToEdit?.cinCertificate || '');
+    const [gstCertName, setGstCertName] = useState(vendorToEdit?.gstCertificate || '');
+    const [brochureName, setBrochureName] = useState(vendorToEdit?.brochure || '');
+
+    const [gstNumber, setGstNumber] = useState(vendorToEdit?.gstNumber || '');
     const [serviceableCities, setServiceableCities] = useState(vendorToEdit?.serviceableCities || ['Bengaluru']);
     const [availableTimeFrom, setAvailableTimeFrom] = useState(vendorToEdit?.availability.time.split(' - ')[0] || '');
     const [availableTimeTo, setAvailableTimeTo] = useState(vendorToEdit?.availability.time.split(' - ')[1] || '');
@@ -152,12 +166,17 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
         setter(e.target.value.replace(/[^a-zA-Z0-9]/g, ''));
     };
 
-    const handleFileChange = (setter: React.Dispatch<React.SetStateAction<File | null>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (fileSetter: React.Dispatch<React.SetStateAction<File | null>>, nameSetter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setter(e.target.files[0]);
+            fileSetter(e.target.files[0]);
+            nameSetter(e.target.files[0].name);
         }
     };
 
+    const handleRemoveFile = (fileSetter: React.Dispatch<React.SetStateAction<File | null>>, nameSetter: React.Dispatch<React.SetStateAction<string>>) => () => {
+        fileSetter(null);
+        nameSetter('');
+    }
 
     const handleDayToggle = (day: string) => {
         setSelectedDays(prev =>
@@ -177,7 +196,7 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
                     <div className="flex gap-4 items-center">
                         <label htmlFor="logo-upload" className="w-24 h-24 bg-input rounded-2xl border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
                             {logo ? <Image src={URL.createObjectURL(logo)} alt="logo" width={96} height={96} className="rounded-2xl object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
-                            <Input id="logo-upload" type="file" className="hidden" onChange={handleFileChange(setLogo)} />
+                            <Input id="logo-upload" type="file" className="hidden" onChange={handleFileChange(setLogo, () => {})} />
                         </label>
                         <div className="space-y-4 flex-1">
                             <FloatingLabelInput id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
@@ -194,10 +213,10 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
                         />
                      <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
                      <FloatingLabelTextarea id="address" label="Address" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
-                    <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert)} fileName={cinCert?.name || vendorToEdit?.cinCertificate} />
-                    <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert)} fileName={gstCert?.name || vendorToEdit?.gstCertificate} />
+                    <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert, setCinCertName)} fileName={cinCertName} onRemove={handleRemoveFile(setCinCert, setCinCertName)} />
+                    <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert, setGstCertName)} fileName={gstCertName} onRemove={handleRemoveFile(setGstCert, setGstCertName)} />
                     <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
-                    <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure)} fileName={brochure?.name || vendorToEdit?.brochure}/>
+                    <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure, setBrochureName)} fileName={brochureName} onRemove={handleRemoveFile(setBrochure, setBrochureName)} />
 
                     <ServiceableCityInput cities={serviceableCities} setCities={setServiceableCities} />
 
