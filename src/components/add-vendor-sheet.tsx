@@ -40,7 +40,7 @@ const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTM
 
 const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string, onRemove?: () => void }) => (
     <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input">
-        <Label htmlFor={id} className="px-4 text-lg text-zinc-900 whitespace-nowrap">{label}</Label>
+        <Label htmlFor={id} className={cn("px-4 text-lg whitespace-nowrap", fileName ? "text-grey-1" : "text-zinc-900")}>{label}</Label>
         <div className="border-l border-stone-300 h-full mx-2"></div>
         <div className="flex-1 flex items-center justify-between px-3">
              <span className="text-sm text-neutral-500 mr-2 truncate">{fileName || 'No file selected'}</span>
