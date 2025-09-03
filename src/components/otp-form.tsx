@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -9,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
 import { useFormStatus } from 'react-dom';
+import Link from 'next/link';
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -27,6 +29,7 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
   const { toast } = useToast();
   const hasOtp = otp.some(d => d);
   const email = searchParams.email || 'user@example.com';
+  const flow = searchParams.flow;
   
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -84,13 +87,19 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
       <input type="hidden" name="phone" value={searchParams.phone || ''} />
       <input type="hidden" name="organization" value={searchParams.organization || ''} />
       <input type="hidden" name="password" value={searchParams.password || ''} />
+      <input type="hidden" name="flow" value={flow || ''} />
       
         <div className="flex-grow space-y-6">
             <div className="text-lg text-grey-1">
-                Check your inbox at {email}. Incorrect email?{' '}
-                <a href="/signup" className="text-primary underline hover:text-primary/80">
-                    Edit it
-                </a>
+                Check your inbox at {email}. 
+                {flow !== 'change-password' && (
+                    <>
+                    {' '}Incorrect email?{' '}
+                    <a href="/signup" className="text-primary underline hover:text-primary/80">
+                        Edit it
+                    </a>
+                    </>
+                )}
             </div>
 
             <div className="space-y-2">
@@ -129,6 +138,13 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
         
         <div className='pt-4 mt-auto'>
             <SubmitButton pending={pending} />
+            {flow === 'change-password' && (
+                <div className="text-center mt-4">
+                    <Button variant="ghost" asChild className="rounded-full">
+                        <Link href="/organization/profile">Back to Profile</Link>
+                    </Button>
+                </div>
+            )}
         </div>
     </form>
   );

@@ -1,4 +1,5 @@
 
+
 "use server";
 
 import { redirect } from 'next/navigation';
@@ -61,9 +62,19 @@ export async function verifyOtp(
     const organization = formData.get('organization') as string;
     const password = formData.get('password') as string;
     const email = formData.get('email') as string;
+    const flow = formData.get('flow') as string;
 
-    // Mock action: Redirect to create password page
-    redirect(`/create-password?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&organization=${encodeURIComponent(organization)}&password=${encodeURIComponent(password)}`);
+    // In a real app, you'd verify the OTP here.
+    // For now, we'll just redirect.
+
+    const searchParams = new URLSearchParams();
+    if(email) searchParams.set('email', email);
+    if(phone) searchParams.set('phone', phone);
+    if(organization) searchParams.set('organization', organization);
+    if(password) searchParams.set('password', password);
+    if(flow) searchParams.set('flow', flow);
+
+    redirect(`/create-password?${searchParams.toString()}`);
 }
 
 

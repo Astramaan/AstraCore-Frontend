@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -19,6 +20,7 @@ import { X } from 'lucide-react';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const initialEmployeeData = {
     id: "1",
@@ -59,17 +61,17 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
 
     return (
         <form onSubmit={handleSubmit}>
-            <DialogHeader className="p-6 border-b">
+            <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                 <DialogTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
                     <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full" onClick={onCancel}>
                             <X className="h-5 w-5" />
                         </Button>
                     </DialogClose>
                 </DialogTitle>
             </DialogHeader>
-            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)]">
+            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)] bg-white">
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-6">
                         <FloatingLabelInput id="name" name="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
@@ -89,7 +91,7 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
                 </div>
             </div>
             <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px]">
-                <Button type="button" variant="outline" onClick={onCancel} className="h-14 px-10 rounded-full text-lg bg-background border-transparent hover:bg-muted">Cancel</Button>
+                <Button type="button" variant="ghost" onClick={onCancel} className="h-14 px-10 rounded-full text-lg bg-background border-transparent hover:bg-muted">Cancel</Button>
                 <Button type="submit" className="h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
             </div>
         </form>
@@ -122,7 +124,9 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                             Edit Profile
                                         </Button>
                                     </DialogTrigger>
-                                    <Button variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">Change Password</Button>
+                                    <Button asChild variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
+                                        <Link href={`/organization/change-password?email=${employee.email}`}>Change Password</Link>
+                                    </Button>
                                 </div>
                             </div>
                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
@@ -146,13 +150,15 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                         Edit Profile
                                     </Button>
                                 </DialogTrigger>
-                                <Button variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">Change Password</Button>
+                                <Button asChild variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
+                                    <Link href={`/organization/change-password?email=${employee.email}`}>Change Password</Link>
+                                </Button>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
             </div>
-             <DialogContent className="max-w-3xl p-0 rounded-[50px] bg-white">
+             <DialogContent className="max-w-3xl p-0 bg-transparent border-none">
                 <EditProfileForm 
                     employee={employee}
                     onSave={handleSave}

@@ -14,6 +14,7 @@ import LockIcon from "./icons/lock";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -30,6 +31,7 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
   const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
   const { toast } = useToast();
+  const flow = searchParams.flow;
 
   useEffect(() => {
     if (state?.error) {
@@ -83,6 +85,13 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
           <div className="mb-4">
             <SubmitButton />
           </div>
+           {flow === 'change-password' && (
+             <div className="text-center">
+                <Button variant="ghost" asChild className="rounded-full">
+                    <Link href="/organization/profile">Back to Profile</Link>
+                </Button>
+            </div>
+          )}
         </div>
       </form>
     </>

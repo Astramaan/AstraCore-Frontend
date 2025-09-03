@@ -1,10 +1,22 @@
 
+'use client';
 
-import CreatePasswordForm from "@/components/create-password-form";
+import { useSearchParams } from "next/navigation";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
+import OtpForm from "@/components/otp-form";
 
-export default function CreatePasswordPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function ChangePasswordPage() {
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email');
+
+    // In a real app, we might pre-fill more user data
+    // For now, we'll just pass the email along.
+    const newSearchParams = {
+        email: email || '',
+        flow: 'change-password',
+    }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Mobile view */}
@@ -22,13 +34,15 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
             <div className="mb-6">
               <HabiLogo />
             </div>
-            <CreatePasswordForm searchParams={searchParams} />
+            <OtpForm searchParams={newSearchParams} />
         </div>
       </div>
 
       {/* Desktop view */}
       <div className="hidden md:flex md:items-center md:justify-center md:h-screen md:p-4">
-        <div className="overflow-hidden rounded-[50px] bg-card text-card-foreground">
+        <div 
+          className="overflow-hidden rounded-[50px] bg-card text-card-foreground" 
+        >
           <div className="grid grid-cols-2 h-full">
             <div className="relative h-full w-full overflow-hidden">
                 <div className="pt-4 pl-4 pb-4 h-full">
@@ -47,7 +61,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
                 <div className="mx-auto w-full max-w-md flex flex-col h-full">
                     <HabiLogo />
                     <div className="mt-8 flex-grow flex flex-col">
-                      <CreatePasswordForm searchParams={searchParams} />
+                      <OtpForm searchParams={newSearchParams} />
                     </div>
                 </div>
             </div>
