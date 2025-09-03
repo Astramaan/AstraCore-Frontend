@@ -15,7 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 
 const DetailField = ({ label, value, isEditing, onChange, name, placeholder, type = 'text' }: { label: string; value: string | undefined, isEditing: boolean, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, name: string, placeholder?: string, type?: string }) => (
     <div className="space-y-2">
-        <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
+        <Label className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         {isEditing ? (
             <Input name={name} value={value} onChange={onChange} className="h-14 bg-background rounded-full px-5" placeholder={placeholder || label} type={type} />
         ) : (
@@ -32,7 +32,7 @@ const FileField = ({ label, fileName, isEditing, onFileChange, onFileRemove }: {
 
     return (
         <div className="space-y-2">
-            <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
+            <Label className={cn("text-lg font-medium px-2", fileName ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
             <div className="h-14 flex items-center px-5 rounded-full bg-background">
                 <div className="p-2.5 bg-zinc-100 rounded-[15px] flex-1 flex justify-between items-center">
                     {fileName && !isEditing ? (
@@ -163,7 +163,7 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                 <div className="space-y-6">
                     <DetailField label="Email*" name="email" value={vendor.email} isEditing={isEditing} onChange={handleInputChange} />
                     <div className="space-y-2">
-                        <Label className="text-lg font-medium px-2 text-grey-1">Address*</Label>
+                        <Label className={cn("text-lg font-medium px-2", vendor.address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
                         {isEditing ? (
                            <Textarea name="address" value={vendor.address} onChange={handleInputChange} className="rounded-[25px] bg-background p-4 min-h-[96px]" />
                         ) : (
@@ -184,7 +184,7 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                     </div>
 
                     <div className="space-y-2">
-                        <Label className="text-lg font-medium px-2 text-grey-1">Serviceable City</Label>
+                        <Label className={cn("text-lg font-medium px-2", vendor.serviceableCities.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Serviceable City</Label>
                         <div className="bg-background p-2 min-h-[56px] rounded-full flex flex-wrap gap-2 items-center">
                              {vendor.serviceableCities.map((city: string) => (
                                 <div key={city} className="flex items-center gap-1 bg-white rounded-full px-2.5 py-[5px]">
@@ -204,7 +204,7 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                             <Label className="text-lg font-medium px-2 text-grey-1">Days</Label>
+                             <Label className={cn("text-lg font-medium px-2", vendor.availability.days.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Days</Label>
                              <div className="flex gap-2 items-center h-14">
                                 {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={vendor.availability.days} onDayToggle={handleDayToggle} isEditing={isEditing} />)}
                             </div>

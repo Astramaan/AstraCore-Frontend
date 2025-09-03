@@ -222,7 +222,7 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
                     <ServiceableCityInput cities={serviceableCities} setCities={setServiceableCities} />
 
                      <div className="space-y-2">
-                        <Label className="text-zinc-900 text-lg font-medium px-2">Days</Label>
+                        <Label className={cn("text-lg font-medium px-2", selectedDays.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Days</Label>
                         <div className="flex gap-2">
                             {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
                         </div>
