@@ -16,6 +16,9 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { X } from 'lucide-react';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
+import { cn } from '@/lib/utils';
 
 const initialEmployeeData = {
     id: "1",
@@ -46,34 +49,48 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
         e.preventDefault();
         onSave(formData);
     }
+    
+    const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
+        <div className="space-y-2">
+            <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+            <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
+        </div>
+    );
 
     return (
         <form onSubmit={handleSubmit}>
-            <DialogHeader className="p-4 border-b">
+            <DialogHeader className="p-6 border-b">
                 <DialogTitle className="flex justify-between items-center">
-                    <span>Edit Profile</span>
+                    <span className="text-2xl font-semibold">Edit Profile</span>
                     <DialogClose asChild>
-                        <Button variant="ghost" size="icon"><X className="h-5 w-5" /></Button>
+                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                            <X className="h-5 w-5" />
+                        </Button>
                     </DialogClose>
                 </DialogTitle>
             </DialogHeader>
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)]">
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-6">
-                        <DetailField label="Full Name" name="name" value={formData.name} isEditing={true} onChange={handleInputChange} />
-                        <DetailField label="Email Id" name="email" value={formData.email} isEditing={true} onChange={handleInputChange} type="email" />
-                        <DetailField label="Date of Birth" name="dob" value={formData.dob} isEditing={true} onChange={handleInputChange} />
+                        <FloatingLabelInput id="name" name="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
+                        <FloatingLabelInput id="email" name="email" label="Email Id" value={formData.email} onChange={handleInputChange} type="email" />
+                        <FloatingLabelInput id="dob" name="dob" label="Date of Birth" value={formData.dob} onChange={handleInputChange} />
                     </div>
                     <div className="space-y-6">
-                        <DetailField label="Phone Number" name="phone" value={formData.phone} isEditing={true} onChange={handleInputChange} />
-                        <DetailField label="Role" name="role" value={formData.role} isEditing={false} />
-                        <DetailField label="Address" name="address" value={formData.address} isEditing={true} onChange={handleInputChange} />
+                        <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
+                        <div className="space-y-2">
+                             <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
+                             <div className="h-14 flex items-center px-5 rounded-full bg-background">
+                                <p className="text-black text-lg leading-tight truncate">{formData.role}</p>
+                            </div>
+                        </div>
+                        <FloatingLabelInput id="address" name="address" label="Address" value={formData.address} onChange={handleInputChange} />
                     </div>
                 </div>
             </div>
-            <div className="px-6 pb-6 flex justify-end gap-2">
-                <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
-                <Button type="submit"><Save className="mr-2 h-4 w-4" /> Save</Button>
+            <div className="px-6 py-4 border-t flex justify-end gap-2">
+                <Button type="button" variant="ghost" onClick={onCancel} className="h-14 px-10 rounded-full text-lg">Cancel</Button>
+                <Button type="submit" className="h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
             </div>
         </form>
     );
@@ -135,7 +152,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                     </CardContent>
                 </Card>
             </div>
-             <DialogContent className="max-w-3xl p-0">
+             <DialogContent className="max-w-3xl p-0 rounded-[50px]">
                 <EditProfileForm 
                     employee={employee}
                     onSave={handleSave}
