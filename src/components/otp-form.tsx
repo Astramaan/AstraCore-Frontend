@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -9,7 +8,7 @@ import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
-import { useFormStatus } from 'react-dom';
+import { useFormStatus, useFormState } from 'react-dom';
 import Link from 'next/link';
 
 function SubmitButton({ pending }: { pending: boolean }) {
@@ -20,13 +19,28 @@ function SubmitButton({ pending }: { pending: boolean }) {
   );
 }
 
-export default function OtpForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const [state, setState] = useState<{ error?: string } | undefined>(undefined);
-  const { pending, data } = useFormStatus();
+export default function OtpForm({ searchParams, onVerifySuccess }: { searchParams: { [key: string]: string | string[] | undefined }; onVerifySuccess?: (newSearchParams: any) => void; }) {
+  const { toast } = useToast();
+  
+  const formAction = async (prevState: any, formData: FormData) => {
+    // In a real app, you would verify the OTP here.
+    // For now, we'll just simulate success and call the callback if it exists.
+    if (onVerifySuccess) {
+      const newSearchParams = Object.fromEntries(formData.entries());
+      onVerifySuccess(newSearchParams);
+      return { success: true };
+    }
+    
+    // Fallback to server action if no callback
+    return verifyOtp(prevState, formData);
+  }
+  
+  const [state, dispatch] = useFormState(formAction, undefined);
+  const { pending } = useFormStatus();
+  
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const { toast } = useToast();
   const hasOtp = otp.some(d => d);
   const email = searchParams.email || 'user@example.com';
   const flow = searchParams.flow;
@@ -75,14 +89,9 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
     console.log("Resending OTP...");
     setTimer(28);
   };
-  
-  const formAction = async (formData: FormData) => {
-    const result = await verifyOtp(undefined, formData);
-    setState(result);
-  }
 
   return (
-    <form ref={formRef} action={formAction} className="space-y-6 flex flex-col flex-grow">
+    <form ref={formRef} action={dispatch} className="space-y-6 flex flex-col flex-grow">
       <input type="hidden" name="email" value={searchParams.email || ''} />
       <input type="hidden" name="phone" value={searchParams.phone || ''} />
       <input type="hidden" name="organization" value={searchParams.organization || ''} />
@@ -141,7 +150,7 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
             {flow === 'change-password' && (
                 <div className="text-center mt-4">
                     <Button variant="ghost" asChild className="rounded-full">
-                        <Link href="/organization/profile">Back to Profile</Link>
+                        <button type="button" onClick={onClose}>Back to Profile</button>
                     </Button>
                 </div>
             )}

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState } from 'react';
@@ -20,7 +19,7 @@ import { X } from 'lucide-react';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
+import { ChangePasswordDialog } from './change-password-dialog';
 
 const initialEmployeeData = {
     id: "1",
@@ -124,9 +123,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                             Edit Profile
                                         </Button>
                                     </DialogTrigger>
-                                    <Button asChild variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
-                                        <Link href={`/organization/change-password?email=${employee.email}`}>Change Password</Link>
-                                    </Button>
+                                    <ChangePasswordDialog email={employee.email} />
                                 </div>
                             </div>
                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
@@ -150,9 +147,7 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                         Edit Profile
                                     </Button>
                                 </DialogTrigger>
-                                <Button asChild variant="outline" className="w-full h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
-                                    <Link href={`/organization/change-password?email=${employee.email}`}>Change Password</Link>
-                                </Button>
+                                <ChangePasswordDialog email={employee.email} />
                             </div>
                         </div>
                     </CardContent>

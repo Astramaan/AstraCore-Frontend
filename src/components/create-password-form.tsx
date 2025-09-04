@@ -1,9 +1,8 @@
 
-
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { useFormStatus } from "react-dom";
+import { useFormStatus, useFormState } from "react-dom";
 import React, { useState } from "react";
 import { createPassword } from "@/app/actions";
 import { Button } from "./ui/button";
@@ -25,12 +24,25 @@ function SubmitButton() {
   );
 }
 
-export default function CreatePasswordForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const [state, action] = useActionState(createPassword, undefined);
+export default function CreatePasswordForm({ searchParams, onSuccess }: { searchParams: { [key: string]: string | string[] | undefined }, onSuccess?: () => void }) {
+  const { toast } = useToast();
+
+  const formAction = async (prevState: any, formData: FormData) => {
+    // In a real app, you would save the password here
+    console.log("Creating new password...");
+    if (onSuccess) {
+        onSuccess();
+        return { success: true };
+    }
+
+    // Fallback to server action if no callback
+    return createPassword(prevState, formData);
+  }
+
+  const [state, dispatch] = useFormState(formAction, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
-  const { toast } = useToast();
   const flow = searchParams.flow;
 
   useEffect(() => {
@@ -46,7 +58,7 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
   return (
     <>
       <h2 className="text-lg text-grey-1 tracking-tight mb-8">You're almost there.<br/>Create your password.</h2>
-      <form action={action} className="flex-grow flex flex-col">
+      <form action={dispatch} className="flex-grow flex flex-col">
         <input type="hidden" name="email" value={searchParams.email || ''} />
         <input type="hidden" name="phone" value={searchParams.phone || ''} />
         <input type="hidden" name="organization" value={searchParams.organization || ''} />
@@ -88,7 +100,7 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
            {flow === 'change-password' && (
              <div className="text-center">
                 <Button variant="ghost" asChild className="rounded-full">
-                    <Link href="/organization/profile">Back to Profile</Link>
+                    <button type="button" onClick={onClose}>Back to Profile</button>
                 </Button>
             </div>
           )}
