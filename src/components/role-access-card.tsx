@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { useState } from 'react';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
 import { CreateRoleDialog } from './create-role-dialog';
-import { Separator } from './ui/separator';
 
 const adminRoles: RoleData[] = [
     { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
