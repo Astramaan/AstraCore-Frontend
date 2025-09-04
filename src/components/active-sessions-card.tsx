@@ -38,8 +38,8 @@ export const ActiveSessionsCard = () => {
                             </div>
                         </div>
                         <Button variant="destructive" className="h-14 px-10 rounded-full bg-background text-red-600 hover:bg-destructive/10 text-lg font-medium hidden md:flex">Remove</Button>
-                         <Button size="icon" variant="ghost" className="md:hidden p-3.5 bg-background rounded-full">
-                            <X className="h-6 w-6 text-destructive" />
+                         <Button size="icon" variant="ghost" className="md:hidden p-3.5 rounded-full bg-background text-destructive hover:bg-destructive/10">
+                            <X className="h-6 w-6" />
                         </Button>
                     </div>
                 ))}

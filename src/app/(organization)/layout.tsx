@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -50,7 +49,7 @@ const OrganizationHeader = () => {
                 </>
              )}
         </div>
-        <div className="hidden md:flex items-center gap-2 md:gap-6 w-full md:w-auto">
+        <div className="hidden md:flex items-center gap-2 md:gap-6">
             <NotificationPopover />
             <Link href="/organization/employee-management">
               <Button className={cn(
@@ -61,7 +60,8 @@ const OrganizationHeader = () => {
                   Employee Management
               </Button>
             </Link>
-            <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
+            <div className="w-px h-12 bg-stone-300" />
+            <Link href="/organization/profile" className="flex items-center gap-2">
                 <Avatar className="h-12 w-12 md:h-14 md:w-14">
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
@@ -123,7 +123,7 @@ const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4 w-full">
-             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-lg">
+             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-fit">
                 <div className="flex items-center justify-around gap-1 md:gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);

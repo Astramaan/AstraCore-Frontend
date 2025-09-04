@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState } from 'react';
@@ -179,75 +178,38 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                 <Card className="rounded-[50px] p-4 md:p-8">
                     <CardContent className="p-0">
                         <div className="flex flex-col lg:flex-row gap-8">
-                            <div className="shrink-0 flex flex-col items-center md:flex-row md:items-start lg:flex-col lg:items-center gap-4">
+                            <div className="shrink-0 flex items-center gap-4">
                                 <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
-                                <div className="space-y-4 md:hidden lg:flex lg:flex-col">
-                                    <DialogTrigger asChild>
-                                        <Button className="w-full h-14 px-10 rounded-full text-white text-lg font-medium">
-                                            <Edit className="mr-2 h-5 w-5" />
-                                            Edit Profile
-                                        </Button>
-                                    </DialogTrigger>
-                                    <ChangePasswordDialog email={employee.email} />
+                            </div>
+                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+                                <div className="space-y-2">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
+                                    <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
+                                    <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
+                                    <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
+                                    <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
+                                    <p className="text-primary text-lg leading-tight truncate">{employee.role}</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
+                                    <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
                                 </div>
                             </div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-                                <div className="space-y-6">
-                                    <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
-                                        </div>
-                                    </div>
-                                     <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
-                                        </div>
-                                    </div>
-                                     <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
-                                        </div>
-                                    </div>
-                                     <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.dob}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="space-y-6">
-                                     <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
-                                        </div>
-                                    </div>
-                                     <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.role}</p>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
-                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                            <p className="text-black text-lg leading-tight truncate">{employee.address}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div className="space-y-4 hidden md:flex lg:hidden xl:flex flex-col">
+                             <div className="space-y-4">
                                 <DialogTrigger asChild>
-                                    <Button className="w-full h-14 px-10 rounded-full text-white text-lg font-medium">
+                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium">
                                         <Edit className="mr-2 h-5 w-5" />
                                         Edit Profile
                                     </Button>

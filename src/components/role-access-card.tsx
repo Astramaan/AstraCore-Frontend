@@ -26,7 +26,7 @@ export const RoleAccessCard = () => {
                 </div>
                 <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted">
                     <Plus className="mr-2 h-6 w-6"/>
-                    Create Role
+                    Add Role
                 </Button>
             </CardHeader>
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 px-6 pb-6">

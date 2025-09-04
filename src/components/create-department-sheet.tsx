@@ -73,7 +73,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
             </div>
             
             <div className="flex justify-center pt-8">
-                <Button type="submit" className="w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+                <Button type="submit" className="w-full md:w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
                     Create
                 </Button>
             </div>
@@ -111,7 +111,7 @@ export function CreateDepartmentSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-[452px]"
+            "p-0 rounded-[50px] w-full md:w-[452px]"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b">
