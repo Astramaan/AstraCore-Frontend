@@ -44,7 +44,7 @@ export const RoleAccessCard = () => {
                         </div>
                         <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                     </div>
-                    <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted" onClick={() => setIsCreateRoleOpen(true)}>
+                     <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted" onClick={() => setIsCreateRoleOpen(true)}>
                         <Plus className="mr-2 h-6 w-6"/>
                         Create Role
                     </Button>
