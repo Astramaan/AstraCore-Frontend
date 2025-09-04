@@ -14,6 +14,13 @@ export interface RoleData {
     bgColor: string;
 }
 
+const PermissionCategory = ({ title, description, onClick }: { title: string, description: string, onClick: () => void }) => (
+    <div className="flex flex-col gap-2 cursor-pointer" onClick={onClick}>
+        <h4 className="font-semibold text-base">{title}</h4>
+        <p className="text-sm text-muted-foreground">{description}</p>
+    </div>
+)
+
 const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onClose: () => void, role: RoleData | null }) => {
     const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<'Admin' | 'Employee' | 'Special Access' | null>(null);
@@ -24,6 +31,8 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
         setSelectedCategory(category);
         setIsFeatureDialogOpen(true);
     };
+    
+    const permissionsDescription = "Dashboard, Onboarding Ma.., Organization Ma..";
 
     return (
         <>
@@ -46,26 +55,17 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
                     </DialogHeader>
                     <div className="px-6 pb-6 space-y-4 flex-1 overflow-y-auto">
                         <div className="space-y-4">
-                            <div className="flex justify-between items-center cursor-pointer hover:bg-muted p-2 rounded-lg" onClick={() => handleCategoryClick('Admin')}>
-                                <p className="font-semibold text-base">Admin</p>
-                                <ArrowRight className="w-5 h-5 text-muted-foreground" />
-                            </div>
+                            <PermissionCategory title="Admin" description={permissionsDescription} onClick={() => handleCategoryClick('Admin')} />
                             <Separator />
-                            <div className="flex justify-between items-center cursor-pointer hover:bg-muted p-2 rounded-lg" onClick={() => handleCategoryClick('Employee')}>
-                                <p className="font-semibold text-base">Employee</p>
-                                <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                            <PermissionCategory title="Employee" description={permissionsDescription} onClick={() => handleCategoryClick('Employee')} />
+                            
+                            <div className="flex items-center gap-2 justify-center my-4">
+                                <div className="flex-grow border-t border-dashed border-gray-300"></div>
+                                <p className="text-muted-foreground text-sm whitespace-nowrap">Special access</p>
+                                <div className="flex-grow border-t border-dashed border-gray-300"></div>
                             </div>
-                            <div>
-                                <div className="flex items-center gap-2 justify-center my-4">
-                                    <Separator className="flex-1" />
-                                    <p className="text-muted-foreground text-sm whitespace-nowrap">Special access</p>
-                                    <Separator className="flex-1" />
-                                </div>
-                                <div className="flex justify-between items-center mt-2 cursor-pointer hover:bg-muted p-2 rounded-lg" onClick={() => handleCategoryClick('Special Access')}>
-                                    <p className="font-semibold text-base">Priya B</p>
-                                    <ArrowRight className="w-5 h-5 text-muted-foreground" />
-                                </div>
-                            </div>
+                            
+                            <PermissionCategory title="Priya B" description={permissionsDescription} onClick={() => handleCategoryClick('Special Access')} />
                         </div>
                     </div>
                 </DialogContent>
