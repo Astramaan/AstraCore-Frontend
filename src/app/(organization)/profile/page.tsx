@@ -16,7 +16,7 @@ export default function ProfilePage() {
         <div className="space-y-6">
              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-semibold">Personal Details</h2>
-                <Button variant="outline" asChild className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-muted">
+                <Button variant="outline" asChild className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary">
                     <Link href="/organization/home">
                         <ChevronLeft className="mr-2 h-4 w-4" />
                         Back
