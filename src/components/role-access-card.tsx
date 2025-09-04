@@ -31,7 +31,10 @@ export const RoleAccessCard = () => {
                         </div>
                         <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                     </div>
-                    <CreateRoleDialog isOpen={isCreateRoleOpen} onOpenChange={setIsCreateRoleOpen} />
+                    <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted" onClick={() => setIsCreateRoleOpen(true)}>
+                        <Plus className="mr-2 h-6 w-6"/>
+                        Create Role
+                    </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 px-6 pb-6">
                     {roles.map(role => (
@@ -52,6 +55,7 @@ export const RoleAccessCard = () => {
                 onClose={() => setSelectedRole(null)}
                 role={selectedRole}
             />
+             <CreateRoleDialog isOpen={isCreateRoleOpen} onOpenChange={setIsCreateRoleOpen} />
         </>
     )
 }

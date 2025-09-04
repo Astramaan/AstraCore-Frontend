@@ -9,14 +9,8 @@ import { X, Plus } from 'lucide-react';
 export const CreateRoleDialog = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpenChange: (open: boolean) => void }) => {
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogTrigger asChild>
-                <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted">
-                    <Plus className="mr-2 h-6 w-6"/>
-                    Create Role
-                </Button>
-            </DialogTrigger>
             <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
-                <DialogHeader className="p-6">
+                <DialogHeader className="p-6 border-b">
                     <DialogTitle className="flex justify-between items-center">
                         <div className="flex items-center gap-4">
                             <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
