@@ -175,15 +175,6 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
     return (
         <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-semibold">Personal Details</h2>
-                    <Button variant="ghost" asChild>
-                        <Link href="/organization/home">
-                            <ChevronLeft className="mr-2 h-4 w-4" />
-                            Back
-                        </Link>
-                    </Button>
-                </div>
                 <Card className="rounded-[50px] p-4 md:p-8">
                     <CardContent className="p-0">
                         <div className="flex flex-col lg:flex-row gap-8">
