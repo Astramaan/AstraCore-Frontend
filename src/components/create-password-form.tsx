@@ -1,9 +1,9 @@
 
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import React, { useState } from "react";
+import React from "react";
 import { createPassword } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
