@@ -15,8 +15,11 @@ export interface RoleData {
 }
 
 const PermissionCategory = ({ title, description, onClick }: { title: string, description: string, onClick: () => void }) => (
-    <div className="flex flex-col gap-2 cursor-pointer" onClick={onClick}>
-        <h4 className="font-semibold text-base">{title}</h4>
+    <div className="flex flex-col gap-2 cursor-pointer p-4 rounded-xl hover:bg-muted/50 transition-colors" onClick={onClick}>
+        <div className="flex justify-between items-center">
+            <h4 className="font-semibold text-base">{title}</h4>
+            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+        </div>
         <p className="text-sm text-muted-foreground">{description}</p>
     </div>
 )
@@ -53,20 +56,18 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
                             </DialogClose>
                         </DialogTitle>
                     </DialogHeader>
-                    <div className="px-6 pb-6 space-y-4 flex-1 overflow-y-auto">
-                        <div className="space-y-4">
-                            <PermissionCategory title="Admin" description={permissionsDescription} onClick={() => handleCategoryClick('Admin')} />
-                            <Separator />
-                            <PermissionCategory title="Employee" description={permissionsDescription} onClick={() => handleCategoryClick('Employee')} />
-                            
-                            <div className="flex items-center gap-2 justify-center my-4">
-                                <div className="flex-grow border-t border-dashed border-gray-300"></div>
-                                <p className="text-muted-foreground text-sm whitespace-nowrap">Special access</p>
-                                <div className="flex-grow border-t border-dashed border-gray-300"></div>
-                            </div>
-                            
-                            <PermissionCategory title="Priya B" description={permissionsDescription} onClick={() => handleCategoryClick('Special Access')} />
+                    <div className="px-6 pb-6 space-y-2 flex-1 overflow-y-auto">
+                        <PermissionCategory title="Admin" description={permissionsDescription} onClick={() => handleCategoryClick('Admin')} />
+                        <Separator />
+                        <PermissionCategory title="Employee" description={permissionsDescription} onClick={() => handleCategoryClick('Employee')} />
+                        
+                        <div className="flex items-center gap-2 justify-center py-2">
+                            <div className="flex-grow border-t border-dashed border-gray-300"></div>
+                            <p className="text-muted-foreground text-sm whitespace-nowrap">Special access</p>
+                            <div className="flex-grow border-t border-dashed border-gray-300"></div>
                         </div>
+                        
+                        <PermissionCategory title="Priya B" description={permissionsDescription} onClick={() => handleCategoryClick('Special Access')} />
                     </div>
                 </DialogContent>
             </Dialog>
