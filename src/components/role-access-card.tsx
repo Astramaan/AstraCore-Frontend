@@ -67,6 +67,10 @@ export const RoleAccessCard = () => {
                             ))}
                         </div>
                     </div>
+                     <div>
+                        <h3 className="text-base text-muted-foreground mb-2">Special Access</h3>
+                        {/* Special access roles will be listed here */}
+                    </div>
                 </CardContent>
             </Card>
             <RolePermissionsDialog
