@@ -6,8 +6,7 @@ import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
-import { Edit, Save } from 'lucide-react';
-import { DetailField } from './detail-field'; // Assuming DetailField is in its own file now
+import { Edit, Save, ShieldAlert } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -16,6 +15,16 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { X } from 'lucide-react';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
@@ -42,6 +51,8 @@ interface PersonalDetailsProps {
 
 const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof initialEmployeeData, onSave: (data: typeof initialEmployeeData) => void, onCancel: () => void }) => {
     const [formData, setFormData] = useState(employee);
+    const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
+    const [pendingRole, setPendingRole] = useState<string | null>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -49,7 +60,23 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
     };
 
     const handleRoleChange = (value: string) => {
-        setFormData(prev => ({...prev, role: value}));
+        if (value !== formData.role) {
+            setPendingRole(value);
+            setIsRoleChangeConfirmOpen(true);
+        }
+    }
+
+    const confirmRoleChange = () => {
+        if(pendingRole) {
+            setFormData(prev => ({ ...prev, role: pendingRole }));
+        }
+        setPendingRole(null);
+        setIsRoleChangeConfirmOpen(false);
+    }
+    
+    const cancelRoleChange = () => {
+        setPendingRole(null);
+        setIsRoleChangeConfirmOpen(false);
     }
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -112,6 +139,25 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
                 <Button type="button" variant="ghost" onClick={onCancel} className="h-14 px-10 rounded-full text-lg bg-background border-transparent hover:bg-muted">Cancel</Button>
                 <Button type="submit" className="h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
             </div>
+             <AlertDialog open={isRoleChangeConfirmOpen} onOpenChange={setIsRoleChangeConfirmOpen}>
+                <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                        <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                            <div className="w-full h-full bg-yellow-600/5 rounded-full" />
+                            <div className="w-14 h-14 bg-yellow-600/20 rounded-full absolute" />
+                            <ShieldAlert className="w-8 h-8 text-yellow-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Confirm Role Change</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                            Changing the role of a Super Admin can have significant security implications. Are you sure you want to proceed?
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel onClick={cancelRoleChange} className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmRoleChange} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-white hover:bg-primary/90">Confirm</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </form>
     );
 };
@@ -147,16 +193,56 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                             </div>
                             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                 <div className="space-y-6">
-                                    <DetailField label="Full Name" name="name" value={employee.name} isEditing={false} />
-                                    <DetailField label="Email Id" name="email" value={employee.email} isEditing={false} />
-                                    <DetailField label="Last Login" name="lastLogin" value={employee.lastLogin} isEditing={false} />
-                                    <DetailField label="Date of Birth" name="dob" value={employee.dob} isEditing={false} />
+                                    <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
+                                        </div>
+                                    </div>
+                                     <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
+                                        </div>
+                                    </div>
+                                     <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
+                                        </div>
+                                    </div>
+                                     <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.dob}</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="space-y-6">
-                                    <DetailField label="Phone Number" name="phone" value={employee.phone} isEditing={false} />
-                                    <DetailField label="Role" name="role" value={employee.role} isEditing={false} />
-                                    <DetailField label="Date Joined" name="dateJoined" value={employee.dateJoined} isEditing={false} />
-                                    <DetailField label="Address" name="address" value={employee.address} isEditing={false} />
+                                     <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
+                                        </div>
+                                    </div>
+                                     <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.role}</p>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
+                                        <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                            <p className="text-black text-lg leading-tight truncate">{employee.address}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                              <div className="space-y-4 hidden md:flex lg:hidden xl:flex flex-col">
