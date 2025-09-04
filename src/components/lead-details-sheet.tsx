@@ -200,7 +200,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
                          <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} />
                          <div className="md:col-span-2">
-                            <Button className="w-full h-12 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20">Request 1% Token</Button>
+                            <Button className="w-full h-12 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">Request 1% Token</Button>
                          </div>
                     </div>
                 </div>
@@ -279,6 +279,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
+
 
 
 
