@@ -8,11 +8,8 @@ import { useState } from 'react';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
 import { CreateRoleDialog } from './create-role-dialog';
 
-const adminRoles: RoleData[] = [
+const allRoles: RoleData[] = [
     { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
-]
-
-const employeeRoles: RoleData[] = [
     { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
     { name: "Software Development", icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
     { name: "Design", icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
@@ -52,27 +49,10 @@ export const RoleAccessCard = () => {
                         Create Role
                     </Button>
                 </CardHeader>
-                <CardContent className="px-6 pb-6 space-y-4">
-                    <div>
-                        <h3 className="text-base text-muted-foreground mb-2">Admin</h3>
-                        {adminRoles.map(role => (
-                           <RoleListItem key={role.name} role={role} onClick={() => setSelectedRole(role)} />
-                        ))}
-                    </div>
-                     <div>
-                        <h3 className="text-base text-muted-foreground mb-2">Employee</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-                            {employeeRoles.map(role => (
-                                <RoleListItem key={role.name} role={role} onClick={() => setSelectedRole(role)} />
-                            ))}
-                        </div>
-                    </div>
-                     <div>
-                        <h3 className="text-base text-muted-foreground mb-2">Special Access</h3>
-                         <div className="text-center py-4 text-muted-foreground">
-                            No roles with special access.
-                        </div>
-                    </div>
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-6">
+                    {allRoles.map(role => (
+                       <RoleListItem key={role.name} role={role} onClick={() => setSelectedRole(role)} />
+                    ))}
                 </CardContent>
             </Card>
             <RolePermissionsDialog
@@ -84,4 +64,3 @@ export const RoleAccessCard = () => {
         </>
     )
 }
-
