@@ -35,20 +35,20 @@ export const RoleAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
     const [isCreateRoleOpen, setIsCreateRoleOpen] = useState(false);
     const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
+    const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
 
     const handleRoleClick = (role: RoleData) => {
+        setSelectedRole(role);
         if (role.name === 'Super Admin') {
-            setSelectedRole(role);
             setIsFeatureDialogOpen(true);
         } else {
-            setSelectedRole(role);
+            setIsPermissionsDialogOpen(true);
         }
     };
     
     const closePermissionsDialog = () => {
-        if (selectedRole?.name !== 'Super Admin') {
-            setSelectedRole(null);
-        }
+        setIsPermissionsDialogOpen(false);
+        setSelectedRole(null);
     };
     
     const closeFeatureDialog = () => {
@@ -78,7 +78,7 @@ export const RoleAccessCard = () => {
                 </CardContent>
             </Card>
             <RolePermissionsDialog
-                isOpen={!!selectedRole && selectedRole.name !== 'Super Admin'}
+                isOpen={isPermissionsDialogOpen}
                 onClose={closePermissionsDialog}
                 role={selectedRole}
             />
