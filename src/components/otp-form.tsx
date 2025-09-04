@@ -24,7 +24,7 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
   
   const formAction = async (prevState: any, formData: FormData) => {
     // In a real app, you would verify the OTP here.
-    // For now, we'll just simulate success and call the callback if it exists.
+    // For now, we'll simulate success and call the callback if it exists.
     if (onVerifySuccess) {
       const newSearchParams = Object.fromEntries(formData.entries());
       onVerifySuccess(newSearchParams);
@@ -147,13 +147,6 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
         
         <div className='pt-4 mt-auto'>
             <SubmitButton pending={pending} />
-            {flow === 'change-password' && (
-                <div className="text-center mt-4">
-                    <Button variant="ghost" asChild className="rounded-full">
-                        <button type="button" onClick={onClose}>Back to Profile</button>
-                    </Button>
-                </div>
-            )}
         </div>
     </form>
   );
