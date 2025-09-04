@@ -66,7 +66,7 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="p-6 pt-0">
+                <div className="px-6 pb-6">
                     {step === 'create-password' && (
                         <CreatePasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} onForgotPasswordClick={handleForgotPasswordClick} />
                     )}
