@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -20,6 +21,7 @@ import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const initialEmployeeData = {
     id: "1",
@@ -45,6 +47,10 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
+
+    const handleRoleChange = (value: string) => {
+        setFormData(prev => ({...prev, role: value}));
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -81,9 +87,22 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
                         <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
                         <div className="space-y-2">
                              <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
-                             <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                                <p className="text-black text-lg leading-tight truncate">{formData.role}</p>
-                            </div>
+                              {employee.role === 'Super Admin' ? (
+                                <Select value={formData.role} onValueChange={handleRoleChange}>
+                                    <SelectTrigger className="h-14 bg-background rounded-full px-5">
+                                        <SelectValue placeholder="Select a role" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Super Admin">Super Admin</SelectItem>
+                                        <SelectItem value="Admin">Admin</SelectItem>
+                                        <SelectItem value="Employee">Employee</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                             ) : (
+                                <div className="h-14 flex items-center px-5 rounded-full bg-background">
+                                    <p className="text-black text-lg leading-tight truncate">{formData.role}</p>
+                                </div>
+                             )}
                         </div>
                         <FloatingLabelInput id="address" name="address" label="Address" value={formData.address} onChange={handleInputChange} />
                     </div>
