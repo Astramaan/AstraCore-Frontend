@@ -2,13 +2,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { verifyOtp } from '@/app/actions';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
-import { useFormStatus } from 'react-dom';
 import Link from 'next/link';
 
 function SubmitButton({ pending }: { pending: boolean }) {

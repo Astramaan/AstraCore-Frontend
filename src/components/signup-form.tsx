@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import Link from "next/link";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import LockIcon from "./icons/lock";
 import EmailIcon from "./icons/email-icon";
 import PhoneIcon from "./icons/phone-icon";

@@ -1,15 +1,14 @@
 
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { useFormStatus } from "react-dom";
-import React, { useState } from "react";
+import { useActionState, useFormStatus } from "react-dom";
+import React, { useState, useEffect } from "react";
 import { requestPasswordReset } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import EmailIcon from "./icons/email-icon";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
