@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -14,7 +15,7 @@ export default function ProfilePage() {
     return (
         <div className="space-y-6">
              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-medium">Personal Details</h2>
+                <h2 className="text-2xl font-semibold">Personal Details</h2>
                 <Button variant="outline" asChild className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-muted">
                     <Link href="/organization/home">
                         <ChevronLeft className="mr-2 h-4 w-4" />
