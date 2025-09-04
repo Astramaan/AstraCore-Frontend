@@ -4,19 +4,18 @@
 
 import React, { useState, useActionState, useEffect } from 'react';
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
@@ -111,7 +110,8 @@ export function CreateDepartmentSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-full md:w-[452px]"
+            "p-0 rounded-[50px] w-full md:w-[452px]",
+             isMobile && "m-4"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b">

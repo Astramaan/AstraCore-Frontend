@@ -1,11 +1,12 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
-import { Edit, Save, ShieldAlert, ChevronLeft } from 'lucide-react';
+import { Edit, Save, ShieldAlert } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -30,7 +31,6 @@ import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import Link from 'next/link';
 
 const initialEmployeeData = {
     id: "1",
