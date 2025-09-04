@@ -50,7 +50,7 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
             <DialogContent className="sm:max-w-md p-0 rounded-[50px]">
                  <DialogHeader className="p-6">
                     <DialogTitle className="flex justify-between items-center">
-                        <HabiLogo />
+                        <span className="text-2xl font-semibold">Change Password</span>
                         <DialogClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-background hover:bg-muted">
                                 <X />

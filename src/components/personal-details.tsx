@@ -3,9 +3,9 @@
 
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import Image from 'next/image';
-import { Edit, Save, ShieldAlert } from 'lucide-react';
+import { Edit, Save, ShieldAlert, ChevronLeft } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,7 @@ import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import Link from 'next/link';
 
 const initialEmployeeData = {
     id: "1",
@@ -161,7 +162,6 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
     );
 };
 
-
 export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
     const [employee, setEmployee] = useState(initialEmployeeData);
     const [isEditing, setIsEditing] = useState(false);
@@ -176,40 +176,57 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
         <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <div className="space-y-6">
                 <Card className="rounded-[50px] p-4 md:p-8">
+                    <CardHeader className="p-0 flex flex-row justify-between items-center mb-6">
+                        <CardTitle className="text-2xl font-semibold">Personal Details</CardTitle>
+                        <Button variant="ghost" asChild>
+                            <Link href="/organization/home">
+                                <ChevronLeft className="mr-2 h-4 w-4" />
+                                Back
+                            </Link>
+                        </Button>
+                    </CardHeader>
                     <CardContent className="p-0">
                         <div className="flex flex-col lg:flex-row gap-8">
                             <div className="shrink-0 flex items-center gap-4">
                                 <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
                             </div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-                                <div className="space-y-2">
+                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
+                                <div className="space-y-1">
                                     <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
                                     <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                     <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
                                     <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                     <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
                                     <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                     <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
                                     <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                     <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
                                     <p className="text-primary text-lg leading-tight truncate">{employee.role}</p>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-1">
                                     <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
                                     <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
                                 </div>
+                                 <div className="space-y-1">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
+                                    <p className="text-black text-lg leading-tight truncate">{employee.dob}</p>
+                                </div>
+                                <div className="lg:col-span-2 space-y-1">
+                                    <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
+                                    <p className="text-black text-lg leading-tight">{employee.address}</p>
+                                </div>
                             </div>
-                             <div className="space-y-4">
+                             <div className="space-y-4 lg:pl-8">
                                 <DialogTrigger asChild>
-                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium">
+                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
                                         <Edit className="mr-2 h-5 w-5" />
                                         Edit Profile
                                     </Button>

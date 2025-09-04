@@ -6,8 +6,8 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
 const roles = [
-    { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
     { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
+    { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
     { name: "Software Development", icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
     { name: "Design", icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
     { name: "Support & Feedback", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-green-300/30" },
@@ -26,7 +26,7 @@ export const RoleAccessCard = () => {
                 </div>
                 <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted">
                     <Plus className="mr-2 h-6 w-6"/>
-                    Add Role
+                    Create Role
                 </Button>
             </CardHeader>
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 px-6 pb-6">
@@ -38,7 +38,7 @@ export const RoleAccessCard = () => {
                             </div>
                             <p className="text-lg font-medium">{role.name}</p>
                         </div>
-                        <ArrowRight className="w-4 h-4" />
+                        <ArrowRight className="w-4 h-4 text-muted-foreground" />
                     </div>
                 ))}
             </CardContent>
