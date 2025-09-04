@@ -3,23 +3,16 @@
 
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import OtpForm from './otp-form';
 import CreatePasswordForm from './create-password-form';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
 import { X, Check } from 'lucide-react';
-import { HabiLogo } from './habi-logo';
 import { useToast } from './ui/use-toast';
 
 export const ChangePasswordDialog = ({ email }: { email: string }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [step, setStep] = useState<'otp' | 'create-password' | 'success'>('otp');
+    const [step, setStep] = useState<'create-password' | 'success'>('create-password');
     const [searchParams, setSearchParams] = useState({ email, flow: 'change-password' });
     const { toast } = useToast();
-
-    const handleOtpSuccess = (newSearchParams: any) => {
-        setSearchParams(newSearchParams);
-        setStep('create-password');
-    }
 
     const handlePasswordSuccess = () => {
         setStep('success');
@@ -29,13 +22,13 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
         });
         setTimeout(() => {
             setIsOpen(false);
-            setTimeout(() => setStep('otp'), 300); // Reset after close animation
+            setTimeout(() => setStep('create-password'), 300); // Reset after close animation
         }, 2000);
     }
     
     const handleOpenChange = (open: boolean) => {
         if (!open) {
-             setTimeout(() => setStep('otp'), 300); // Reset after close animation
+             setTimeout(() => setStep('create-password'), 300); // Reset after close animation
         }
         setIsOpen(open);
     }
@@ -52,16 +45,13 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
                     <DialogTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">Change Password</span>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-background hover:bg-muted">
+                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background hover:bg-muted">
                                 <X />
                             </Button>
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
                 <div className="p-6 pt-0">
-                    {step === 'otp' && (
-                        <OtpForm searchParams={searchParams} onVerifySuccess={handleOtpSuccess} onClose={() => setIsOpen(false)} />
-                    )}
                     {step === 'create-password' && (
                         <CreatePasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} onClose={() => setIsOpen(false)} />
                     )}
