@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { useState } from 'react';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
 import { CreateRoleDialog } from './create-role-dialog';
+import { FeatureAccessDialog } from './feature-access-dialog';
 
 const allRoles: RoleData[] = [
     { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
@@ -33,6 +34,27 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }
 export const RoleAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
     const [isCreateRoleOpen, setIsCreateRoleOpen] = useState(false);
+    const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
+
+    const handleRoleClick = (role: RoleData) => {
+        if (role.name === 'Super Admin') {
+            setSelectedRole(role);
+            setIsFeatureDialogOpen(true);
+        } else {
+            setSelectedRole(role);
+        }
+    };
+    
+    const closePermissionsDialog = () => {
+        if (selectedRole?.name !== 'Super Admin') {
+            setSelectedRole(null);
+        }
+    };
+    
+    const closeFeatureDialog = () => {
+        setIsFeatureDialogOpen(false);
+        setSelectedRole(null);
+    };
 
     return (
         <>
@@ -51,15 +73,23 @@ export const RoleAccessCard = () => {
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-6">
                     {allRoles.map(role => (
-                       <RoleListItem key={role.name} role={role} onClick={() => setSelectedRole(role)} />
+                       <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
                     ))}
                 </CardContent>
             </Card>
             <RolePermissionsDialog
-                isOpen={!!selectedRole}
-                onClose={() => setSelectedRole(null)}
+                isOpen={!!selectedRole && selectedRole.name !== 'Super Admin'}
+                onClose={closePermissionsDialog}
                 role={selectedRole}
             />
+            {selectedRole && (
+                 <FeatureAccessDialog 
+                    isOpen={isFeatureDialogOpen}
+                    onClose={closeFeatureDialog}
+                    category={"Admin"} 
+                    roleName={selectedRole.name}
+                 />
+            )}
              <CreateRoleDialog isOpen={isCreateRoleOpen} onOpenChange={setIsCreateRoleOpen} />
         </>
     )
