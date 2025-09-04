@@ -40,12 +40,12 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
                     Change Password
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md p-0 rounded-[50px]">
+            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
                  <DialogHeader className="p-6">
                     <DialogTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">Change Password</span>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background hover:bg-muted">
+                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background hover:bg-muted rounded-full">
                                 <X />
                             </Button>
                         </DialogClose>
