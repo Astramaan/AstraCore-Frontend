@@ -7,10 +7,11 @@ import CreatePasswordForm from './create-password-form';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
 import { X, Check } from 'lucide-react';
 import { useToast } from './ui/use-toast';
+import OtpForm from './otp-form';
 
 export const ChangePasswordDialog = ({ email }: { email: string }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [step, setStep] = useState<'create-password' | 'success'>('create-password');
+    const [step, setStep] = useState<'create-password' | 'otp' | 'success'>('create-password');
     const [searchParams, setSearchParams] = useState({ email, flow: 'change-password' });
     const { toast } = useToast();
 
@@ -33,6 +34,18 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
         setIsOpen(open);
     }
 
+    const handleForgotPasswordClick = () => {
+        setStep('otp');
+    }
+
+    const handleOtpSuccess = () => {
+        setStep('create-password');
+    }
+    
+    const handleOtpClose = () => {
+        setStep('create-password');
+    }
+
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
@@ -43,7 +56,9 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
             <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
                  <DialogHeader className="p-6">
                     <DialogTitle className="flex justify-between items-center">
-                        <span className="text-2xl font-semibold">Change Password</span>
+                        <span className="text-2xl font-semibold">
+                            {step === 'otp' ? 'Verify OTP' : 'Change Password'}
+                        </span>
                         <DialogClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background hover:bg-muted rounded-full">
                                 <X />
@@ -53,7 +68,10 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
                 </DialogHeader>
                 <div className="p-6 pt-0">
                     {step === 'create-password' && (
-                        <CreatePasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} onClose={() => setIsOpen(false)} />
+                        <CreatePasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} onForgotPasswordClick={handleForgotPasswordClick} />
+                    )}
+                    {step === 'otp' && (
+                        <OtpForm searchParams={searchParams} onVerifySuccess={handleOtpSuccess} onClose={handleOtpClose}/>
                     )}
                     {step === 'success' && (
                         <div className="text-center flex flex-col items-center justify-center h-full min-h-[300px]">

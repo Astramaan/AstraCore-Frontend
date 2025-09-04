@@ -8,11 +8,9 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import LockIcon from "./icons/lock";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -23,7 +21,7 @@ function SubmitButton() {
   );
 }
 
-export default function CreatePasswordForm({ searchParams, onSuccess, onClose }: { searchParams: { [key: string]: string | string[] | undefined }, onSuccess?: () => void, onClose?: () => void; }) {
+export default function CreatePasswordForm({ searchParams, onSuccess, onForgotPasswordClick }: { searchParams: { [key: string]: string | string[] | undefined }, onSuccess?: () => void, onForgotPasswordClick?: () => void; }) {
   const { toast } = useToast();
 
   const formAction = async (prevState: any, formData: FormData) => {
@@ -42,8 +40,7 @@ export default function CreatePasswordForm({ searchParams, onSuccess, onClose }:
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
-  const flow = searchParams.flow;
-
+  
   useEffect(() => {
     if (state?.error) {
       toast({
@@ -105,7 +102,7 @@ export default function CreatePasswordForm({ searchParams, onSuccess, onClose }:
               </button>
             </div>
             <div className="text-right">
-              <Link href="/forgot-password" className="text-sm text-muted-foreground underline">Forgot Current Password?</Link>
+              <button type="button" onClick={onForgotPasswordClick} className="text-sm text-muted-foreground underline">Forgot Current Password?</button>
             </div>
         </div>
       </div>
