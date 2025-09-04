@@ -7,15 +7,32 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { useState } from 'react';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
 import { CreateRoleDialog } from './create-role-dialog';
+import { Separator } from './ui/separator';
 
-const roles: RoleData[] = [
-    { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
+const adminRoles: RoleData[] = [
     { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
+];
+
+const employeeRoles: RoleData[] = [
+    { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
     { name: "Software Development", icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
     { name: "Design", icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
     { name: "Support & Feedback", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-green-300/30" },
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
+
+const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }) => (
+    <div className="flex justify-between items-center py-4 border-b cursor-pointer" onClick={onClick}>
+        <div className="flex items-center gap-4">
+            <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                {role.icon}
+            </div>
+            <p className="text-lg font-medium">{role.name}</p>
+        </div>
+        <ArrowRight className="w-4 h-4 text-muted-foreground" />
+    </div>
+);
+
 
 export const RoleAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
@@ -36,18 +53,21 @@ export const RoleAccessCard = () => {
                         Create Role
                     </Button>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 px-6 pb-6">
-                    {roles.map(role => (
-                        <div key={role.name} className="flex justify-between items-center pb-4 border-b cursor-pointer" onClick={() => setSelectedRole(role)}>
-                             <div className="flex items-center gap-4">
-                                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                    {role.icon}
-                                </div>
-                                <p className="text-lg font-medium">{role.name}</p>
-                            </div>
-                            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                <CardContent className="px-6 pb-6 space-y-4">
+                    <div>
+                        <h3 className="text-base text-muted-foreground mb-2">Admin</h3>
+                        {adminRoles.map(role => (
+                            <RoleListItem key={role.name} role={role} onClick={() => setSelectedRole(role)} />
+                        ))}
+                    </div>
+                    <div>
+                        <h3 className="text-base text-muted-foreground mb-2">Employee</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0">
+                            {employeeRoles.map(role => (
+                                <RoleListItem key={role.name} role={role} onClick={() => setSelectedRole(role)} />
+                            ))}
                         </div>
-                    ))}
+                    </div>
                 </CardContent>
             </Card>
             <RolePermissionsDialog
