@@ -2,7 +2,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormStatus } from "react-dom";
 import React, { useState } from "react";
 import { createPassword } from "@/app/actions";
 import { Button } from "./ui/button";
@@ -24,7 +24,7 @@ function SubmitButton() {
   );
 }
 
-export default function CreatePasswordForm({ searchParams, onSuccess }: { searchParams: { [key: string]: string | string[] | undefined }, onSuccess?: () => void }) {
+export default function CreatePasswordForm({ searchParams, onSuccess, onClose }: { searchParams: { [key: string]: string | string[] | undefined }, onSuccess?: () => void, onClose?: () => void; }) {
   const { toast } = useToast();
 
   const formAction = async (prevState: any, formData: FormData) => {
@@ -39,7 +39,7 @@ export default function CreatePasswordForm({ searchParams, onSuccess }: { search
     return createPassword(prevState, formData);
   }
 
-  const [state, dispatch] = useFormState(formAction, undefined);
+  const [state, dispatch] = useActionState(formAction, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
@@ -97,7 +97,7 @@ export default function CreatePasswordForm({ searchParams, onSuccess }: { search
           <div className="mb-4">
             <SubmitButton />
           </div>
-           {flow === 'change-password' && (
+           {flow === 'change-password' && onClose && (
              <div className="text-center">
                 <Button variant="ghost" asChild className="rounded-full">
                     <button type="button" onClick={onClose}>Back to Profile</button>

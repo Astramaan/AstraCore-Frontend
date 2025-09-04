@@ -8,7 +8,7 @@ import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
-import { useFormStatus, useFormState } from 'react-dom';
+import { useFormStatus, useActionState } from 'react';
 import Link from 'next/link';
 
 function SubmitButton({ pending }: { pending: boolean }) {
@@ -19,7 +19,7 @@ function SubmitButton({ pending }: { pending: boolean }) {
   );
 }
 
-export default function OtpForm({ searchParams, onVerifySuccess }: { searchParams: { [key: string]: string | string[] | undefined }; onVerifySuccess?: (newSearchParams: any) => void; }) {
+export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { searchParams: { [key: string]: string | string[] | undefined }; onVerifySuccess?: (newSearchParams: any) => void; onClose?: () => void; }) {
   const { toast } = useToast();
   
   const formAction = async (prevState: any, formData: FormData) => {
@@ -35,7 +35,7 @@ export default function OtpForm({ searchParams, onVerifySuccess }: { searchParam
     return verifyOtp(prevState, formData);
   }
   
-  const [state, dispatch] = useFormState(formAction, undefined);
+  const [state, dispatch] = useActionState(formAction, undefined);
   const { pending } = useFormStatus();
   
   const [otp, setOtp] = useState(new Array(4).fill(""));

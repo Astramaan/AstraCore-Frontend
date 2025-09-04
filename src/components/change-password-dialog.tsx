@@ -29,13 +29,13 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
         });
         setTimeout(() => {
             setIsOpen(false);
-            setStep('otp');
+            setTimeout(() => setStep('otp'), 300); // Reset after close animation
         }, 2000);
     }
     
     const handleOpenChange = (open: boolean) => {
         if (!open) {
-            setStep('otp'); // Reset step when dialog is closed
+             setTimeout(() => setStep('otp'), 300); // Reset after close animation
         }
         setIsOpen(open);
     }
@@ -60,10 +60,10 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
                 </DialogHeader>
                 <div className="p-6 pt-0">
                     {step === 'otp' && (
-                        <OtpForm searchParams={searchParams} onVerifySuccess={handleOtpSuccess} />
+                        <OtpForm searchParams={searchParams} onVerifySuccess={handleOtpSuccess} onClose={() => setIsOpen(false)} />
                     )}
                     {step === 'create-password' && (
-                        <CreatePasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} />
+                        <CreatePasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} onClose={() => setIsOpen(false)} />
                     )}
                     {step === 'success' && (
                         <div className="text-center flex flex-col items-center justify-center h-full min-h-[300px]">

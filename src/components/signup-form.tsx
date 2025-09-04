@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormStatus, useActionState } from "react-dom";
 import React, { useState, useEffect } from "react";
 import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
@@ -28,7 +28,7 @@ function SubmitButton() {
 }
 
 export default function SignupForm() {
-  const [state, action] = useFormState(signup, undefined);
+  const [state, action] = useActionState(signup, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
