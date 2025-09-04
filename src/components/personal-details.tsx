@@ -174,60 +174,58 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
 
     return (
         <Dialog open={isEditing} onOpenChange={setIsEditing}>
-            <div className="space-y-6">
-                <Card className="rounded-[50px] p-4 md:p-8">
-                    <CardContent className="p-0">
-                        <div className="flex flex-col lg:flex-row gap-8">
-                            <div className="shrink-0 flex items-center gap-4">
-                                <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+            <Card className="rounded-[50px] p-4 md:p-8">
+                <CardContent className="p-0">
+                    <div className="flex flex-col lg:flex-row gap-8">
+                        <div className="shrink-0 flex items-center gap-4">
+                            <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                        </div>
+                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
+                            <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
+                                <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
                             </div>
-                            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
-                                <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
-                                    <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
-                                </div>
-                                <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
-                                    <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
-                                </div>
-                                <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
-                                    <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
-                                </div>
-                                <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
-                                    <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
-                                </div>
-                                <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
-                                    <p className="text-primary text-lg leading-tight truncate">{employee.role}</p>
-                                </div>
-                                <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
-                                    <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
-                                </div>
-                                 <div className="space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
-                                    <p className="text-black text-lg leading-tight truncate">{employee.dob}</p>
-                                </div>
-                                <div className="lg:col-span-2 space-y-1">
-                                    <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
-                                    <p className="text-black text-lg leading-tight">{employee.address}</p>
-                                </div>
+                            <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
+                                <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
                             </div>
-                             <div className="space-y-4 lg:pl-8">
-                                <DialogTrigger asChild>
-                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
-                                        <Edit className="mr-2 h-5 w-5" />
-                                        Edit Profile
-                                    </Button>
-                                </DialogTrigger>
-                                <ChangePasswordDialog email={employee.email} />
+                            <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
+                                <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
+                                <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
+                                <p className="text-primary text-lg leading-tight truncate">{employee.role}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
+                                <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
+                            </div>
+                             <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
+                                <p className="text-black text-lg leading-tight truncate">{employee.dob}</p>
+                            </div>
+                            <div className="lg:col-span-2 space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
+                                <p className="text-black text-lg leading-tight">{employee.address}</p>
                             </div>
                         </div>
-                    </CardContent>
-                </Card>
-            </div>
+                         <div className="flex flex-col space-y-4 lg:pl-8">
+                            <DialogTrigger asChild>
+                                <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
+                                    <Edit className="mr-2 h-5 w-5" />
+                                    Edit Profile
+                                </Button>
+                            </DialogTrigger>
+                            <ChangePasswordDialog email={employee.email} />
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
              <DialogContent className="max-w-3xl p-0 bg-transparent border-none">
                 <EditProfileForm 
                     employee={employee}
@@ -238,3 +236,4 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
         </Dialog>
     );
 }
+
