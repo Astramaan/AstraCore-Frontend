@@ -35,6 +35,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
     const { toast } = useToast();
     const [departmentName, setDepartmentName] = useState('');
     const [admin, setAdmin] = useState('');
+    const [members, setMembers] = useState('');
 
     // Placeholder action, replace with actual create department action
     const [state, formAction] = useActionState(addEmployee, { success: false, message: '' });
@@ -56,18 +57,34 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
             <div className="grid grid-cols-1 gap-y-6">
                 <FloatingLabelInput id="department-name" name="department-name" label="Team Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
-
-                <div className="space-y-2">
-                    <Label htmlFor="admin" className={cn("text-lg font-medium", admin ? "text-grey-1" : "text-black")}>Assign Admin</Label>
-                    <Select name="admin" onValueChange={setAdmin}>
-                        <SelectTrigger id="admin" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Select an admin" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="balaji">Balaji Naik</SelectItem>
-                            <SelectItem value="anil">Anil Kumar</SelectItem>
-                        </SelectContent>
-                    </Select>
+                
+                <div className="space-y-4">
+                    <h3 className="text-lg font-medium text-grey-1">Role Access</h3>
+                    <div className="space-y-2">
+                        <Label htmlFor="admin" className={cn("text-lg font-medium", admin ? "text-grey-1" : "text-black")}>Admin</Label>
+                        <Select name="admin" onValueChange={setAdmin}>
+                            <SelectTrigger id="admin" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                                <SelectValue placeholder="Select an admin" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="balaji">Balaji Naik</SelectItem>
+                                <SelectItem value="anil">Anil Kumar</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="members" className={cn("text-lg font-medium", members ? "text-grey-1" : "text-black")}>Members</Label>
+                        <Select name="members" onValueChange={setMembers}>
+                            <SelectTrigger id="members" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                                <SelectValue placeholder="Select members" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="balaji">Balaji Naik</SelectItem>
+                                <SelectItem value="anil">Anil Kumar</SelectItem>
+                                <SelectItem value="priya">Priya Mehra</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
             </div>
             
