@@ -19,20 +19,19 @@ interface FeatureAccessDialogProps {
 }
 
 const permissionsData = {
-    'Home': ["Home"],
-    'Project Management': ["Projects", "Project Details", "Snag List"],
-    'Client & Lead Management': ["Leads", "Meetings"],
-    'Vendor Management': ["Vendors"],
-    'Team Management': ["Team", "Member Details", "Profile", "Subscription"],
-    'Settings': ["Change Password", "Role Access"],
+    'Home': ["Assign Task", "Add New Member"],
+    'Project Management': ["Projects", "Project Details", "Snag List", "Add Project", "Edit Project", "Delete Project", "Create Snag"],
+    'Client & Lead Management': ["Leads", "Meetings", "Add Lead", "Edit Lead", "Delete Lead", "Create Meeting"],
+    'Vendor Management': ["Vendors", "Add Vendor", "Edit Vendor"],
+    'Team Management': ["Team", "Member Details", "Profile", "Subscription", "Create New Team"],
+    'Settings': ["Change Password", "Role Access", "Create Role"],
 };
 
 const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false }: { title: string, features: string[], searchTerm: string, defaultEnabled?: boolean }) => {
-    const [isEnabled, setIsEnabled] = useState(true);
-    const [selectedFeatures, setSelectedFeatures] = useState<string[]>(features);
+    const [isEnabled, setIsEnabled] = useState(defaultEnabled);
+    const [selectedFeatures, setSelectedFeatures] = useState<string[]>(defaultEnabled ? features : []);
 
     const handleFeatureToggle = (feature: string) => {
-        if (defaultEnabled && (feature === 'Home' || feature === 'Profile')) return;
         setSelectedFeatures(prev => 
             prev.includes(feature) 
                 ? prev.filter(f => f !== feature) 
@@ -42,18 +41,11 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false }:
 
     const handleParentToggle = () => {
         if (defaultEnabled) return;
-        setIsEnabled(!isEnabled);
-        if (isEnabled) {
-            // If it was enabled, we are disabling it, so clear selections
-             const defaultFeatures = features.filter(f => f === 'Home' || f === 'Profile');
-             setSelectedFeatures(defaultFeatures);
-        } else {
-            // If it was disabled, we are enabling it, so select all
-            setSelectedFeatures(features);
-        }
+        const newState = !isEnabled;
+        setIsEnabled(newState);
+        setSelectedFeatures(newState ? features : []);
     }
     
-    // Filter features based on search term
     const filteredFeatures = useMemo(() => {
         if (!searchTerm.trim()) return features;
         return features.filter(feature =>
@@ -61,10 +53,8 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false }:
         );
     }, [features, searchTerm]);
     
-    // Decide if the whole section should be visible
     const isSectionVisible = useMemo(() => {
         if (!searchTerm.trim()) return true;
-        // Show section if its title matches or if any of its features match
         return title.toLowerCase().includes(searchTerm.toLowerCase()) || filteredFeatures.length > 0;
     }, [title, searchTerm, filteredFeatures]);
 
@@ -85,7 +75,6 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false }:
             <div className={cn("grid grid-cols-2 gap-x-2 gap-y-4", !isEnabled && "opacity-50 pointer-events-none")}>
                 {filteredFeatures.map((feature, index) => {
                     const isChecked = selectedFeatures.includes(feature);
-                    const isDefault = defaultEnabled && (feature === 'Home' || feature === 'Profile');
                     return (
                         <div key={index} className="flex items-center">
                             <Checkbox 
@@ -93,14 +82,14 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false }:
                                 checked={isChecked}
                                 onCheckedChange={() => handleFeatureToggle(feature)}
                                 className="w-5 h-5 rounded"
-                                disabled={isDefault || !isEnabled}
+                                disabled={!isEnabled}
                             />
                             <label
                                 htmlFor={`${title}-${feature}`}
                                 className={cn(
                                     "ml-2 text-sm font-medium leading-none", 
                                     isChecked ? 'text-black' : 'text-muted-foreground',
-                                    (isDefault || !isEnabled) ? 'cursor-not-allowed' : 'cursor-pointer'
+                                    !isEnabled ? 'cursor-not-allowed' : 'cursor-pointer'
                                 )}
                             >
                                 {feature}
@@ -142,7 +131,7 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                 </div>
                 <ScrollArea className="flex-1 p-6">
                     <div className="space-y-4">
-                        <FeatureSection title="Home" features={["Home"]} searchTerm={searchTerm} defaultEnabled/>
+                        <FeatureSection title="Home" features={permissionsData["Home"]} searchTerm={searchTerm} defaultEnabled/>
                         <FeatureSection title="Project Management" features={permissionsData["Project Management"]} searchTerm={searchTerm} />
                         <FeatureSection title="Client & Lead Management" features={permissionsData["Client & Lead Management"]} searchTerm={searchTerm} />
                         <FeatureSection title="Vendor Management" features={permissionsData["Vendor Management"]} searchTerm={searchTerm} />
