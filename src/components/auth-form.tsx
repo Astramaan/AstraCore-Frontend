@@ -1,9 +1,8 @@
 
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -26,25 +25,27 @@ function SubmitButton() {
 }
 
 export default function AuthForm() {
-  const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { toast } = useToast();
 
-  useEffect(() => {
+
+  const handleSubmit = async (formData: FormData) => {
+    const errorMessage = await authenticate(undefined, formData);
     if (errorMessage) {
-      toast({
+       toast({
         variant: "destructive",
         title: "Authentication Error",
         description: errorMessage,
       });
     }
-  }, [errorMessage, toast]);
+  }
+
 
   return (
     <div className="flex-grow flex flex-col">
-      <form action={formAction} className="flex-grow flex flex-col">
+      <form action={handleSubmit} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
             <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
@@ -61,7 +62,6 @@ export default function AuthForm() {
                 className={`pl-20 rounded-full bg-background h-[54px]`}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={isPending}
               />
             </div>
           </div>
@@ -81,14 +81,12 @@ export default function AuthForm() {
                 className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                disabled={isPending}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-6 text-foreground"
                 aria-label={showPassword ? "Hide password" : "Show password"}
-                disabled={isPending}
               >
                 {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
               </button>
