@@ -161,21 +161,30 @@ export async function requestPasswordReset(
 ) {
   const email = formData.get('email') as string;
   try {
-    const response = await fetch('http://localhost:4000/api/v1/check-email-existed', {
+    const checkEmailResponse = await fetch('http://localhost:4000/api/v1/check-email-existed', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
     });
     
-    if (!response.ok) {
-      const errorData = await response.json();
+    if (!checkEmailResponse.ok) {
+      const errorData = await checkEmailResponse.json();
       return { error: errorData.message || 'Failed to check email.' };
     }
     
-    const data = await response.json();
+    const data = await checkEmailResponse.json();
     if (data.exists) {
+        const sendOtpResponse = await fetch('http://localhost:4000/api/v1/send-otp-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+        });
+
+        if (!sendOtpResponse.ok) {
+            const errorData = await sendOtpResponse.json();
+            return { error: errorData.message || 'Failed to send OTP.' };
+        }
+
         const params = new URLSearchParams({ email, flow: 'change-password' });
         redirect(`/otp-verification?${params.toString()}`);
     } else {
