@@ -92,8 +92,8 @@ export function AllNotificationsDialog() {
                         Notifications
                     </DialogTitle>
                      <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="absolute right-4 top-4 rounded-full">
-                            <X className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="absolute right-4 top-4 rounded-full w-[54px] h-[54px] bg-background">
+                            <X className="h-6 w-6" />
                         </Button>
                     </DialogClose>
                 </DialogHeader>
