@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState } from 'react';
@@ -85,55 +84,55 @@ const membersData: { [key: string]: Member[] } = {
 };
 
 const MemberCard = ({ member }: { member: Member }) => {
-    const [changePasswordOpen, setChangePasswordOpen] = useState(false);
-    
+    const [changePasswordDialogOpen, setChangePasswordDialogOpen] = useState(false);
+
     return (
-    <>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
-                <Avatar className="w-14 h-14">
-                    <AvatarImage src={member.avatar} />
-                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <p className="text-lg font-medium w-44">{member.name}</p>
-            </Link>
-            
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+        <>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+                <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
+                    <Avatar className="w-14 h-14">
+                        <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
+                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <p className="text-lg font-medium w-44">{member.name}</p>
+                </Link>
+                
+                <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex flex-col gap-2 flex-1">
-                <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
-                <p className="text-lg"><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
-            </div>
-            
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+                <div className="flex flex-col gap-2 flex-1">
+                    <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
+                    <p className="text-lg"><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
+                </div>
+                
+                <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex flex-col items-end gap-2 flex-1 text-right">
-                <p className="text-lg"><span className="text-grey-1">Status: </span><span className={member.status === 'Active' ? "text-green-600" : "text-red-600"}>{member.status}</span></p>
-                <p className="text-lg"><span className="text-grey-1">Last Active: </span><span className="text-black font-medium">{member.lastActive}</span></p>
+                <div className="flex flex-col items-end gap-2 flex-1 text-right">
+                    <p className="text-lg"><span className="text-grey-1">Status: </span><span className={member.status === 'Active' ? "text-green-600" : "text-red-600"}>{member.status}</span></p>
+                    <p className="text-lg"><span className="text-grey-1">Last Active: </span><span className="text-black font-medium">{member.lastActive}</span></p>
+                </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onSelect={() => setChangePasswordDialogOpen(true)}>
+                            Change Password
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>Deactivate user</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                        <MoreVertical className="w-6 h-6" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem onSelect={() => setChangePasswordOpen(true)}>
-                        Change Password
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>Deactivate user</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </div>
-        <Separator />
-        <Dialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen}>
-            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
-                <ChangePasswordDialog email={member.email} />
-            </DialogContent>
-        </Dialog>
-    </>
-);
-}
+            <Separator />
+            <Dialog open={changePasswordDialogOpen} onOpenChange={setChangePasswordDialogOpen}>
+                <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
+                     <ChangePasswordDialog email={member.email} startWithReset={true} />
+                </DialogContent>
+            </Dialog>
+        </>
+    );
+};
 
 const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void }) => {
     const members = membersData[role.name] || [];

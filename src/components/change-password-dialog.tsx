@@ -1,20 +1,26 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import CreatePasswordForm from './create-password-form';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
 import { X, Check } from 'lucide-react';
 import { useToast } from './ui/use-toast';
 import OtpForm from './otp-form';
 import ResetPasswordForm from './reset-password-form';
+import CreatePasswordForm from './create-password-form';
 
-export const ChangePasswordDialog = ({ email }: { email: string }) => {
+export const ChangePasswordDialog = ({ email, startWithReset = false }: { email: string, startWithReset?: boolean }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [step, setStep] = useState<'create-password' | 'otp' | 'reset-password' | 'success'>('create-password');
+    const [step, setStep] = useState<'create-password' | 'otp' | 'reset-password' | 'success'>(startWithReset ? 'reset-password' : 'create-password');
     const [searchParams, setSearchParams] = useState({ email, flow: 'change-password' });
     const { toast } = useToast();
+
+    useEffect(() => {
+        if(isOpen) {
+            setStep(startWithReset ? 'reset-password' : 'create-password');
+        }
+    }, [isOpen, startWithReset]);
 
     const handlePasswordSuccess = () => {
         setStep('success');
@@ -24,13 +30,13 @@ export const ChangePasswordDialog = ({ email }: { email: string }) => {
         });
         setTimeout(() => {
             setIsOpen(false);
-            setTimeout(() => setStep('create-password'), 300); // Reset after close animation
+            setTimeout(() => setStep(startWithReset ? 'reset-password' : 'create-password'), 300); // Reset after close animation
         }, 2000);
     }
     
     const handleOpenChange = (open: boolean) => {
         if (!open) {
-             setTimeout(() => setStep('create-password'), 300); // Reset after close animation
+             setTimeout(() => setStep(startWithReset ? 'reset-password' : 'create-password'), 300); // Reset after close animation
         }
         setIsOpen(open);
     }
