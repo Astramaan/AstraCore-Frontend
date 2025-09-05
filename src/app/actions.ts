@@ -11,15 +11,30 @@ export async function authenticate(
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    // This is a mock authentication.
-    // In a real app, you would validate credentials against a database.
-    if (email === 'platform@admin.com' && password === 'password') {
+    const response = await fetch('http://localhost:4000/api/v1/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        return errorData.message || 'Login failed.';
+    }
+
+    const userData = await response.json();
+
+    // NOTE: You may need to adjust the role names based on your API response
+    if (userData.role === 'platform_admin') {
         redirect('/platform/dashboard');
-    } else if (email === 'user@example.com' && password === 'password') {
+    } else if (userData.role === 'organization_admin') {
         redirect('/organization/home');
     } else {
-        return 'Invalid credentials.';
+        return 'Invalid user role.';
     }
+
   } catch (error) {
       if (error instanceof Error) {
         if (error.message.includes('NEXT_REDIRECT')) {
@@ -302,5 +317,3 @@ export async function inviteUser(
     return { success: false, message: 'An unexpected error occurred.' };
   }
 }
-
-    
