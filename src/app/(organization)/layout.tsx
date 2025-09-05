@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -14,40 +15,15 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const OrganizationHeader = () => {
     const pathname = usePathname();
-    let pageTitle = '';
-
-    if (pathname.startsWith('/organization/home')) {
-        pageTitle = 'Home';
-    } else if (pathname.startsWith('/organization/meetings')) {
-        pageTitle = 'Meetings';
-    } else if (pathname.startsWith('/organization/projects')) {
-        pageTitle = 'Projects';
-    } else if (pathname.startsWith('/organization/leads')) {
-        pageTitle = 'Leads';
-    } else if (pathname.startsWith('/organization/vendors')) {
-        pageTitle = 'Vendors';
-    } else if (pathname.startsWith('/organization/snag-list')) {
-        pageTitle = 'Snag List';
-    } else if (pathname.startsWith('/organization/team-management')) {
-        pageTitle = 'Team Management';
-    } else if (pathname.startsWith('/organization/subscription-management')) {
-        pageTitle = 'Subscription management'
-    } else if (pathname.startsWith('/organization/profile')) {
-        pageTitle = 'My Profile'
-    }
     
-    const isTeamManagementActive = pathname.startsWith('/organization/team-management');
+    const isTeamManagementActive = pathname.startsWith('/organization/team-management') || pathname.startsWith('/organization/employee-management');
+    const isEmployeeManagementActive = pathname.startsWith('/organization/team-management') || pathname.startsWith('/organization/employee-management');
+
 
     return (
     <header className="flex flex-row justify-between items-center w-full gap-4">
         <div className="flex items-center gap-4">
             <HabiLogo />
-             {pageTitle && (
-                <>
-                    <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="text-2xl md:text-[40px] font-medium text-zinc-900">{pageTitle}</h2>
-                </>
-             )}
         </div>
         <div className="hidden md:flex items-center gap-2 md:gap-6">
             <NotificationPopover />
@@ -95,7 +71,7 @@ const OrganizationHeader = () => {
                         <Link href="/organization/team-management">
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                              isTeamManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
                               Team Management
@@ -160,6 +136,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     
 
     
+
 
 
 
