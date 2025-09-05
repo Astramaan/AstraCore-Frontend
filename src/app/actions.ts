@@ -166,3 +166,35 @@ export async function addLead(
         return { success: false, message: 'Failed to add lead.' };
     }
 }
+
+export async function inviteUser(
+  prevState: any,
+  formData: FormData
+) {
+  const email = formData.get('email') as string;
+  const role = formData.get('role') as string;
+
+  if (!email || !role) {
+    return { success: false, message: 'Email and role are required.' };
+  }
+
+  try {
+    const response = await fetch('http://localhost:4000/api/v1/invites', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, role }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return { success: false, message: errorData.message || 'Failed to send invitation.' };
+    }
+
+    return { success: true, message: 'Invitation sent successfully!' };
+  } catch (error) {
+    console.error('Invite error:', error);
+    return { success: false, message: 'An unexpected error occurred.' };
+  }
+}

@@ -12,6 +12,7 @@ import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
 import { ExitSurveyChart } from '@/components/charts/exit-survey-chart';
 import Link from 'next/link';
+import { InviteUserSheet } from '@/components/invite-user-sheet';
 
 const FilterToggle = () => {
   const [active, setActive] = React.useState('Month');
@@ -58,10 +59,7 @@ const ActiveCustomers = () => {
             <Button variant="ghost" size="icon" className="bg-white rounded-full h-14 w-14 hover:bg-primary hover:text-white">
                 <ArrowRight />
             </Button>
-            <Button className="bg-white text-black rounded-full h-14 px-10 text-lg font-medium hover:bg-primary hover:text-white hidden md:flex">
-                <Users className="mr-2 h-6 w-6"/>
-                Invite
-            </Button>
+            <InviteUserSheet />
         </div>
     )
 }
