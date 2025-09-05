@@ -163,7 +163,7 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
-                side={isMobile ? "bottom" : "right"} 
+                side={"bottom"} 
                 className="w-full md:max-w-4xl lg:max-w-5xl h-full p-0 bg-transparent border-none shadow-none"
                 overlayClassName="bg-neutral-900/10 backdrop-blur-md"
             >
