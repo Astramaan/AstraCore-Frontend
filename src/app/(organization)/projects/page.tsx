@@ -13,7 +13,7 @@ import Link from "next/link";
 import { getProjects, Project } from "@/lib/data";
 
 
-const ProjectListItem = ({ project, isLast = false }: { project: Project, isLast?: boolean }) => (
+const ProjectListItem = ({ project, onEdit, isLast = false }: { project: Project, onEdit: (project: Project) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
         <div className="flex justify-between items-center py-4">
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
@@ -45,7 +45,7 @@ const ProjectListItem = ({ project, isLast = false }: { project: Project, isLast
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
                     <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -58,6 +58,7 @@ const ProjectListItem = ({ project, isLast = false }: { project: Project, isLast
 export default function ProjectsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [activeProjects, setActiveProjects] = useState<Project[]>([]);
     const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
+    const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -67,6 +68,36 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
         };
         fetchProjects();
     }, []);
+
+    const handleEdit = (project: Project) => {
+        setProjectToEdit(project);
+    };
+
+    const handleProjectAdded = (newProject: Project) => {
+        // This is a simplified handler. You might want to refetch or update state more intelligently
+        if (newProject.status === 'Completed') {
+            setCompletedProjects(prev => [...prev, newProject]);
+        } else {
+            setActiveProjects(prev => [...prev, newProject]);
+        }
+    };
+
+    const handleProjectUpdated = (updatedProject: Project) => {
+        const updateList = (list: Project[]) => list.map(p => p.id === updatedProject.id ? updatedProject : p);
+        setActiveProjects(updateList);
+        setCompletedProjects(updateList);
+        // Also need to handle moving between lists if status changes
+        const wasActive = activeProjects.some(p => p.id === updatedProject.id);
+        const isCompleted = updatedProject.status === 'Completed';
+
+        if (wasActive && isCompleted) {
+            setActiveProjects(prev => prev.filter(p => p.id !== updatedProject.id));
+            setCompletedProjects(prev => [...prev, updatedProject]);
+        } else if (!wasActive && !isCompleted) {
+            setCompletedProjects(prev => prev.filter(p => p.id !== updatedProject.id));
+            setActiveProjects(prev => [...prev, updatedProject]);
+        }
+    };
     
     return (
         <div className="space-y-8">
@@ -75,12 +106,17 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
             <div>
                  <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl text-black font-medium">Active Projects</h2>
-                    <AddProjectSheet />
+                    <AddProjectSheet 
+                        onProjectAdded={handleProjectAdded} 
+                        projectToEdit={projectToEdit}
+                        onProjectUpdated={handleProjectUpdated}
+                        onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
+                    />
                 </div>
                 <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {activeProjects.map((project, index) => (
-                            <ProjectListItem key={project.id} project={project} isLast={index === activeProjects.length - 1} />
+                            <ProjectListItem key={project.id} project={project} onEdit={handleEdit} isLast={index === activeProjects.length - 1} />
                         ))}
                     </CardContent>
                 </Card>
@@ -91,7 +127,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                  <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {completedProjects.map((project, index) => (
-                            <ProjectListItem key={project.id} project={project} isLast={index === completedProjects.length - 1} />
+                            <ProjectListItem key={project.id} project={project} onEdit={handleEdit} isLast={index === completedProjects.length - 1} />
                         ))}
                     </CardContent>
                 </Card>

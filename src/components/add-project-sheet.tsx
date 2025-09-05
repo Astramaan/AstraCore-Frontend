@@ -18,7 +18,7 @@ import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edi
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
-import { addProject } from '@/app/actions';
+import { addProject, updateProject } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
@@ -27,6 +27,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Textarea } from './ui/textarea';
 import { Calendar } from './ui/calendar';
 import { Separator } from './ui/separator';
+import { Project } from '@/lib/data';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -73,17 +74,17 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
     </div>
 )
 
-const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
-    const [name, setName] = useState('');
-    const [clientId, setClientId] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
+const AddProjectForm = ({ onNext, projectToEdit }: { onNext: () => void, projectToEdit: Project | null }) => {
+    const [name, setName] = useState(projectToEdit?.name || '');
+    const [clientId, setClientId] = useState(projectToEdit?.id || '');
+    const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || '');
+    const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || '');
     const [currentLocation, setCurrentLocation] = useState('');
     const [projectCost, setProjectCost] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState(projectToEdit?.status.toLowerCase().replace(' ', '-') || '');
     const [dimension, setDimension] = useState('');
     const [floor, setFloor] = useState('');
-    const [siteLocation, setSiteLocation] = useState('');
+    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || '');
     const [siteLocationLink, setSiteLocationLink] = useState('');
     const [architect, setArchitect] = useState('');
     const [siteSupervisor, setSiteSupervisor] = useState('');
@@ -264,7 +265,7 @@ const AddProjectForm = ({ onNext }: { onNext: () => void }) => {
                 
                 <div className="flex justify-end pt-8">
                     <Button type="submit" className="px-10 h-14 text-lg rounded-full">
-                        Next
+                        {projectToEdit ? 'Save & Next' : 'Next'}
                         <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                 </div>
@@ -407,7 +408,8 @@ const ProjectTimelineForm = ({
     templates,
     setTemplates,
     selectedTemplateId,
-    setSelectedTemplateId
+    setSelectedTemplateId,
+    isEditMode,
 }: {
     onFormSuccess: () => void;
     onBack: () => void;
@@ -415,9 +417,11 @@ const ProjectTimelineForm = ({
     setTemplates: React.Dispatch<React.SetStateAction<TimelineTemplate[]>>;
     selectedTemplateId: string;
     setSelectedTemplateId: (id: string) => void;
+    isEditMode: boolean;
 }) => {
     const { toast } = useToast();
-    const [state, formAction] = useActionState(addProject, { success: false, message: '' });
+    const action = isEditMode ? updateProject : addProject;
+    const [state, formAction] = useActionState(action, { success: false, message: '' });
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
     const [startDate, setStartDate] = useState<Date | undefined>();
     
@@ -536,7 +540,7 @@ const ProjectTimelineForm = ({
                             Back
                         </Button>
                         <Button type="submit" className="px-10 h-14 text-lg rounded-full">
-                            Create Project
+                            {isEditMode ? 'Save Changes' : 'Create Project'}
                         </Button>
                     </div>
                 </div>
@@ -689,8 +693,14 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     );
 };
 
+interface AddProjectSheetProps {
+    onProjectAdded: (project: Project) => void;
+    onProjectUpdated: (project: Project) => void;
+    projectToEdit: Project | null;
+    onOpenChange: (isOpen: boolean) => void;
+}
 
-export function AddProjectSheet() {
+export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdated, onOpenChange }: AddProjectSheetProps) {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -702,23 +712,32 @@ export function AddProjectSheet() {
         { id: 'both', name: 'Design & Construction', stages: [...initialDesignStages, ...initialConstructionStages] },
     ]);
     const [selectedTemplateId, setSelectedTemplateId] = useState('both');
-    
 
+    const isEditMode = !!projectToEdit;
+
+    useEffect(() => {
+        if (projectToEdit) {
+            setIsOpen(true);
+        }
+    }, [projectToEdit]);
+
+    const handleOpenChangeInternal = (open: boolean) => {
+        if (!open) {
+            setStep(1);
+            onOpenChange(false);
+        }
+        setIsOpen(open);
+    }
+    
     const handleSuccess = () => {
         setIsOpen(false);
         setShowSuccess(true);
         setTimeout(() => setStep(1), 500); // Reset step after closing
+        // You would call onProjectAdded or onProjectUpdated here with the new/updated project data
     };
 
     const handleNext = () => setStep(2);
     const handleBack = () => setStep(1);
-
-    const handleOpenChange = (open: boolean) => {
-        if (!open) {
-            setStep(1);
-        }
-        setIsOpen(open);
-    };
 
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
@@ -727,17 +746,23 @@ export function AddProjectSheet() {
     const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
 
-    const title = step === 1 ? 'Add New Project' : 'Project Timeline';
+    const title = isEditMode
+        ? 'Edit Project'
+        : step === 1
+        ? 'Add New Project'
+        : 'Project Timeline';
 
     return (
         <>
-            <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
-                <DialogOrSheetTrigger asChild>
-                    <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
-                        <PlusCircle className="mr-2 h-5 w-5" />
-                        Add Project
-                    </Button>
-                </DialogOrSheetTrigger>
+            <DialogOrSheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
+                {!isEditMode && (
+                    <DialogOrSheetTrigger asChild>
+                        <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
+                            <PlusCircle className="mr-2 h-5 w-5" />
+                            Add Project
+                        </Button>
+                    </DialogOrSheetTrigger>
+                )}
                 <DialogOrSheetContent
                     className={cn(
                         "p-0 bg-white",
@@ -760,7 +785,7 @@ export function AddProjectSheet() {
                         </div>
                     </DialogOrSheetHeader>
                     {step === 1 ? (
-                        <AddProjectForm onNext={handleNext} />
+                        <AddProjectForm onNext={handleNext} projectToEdit={projectToEdit} />
                     ) : (
                         <ProjectTimelineForm
                             onFormSuccess={handleSuccess}
@@ -769,6 +794,7 @@ export function AddProjectSheet() {
                             setTemplates={setTemplates}
                             selectedTemplateId={selectedTemplateId}
                             setSelectedTemplateId={setSelectedTemplateId}
+                            isEditMode={isEditMode}
                         />
                     )}
                 </DialogOrSheetContent>
@@ -776,10 +802,9 @@ export function AddProjectSheet() {
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
-                title="New Project added"
-                message="Congratulations! You have successfully added a new project."
+                title={isEditMode ? "Project Updated" : "New Project added"}
+                message={isEditMode ? "The project details have been successfully updated." : "Congratulations! You have successfully added a new project."}
             />
         </>
     );
 }
-
