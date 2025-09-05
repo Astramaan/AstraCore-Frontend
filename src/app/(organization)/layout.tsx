@@ -122,7 +122,7 @@ const OrganizationBottomNav = () => {
     const pathname = usePathname();
 
     return (
-        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-4 w-full">
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-2 md:px-4 w-full">
              <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-lg">
                 <div className="flex items-center justify-around gap-1 md:gap-2">
                     {navItems.map((item) => {
@@ -130,7 +130,8 @@ const OrganizationBottomNav = () => {
                         return (
                              <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
                                 <div className={cn(
-                                    "flex flex-col md:flex-row items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
+                                    "flex flex-col md:flex-row items-center justify-center text-center gap-1 p-1 transition-colors duration-200 h-full w-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
+                                    "h-[54px] w-[54px] rounded-full",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
