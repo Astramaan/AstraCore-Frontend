@@ -6,58 +6,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical } from "lucide-react";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AddProjectSheet } from "@/components/add-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { getProjects, Project } from "@/lib/data";
 
-const activeProjects = [
-    {
-        id: "CHA2024",
-        name: "Charan Project",
-        city: "Mysuru",
-        contact: "admin@abc.com | +91 1234567890",
-        startDate: "21st Sept 2024",
-        status: "On Going",
-        statusColor: "text-green-600",
-        image: "https://placehold.co/59x59"
-    },
-    {
-        id: "YAS2024",
-        name: "Yash Project",
-        city: "Mysuru",
-        contact: "admin@abc.com | +91 1234567890",
-        startDate: "21st Sept 2024",
-        status: "Delay",
-        statusColor: "text-red-600",
-        image: "https://placehold.co/59x59"
-    },
-    {
-        id: "CHA2024-2",
-        name: "Charan Project",
-        city: "Mysuru",
-        contact: "admin@abc.com | +91 1234567890",
-        startDate: "21st Sept 2024",
-        status: "On Going",
-        statusColor: "text-green-600",
-        image: "https://placehold.co/59x59"
-    },
-];
 
-const completedProjects = [
-     {
-        id: "CHA2024-3",
-        name: "Charan Project",
-        city: "Mysuru",
-        contact: "admin@abc.com | +91 1234567890",
-        startDate: "21st Sept 2024",
-        status: "Completed",
-        statusColor: "text-cyan-500",
-        image: "https://placehold.co/59x59"
-    },
-];
-
-const ProjectListItem = ({ project, isLast = false }: { project: typeof activeProjects[0], isLast?: boolean }) => (
+const ProjectListItem = ({ project, isLast = false }: { project: Project, isLast?: boolean }) => (
      <div className="flex flex-col">
         <div className="flex justify-between items-center py-4">
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
@@ -100,6 +56,18 @@ const ProjectListItem = ({ project, isLast = false }: { project: typeof activePr
 
 
 export default function ProjectsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+    const [activeProjects, setActiveProjects] = useState<Project[]>([]);
+    const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            const projects = await getProjects();
+            setActiveProjects(projects.filter(p => p.status !== 'Completed'));
+            setCompletedProjects(projects.filter(p => p.status === 'Completed'));
+        };
+        fetchProjects();
+    }, []);
+    
     return (
         <div className="space-y-8">
             <h2 className="text-2xl font-medium">Projects</h2>

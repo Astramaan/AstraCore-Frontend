@@ -1,10 +1,22 @@
 
+
 import { Member } from "@/components/view-members-sheet";
 
 export interface Department {
     name: string;
     admin: string;
     members: Member[];
+}
+
+export interface Project {
+    id: string;
+    name: string;
+    city: string;
+    contact: string;
+    startDate: string;
+    status: string;
+    statusColor: string;
+    image: string;
 }
 
 const mockDepartments: Department[] = [
@@ -74,6 +86,49 @@ const mockDepartments: Department[] = [
     },
 ];
 
+const mockProjects: Project[] = [
+    {
+        id: "CHA2024",
+        name: "Charan Project",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
+        status: "On Going",
+        statusColor: "text-green-600",
+        image: "https://placehold.co/59x59"
+    },
+    {
+        id: "YAS2024",
+        name: "Yash Project",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
+        status: "Delay",
+        statusColor: "text-red-600",
+        image: "https://placehold.co/59x59"
+    },
+    {
+        id: "CHA2024-2",
+        name: "Charan Project",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
+        status: "On Going",
+        statusColor: "text-green-600",
+        image: "https://placehold.co/59x59"
+    },
+    {
+        id: "CHA2024-3",
+        name: "Charan Project",
+        city: "Mysuru",
+        contact: "admin@abc.com | +91 1234567890",
+        startDate: "21st Sept 2024",
+        status: "Completed",
+        statusColor: "text-cyan-500",
+        image: "https://placehold.co/59x59"
+    },
+];
+
 export async function getDepartments(): Promise<Department[]> {
     try {
         // const response = await fetch('http://localhost:4000/api/v1/org-users');
@@ -87,6 +142,24 @@ export async function getDepartments(): Promise<Department[]> {
         return Promise.resolve(mockDepartments);
     } catch (error) {
         console.error('Error fetching departments:', error);
+        return [];
+    }
+}
+
+
+export async function getProjects(): Promise<Project[]> {
+    try {
+        // const response = await fetch('http://localhost:4000/api/v1/org-clients');
+        // if (!response.ok) {
+        //     throw new Error('Failed to fetch projects');
+        // }
+        // const data = await response.json();
+        // return data;
+        
+        // Using mock data for now
+        return Promise.resolve(mockProjects);
+    } catch (error) {
+        console.error('Error fetching projects:', error);
         return [];
     }
 }
