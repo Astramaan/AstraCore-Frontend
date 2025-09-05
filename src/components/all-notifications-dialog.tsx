@@ -85,9 +85,9 @@ export function AllNotificationsDialog() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md p-0 rounded-2xl">
                 <DialogHeader className="p-4 border-b">
-                    <DialogTitle className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100">
-                           <Bell className="w-5 h-5"/>
+                    <DialogTitle className="flex items-center gap-2 text-2xl font-semibold">
+                        <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
+                           <Bell className="w-6 h-6"/>
                         </div>
                         Notifications
                     </DialogTitle>
