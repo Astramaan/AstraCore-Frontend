@@ -85,17 +85,19 @@ export function AllNotificationsDialog() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md p-0 rounded-2xl">
                 <DialogHeader className="p-4 border-b">
-                    <DialogTitle className="flex items-center gap-2 text-2xl font-semibold">
-                        <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
-                           <Bell className="w-6 h-6"/>
+                    <DialogTitle className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-2xl font-semibold">
+                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
+                            <Bell className="w-6 h-6"/>
+                            </div>
+                            Notifications
                         </div>
-                        Notifications
+                        <DialogClose asChild>
+                            <Button variant="ghost" size="icon" className="rounded-full w-[54px] h-[54px] bg-background">
+                                <X className="h-6 w-6" />
+                            </Button>
+                        </DialogClose>
                     </DialogTitle>
-                     <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="absolute right-4 top-4 rounded-full w-[54px] h-[54px] bg-background">
-                            <X className="h-6 w-6" />
-                        </Button>
-                    </DialogClose>
                 </DialogHeader>
                 <ScrollArea className="h-[400px]">
                     <div className="p-2">
