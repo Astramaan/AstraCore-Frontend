@@ -29,7 +29,7 @@ const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/employee-management')) {
-        pageTitle = 'Employee Management';
+        pageTitle = 'Department Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
@@ -57,7 +57,7 @@ const OrganizationHeader = () => {
                   isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  Employee Management
+                  Department Management
               </Button>
             </Link>
             <div className="w-px h-12 bg-stone-300" />
@@ -98,7 +98,7 @@ const OrganizationHeader = () => {
                               isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              Employee Management
+                              Department Management
                           </Button>
                         </Link>
                     </div>
