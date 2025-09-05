@@ -17,8 +17,12 @@ interface FeatureAccessDialogProps {
 }
 
 const permissionsData = {
-    'Dashboard': ["Feature", "Feature", "Feature", "Feature", "Feature", "Feature"],
-    'Onboarding Management': ["Feature", "Feature", "Feature", "Feature", "Feature"],
+    'Dashboard': ["Home"],
+    'Project Management': ["Projects", "Project Details", "Snag List"],
+    'Client & Lead Management': ["Leads", "Meetings"],
+    'Vendor Management': ["Vendors"],
+    'Team Management': ["Team", "Member Details", "Profile", "Subscription"],
+    'Settings': ["Change Password", "Role Access"],
 };
 
 const FeatureSection = ({ title, features, searchTerm }: { title: string, features: string[], searchTerm: string }) => {
