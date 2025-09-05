@@ -248,7 +248,7 @@ export async function addMember(
     }
 
     try {
-        const response = await fetch('http://localhost:4000/api/v1/invites', {
+        const response = await fetch('http://localhost:4000/api/v1/org-users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
