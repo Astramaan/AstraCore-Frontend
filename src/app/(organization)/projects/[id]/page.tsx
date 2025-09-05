@@ -84,25 +84,36 @@ const mockProject = {
 };
 
 export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
-    const project = await getProjectDetails(params.id) || mockProject;
+    const project = await getProjectDetails(params.id);
+
+    if (!project) {
+        return (
+            <div className="flex justify-center items-center h-full">
+                <p>Project not found.</p>
+            </div>
+        );
+    }
+    
+    // Using mock data for parts that are not in the API response yet.
+    const displayProject = { ...mockProject, ...project };
 
     return (
         <div className="space-y-6">
-            <ProjectInfoHeader project={project} />
+            <ProjectInfoHeader project={displayProject} />
 
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">
-                    <ProjectDetailsCard personalInfo={project.personalInfo} projectInfo={project.projectInfo} />
-                    <ProjectVisualsCard visuals={project.visuals} />
+                    <ProjectDetailsCard personalInfo={displayProject.personalInfo} projectInfo={displayProject.projectInfo} />
+                    <ProjectVisualsCard visuals={displayProject.visuals} />
                 </div>
                 
                 <div className="w-full xl:w-[384px] space-y-6">
                      <div className="flex gap-2 bg-zinc-100 p-1 rounded-full">
                         <TimelineDialog />
                         <PaymentsDialog />
-                        <DesignDocumentsDialog files={project.files} />
+                        <DesignDocumentsDialog files={displayProject.files} />
                     </div>
-                     <ProjectMaterialsCard materials={project.materials} />
+                     <ProjectMaterialsCard materials={displayProject.materials} />
                 </div>
             </div>
         </div>

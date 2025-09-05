@@ -131,18 +131,17 @@ const mockProjects: Project[] = [
 
 export async function getDepartments(): Promise<Department[]> {
     try {
-        // const response = await fetch('http://localhost:4000/api/v1/org-users');
-        // if (!response.ok) {
-        //     throw new Error('Failed to fetch departments');
-        // }
-        // const data = await response.json();
-        // return data;
+        const response = await fetch('http://localhost:4000/api/v1/org-users');
+        if (!response.ok) {
+            throw new Error('Failed to fetch departments');
+        }
+        const data = await response.json();
+        return data;
         
-        // Using mock data for now
-        return Promise.resolve(mockDepartments);
     } catch (error) {
         console.error('Error fetching departments:', error);
-        return [];
+        // Using mock data as fallback
+        return Promise.resolve(mockDepartments);
     }
 }
 

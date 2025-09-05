@@ -127,18 +127,20 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
 
     const handleProjectUpdated = (updatedProject: Project) => {
         const updateList = (list: Project[]) => list.map(p => p.id === updatedProject.id ? updatedProject : p);
-        setActiveProjects(updateList);
-        setCompletedProjects(updateList);
-        // Also need to handle moving between lists if status changes
+        
         const wasActive = activeProjects.some(p => p.id === updatedProject.id);
         const isCompleted = updatedProject.status === 'Completed';
 
         if (wasActive && isCompleted) {
             setActiveProjects(prev => prev.filter(p => p.id !== updatedProject.id));
-            setCompletedProjects(prev => [...prev, updatedProject]);
+            setCompletedProjects(prev => [...prev, updatedProject].sort((a,b) => a.name.localeCompare(b.name)));
         } else if (!wasActive && !isCompleted) {
             setCompletedProjects(prev => prev.filter(p => p.id !== updatedProject.id));
-            setActiveProjects(prev => [...prev, updatedProject]);
+            setActiveProjects(prev => [...prev, updatedProject].sort((a,b) => a.name.localeCompare(b.name)));
+        } else if (wasActive && !isCompleted) {
+            setActiveProjects(updateList);
+        } else { // !wasActive && isCompleted
+            setCompletedProjects(updateList);
         }
     };
     
