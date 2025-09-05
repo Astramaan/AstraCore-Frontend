@@ -1,4 +1,3 @@
-
 'use client';
 
 import { ArrowRight, Briefcase, Code, Palette, Shield, Users } from 'lucide-react';
@@ -30,7 +29,7 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }
 );
 
 
-export const RoleAccessCard = () => {
+export const FeatureAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
     const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
     const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
