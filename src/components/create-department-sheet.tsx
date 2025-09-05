@@ -55,7 +55,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
             <div className="grid grid-cols-1 gap-y-6">
-                <FloatingLabelInput id="department-name" name="department-name" label="Department Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
+                <FloatingLabelInput id="department-name" name="department-name" label="Team Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
 
                 <div className="space-y-2">
                     <Label htmlFor="admin" className={cn("text-lg font-medium", admin ? "text-grey-1" : "text-black")}>Assign Admin</Label>
@@ -105,7 +105,7 @@ export function CreateDepartmentSheet() {
       <DialogOrSheetTrigger asChild>
         <Button className="h-14 px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
             <Plus className="mr-2"/>
-            Create New Department
+            Create New Team
         </Button>
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
@@ -120,7 +120,7 @@ export function CreateDepartmentSheet() {
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
-                    Create New Department
+                    Create New Team
                 </DialogOrSheetTitle>
                 <DialogOrSheetClose asChild>
                     <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
@@ -135,8 +135,8 @@ export function CreateDepartmentSheet() {
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
-        title="New Department Created"
-        message="The new department has been successfully added."
+        title="New Team Created"
+        message="The new team has been successfully added."
     />
     </>
   );
