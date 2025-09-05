@@ -164,16 +164,17 @@ export async function getProjects(): Promise<Project[]> {
     }
 }
 
-export async function getProjectDetails(clientId: string) {
+export async function getProjectDetails(projectId: string) {
     try {
-        const response = await fetch(`http://localhost:4000/api/v1/org-clients/${clientId}`);
+        const orgId = "6842c24e92a1c2ead0145c79"; // Using a static orgId for now
+        const response = await fetch(`http://localhost:4000/api/v1/organizations/${orgId}/projects/${projectId}`);
         if (!response.ok) {
             throw new Error('Failed to fetch project details');
         }
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error(`Error fetching project details for ${clientId}:`, error);
+        console.error(`Error fetching project details for ${projectId}:`, error);
         return null;
     }
 }
