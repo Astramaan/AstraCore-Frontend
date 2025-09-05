@@ -319,6 +319,24 @@ export async function updateProject(
     }
 }
 
+export async function deleteProject(projectId: string) {
+    try {
+        const response = await fetch(`http://localhost:4000/api/v1/org-clients/${projectId}`, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { success: false, message: errorData.message || 'Failed to delete project.' };
+        }
+
+        return { success: true, message: 'Project deleted successfully!' };
+    } catch (error) {
+        console.error('Delete project error:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
+}
+
 export async function addLead(
   prevState: any,
   formData: FormData
