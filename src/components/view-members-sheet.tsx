@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -17,6 +18,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { ChangePasswordDialog } from './change-password-dialog';
 
 export interface Role {
     name: string;
@@ -35,21 +37,23 @@ interface Member {
     role: string;
     status: 'Active' | 'Inactive';
     lastActive: string;
+    email: string;
 }
 
 const membersData: { [key: string]: Member[] } = {
     "Super Admin": [
-        { id: "1", name: "Balaji Naik", avatar: "https://placehold.co/56x56", contact: "balaji@astracore.com | +91 1234567890", role: "Admin", status: "Active", lastActive: "2 days ago" },
-        { id: "2", name: "Priya Mehra", avatar: "https://placehold.co/56x56", contact: "priya@astracore.com | +91 9876543210", role: "Admin", status: "Active", lastActive: "2 days ago" }
+        { id: "1", name: "Balaji Naik", email: "balaji@habi.one", avatar: "https://placehold.co/56x56", contact: "balaji@astracore.com | +91 1234567890", role: "Admin", status: "Active", lastActive: "2 days ago" },
+        { id: "2", name: "Priya Mehra", email: "priya.m@example.com", avatar: "https://placehold.co/56x56", contact: "priya@astracore.com | +91 9876543210", role: "Admin", status: "Active", lastActive: "2 days ago" }
     ],
     "Sales": [
-         { id: "3", name: "Rohan Sharma", avatar: "https://placehold.co/56x56", contact: "rohan@astracore.com | +91 1234567891", role: "Sales Executive", status: "Active", lastActive: "1 day ago" },
-         { id: "4", name: "Anjali Gupta", avatar: "https://placehold.co/56x56", contact: "anjali@astracore.com | +91 1234567892", role: "Sales Manager", status: "Active", lastActive: "3 hours ago" },
-         { id: "5", name: "Vikram Singh", avatar: "https://placehold.co/56x56", contact: "vikram@astracore.com | +91 1234567893", role: "Sales Head", status: "Inactive", lastActive: "1 week ago" }
+         { id: "3", name: "Rohan Sharma", email: "rohan.s@example.com", avatar: "https://placehold.co/56x56", contact: "rohan@astracore.com | +91 1234567891", role: "Sales Executive", status: "Active", lastActive: "1 day ago" },
+         { id: "4", name: "Anjali Gupta", email: "anjali.g@example.com", avatar: "https://placehold.co/56x56", contact: "anjali@astracore.com | +91 1234567892", role: "Sales Manager", status: "Active", lastActive: "3 hours ago" },
+         { id: "5", name: "Vikram Singh", email: "vikram.s@example.com", avatar: "https://placehold.co/56x56", contact: "vikram@astracore.com | +91 1234567893", role: "Sales Head", status: "Inactive", lastActive: "1 week ago" }
     ],
     "Software Development": Array.from({ length: 12 }, (_, i) => ({
         id: `dev-${i+1}`,
         name: `Dev ${i+1}`,
+        email: `dev${i+1}@example.com`,
         avatar: `https://placehold.co/56x56?text=D${i+1}`,
         contact: `dev${i+1}@astracore.com | +91 888888888${i}`,
         role: "Software Engineer",
@@ -59,6 +63,7 @@ const membersData: { [key: string]: Member[] } = {
      "Design": Array.from({ length: 4 }, (_, i) => ({
         id: `design-${i+1}`,
         name: `Designer ${i+1}`,
+        email: `designer${i+1}@example.com`,
         avatar: `https://placehold.co/56x56?text=DS${i+1}`,
         contact: `design${i+1}@astracore.com | +91 777777777${i}`,
         role: "UI/UX Designer",
@@ -68,6 +73,7 @@ const membersData: { [key: string]: Member[] } = {
     "Support & Feedback": Array.from({ length: 20 }, (_, i) => ({
         id: `support-${i+1}`,
         name: `Support ${i+1}`,
+        email: `support${i+1}@example.com`,
         avatar: `https://placehold.co/56x56?text=S${i+1}`,
         contact: `support${i+1}@astracore.com | +91 666666666${i}`,
         role: "Support Specialist",
@@ -77,7 +83,10 @@ const membersData: { [key: string]: Member[] } = {
     "Human Resources": [],
 };
 
-const MemberCard = ({ member }: { member: Member }) => (
+const MemberCard = ({ member }: { member: Member }) => {
+    const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+    
+    return (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
@@ -108,16 +117,22 @@ const MemberCard = ({ member }: { member: Member }) => (
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuItem asChild>
-                        <Link href={`/organization/employee-management/${member.id}/edit`}>Edit</Link>
+                    <DropdownMenuItem onSelect={() => setChangePasswordOpen(true)}>
+                        Change Password
                     </DropdownMenuItem>
                     <DropdownMenuItem>Deactivate user</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
         <Separator />
+        <Dialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen}>
+            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
+                <ChangePasswordDialog email={member.email} />
+            </DialogContent>
+        </Dialog>
     </>
 );
+}
 
 const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void }) => {
     const members = membersData[role.name] || [];
@@ -143,7 +158,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
             </SheetHeader>
             <div className="p-6 overflow-y-auto flex-1">
                  {members.length > 0 ? (
-                    members.map((member, index) => <MemberCard key={index} member={member} />)
+                    members.map((member) => <MemberCard key={member.id} member={member} />)
                 ) : (
                     <div className="text-center text-muted-foreground py-10">
                         No members in this role yet.
