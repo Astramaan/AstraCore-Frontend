@@ -123,7 +123,7 @@ export function CreateDepartmentSheet() {
                     Create New Team
                 </DialogOrSheetTitle>
                 <DialogOrSheetClose asChild>
-                    <Button variant="ghost" size="icon" className="p-3.5 bg-background rounded-full">
+                    <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                         <X className="h-6 w-6" />
                     </Button>
                 </DialogOrSheetClose>
