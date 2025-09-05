@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -28,11 +27,12 @@ const permissionsData = {
     'Settings': ["Change Password", "Role Access"],
 };
 
-const FeatureSection = ({ title, features, searchTerm }: { title: string, features: string[], searchTerm: string }) => {
+const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false }: { title: string, features: string[], searchTerm: string, defaultEnabled?: boolean }) => {
     const [isEnabled, setIsEnabled] = useState(true);
     const [selectedFeatures, setSelectedFeatures] = useState<string[]>(features);
 
     const handleFeatureToggle = (feature: string) => {
+        if (defaultEnabled && (feature === 'Home' || feature === 'Profile')) return;
         setSelectedFeatures(prev => 
             prev.includes(feature) 
                 ? prev.filter(f => f !== feature) 
@@ -40,12 +40,35 @@ const FeatureSection = ({ title, features, searchTerm }: { title: string, featur
         );
     };
 
+    const handleParentToggle = () => {
+        if (defaultEnabled) return;
+        setIsEnabled(!isEnabled);
+        if (isEnabled) {
+            // If it was enabled, we are disabling it, so clear selections
+             const defaultFeatures = features.filter(f => f === 'Home' || f === 'Profile');
+             setSelectedFeatures(defaultFeatures);
+        } else {
+            // If it was disabled, we are enabling it, so select all
+            setSelectedFeatures(features);
+        }
+    }
+    
+    // Filter features based on search term
     const filteredFeatures = useMemo(() => {
-        if (!searchTerm) return features;
-        return features.filter(feature => feature.toLowerCase().includes(searchTerm.toLowerCase()));
+        if (!searchTerm.trim()) return features;
+        return features.filter(feature =>
+            feature.toLowerCase().includes(searchTerm.toLowerCase())
+        );
     }, [features, searchTerm]);
+    
+    // Decide if the whole section should be visible
+    const isSectionVisible = useMemo(() => {
+        if (!searchTerm.trim()) return true;
+        // Show section if its title matches or if any of its features match
+        return title.toLowerCase().includes(searchTerm.toLowerCase()) || filteredFeatures.length > 0;
+    }, [title, searchTerm, filteredFeatures]);
 
-    if (searchTerm && filteredFeatures.length === 0 && !title.toLowerCase().includes(searchTerm.toLowerCase())) {
+    if (!isSectionVisible) {
         return null;
     }
 
@@ -53,11 +76,16 @@ const FeatureSection = ({ title, features, searchTerm }: { title: string, featur
         <div className="space-y-4 rounded-3xl border p-4">
             <div className="flex justify-between items-center">
                 <h4 className="font-semibold text-lg">{title}</h4>
-                <Switch checked={isEnabled} onCheckedChange={setIsEnabled} />
+                <Switch 
+                    checked={isEnabled} 
+                    onCheckedChange={handleParentToggle}
+                    disabled={defaultEnabled}
+                />
             </div>
-            <div className="grid grid-cols-2 gap-x-2 gap-y-4">
+            <div className={cn("grid grid-cols-2 gap-x-2 gap-y-4", !isEnabled && "opacity-50 pointer-events-none")}>
                 {filteredFeatures.map((feature, index) => {
                     const isChecked = selectedFeatures.includes(feature);
+                    const isDefault = defaultEnabled && (feature === 'Home' || feature === 'Profile');
                     return (
                         <div key={index} className="flex items-center">
                             <Checkbox 
@@ -65,10 +93,15 @@ const FeatureSection = ({ title, features, searchTerm }: { title: string, featur
                                 checked={isChecked}
                                 onCheckedChange={() => handleFeatureToggle(feature)}
                                 className="w-5 h-5 rounded"
+                                disabled={isDefault || !isEnabled}
                             />
                             <label
                                 htmlFor={`${title}-${feature}`}
-                                className={cn("ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70", isChecked ? 'text-black' : 'text-muted-foreground')}
+                                className={cn(
+                                    "ml-2 text-sm font-medium leading-none", 
+                                    isChecked ? 'text-black' : 'text-muted-foreground',
+                                    (isDefault || !isEnabled) ? 'cursor-not-allowed' : 'cursor-pointer'
+                                )}
                             >
                                 {feature}
                             </label>
@@ -109,9 +142,12 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                 </div>
                 <ScrollArea className="flex-1 p-6">
                     <div className="space-y-4">
-                        {Object.entries(permissionsData).map(([title, features]) => (
-                             <FeatureSection key={title} title={title} features={features} searchTerm={searchTerm}/>
-                        ))}
+                        <FeatureSection title="Home" features={["Home"]} searchTerm={searchTerm} defaultEnabled/>
+                        <FeatureSection title="Project Management" features={permissionsData["Project Management"]} searchTerm={searchTerm} />
+                        <FeatureSection title="Client & Lead Management" features={permissionsData["Client & Lead Management"]} searchTerm={searchTerm} />
+                        <FeatureSection title="Vendor Management" features={permissionsData["Vendor Management"]} searchTerm={searchTerm} />
+                        <FeatureSection title="Team Management" features={permissionsData["Team Management"]} searchTerm={searchTerm} defaultEnabled/>
+                        <FeatureSection title="Settings" features={permissionsData["Settings"]} searchTerm={searchTerm} />
                     </div>
                 </ScrollArea>
                 <div className="px-6 py-4 mt-auto border-t">
