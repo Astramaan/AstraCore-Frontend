@@ -21,6 +21,7 @@ import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { addMember } from '@/app/actions';
 import { FeatureAccessDialog } from './feature-access-dialog';
+import { ScrollArea } from './ui/scroll-area';
 
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
@@ -59,9 +60,9 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
 
     return (
     <>
-        <form action={formAction}>
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
-                <div className="grid grid-cols-1 gap-y-6">
+        <form action={formAction} className="flex flex-col h-full">
+            <ScrollArea className="flex-1 p-6">
+                <div className="space-y-6">
                     <FloatingLabelInput id="department-name" name="department-name" label="Team Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
                     
                     <div className="space-y-4">
@@ -82,12 +83,12 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                         </div>
                     </div>
                 </div>
-                
-                <div className="flex justify-center pt-8">
-                    <Button type="submit" className="w-full md:w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
-                        Create
-                    </Button>
-                </div>
+            </ScrollArea>
+            
+            <div className="p-6 border-t">
+                <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+                    Create
+                </Button>
             </div>
         </form>
          {selectedRole && (
@@ -131,8 +132,8 @@ export function CreateDepartmentSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-full md:w-[452px]",
-             isMobile && "m-4"
+            "p-0 rounded-[50px] w-full md:w-[452px] flex flex-col",
+             isMobile ? "m-4 h-auto" : "h-[90vh]"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b">
