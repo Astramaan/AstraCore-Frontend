@@ -1,12 +1,11 @@
 
 'use client';
 
-import { ArrowRight, Briefcase, Code, Palette, Plus, Shield, Users } from 'lucide-react';
+import { ArrowRight, Briefcase, Code, Palette, Shield, Users } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { useState } from 'react';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
-import { CreateRoleDialog } from './create-role-dialog';
 import { FeatureAccessDialog } from './feature-access-dialog';
 
 const allRoles: RoleData[] = [
@@ -33,7 +32,6 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }
 
 export const RoleAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
-    const [isCreateRoleOpen, setIsCreateRoleOpen] = useState(false);
     const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
     const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
 
@@ -66,10 +64,6 @@ export const RoleAccessCard = () => {
                         </div>
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
-                     <Button variant="outline" className="h-14 px-10 rounded-full text-lg bg-background hover:bg-muted" onClick={() => setIsCreateRoleOpen(true)}>
-                        <Plus className="mr-2 h-6 w-6"/>
-                        Create Role
-                    </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-6">
                     {allRoles.map(role => (
@@ -90,7 +84,6 @@ export const RoleAccessCard = () => {
                     roleName={selectedRole.name}
                  />
             )}
-             <CreateRoleDialog isOpen={isCreateRoleOpen} onOpenChange={setIsCreateRoleOpen} />
         </>
     )
 }
