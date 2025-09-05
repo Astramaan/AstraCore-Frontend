@@ -14,13 +14,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X } from "lucide-react";
+import { Plus, X, ChevronRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { addEmployee } from '@/app/actions';
+import { addMember } from '@/app/actions';
+import { FeatureAccessDialog } from './feature-access-dialog';
 
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
@@ -34,11 +34,11 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
     const [departmentName, setDepartmentName] = useState('');
-    const [admin, setAdmin] = useState('');
-    const [members, setMembers] = useState('');
+    const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
+    const [selectedRole, setSelectedRole] = useState<'Admin' | 'Member' | null>(null);
 
     // Placeholder action, replace with actual create department action
-    const [state, formAction] = useActionState(addEmployee, { success: false, message: '' });
+    const [state, formAction] = useActionState(addMember, { success: false, message: '' });
 
     useEffect(() => {
         if (state.success) {
@@ -52,49 +52,53 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
         }
     }, [state, onFormSuccess, toast]);
 
+    const handleOpenFeatureDialog = (role: 'Admin' | 'Member') => {
+        setSelectedRole(role);
+        setIsFeatureDialogOpen(true);
+    };
+
     return (
-    <form action={formAction}>
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
-            <div className="grid grid-cols-1 gap-y-6">
-                <FloatingLabelInput id="department-name" name="department-name" label="Team Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
-                
-                <div className="space-y-4">
-                    <h3 className="text-lg font-medium text-grey-1">Role Access</h3>
-                    <div className="space-y-2">
-                        <Label htmlFor="admin" className={cn("text-lg font-medium", admin ? "text-grey-1" : "text-black")}>Admin</Label>
-                        <Select name="admin" onValueChange={setAdmin}>
-                            <SelectTrigger id="admin" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                                <SelectValue placeholder="Select an admin" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="balaji">Balaji Naik</SelectItem>
-                                <SelectItem value="anil">Anil Kumar</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="members" className={cn("text-lg font-medium", members ? "text-grey-1" : "text-black")}>Members</Label>
-                        <Select name="members" onValueChange={setMembers}>
-                            <SelectTrigger id="members" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                                <SelectValue placeholder="Select members" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="balaji">Balaji Naik</SelectItem>
-                                <SelectItem value="anil">Anil Kumar</SelectItem>
-                                <SelectItem value="priya">Priya Mehra</SelectItem>
-                            </SelectContent>
-                        </Select>
+    <>
+        <form action={formAction}>
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+                <div className="grid grid-cols-1 gap-y-6">
+                    <FloatingLabelInput id="department-name" name="department-name" label="Team Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
+                    
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-medium text-grey-1">Role Access</h3>
+                        <div className="space-y-2">
+                            <Label className="text-lg font-medium text-black">Admin</Label>
+                            <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Admin')}>
+                                <span>Select an admin</span>
+                                <ChevronRight className="w-5 h-5" />
+                            </Button>
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-lg font-medium text-black">Members</Label>
+                             <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Member')}>
+                                <span>Select members</span>
+                                <ChevronRight className="w-5 h-5" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
+                
+                <div className="flex justify-center pt-8">
+                    <Button type="submit" className="w-full md:w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
+                        Create
+                    </Button>
+                </div>
             </div>
-            
-            <div className="flex justify-center pt-8">
-                <Button type="submit" className="w-full md:w-96 h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
-                    Create
-                </Button>
-            </div>
-        </div>
-    </form>
+        </form>
+         {selectedRole && (
+            <FeatureAccessDialog 
+                isOpen={isFeatureDialogOpen}
+                onClose={() => setIsFeatureDialogOpen(false)}
+                category={selectedRole}
+                roleName="New Role"
+            />
+        )}
+    </>
     );
 };
 
