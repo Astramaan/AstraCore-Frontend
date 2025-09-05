@@ -69,14 +69,14 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                         <div className="space-y-2">
                             <Label className="text-lg font-medium text-black">Admin</Label>
                             <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Admin')}>
-                                <span>Select an admin</span>
+                                <span>Features for admin</span>
                                 <ChevronRight className="w-5 h-5" />
                             </Button>
                         </div>
                         <div className="space-y-2">
                             <Label className="text-lg font-medium text-black">Members</Label>
                              <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Member')}>
-                                <span>Select members</span>
+                                <span>Features for members</span>
                                 <ChevronRight className="w-5 h-5" />
                             </Button>
                         </div>
