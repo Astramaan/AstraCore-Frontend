@@ -29,15 +29,15 @@ const OrganizationHeader = () => {
         pageTitle = 'Vendors';
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
-    } else if (pathname.startsWith('/organization/employee-management')) {
-        pageTitle = 'Team Management';
+    } else if (pathname.startsWith('/organization/teams')) {
+        pageTitle = 'Teams';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
         pageTitle = 'My Profile'
     }
     
-    const isEmployeeManagementActive = pathname.startsWith('/organization/employee-management');
+    const isTeamsActive = pathname.startsWith('/organization/teams');
 
     return (
     <header className="flex flex-row justify-between items-center w-full gap-4">
@@ -52,13 +52,13 @@ const OrganizationHeader = () => {
         </div>
         <div className="hidden md:flex items-center gap-2 md:gap-6 w-full md:w-auto">
             <NotificationPopover />
-            <Link href="/organization/employee-management">
+            <Link href="/organization/teams">
               <Button className={cn(
                   "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium flex items-center",
-                  isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                  isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  Team Management
+                  Teams
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -92,13 +92,13 @@ const OrganizationHeader = () => {
                                 <p className="text-sm text-grey-2">Super Admin</p>
                             </div>
                         </Link>
-                        <Link href="/organization/employee-management">
+                        <Link href="/organization/teams">
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                              isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              Team Management
+                              Teams
                           </Button>
                         </Link>
                     </div>
@@ -130,7 +130,8 @@ const OrganizationBottomNav = () => {
                         return (
                              <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
                                 <div className={cn(
-                                    "flex flex-col md:flex-row items-center justify-center text-center gap-1 p-1 transition-colors duration-200 h-full w-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
+                                    "flex flex-col md:flex-row items-center justify-center text-center gap-1 transition-colors duration-200 h-full w-full",
+                                    "md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
                                     "h-[54px] w-[54px] rounded-full",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                                 )}>
