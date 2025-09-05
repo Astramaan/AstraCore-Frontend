@@ -73,7 +73,7 @@ const PlatformHeader = () => {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem><Link href="/platform/settings">Profile</Link></DropdownMenuItem>
+                                    <DropdownMenuItem><Link href="/organization/profile">Profile</Link></DropdownMenuItem>
                                     <DropdownMenuItem><Link href="/platform/settings">Settings</Link></DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>Logout</DropdownMenuItem>

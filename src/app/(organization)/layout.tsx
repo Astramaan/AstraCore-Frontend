@@ -123,7 +123,7 @@ const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-20 px-2 md:px-4 w-full">
-             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-lg">
+             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-xl">
                 <div className="flex items-center justify-around gap-1 md:gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);

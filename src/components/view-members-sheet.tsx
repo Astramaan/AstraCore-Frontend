@@ -51,7 +51,7 @@ const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; 
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-                <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
+                <Link href={`/organization/teams/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
                     <Avatar className="w-14 h-14">
                         <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
