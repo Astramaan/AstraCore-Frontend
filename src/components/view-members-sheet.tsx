@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -12,12 +12,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { MoreVertical, X } from "lucide-react";
+import { MoreVertical, ShieldAlert, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+
 
 export interface Role {
     name: string;
@@ -82,7 +84,8 @@ const membersData: { [key: string]: Member[] } = {
     "Human Resources": [],
 };
 
-const MemberCard = ({ member }: { member: Member }) => {
+const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (member: Member) => void; }) => {
+    const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
@@ -105,7 +108,11 @@ const MemberCard = ({ member }: { member: Member }) => {
 
                 <div className="flex flex-col items-end gap-2 flex-1 text-right">
                     <p className="text-lg"><span className="text-grey-1">Status: </span><span className={member.status === 'Active' ? "text-green-600" : "text-red-600"}>{member.status}</span></p>
-                    <p className="text-lg"><span className="text-grey-1">Last Active: </span><span className="text-black font-medium">{member.lastActive}</span></p>
+                    <p className="text-lg"><span className="text-grey-1">Last Active: </span>
+                        <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-black')}>
+                            {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
+                        </span>
+                    </p>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -114,56 +121,104 @@ const MemberCard = ({ member }: { member: Member }) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <ChangePasswordDialog 
-                            email={member.email} 
-                            startWithReset={true}
-                            trigger={
-                                <button className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-base font-medium outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full">
-                                    Change Password
-                                </button>
-                            }
-                        />
-                        <DropdownMenuItem>Deactivate user</DropdownMenuItem>
+                         <DropdownMenuItem onSelect={() => setIsPasswordDialogOpen(true)}>
+                            Change Password
+                        </DropdownMenuItem>
+                        <AlertDialogTrigger asChild>
+                            <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
+                        </AlertDialogTrigger>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+            <ChangePasswordDialog 
+                email={member.email} 
+                startWithReset={true}
+                trigger={<></>}
+            />
+            <ChangePasswordDialog
+                isOpen={isPasswordDialogOpen}
+                onOpenChange={setIsPasswordDialogOpen}
+                email={member.email}
+                startWithReset={true}
+            />
             <Separator />
         </>
     );
 };
 
 const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void }) => {
-    const members = membersData[role.name] || [];
+    const [members, setMembers] = useState<Member[]>(membersData[role.name] || []);
+    const [memberToDeactivate, setMemberToDeactivate] = useState<Member | null>(null);
+
+    useEffect(() => {
+        setMembers(membersData[role.name] || []);
+    }, [role.name]);
+
+    const handleDeactivateClick = (member: Member) => {
+        setMemberToDeactivate(member);
+    };
+
+    const confirmDeactivation = () => {
+        if (memberToDeactivate) {
+            setMembers(prevMembers =>
+                prevMembers.map(m =>
+                    m.id === memberToDeactivate.id ? { ...m, status: 'Inactive' } : m
+                )
+            );
+            setMemberToDeactivate(null);
+        }
+    };
 
     return (
-        <div className="bg-white h-full flex flex-col rounded-t-[50px] overflow-hidden">
-            <SheetHeader className="p-6 border-b shrink-0">
-                <SheetTitle className="flex items-center text-xl font-medium">
-                     <div className="flex items-center gap-4">
-                        <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                            {role.icon}
+        <AlertDialog>
+            <div className="bg-white h-full flex flex-col rounded-t-[50px] overflow-hidden">
+                <SheetHeader className="p-6 border-b shrink-0">
+                    <SheetTitle className="flex items-center text-xl font-medium">
+                         <div className="flex items-center gap-4">
+                            <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                                {role.icon}
+                            </div>
+                            <h2 className="text-2xl font-semibold">{role.name}</h2>
                         </div>
-                        <h2 className="text-2xl font-semibold">{role.name}</h2>
-                    </div>
-                    <div className="ml-auto">
-                        <SheetClose asChild>
-                            <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-black bg-background hover:bg-muted">
-                                <X className="h-6 w-6" />
-                            </Button>
-                        </SheetClose>
-                    </div>
-                </SheetTitle>
-            </SheetHeader>
-            <div className="p-6 overflow-y-auto flex-1">
-                 {members.length > 0 ? (
-                    members.map((member) => <MemberCard key={member.id} member={member} />)
-                ) : (
-                    <div className="text-center text-muted-foreground py-10">
-                        No members in this role yet.
-                    </div>
-                )}
+                        <div className="ml-auto">
+                            <SheetClose asChild>
+                                <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-black bg-background hover:bg-muted">
+                                    <X className="h-6 w-6" />
+                                </Button>
+                            </SheetClose>
+                        </div>
+                    </SheetTitle>
+                </SheetHeader>
+                <div className="p-6 overflow-y-auto flex-1">
+                     {members.length > 0 ? (
+                        members.map((member) => <MemberCard key={member.id} member={member} onDeactivate={handleDeactivateClick} />)
+                    ) : (
+                        <div className="text-center text-muted-foreground py-10">
+                            No members in this role yet.
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+            {memberToDeactivate && (
+                 <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Deactivate User?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                            Are you sure you want to deactivate {memberToDeactivate.name}? They will lose access to the platform.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel onClick={() => setMemberToDeactivate(null)} className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmDeactivation} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Deactivate</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            )}
+        </AlertDialog>
     );
 };
 
