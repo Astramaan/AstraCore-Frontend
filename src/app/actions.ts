@@ -155,8 +155,21 @@ export async function createPassword(
 ) {
   try {
     const password = formData.get('password');
-    // In a real app, you would save the password to a database.
-    console.log(`Creating password: ${password}`);
+    const email = formData.get('email');
+
+    const response = await fetch('http://localhost:4000/api/v1/create-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        return { error: errorData.message || 'Failed to create password.' };
+    }
+    
     redirect('/password-success');
   } catch (error) {
      if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
