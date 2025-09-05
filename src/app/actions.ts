@@ -26,20 +26,25 @@ export async function authenticate(
 
     const userData = await response.json();
     
-    if (userData.data.role.name === 'platform_admin') {
+    // The API response seems to have data nested under a `data` property.
+    const userRole = userData?.data?.role?.name;
+
+    if (userRole === 'platform_admin') {
         redirect('/platform/dashboard');
-    } else if (userData.data.role.name === 'organization_admin' || userData.data.role.name === 'member') {
+    } else if (userRole === 'organization_admin' || userRole === 'member') {
         redirect('/organization/home');
     } else {
-        return 'Invalid user role.';
+        // This case handles missing or unexpected roles
+        return 'Invalid user role received from server.';
     }
 
   } catch (error) {
       if (error instanceof Error) {
-        if (error.message.includes('NEXT_REDIRECT')) {
-            throw error;
+        if ((error as any).type === 'NEXT_REDIRECT') {
+          throw error;
         }
-        return 'An unexpected error occurred during login.';
+        console.error("Login Action Error: ", error);
+        return 'An unexpected error occurred during login. Please check the server logs.';
       }
       return 'An unexpected error occurred.';
   }
@@ -80,7 +85,7 @@ export async function signup(
     redirect(`/otp-verification?${searchParams.toString()}`);
 
   } catch (error) {
-    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+    if (error instanceof Error && (error as any).type === 'NEXT_REDIRECT') {
       throw error;
     }
     console.error('Signup error:', error);
@@ -123,16 +128,11 @@ export async function verifyOtp(
         if(password) searchParams.set('password', password);
         if(flow) searchParams.set('flow', flow);
         
-        if (flow === 'change-password') {
-             redirect(`/create-password?${searchParams.toString()}`);
-        } else {
-            redirect(`/create-password?${searchParams.toString()}`);
-        }
-
+        redirect(`/create-password?${searchParams.toString()}`);
 
     } catch (error) {
         if (error instanceof Error) {
-            if (error.message.includes('NEXT_REDIRECT')) {
+            if ((error as any).type === 'NEXT_REDIRECT') {
                 throw error;
             }
             return { error: 'An unexpected error occurred during OTP verification.' };
@@ -193,7 +193,7 @@ export async function requestPasswordReset(
     }
 
   } catch (error) {
-    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+    if (error instanceof Error && (error as any).type === 'NEXT_REDIRECT') {
       throw error;
     }
     console.error('Password reset request error:', error);
@@ -235,7 +235,7 @@ export async function createPassword(
     
     redirect('/password-success');
   } catch (error) {
-     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+     if (error instanceof Error && (error as any).type === 'NEXT_REDIRECT') {
       throw error;
     }
     console.error('Create Password error:', error);
