@@ -47,7 +47,6 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                     </DialogTitle>
                 </DialogHeader>
                 <div className="p-6 flex-1 overflow-y-auto space-y-4">
-                    <h3 className="text-lg font-semibold text-black">Features access</h3>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-6">
                         <FeatureCategory title="Dashboard" features={permissionsData.Dashboard} />
                         <FeatureCategory title="Onboarding Management" features={permissionsData['Onboarding Management']} />
