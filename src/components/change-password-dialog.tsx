@@ -8,19 +8,37 @@ import { X, Check } from 'lucide-react';
 import { useToast } from './ui/use-toast';
 import OtpForm from './otp-form';
 import ResetPasswordForm from './reset-password-form';
-import CreatePasswordForm from './create-password-form';
+import CreatePasswordForm from './create-password-form'; // This seems to be the wrong one.
+import SetPasswordForm from './set-password-form'; // This one is used for forgot password.
 
 export const ChangePasswordDialog = ({ email, startWithReset = false, trigger }: { email: string, startWithReset?: boolean, trigger?: React.ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [step, setStep] = useState<'create-password' | 'otp' | 'reset-password' | 'success'>(startWithReset ? 'reset-password' : 'create-password');
+    const [step, setStep] = useState<'reset-password' | 'otp' | 'set-new-password' | 'success'>(startWithReset ? 'reset-password' : 'reset-password');
     const [searchParams, setSearchParams] = useState({ email, flow: 'change-password' });
     const { toast } = useToast();
 
     useEffect(() => {
         if(isOpen) {
-            setStep(startWithReset ? 'reset-password' : 'create-password');
+            setStep('reset-password');
         }
-    }, [isOpen, startWithReset]);
+    }, [isOpen]);
+    
+    const handleOpenChange = (open: boolean) => {
+        if (!open) {
+             setTimeout(() => setStep('reset-password'), 300); // Reset after close animation
+        }
+        setIsOpen(open);
+    }
+    
+    const handleEmailSubmitted = (email: string) => {
+        setSearchParams(prev => ({...prev, email}));
+        setStep('otp');
+    }
+
+    const handleOtpSuccess = (newSearchParams: any) => {
+        setSearchParams(prev => ({...prev, ...newSearchParams}));
+        setStep('set-new-password');
+    }
 
     const handlePasswordSuccess = () => {
         setStep('success');
@@ -30,37 +48,17 @@ export const ChangePasswordDialog = ({ email, startWithReset = false, trigger }:
         });
         setTimeout(() => {
             setIsOpen(false);
-            setTimeout(() => setStep(startWithReset ? 'reset-password' : 'create-password'), 300); // Reset after close animation
+            setTimeout(() => setStep('reset-password'), 300); // Reset after close animation
         }, 2000);
-    }
-    
-    const handleOpenChange = (open: boolean) => {
-        if (!open) {
-             setTimeout(() => setStep(startWithReset ? 'reset-password' : 'create-password'), 300); // Reset after close animation
-        }
-        setIsOpen(open);
-    }
-
-    const handleForgotPasswordClick = () => {
-        setStep('otp');
-    }
-
-    const handleOtpSuccess = (newSearchParams: any) => {
-        setSearchParams(prev => ({...prev, ...newSearchParams}));
-        setStep('reset-password');
-    }
-    
-    const handleOtpClose = () => {
-        setStep('create-password');
     }
 
     const getTitle = () => {
         switch(step) {
             case 'otp':
                 return 'Verify OTP';
+            case 'set-new-password':
+                return 'Set New Password'
             case 'reset-password':
-                return 'Reset Password';
-            case 'create-password':
             default:
                 return 'Change Password';
         }
@@ -91,13 +89,13 @@ export const ChangePasswordDialog = ({ email, startWithReset = false, trigger }:
                     </DialogTitle>
                 </DialogHeader>
                 <div className="px-6 pb-6">
-                    {step === 'create-password' && (
-                        <CreatePasswordForm searchParams={searchParams} onForgotPasswordClick={handleForgotPasswordClick} />
+                    {step === 'reset-password' && (
+                        <SetPasswordForm flow="forgot-password" onEmailSubmitted={handleEmailSubmitted} />
                     )}
                     {step === 'otp' && (
-                        <OtpForm searchParams={searchParams} onVerifySuccess={handleOtpSuccess} onClose={handleOtpClose}/>
+                        <OtpForm searchParams={searchParams} onVerifySuccess={handleOtpSuccess} onClose={() => setStep('reset-password')}/>
                     )}
-                    {step === 'reset-password' && (
+                    {step === 'set-new-password' && (
                         <ResetPasswordForm searchParams={searchParams} onSuccess={handlePasswordSuccess} />
                     )}
                     {step === 'success' && (

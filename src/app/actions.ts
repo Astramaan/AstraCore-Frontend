@@ -25,11 +25,10 @@ export async function authenticate(
     }
 
     const userData = await response.json();
-
-    // NOTE: You may need to adjust the role names based on your API response
-    if (userData.role === 'platform_admin') {
+    
+    if (userData.data.role.name === 'platform_admin') {
         redirect('/platform/dashboard');
-    } else if (userData.role === 'organization_admin') {
+    } else if (userData.data.role.name === 'organization_admin' || userData.data.role.name === 'member') {
         redirect('/organization/home');
     } else {
         return 'Invalid user role.';
@@ -56,7 +55,7 @@ export async function signup(
   const password = formData.get('password') as string;
   
   try {
-    const response = await fetch('http://localhost:4000/api/v1/signuplink', {
+    const response = await fetch('http://localhost:4000/api/v1/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,6 +68,8 @@ export async function signup(
       return { error: errorData.message || 'Failed to sign up.' };
     }
 
+    const data = await response.json();
+    
     // On success, redirect to OTP page
     const searchParams = new URLSearchParams({
       email,
@@ -207,13 +208,24 @@ export async function createPassword(
   try {
     const password = formData.get('password');
     const email = formData.get('email');
+    const flow = formData.get('flow');
+
+    let body;
+
+    if (flow === 'change-password') {
+        body = JSON.stringify({ email, password });
+    } else {
+        const phone = formData.get('phone');
+        const organization = formData.get('organization');
+        body = JSON.stringify({ email, password, phone, organization });
+    }
 
     const response = await fetch('http://localhost:4000/api/v1/create-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: body,
     });
 
     if (!response.ok) {

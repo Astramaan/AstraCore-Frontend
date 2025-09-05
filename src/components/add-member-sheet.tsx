@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { addMember } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
@@ -31,11 +30,8 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 
 const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, onClose: () => void }) => {
     const { toast } = useToast();
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [roleType, setRoleType] = useState('');
-    const [selectedRole, setSelectedRole] = useState('');
+    const [role, setRole] = useState('');
 
     const [state, formAction] = useActionState(addMember, { success: false, message: '' });
 
@@ -51,63 +47,30 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
         }
     }, [state, onFormSuccess, toast]);
     
-    const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
-
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (/^[a-zA-Z\s]*$/.test(value)) {
-            setName(value);
-        }
-    };
-
-    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (/^\d*$/.test(value) && value.length <= 10) {
-            setPhone(value);
-        }
-    };
+    const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR", "Admin"];
 
     return (
-    <form action={formAction}>
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                <FloatingLabelInput id="member-name" name="member-name" label="Full Name" value={name} onChange={handleNameChange} />
-                <FloatingLabelInput id="member-email" name="member-email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <FloatingLabelInput id="member-phone" name="member-phone" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} />
+    <form action={formAction} className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
+        <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <div className="space-y-2">
-                    <Label htmlFor="role-type" className={cn("text-lg font-medium", roleType ? 'text-grey-1' : 'text-black')}>{ "Role Type"}</Label>
-                    <Select name="role-type" onValueChange={setRoleType}>
-                        <SelectTrigger id="role-type" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Select a role type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="member">Member</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                
-                <div className="md:col-span-2 space-y-2">
-                    <Label className={cn("text-lg font-medium", selectedRole ? 'text-grey-1' : 'text-black')}>Roles</Label>
-                    <RadioGroup name="roles" className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4" onValueChange={setSelectedRole}>
-                        {roles.map(role => (
-                            <div key={role} className="flex items-center gap-2">
-                                <RadioGroupItem value={role.toLowerCase()} id={`role-${role.toLowerCase()}`} className="w-6 h-6" />
-                                <Label htmlFor={`role-${role.toLowerCase()}`} className="text-black text-lg font-medium">
-                                    {role}
-                                </Label>
-                            </div>
-                        ))}
-                    </RadioGroup>
-                </div>
-            </div>
-            
-            <div className="flex justify-end pt-8">
-                <Button type="submit" className="px-14 h-12 text-lg rounded-full">
-                    Add
-                </Button>
-            </div>
+        <div className="space-y-2">
+            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>{ "Role"}</Label>
+            <Select name="role" onValueChange={setRole}>
+                <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                    <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                     {roles.map(r => (
+                        <SelectItem key={r} value={r}>{r}</SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+        
+        <div className="flex justify-end pt-8">
+            <Button type="submit" className="px-14 h-12 text-lg rounded-full">
+                Add
+            </Button>
         </div>
     </form>
     );
@@ -135,7 +98,7 @@ export function AddMemberSheet() {
         </Button>
       </DialogTrigger>
       <DialogContent 
-          className="p-0 flex flex-col m-0 bg-white sm:max-w-2xl rounded-[50px]"
+          className="p-0 flex flex-col m-0 bg-white sm:max-w-md rounded-[50px]"
       >
           <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
@@ -160,8 +123,8 @@ export function AddMemberSheet() {
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
-        title="New Member added"
-        message="Hurray! We’ve added a new member to our team!"
+        title="Invitation Sent"
+        message="The new member has been invited and will receive an email to set up their account."
     />
     </>
   );

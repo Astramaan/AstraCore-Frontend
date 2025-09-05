@@ -34,10 +34,21 @@ const flowConfig = {
     }
 }
 
-export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forgot-password' }) {
-  const [state, action] = useActionState(requestPasswordReset, undefined);
+export default function SetPasswordForm({ flow, onEmailSubmitted }: { flow: 'set-password' | 'forgot-password', onEmailSubmitted?: (email: string) => void }) {
+
+    const formAction = async (prevState: any, formData: FormData) => {
+        if (onEmailSubmitted) {
+            const email = formData.get('email') as string;
+            // Here you might want to do a client-side check first if desired
+            // For now, just call the callback
+            onEmailSubmitted(email);
+            return { success: true };
+        }
+        return requestPasswordReset(prevState, formData);
+    };
+
+  const [state, dispatch] = useActionState(formAction, undefined);
   const [email, setEmail] = useState('');
-  const { pending } = useFormStatus();
   const { toast } = useToast();
 
   const config = flowConfig[flow];
@@ -50,18 +61,18 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
         description: state.error,
       });
     }
-    if (state?.success) {
+    if (state?.success && !onEmailSubmitted) {
       toast({
         title: "Check your email",
-        description: state.success,
+        description: "An OTP has been sent to your email address.",
       });
     }
-  }, [state, toast]);
+  }, [state, toast, onEmailSubmitted]);
 
   return (
     <>
       <h2 className="text-lg text-grey-1 tracking-tight mb-8">{config.title}</h2>
-      <form action={action} className="flex-grow flex flex-col">
+      <form action={dispatch} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
             <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>{config.label}</Label>
@@ -76,7 +87,6 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
                 required
                 placeholder="name@company.com"
                 className={`pl-20 rounded-full bg-background h-[54px]`}
-                disabled={pending}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -89,9 +99,11 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
              {flow === 'forgot-password' && (
                 <>
                     <SubmitButton />
-                    <Button variant="ghost" className="w-full rounded-full h-[54px] text-foreground bg-background hover:bg-muted" asChild>
-                        <Link href="/">Back</Link>
-                    </Button>
+                    { !onEmailSubmitted && (
+                        <Button variant="ghost" className="w-full rounded-full h-[54px] text-foreground bg-background hover:bg-muted" asChild>
+                            <Link href="/">Back</Link>
+                        </Button>
+                    )}
                 </>
             )}
             {flow !== 'forgot-password' && <SubmitButton />}
