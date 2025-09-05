@@ -19,22 +19,19 @@ export async function authenticate(
       body: JSON.stringify({ email, password }),
     });
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        return errorData.message || 'Login failed.';
-    }
+    const responseData = await response.json();
 
-    const userData = await response.json();
+    if (!response.ok) {
+        return responseData.message || 'Login failed.';
+    }
     
-    // The API response seems to have data nested under a `data` property.
-    const userRole = userData?.data?.role?.name;
+    const userRole = responseData?.role?.name;
 
     if (userRole === 'platform_admin') {
         redirect('/platform/dashboard');
     } else if (userRole === 'organization_admin' || userRole === 'member') {
         redirect('/organization/home');
     } else {
-        // This case handles missing or unexpected roles
         return 'Invalid user role received from server.';
     }
 
