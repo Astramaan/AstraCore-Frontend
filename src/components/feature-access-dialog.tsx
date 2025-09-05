@@ -1,13 +1,16 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
 import { Button } from './ui/button';
-import { X, Search, Plus } from 'lucide-react';
+import { X, Search } from 'lucide-react';
 import { Input } from './ui/input';
 import { Switch } from './ui/switch';
 import { ScrollArea } from './ui/scroll-area';
+import { Checkbox } from './ui/checkbox';
+import { cn } from '@/lib/utils';
 
 interface FeatureAccessDialogProps {
     isOpen: boolean;
@@ -27,6 +30,15 @@ const permissionsData = {
 
 const FeatureSection = ({ title, features, searchTerm }: { title: string, features: string[], searchTerm: string }) => {
     const [isEnabled, setIsEnabled] = useState(true);
+    const [selectedFeatures, setSelectedFeatures] = useState<string[]>(features);
+
+    const handleFeatureToggle = (feature: string) => {
+        setSelectedFeatures(prev => 
+            prev.includes(feature) 
+                ? prev.filter(f => f !== feature) 
+                : [...prev, feature]
+        );
+    };
 
     const filteredFeatures = useMemo(() => {
         if (!searchTerm) return features;
@@ -43,13 +55,26 @@ const FeatureSection = ({ title, features, searchTerm }: { title: string, featur
                 <h4 className="font-semibold text-lg">{title}</h4>
                 <Switch checked={isEnabled} onCheckedChange={setIsEnabled} />
             </div>
-            <div className="grid grid-cols-2 gap-2">
-                {filteredFeatures.map((feature, index) => (
-                    <Button key={index} variant="outline" className="justify-between h-12 rounded-full font-normal bg-background hover:bg-muted">
-                        {feature}
-                        <Plus className="w-4 h-4 text-muted-foreground"/>
-                    </Button>
-                ))}
+            <div className="grid grid-cols-2 gap-x-2 gap-y-4">
+                {filteredFeatures.map((feature, index) => {
+                    const isChecked = selectedFeatures.includes(feature);
+                    return (
+                        <div key={index} className="flex items-center">
+                            <Checkbox 
+                                id={`${title}-${feature}`} 
+                                checked={isChecked}
+                                onCheckedChange={() => handleFeatureToggle(feature)}
+                                className="w-5 h-5 rounded"
+                            />
+                            <label
+                                htmlFor={`${title}-${feature}`}
+                                className={cn("ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70", isChecked ? 'text-black' : 'text-muted-foreground')}
+                            >
+                                {feature}
+                            </label>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
