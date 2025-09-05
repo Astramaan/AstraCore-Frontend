@@ -146,7 +146,6 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
     
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl font-medium">Projects</h2>
             
             <div>
                  <div className="flex justify-between items-center mb-4">
