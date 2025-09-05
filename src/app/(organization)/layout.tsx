@@ -30,7 +30,7 @@ const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/teams')) {
-        pageTitle = 'Teams';
+        pageTitle = 'Teams Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
@@ -58,7 +58,7 @@ const OrganizationHeader = () => {
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  Teams
+                  Teams Management
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -98,7 +98,7 @@ const OrganizationHeader = () => {
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              Teams
+                              Teams Management
                           </Button>
                         </Link>
                     </div>
