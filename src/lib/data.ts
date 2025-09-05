@@ -149,17 +149,31 @@ export async function getDepartments(): Promise<Department[]> {
 
 export async function getProjects(): Promise<Project[]> {
     try {
-        // const response = await fetch('http://localhost:4000/api/v1/org-clients');
-        // if (!response.ok) {
-        //     throw new Error('Failed to fetch projects');
-        // }
-        // const data = await response.json();
-        // return data;
-        
-        // Using mock data for now
-        return Promise.resolve(mockProjects);
+        const orgId = "6842c24e92a1c2ead0145c79"; // Using a static orgId for now
+        const response = await fetch(`http://localhost:4000/api/v1/organizations/${orgId}/projects`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch projects');
+        }
+        const data = await response.json();
+        // You might need to map the response data to the Project interface
+        return data;
     } catch (error) {
         console.error('Error fetching projects:', error);
-        return [];
+        // Returning mock data on error for now
+        return mockProjects;
+    }
+}
+
+export async function getProjectDetails(clientId: string) {
+    try {
+        const response = await fetch(`http://localhost:4000/api/v1/org-clients/${clientId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch project details');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(`Error fetching project details for ${clientId}:`, error);
+        return null;
     }
 }

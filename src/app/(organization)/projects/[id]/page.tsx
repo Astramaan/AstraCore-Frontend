@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { PaymentsDialog } from '@/components/payments-dialog';
+import { getProjectDetails } from '@/lib/data';
 
 const mockProject = {
     id: "YAS2024",
@@ -82,9 +83,8 @@ const mockProject = {
     }
 };
 
-export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
-    // In a real app, you would fetch project data based on params.id
-    const project = mockProject;
+export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
+    const project = await getProjectDetails(params.id) || mockProject;
 
     return (
         <div className="space-y-6">
