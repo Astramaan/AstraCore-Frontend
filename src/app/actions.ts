@@ -76,23 +76,48 @@ export async function verifyOtp(
     prevState: { error?: string } | undefined,
     formData: FormData
 ): Promise<{ error?: string } | undefined> {
+    const email = formData.get('email') as string;
+    const otpDigits = formData.getAll('otp') as string[];
+    const otp = otpDigits.join('');
+    
     const phone = formData.get('phone') as string;
     const organization = formData.get('organization') as string;
     const password = formData.get('password') as string;
-    const email = formData.get('email') as string;
     const flow = formData.get('flow') as string;
 
-    // In a real app, you'd verify the OTP here.
-    // For now, we'll just redirect.
+    try {
+        const response = await fetch('http://localhost:4000/api/v1/verify-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, otp }),
+        });
 
-    const searchParams = new URLSearchParams();
-    if(email) searchParams.set('email', email);
-    if(phone) searchParams.set('phone', phone);
-    if(organization) searchParams.set('organization', organization);
-    if(password) searchParams.set('password', password);
-    if(flow) searchParams.set('flow', flow);
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { error: errorData.message || 'Failed to verify OTP.' };
+        }
 
-    redirect(`/create-password?${searchParams.toString()}`);
+        // On success, redirect to create password page
+        const searchParams = new URLSearchParams();
+        if(email) searchParams.set('email', email);
+        if(phone) searchParams.set('phone', phone);
+        if(organization) searchParams.set('organization', organization);
+        if(password) searchParams.set('password', password);
+        if(flow) searchParams.set('flow', flow);
+
+        redirect(`/create-password?${searchParams.toString()}`);
+
+    } catch (error) {
+        if (error instanceof Error) {
+            if (error.message.includes('NEXT_REDIRECT')) {
+                throw error;
+            }
+            return { error: 'An unexpected error occurred during OTP verification.' };
+        }
+        return { error: 'An unexpected error occurred.' };
+    }
 }
 
 
