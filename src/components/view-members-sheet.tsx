@@ -80,7 +80,7 @@ const membersData: { [key: string]: Member[] } = {
 const MemberCard = ({ member }: { member: Member }) => (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <Link href={`/organization/team-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
+            <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src={member.avatar} />
                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
@@ -109,7 +109,7 @@ const MemberCard = ({ member }: { member: Member }) => (
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                        <Link href={`/organization/team-management/${member.id}/edit`}>Edit</Link>
+                        <Link href={`/organization/employee-management/${member.id}/edit`}>Edit</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>Deactivate user</DropdownMenuItem>
                 </DropdownMenuContent>

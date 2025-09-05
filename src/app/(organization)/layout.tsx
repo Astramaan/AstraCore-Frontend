@@ -16,7 +16,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 const OrganizationHeader = () => {
     const pathname = usePathname();
     
-    const isTeamManagementActive = pathname.startsWith('/organization/team-management');
+    const isEmployeeManagementActive = pathname.startsWith('/organization/employee-management');
 
 
     return (
@@ -26,13 +26,13 @@ const OrganizationHeader = () => {
         </div>
         <div className="hidden md:flex items-center gap-2 md:gap-6">
             <NotificationPopover />
-            <Link href="/organization/team-management">
+            <Link href="/organization/employee-management">
               <Button className={cn(
                   "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium flex items-center",
-                  isTeamManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                  isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  Team Management
+                  Employee Management
               </Button>
             </Link>
             <div className="w-px h-12 bg-stone-300" />
@@ -67,13 +67,13 @@ const OrganizationHeader = () => {
                                 <p className="text-sm text-grey-2">Super Admin</p>
                             </div>
                         </Link>
-                        <Link href="/organization/team-management">
+                        <Link href="/organization/employee-management">
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                              isTeamManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              Team Management
+                              Employee Management
                           </Button>
                         </Link>
                     </div>
@@ -106,7 +106,7 @@ const OrganizationBottomNav = () => {
                              <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
                                 <div className={cn(
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-1.5 p-2 rounded-[40px] transition-colors duration-200 h-full md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
-                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:text-primary"
+                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
                                     <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
@@ -135,6 +135,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     
 
     
+
 
 
 
