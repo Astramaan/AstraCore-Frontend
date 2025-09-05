@@ -1,11 +1,13 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
 import { Button } from './ui/button';
-import { X, Trash2, Edit } from 'lucide-react';
-import { Separator } from './ui/separator';
+import { X, Search, Plus } from 'lucide-react';
+import { Input } from './ui/input';
+import { Switch } from './ui/switch';
+import { ScrollArea } from './ui/scroll-area';
 
 interface FeatureAccessDialogProps {
     isOpen: boolean;
@@ -15,24 +17,43 @@ interface FeatureAccessDialogProps {
 }
 
 const permissionsData = {
-    'Dashboard': ["Subscription Analytics", "Subscription Churn", "Active Customers", "Exit Survey"],
-    'Onboarding Management': ["Subscription Analytics", "Subscription Churn", "Active Customers", "Exit Survey"],
-    'Organization Management': ["Subscription Plans Manage", "Active Customers", "Expired Customers", "Payment Attempts", "Invoices", "Discounts Manage"],
-    'Subscription Management': ["Subscription Plans Manage", "Active Customers", "Expired Customers", "Payment Attempts", "Invoices", "Discounts Manage"],
+    'Dashboard': ["Feature", "Feature", "Feature", "Feature", "Feature", "Feature"],
+    'Onboarding Management': ["Feature", "Feature", "Feature", "Feature", "Feature"],
 };
 
-const FeatureCategory = ({ title, features }: { title: string, features: string[] }) => (
-    <div className="space-y-2">
-        <p className="font-semibold text-base">{title}</p>
-        <div className="space-y-1">
-            {features.map((feature, index) => (
-                <p key={index} className="text-xs text-black">{feature}</p>
-            ))}
+const FeatureSection = ({ title, features, searchTerm }: { title: string, features: string[], searchTerm: string }) => {
+    const [isEnabled, setIsEnabled] = useState(true);
+
+    const filteredFeatures = useMemo(() => {
+        if (!searchTerm) return features;
+        return features.filter(feature => feature.toLowerCase().includes(searchTerm.toLowerCase()));
+    }, [features, searchTerm]);
+
+    if (searchTerm && filteredFeatures.length === 0) {
+        return null;
+    }
+
+    return (
+        <div className="space-y-4 rounded-3xl border p-4">
+            <div className="flex justify-between items-center">
+                <h4 className="font-semibold text-lg">{title}</h4>
+                <Switch checked={isEnabled} onCheckedChange={setIsEnabled} />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+                {filteredFeatures.map((feature, index) => (
+                    <Button key={index} variant="outline" className="justify-between h-12 rounded-full font-normal bg-background hover:bg-muted">
+                        {feature}
+                        <Plus className="w-4 h-4 text-muted-foreground"/>
+                    </Button>
+                ))}
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: FeatureAccessDialogProps) => {
+    const [searchTerm, setSearchTerm] = useState('');
+
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white flex flex-col h-auto max-h-[90vh]">
@@ -46,26 +67,28 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="p-6 flex-1 overflow-y-auto space-y-4">
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-                        <FeatureCategory title="Dashboard" features={permissionsData.Dashboard} />
-                        <FeatureCategory title="Onboarding Management" features={permissionsData['Onboarding Management']} />
-                        <FeatureCategory title="Organization Management" features={permissionsData['Organization Management']} />
-                        <FeatureCategory title="Subscription Management" features={permissionsData['Subscription Management']} />
+                <div className="p-6 pb-0 space-y-4">
+                     <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input 
+                            placeholder="Search Features" 
+                            className="pl-12 h-14 rounded-full bg-background"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
                 </div>
-                <div className="px-6 py-4 mt-auto">
-                    <div className="relative h-28">
-                         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-white/0 to-white rounded-b-[50px]" />
-                         <div className="absolute bottom-0 inset-x-0 flex items-center justify-center p-4 gap-2">
-                             <Button variant="outline" size="icon" className="w-14 h-14 rounded-full bg-background">
-                                 <Trash2 className="w-6 h-6 text-red-500" />
-                             </Button>
-                             <Button className="h-14 rounded-full flex-1 max-w-xs">
-                                 Edit
-                             </Button>
-                         </div>
+                <ScrollArea className="flex-1 p-6">
+                    <div className="space-y-4">
+                        {Object.entries(permissionsData).map(([title, features]) => (
+                             <FeatureSection key={title} title={title} features={features} searchTerm={searchTerm}/>
+                        ))}
                     </div>
+                </ScrollArea>
+                <div className="px-6 py-4 mt-auto border-t">
+                    <Button className="w-full h-14 rounded-full text-lg" onClick={onClose}>
+                        Done
+                    </Button>
                 </div>
             </DialogContent>
         </Dialog>
