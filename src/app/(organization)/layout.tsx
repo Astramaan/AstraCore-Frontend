@@ -16,8 +16,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 const OrganizationHeader = () => {
     const pathname = usePathname();
     
-    const isTeamManagementActive = pathname.startsWith('/organization/team-management') || pathname.startsWith('/organization/employee-management');
-    const isEmployeeManagementActive = pathname.startsWith('/organization/team-management') || pathname.startsWith('/organization/employee-management');
+    const isTeamManagementActive = pathname.startsWith('/organization/team-management');
 
 
     return (
@@ -71,7 +70,7 @@ const OrganizationHeader = () => {
                         <Link href="/organization/team-management">
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                              isTeamManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
                               Team Management
@@ -136,6 +135,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     
 
     
+
 
 
 
