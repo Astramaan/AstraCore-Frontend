@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState } from 'react';
@@ -32,7 +31,7 @@ import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
-const initialEmployeeData = {
+const initialMemberData = {
     id: "1",
     name: "Balaji Naik",
     phone: "+91 9380032186",
@@ -46,11 +45,11 @@ const initialEmployeeData = {
 };
 
 interface PersonalDetailsProps {
-    employeeId: string;
+    memberId: string;
 }
 
-const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof initialEmployeeData, onSave: (data: typeof initialEmployeeData) => void, onCancel: () => void }) => {
-    const [formData, setFormData] = useState(employee);
+const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialMemberData, onSave: (data: typeof initialMemberData) => void, onCancel: () => void }) => {
+    const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
 
@@ -114,7 +113,7 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
                         <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
                         <div className="space-y-2">
                              <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
-                              {employee.role === 'Super Admin' ? (
+                              {member.role === 'Super Admin' ? (
                                 <Select value={formData.role} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
@@ -122,7 +121,7 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
                                     <SelectContent>
                                         <SelectItem value="Super Admin">Super Admin</SelectItem>
                                         <SelectItem value="Admin">Admin</SelectItem>
-                                        <SelectItem value="Employee">Employee</SelectItem>
+                                        <SelectItem value="Member">Member</SelectItem>
                                     </SelectContent>
                                 </Select>
                              ) : (
@@ -162,12 +161,12 @@ const EditProfileForm = ({ employee, onSave, onCancel }: { employee: typeof init
     );
 };
 
-export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
-    const [employee, setEmployee] = useState(initialEmployeeData);
+export function PersonalDetails({ memberId }: PersonalDetailsProps) {
+    const [member, setMember] = useState(initialMemberData);
     const [isEditing, setIsEditing] = useState(false);
 
-    const handleSave = (updatedEmployee: typeof initialEmployeeData) => {
-        setEmployee(updatedEmployee);
+    const handleSave = (updatedMember: typeof initialMemberData) => {
+        setMember(updatedMember);
         setIsEditing(false);
         // Maybe show a toast notification for success
     };
@@ -178,40 +177,40 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                 <CardContent className="p-0">
                     <div className="flex flex-col lg:flex-row gap-8">
                         <div className="shrink-0 flex items-center gap-4">
-                            <Image src={employee.avatar} alt={employee.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                            <Image src={member.avatar} alt={member.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
                         </div>
                         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
-                                <p className="text-black text-lg leading-tight truncate">{employee.name}</p>
+                                <p className="text-black text-lg leading-tight truncate">{member.name}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
-                                <p className="text-black text-lg leading-tight truncate">{employee.phone}</p>
+                                <p className="text-black text-lg leading-tight truncate">{member.phone}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
-                                <p className="text-black text-lg leading-tight truncate">{employee.lastLogin}</p>
+                                <p className="text-black text-lg leading-tight truncate">{member.lastLogin}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
-                                <p className="text-black text-lg leading-tight truncate">{employee.email}</p>
+                                <p className="text-black text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
-                                <p className="text-primary text-lg leading-tight truncate">{employee.role}</p>
+                                <p className="text-primary text-lg leading-tight truncate">{member.role}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
-                                <p className="text-black text-lg leading-tight truncate">{employee.dateJoined}</p>
+                                <p className="text-black text-lg leading-tight truncate">{member.dateJoined}</p>
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
-                                <p className="text-black text-lg leading-tight truncate">{employee.dob}</p>
+                                <p className="text-black text-lg leading-tight truncate">{member.dob}</p>
                             </div>
                             <div className="lg:col-span-2 space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
-                                <p className="text-black text-lg leading-tight">{employee.address}</p>
+                                <p className="text-black text-lg leading-tight">{member.address}</p>
                             </div>
                         </div>
                          <div className="flex flex-col space-y-4 lg:pl-8">
@@ -221,14 +220,14 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
                                     Edit Profile
                                 </Button>
                             </DialogTrigger>
-                            <ChangePasswordDialog email={employee.email} />
+                            <ChangePasswordDialog email={member.email} />
                         </div>
                     </div>
                 </CardContent>
             </Card>
              <DialogContent className="max-w-3xl p-0 bg-transparent border-none">
                 <EditProfileForm 
-                    employee={employee}
+                    member={member}
                     onSave={handleSave}
                     onCancel={() => setIsEditing(false)}
                 />
@@ -236,4 +235,3 @@ export function PersonalDetails({ employeeId }: PersonalDetailsProps) {
         </Dialog>
     );
 }
-

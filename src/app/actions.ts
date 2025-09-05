@@ -1,5 +1,4 @@
 
-
 "use server";
 
 import { redirect } from 'next/navigation';
@@ -125,18 +124,18 @@ export async function createPassword(
 }
 
 
-export async function addEmployee(
+export async function addMember(
   prevState: any,
   formData: FormData
 ) {
     try {
-        const name = formData.get('employee-name');
-        const email = formData.get('employee-email');
-        console.log(`Adding employee: ${name} (${email})`);
+        const name = formData.get('member-name');
+        const email = formData.get('member-email');
+        console.log(`Adding member: ${name} (${email})`);
         // In a real app, you would save this to a database.
-        return { success: true, message: 'Employee added successfully!' };
+        return { success: true, message: 'Member added successfully!' };
     } catch (error) {
-        return { success: false, message: 'Failed to add employee.' };
+        return { success: false, message: 'Failed to add member.' };
     }
 }
 

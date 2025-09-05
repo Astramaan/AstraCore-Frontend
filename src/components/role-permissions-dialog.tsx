@@ -26,11 +26,11 @@ const PermissionCategory = ({ title, description, onClick }: { title: string, de
 
 const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onClose: () => void, role: RoleData | null }) => {
     const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<'Admin' | 'Employee' | 'Special Access' | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<'Admin' | 'Member' | 'Special Access' | null>(null);
 
     if (!role) return null;
 
-    const handleCategoryClick = (category: 'Admin' | 'Employee' | 'Special Access') => {
+    const handleCategoryClick = (category: 'Admin' | 'Member' | 'Special Access') => {
         setSelectedCategory(category);
         setIsFeatureDialogOpen(true);
     };
@@ -59,7 +59,7 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
                     <div className="px-6 pb-6 space-y-2 flex-1 overflow-y-auto">
                         <PermissionCategory title="Admin" description={permissionsDescription} onClick={() => handleCategoryClick('Admin')} />
                         <Separator />
-                        <PermissionCategory title="Employee" description={permissionsDescription} onClick={() => handleCategoryClick('Employee')} />
+                        <PermissionCategory title="Member" description={permissionsDescription} onClick={() => handleCategoryClick('Member')} />
                         
                         <div className="flex items-center gap-2 justify-center py-2">
                             <div className="flex-grow border-t border-dashed border-gray-300"></div>

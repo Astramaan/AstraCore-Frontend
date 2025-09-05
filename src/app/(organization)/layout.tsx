@@ -28,7 +28,7 @@ const OrganizationHeader = () => {
         pageTitle = 'Vendors';
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
-    } else if (pathname.startsWith('/organization/employee-management')) {
+    } else if (pathname.startsWith('/organization/team-management')) {
         pageTitle = 'Team Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
@@ -36,7 +36,7 @@ const OrganizationHeader = () => {
         pageTitle = 'My Profile'
     }
     
-    const isEmployeeManagementActive = pathname.startsWith('/organization/employee-management');
+    const isTeamManagementActive = pathname.startsWith('/organization/team-management');
 
     return (
     <header className="flex flex-row justify-between items-center w-full gap-4">
@@ -51,10 +51,10 @@ const OrganizationHeader = () => {
         </div>
         <div className="hidden md:flex items-center gap-2 md:gap-6">
             <NotificationPopover />
-            <Link href="/organization/employee-management">
+            <Link href="/organization/team-management">
               <Button className={cn(
                   "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium flex items-center",
-                  isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                  isTeamManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
                   Team Management
@@ -92,10 +92,10 @@ const OrganizationHeader = () => {
                                 <p className="text-sm text-grey-2">Super Admin</p>
                             </div>
                         </Link>
-                        <Link href="/organization/employee-management">
+                        <Link href="/organization/team-management">
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                              isEmployeeManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                              isTeamManagementActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
                               Team Management
@@ -160,5 +160,7 @@ export default function OrganizationLayout({ children }: { children: React.React
     
 
     
+
+
 
 

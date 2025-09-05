@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, ArrowRight, SlidersHorizontal, Check, Calendar } from "lucide-react";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
-import { AddEmployeeSheet } from "@/components/add-employee-sheet";
+import { AddMemberSheet } from "@/components/add-member-sheet";
 import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
@@ -247,7 +247,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden md:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                <AddEmployeeSheet />
+                <AddMemberSheet />
             </div>
 
             <Card className="rounded-[50px]">
@@ -262,7 +262,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             <div className="space-y-6">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
-                    <Link href="/organization/meetings" className="text-sm text-cyan-500">
+                    <Link href="/organization/meetings" className="text-sm text-primary">
                         see all meetings
                     </Link>
                 </div>

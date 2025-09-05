@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -7,12 +6,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, ArrowRight } from "lucide-react";
+import { Plus, ArrowRight, SlidersHorizontal, Check, Calendar } from "lucide-react";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
-import { AddEmployeeSheet } from "@/components/add-employee-sheet";
+import { AddMemberSheet } from "@/components/add-member-sheet";
 import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 import { cn } from '@/lib/utils';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
 
 
 const initialTaskData: Task[] = [
@@ -21,6 +22,11 @@ const initialTaskData: Task[] = [
     { id: "TSK003", title: "API Integration", date: "27 May 2024", description: "Integrate with the new payment gateway API. This includes implementing authentication, handling payment requests, and processing transaction responses. Ensure robust error handling is in place.", priority: "Low", status: "In Progress", category: "Development", project: "E-commerce Platform", clientId: "CL003", attachments: [] },
     { id: "TSK004", title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "In Progress", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
 ]
+
+const assignedTasksData: Task[] = [
+    { id: "TSK005", title: "Database Migration", date: "30 May 2024", description: "Plan and execute the migration of the user database from the legacy system to the new cloud infrastructure. Ensure data integrity and minimal downtime.", priority: "High", status: "In Progress", category: "Backend", project: "Infrastructure Upgrade", clientId: "CL005", attachments: [] },
+    { id: "TSK006", title: "Onboarding Tutorial", date: "01 June 2024", description: "Create an interactive tutorial for new users to guide them through the main features of the application. Include tooltips and guided steps.", priority: "Medium", status: "Pending", category: "UX", project: "AstraCore App", clientId: "CL001", attachments: [] },
+];
 
 const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
     const priorityColors: { [key: string]: string } = {
@@ -45,8 +51,9 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                     </div>
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
-                <div className="text-right">
-                    <p className="text-sm text-muted-foreground">{task.status}</p>
+                <div className="text-right flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">{task.date}</p>
                 </div>
             </div>
         </Card>
@@ -78,6 +85,7 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
 )
 
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
+const filterOptions: FilterType[] = ["High Priority", "In Progress", "Pending", "Completed"];
 
 export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
@@ -117,10 +125,26 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   }, [activeFilter, taskData]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
+  const myTasksCount = filteredTasks.length;
+  const assignedTasksCount = assignedTasksData.length;
+  const taskChartData = [
+      { name: "My Tasks", value: myTasksCount },
+      { name: "Assigned Tasks", value: assignedTasksCount },
+  ];
 
   const handleTaskUpdate = (updatedTask: Task) => {
     setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
     setSelectedTask(updatedTask);
+  };
+  
+  const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
+    const fullTask: Task = {
+        ...newTask,
+        id: `TSK${String(taskData.length + 1).padStart(3, '0')}`,
+        status: 'Pending',
+        attachments: [] // Assuming no attachments for now from this form
+    };
+    setTaskData(prevTasks => [fullTask, ...prevTasks]);
   };
 
 
@@ -128,7 +152,8 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     <div className="flex flex-col md:flex-row gap-6">
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+                 {/* Desktop Filters */}
+                <div className="hidden md:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
                     <Button 
                         variant="outline" 
                         className={cn(
@@ -171,11 +196,38 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         Completed
                     </Button>
                 </div>
-            </div>
 
-            <div className="flex md:hidden flex-wrap items-center gap-4 mb-6">
-                <AssignTaskSheet />
-                <AddEmployeeSheet />
+                {/* Mobile Filter Dropdown & Actions */}
+                <div className="flex md:hidden justify-between items-center w-full">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                                <SlidersHorizontal className="mr-2 h-4 w-4" />
+                                Filter
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                            <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                                All (exclude completed)
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            {filterOptions.map(option => (
+                                <DropdownMenuItem key={option} onClick={() => handleFilterClick(option)} >
+                                    <div className="w-4 mr-2">
+                                     {activeFilter === option && <Check className="h-4 w-4" />}
+                                    </div>
+                                    {option}
+                                     {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                     <div className="flex items-center gap-4">
+                        <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                    </div>
+                </div>
+
             </div>
 
             <div>
@@ -187,18 +239,27 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             <div className="mt-8">
                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     {taskData.slice(0, 2).map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                     {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
             </div>
         </main>
 
         <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden md:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
-                 <AssignTaskSheet />
-                <AddEmployeeSheet />
+                 <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                <AddMemberSheet />
             </div>
 
-            <div className="mt-8">
+            <Card className="rounded-[50px]">
+                <CardHeader>
+                    <CardTitle className="text-xl">Task Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <TaskOverviewChart data={taskChartData}/>
+                </CardContent>
+            </Card>
+
+            <div className="space-y-6">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-cyan-500">

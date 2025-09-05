@@ -80,7 +80,7 @@ const membersData: { [key: string]: Member[] } = {
 const MemberCard = ({ member }: { member: Member }) => (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <Link href={`/organization/employee-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
+            <Link href={`/organization/team-management/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src={member.avatar} />
                     <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
@@ -109,7 +109,7 @@ const MemberCard = ({ member }: { member: Member }) => (
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                        <Link href={`/organization/employee-management/${member.id}/edit`}>Edit</Link>
+                        <Link href={`/organization/team-management/${member.id}/edit`}>Edit</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>Deactivate user</DropdownMenuItem>
                 </DropdownMenuContent>
@@ -168,10 +168,9 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
-                side={isMobile ? "bottom" : "right"} 
+                side={"bottom"}
                 className={cn(
-                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-4xl lg:max-w-5xl",
-                    isMobile && "h-[90%]"
+                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]",
                 )}
                 overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
             >
