@@ -26,7 +26,7 @@ import { addEmployee } from '@/app/actions';
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
         <Label htmlFor={id} className={cn("text-lg font-medium", value ? "text-grey-1" : "text-black")}>{label}</Label>
-        <Input id={id} className="w-full h-14 bg-background rounded-[50px] px-6 text-lg" value={value} {...props} />
+        <Input id={id} className="w-full h-14 bg-input rounded-[50px] px-6 text-lg" value={value} {...props} />
     </div>
 );
 
@@ -60,7 +60,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                 <div className="space-y-2">
                     <Label htmlFor="admin" className={cn("text-lg font-medium", admin ? "text-grey-1" : "text-black")}>Assign Admin</Label>
                     <Select name="admin" onValueChange={setAdmin}>
-                        <SelectTrigger id="admin" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg">
+                        <SelectTrigger id="admin" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                             <SelectValue placeholder="Select an admin" />
                         </SelectTrigger>
                         <SelectContent>
