@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useActionState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
@@ -30,6 +31,8 @@ import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { updateUser } from '@/app/actions';
+import { useToast } from './ui/use-toast';
 
 const initialMemberData = {
     id: "1",
@@ -52,6 +55,26 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
+    const { toast } = useToast();
+
+    const [state, formAction] = useActionState(updateUser, null);
+
+    useEffect(() => {
+        if (state?.success) {
+            onSave(formData);
+            toast({
+                title: 'Success!',
+                description: state.message,
+            });
+        } else if (state?.message) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: state.message,
+            });
+        }
+    }, [state, onSave, toast, formData]);
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -77,11 +100,6 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
         setPendingRole(null);
         setIsRoleChangeConfirmOpen(false);
     }
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        onSave(formData);
-    }
     
     const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
         <div className="space-y-2">
@@ -91,7 +109,8 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
     );
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form action={formAction}>
+            <input type="hidden" name="id" value={member.id} />
             <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                 <DialogTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
@@ -114,7 +133,7 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
                         <div className="space-y-2">
                              <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
                               {member.role === 'Super Admin' ? (
-                                <Select value={formData.role} onValueChange={handleRoleChange}>
+                                <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
                                     </SelectTrigger>
@@ -168,7 +187,6 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const handleSave = (updatedMember: typeof initialMemberData) => {
         setMember(updatedMember);
         setIsEditing(false);
-        // Maybe show a toast notification for success
     };
 
     return (

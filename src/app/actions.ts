@@ -346,3 +346,38 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: 'An unexpected error occurred during deactivation.' };
     }
 }
+
+
+export async function updateUser(
+  prevState: any,
+  formData: FormData
+) {
+    const memberId = formData.get('id') as string;
+    
+    const payload: Record<string, any> = {};
+    for (const [key, value] of formData.entries()) {
+        if (key !== 'id') {
+            payload[key] = value;
+        }
+    }
+
+    try {
+        const response = await fetch(`http://localhost:4000/api/v1/org-users/${memberId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { success: false, message: errorData.message || 'Failed to update user.' };
+        }
+
+        return { success: true, message: 'User updated successfully!' };
+    } catch (error) {
+        console.error('Update user error:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
+}
