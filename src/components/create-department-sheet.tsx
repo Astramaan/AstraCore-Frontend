@@ -65,7 +65,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                     <FloatingLabelInput id="department-name" name="department-name" label="Team Name" value={departmentName} onChange={(e) => setDepartmentName(e.target.value)} />
                     
                     <div className="space-y-4">
-                        <h3 className="text-lg font-medium text-grey-1">Role Access</h3>
+                        <h3 className="text-lg font-medium text-grey-1">Features access</h3>
                         <div className="space-y-2">
                             <Label className="text-lg font-medium text-black">Admin</Label>
                             <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Admin')}>
