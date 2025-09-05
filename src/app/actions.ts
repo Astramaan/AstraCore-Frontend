@@ -9,30 +9,12 @@ export async function authenticate(
 ) {
   try {
     const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    const response = await fetch('http://localhost:4000/api/v1/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const responseData = await response.json();
-
-    if (!response.ok) {
-        return responseData.message || 'Login failed due to an unknown error.';
-    }
     
-    const userRole = responseData?.role?.name;
-
-    if (userRole === 'platform_admin') {
-        redirect('/platform/dashboard');
-    } else if (userRole === 'organization_admin' || userRole === 'member') {
-        redirect('/organization/home');
+    // Bypass authentication and redirect based on email
+    if (email === 'admin@example.com') {
+      redirect('/platform/dashboard');
     } else {
-        return 'Login successful, but user role is invalid.';
+      redirect('/organization/home');
     }
 
   } catch (error) {
@@ -41,8 +23,7 @@ export async function authenticate(
           throw error;
         }
         console.error("Login Action Error:", error.message);
-        // This could be a network error, DNS error, etc.
-        return 'Could not connect to the login service. Please try again later.';
+        return 'An unexpected error occurred.';
       }
       return 'An unexpected error occurred.';
   }
