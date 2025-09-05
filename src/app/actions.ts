@@ -1,4 +1,5 @@
 
+
 "use server";
 
 import { redirect } from 'next/navigation';
@@ -325,4 +326,23 @@ export async function inviteUser(
     console.error('Invite error:', error);
     return { success: false, message: 'An unexpected error occurred.' };
   }
+}
+
+export async function deactivateUser(userId: string) {
+    try {
+        // In a real app, you would make an API call to deactivate the user.
+        // For example:
+        // const response = await fetch(`http://localhost:4000/api/v1/users/${userId}/deactivate`, {
+        //     method: 'POST',
+        // });
+        // if (!response.ok) {
+        //     const errorData = await response.json();
+        //     return { success: false, message: errorData.message || 'Failed to deactivate user.' };
+        // }
+        console.log(`Deactivating user ${userId}`);
+        return { success: true, message: 'User deactivated successfully.' };
+    } catch (error) {
+        console.error('Deactivation error:', error);
+        return { success: false, message: 'An unexpected error occurred during deactivation.' };
+    }
 }

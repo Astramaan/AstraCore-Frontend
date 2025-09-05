@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -19,18 +20,11 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+import { deactivateUser } from '@/app/actions';
+import { useToast } from './ui/use-toast';
 
 
-export interface Role {
-    name: string;
-    icon: React.ReactNode;
-    bgColor: string;
-    admin: string;
-    active: number;
-    total: number;
-}
-
-interface Member {
+export interface Member {
     id: string;
     name: string;
     avatar: string;
@@ -41,51 +35,19 @@ interface Member {
     email: string;
 }
 
-const membersData: { [key: string]: Member[] } = {
-    "Super Admin": [
-        { id: "1", name: "Balaji Naik", email: "balaji@habi.one", avatar: "https://placehold.co/56x56", contact: "balaji@astracore.com | +91 1234567890", role: "Admin", status: "Active", lastActive: "2 days ago" },
-        { id: "2", name: "Priya Mehra", email: "priya.m@example.com", avatar: "https://placehold.co/56x56", contact: "priya@astracore.com | +91 9876543210", role: "Admin", status: "Active", lastActive: "2 days ago" }
-    ],
-    "Sales": [
-         { id: "3", name: "Rohan Sharma", email: "rohan.s@example.com", avatar: "https://placehold.co/56x56", contact: "rohan@astracore.com | +91 1234567891", role: "Sales Executive", status: "Active", lastActive: "1 day ago" },
-         { id: "4", name: "Anjali Gupta", email: "anjali.g@example.com", avatar: "https://placehold.co/56x56", contact: "anjali@astracore.com | +91 1234567892", role: "Sales Manager", status: "Active", lastActive: "3 hours ago" },
-         { id: "5", name: "Vikram Singh", email: "vikram.s@example.com", avatar: "https://placehold.co/56x56", contact: "vikram@astracore.com | +91 1234567893", role: "Sales Head", status: "Inactive", lastActive: "1 week ago" }
-    ],
-    "Software Development": Array.from({ length: 12 }, (_, i) => ({
-        id: `dev-${i+1}`,
-        name: `Dev ${i+1}`,
-        email: `dev${i+1}@example.com`,
-        avatar: `https://placehold.co/56x56?text=D${i+1}`,
-        contact: `dev${i+1}@astracore.com | +91 888888888${i}`,
-        role: "Software Engineer",
-        status: "Active",
-        lastActive: `${i+1} hours ago`
-    })),
-     "Design": Array.from({ length: 4 }, (_, i) => ({
-        id: `design-${i+1}`,
-        name: `Designer ${i+1}`,
-        email: `designer${i+1}@example.com`,
-        avatar: `https://placehold.co/56x56?text=DS${i+1}`,
-        contact: `design${i+1}@astracore.com | +91 777777777${i}`,
-        role: "UI/UX Designer",
-        status: "Active",
-        lastActive: `${i+1} days ago`
-    })),
-    "Support & Feedback": Array.from({ length: 20 }, (_, i) => ({
-        id: `support-${i+1}`,
-        name: `Support ${i+1}`,
-        email: `support${i+1}@example.com`,
-        avatar: `https://placehold.co/56x56?text=S${i+1}`,
-        contact: `support${i+1}@astracore.com | +91 666666666${i}`,
-        role: "Support Specialist",
-        status: "Active",
-        lastActive: `${i+1} mins ago`
-    })),
-    "Human Resources": [],
-};
+export interface Role {
+    name: string;
+    icon: React.ReactNode;
+    bgColor: string;
+    admin: string;
+    active: number;
+    total: number;
+    members: Member[];
+}
 
-const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (member: Member) => void; }) => {
+const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; onDeactivate: (member: Member) => void; onStatusChange: (memberId: string, status: 'Active' | 'Inactive') => void; }) => {
     const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+    
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
@@ -147,24 +109,42 @@ const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (m
 };
 
 const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void }) => {
-    const [members, setMembers] = useState<Member[]>(membersData[role.name] || []);
+    const [members, setMembers] = useState<Member[]>(role.members || []);
     const [memberToDeactivate, setMemberToDeactivate] = useState<Member | null>(null);
+    const { toast } = useToast();
 
     useEffect(() => {
-        setMembers(membersData[role.name] || []);
-    }, [role.name]);
+        setMembers(role.members || []);
+    }, [role.members]);
 
     const handleDeactivateClick = (member: Member) => {
         setMemberToDeactivate(member);
     };
 
-    const confirmDeactivation = () => {
+    const handleStatusChange = (memberId: string, status: 'Active' | 'Inactive') => {
+        setMembers(prevMembers =>
+            prevMembers.map(m =>
+                m.id === memberId ? { ...m, status } : m
+            )
+        );
+    };
+
+    const confirmDeactivation = async () => {
         if (memberToDeactivate) {
-            setMembers(prevMembers =>
-                prevMembers.map(m =>
-                    m.id === memberToDeactivate.id ? { ...m, status: 'Inactive' } : m
-                )
-            );
+            const result = await deactivateUser(memberToDeactivate.id);
+             if (result.success) {
+                handleStatusChange(memberToDeactivate.id, 'Inactive');
+                toast({
+                    title: 'Success',
+                    description: result.message,
+                });
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: result.message,
+                });
+            }
             setMemberToDeactivate(null);
         }
     };
@@ -191,7 +171,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                 </SheetHeader>
                 <div className="p-6 overflow-y-auto flex-1">
                      {members.length > 0 ? (
-                        members.map((member) => <MemberCard key={member.id} member={member} onDeactivate={handleDeactivateClick} />)
+                        members.map((member) => <MemberCard key={member.id} member={member} onDeactivate={handleDeactivateClick} onStatusChange={handleStatusChange} />)
                     ) : (
                         <div className="text-center text-muted-foreground py-10">
                             No members in this role yet.
@@ -247,3 +227,4 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
         </Sheet>
     );
 }
+
