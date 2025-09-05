@@ -128,14 +128,34 @@ export async function addMember(
   prevState: any,
   formData: FormData
 ) {
+    const email = formData.get('email') as string;
+    const role = formData.get('role') as string;
+    // other fields like name, phone can be accessed if needed
+    // const name = formData.get('name');
+    // const phone = formData.get('phone');
+
+    if (!email || !role) {
+        return { success: false, message: 'Email and role are required.' };
+    }
+
     try {
-        const name = formData.get('member-name');
-        const email = formData.get('member-email');
-        console.log(`Adding member: ${name} (${email})`);
-        // In a real app, you would save this to a database.
-        return { success: true, message: 'Member added successfully!' };
+        const response = await fetch('http://localhost:4000/api/v1/invites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, role }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return { success: false, message: errorData.message || 'Failed to send invitation.' };
+        }
+
+        return { success: true, message: 'Invitation sent successfully!' };
     } catch (error) {
-        return { success: false, message: 'Failed to add member.' };
+        console.error('Invite error:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
     }
 }
 
