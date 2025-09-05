@@ -18,7 +18,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
-import { Dialog, DialogContent } from './ui/dialog';
 
 export interface Role {
     name: string;
@@ -84,8 +83,6 @@ const membersData: { [key: string]: Member[] } = {
 };
 
 const MemberCard = ({ member }: { member: Member }) => {
-    const [changePasswordDialogOpen, setChangePasswordDialogOpen] = useState(false);
-
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
@@ -117,19 +114,20 @@ const MemberCard = ({ member }: { member: Member }) => {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem onSelect={() => setChangePasswordDialogOpen(true)}>
-                            Change Password
-                        </DropdownMenuItem>
+                        <ChangePasswordDialog 
+                            email={member.email} 
+                            startWithReset={true}
+                            trigger={
+                                <button className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-base font-medium outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full">
+                                    Change Password
+                                </button>
+                            }
+                        />
                         <DropdownMenuItem>Deactivate user</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
             <Separator />
-            <Dialog open={changePasswordDialogOpen} onOpenChange={setChangePasswordDialogOpen}>
-                <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
-                     <ChangePasswordDialog email={member.email} startWithReset={true} />
-                </DialogContent>
-            </Dialog>
         </>
     );
 };

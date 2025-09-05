@@ -10,7 +10,7 @@ import OtpForm from './otp-form';
 import ResetPasswordForm from './reset-password-form';
 import CreatePasswordForm from './create-password-form';
 
-export const ChangePasswordDialog = ({ email, startWithReset = false }: { email: string, startWithReset?: boolean }) => {
+export const ChangePasswordDialog = ({ email, startWithReset = false, trigger }: { email: string, startWithReset?: boolean, trigger?: React.ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [step, setStep] = useState<'create-password' | 'otp' | 'reset-password' | 'success'>(startWithReset ? 'reset-password' : 'create-password');
     const [searchParams, setSearchParams] = useState({ email, flow: 'change-password' });
@@ -66,12 +66,16 @@ export const ChangePasswordDialog = ({ email, startWithReset = false }: { email:
         }
     }
 
+    const defaultTrigger = (
+         <Button variant="outline" className="w-full md:w-56 h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
+            Change Password
+        </Button>
+    )
+
     return (
         <Dialog open={isOpen} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="w-full md:w-56 h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
-                    Change Password
-                </Button>
+                {trigger || defaultTrigger}
             </DialogTrigger>
             <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
                  <DialogHeader className="p-6">
