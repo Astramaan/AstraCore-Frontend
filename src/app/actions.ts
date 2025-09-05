@@ -99,15 +99,20 @@ export async function verifyOtp(
             return { error: errorData.message || 'Failed to verify OTP.' };
         }
 
-        // On success, redirect to create password page
+        // On success, redirect based on the flow
         const searchParams = new URLSearchParams();
         if(email) searchParams.set('email', email);
         if(phone) searchParams.set('phone', phone);
         if(organization) searchParams.set('organization', organization);
         if(password) searchParams.set('password', password);
         if(flow) searchParams.set('flow', flow);
+        
+        if (flow === 'change-password') {
+             redirect(`/create-password?${searchParams.toString()}`);
+        } else {
+            redirect(`/create-password?${searchParams.toString()}`);
+        }
 
-        redirect(`/create-password?${searchParams.toString()}`);
 
     } catch (error) {
         if (error instanceof Error) {
@@ -139,12 +144,34 @@ export async function requestPasswordReset(
   prevState: any,
   formData: FormData
 ) {
+  const email = formData.get('email') as string;
   try {
-    const email = formData.get('email');
-    console.log(`Requesting password reset for: ${email}`);
-    // In a real app, you would send a reset link to the email.
-    return { success: 'If an account with this email exists, a password reset link has been sent.' };
+    const response = await fetch('http://localhost:4000/api/v1/check-email-existed', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      return { error: errorData.message || 'Failed to check email.' };
+    }
+    
+    const data = await response.json();
+    if (data.exists) {
+        const params = new URLSearchParams({ email, flow: 'change-password' });
+        redirect(`/otp-verification?${params.toString()}`);
+    } else {
+        return { error: 'No account found with this email address.' };
+    }
+
   } catch (error) {
+    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+      throw error;
+    }
+    console.error('Password reset request error:', error);
     return { error: 'Failed to request password reset.' };
   }
 }
@@ -275,3 +302,5 @@ export async function inviteUser(
     return { success: false, message: 'An unexpected error occurred.' };
   }
 }
+
+    

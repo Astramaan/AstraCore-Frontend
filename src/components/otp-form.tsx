@@ -42,8 +42,8 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
   const [timer, setTimer] = useState(28);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const hasOtp = otp.some(d => d);
-  const email = searchParams.email || 'user@example.com';
-  const flow = searchParams.flow;
+  const email = searchParams.email as string || 'user@example.com';
+  const flow = searchParams.flow as string || '';
   
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -151,3 +151,5 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
     </form>
   );
 }
+
+    
