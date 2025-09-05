@@ -22,7 +22,7 @@ export async function authenticate(
     const responseData = await response.json();
 
     if (!response.ok) {
-        return responseData.message || 'Login failed.';
+        return responseData.message || 'Login failed due to an unknown error.';
     }
     
     const userRole = responseData?.role?.name;
@@ -32,7 +32,7 @@ export async function authenticate(
     } else if (userRole === 'organization_admin' || userRole === 'member') {
         redirect('/organization/home');
     } else {
-        return 'Invalid user role received from server.';
+        return 'Login successful, but user role is invalid.';
     }
 
   } catch (error) {
@@ -40,8 +40,9 @@ export async function authenticate(
         if ((error as any).type === 'NEXT_REDIRECT') {
           throw error;
         }
-        console.error("Login Action Error: ", error);
-        return 'An unexpected error occurred during login. Please check the server logs.';
+        console.error("Login Action Error:", error.message);
+        // This could be a network error, DNS error, etc.
+        return 'Could not connect to the login service. Please try again later.';
       }
       return 'An unexpected error occurred.';
   }
@@ -65,12 +66,10 @@ export async function signup(
       body: JSON.stringify({ email, phone, organization, password }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      return { error: errorData.message || 'Failed to sign up.' };
-    }
-
     const data = await response.json();
+    if (!response.ok) {
+      return { error: data.message || 'Failed to sign up.' };
+    }
     
     // On success, redirect to OTP page
     const searchParams = new URLSearchParams({
@@ -111,10 +110,10 @@ export async function verifyOtp(
             },
             body: JSON.stringify({ email, otp }),
         });
-
+        
+        const data = await response.json();
         if (!response.ok) {
-            const errorData = await response.json();
-            return { error: errorData.message || 'Failed to verify OTP.' };
+            return { error: data.message || 'Failed to verify OTP.' };
         }
 
         // On success, redirect based on the flow
@@ -165,12 +164,11 @@ export async function requestPasswordReset(
       body: JSON.stringify({ email }),
     });
     
+    const data = await checkEmailResponse.json();
     if (!checkEmailResponse.ok) {
-      const errorData = await checkEmailResponse.json();
-      return { error: errorData.message || 'Failed to check email.' };
+      return { error: data.message || 'Failed to check email.' };
     }
     
-    const data = await checkEmailResponse.json();
     if (data.exists) {
         const sendOtpResponse = await fetch('http://localhost:4000/api/v1/send-otp-email', {
             method: 'POST',
@@ -224,10 +222,10 @@ export async function createPassword(
         },
         body: body,
     });
-
+    
+    const data = await response.json();
     if (!response.ok) {
-        const errorData = await response.json();
-        return { error: errorData.message || 'Failed to create password.' };
+        return { error: data.message || 'Failed to create password.' };
     }
     
     redirect('/password-success');
@@ -247,9 +245,6 @@ export async function addMember(
 ) {
     const email = formData.get('email') as string;
     const role = formData.get('role') as string;
-    // other fields like name, phone can be accessed if needed
-    // const name = formData.get('name');
-    // const phone = formData.get('phone');
 
     if (!email || !role) {
         return { success: false, message: 'Email and role are required.' };
@@ -263,10 +258,10 @@ export async function addMember(
             },
             body: JSON.stringify({ email, role }),
         });
-
+        
+        const data = await response.json();
         if (!response.ok) {
-            const errorData = await response.json();
-            return { success: false, message: errorData.message || 'Failed to send invitation.' };
+            return { success: false, message: data.message || 'Failed to send invitation.' };
         }
 
         return { success: true, message: 'Invitation sent successfully!' };
@@ -315,9 +310,9 @@ export async function updateProject(
             body: JSON.stringify(payload),
         });
 
+        const data = await response.json();
         if (!response.ok) {
-            const errorData = await response.json();
-            return { success: false, message: errorData.message || 'Failed to update project.' };
+            return { success: false, message: data.message || 'Failed to update project.' };
         }
 
         return { success: true, message: 'Project updated successfully!' };
@@ -378,10 +373,10 @@ export async function inviteUser(
       },
       body: JSON.stringify({ email, role }),
     });
-
+    
+    const data = await response.json();
     if (!response.ok) {
-      const errorData = await response.json();
-      return { success: false, message: errorData.message || 'Failed to send invitation.' };
+      return { success: false, message: data.message || 'Failed to send invitation.' };
     }
 
     return { success: true, message: 'Invitation sent successfully!' };
@@ -433,9 +428,9 @@ export async function updateUser(
             body: JSON.stringify(payload),
         });
 
+        const data = await response.json();
         if (!response.ok) {
-            const errorData = await response.json();
-            return { success: false, message: errorData.message || 'Failed to update user.' };
+            return { success: false, message: data.message || 'Failed to update user.' };
         }
 
         return { success: true, message: 'User updated successfully!' };
