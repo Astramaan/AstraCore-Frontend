@@ -163,8 +163,8 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
-                side={"bottom"} 
-                className="w-full md:max-w-4xl lg:max-w-5xl h-full p-0 bg-transparent border-none shadow-none"
+                side="bottom" 
+                className="w-full md:max-w-4xl lg:max-w-5xl h-full md:h-auto md:max-h-[90vh] md:rounded-t-[50px] p-0 bg-transparent border-none shadow-none mx-auto"
                 overlayClassName="bg-neutral-900/10 backdrop-blur-md"
             >
                 <div className="h-full w-full bg-white rounded-t-[50px] mt-20 overflow-hidden">
