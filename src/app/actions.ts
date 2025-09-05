@@ -35,14 +35,33 @@ export async function signup(
   prevState: any,
   formData: FormData
 ) {
+  const email = formData.get('email') as string;
+  const phone = formData.get('phone') as string;
+  const organization = formData.get('organization') as string;
+  const password = formData.get('password') as string;
+  
   try {
-    const email = formData.get('email') as string;
-    const phone = formData.get('phone') as string;
-    const organization = formData.get('organization') as string;
-    const password = formData.get('password') as string;
-    
-    // Mock action: Redirect to OTP page
-    redirect(`/otp-verification?email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&organization=${encodeURIComponent(organization)}&password=${encodeURIComponent(password)}`);
+    const response = await fetch('http://localhost:4000/api/v1/signuplink', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, phone, organization, password }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return { error: errorData.message || 'Failed to sign up.' };
+    }
+
+    // On success, redirect to OTP page
+    const searchParams = new URLSearchParams({
+      email,
+      phone,
+      organization,
+      password,
+    });
+    redirect(`/otp-verification?${searchParams.toString()}`);
 
   } catch (error) {
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
