@@ -12,10 +12,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export interface Role {
     name: string;
@@ -122,8 +123,8 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
     const members = membersData[role.name] || [];
 
     return (
-        <div className="bg-white h-full flex flex-col">
-            <SheetHeader className="p-6 border-b">
+        <div className="bg-white h-full flex flex-col rounded-t-[50px] overflow-hidden">
+            <SheetHeader className="p-6 border-b shrink-0">
                 <SheetTitle className="flex items-center text-xl font-medium">
                      <div className="flex items-center gap-4">
                         <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
@@ -132,7 +133,11 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                         <h2 className="text-2xl font-semibold">{role.name} - Members</h2>
                     </div>
                     <div className="ml-auto">
-                        <Button variant="ghost" onClick={onClose} className="rounded-full h-14 px-10 text-black bg-background hover:bg-muted">Close</Button>
+                        <SheetClose asChild>
+                            <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-black bg-background hover:bg-muted">
+                                <X className="h-6 w-6" />
+                            </Button>
+                        </SheetClose>
                     </div>
                 </SheetTitle>
             </SheetHeader>
@@ -164,12 +169,13 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
                 side={isMobile ? "bottom" : "right"} 
-                className="w-full md:max-w-4xl lg:max-w-5xl h-full md:h-[90vh] md:rounded-t-[50px] p-0 bg-transparent border-none shadow-none"
-                overlayClassName="bg-neutral-900/10 backdrop-blur-md"
+                className={cn(
+                    "p-0 bg-transparent border-none shadow-none",
+                    isMobile ? "h-[90%]" : "md:max-w-4xl lg:max-w-5xl"
+                )}
+                overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
             >
-                <div className="h-full w-full bg-white md:rounded-t-[50px] mt-20 md:mt-0 overflow-hidden">
-                  <ViewMembersContent role={role} onClose={onClose} />
-                </div>
+              <ViewMembersContent role={role} onClose={onClose} />
             </SheetContent>
         </Sheet>
     );
