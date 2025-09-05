@@ -63,7 +63,7 @@ export const FeatureAccessCard = () => {
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-6">
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-0">
                     {allRoles.map(role => (
                        <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
                     ))}
