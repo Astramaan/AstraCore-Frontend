@@ -38,7 +38,7 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
             <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white flex flex-col h-auto max-h-[90vh]">
                 <DialogHeader className="p-6 border-b">
                     <DialogTitle className="flex justify-between items-center">
-                        <span className="text-2xl font-semibold">{roleName} {category}</span>
+                        <span className="text-2xl font-semibold">Features for {category.toLowerCase()}</span>
                         <DialogClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                 <X className="h-6 w-6" />
