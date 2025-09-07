@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -134,7 +133,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onDelete(e as any); }}>Delete</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600" onSelect={(e) => { onDelete(e as any); }}>Delete</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <DialogClose asChild>
@@ -279,9 +278,3 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
     </DialogOrSheet>
   );
 }
-
-
-
-
-
-

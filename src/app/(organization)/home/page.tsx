@@ -283,9 +283,3 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     </div>
   );
 }
-
-    
-
-    
-
-    

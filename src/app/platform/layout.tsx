@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -11,9 +10,21 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { PlatformSidebar } from '@/components/platform-sidebar';
+import { usePathname } from 'next/navigation';
 
 
 const PlatformHeader = () => {
+    const pathname = usePathname();
+    let pageTitle = 'Dashboard';
+
+    if (pathname.startsWith('/platform/organizations')) {
+        pageTitle = 'Organizations';
+    } else if (pathname.startsWith('/platform/all-projects')) {
+        pageTitle = 'All Projects';
+    } else if (pathname.startsWith('/platform/settings')) {
+        pageTitle = 'Settings';
+    }
+
     return (
         <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,7 +42,7 @@ const PlatformHeader = () => {
                                 </SheetContent>
                             </Sheet>
                         </div>
-                        <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">Dashboard</h2>
+                        <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">{pageTitle}</h2>
                     </div>
                     
                     <div className="flex items-center gap-6">
@@ -61,8 +72,8 @@ const PlatformHeader = () => {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem><Link href="/settings">Profile</Link></DropdownMenuItem>
-                                    <DropdownMenuItem><Link href="/settings">Settings</Link></DropdownMenuItem>
+                                    <DropdownMenuItem><Link href="/organization/profile">Profile</Link></DropdownMenuItem>
+                                    <DropdownMenuItem><Link href="/platform/settings">Settings</Link></DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>Logout</DropdownMenuItem>
                                 </DropdownMenuContent>

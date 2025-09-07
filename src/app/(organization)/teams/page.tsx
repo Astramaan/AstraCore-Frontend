@@ -136,5 +136,3 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
         </div>
     );
 }
-
-    

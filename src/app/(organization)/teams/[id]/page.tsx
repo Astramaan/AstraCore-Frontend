@@ -1,5 +1,4 @@
 
-
 import { PersonalDetails } from '@/components/personal-details';
 import React from 'react';
 

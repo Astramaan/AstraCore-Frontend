@@ -258,22 +258,26 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                 </Popover>
             </div>
             
-            <div className="space-y-1">
-                <p className="text-sm text-grey-1">Name</p>
-                <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
-            </div>
-             <div className="space-y-1">
-                <p className="text-sm text-grey-1">City</p>
-                <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
-            </div>
-             <div className="space-y-1">
-                <p className="text-sm text-grey-1">Email</p>
-                <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
-            </div>
-            <div className="space-y-1">
-                <p className="text-sm text-grey-1">Phone</p>
-                <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
-            </div>
+            {selectedId && (
+                 <>
+                    <div className="space-y-1">
+                        <p className="text-sm text-grey-1">Name</p>
+                        <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
+                    </div>
+                     <div className="space-y-1">
+                        <p className="text-sm text-grey-1">City</p>
+                        <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
+                    </div>
+                     <div className="space-y-1">
+                        <p className="text-sm text-grey-1">Email</p>
+                        <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-sm text-grey-1">Phone</p>
+                        <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
+                    </div>
+                </>
+            )}
         
         </div>
         
