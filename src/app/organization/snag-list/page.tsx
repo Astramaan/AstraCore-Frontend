@@ -340,6 +340,17 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
+                 <AddSnagSheet 
+                    isOpen={snagSheetOpen} 
+                    onOpenChange={setSnagSheetOpen} 
+                    selectedProjectId={selectedProjectForSnag}
+                    trigger={
+                        <Button onClick={openAddSnagSheet} className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6">
+                            <Plus className="md:mr-2"/>
+                            <span className="hidden md:inline">New snag</span>
+                        </Button>
+                    }
+                />
             </div>
         </div>
         
@@ -419,11 +430,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-        <AddSnagSheet 
-            isOpen={snagSheetOpen} 
-            onOpenChange={setSnagSheetOpen} 
-            selectedProjectId={selectedProjectForSnag}
-        />
+        
          <SnagDetailsSheet 
             isOpen={!!selectedSnagDetails}
             onClose={() => setSelectedSnagDetails(null)}
