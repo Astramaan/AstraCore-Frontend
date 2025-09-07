@@ -270,7 +270,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                         see all meetings
                     </Link>
                 </div>
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
                 </div>
             </div>
@@ -306,4 +306,5 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     </div>
   );
 }
+
 
