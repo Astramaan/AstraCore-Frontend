@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
 import { Button } from './ui/button';
-import { X, Edit } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { FeatureAccessDialog } from './feature-access-dialog';
 
@@ -22,7 +22,7 @@ const PermissionCategory = ({ title, permissions, onEdit }: { title: string, per
                 <p className="text-sm text-muted-foreground">{permissions.join(', ')}</p>
             </div>
             <Button variant="ghost" size="icon" onClick={onEdit}>
-                <Edit className="w-5 h-5 text-muted-foreground" />
+                
             </Button>
         </div>
         <Separator />
