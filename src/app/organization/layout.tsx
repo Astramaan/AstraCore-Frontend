@@ -79,7 +79,7 @@ const OrganizationHeader = () => {
                         <Menu className="h-6 w-6" />
                     </Button>
                 </SheetTrigger>
-                <SheetContent>
+                <SheetContent className="bg-white">
                     <div className="flex flex-col gap-4 pt-8">
                         <Link href="/organization/profile" className="flex items-center gap-2">
                             <Avatar className="h-12 w-12">
