@@ -137,11 +137,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   }, [taskData]);
 
   const assignedTasksChartData = useMemo(() => {
-    const priorityCounts = assignedTasksData.reduce((acc, task) => {
-        acc[task.priority] = (acc[task.priority] || 0) + 1;
+    const statusCounts = assignedTasksData.reduce((acc, task) => {
+        if(task.status !== 'Completed') {
+            acc[task.status] = (acc[task.status] || 0) + 1;
+        }
         return acc;
     }, {} as Record<string, number>);
-    return Object.entries(priorityCounts).map(([name, value]) => ({ name, value }));
+    return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
   }, []);
 
   const handleTaskUpdate = (updatedTask: Task) => {
@@ -306,5 +308,3 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     </div>
   );
 }
-
-
