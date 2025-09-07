@@ -76,7 +76,7 @@ const OrganizationHeader = () => {
             <NotificationPopover />
             <Sheet>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 hover:bg-muted">
+                    <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary">
                         <Menu className="h-6 w-6" />
                     </Button>
                 </SheetTrigger>
