@@ -11,9 +11,12 @@ import { cn } from "@/lib/utils"
 const Sheet = ({ onOpenChange, ...props }: SheetPrimitive.DialogProps) => {
     const handleOpenChange = (open: boolean) => {
         if (open) {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
             document.body.setAttribute('data-scroll-locked', 'true');
         } else {
             document.body.removeAttribute('data-scroll-locked');
+            document.body.style.removeProperty('--scrollbar-width');
         }
         onOpenChange?.(open);
     };
