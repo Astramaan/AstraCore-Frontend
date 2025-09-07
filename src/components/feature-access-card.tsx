@@ -32,16 +32,26 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }
 export const FeatureAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
     const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
+    const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
 
     const handleRoleClick = (role: RoleData) => {
         setSelectedRole(role);
-        setIsPermissionsDialogOpen(true);
+        if (role.name === 'Super Admin') {
+            setIsFeatureDialogOpen(true);
+        } else {
+            setIsPermissionsDialogOpen(true);
+        }
     };
     
     const closePermissionsDialog = () => {
         setIsPermissionsDialogOpen(false);
         setSelectedRole(null);
     };
+    
+    const closeFeatureDialog = () => {
+        setIsFeatureDialogOpen(false);
+        setSelectedRole(null);
+    }
     
     return (
         <>
@@ -65,6 +75,14 @@ export const FeatureAccessCard = () => {
                 onClose={closePermissionsDialog}
                 role={selectedRole}
             />
+            {selectedRole && (
+                <FeatureAccessDialog 
+                    isOpen={isFeatureDialogOpen}
+                    onClose={closeFeatureDialog}
+                    category={"Admin"} // For Super Admin, we show all admin features
+                    roleName={selectedRole.name}
+                />
+            )}
         </>
     )
 }
