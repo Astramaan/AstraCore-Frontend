@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -47,7 +48,12 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
     <form action={formAction} className="space-y-6">
       <input type="hidden" name="email" value={email} />
       <div className="space-y-2">
-          <Label htmlFor="currentPassword" className={cn("text-lg font-medium")}>Current Password</Label>
+            <div className="flex justify-between items-center">
+                <Label htmlFor="currentPassword" className={cn("text-lg font-medium")}>Current Password</Label>
+                 <Link href="/forgot-password" className="text-sm text-primary underline">
+                    Forgot current password?
+                </Link>
+            </div>
           <div className="relative flex items-center">
             <Input 
               id="currentPassword" 
