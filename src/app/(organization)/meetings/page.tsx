@@ -80,7 +80,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-4 hover:bg-muted/50 rounded-lg px-2 -mx-2">
             <div className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
                 <div className="flex items-center gap-4 flex-1">
                     <Avatar className="w-14 h-14 bg-background">
