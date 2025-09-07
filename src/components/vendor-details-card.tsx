@@ -156,11 +156,11 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                     <Image src={vendor.logo} width={150} height={150} alt={vendor.companyName} className="rounded-[25px] border border-stone-300" data-ai-hint="company logo"/>
                     <div className="space-y-6 flex-1 w-full">
                         <DetailField label="Company Name*" name="companyName" value={vendor.companyName} isEditing={isEditing} onChange={handleInputChange} />
-                        <DetailField label="Phone Number*" name="phone" value={vendor.phone} isEditing={isEditing} onChange={handleInputChange} />
                     </div>
                 </div>
 
                 <div className="space-y-6">
+                    <DetailField label="Phone Number*" name="phone" value={vendor.phone} isEditing={isEditing} onChange={handleInputChange} />
                     <DetailField label="Email*" name="email" value={vendor.email} isEditing={isEditing} onChange={handleInputChange} />
                     <div className="space-y-2">
                         <Label className={cn("text-lg font-medium px-2", vendor.address ? 'text-grey-1' : 'text-zinc-900')}>Address*</Label>
