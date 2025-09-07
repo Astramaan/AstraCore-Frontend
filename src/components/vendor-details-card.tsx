@@ -188,7 +188,7 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
 
                     <div className="space-y-2">
                         <Label className={cn("text-lg font-medium px-2", vendor.serviceableCities.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Serviceable City</Label>
-                        <div className="bg-background p-2 min-h-[56px] rounded-full flex flex-wrap gap-2 items-center">
+                        <div className="bg-background p-2 md:min-h-[56px] rounded-[28px] md:rounded-full flex flex-wrap gap-2 items-center">
                              {vendor.serviceableCities.map((city: string) => (
                                 <div key={city} className="flex items-center gap-1 bg-white rounded-full px-2.5 py-[5px]">
                                     <span className="text-black text-sm font-normal">{city}</span>
