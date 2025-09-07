@@ -340,11 +340,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <AddSnagSheet 
-                    isOpen={snagSheetOpen} 
-                    onOpenChange={setSnagSheetOpen}
-                    selectedProjectId={selectedProjectForSnag}
-                />
             </div>
         </div>
         
