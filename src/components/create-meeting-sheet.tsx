@@ -354,7 +354,7 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
       <DialogOrSheetContent 
           className={cn(
             isMobile 
-              ? "w-full p-0 rounded-t-[50px]" 
+              ? "w-full p-0 rounded-t-[50px] bg-white" 
               : "sm:max-w-2xl p-0 rounded-[50px] bg-white"
           )}
           {...(isMobile && { side: "bottom" })}
