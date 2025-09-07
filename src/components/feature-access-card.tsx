@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
 import { Shield, Briefcase, Code, Palette, Users } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const allRoles: RoleData[] = [
     { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
@@ -16,8 +17,8 @@ const allRoles: RoleData[] = [
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
 
-const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }) => (
-    <div className="flex justify-between items-center py-4 border-b cursor-pointer" onClick={onClick}>
+const RoleListItem = ({ role, onClick, isLastInCol }: { role: RoleData; onClick: () => void; isLastInCol: boolean; }) => (
+    <div className={cn("flex justify-between items-center py-4 border-b cursor-pointer", isLastInCol && "border-b-0")} onClick={onClick}>
         <div className="flex items-center gap-4">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                 {role.icon}
@@ -53,10 +54,11 @@ export const FeatureAccessCard = () => {
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-0">
-                    {allRoles.map(role => (
-                       <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
-                    ))}
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pt-0 pb-2">
+                    {allRoles.map((role, index) => {
+                        const isLastInCol = index >= allRoles.length - 2;
+                        return <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} isLastInCol={isLastInCol} />
+                    })}
                 </CardContent>
             </Card>
             <RolePermissionsDialog
