@@ -14,30 +14,45 @@ export interface RoleData {
     bgColor: string;
 }
 
-const permissionsData = {
-    'Home': ["Assign Task", "Add New Member"],
-    'Project Management': ["Projects", "Project Details", "Snag List", "Add Project", "Edit Project", "Delete Project", "Create Snag"],
-    'Client & Lead Management': ["Leads", "Meetings", "Add Lead", "Edit Lead", "Delete Lead", "Create Meeting"],
-    'Vendor Management': ["Vendors", "Add Vendor", "Edit Vendor"],
-    'Team Management': ["Team", "Member Details", "Profile", "Subscription", "Create New Team"],
-    'Settings': ["Change Password", "Role Access", "Create Role"],
-};
-
-const PermissionCategory = ({ title, permissions }: { title: string, permissions: string[] }) => (
-    <div className="flex flex-col gap-2 p-4 rounded-xl">
-        <h4 className="font-semibold text-lg">{title}</h4>
-        <p className="text-sm text-muted-foreground">{permissions.join(', ')}</p>
+const PermissionCategory = ({ title, permissions, onEdit }: { title: string, permissions: string[], onEdit: () => void }) => (
+    <div>
+        <div className="flex justify-between items-center py-2">
+            <div className="flex flex-col">
+                <h4 className="font-semibold text-lg">{title}</h4>
+                <p className="text-sm text-muted-foreground">{permissions.join(', ')}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={onEdit}>
+                <Edit className="w-5 h-5 text-muted-foreground" />
+            </Button>
+        </div>
+        <Separator />
     </div>
 )
 
+const SpecialAccessDivider = () => (
+    <div className="flex items-center text-center my-4">
+        <div className="flex-1 border-t border-dashed"></div>
+        <span className="px-4 text-sm text-muted-foreground">Special access</span>
+        <div className="flex-1 border-t border-dashed"></div>
+    </div>
+);
+
+
 const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onClose: () => void, role: RoleData | null }) => {
     const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
+    const [editingCategory, setEditingCategory] = useState<string | null>(null);
 
     if (!role) return null;
 
-    const handleEditClick = () => {
+    const handleEditClick = (category: string) => {
+        setEditingCategory(category);
         setIsFeatureDialogOpen(true);
     };
+    
+    const handleCloseFeatureDialog = () => {
+        setIsFeatureDialogOpen(false);
+        setEditingCategory(null);
+    }
 
     return (
         <>
@@ -51,35 +66,41 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
                                 </div>
                                 <span className="text-2xl font-semibold">{role.name}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Button variant="outline" className="rounded-full h-14 px-6" onClick={handleEditClick}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit
+                            <DialogClose asChild>
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                    <X className="h-6 w-6" />
                                 </Button>
-                                <DialogClose asChild>
-                                    <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
-                                        <X className="h-6 w-6" />
-                                    </Button>
-                                </DialogClose>
-                            </div>
+                            </DialogClose>
                         </DialogTitle>
                     </DialogHeader>
                     <div className="px-6 pb-6 space-y-2 flex-1 overflow-y-auto">
-                        {Object.entries(permissionsData).map(([category, permissions]) => (
-                            <React.Fragment key={category}>
-                                <PermissionCategory title={category} permissions={permissions} />
-                                <Separator />
-                            </React.Fragment>
-                        ))}
+                        <PermissionCategory 
+                            title="Admin" 
+                            permissions={["Dashboard", "Onboarding Ma..", "Organization Ma.."]}
+                            onEdit={() => handleEditClick("Admin")}
+                        />
+                        <PermissionCategory 
+                            title="Employee" 
+                            permissions={["Dashboard", "Onboarding Ma..", "Organization Ma.."]}
+                            onEdit={() => handleEditClick("Employee")}
+                        />
+                        <SpecialAccessDivider />
+                        <PermissionCategory 
+                            title="Priya B" 
+                            permissions={["Dashboard", "Onboarding Ma..", "Organization Ma.."]}
+                            onEdit={() => handleEditClick("Priya B")}
+                        />
                     </div>
                 </DialogContent>
             </Dialog>
-            <FeatureAccessDialog
-                isOpen={isFeatureDialogOpen}
-                onClose={() => setIsFeatureDialogOpen(false)}
-                category="Admin"
-                roleName={role.name}
-            />
+            {editingCategory && (
+                 <FeatureAccessDialog
+                    isOpen={isFeatureDialogOpen}
+                    onClose={handleCloseFeatureDialog}
+                    category={editingCategory}
+                    roleName={role.name}
+                />
+            )}
         </>
     );
 };
