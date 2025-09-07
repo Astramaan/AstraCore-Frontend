@@ -7,22 +7,33 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
-import { MoreVertical, Search } from "lucide-react";
+import { MoreVertical, Search, ShieldAlert } from "lucide-react";
 import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
+import { EditMeetingSheet, Meeting } from '@/components/edit-meeting-sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
-const clientMeetings = [
-    { name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
-    { name: "Delta Project", city: "Bengaluru", id: "DEL2024", date: "2nd Sept 2024", time: "10:00 am", link: "meet.google.com/def-uvw", email: "contact@delta.com", phone: "+91 9876543210" },
-    { name: "Gamma Project", city: "Chennai", id: "GAM2024", date: "3rd Sept 2024", time: "02:00 pm", link: "meet.google.com/ghi-rst", email: "support@gamma.co", phone: "+91 8765432109" },
+const initialClientMeetings: Meeting[] = [
+    { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
+    { type: 'client', name: "Delta Project", city: "Bengaluru", id: "DEL2024", date: "2nd Sept 2024", time: "10:00 am", link: "meet.google.com/def-uvw", email: "contact@delta.com", phone: "+91 9876543210" },
+    { type: 'client', name: "Gamma Project", city: "Chennai", id: "GAM2024", date: "3rd Sept 2024", time: "02:00 pm", link: "meet.google.com/ghi-rst", email: "support@gamma.co", phone: "+91 8765432109" },
 ];
 
-const leadMeetings = [
-    { name: "Alpha Lead", city: "Hyderabad", id: "LEAD2024", date: "5th Sept 2024", time: "03:00 pm", link: "meet.google.com/jkl-mno", email: "sales@alpha.io", phone: "+91 7654321098" },
-    { name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
+const initialLeadMeetings: Meeting[] = [
+    { type: 'lead', name: "Alpha Lead", city: "Hyderabad", id: "LEAD2024", date: "5th Sept 2024", time: "03:00 pm", link: "meet.google.com/jkl-mno", email: "sales@alpha.io", phone: "+91 7654321098" },
+    { type: 'lead', name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
-const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetings[0], isLead?: boolean }) => (
+const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void }) => (
     <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer">
         <div className="space-y-4 relative">
              <div className="flex items-start gap-4">
@@ -34,7 +45,7 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
             
             <div>
                 <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-base"><span className="text-grey-2">{isLead ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+                <p className="text-base"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
             </div>
             
             <div className="space-y-1">
@@ -56,8 +67,8 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDelete(meeting); }}>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
@@ -67,8 +78,45 @@ const MeetingCard = ({ meeting, isLead = false }: { meeting: typeof clientMeetin
 
 export default function MeetingsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
+    const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
+    const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);
+    const [meetingToDelete, setMeetingToDelete] = useState<Meeting | null>(null);
+    const [meetingToEdit, setMeetingToEdit] = useState<Meeting | null>(null);
 
-    const filterMeetings = (meetings: typeof clientMeetings) => {
+    const handleAddNewMeeting = (newMeeting: Omit<Meeting, 'id'>) => {
+        const meetingWithId = { ...newMeeting, id: `NEW${Date.now()}`};
+        if (meetingWithId.type === 'client') {
+            setClientMeetings(prev => [meetingWithId, ...prev]);
+        } else {
+            setLeadMeetings(prev => [meetingWithId, ...prev]);
+        }
+    };
+    
+    const handleUpdateMeeting = (updatedMeeting: Meeting) => {
+        if(updatedMeeting.type === 'client') {
+            setClientMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
+        } else {
+            setLeadMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
+        }
+        setMeetingToEdit(null);
+    }
+
+    const handleDeleteClick = (meeting: Meeting) => {
+        setMeetingToDelete(meeting);
+    };
+
+    const confirmDelete = () => {
+        if (meetingToDelete) {
+            if (meetingToDelete.type === 'client') {
+                setClientMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+            } else {
+                setLeadMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+            }
+            setMeetingToDelete(null);
+        }
+    };
+
+    const filterMeetings = (meetings: Meeting[]) => {
         if (!searchTerm) return meetings;
         return meetings.filter(meeting =>
             meeting.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -77,8 +125,8 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
         );
     };
 
-    const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm]);
-    const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm]);
+    const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm, clientMeetings]);
+    const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm, leadMeetings]);
 
     return (
         <div className="space-y-8">
@@ -94,7 +142,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <CreateMeetingSheet />
+                    <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
                 </div>
             </div>
 
@@ -138,8 +186,8 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={() => setMeetingToEdit(meeting)}>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); handleDeleteClick(meeting); }}>Delete</DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </div>
@@ -193,8 +241,8 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={() => setMeetingToEdit(meeting)}>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); handleDeleteClick(meeting); }}>Delete</DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </div>
@@ -216,7 +264,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-xl font-medium mb-4">Client Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                         {filteredClientMeetings.map((meeting) => (
-                            <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} />
+                            <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} />
                         ))}
                     </div>
                 </div>
@@ -224,11 +272,41 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                      <h2 className="text-xl font-medium mb-4">Lead Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                          {filteredLeadMeetings.map((meeting) => (
-                            <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} isLead />
+                            <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} />
                         ))}
                     </div>
                 </div>
             </div>
+            <AlertDialog open={!!meetingToDelete} onOpenChange={(isOpen) => !isOpen && setMeetingToDelete(null)}>
+                <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Confirm Meeting Deletion?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                            Deleting this meeting will permanently remove it from your schedule. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmDelete} className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+            {meetingToEdit && (
+                 <EditMeetingSheet 
+                    isOpen={!!meetingToEdit}
+                    onClose={() => setMeetingToEdit(null)}
+                    meeting={meetingToEdit}
+                    onMeetingUpdated={handleUpdateMeeting}
+                 />
+            )}
         </div>
     );
 }
+
+    
+    
