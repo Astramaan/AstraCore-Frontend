@@ -8,7 +8,7 @@ interface TaskOverviewChartProps {
     data: { name: string; value: number }[];
 }
 
-const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))"];
+const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))"];
 
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -23,15 +23,15 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
   return (
-    <ResponsiveContainer width="100%" height={250}>
+    <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Pie
           data={data}
           cx="50%"
           cy="50%"
           labelLine={false}
-          outerRadius={80}
-          innerRadius={50}
+          outerRadius={60}
+          innerRadius={30}
           fill="#8884d8"
           dataKey="value"
           paddingAngle={5}
@@ -45,7 +45,10 @@ export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
         <Tooltip content={<CustomTooltip />} />
         <Legend 
             iconType="circle"
-            wrapperStyle={{paddingTop: '20px'}}
+            layout="vertical"
+            verticalAlign="middle"
+            align="right"
+            wrapperStyle={{paddingLeft: '20px'}}
         />
       </PieChart>
     </ResponsiveContainer>

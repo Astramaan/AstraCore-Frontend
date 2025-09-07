@@ -20,7 +20,7 @@ const initialTaskData: Task[] = [
     { id: "TSK001", title: "Product Weekly update", date: "25 May 2024", description: "This week, our team made significant progress on the new feature development, hitting all key milestones. We also addressed several critical bugs and are on track for the upcoming sprint review.", priority: "Low", status: "In Progress", category: "Meetings", project: "AstraCore App", clientId: "CL001", attachments: [{ type: 'pdf', name: 'update.pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }, { type: 'image', name: 'screenshot.png', url: 'https://placehold.co/600x400' }] },
     { id: "TSK002", title: "New Landing Page Design", date: "26 May 2024", description: "Create mockups for the new landing page, focusing on a clean, modern aesthetic and improved user experience. The design should be responsive and optimized for both desktop and mobile devices.", priority: "High", status: "In Progress", category: "Design", project: "Website Redesign", clientId: "CL002", attachments: [{ type: 'image', name: 'moodboard.png', url: 'https://placehold.co/800x600' }] },
     { id: "TSK003", title: "API Integration", date: "27 May 2024", description: "Integrate with the new payment gateway API. This includes implementing authentication, handling payment requests, and processing transaction responses. Ensure robust error handling is in place.", priority: "Low", status: "In Progress", category: "Development", project: "E-commerce Platform", clientId: "CL003", attachments: [] },
-    { id: "TSK004", title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "In Progress", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
+    { id: "TSK004", title: "User Testing Feedback", date: "28 May 2024", description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "Pending", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
 ]
 
 const assignedTasksData: Task[] = [
@@ -125,12 +125,24 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   }, [activeFilter, taskData]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
-  const myTasksCount = filteredTasks.length;
-  const assignedTasksCount = assignedTasksData.length;
-  const taskChartData = [
-      { name: "My Tasks", value: myTasksCount },
-      { name: "Assigned Tasks", value: assignedTasksCount },
-  ];
+
+  const myTasksChartData = useMemo(() => {
+    const statusCounts = taskData.reduce((acc, task) => {
+        if(task.status !== 'Completed') {
+            acc[task.status] = (acc[task.status] || 0) + 1;
+        }
+        return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+  }, [taskData]);
+
+  const assignedTasksChartData = useMemo(() => {
+    const priorityCounts = assignedTasksData.reduce((acc, task) => {
+        acc[task.priority] = (acc[task.priority] || 0) + 1;
+        return acc;
+    }, {} as Record<string, number>);
+    return Object.entries(priorityCounts).map(([name, value]) => ({ name, value }));
+  }, []);
 
   const handleTaskUpdate = (updatedTask: Task) => {
     setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
@@ -250,12 +262,21 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 <AddMemberSheet />
             </div>
 
-            <Card className="rounded-[50px]">
-                <CardHeader>
+            <Card className="rounded-[50px] p-6">
+                <CardHeader className="p-0 mb-4">
                     <CardTitle className="text-xl">Task Overview</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <TaskOverviewChart data={taskChartData}/>
+                <CardContent className="p-0">
+                    <div className="grid grid-cols-2 gap-4 items-center">
+                        <div>
+                             <h3 className="text-center font-medium mb-2">My Tasks</h3>
+                             <TaskOverviewChart data={myTasksChartData} />
+                        </div>
+                        <div>
+                            <h3 className="text-center font-medium mb-2">Assigned Tasks</h3>
+                            <TaskOverviewChart data={assignedTasksChartData} />
+                        </div>
+                    </div>
                 </CardContent>
             </Card>
 
