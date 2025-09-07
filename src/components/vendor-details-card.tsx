@@ -152,9 +152,9 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
     return (
         <Card className="rounded-[50px] p-6">
             <CardContent className="p-0">
-                <div className="flex items-start gap-6 mb-6">
+                <div className="flex flex-col md:flex-row items-start gap-6 mb-6">
                     <Image src={vendor.logo} width={150} height={150} alt={vendor.companyName} className="rounded-[25px] border border-stone-300" data-ai-hint="company logo"/>
-                    <div className="space-y-6 flex-1">
+                    <div className="space-y-6 flex-1 w-full">
                         <DetailField label="Company Name*" name="companyName" value={vendor.companyName} isEditing={isEditing} onChange={handleInputChange} />
                         <DetailField label="Phone Number*" name="phone" value={vendor.phone} isEditing={isEditing} onChange={handleInputChange} />
                     </div>
@@ -173,12 +173,12 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                         )}
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FileField label="CIN Certificate" fileName={vendor.cinCertificate} isEditing={isEditing} onFileChange={handleFileChange('cinCertificate')} onFileRemove={handleFileRemove('cinCertificate')} />
                         <FileField label="GST Certificate" fileName={vendor.gstCertificate} isEditing={isEditing} onFileChange={handleFileChange('gstCertificate')} onFileRemove={handleFileRemove('gstCertificate')} />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <DetailField label="GST Number*" name="gstNumber" value={vendor.gstNumber} isEditing={isEditing} onChange={handleInputChange} />
                         <FileField label="Product Brochure" fileName={vendor.brochure} isEditing={isEditing} onFileChange={handleFileChange('brochure')} onFileRemove={handleFileRemove('brochure')}/>
                     </div>
@@ -202,7 +202,7 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                              <Label className={cn("text-lg font-medium px-2", vendor.availability.days.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Days</Label>
                              <div className="flex gap-2 items-center h-14">
