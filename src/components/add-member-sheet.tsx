@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useActionState, useEffect } from 'react';
+import React, 'useState', useActionState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -30,7 +30,9 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 
 const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, onClose: () => void }) => {
     const { toast } = useToast();
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [team, setTeam] = useState('');
     const [role, setRole] = useState('');
 
     const [state, formAction] = useActionState(addMember, { success: false, message: '' });
@@ -47,21 +49,37 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
         }
     }, [state, onFormSuccess, toast]);
     
-    const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR", "Admin"];
+    const teams = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
+    const roles = ["Admin", "Member"];
 
     return (
     <form action={formAction} className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
+        <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
         <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <div className="space-y-2">
-            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Team</Label>
-            <Select name="role" onValueChange={setRole}>
-                <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+            <Label htmlFor="team" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
+            <Select name="team" onValueChange={setTeam}>
+                <SelectTrigger id="team" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                     <SelectValue placeholder="Select a team" />
                 </SelectTrigger>
                 <SelectContent>
-                     {roles.map(r => (
+                     {teams.map(r => (
                         <SelectItem key={r} value={r}>{r}</SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+
+        <div className="space-y-2">
+            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
+            <Select name="role" onValueChange={setRole}>
+                <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                    <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                     {roles.map(r => (
+                        <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>
