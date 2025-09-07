@@ -420,3 +420,27 @@ export async function updateUser(
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
+
+
+export async function changePassword(
+  prevState: any,
+  formData: FormData
+) {
+  const currentPassword = formData.get('currentPassword');
+  const newPassword = formData.get('newPassword');
+  const confirmPassword = formData.get('confirmPassword');
+  const email = formData.get('email');
+
+  if (newPassword !== confirmPassword) {
+    return { success: false, message: 'New passwords do not match.' };
+  }
+
+  // In a real app, you would call your backend to change the password
+  // This is a mock implementation
+  console.log('Changing password for', email);
+  if (currentPassword === 'password123') { // Mock current password check
+    return { success: true, message: 'Password changed successfully!' };
+  } else {
+    return { success: false, message: 'Incorrect current password.' };
+  }
+}

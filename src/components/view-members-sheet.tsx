@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -46,7 +45,6 @@ export interface Role {
 }
 
 const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; onDeactivate: (member: Member) => void; onStatusChange: (memberId: string, status: 'Active' | 'Inactive') => void; }) => {
-    const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
     
     return (
         <>
@@ -83,26 +81,16 @@ const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; 
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                         <DropdownMenuItem onSelect={() => setIsPasswordDialogOpen(true)}>
-                            Change Password
-                        </DropdownMenuItem>
+                        <ChangePasswordDialog
+                             email={member.email}
+                             trigger={<DropdownMenuItem onSelect={(e) => e.preventDefault()}>Change Password</DropdownMenuItem>}
+                        />
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
                         </AlertDialogTrigger>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <ChangePasswordDialog 
-                email={member.email} 
-                startWithReset={true}
-                trigger={<></>}
-            />
-            <ChangePasswordDialog
-                isOpen={isPasswordDialogOpen}
-                onOpenChange={setIsPasswordDialogOpen}
-                email={member.email}
-                startWithReset={true}
-            />
             <Separator />
         </>
     );
@@ -227,4 +215,3 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
         </Sheet>
     );
 }
-
