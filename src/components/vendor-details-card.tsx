@@ -150,7 +150,7 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
     }
     
     return (
-        <Card className="rounded-[50px] p-10">
+        <Card className="rounded-[50px] p-6">
             <CardContent className="p-0">
                 <div className="flex items-start gap-6 mb-6">
                     <Image src={vendor.logo} width={150} height={150} alt={vendor.companyName} className="rounded-[25px] border border-stone-300" data-ai-hint="company logo"/>

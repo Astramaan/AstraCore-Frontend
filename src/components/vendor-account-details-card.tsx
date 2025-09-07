@@ -26,7 +26,7 @@ export const VendorAccountDetailsCard = ({ details, setDetails, isEditing }: { d
     };
     
     return (
-        <Card className="rounded-[50px] p-10">
+        <Card className="rounded-[50px] p-6">
             <CardHeader className="p-0 mb-6">
                 <CardTitle className="text-lg">Account details</CardTitle>
             </CardHeader>

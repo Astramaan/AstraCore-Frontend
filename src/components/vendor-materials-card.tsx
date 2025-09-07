@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -110,7 +111,7 @@ export const VendorMaterialsCard = ({ materials, setMaterials, isEditing }: { ma
     }
 
     return (
-        <Card className="rounded-[50px] p-10">
+        <Card className="rounded-[50px] p-6">
             <CardHeader className="p-0 mb-4">
                 <CardTitle className="text-lg">Materials</CardTitle>
             </CardHeader>
