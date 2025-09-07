@@ -344,12 +344,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                     isOpen={snagSheetOpen} 
                     onOpenChange={setSnagSheetOpen}
                     selectedProjectId={selectedProjectForSnag}
-                    trigger={
-                         <Button onClick={openAddSnagSheet} className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                            <Plus className="mr-2"/>
-                            New snag
-                        </Button>
-                    }
                 />
             </div>
         </div>

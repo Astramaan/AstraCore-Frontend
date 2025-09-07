@@ -139,15 +139,15 @@ export function AddSnagSheet({ isOpen, onOpenChange, selectedProjectId, trigger 
   };
 
   const Trigger = trigger || (
-    <Button className="h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-        <Plus className="mr-2"/>
-        New snag
+     <Button className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6">
+        <Plus className="md:mr-2"/>
+        <span className="hidden md:inline">New snag</span>
     </Button>
   );
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        {trigger && <DialogTrigger asChild>{Trigger}</DialogTrigger>}
+        <DialogTrigger asChild>{Trigger}</DialogTrigger>
         <DialogContent className="sm:max-w-md p-0 rounded-lg bg-card">
             <DialogHeader className="p-4 border-b">
                 <DialogTitle className="flex justify-between items-center text-2xl font-semibold">
