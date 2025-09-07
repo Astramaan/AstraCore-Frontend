@@ -225,7 +225,6 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
 
                      <div className="flex items-center gap-4">
                         <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                        <AddMemberSheet />
                     </div>
                 </div>
 
@@ -284,6 +283,8 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     </div>
   );
 }
+
+    
 
     
 
