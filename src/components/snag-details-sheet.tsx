@@ -122,7 +122,7 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                 </DialogTitle>
             </DialogHeader>
 
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)]">
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)] no-scrollbar">
                 <div className="space-y-4">
                      {snag.images && snag.images.length > 0 && (
                         <Carousel className="w-full max-w-sm mx-auto">
