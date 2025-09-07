@@ -8,7 +8,18 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Sheet = SheetPrimitive.Root
+const Sheet = ({ onOpenChange, ...props }: SheetPrimitive.DialogProps) => {
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            document.body.setAttribute('data-scroll-locked', 'true');
+        } else {
+            document.body.removeAttribute('data-scroll-locked');
+        }
+        onOpenChange?.(open);
+    };
+    return <SheetPrimitive.Root onOpenChange={handleOpenChange} {...props} />
+}
+
 
 const SheetTrigger = SheetPrimitive.Trigger
 

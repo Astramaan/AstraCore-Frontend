@@ -7,7 +7,18 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Dialog = DialogPrimitive.Root
+const Dialog = ({ onOpenChange, ...props }: DialogPrimitive.DialogProps) => {
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            document.body.setAttribute('data-scroll-locked', 'true');
+        } else {
+            document.body.removeAttribute('data-scroll-locked');
+        }
+        onOpenChange?.(open);
+    };
+    return <DialogPrimitive.Root onOpenChange={handleOpenChange} {...props} />
+}
+
 
 const DialogTrigger = DialogPrimitive.Trigger
 
