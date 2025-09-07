@@ -425,7 +425,7 @@ export async function updateUser(
 export async function changePassword(
   prevState: any,
   formData: FormData
-) {
+): Promise<{ success: boolean; message: string }> {
   const currentPassword = formData.get('currentPassword');
   const newPassword = formData.get('newPassword');
   const confirmPassword = formData.get('confirmPassword');

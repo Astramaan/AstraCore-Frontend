@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useFormStatus, useActionState } from "react-dom";
-import React, { useState, useEffect } from "react";
+import { useFormStatus } from "react-dom";
+import React, { useState, useEffect, useActionState } from "react";
 import { changePassword } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -24,20 +24,22 @@ function SubmitButton() {
 export function ChangePasswordForm({ email, onSuccess }: { email: string, onSuccess: () => void }) {
   const { toast } = useToast();
 
-  const [state, formAction] = useActionState(changePassword, undefined);
+  const [state, formAction] = useActionState(changePassword, {success: false, message: ''});
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
-    if (state?.error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: state.error,
-      });
-    } else if (state?.success) {
-      onSuccess();
+    if (state?.message) {
+        if (state.success) {
+            onSuccess();
+        } else {
+             toast({
+                variant: "destructive",
+                title: "Error",
+                description: state.message,
+            });
+        }
     }
   }, [state, toast, onSuccess]);
 

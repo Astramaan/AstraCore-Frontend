@@ -27,7 +27,7 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
             description: "Your password has been changed successfully.",
         });
         setTimeout(() => {
-            setIsOpen(false);
+            handleOpenChange(false);
         }, 2000);
     }
 
