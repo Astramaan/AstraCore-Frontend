@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-y-scroll">
+    <html lang="en" suppressHydrationWarning className="overflow-y-scroll md:no-scrollbar">
       <body className={cn("antialiased font-sans", gilroy.variable)}>
         {children}
         <Toaster />

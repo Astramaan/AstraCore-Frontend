@@ -104,7 +104,7 @@
     @apply bg-background text-foreground;
   }
   
-  body[data-scroll-locked] {
+  body[data-scroll-locked='true'] {
       padding-right: 0 !important;
   }
 }
