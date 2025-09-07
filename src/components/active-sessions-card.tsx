@@ -43,9 +43,9 @@ export const ActiveSessionsCard = () => {
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="space-y-4 px-6 pb-6">
+            <CardContent className="px-6 pb-6">
                 {sessions.map(session => (
-                    <div key={session.device} className="flex justify-between items-center pb-4 border-b">
+                    <div key={session.device} className="flex justify-between items-center py-4 border-b last:border-b-0 last:pb-0">
                         <div className="flex items-center gap-4">
                             <div className="w-14 h-14 rounded-2xl flex items-center justify-center border">
                                 {session.icon}
