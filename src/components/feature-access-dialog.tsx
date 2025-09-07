@@ -187,10 +187,7 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                                 </div>
                             </div>
                         </ScrollArea>
-                        <div className="px-6 py-4 mt-auto border-t flex items-center justify-between">
-                            <Button variant="ghost" size="icon" className="text-destructive h-14 w-14 rounded-full bg-background">
-                                <Trash2 />
-                            </Button>
+                        <div className="px-6 py-4 mt-auto border-t flex items-center justify-end">
                             <Button className="h-14 rounded-full text-lg px-12" onClick={() => setIsEditing(true)}>
                                 <Edit className="mr-2 h-4 w-4"/>
                                 Edit
