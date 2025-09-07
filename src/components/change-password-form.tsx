@@ -50,9 +50,6 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
       <div className="space-y-2">
             <div className="flex justify-between items-center">
                 <Label htmlFor="currentPassword" className={cn("text-lg font-medium")}>Current Password</Label>
-                 <Link href="/forgot-password" className="text-sm text-primary underline">
-                    Forgot current password?
-                </Link>
             </div>
           <div className="relative flex items-center">
             <Input 
@@ -113,6 +110,11 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
             >
               {showConfirmPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
             </button>
+          </div>
+          <div className="text-right pt-1">
+             <Link href="/forgot-password" className="text-sm text-grey-1 underline">
+                Forgot current password?
+            </Link>
           </div>
       </div>
       <div className="pt-6">
