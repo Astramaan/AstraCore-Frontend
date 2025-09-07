@@ -100,9 +100,9 @@ export function AddMemberSheet() {
     <>
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="md:h-14 md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
-            <UserPlus className="md:mr-2 h-6 w-6"/>
-            <span className="hidden md:inline">Add New Member</span>
+        <Button className="h-14 px-10 rounded-full bg-white text-lg font-medium">
+            <Plus className="mr-2"/>
+            Add New Team
         </Button>
       </DialogTrigger>
       <DialogContent 
@@ -114,7 +114,7 @@ export function AddMemberSheet() {
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
-                    Add New Member
+                    Add New Team
                 </DialogTitle>
                 <DialogClose asChild>
                   <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
