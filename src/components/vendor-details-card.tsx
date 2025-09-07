@@ -87,15 +87,18 @@ const DayToggle = ({ day, selectedDays, onDayToggle, isEditing }: { day: string;
             type="button"
             size="icon"
             variant="outline"
-            disabled={!isEditing}
             className={cn(
                 "w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0",
                 isActive
                     ? "bg-primary text-white"
                     : "bg-zinc-100 text-black",
-                isEditing ? "cursor-pointer" : "cursor-default"
+                !isEditing && "pointer-events-none"
             )}
-            onClick={() => onDayToggle(day)}
+            onClick={() => {
+                if (isEditing) {
+                    onDayToggle(day)
+                }
+            }}
         >
             {day}
         </Button>
