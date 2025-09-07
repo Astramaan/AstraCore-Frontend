@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
-import { MoreVertical, Search, ShieldAlert } from "lucide-react";
+import { MoreVertical, Search, ShieldAlert, Calendar } from "lucide-react";
 import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
 import { EditMeetingSheet, Meeting } from '@/components/edit-meeting-sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -20,7 +20,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -75,6 +77,52 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
         </div>
     </div>
 )
+
+const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, isLast?: boolean }) => (
+     <div className="flex flex-col">
+        <div className="flex justify-between items-center py-4">
+            <div className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
+                <div className="flex items-center gap-4 flex-1">
+                    <Avatar className="w-14 h-14 bg-background">
+                       <Calendar className="w-6 h-6 text-primary" />
+                    </Avatar>
+                    <div className="w-44">
+                        <p className="text-xl font-semibold text-black group-hover:text-primary whitespace-nowrap">{meeting.name}, {meeting.city}</p>
+                    </div>
+                </div>
+                 <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+                <div className="hidden md:flex flex-col gap-2 w-96">
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
+                </div>
+                 <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+                <div className="h-12 flex-col justify-between items-start hidden md:inline-flex">
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                    <div className="flex items-center gap-2 text-lg">
+                        <span className="text-grey-2">Link: </span> 
+                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                            <GoogleMeetIcon className="w-6 h-6" />
+                            Google Meet
+                        </a>
+                    </div>
+                </div>
+            </div>
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <MoreVertical className="w-6 h-6" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+        {!isLast && <div className="h-px bg-stone-300" />}
+    </div>
+);
+
 
 export default function MeetingsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -151,50 +199,15 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 <div>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto_auto] items-center">
-                                {filteredClientMeetings.map((meeting, index) => (
-                                    <React.Fragment key={meeting.id}>
-                                        <div className="contents">
-                                            <div className="flex items-center gap-4 p-4">
-                                                <p className="text-lg"><span className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name},</span> <span className="text-black">{meeting.city}</span></p>
-                                            </div>
-                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="flex flex-col p-4">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                                                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                                            </div>
-                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="flex flex-col items-start gap-2 p-4">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                                                <div className="flex items-center gap-2 text-lg">
-                                                    <span className="text-grey-2">Link: </span> 
-                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                                                        <GoogleMeetIcon className="w-6 h-6" />
-                                                        Google Meet
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="justify-self-end p-4">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                            <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem onSelect={() => setMeetingToEdit(meeting)}>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); handleDeleteClick(meeting); }}>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </div>
-                                        </div>
-                                        {index < filteredClientMeetings.length - 1 && (
-                                            <div className="col-span-7 h-px bg-zinc-200" />
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </div>
+                           {filteredClientMeetings.map((meeting, index) => (
+                                <MeetingListItem 
+                                    key={meeting.id} 
+                                    meeting={meeting} 
+                                    onEdit={setMeetingToEdit}
+                                    onDelete={handleDeleteClick}
+                                    isLast={index === filteredClientMeetings.length - 1}
+                                />
+                            ))}
                         </CardContent>
                     </Card>
                 </div>
@@ -203,50 +216,15 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     <h2 className="text-2xl font-medium text-zinc-900 mb-4">Lead Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
-                            <div className="grid grid-cols-[1fr_auto_1.5fr_auto_1fr_auto_auto] items-center">
-                                {filteredLeadMeetings.map((meeting, index) => (
-                                    <React.Fragment key={meeting.id}>
-                                        <div className="contents">
-                                            <div className="flex items-center gap-4 p-4">
-                                                 <p className="text-lg"><span className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name},</span> <span className="text-black">{meeting.city}</span></p>
-                                            </div>
-                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="flex flex-col p-4">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                                                <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                                            </div>
-                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="flex flex-col items-start gap-2 p-4">
-                                                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                                                <div className="flex items-center gap-2 text-lg">
-                                                    <span className="text-grey-2">Link: </span> 
-                                                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                                                        <GoogleMeetIcon className="w-6 h-6" />
-                                                        Google Meet
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
-                                            <div className="justify-self-end p-4">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon" className="w-8 h-8">
-                                                            <MoreVertical className="h-5 w-5 text-zinc-500" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuItem onSelect={() => setMeetingToEdit(meeting)}>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); handleDeleteClick(meeting); }}>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </div>
-                                        </div>
-                                        {index < filteredLeadMeetings.length - 1 && (
-                                            <div className="col-span-7 h-px bg-zinc-200" />
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </div>
+                             {filteredLeadMeetings.map((meeting, index) => (
+                                <MeetingListItem 
+                                    key={meeting.id} 
+                                    meeting={meeting}
+                                    onEdit={setMeetingToEdit}
+                                    onDelete={handleDeleteClick}
+                                    isLast={index === filteredLeadMeetings.length - 1}
+                                />
+                            ))}
                         </CardContent>
                     </Card>
                 </div>
@@ -301,6 +279,3 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
-
-    
-    
