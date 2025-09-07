@@ -27,7 +27,7 @@ import { ScrollArea } from './ui/scroll-area';
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
         <Label htmlFor={id} className={cn("text-lg font-medium", value ? "text-grey-1" : "text-black")}>{label}</Label>
-        <Input id={id} className="w-full h-14 bg-input rounded-[50px] px-6 text-lg" value={value} {...props} />
+        <Input id={id} className="w-full h-14 bg-background rounded-[50px] px-6 text-lg" value={value} {...props} />
     </div>
 );
 
@@ -69,14 +69,14 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                         <h3 className="text-lg font-medium text-grey-1">Features access</h3>
                         <div className="space-y-2">
                             <Label className="text-lg font-medium text-black">Admin</Label>
-                            <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Admin')}>
+                            <Button type="button" variant="outline" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Admin')}>
                                 <span>Features for admin</span>
                                 <ChevronRight className="w-5 h-5" />
                             </Button>
                         </div>
                         <div className="space-y-2">
                             <Label className="text-lg font-medium text-black">Members</Label>
-                             <Button type="button" variant="outline" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Member')}>
+                             <Button type="button" variant="outline" className="w-full h-14 bg-background rounded-[50px] px-6 text-lg justify-between font-normal text-muted-foreground" onClick={() => handleOpenFeatureDialog('Member')}>
                                 <span>Features for members</span>
                                 <ChevronRight className="w-5 h-5" />
                             </Button>
@@ -132,7 +132,7 @@ export function CreateDepartmentSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-full md:w-[452px] flex flex-col",
+            "p-0 rounded-[50px] w-full md:w-[452px] flex flex-col bg-white",
              isMobile ? "m-4 h-auto" : "h-[90vh]"
           )}
       >
