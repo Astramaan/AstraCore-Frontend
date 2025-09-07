@@ -21,9 +21,25 @@ const CustomTooltip = ({ active, payload }: any) => {
     return null;
 };
 
+const renderLegend = (props: any) => {
+    const { payload } = props;
+  
+    return (
+      <div className="flex flex-col gap-2">
+        {payload.map((entry: any, index: number) => (
+          <div key={`item-${index}`} className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
+            <span className="text-sm text-muted-foreground">{entry.value}</span>
+            <span className="text-sm text-muted-foreground">{entry.payload.value}</span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
 export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
   return (
-    <ResponsiveContainer width="100%" height={200}>
+    <ResponsiveContainer width="100%" height={150}>
       <PieChart>
         <Pie
           data={data}
@@ -31,7 +47,7 @@ export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
           cy="50%"
           labelLine={false}
           outerRadius={60}
-          innerRadius={30}
+          innerRadius={40}
           fill="#8884d8"
           dataKey="value"
           paddingAngle={5}
@@ -49,6 +65,9 @@ export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
             verticalAlign="middle"
             align="right"
             wrapperStyle={{paddingLeft: '20px'}}
+            formatter={(value, entry) => (
+                 <span className="text-muted-foreground">{value} <span className="font-semibold text-foreground">{entry.payload?.value}</span></span>
+            )}
         />
       </PieChart>
     </ResponsiveContainer>

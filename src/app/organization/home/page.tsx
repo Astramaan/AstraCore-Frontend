@@ -267,16 +267,14 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 <CardHeader className="p-0 mb-4">
                     <CardTitle className="text-xl">Task Overview</CardTitle>
                 </CardHeader>
-                <CardContent className="p-0">
-                    <div className="grid grid-cols-2 gap-4 items-center">
-                        <div>
-                             <h3 className="text-center font-medium mb-2">My Tasks</h3>
-                             <TaskOverviewChart data={myTasksChartData} />
-                        </div>
-                        <div>
-                            <h3 className="text-center font-medium mb-2">Assigned Tasks</h3>
-                            <TaskOverviewChart data={assignedTasksChartData} />
-                        </div>
+                <CardContent className="p-0 space-y-4">
+                    <div>
+                        <h3 className="text-center font-medium mb-2">My Tasks</h3>
+                        <TaskOverviewChart data={myTasksChartData} />
+                    </div>
+                    <div>
+                        <h3 className="text-center font-medium mb-2">Assigned Tasks</h3>
+                        <TaskOverviewChart data={assignedTasksChartData} />
                     </div>
                 </CardContent>
             </Card>
