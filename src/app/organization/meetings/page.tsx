@@ -39,7 +39,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
     <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer">
         <div className="space-y-4">
              <div className="flex items-start justify-between gap-4">
-                <div>
+                <div className="flex-1">
                     <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
                     <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
