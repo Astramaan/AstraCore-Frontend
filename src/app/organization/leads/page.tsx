@@ -146,7 +146,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center gap-4 flex-wrap" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-4 flex-wrap md:flex-nowrap w-full" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
@@ -429,7 +429,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.id)
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
                 startInEditMode={isEditing}
