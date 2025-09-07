@@ -4,7 +4,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
-import { FeatureAccessDialog } from './feature-access-dialog';
 import { Shield, Briefcase, Code, Palette, Users } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
 
@@ -32,26 +31,16 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }
 export const FeatureAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
     const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
-    const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
 
     const handleRoleClick = (role: RoleData) => {
         setSelectedRole(role);
-        if (role.name === 'Super Admin') {
-            setIsFeatureDialogOpen(true);
-        } else {
-            setIsPermissionsDialogOpen(true);
-        }
+        setIsPermissionsDialogOpen(true);
     };
     
     const closePermissionsDialog = () => {
         setIsPermissionsDialogOpen(false);
         setSelectedRole(null);
     };
-    
-    const closeFeatureDialog = () => {
-        setIsFeatureDialogOpen(false);
-        setSelectedRole(null);
-    }
     
     return (
         <>
@@ -75,14 +64,6 @@ export const FeatureAccessCard = () => {
                 onClose={closePermissionsDialog}
                 role={selectedRole}
             />
-            {selectedRole && (
-                <FeatureAccessDialog 
-                    isOpen={isFeatureDialogOpen}
-                    onClose={closeFeatureDialog}
-                    category={"Admin"} // For Super Admin, we show all admin features
-                    roleName={selectedRole.name}
-                />
-            )}
         </>
     )
 }
