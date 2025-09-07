@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,6 @@ import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
-import { AddMemberSheet } from '@/components/add-member-sheet';
 
 const roleIcons: { [key: string]: React.ReactNode } = {
     "Super Admin": <Shield className="w-6 h-6 text-black" />,
@@ -156,7 +154,6 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
                         />
                     </div>
                      <CreateDepartmentSheet />
-                     <AddMemberSheet />
                 </div>
             </div>
 
