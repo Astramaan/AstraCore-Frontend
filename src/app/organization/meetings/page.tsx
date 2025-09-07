@@ -37,12 +37,23 @@ const initialLeadMeetings: Meeting[] = [
 
 const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void }) => (
     <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer">
-        <div className="space-y-4 relative">
-             <div className="flex items-start gap-4">
+        <div className="space-y-4">
+             <div className="flex items-start justify-between gap-4">
                 <div>
                     <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
                     <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-5 h-5" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDelete(meeting); }}>Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             
             <div>
@@ -59,20 +70,6 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
                         Google Meet
                     </a>
                 </div>
-            </div>
-
-            <div className="absolute top-0 right-0">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical className="w-5 h-5" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDelete(meeting); }}>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
         </div>
     </div>
