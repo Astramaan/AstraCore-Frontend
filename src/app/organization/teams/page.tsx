@@ -9,7 +9,6 @@ import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
-import { getDepartments } from '@/lib/data';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 
 const roleIcons: { [key: string]: React.ReactNode } = {
@@ -31,6 +30,66 @@ const roleColors: { [key: string]: string } = {
     "Human Resources": "bg-pink-300/30",
     "default": "bg-gray-300/30",
 };
+
+const mockRoles: Role[] = [
+    { 
+        name: "Super Admin", 
+        icon: <Shield className="w-6 h-6 text-black" />, 
+        bgColor: "bg-red-200/30",
+        admin: "Balaji Naik", 
+        active: 2, 
+        total: 2,
+        members: [
+            { id: '1', name: 'Balaji Naik', avatar: 'https://placehold.co/100x100.png', contact: 'balaji@habi.one | +91 9380032186', role: 'Super Admin', status: 'Active', lastActive: '6 hrs ago', email: 'balaji@habi.one' },
+            { id: '2', name: 'Anil Kumar', avatar: 'https://placehold.co/100x100.png', contact: 'anil@habi.one | +91 9876543210', role: 'Super Admin', status: 'Active', lastActive: '2 hrs ago', email: 'anil@habi.one' },
+        ]
+    },
+    { 
+        name: "Sales", 
+        icon: <Briefcase className="w-6 h-6 text-black" />, 
+        bgColor: "bg-yellow-400/30",
+        admin: "Balaji Naik", 
+        active: 3, 
+        total: 8,
+        members: []
+    },
+    { 
+        name: "Software Development", 
+        icon: <Code className="w-6 h-6 text-black" />, 
+        bgColor: "bg-blue-300/30",
+        admin: "Balaji Naik", 
+        active: 12, 
+        total: 12,
+        members: []
+    },
+    { 
+        name: "Design", 
+        icon: <Palette className="w-6 h-6 text-black" />, 
+        bgColor: "bg-purple-300/30",
+        admin: "Balaji Naik", 
+        active: 4, 
+        total: 4,
+        members: []
+    },
+    { 
+        name: "Support & Feedback", 
+        icon: <Users className="w-6 h-6 text-black" />,
+        bgColor: "bg-green-300/30",
+        admin: "Balaji Naik", 
+        active: 20, 
+        total: 20,
+        members: []
+    },
+    { 
+        name: "Human Resources", 
+        icon: <Users className="w-6 h-6 text-black" />, 
+        bgColor: "bg-pink-300/30",
+        admin: "Balaji Naik", 
+        active: 0, 
+        total: 2,
+        members: []
+    },
+];
 
 
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
@@ -64,24 +123,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 export default function TeamsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-    const [roles, setRoles] = useState<Role[]>([]);
-
-    useEffect(() => {
-        const fetchDepartments = async () => {
-            const departmentsData = await getDepartments();
-            const formattedRoles = departmentsData.map(dept => ({
-                name: dept.name,
-                icon: roleIcons[dept.name] || roleIcons.default,
-                bgColor: roleColors[dept.name] || roleColors.default,
-                admin: dept.admin,
-                active: dept.members.filter(m => m.status === 'Active').length,
-                total: dept.members.length,
-                members: dept.members,
-            }));
-            setRoles(formattedRoles);
-        };
-        fetchDepartments();
-    }, []);
+    const [roles, setRoles] = useState<Role[]>(mockRoles);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
@@ -102,11 +144,12 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <h2 className="text-2xl font-medium text-zinc-900">Team List</h2>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                         <Input 
-                            placeholder="Search Members" 
+                            placeholder="Search Team" 
                             className="pl-12 h-14 rounded-full bg-white text-lg" 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}

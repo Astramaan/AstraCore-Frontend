@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
+import { Briefcase, Code, Palette, Search, Shield, Users, Plus } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { ViewMembersSheet, type Role } from '@/components/view-members-sheet';
+import { AddMemberSheet } from '@/components/add-member-sheet';
 
 const roles: Role[] = [
     { 
@@ -112,18 +113,18 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
     return (
         <div className="space-y-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h2 className="text-2xl font-medium text-zinc-900">Departments</h2>
+                <h2 className="text-2xl font-medium text-zinc-900">Team List</h2>
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                         <Input 
-                            placeholder="Search Members" 
+                            placeholder="Search Team" 
                             className="pl-12 h-14 rounded-full bg-white text-lg" 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                     <CreateDepartmentSheet />
+                     <AddMemberSheet />
                 </div>
             </div>
 

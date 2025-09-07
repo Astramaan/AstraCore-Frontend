@@ -408,7 +408,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.leadId)
+                      onDeleteFromDetails(selectedLeadDetails.id)
                     }
                   }}
                 startInEditMode={isEditing}
