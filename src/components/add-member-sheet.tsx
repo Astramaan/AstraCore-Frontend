@@ -57,7 +57,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Team</Label>
             <Select name="role" onValueChange={setRole}>
                 <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                    <SelectValue placeholder="Select a role" />
+                    <SelectValue placeholder="Select a team" />
                 </SelectTrigger>
                 <SelectContent>
                      {roles.map(r => (
