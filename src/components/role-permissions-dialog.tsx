@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
 import { Button } from './ui/button';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { FeatureAccessDialog } from './feature-access-dialog';
 
@@ -15,17 +15,15 @@ export interface RoleData {
 }
 
 const PermissionCategory = ({ title, permissions, onEdit }: { title: string, permissions: string[], onEdit: () => void }) => (
-    <div>
+    <div onClick={onEdit} className="cursor-pointer hover:bg-accent rounded-lg -mx-2 px-2 group">
         <div className="flex justify-between items-center py-2">
             <div className="flex flex-col">
                 <h4 className="font-semibold text-lg">{title}</h4>
                 <p className="text-sm text-muted-foreground">{permissions.join(', ')}</p>
             </div>
-            <Button variant="ghost" size="icon" onClick={onEdit}>
-                
-            </Button>
+             <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>
-        <Separator />
+        <Separator className="my-1"/>
     </div>
 )
 
