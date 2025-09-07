@@ -156,10 +156,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
                                             <div className="flex items-center gap-4 p-4">
-                                                <div>
-                                                    <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
-                                                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
-                                                </div>
+                                                <p className="text-lg"><span className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name},</span> <span className="text-black">{meeting.city}</span></p>
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                             <div className="flex flex-col p-4">
@@ -211,10 +208,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                     <React.Fragment key={meeting.id}>
                                         <div className="contents">
                                             <div className="flex items-center gap-4 p-4">
-                                                <div>
-                                                    <p className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name}</p>
-                                                    <p className="text-lg"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
-                                                </div>
+                                                 <p className="text-lg"><span className="font-semibold text-xl text-zinc-900 whitespace-nowrap">{meeting.name},</span> <span className="text-black">{meeting.city}</span></p>
                                             </div>
                                             <div className="h-full w-px bg-zinc-200 mx-4 justify-self-center" />
                                             <div className="flex flex-col p-4">
