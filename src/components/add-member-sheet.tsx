@@ -54,7 +54,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
         <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <div className="space-y-2">
-            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>{ "Role"}</Label>
+            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Team</Label>
             <Select name="role" onValueChange={setRole}>
                 <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                     <SelectValue placeholder="Select a role" />
