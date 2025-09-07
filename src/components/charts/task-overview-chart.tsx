@@ -8,7 +8,7 @@ interface TaskOverviewChartProps {
     data: { name: string; value: number }[];
 }
 
-const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))"];
+const COLORS = ["hsl(var(--chart-2))", "hsl(var(--chart-1))", "hsl(var(--muted))"];
 
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -25,12 +25,11 @@ const renderLegend = (props: any) => {
     const { payload } = props;
   
     return (
-      <div className="flex flex-col gap-2">
+      <div className="flex justify-center items-center gap-4 mt-4">
         {payload.map((entry: any, index: number) => (
           <div key={`item-${index}`} className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
             <span className="text-sm text-muted-foreground">{entry.value}</span>
-            <span className="text-sm text-muted-foreground">{entry.payload.value}</span>
           </div>
         ))}
       </div>
@@ -38,36 +37,37 @@ const renderLegend = (props: any) => {
   };
 
 export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
+  const chartData = [...data];
+  if(chartData.length > 2) {
+      // Add "on hold" or other statuses if needed
+      chartData.push({name: 'on hold', value: 2})
+  }
+
+
   return (
-    <ResponsiveContainer width="100%" height={150}>
+    <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Pie
-          data={data}
+          data={chartData}
           cx="50%"
           cy="50%"
           labelLine={false}
-          outerRadius={60}
-          innerRadius={40}
+          outerRadius={80}
+          innerRadius={60}
           fill="#8884d8"
           dataKey="value"
-          paddingAngle={5}
+          paddingAngle={2}
           stroke="hsl(var(--background))"
           strokeWidth={5}
         >
-          {data.map((entry, index) => (
+          {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
         <Legend 
-            iconType="circle"
-            layout="vertical"
-            verticalAlign="middle"
-            align="right"
-            wrapperStyle={{paddingLeft: '20px'}}
-            formatter={(value, entry) => (
-                 <span className="text-muted-foreground">{value} <span className="font-semibold text-foreground">{entry.payload?.value}</span></span>
-            )}
+            content={renderLegend}
+            verticalAlign="bottom"
         />
       </PieChart>
     </ResponsiveContainer>

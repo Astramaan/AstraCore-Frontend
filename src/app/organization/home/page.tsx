@@ -263,22 +263,6 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 <AddMemberSheet />
             </div>
 
-            <Card className="rounded-[50px] p-6">
-                <CardHeader className="p-0 mb-4">
-                    <CardTitle className="text-xl">Task Overview</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 space-y-4">
-                    <div>
-                        <h3 className="text-center font-medium mb-2">My Tasks</h3>
-                        <TaskOverviewChart data={myTasksChartData} />
-                    </div>
-                    <div>
-                        <h3 className="text-center font-medium mb-2">Assigned Tasks</h3>
-                        <TaskOverviewChart data={assignedTasksChartData} />
-                    </div>
-                </CardContent>
-            </Card>
-
             <div className="space-y-6">
                 <div className="flex justify-between items-center mb-3">
                     <h2 className="text-xl font-medium">Meetings</h2>
@@ -290,6 +274,25 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
                 </div>
             </div>
+            
+             <Card className="rounded-[50px]">
+                <CardHeader>
+                    <CardTitle className="text-xl">Tasks Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <TaskOverviewChart data={myTasksChartData} />
+                </CardContent>
+            </Card>
+
+            <Card className="rounded-[50px]">
+                <CardHeader>
+                    <CardTitle className="text-xl">Assigned Tasks Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <TaskOverviewChart data={assignedTasksChartData} />
+                </CardContent>
+            </Card>
+
         </aside>
         
         {selectedTask && (
