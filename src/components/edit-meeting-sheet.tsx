@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
-import { Switch } from './ui/switch';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 
 
@@ -77,23 +76,11 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
     const [city, setCity] = useState(meeting.city);
     const [email, setEmail] = useState(meeting.email);
     const [phone, setPhone] = useState(meeting.phone);
-    const [isManual, setIsManual] = useState(true); // Default to manual for editing
     const [selectedId, setSelectedId] = useState(meeting.id);
     const [comboboxOpen, setComboboxOpen] = useState(false);
     const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
 
-
     useEffect(() => {
-        if (!selectedId) {
-            if (!isManual) {
-                setName('');
-                setCity('');
-                setEmail('');
-                setPhone('');
-            }
-            return;
-        };
-
         const contact = allContacts.find(c => c.id === selectedId);
         if (contact) {
             setName(contact.name);
@@ -102,13 +89,14 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
             setPhone(contact.phone);
             setSelectedType(contact.type);
         }
-    }, [selectedId, isManual]);
+    }, [selectedId]);
 
 
     const handleSubmit = () => {
         if (name && selectedType && date && time && meeting) {
             onMeetingUpdated({
                 ...meeting,
+                id: selectedId,
                 name,
                 city,
                 email,
@@ -224,7 +212,7 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
             </div>
             
             <div className="space-y-2">
-                <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead ID*</Label>
+                <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
                 <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
                     <PopoverTrigger asChild>
                         <Button
@@ -232,7 +220,6 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                             role="combobox"
                             aria-expanded={comboboxOpen}
                             className="w-full justify-between h-14 bg-background rounded-full"
-                            disabled={isManual}
                         >
                             {selectedId
                                 ? allContacts.find((contact) => contact.id === selectedId)?.name
@@ -270,72 +257,23 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                     </PopoverContent>
                 </Popover>
             </div>
-
-
-             <div className="sm:col-span-2 space-y-4">
-                <div className="flex items-center justify-end gap-2">
-                    <Label htmlFor="manual-switch" className="text-sm">Enter Details Manually</Label>
-                    <Switch id="manual-switch" checked={isManual} onCheckedChange={(checked) => {
-                        setIsManual(checked);
-                        if (checked) setSelectedId('');
-                    }} />
-                </div>
+            
+            <div className="space-y-1">
+                <p className="text-sm text-grey-1">Name</p>
+                <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
             </div>
-            
-            {(isManual) && (
-                <>
-                     <div className="space-y-2">
-                        <Label htmlFor="type-select" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
-                        <Select value={selectedType} onValueChange={(value: 'client' | 'lead') => setSelectedType(value)}>
-                            <SelectTrigger id="type-select" className="h-14 bg-background rounded-full">
-                                <SelectValue placeholder="Client / Lead" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="client">Client</SelectItem>
-                                <SelectItem value="lead">Lead</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div />
-                    <div className="space-y-2">
-                        <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
-                        <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>City*</Label>
-                        <Input id="city" placeholder="Enter City" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
-                        <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-zinc-900')}>Phone*</Label>
-                        <Input id="phone" type="tel" placeholder="Enter Phone" className="bg-background rounded-full h-14" value={phone} onChange={(e) => setPhone(e.target.value)} />
-                    </div>
-                </>
-            )}
-            
-            {!isManual && selectedId && (
-                 <>
-                    <div className="space-y-1">
-                        <p className="text-sm text-grey-1">Name</p>
-                        <p className="text-lg font-medium text-zinc-900">{name}</p>
-                    </div>
-                     <div className="space-y-1">
-                        <p className="text-sm text-grey-1">City</p>
-                        <p className="text-lg font-medium text-zinc-900">{city}</p>
-                    </div>
-                     <div className="space-y-1">
-                        <p className="text-sm text-grey-1">Email</p>
-                        <p className="text-lg font-medium text-zinc-900">{email}</p>
-                    </div>
-                    <div className="space-y-1">
-                        <p className="text-sm text-grey-1">Phone</p>
-                        <p className="text-lg font-medium text-zinc-900">{phone}</p>
-                    </div>
-                </>
-            )}
+             <div className="space-y-1">
+                <p className="text-sm text-grey-1">City</p>
+                <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
+            </div>
+             <div className="space-y-1">
+                <p className="text-sm text-grey-1">Email</p>
+                <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
+            </div>
+            <div className="space-y-1">
+                <p className="text-sm text-grey-1">Phone</p>
+                <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
+            </div>
         
         </div>
         
