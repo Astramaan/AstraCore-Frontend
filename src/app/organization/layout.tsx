@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { HabiLogo } from '@/components/habi-logo';
 import { NotificationPopover } from '@/components/notification-popover';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 
 const OrganizationHeader = () => {
     const pathname = usePathname();
@@ -91,6 +92,7 @@ const OrganizationHeader = () => {
                                 <p className="text-sm text-grey-2">Super Admin</p>
                             </div>
                         </Link>
+                        <Separator />
                         <Link href="/organization/teams">
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
