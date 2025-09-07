@@ -106,7 +106,7 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void }) => (
     <div className="flex flex-col gap-4 py-4 cursor-pointer" onClick={() => onViewDetails(lead)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-             <div className="flex items-start md:items-center justify-between w-full">
+             <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-4 flex-1" onClick={(e) => e.stopPropagation()}>
                     <Checkbox 
                         id={`select-${lead.leadId}`} 
