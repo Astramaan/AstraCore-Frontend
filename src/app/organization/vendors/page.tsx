@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -110,16 +109,15 @@ const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
 export default function VendorsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     return (
         <div className="space-y-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h2 className="text-2xl font-medium">Vendors</h2>
+            <div className="flex flex-col md:flex-row justify-end items-center gap-4">
                 <div className="flex items-center gap-4">
                     <AddVendorSheet />
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {vendors.map((vendor, index) => (
-                    <VendorCard key={index} vendor={vendor} />
+                {vendors.map((vendor) => (
+                    <VendorCard key={vendor.id} vendor={vendor} />
                 ))}
             </div>
         </div>

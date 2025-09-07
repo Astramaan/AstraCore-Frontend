@@ -1,5 +1,4 @@
 
-
 'use client'
 
 import { Button } from "@/components/ui/button"
@@ -13,7 +12,7 @@ const plans = [
     { name: "Enterprise Plan", price: "19,999", users: 500, features: ["500 Users", "Full Analytics Suite", "Dedicated Support"] },
 ]
 
-export default function SubscriptionManagementPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function SubscriptionManagementPage() {
     return (
         <div className="p-4 md:p-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
