@@ -4,7 +4,7 @@
 import React, { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
 import { Button } from './ui/button';
-import { X, Search, Edit } from 'lucide-react';
+import { X, Search, Edit, Trash2 } from 'lucide-react';
 import { Input } from './ui/input';
 import { Switch } from './ui/switch';
 import { ScrollArea } from './ui/scroll-area';
@@ -19,6 +19,10 @@ interface FeatureAccessDialogProps {
 }
 
 const permissionsData = {
+    'Dashboard': ["Subscription Analytics", "Subscription Churn", "Active Customers", "Exit Survey"],
+    'Onboarding Management': ["Subscription Analytics", "Subscription Churn", "Active Customers", "Exit Survey"],
+    'Organisation Management': ["Subscription Plan Manage", "Active Customers", "Expired Customers"],
+    'Subscription Management': ["Subscription Plan Manage", "Active Customers", "Expired Customers"],
     'Home': ["Assign Task", "Add New Member"],
     'Project Management': ["Projects", "Project Details", "Snag List", "Add Project", "Edit Project", "Delete Project", "Create Snag"],
     'Client & Lead Management': ["Leads", "Meetings", "Add Lead", "Edit Lead", "Delete Lead", "Create Meeting"],
@@ -27,7 +31,7 @@ const permissionsData = {
     'Settings': ["Change Password", "Role Access", "Create Role"],
 };
 
-const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false, isEditing }: { title: string, features: string[], searchTerm: string, defaultEnabled?: boolean, isEditing: boolean }) => {
+const FeatureSectionEdit = ({ title, features, searchTerm, defaultEnabled = false }: { title: string, features: string[], searchTerm: string, defaultEnabled?: boolean }) => {
     const [isEnabled, setIsEnabled] = useState(defaultEnabled);
     const [selectedFeatures, setSelectedFeatures] = useState<string[]>(defaultEnabled ? features : []);
 
@@ -66,17 +70,11 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false, i
         <div className="space-y-4 rounded-3xl border p-4">
             <div className="flex justify-between items-center">
                 <h4 className="font-semibold text-lg">{title}</h4>
-                {isEditing ? (
-                    <Switch 
-                        checked={isEnabled} 
-                        onCheckedChange={handleParentToggle}
-                        disabled={defaultEnabled}
-                    />
-                ) : (
-                     <div className={cn("text-sm font-medium", isEnabled ? "text-green-600" : "text-red-600")}>
-                        {isEnabled ? "Enabled" : "Disabled"}
-                    </div>
-                )}
+                <Switch 
+                    checked={isEnabled} 
+                    onCheckedChange={handleParentToggle}
+                    disabled={defaultEnabled}
+                />
             </div>
             <div className={cn("grid grid-cols-2 gap-x-2 gap-y-4", !isEnabled && "opacity-50 pointer-events-none")}>
                 {filteredFeatures.map((feature, index) => {
@@ -86,16 +84,16 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false, i
                             <Checkbox 
                                 id={`${title}-${feature}`} 
                                 checked={isChecked}
-                                onCheckedChange={() => isEditing && handleFeatureToggle(feature)}
+                                onCheckedChange={() => handleFeatureToggle(feature)}
                                 className="w-5 h-5 rounded"
-                                disabled={!isEnabled || !isEditing}
+                                disabled={!isEnabled}
                             />
                             <label
                                 htmlFor={`${title}-${feature}`}
                                 className={cn(
                                     "ml-2 text-sm font-medium leading-none", 
                                     isChecked ? 'text-black' : 'text-muted-foreground',
-                                    (!isEnabled || !isEditing) ? 'cursor-not-allowed' : 'cursor-pointer'
+                                    !isEnabled ? 'cursor-not-allowed' : 'cursor-pointer'
                                 )}
                             >
                                 {feature}
@@ -106,7 +104,20 @@ const FeatureSection = ({ title, features, searchTerm, defaultEnabled = false, i
             </div>
         </div>
     )
-}
+};
+
+
+const FeatureSectionView = ({ title, features }: { title: string, features: string[] }) => (
+    <div className="space-y-2">
+        <h4 className="font-semibold text-base">{title}</h4>
+        <ul className="space-y-1">
+            {features.map(feature => (
+                <li key={feature} className="text-sm text-muted-foreground">{feature}</li>
+            ))}
+        </ul>
+    </div>
+);
+
 
 export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: FeatureAccessDialogProps) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -116,13 +127,17 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
         setIsEditing(false); // Reset edit mode on close
         onClose();
     }
+    
+    const relevantPermissions = Object.fromEntries(
+      Object.entries(permissionsData).filter(([key]) => key !== 'Home' && key !== 'Team Management' && key !== 'Settings' && key !== 'Project Management' && key !== 'Client & Lead Management' && key !== 'Vendor Management')
+    );
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
             <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white flex flex-col h-auto max-h-[90vh]">
-                <DialogHeader className="p-6 border-b">
+                 <DialogHeader className="p-6 border-b">
                     <DialogTitle className="flex justify-between items-center">
-                        <span className="text-2xl font-semibold">Features for {roleName}</span>
+                        <span className="text-2xl font-semibold">{roleName} {category}</span>
                         <DialogClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                 <X className="h-6 w-6" />
@@ -130,39 +145,59 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="p-6 pb-0 space-y-4">
-                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                        <Input 
-                            placeholder="Search Features" 
-                            className="pl-12 h-14 rounded-full bg-background"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <ScrollArea className="flex-1 p-6">
-                    <div className="space-y-4">
-                        <FeatureSection title="Home" features={permissionsData["Home"]} searchTerm={searchTerm} defaultEnabled isEditing={isEditing} />
-                        <FeatureSection title="Project Management" features={permissionsData["Project Management"]} searchTerm={searchTerm} isEditing={isEditing} />
-                        <FeatureSection title="Client & Lead Management" features={permissionsData["Client & Lead Management"]} searchTerm={searchTerm} isEditing={isEditing} />
-                        <FeatureSection title="Vendor Management" features={permissionsData["Vendor Management"]} searchTerm={searchTerm} isEditing={isEditing} />
-                        <FeatureSection title="Team Management" features={permissionsData["Team Management"]} searchTerm={searchTerm} defaultEnabled isEditing={isEditing}/>
-                        <FeatureSection title="Settings" features={permissionsData["Settings"]} searchTerm={searchTerm} isEditing={isEditing}/>
-                    </div>
-                </ScrollArea>
-                <div className="px-6 py-4 mt-auto border-t">
-                    {isEditing ? (
-                        <Button className="w-full h-14 rounded-full text-lg" onClick={() => setIsEditing(false)}>
-                            Save Changes
-                        </Button>
-                    ) : (
-                         <Button className="w-full h-14 rounded-full text-lg" onClick={() => setIsEditing(true)}>
-                            <Edit className="mr-2 h-4 w-4"/>
-                            Edit Access
-                        </Button>
-                    )}
-                </div>
+                
+                {isEditing ? (
+                    <>
+                        <div className="p-6 pb-0 space-y-4">
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                <Input 
+                                    placeholder="Search Features" 
+                                    className="pl-12 h-14 rounded-full bg-background"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <ScrollArea className="flex-1 p-6">
+                            <div className="space-y-4">
+                                <FeatureSectionEdit title="Home" features={permissionsData["Home"]} searchTerm={searchTerm} defaultEnabled />
+                                <FeatureSectionEdit title="Project Management" features={permissionsData["Project Management"]} searchTerm={searchTerm} />
+                                <FeatureSectionEdit title="Client & Lead Management" features={permissionsData["Client & Lead Management"]} searchTerm={searchTerm} />
+                                <FeatureSectionEdit title="Vendor Management" features={permissionsData["Vendor Management"]} searchTerm={searchTerm} />
+                                <FeatureSectionEdit title="Team Management" features={permissionsData["Team Management"]} searchTerm={searchTerm} defaultEnabled />
+                                <FeatureSectionEdit title="Settings" features={permissionsData["Settings"]} searchTerm={searchTerm} />
+                            </div>
+                        </ScrollArea>
+                        <div className="px-6 py-4 mt-auto border-t">
+                            <Button className="w-full h-14 rounded-full text-lg" onClick={() => setIsEditing(false)}>
+                                Save Changes
+                            </Button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                         <ScrollArea className="flex-1 p-6">
+                            <div className="space-y-4">
+                                <p className="text-sm font-medium text-muted-foreground">Features access</p>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+                                    {Object.entries(relevantPermissions).map(([title, features]) => (
+                                        <FeatureSectionView key={title} title={title} features={features} />
+                                    ))}
+                                </div>
+                            </div>
+                        </ScrollArea>
+                        <div className="px-6 py-4 mt-auto border-t flex items-center justify-between">
+                            <Button variant="ghost" size="icon" className="text-destructive h-14 w-14 rounded-full bg-background">
+                                <Trash2 />
+                            </Button>
+                            <Button className="h-14 rounded-full text-lg px-12" onClick={() => setIsEditing(true)}>
+                                <Edit className="mr-2 h-4 w-4"/>
+                                Edit
+                            </Button>
+                        </div>
+                    </>
+                )}
             </DialogContent>
         </Dialog>
     );
