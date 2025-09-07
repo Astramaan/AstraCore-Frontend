@@ -7,7 +7,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -361,8 +360,8 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
       >
           <DialogOrSheetHeader className="p-6 border-b">
               <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
-                  <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                    <Plus className="h-6 w-6 text-gray-600"/>
+                  <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
+                    <Plus className="h-6 w-6 text-black"/>
                   </div>
                   Create New Meeting
                   <div className="flex items-center gap-4 ml-auto">
