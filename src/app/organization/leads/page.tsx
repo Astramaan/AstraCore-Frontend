@@ -149,7 +149,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="flex items-center gap-4 flex-wrap md:flex-nowrap w-full" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="h-14 px-6 rounded-full text-grey-1 text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
+                        <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
                             {lead.level}
                             <ChevronDown />
                         </Button>
@@ -161,7 +161,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="h-14 px-6 rounded-full bg-background text-black hover:bg-muted text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
+                <Button className="h-12 md:h-14 px-6 rounded-full bg-background text-black hover:bg-muted text-base md:text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
                     <Phone className="mr-2"/>
                     Contact
                 </Button>
