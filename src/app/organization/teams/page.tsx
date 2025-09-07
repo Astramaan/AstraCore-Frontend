@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -147,7 +148,7 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                         <Input 
-                            placeholder="Search Team" 
+                            placeholder="Search Members" 
                             className="pl-12 h-14 rounded-full bg-white text-lg" 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
