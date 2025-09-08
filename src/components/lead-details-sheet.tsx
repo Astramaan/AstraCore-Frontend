@@ -19,6 +19,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
+import { ScrollArea } from './ui/scroll-area';
 
 export interface Lead {
     organization: string;
@@ -111,7 +112,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
     };
 
     return (
-        <>
+        <div className="flex flex-col h-full">
             <DialogHeader className="p-4 border-b">
                 <DialogTitle className="flex items-center font-medium">
                     {isEditing ? 'Edit Lead Details' : 'Lead Details'}
@@ -142,105 +143,108 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                     )}
                 </DialogTitle>
             </DialogHeader>
-
-            <div className="p-6 space-y-6 overflow-y-auto no-scrollbar max-h-[calc(100vh-150px)]">
-                <div className="relative">
-                    <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
-                </div>
-                
-                <div className="flex justify-between items-start -mt-4">
-                    <div>
-                         <h3 className="text-2xl font-semibold">{lead.fullName}</h3>
-                         <p className="text-muted-foreground">{lead.leadId}</p>
+            <ScrollArea className="flex-1">
+                <div className="p-6 space-y-6">
+                    <div className="relative">
+                        <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
                     </div>
-                </div>
-                
-                <div className="space-y-6">
-                    <h4 className="text-lg font-medium">Personal Information</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <DetailField label="Name" name="fullName" value={lead.fullName} isEditing={isEditing} onChange={handleInputChange} />
-
-                        <div className="space-y-2">
-                             <Label className="text-lg font-medium px-2 text-grey-1">Lead ID</Label>
-                             <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                <p className="text-black text-base leading-tight">{lead.leadId}</p>
-                             </div>
+                    
+                    <div className="flex justify-between items-start -mt-4">
+                        <div>
+                             <h3 className="text-2xl font-semibold">{lead.fullName}</h3>
+                             <p className="text-muted-foreground">{lead.leadId}</p>
                         </div>
+                    </div>
+                    
+                    <div className="space-y-6">
+                        <h4 className="text-lg font-medium">Personal Information</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <DetailField label="Name" name="fullName" value={lead.fullName} isEditing={isEditing} onChange={handleInputChange} />
 
-                        <DetailField label="Phone Number" name="phone" value={lead.phone} isEditing={isEditing} onChange={handleInputChange} />
-                        <DetailField label="Email" name="email" value={lead.email} isEditing={isEditing} onChange={handleInputChange} />
-                        <div className="md:col-span-2">
-                             <DetailField label="Current address" name="address" value={lead.address} isEditing={isEditing} onChange={handleInputChange} />
+                            <div className="space-y-2">
+                                 <Label className="text-lg font-medium px-2 text-grey-1">Lead ID</Label>
+                                 <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                    <p className="text-black text-base leading-tight">{lead.leadId}</p>
+                                 </div>
+                            </div>
+
+                            <DetailField label="Phone Number" name="phone" value={lead.phone} isEditing={isEditing} onChange={handleInputChange} />
+                            <DetailField label="Email" name="email" value={lead.email} isEditing={isEditing} onChange={handleInputChange} />
+                            <div className="md:col-span-2">
+                                 <DetailField label="Current address" name="address" value={lead.address} isEditing={isEditing} onChange={handleInputChange} />
+                            </div>
+                             <DetailField label="Site location Pin code" name="pincode" value={lead.pincode} isEditing={isEditing} onChange={handleInputChange} />
+                             
+                            <div className="space-y-2">
+                                <Label htmlFor="level" className={cn("text-lg font-medium px-2", lead.level ? 'text-grey-1' : 'text-zinc-900')}>Lead Level</Label>
+                                {isEditing ? (
+                                    <Select name="level" value={lead.level} onValueChange={handleSelectChange}>
+                                        <SelectTrigger id="level" className="h-14 bg-background rounded-full px-5">
+                                            <SelectValue placeholder="Select Level" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Level 1">Level 1</SelectItem>
+                                            <SelectItem value="Level 2">Level 2</SelectItem>
+                                            <SelectItem value="Level 3">Level 3</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                ) : (
+                                    <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
+                                        <p className="text-black text-base leading-tight">{lead.level}</p>
+                                    </div>
+                                )}
+                            </div>
+
+                             <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} />
                         </div>
-                         <DetailField label="Site location Pin code" name="pincode" value={lead.pincode} isEditing={isEditing} onChange={handleInputChange} />
-                         
-                        <div className="space-y-2">
-                            <Label htmlFor="level" className={cn("text-lg font-medium px-2", lead.level ? 'text-grey-1' : 'text-zinc-900')}>Lead Level</Label>
-                            {isEditing ? (
-                                <Select name="level" value={lead.level} onValueChange={handleSelectChange}>
-                                    <SelectTrigger id="level" className="h-14 bg-background rounded-full px-5">
-                                        <SelectValue placeholder="Select Level" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Level 1">Level 1</SelectItem>
-                                        <SelectItem value="Level 2">Level 2</SelectItem>
-                                        <SelectItem value="Level 3">Level 3</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            ) : (
-                                <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                                    <p className="text-black text-base leading-tight">{lead.level}</p>
+                    </div>
+                    
+                    <div className="space-y-4">
+                        <h4 className="text-lg font-medium">Site Images</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {lead.siteImages.map((img, index) => (
+                                <div key={index} className="relative group">
+                                    <Image src={img} width={150} height={150} alt={`Site image ${index + 1}`} className="rounded-[10px] aspect-square object-cover" data-ai-hint="construction site photo" />
+                                    {isEditing && (
+                                         <button 
+                                            onClick={() => handleRemoveSiteImage(index)}
+                                            className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                            aria-label="Remove image"
+                                        >
+                                            <Trash2 className="h-3 w-3" />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                             {isEditing && lead.siteImages.length < 4 && (
+                                <div 
+                                    className="w-full aspect-square rounded-[10px] border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer"
+                                    onClick={() => siteImageUploadRef.current?.click()}
+                                >
+                                    <UploadCloud className="h-8 w-8" />
+                                    <span className="text-sm mt-2">Upload</span>
+                                    <input
+                                        ref={siteImageUploadRef}
+                                        id="site-image-upload"
+                                        type="file"
+                                        className="hidden"
+                                        multiple
+                                        accept="image/*"
+                                        onChange={handleSiteImageUpload}
+                                        disabled={lead.siteImages.length >= 4}
+                                    />
                                 </div>
                             )}
                         </div>
-
-                         <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} />
-                         <div className="md:col-span-2">
-                            <Button className="w-full h-12 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">Request 1% Token</Button>
-                         </div>
                     </div>
                 </div>
-                
-                <div className="space-y-4">
-                    <h4 className="text-lg font-medium">Site Images</h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {lead.siteImages.map((img, index) => (
-                            <div key={index} className="relative group">
-                                <Image src={img} width={150} height={150} alt={`Site image ${index + 1}`} className="rounded-[10px] aspect-square object-cover" data-ai-hint="construction site photo" />
-                                {isEditing && (
-                                     <button 
-                                        onClick={() => handleRemoveSiteImage(index)}
-                                        className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                                        aria-label="Remove image"
-                                    >
-                                        <Trash2 className="h-3 w-3" />
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                         {isEditing && lead.siteImages.length < 4 && (
-                            <div 
-                                className="w-full aspect-square rounded-[10px] border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 cursor-pointer"
-                                onClick={() => siteImageUploadRef.current?.click()}
-                            >
-                                <UploadCloud className="h-8 w-8" />
-                                <span className="text-sm mt-2">Upload</span>
-                                <input
-                                    ref={siteImageUploadRef}
-                                    id="site-image-upload"
-                                    type="file"
-                                    className="hidden"
-                                    multiple
-                                    accept="image/*"
-                                    onChange={handleSiteImageUpload}
-                                    disabled={lead.siteImages.length >= 4}
-                                />
-                            </div>
-                        )}
-                    </div>
+            </ScrollArea>
+             {!isEditing && (
+                <div className="p-4 border-t mt-auto">
+                    <Button className="w-full h-[54px] rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">Request 1% Token</Button>
                 </div>
-            </div>
-        </>
+            )}
+        </div>
     );
 };
 
@@ -259,7 +263,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
           className={cn(
             "p-0 bg-white border-stone-300",
             isMobile 
-              ? "w-full rounded-t-3xl"
+              ? "w-full h-full rounded-none border-none"
               : "md:max-w-xl lg:max-w-2xl rounded-[20px]"
           )}
           {...(isMobile ? { side: "bottom" } : { side: "right" })}
