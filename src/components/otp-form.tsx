@@ -151,5 +151,3 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
     </form>
   );
 }
-
-    

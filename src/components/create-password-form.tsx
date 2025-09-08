@@ -28,7 +28,6 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
   const [state, dispatch] = useActionState(createPassword, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { pending } = useFormStatus();
   
   useEffect(() => {
     if (state?.error) {
