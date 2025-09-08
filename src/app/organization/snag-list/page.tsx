@@ -86,7 +86,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isLast: boolean }) => (
     <div className="flex flex-col cursor-pointer" onClick={() => onViewDetails(snag)}>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-10 py-4 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -104,15 +104,15 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
 
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="flex flex-col gap-2 flex-1 pl-16 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                 <p className="text-sm text-grey-1">{snag.createdAt}</p>
             </div>
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center justify-between w-full md:w-auto md:gap-4 flex-wrap">
-                <div>
+            <div className="flex items-center justify-between md:justify-end md:gap-4 flex-wrap flex-1 pl-16 md:pl-0">
+                <div className="text-left md:text-right">
                   <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                   <p className="text-sm text-grey-1">{snag.subStatus}</p>
                 </div>
@@ -359,7 +359,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                             <AccordionTrigger className="w-full hover:no-underline px-10 py-6 group">
+                             <AccordionTrigger className="w-full hover:no-underline px-6 md:px-10 py-6 group">
                                 <div className="flex justify-between items-center w-full">
                                     <h3 className="text-lg font-semibold group-data-[state=open]:text-primary">{projectKey}</h3>
                                     <div className="flex items-center gap-2">
@@ -447,5 +447,3 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
-
-    

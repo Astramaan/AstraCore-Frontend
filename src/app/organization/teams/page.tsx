@@ -103,14 +103,14 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="flex flex-col gap-2 flex-1 pl-16 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-green-600 font-medium">{String(role.active).padStart(2, '0')}</span></p>
             </div>
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center gap-4 flex-1">
+            <div className="flex items-center gap-4 flex-1 justify-between md:justify-start pl-16 md:pl-0">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
                 <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>

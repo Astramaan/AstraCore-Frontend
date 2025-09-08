@@ -77,44 +77,44 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className="flex justify-between items-center py-4 hover:bg-muted/50 rounded-lg px-2 -mx-2">
-            <div className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
-                <div className="flex items-center gap-4 flex-1">
-                    <Avatar className="w-14 h-14 bg-background">
-                       <Calendar className="w-6 h-6 text-primary" />
-                    </Avatar>
-                    <div className="w-44">
-                        <p className="text-xl font-semibold text-black group-hover:text-primary whitespace-nowrap">{meeting.name}, {meeting.city}</p>
-                    </div>
-                </div>
-                 <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
-                <div className="hidden md:flex flex-col gap-2 w-96">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
-                </div>
-                 <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
-                <div className="h-12 flex-col justify-between items-start hidden md:inline-flex">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                    <div className="flex items-center gap-2 text-lg">
-                        <span className="text-grey-2">Link: </span> 
-                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
-                            <GoogleMeetIcon className="w-6 h-6" />
-                            Google Meet
-                        </a>
-                    </div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2">
+            <div className="flex items-center gap-4 flex-1">
+                <Avatar className="w-14 h-14 bg-background">
+                   <Calendar className="w-6 h-6 text-primary" />
+                </Avatar>
+                <div className="w-44">
+                    <p className="text-xl font-semibold text-black group-hover:text-primary whitespace-nowrap">{meeting.name}, {meeting.city}</p>
                 </div>
             </div>
-             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                        <MoreVertical className="w-6 h-6" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+            <div className="flex flex-col gap-2 md:w-96 pl-16 md:pl-0">
+                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
+            </div>
+            <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+            <div className="h-auto flex-col justify-between items-start inline-flex pl-16 md:pl-0">
+                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                <div className="flex items-center gap-2 text-lg">
+                    <span className="text-grey-2">Link: </span> 
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                        <GoogleMeetIcon className="w-6 h-6" />
+                        Google Meet
+                    </a>
+                </div>
+            </div>
+            <div className="ml-auto self-center">
+                 <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         </div>
         {!isLast && <div className="h-px bg-stone-300" />}
     </div>
