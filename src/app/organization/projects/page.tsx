@@ -25,7 +25,7 @@ import { deleteProject } from "@/app/actions";
 
 
 const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
-     <div className="flex flex-col group">
+    <div className="flex flex-col group">
         <Link href={`/organization/projects/${project.id}`} className="block py-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 cursor-pointer">
                 <div className="flex items-center gap-4 flex-1">
@@ -38,16 +38,18 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto gap-4 pl-16 md:pl-0">
-                    <div className="flex flex-col gap-2 md:w-80">
-                        <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
-                        <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
-                    </div>
-                    <div className="hidden md:block w-px h-14 bg-stone-300" />
-                    <div className="flex flex-col gap-2 mt-2 md:mt-0 md:w-56">
-                        <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
-                        <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
-                    </div>
+                <div className="hidden md:block w-px h-14 bg-stone-300" />
+                
+                <div className="flex flex-col gap-2 flex-1 pl-16 md:pl-0">
+                    <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+                </div>
+                
+                <div className="hidden md:block w-px h-14 bg-stone-300" />
+
+                <div className="flex flex-col gap-2 flex-1 pl-16 md:pl-0">
+                    <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
                 </div>
 
                 <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
