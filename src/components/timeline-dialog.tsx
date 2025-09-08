@@ -68,9 +68,10 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
 export const TimelineDialog = () => {
     const isMobile = useIsMobile();
     const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
     const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
 
 
