@@ -23,6 +23,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import { ScrollArea } from './ui/scroll-area';
 
 export interface Snag {
     id: string;
@@ -79,7 +80,7 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
     }
     
     return (
-        <>
+        <div className="flex flex-col h-full">
             <DialogHeader className="p-4 border-b">
                 <DialogTitle className="flex items-center font-medium">
                     {isEditing ? 'Edit Snag' : 'Snag Details'}
@@ -122,54 +123,56 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                 </DialogTitle>
             </DialogHeader>
 
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-220px)] no-scrollbar">
-                <div className="space-y-4">
-                     {snag.images && snag.images.length > 0 && (
-                        <Carousel className="w-full max-w-sm mx-auto">
-                            <CarouselContent>
-                                {snag.images.map((image, index) => (
-                                    <CarouselItem key={index}>
-                                        <div className="w-full aspect-video relative">
-                                            <Image src={image} alt={`${snag.title} - image ${index + 1}`} layout="fill" className="rounded-lg object-cover" data-ai-hint="defect photo"/>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                             {snag.images.length > 1 && (
-                                <>
-                                    <CarouselPrevious />
-                                    <CarouselNext />
-                                </>
-                            )}
-                        </Carousel>
-                    )}
-                    {isEditing ? (
-                        <div className="space-y-2">
-                            <Label htmlFor="title" className="px-2">Title</Label>
-                            <Input id="title" name="title" value={snag.title} onChange={handleInputChange} className="h-14 rounded-full bg-background" />
-                        </div>
-                    ) : (
-                        <h3 className="text-2xl font-semibold">{snag.title}</h3>
-                    )}
-                     {isEditing ? (
-                        <div className="space-y-2">
-                             <Label htmlFor="description" className="px-2">Description</Label>
-                             <Textarea id="description" name="description" value={snag.description} onChange={handleInputChange} className="text-muted-foreground min-h-[54px] rounded-3xl bg-background" />
-                        </div>
-                    ) : (
-                        <p className="text-muted-foreground">{snag.description}</p>
-                    )}
-                </div>
+            <ScrollArea className="flex-1">
+                <div className="p-6 space-y-6">
+                    <div className="space-y-4">
+                         {snag.images && snag.images.length > 0 && (
+                            <Carousel className="w-full max-w-sm mx-auto">
+                                <CarouselContent>
+                                    {snag.images.map((image, index) => (
+                                        <CarouselItem key={index}>
+                                            <div className="w-full aspect-video relative">
+                                                <Image src={image} alt={`${snag.title} - image ${index + 1}`} layout="fill" className="rounded-lg object-cover" data-ai-hint="defect photo"/>
+                                            </div>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                 {snag.images.length > 1 && (
+                                    <>
+                                        <CarouselPrevious />
+                                        <CarouselNext />
+                                    </>
+                                )}
+                            </Carousel>
+                        )}
+                        {isEditing ? (
+                            <div className="space-y-2">
+                                <Label htmlFor="title" className="px-2">Title</Label>
+                                <Input id="title" name="title" value={snag.title} onChange={handleInputChange} className="h-14 rounded-full bg-background" />
+                            </div>
+                        ) : (
+                            <h3 className="text-2xl font-semibold">{snag.title}</h3>
+                        )}
+                         {isEditing ? (
+                            <div className="space-y-2">
+                                 <Label htmlFor="description" className="px-2">Description</Label>
+                                 <Textarea id="description" name="description" value={snag.description} onChange={handleInputChange} className="text-muted-foreground min-h-[54px] rounded-3xl bg-background" />
+                            </div>
+                        ) : (
+                            <p className="text-muted-foreground">{snag.description}</p>
+                        )}
+                    </div>
 
-                <Separator />
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <DetailRow label="Project" value={`${snag.projectName} (${snag.projectId})`} />
-                    <DetailRow label="Created By" value={snag.createdBy} />
-                    <DetailRow label="Created At" value={snag.createdAt} />
-                    <DetailRow label="Status" value={<Badge className={cn("text-base", snag.statusColor)} variant="outline">{snag.status}</Badge>} />
+                    <Separator />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <DetailRow label="Project" value={`${snag.projectName} (${snag.projectId})`} />
+                        <DetailRow label="Created By" value={snag.createdBy} />
+                        <DetailRow label="Created At" value={snag.createdAt} />
+                        <DetailRow label="Status" value={<Badge className={cn("text-base", snag.statusColor)} variant="outline">{snag.status}</Badge>} />
+                    </div>
                 </div>
-            </div>
+            </ScrollArea>
             {!isEditing && (
                  <div className="p-4 border-t mt-auto">
                     <div className="flex justify-end gap-4">
@@ -185,7 +188,7 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
@@ -204,10 +207,10 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate, st
           className={cn(
             "p-0 bg-white border-stone-300",
             isMobile 
-              ? "w-full rounded-t-3xl"
+              ? "w-full h-full rounded-none border-none"
               : "md:max-w-lg rounded-[20px]"
           )}
-          {...(isMobile ? { side: "bottom" } : { side: "right" })}
+          {...(isMobile ? { side: "right" } : { side: "right" })}
           onInteractOutside={(e) => {
               if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
                   e.preventDefault();
