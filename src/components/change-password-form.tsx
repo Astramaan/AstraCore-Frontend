@@ -16,7 +16,7 @@ import Link from "next/link";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
+    <Button type="submit" className="w-full md:w-auto md:px-14 h-[54px] rounded-full hover:bg-primary/90" disabled={pending}>
       {pending ? "Saving..." : "Save Password"}
     </Button>
   );
@@ -45,79 +45,81 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
   }, [state, toast, onSuccess]);
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} className="space-y-6 flex-1 flex flex-col">
       <input type="hidden" name="email" value={email} />
-      <div className="space-y-2">
-            <div className="flex justify-between items-center">
-                <Label htmlFor="currentPassword" className={cn("text-lg font-medium")}>Current Password</Label>
+      <div className="flex-1">
+        <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                  <Label htmlFor="currentPassword" className={cn("text-lg font-medium")}>Current Password</Label>
+              </div>
+            <div className="relative flex items-center">
+              <Input 
+                id="currentPassword" 
+                name="currentPassword" 
+                type={showCurrentPassword ? "text" : "password"} 
+                required 
+                className={`pr-12 rounded-full bg-background h-[54px]`}
+                placeholder="Enter your current password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                className="absolute right-6 text-foreground"
+                aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+              >
+                {showCurrentPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+              </button>
             </div>
-          <div className="relative flex items-center">
-            <Input 
-              id="currentPassword" 
-              name="currentPassword" 
-              type={showCurrentPassword ? "text" : "password"} 
-              required 
-              className={`pr-12 rounded-full bg-background h-[54px]`}
-              placeholder="Enter your current password"
-            />
-            <button
-              type="button"
-              onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-              className="absolute right-6 text-foreground"
-              aria-label={showCurrentPassword ? "Hide password" : "Show password"}
-            >
-              {showCurrentPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-            </button>
-          </div>
+        </div>
+        <div className="space-y-2 mt-6">
+            <Label htmlFor="newPassword" className={cn("text-lg font-medium")}>New Password</Label>
+            <div className="relative flex items-center">
+              <Input 
+                id="newPassword" 
+                name="newPassword" 
+                type={showNewPassword ? "text" : "password"} 
+                required 
+                className={`pr-12 rounded-full bg-background h-[54px]`}
+                placeholder="Enter new password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className="absolute right-6 text-foreground"
+                aria-label={showNewPassword ? "Hide password" : "Show password"}
+              >
+                {showNewPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+              </button>
+            </div>
+        </div>
+        <div className="space-y-2 mt-6">
+            <Label htmlFor="confirmPassword" className={cn("text-lg font-medium")}>Confirm New Password</Label>
+            <div className="relative flex items-center">
+              <Input 
+                id="confirmPassword" 
+                name="confirmPassword" 
+                type={showConfirmPassword ? "text" : "password"} 
+                required 
+                className={`pr-12 rounded-full bg-background h-[54px]`}
+                placeholder="Confirm new password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-6 text-foreground"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+              </button>
+            </div>
+            <div className="text-right pt-1">
+               <Link href="/forgot-password" className="text-sm text-grey-1 underline">
+                  Forgot current password?
+              </Link>
+            </div>
+        </div>
       </div>
-      <div className="space-y-2">
-          <Label htmlFor="newPassword" className={cn("text-lg font-medium")}>New Password</Label>
-          <div className="relative flex items-center">
-            <Input 
-              id="newPassword" 
-              name="newPassword" 
-              type={showNewPassword ? "text" : "password"} 
-              required 
-              className={`pr-12 rounded-full bg-background h-[54px]`}
-              placeholder="Enter new password"
-            />
-            <button
-              type="button"
-              onClick={() => setShowNewPassword(!showNewPassword)}
-              className="absolute right-6 text-foreground"
-              aria-label={showNewPassword ? "Hide password" : "Show password"}
-            >
-              {showNewPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-            </button>
-          </div>
-      </div>
-      <div className="space-y-2">
-          <Label htmlFor="confirmPassword" className={cn("text-lg font-medium")}>Confirm New Password</Label>
-          <div className="relative flex items-center">
-            <Input 
-              id="confirmPassword" 
-              name="confirmPassword" 
-              type={showConfirmPassword ? "text" : "password"} 
-              required 
-              className={`pr-12 rounded-full bg-background h-[54px]`}
-              placeholder="Confirm new password"
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-6 text-foreground"
-              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
-            >
-              {showConfirmPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-            </button>
-          </div>
-          <div className="text-right pt-1">
-             <Link href="/forgot-password" className="text-sm text-grey-1 underline">
-                Forgot current password?
-            </Link>
-          </div>
-      </div>
-      <div className="pt-6">
+      <div className="pt-6 mt-auto md:flex md:justify-end">
         <SubmitButton />
       </div>
     </form>

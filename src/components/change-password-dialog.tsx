@@ -7,11 +7,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { X, Check } from 'lucide-react';
 import { useToast } from './ui/use-toast';
 import { ChangePasswordForm } from './change-password-form';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
+import { cn } from '@/lib/utils';
 
 export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigger?: React.ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const { toast } = useToast();
+    const isMobile = useIsMobile();
     
     const handleOpenChange = (open: boolean) => {
         if (!open) {
@@ -37,25 +41,35 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
         </Button>
     )
 
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+
     return (
-        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogTrigger asChild>
+        <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
+            <DialogOrSheetTrigger asChild>
                 {trigger || defaultTrigger}
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
-                 <DialogHeader className="p-6">
-                    <DialogTitle className="flex justify-between items-center">
+            </DialogOrSheetTrigger>
+            <DialogOrSheetContent className={cn(
+                "p-0 flex flex-col bg-white",
+                isMobile ? "w-full h-full rounded-none" : "sm:max-w-md rounded-[50px]"
+            )}>
+                 <DialogOrSheetHeader className="p-6 border-b">
+                    <DialogOrSheetTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">
                            Change Password
                         </span>
-                        <DialogClose asChild>
+                        <DialogOrSheetClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background hover:bg-muted rounded-full">
                                 <X />
                             </Button>
-                        </DialogClose>
-                    </DialogTitle>
-                </DialogHeader>
-                <div className="px-6 pb-6">
+                        </DialogOrSheetClose>
+                    </DialogOrSheetTitle>
+                </DialogOrSheetHeader>
+                <div className="px-6 pb-6 flex-1 flex flex-col">
                     {!showSuccess ? (
                         <ChangePasswordForm email={email} onSuccess={handlePasswordSuccess} />
                     ) : (
@@ -72,7 +86,7 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
                         </div>
                     )}
                 </div>
-            </DialogContent>
-        </Dialog>
+            </DialogOrSheetContent>
+        </DialogOrSheet>
     );
 };
