@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { SuccessPopup } from './success-popup';
 import { Separator } from './ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { ScrollArea } from './ui/scroll-area';
 
 const FloatingLabelInput = ({ id, label, value, type, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, type?: string }) => (
     <div className="space-y-2">
@@ -192,8 +193,8 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-6">
                     <div className="flex gap-4 items-center">
                         <label htmlFor="logo-upload" className="w-24 h-24 bg-input rounded-2xl border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
@@ -246,14 +247,13 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
                     <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
                     <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                 </div>
-
-
-                <div className="flex justify-end pt-8">
-                    <Button type="submit" className="w-full md:w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
-                        {vendorToEdit ? 'Save & Next' : 'Next'}
-                        <ArrowRight className="ml-2 h-5 w-5"/>
-                    </Button>
-                </div>
+            </ScrollArea>
+                
+            <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
+                <Button type="submit" className="w-full md:w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
+                    {vendorToEdit ? 'Save & Next' : 'Next'}
+                    <ArrowRight className="ml-2 h-5 w-5"/>
+                </Button>
             </div>
         </form>
     );
@@ -370,51 +370,55 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
     }
 
     return (
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
-            <form onSubmit={handleAdd} className="space-y-6">
-                <div className="lg:col-span-2">
-                    <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
-                </div>
+        <div className="flex flex-col h-full">
+            <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-6">
-                    <div className="space-y-2">
-                        <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
-                        <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
-                            {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
-                            <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
-                        </label>
-                    </div>
-                    <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={(e) => setProductName(e.target.value)} />
-                    <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
-                    <div className="space-y-2">
-                        <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
-                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
-                    </div>
-                    <Button type="submit" className="rounded-full">
-                        <Plus className="mr-2" />
-                        Add
-                    </Button>
-                </div>
-            </form>
-            <div className="border-t pt-6 mt-6">
-                <h3 className="text-lg font-medium mb-4">Materials</h3>
-                <div className="space-y-4">
-                     {materials.map(material => (
-                         <div key={material.id} className="flex items-center gap-4 p-4 rounded-[10px] border border-stone-300">
-                            <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image" />
-                            <div className="flex-1 space-y-1">
-                                <p className="font-semibold">{material.name}</p>
-                                <p className="text-sm text-muted-foreground line-clamp-2">{material.description}</p>
-                            </div>
-                            <p className="font-medium">{material.price}</p>
-                            <div className="flex gap-2">
-                                <Button size="icon" variant="ghost" onClick={() => setEditingMaterial(material)}><Edit className="w-4 h-4" /></Button>
-                                <Button size="icon" variant="ghost" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(material.id)}><Trash2 className="w-4 h-4" /></Button>
-                            </div>
+                    <form onSubmit={handleAdd} className="space-y-6">
+                        <div className="lg:col-span-2">
+                            <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
                         </div>
-                     ))}
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
+                                <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
+                                    {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
+                                    <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
+                                </label>
+                            </div>
+                            <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={(e) => setProductName(e.target.value)} />
+                            <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
+                            <div className="space-y-2">
+                                <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
+                                <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
+                            </div>
+                            <Button type="submit" className="rounded-full">
+                                <Plus className="mr-2" />
+                                Add
+                            </Button>
+                        </div>
+                    </form>
+                    <div className="border-t pt-6 mt-6">
+                        <h3 className="text-lg font-medium mb-4">Materials</h3>
+                        <div className="space-y-4">
+                            {materials.map(material => (
+                                <div key={material.id} className="flex items-center gap-4 p-4 rounded-[10px] border border-stone-300">
+                                    <Image src={material.image} width={100} height={100} alt={material.name} className="rounded-[10px] border border-stone-300" data-ai-hint="product image" />
+                                    <div className="flex-1 space-y-1">
+                                        <p className="font-semibold">{material.name}</p>
+                                        <p className="text-sm text-muted-foreground line-clamp-2">{material.description}</p>
+                                    </div>
+                                    <p className="font-medium">{material.price}</p>
+                                    <div className="flex gap-2">
+                                        <Button size="icon" variant="ghost" onClick={() => setEditingMaterial(material)}><Edit className="w-4 h-4" /></Button>
+                                        <Button size="icon" variant="ghost" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(material.id)}><Trash2 className="w-4 h-4" /></Button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="flex justify-between items-center pt-8">
+            </ScrollArea>
+            <div className="p-6 mt-auto border-t flex justify-between items-center gap-2 shrink-0 bg-white rounded-b-[20px]">
                 <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                     Back
                 </Button>
@@ -516,14 +520,14 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
                 </DialogTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 rounded-[20px] bg-white",
+                        "p-0 bg-white flex flex-col",
                         isMobile
-                            ? "w-full rounded-t-3xl"
-                            : "md:max-w-2xl"
+                            ? "w-full h-full rounded-none border-none"
+                            : "md:max-w-2xl rounded-[20px]"
                     )}
                     {...(isMobile && { side: "bottom" })}
                 >
-                    <DialogOrSheetHeader className="p-6 border-b">
+                    <DialogOrSheetHeader className="p-6 border-b shrink-0">
                         <div className="flex items-center justify-between">
                             <DialogOrSheetTitle className="text-2xl font-semibold">
                                 {isEditMode ? 'Edit Vendor' : step === 'addVendor' ? 'Add New Vendor' : 'Add Materials'}
@@ -535,11 +539,13 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
                             </DialogOrSheetClose>
                         </div>
                     </DialogOrSheetHeader>
-                    {step === 'addVendor' ? (
-                        <AddVendorForm onNext={handleNext} vendorToEdit={vendorToEdit} />
-                    ) : (
-                        <AddMaterialForm vendorName={vendorName || vendorToEdit.companyName} onBack={handleBack} onVendorAdded={handleVendorAdded} initialMaterials={vendorToEdit?.materials} />
-                    )}
+                     <div className="flex-1 flex flex-col overflow-hidden">
+                        {step === 'addVendor' ? (
+                            <AddVendorForm onNext={handleNext} vendorToEdit={vendorToEdit} />
+                        ) : (
+                            <AddMaterialForm vendorName={vendorName || vendorToEdit.companyName} onBack={handleBack} onVendorAdded={handleVendorAdded} initialMaterials={vendorToEdit?.materials} />
+                        )}
+                    </div>
                 </DialogOrSheetContent>
             </DialogOrSheet>
             {!isEditMode && <SuccessPopup
@@ -553,5 +559,6 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
+
 
 
