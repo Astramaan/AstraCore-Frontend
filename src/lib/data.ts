@@ -177,6 +177,7 @@ export async function getProjectDetails(projectId: string) {
         return data;
     } catch (error) {
         console.error(`Error fetching project details for ${projectId}:`, error);
+        // Fallback to mock data if fetch fails
         const mockProject = mockProjects.find(p => p.id === projectId);
         if (mockProject) {
             return {
@@ -192,6 +193,7 @@ export async function getProjectDetails(projectId: string) {
                 }
             };
         }
-        return mockProjectDetails; // Fallback to default mock
+        // Return a default mock object if no specific mock is found
+        return mockProjectDetails;
     }
 }
