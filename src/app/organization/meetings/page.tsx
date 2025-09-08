@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
-import { MoreVertical, Search, ShieldAlert, Calendar } from "lucide-react";
+import { MoreVertical, Search, ShieldAlert } from "lucide-react";
 import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
 import { EditMeetingSheet, Meeting } from '@/components/edit-meeting-sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -21,8 +21,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Link from 'next/link';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -172,25 +170,24 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col md:flex-row justify-end items-center gap-4">
-                <div className="flex items-center gap-4 w-full md:w-auto">
-                    <div className="relative w-full md:w-64">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
-                        <Input 
-                            placeholder="Search Meetings..." 
-                            className="pl-12 h-14 rounded-full bg-white text-lg" 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
-                </div>
-            </div>
-
             {/* Desktop View */}
             <div className="hidden md:block space-y-8">
+                 <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-medium text-zinc-900">Client Meetings</h2>
+                     <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="relative w-full md:w-64">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                            <Input 
+                                placeholder="Search Meetings..." 
+                                className="pl-12 h-14 rounded-full bg-white text-lg" 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
+                    </div>
+                </div>
                 <div>
-                    <h2 className="text-2xl font-medium text-zinc-900 mb-4">Client Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
                            {filteredClientMeetings.map((meeting, index) => (
@@ -206,8 +203,10 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     </Card>
                 </div>
 
+                 <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-medium text-zinc-900">Lead Meetings</h2>
+                </div>
                 <div>
-                    <h2 className="text-2xl font-medium text-zinc-900 mb-4">Lead Meetings</h2>
                     <Card className="rounded-[50px] bg-white">
                         <CardContent className="p-4 md:p-6">
                              {filteredLeadMeetings.map((meeting, index) => (
@@ -226,6 +225,20 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
             {/* Mobile View */}
             <div className="md:hidden space-y-6">
+                <div className="flex flex-col md:flex-row justify-end items-center gap-4">
+                    <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="relative w-full md:w-64">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                            <Input 
+                                placeholder="Search Meetings..." 
+                                className="pl-12 h-14 rounded-full bg-white text-lg" 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
+                    </div>
+                </div>
                 <div>
                     <h2 className="text-xl font-medium mb-4">Client Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
