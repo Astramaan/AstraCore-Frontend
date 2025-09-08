@@ -30,7 +30,7 @@ export const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/teams')) {
-        pageTitle = 'Teams Man...';
+        pageTitle = 'Teams Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
@@ -58,8 +58,8 @@ export const OrganizationHeader = () => {
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  <span className="hidden md:inline">Teams Man...</span>
-                  <span className="md:hidden">Teams Man...</span>
+                  <span className="hidden md:inline">Teams Management</span>
+                  <span className="md:hidden">Teams Management</span>
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -100,8 +100,8 @@ export const OrganizationHeader = () => {
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              <span className="hidden md:inline">Teams Man...</span>
-                              <span className="md:hidden">Teams Man...</span>
+                              <span className="hidden md:inline">Teams Management</span>
+                              <span className="md:hidden">Teams Management</span>
                           </Button>
                         </Link>
                     </div>
