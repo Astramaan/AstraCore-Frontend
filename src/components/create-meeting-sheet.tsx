@@ -320,8 +320,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         
         </div>
         
-        <div className="flex justify-end pt-8">
-            <Button onClick={handleSubmit} className="px-14 h-12 text-lg rounded-full">
+        <div className="flex md:justify-end pt-8">
+            <Button onClick={handleSubmit} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
                 Create
             </Button>
         </div>
@@ -379,3 +379,4 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </DialogOrSheet>
   );
 }
+
