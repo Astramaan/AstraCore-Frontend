@@ -186,7 +186,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
 
     return (
         <Dialog open={isEditing} onOpenChange={setIsEditing}>
-            <Card className="rounded-[50px] p-4 md:p-8">
+            <Card className="rounded-[50px] py-4 px-4 md:px-8">
                 <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
                         {/* Mobile Layout */}
