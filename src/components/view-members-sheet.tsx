@@ -161,7 +161,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                                 {role.icon}
                             </div>
-                            <h2 className="text-2xl font-semibold whitespace-nowrap">{role.name} - Members</h2>
+                            <h2 className="text-2xl font-semibold">{role.name}</h2>
                         </div>
                         <div className="ml-auto">
                             <SheetClose asChild>
