@@ -32,6 +32,7 @@ import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { updateUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const initialMemberData = {
     id: "1",
@@ -148,7 +149,7 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
                 </div>
             </div>
             <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px] mt-auto">
-                <Button type="submit" className="h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                <Button type="submit" className="w-full md:w-auto h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
             </div>
              <AlertDialog open={isRoleChangeConfirmOpen} onOpenChange={setIsRoleChangeConfirmOpen}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
@@ -176,14 +177,22 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const [member, setMember] = useState(initialMemberData);
     const [isEditing, setIsEditing] = useState(false);
+    const isMobile = useIsMobile();
 
     const handleSave = (updatedMember: typeof initialMemberData) => {
         setMember(updatedMember);
         setIsEditing(false);
     };
+    
+    const handleOpenChange = (open: boolean) => {
+        if (!open) {
+            setMember(initialMemberData);
+        }
+        setIsEditing(open);
+    }
 
     return (
-        <Dialog open={isEditing} onOpenChange={setIsEditing}>
+        <Dialog open={isEditing} onOpenChange={handleOpenChange}>
             <Card className="rounded-[50px] py-4 px-4 md:px-8">
                 <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
@@ -260,7 +269,8 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                 </CardContent>
             </Card>
             <DialogContent className={cn(
-                "p-0 flex flex-col m-0 bg-white sm:max-w-3xl w-full h-full sm:h-auto sm:rounded-[50px]"
+                "p-0 flex flex-col m-0 bg-white sm:max-w-3xl",
+                isMobile ? "w-full h-full rounded-none" : "sm:h-auto sm:rounded-[50px]"
             )}>
                 <EditProfileForm 
                     member={member}
