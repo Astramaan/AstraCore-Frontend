@@ -55,9 +55,6 @@ export const FeatureAccessCard = () => {
                         </div>
                         <CardTitle className="text-2xl font-semibold">Feature access</CardTitle>
                     </div>
-                     <Button size="icon" variant="ghost" className="bg-primary/10 text-primary rounded-full hover:bg-primary/20" onClick={() => setIsCreateRoleDialogOpen(true)}>
-                        <Plus className="w-5 h-5"/>
-                    </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-2">
                     {allRoles.map((role) => (
