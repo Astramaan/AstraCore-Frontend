@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -103,14 +104,14 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
             
             <div className="w-full md:w-px md:h-14 bg-stone-200" />
 
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full pl-16 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-green-600 font-medium">{String(role.active).padStart(2, '0')}</span></p>
             </div>
             
             <div className="w-full md:w-px md:h-14 bg-stone-200" />
 
-            <div className="flex items-center gap-4 md:flex-1 w-full justify-between">
+            <div className="flex items-center gap-4 md:flex-1 w-full justify-between pl-16 md:pl-0">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
                 <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
