@@ -58,8 +58,8 @@ const OrganizationHeader = () => {
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  <span className="hidden md:inline">Teams Management</span>
-                  <span className="md:hidden">Teams Mgmt.</span>
+                  <span className="hidden md:inline">Teams Man...</span>
+                  <span className="md:hidden">Teams Man...</span>
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -100,8 +100,8 @@ const OrganizationHeader = () => {
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              <span className="hidden md:inline">Teams Management</span>
-                              <span className="md:hidden">Teams Mgmt.</span>
+                              <span className="hidden md:inline">Teams Man...</span>
+                              <span className="md:hidden">Teams Man...</span>
                           </Button>
                         </Link>
                     </div>
@@ -127,7 +127,7 @@ const OrganizationBottomNav = () => {
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-2 md:px-4 w-full">
              <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-3 md:py-4 md:px-6 max-w-screen-xl">
-                <div className="flex items-center justify-around gap-1 md:gap-2">
+                <div className="flex items-center justify-around gap-1 md:gap-6">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
                         return (
