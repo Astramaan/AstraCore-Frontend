@@ -148,7 +148,6 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
                 </div>
             </div>
             <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px] mt-auto">
-                <Button type="button" variant="ghost" onClick={onCancel} className="h-14 px-10 rounded-full text-lg bg-background border-transparent hover:bg-muted">Cancel</Button>
                 <Button type="submit" className="h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
             </div>
              <AlertDialog open={isRoleChangeConfirmOpen} onOpenChange={setIsRoleChangeConfirmOpen}>
