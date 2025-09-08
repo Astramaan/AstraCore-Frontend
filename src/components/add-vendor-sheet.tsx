@@ -418,15 +418,18 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
                     </div>
                 </div>
             </ScrollArea>
-            <div className="p-6 mt-auto border-t flex justify-between items-center gap-2 shrink-0 bg-white rounded-b-[20px]">
-                <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
-                    Back
+            <div className="p-6 mt-auto border-t flex flex-col-reverse md:flex-row justify-between items-center gap-4 shrink-0 bg-white rounded-b-[20px]">
+                <Button type="button" className="w-full md:w-auto h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                    Save
                 </Button>
-                <div className="flex items-center gap-2">
+                <div className="flex w-full md:w-auto items-center gap-2">
+                    <Button type="button" variant="outline" className="flex-1 h-14 text-lg rounded-full" onClick={onBack}>
+                        Back
+                    </Button>
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
+                                <Button type="button" variant="outline" className="flex-1 h-14 text-lg rounded-full" onClick={onVendorAdded}>
                                     Notify Vendor
                                 </Button>
                             </TooltipTrigger>
@@ -435,10 +438,6 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-
-                    <Button type="button" className="px-10 h-14 text-lg rounded-full" onClick={onVendorAdded}>
-                        Save
-                    </Button>
                 </div>
             </div>
         </div>
@@ -559,6 +558,7 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
+
 
 
 
