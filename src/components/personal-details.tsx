@@ -15,14 +15,6 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -40,7 +32,6 @@ import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { updateUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 const initialMemberData = {
     id: "1",
@@ -59,12 +50,11 @@ interface PersonalDetailsProps {
     memberId: string;
 }
 
-const EditProfileForm = ({ member, onSave, onCancel, isMobile }: { member: typeof initialMemberData, onSave: (data: typeof initialMemberData) => void, onCancel: () => void, isMobile: boolean }) => {
+const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialMemberData, onSave: (data: typeof initialMemberData) => void, onCancel: () => void }) => {
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
     const { toast } = useToast();
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
 
     const [state, formAction] = useActionState(updateUser, null);
 
@@ -121,16 +111,16 @@ const EditProfileForm = ({ member, onSave, onCancel, isMobile }: { member: typeo
 
     return (
         <form action={formAction} className="flex flex-col h-full">
-            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-                <SheetTitle className="flex justify-between items-center">
+            <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <DialogTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
-                    <DialogOrSheetClose asChild>
+                    <DialogClose asChild>
                         <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full" onClick={onCancel}>
                             <X className="h-5 w-5" />
                         </Button>
-                    </DialogOrSheetClose>
-                </SheetTitle>
-            </SheetHeader>
+                    </DialogClose>
+                </DialogTitle>
+            </DialogHeader>
             <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)] bg-white no-scrollbar flex-1">
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-6">
@@ -187,20 +177,14 @@ const EditProfileForm = ({ member, onSave, onCancel, isMobile }: { member: typeo
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const [member, setMember] = useState(initialMemberData);
     const [isEditing, setIsEditing] = useState(false);
-    const isMobile = useIsMobile();
 
     const handleSave = (updatedMember: typeof initialMemberData) => {
         setMember(updatedMember);
         setIsEditing(false);
     };
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-
-
     return (
-        <DialogOrSheet open={isEditing} onOpenChange={setIsEditing}>
+        <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <Card className="rounded-[50px] py-4 px-4 md:px-8">
                 <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
@@ -208,12 +192,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                         <div className="flex md:hidden items-center gap-4 w-full">
                             <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
                             <div className="flex flex-col gap-2 flex-1">
-                                 <DialogOrSheetTrigger asChild>
+                                 <DialogTrigger asChild>
                                     <Button className="w-full h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Profile
                                     </Button>
-                                </DialogOrSheetTrigger>
+                                </DialogTrigger>
                                 <ChangePasswordDialog 
                                     email={member.email} 
                                     trigger={
@@ -265,28 +249,26 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             </div>
                         </div>
                          <div className="hidden md:flex flex-col space-y-4 lg:pl-8">
-                            <DialogOrSheetTrigger asChild>
+                            <DialogTrigger asChild>
                                 <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                     <Edit className="mr-2 h-5 w-5" />
                                     Edit Profile
                                 </Button>
-                            </DialogOrSheetTrigger>
+                            </DialogTrigger>
                             <ChangePasswordDialog email={member.email} />
                         </div>
                     </div>
                 </CardContent>
             </Card>
-            <DialogOrSheetContent className={cn(
-                "p-0 bg-transparent border-none",
-                isMobile ? "w-full h-full" : "max-w-3xl"
+            <DialogContent className={cn(
+                "p-0 flex flex-col m-0 bg-white sm:max-w-3xl w-full h-full sm:h-auto sm:rounded-[50px]"
             )}>
                 <EditProfileForm 
                     member={member}
                     onSave={handleSave}
                     onCancel={() => setIsEditing(false)}
-                    isMobile={isMobile}
                 />
-            </DialogOrSheetContent>
-        </DialogOrSheet>
+            </DialogContent>
+        </Dialog>
     );
 }
