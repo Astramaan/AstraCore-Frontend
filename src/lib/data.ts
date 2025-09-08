@@ -133,70 +133,39 @@ const mockProjectDetails = {
 };
 
 export async function getDepartments(): Promise<Department[]> {
-    try {
-        const response = await fetch('http://localhost:4000/api/v1/org-users');
-        if (!response.ok) {
-            throw new Error('Failed to fetch departments');
-        }
-        const data = await response.json();
-        return data;
-        
-    } catch (error) {
-        console.error('Error fetching departments:', error);
-        return [];
-    }
+    // This function is not currently used in a way that causes crashes,
+    // but returning mock data ensures stability if it's used later.
+    console.log('Using mock departments data.');
+    return [];
 }
 
 
 export async function getProjects(): Promise<Project[]> {
-    try {
-        const orgId = "6842c24e92a1c2ead0145c79"; // Using a static orgId for now
-        const response = await fetch(`http://localhost:4000/api/v1/organizations/${orgId}/projects`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch projects');
-        }
-        const data = await response.json();
-        // You might need to map the response data to the Project interface
-        return data;
-    } catch (error) {
-        console.error('Error fetching projects, returning mock data:', error);
-        return mockProjects;
-    }
+    console.log('Using mock projects data.');
+    return mockProjects;
 }
 
 export async function getProjectDetails(projectId: string) {
-    try {
-        const orgId = "6842c24e92a1c2ead0145c79"; // Using a static orgId for now
-        const response = await fetch(`http://localhost:4000/api/v1/organizations/${orgId}/projects/${projectId}`);
-        if (!response.ok) {
-            // Throw an error to be caught by the catch block
-            throw new Error(`Failed to fetch project details for ${projectId}, status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(`Error fetching project details for ${projectId}, returning mock data:`, error);
-        
-        // Fallback to mock data if fetch fails
-        const mockProject = mockProjects.find(p => p.id === projectId);
+    console.log(`Using mock project details for ID: ${projectId}`);
+    
+    const mockProject = mockProjects.find(p => p.id === projectId);
 
-        if (mockProject) {
-            return {
-                ...mockProjectDetails,
-                id: mockProject.id,
+    if (mockProject) {
+        return {
+            ...mockProjectDetails,
+            id: mockProject.id,
+            name: mockProject.name,
+            personalInfo: {
+                ...mockProjectDetails.personalInfo,
                 name: mockProject.name,
-                personalInfo: {
-                    ...mockProjectDetails.personalInfo,
-                    name: mockProject.name,
-                    clientId: mockProject.id,
-                    email: mockProject.contact.split(' | ')[0],
-                    phone: mockProject.contact.split(' | ')[1],
-                }
-            };
-        }
-        
-        // Return a default mock object if no specific mock is found to prevent crashes
-        console.warn(`No specific mock project found for ID: ${projectId}. Returning default mock.`);
-        return mockProjectDetails;
+                clientId: mockProject.id,
+                email: mockProject.contact.split(' | ')[0],
+                phone: mockProject.contact.split(' | ')[1],
+            }
+        };
     }
+    
+    // Return a default mock object if no specific mock is found to prevent crashes
+    console.warn(`No specific mock project found for ID: ${projectId}. Returning default mock.`);
+    return mockProjectDetails;
 }
