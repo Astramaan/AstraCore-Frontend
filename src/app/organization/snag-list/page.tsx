@@ -85,7 +85,7 @@ const allSnagsData: Snag[] = [
 ];
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isLast: boolean }) => (
-    <div className="flex flex-col cursor-pointer" onClick={() => onViewDetails(snag)}>
+    <div className="flex flex-col cursor-pointer group" onClick={() => onViewDetails(snag)}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-10 py-4 gap-4">
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
@@ -95,9 +95,8 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
-                <Image src={snag.images[0]} alt={snag.title} width={100} height={100} className="rounded-[5px] object-cover" data-ai-hint="defect photo"/>
                 <div className="flex flex-col gap-1 w-full md:w-60">
-                    <p className="font-medium text-lg text-black">{snag.title}</p>
+                    <p className="font-medium text-lg text-black group-hover:text-primary">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
                 </div>
             </div>
