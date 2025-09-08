@@ -56,7 +56,7 @@ const AddSnagForm = ({ onFormSuccess, selectedProjectId }: { onFormSuccess: () =
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
                 <div className="space-y-2">
                     <Label htmlFor="project-select" className={cn("text-lg font-medium", project ? "text-grey-1" : "text-black")}>Project*</Label>
                     <Select value={project} onValueChange={setProject}>

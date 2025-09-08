@@ -41,23 +41,23 @@ const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTM
 const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string, onRemove?: () => void }) => (
     <div className="space-y-2">
         <Label htmlFor={id} className={cn("px-2 text-lg whitespace-nowrap", fileName ? "text-grey-1" : "text-zinc-900")}>{label}</Label>
-        <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input px-3">
+        <div className="flex flex-col md:flex-row md:items-center rounded-xl md:rounded-full border border-stone-300 md:h-[54px] bg-input p-3 md:px-3 gap-2">
             <div className="flex-1 flex items-center justify-between">
                 <span className="text-sm text-neutral-500 mr-2 truncate flex-1">{fileName || 'No file selected'}</span>
-                <div className="flex items-center gap-1 md:gap-2">
-                    {fileName && onRemove && (
-                        <Button type="button" size="icon" variant="ghost" className="h-6 w-6 text-destructive hover:text-destructive" onClick={onRemove}>
-                            <Trash2 className="w-4 h-4" />
-                        </Button>
-                    )}
-                    <div className="border-l border-stone-300 h-6" />
-                    <label htmlFor={id} className="cursor-pointer text-sm text-zinc-900 flex items-center gap-1 pl-1 md:pl-2">
-                        <Upload className="w-4 h-4" />
-                        Upload
-                    </label>
-                </div>
-                <Input id={id} type="file" className="hidden" onChange={onChange} />
             </div>
+            <div className="flex items-center gap-1 md:gap-2 self-end md:self-center">
+                {fileName && onRemove && (
+                    <Button type="button" size="icon" variant="ghost" className="h-6 w-6 text-destructive hover:text-destructive" onClick={onRemove}>
+                        <Trash2 className="w-4 h-4" />
+                    </Button>
+                )}
+                <div className="border-l border-stone-300 h-6 hidden md:block" />
+                <label htmlFor={id} className="cursor-pointer text-sm text-zinc-900 flex items-center gap-1 pl-1 md:pl-2">
+                    <Upload className="w-4 h-4" />
+                    Upload
+                </label>
+            </div>
+            <Input id={id} type="file" className="hidden" onChange={onChange} />
         </div>
     </div>
 )
@@ -193,7 +193,7 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
                 <div className="space-y-6">
                     <div className="flex gap-4 items-center">
                         <label htmlFor="logo-upload" className="w-24 h-24 bg-input rounded-2xl border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
@@ -370,7 +370,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
     }
 
     return (
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
             <form onSubmit={handleAdd} className="space-y-6">
                 <div className="lg:col-span-2">
                     <h3 className="text-lg font-medium">Adding Materials for <span className="font-semibold text-primary">{vendorName}</span></h3>
@@ -553,4 +553,5 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
+
 

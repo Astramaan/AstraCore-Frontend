@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -120,7 +121,7 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
                     </DialogClose>
                 </DialogTitle>
             </DialogHeader>
-            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)] bg-white">
+            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)] bg-white no-scrollbar">
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-6">
                         <FloatingLabelInput id="name" name="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
