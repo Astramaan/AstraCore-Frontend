@@ -129,10 +129,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                    <DropdownMenuItem onClick={() => setIsEditing(true)}>
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit
-                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setIsEditing(true)}>Edit</DropdownMenuItem>
                                     <DropdownMenuItem className="text-red-600" onSelect={(e) => { onDelete(e as any); }}>Delete</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -146,7 +143,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                 </DialogTitle>
             </DialogHeader>
 
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
+            <div className="p-6 space-y-6 overflow-y-auto no-scrollbar max-h-[calc(100vh-150px)]">
                 <div className="relative">
                     <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
                 </div>
