@@ -28,6 +28,7 @@ import { Textarea } from './ui/textarea';
 import { Calendar } from './ui/calendar';
 import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
+import { ScrollArea } from './ui/scroll-area';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -122,153 +123,154 @@ const AddProjectForm = ({ onNext, projectToEdit }: { onNext: () => void, project
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
-                <div className="space-y-6">
-                    <h3 className="text-lg text-stone-500">Personal details</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
-                        <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
-                        <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
-                        
-                        <div className="space-y-2">
-                             <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
-                             <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
-                                <PopoverTrigger asChild>
-                                    <Input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        className="h-14 bg-background rounded-full px-5"
-                                        value={email}
-                                        onChange={e => setEmail(e.target.value)}
-                                        onClick={() => setEmailComboboxOpen(true)}
-                                    />
-                                </PopoverTrigger>
-                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                    <Command>
-                                        <CommandInput 
-                                            placeholder="Search by email..."
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <ScrollArea className="flex-1 p-6 no-scrollbar">
+                <div className="space-y-8">
+                    <div className="space-y-6">
+                        <h3 className="text-lg text-stone-500">Personal details</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
+                            <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
+                            <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
+                            
+                            <div className="space-y-2">
+                                <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                                <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
+                                    <PopoverTrigger asChild>
+                                        <Input
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            className="h-14 bg-background rounded-full px-5"
                                             value={email}
-                                            onValueChange={setEmail}
+                                            onChange={e => setEmail(e.target.value)}
+                                            onClick={() => setEmailComboboxOpen(true)}
                                         />
-                                        <CommandList>
-                                            <CommandEmpty>No contact found.</CommandEmpty>
-                                            <CommandGroup>
-                                                {allContacts
-                                                    .filter(c => c.email.toLowerCase().includes(email.toLowerCase()))
-                                                    .map(contact => (
-                                                        <CommandItem
-                                                            key={contact.id}
-                                                            value={contact.email}
-                                                            onSelect={() => handleEmailSelect(contact.email)}
-                                                        >
-                                                            <Check className={cn("mr-2 h-4 w-4", email === contact.email ? "opacity-100" : "opacity-0")} />
-                                                            {contact.email}
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                        <Command>
+                                            <CommandInput 
+                                                placeholder="Search by email..."
+                                                value={email}
+                                                onValueChange={setEmail}
+                                            />
+                                            <CommandList>
+                                                <CommandEmpty>No contact found.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {allContacts
+                                                        .filter(c => c.email.toLowerCase().includes(email.toLowerCase()))
+                                                        .map(contact => (
+                                                            <CommandItem
+                                                                key={contact.id}
+                                                                value={contact.email}
+                                                                onSelect={() => handleEmailSelect(contact.email)}
+                                                            >
+                                                                <Check className={cn("mr-2 h-4 w-4", email === contact.email ? "opacity-100" : "opacity-0")} />
+                                                                {contact.email}
+                                                            </CommandItem>
+                                                        ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                            <div className="sm:col-span-2">
+                                <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-6">
+                        <h3 className="text-lg text-stone-500">Project details</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
+                            <FloatingLabelSelect id="status" label="Status*" value={status} onValueChange={setStatus}>
+                                <SelectItem value="on-going">On Going</SelectItem>
+                                <SelectItem value="delay">Delay</SelectItem>
+                                <SelectItem value="completed">Completed</SelectItem>
+                            </FloatingLabelSelect>
+                            <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
+                            <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
+                                {Array.from({ length: 8 }, (_, i) => `G+${i + 1}`).map(f => (
+                                    <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
+                                ))}
+                            </FloatingLabelSelect>
+                            <div className="sm:col-span-2">
+                                <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site location link" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-6">
+                        <h3 className="text-lg text-stone-500">Project Assign</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="architect" className={cn("text-lg font-medium px-2", architect ? 'text-grey-1' : 'text-zinc-900')}>Architect*</Label>
+                                <Popover open={architectOpen} onOpenChange={setArchitectOpen}>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="outline" role="combobox" aria-expanded={architectOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                            {architect ? mockArchitects.find(a => a.value === architect)?.label : "Select architect..."}
+                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                        <Command>
+                                            <CommandInput placeholder="Search architect..." />
+                                            <CommandList>
+                                                <CommandEmpty>No architect found.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {mockArchitects.map(a => (
+                                                        <CommandItem key={a.value} value={a.label} onSelect={() => { setArchitect(a.value); setArchitectOpen(false); }}>
+                                                            <Check className={cn("mr-2 h-4 w-4", architect === a.value ? "opacity-100" : "opacity-0")} />
+                                                            {a.label}
                                                         </CommandItem>
                                                     ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
-                        </div>
-                        <div className="sm:col-span-2">
-                            <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="space-y-6">
-                    <h3 className="text-lg text-stone-500">Project details</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
-                        <FloatingLabelSelect id="status" label="Status*" value={status} onValueChange={setStatus}>
-                            <SelectItem value="on-going">On Going</SelectItem>
-                            <SelectItem value="delay">Delay</SelectItem>
-                            <SelectItem value="completed">Completed</SelectItem>
-                        </FloatingLabelSelect>
-                        <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
-                        <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
-                            {Array.from({ length: 8 }, (_, i) => `G+${i + 1}`).map(f => (
-                                <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
-                            ))}
-                        </FloatingLabelSelect>
-                        <div className="sm:col-span-2">
-                            <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
-                        </div>
-                        <div className="sm:col-span-2">
-                            <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site location link" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="space-y-6">
-                    <h3 className="text-lg text-stone-500">Project Assign</h3>
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="architect" className={cn("text-lg font-medium px-2", architect ? 'text-grey-1' : 'text-zinc-900')}>Architect*</Label>
-                            <Popover open={architectOpen} onOpenChange={setArchitectOpen}>
-                                <PopoverTrigger asChild>
-                                    <Button variant="outline" role="combobox" aria-expanded={architectOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
-                                        {architect ? mockArchitects.find(a => a.value === architect)?.label : "Select architect..."}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Search architect..." />
-                                        <CommandList>
-                                            <CommandEmpty>No architect found.</CommandEmpty>
-                                            <CommandGroup>
-                                                {mockArchitects.map(a => (
-                                                    <CommandItem key={a.value} value={a.label} onSelect={() => { setArchitect(a.value); setArchitectOpen(false); }}>
-                                                        <Check className={cn("mr-2 h-4 w-4", architect === a.value ? "opacity-100" : "opacity-0")} />
-                                                        {a.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="site-supervisor" className={cn("text-lg font-medium px-2", siteSupervisor ? 'text-grey-1' : 'text-zinc-900')}>Site Supervisor*</Label>
-                            <Popover open={supervisorOpen} onOpenChange={setSupervisorOpen}>
-                                <PopoverTrigger asChild>
-                                    <Button variant="outline" role="combobox" aria-expanded={supervisorOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
-                                        {siteSupervisor ? mockSupervisors.find(s => s.value === siteSupervisor)?.label : "Select supervisor..."}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Search supervisor..." />
-                                        <CommandList>
-                                            <CommandEmpty>No supervisor found.</CommandEmpty>
-                                            <CommandGroup>
-                                                {mockSupervisors.map(s => (
-                                                    <CommandItem key={s.value} value={s.label} onSelect={() => { setSiteSupervisor(s.value); setSupervisorOpen(false); }}>
-                                                        <Check className={cn("mr-2 h-4 w-4", siteSupervisor === s.value ? "opacity-100" : "opacity-0")} />
-                                                        {s.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="site-supervisor" className={cn("text-lg font-medium px-2", siteSupervisor ? 'text-grey-1' : 'text-zinc-900')}>Site Supervisor*</Label>
+                                <Popover open={supervisorOpen} onOpenChange={setSupervisorOpen}>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="outline" role="combobox" aria-expanded={supervisorOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                            {siteSupervisor ? mockSupervisors.find(s => s.value === siteSupervisor)?.label : "Select supervisor..."}
+                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                        <Command>
+                                            <CommandInput placeholder="Search supervisor..." />
+                                            <CommandList>
+                                                <CommandEmpty>No supervisor found.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {mockSupervisors.map(s => (
+                                                        <CommandItem key={s.value} value={s.label} onSelect={() => { setSiteSupervisor(s.value); setSupervisorOpen(false); }}>
+                                                            <Check className={cn("mr-2 h-4 w-4", siteSupervisor === s.value ? "opacity-100" : "opacity-0")} />
+                                                            {s.label}
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div className="flex justify-end pt-8">
-                    <Button type="submit" className="w-full md:w-auto px-10 h-14 text-lg rounded-full">
-                        {projectToEdit ? 'Save & Next' : 'Next'}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                </div>
+            </ScrollArea>
+            <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
+                <Button type="submit" className="w-full md:w-auto px-10 h-14 text-lg rounded-full">
+                    {projectToEdit ? 'Save & Next' : 'Next'}
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
             </div>
         </form>
     );
@@ -469,80 +471,82 @@ const ProjectTimelineForm = ({
 
     return (
         <>
-            <form action={formAction}>
-                <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
-                    <div className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-                            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
-                                <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
-                                    {templates.map(template => (
-                                        <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
-                                    ))}
-                                    <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
-                                </FloatingLabelSelect>
-                               <div className="space-y-2">
-                                    <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant={"outline"}
-                                                className={cn(
-                                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                                                    !startDate && "text-muted-foreground"
-                                                )}
-                                            >
-                                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                                {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0">
-                                            <Calendar
-                                                mode="single"
-                                                selected={startDate}
-                                                onSelect={setStartDate}
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
+            <form action={formAction} className="flex flex-col h-full">
+                <ScrollArea className="flex-1 p-6 no-scrollbar">
+                    <div className="space-y-8">
+                        <div className="space-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                                <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+                                    <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
+                                        {templates.map(template => (
+                                            <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
+                                        ))}
+                                        <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
+                                    </FloatingLabelSelect>
+                                <div className="space-y-2">
+                                        <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                                        !startDate && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={startDate}
+                                                    onSelect={setStartDate}
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                    </div>
+                                    <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit Timeline
+                                    </Button>
                                 </div>
-                                 <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit Timeline
-                                </Button>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                {stages.map(stage => {
+                                    const isPaymentStage = stage.type === 'payment';
+                                    return (
+                                        <div key={stage.id} className="space-y-2">
+                                            <Label className="text-lg font-medium px-2 text-zinc-900">{stage.name}</Label>
+                                            {isPaymentStage ? (
+                                                <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
+                                                    <Banknote className="mr-2 h-5 w-5" />
+                                                    Payment Reminder
+                                                </div>
+                                            ) : (
+                                                <Input
+                                                    name={`days-${stage.name}`}
+                                                    className="h-14 bg-background rounded-full px-5"
+                                                    placeholder="Enter days"
+                                                />
+                                            )}
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {stages.map(stage => {
-                                const isPaymentStage = stage.type === 'payment';
-                                return (
-                                    <div key={stage.id} className="space-y-2">
-                                        <Label className="text-lg font-medium px-2 text-zinc-900">{stage.name}</Label>
-                                        {isPaymentStage ? (
-                                            <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
-                                                <Banknote className="mr-2 h-5 w-5" />
-                                                Payment Reminder
-                                            </div>
-                                        ) : (
-                                            <Input
-                                                name={`days-${stage.name}`}
-                                                className="h-14 bg-background rounded-full px-5"
-                                                placeholder="Enter days"
-                                            />
-                                        )}
-                                    </div>
-                                )
-                            })}
-                        </div>
                     </div>
-                    <div className="flex justify-between items-center pt-8">
-                        <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button type="submit" className="px-10 h-14 text-lg rounded-full">
-                            {isEditMode ? 'Save Changes' : 'Create Project'}
-                        </Button>
-                    </div>
+                </ScrollArea>
+                <div className="p-6 mt-auto border-t md:border-0 flex justify-between items-center">
+                    <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
+                        Back
+                    </Button>
+                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
+                        {isEditMode ? 'Save Changes' : 'Create Project'}
+                    </Button>
                 </div>
             </form>
             <CustomTimelineDialog
@@ -739,9 +743,9 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
     const handleNext = () => setStep(2);
     const handleBack = () => setStep(1);
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+    const DialogOrSheet = isMobile ? Dialog : Dialog;
+    const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
+    const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
@@ -765,12 +769,11 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
                 )}
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 bg-white",
-                        isMobile
-                            ? "w-full rounded-t-[50px]"
-                            : "sm:max-w-3xl rounded-[50px]"
+                        "p-0 bg-white flex flex-col",
+                        isMobile 
+                            ? "w-full h-full rounded-none border-none m-0"
+                            : "sm:max-w-3xl rounded-[50px] h-auto max-h-[90vh]"
                     )}
-                    {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
                         <div className="flex justify-between items-center">
@@ -784,19 +787,21 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
                             </DialogOrSheetClose>
                         </div>
                     </DialogOrSheetHeader>
-                    {step === 1 ? (
-                        <AddProjectForm onNext={handleNext} projectToEdit={projectToEdit} />
-                    ) : (
-                        <ProjectTimelineForm
-                            onFormSuccess={handleSuccess}
-                            onBack={handleBack}
-                            templates={templates}
-                            setTemplates={setTemplates}
-                            selectedTemplateId={selectedTemplateId}
-                            setSelectedTemplateId={setSelectedTemplateId}
-                            isEditMode={isEditMode}
-                        />
-                    )}
+                    <div className="flex-1 flex flex-col overflow-hidden">
+                        {step === 1 ? (
+                            <AddProjectForm onNext={handleNext} projectToEdit={projectToEdit} />
+                        ) : (
+                            <ProjectTimelineForm
+                                onFormSuccess={handleSuccess}
+                                onBack={handleBack}
+                                templates={templates}
+                                setTemplates={setTemplates}
+                                selectedTemplateId={selectedTemplateId}
+                                setSelectedTemplateId={setSelectedTemplateId}
+                                isEditMode={isEditMode}
+                            />
+                        )}
+                    </div>
                 </DialogOrSheetContent>
             </DialogOrSheet>
             <SuccessPopup
@@ -808,4 +813,3 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
         </>
     );
 }
-
