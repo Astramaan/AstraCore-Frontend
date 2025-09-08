@@ -16,10 +16,9 @@ export default function ProfilePage() {
     // For now, we'll use a mock ID.
     return (
         <div className="space-y-6">
-             <div className="flex justify-between items-center md:hidden">
-                <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full h-12 w-12 bg-white">
-                    <ChevronLeft className="h-6 w-6" />
-                </Button>
+            <div className="flex justify-between items-center md:hidden">
+                {/* This header part is handled by the main layout now. 
+                    Keeping this div for structure but content might be removed if redundant. */}
             </div>
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-semibold hidden md:block">Personal Details</h2>
@@ -36,7 +35,7 @@ export default function ProfilePage() {
                 <div className="flex flex-col gap-6">
                     <ActiveSessionsCard />
                     <div className="flex justify-end">
-                        <Button variant="outline" asChild className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-primary/10 hover:text-primary w-full md:w-auto">
+                        <Button variant="outline" asChild className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-primary/10 hover:text-primary w-full">
                            <Link href="/">
                              <LogOut className="mr-2 h-5 w-5" />
                              Logout

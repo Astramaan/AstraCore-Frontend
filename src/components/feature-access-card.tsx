@@ -18,8 +18,8 @@ const allRoles: RoleData[] = [
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
 
-const RoleListItem = ({ role, onClick, isLastInCol }: { role: RoleData; onClick: () => void; isLastInCol: boolean; }) => (
-    <div className={cn("flex justify-between items-center py-4 border-b cursor-pointer", isLastInCol && "border-b-0 md:border-b-0")} onClick={onClick}>
+const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
+    <div className="flex justify-between items-center py-2 cursor-pointer" onClick={onClick}>
         <div className="flex items-center gap-4">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                 {role.icon}
@@ -53,17 +53,16 @@ export const FeatureAccessCard = () => {
                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                             <Users className="h-6 w-6"/>
                         </div>
-                        <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
+                        <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                     </div>
                      <Button size="icon" variant="ghost" className="bg-primary/10 text-primary rounded-full hover:bg-primary/20" onClick={() => setIsCreateRoleDialogOpen(true)}>
                         <Plus className="w-5 h-5"/>
                     </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-2">
-                    {allRoles.map((role, index) => {
-                        const isLastInCol = index >= allRoles.length - (allRoles.length % 2 === 0 ? 2 : 1)
-                        return <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} isLastInCol={isLastInCol} />
-                    })}
+                    {allRoles.map((role) => (
+                       <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
+                    ))}
                 </CardContent>
             </Card>
             <RolePermissionsDialog

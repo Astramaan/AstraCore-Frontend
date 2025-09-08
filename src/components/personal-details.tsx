@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -193,51 +192,65 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <Card className="rounded-[50px] p-4 md:p-8">
                 <CardContent className="p-0">
-                    <div className="flex flex-col items-center md:flex-row md:items-start gap-8">
-                        <div className="shrink-0 flex flex-col items-center gap-4">
-                            <Image src={member.avatar} alt={member.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
-                             <div className="flex flex-col space-y-4 w-full md:hidden">
-                                <DialogTrigger asChild>
-                                    <Button className="w-full h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
-                                        <Edit className="mr-2 h-5 w-5" />
+                    <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
+                        {/* Mobile Layout */}
+                        <div className="flex md:hidden items-center gap-4 w-full">
+                            <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
+                            <div className="flex flex-col gap-2 flex-1">
+                                 <DialogTrigger asChild>
+                                    <Button className="w-full h-12 rounded-full text-white text-base font-medium bg-primary hover:bg-primary/90">
+                                        <Edit className="mr-2 h-4 w-4" />
                                         Edit Profile
                                     </Button>
                                 </DialogTrigger>
-                                <ChangePasswordDialog email={member.email} />
+                                <ChangePasswordDialog 
+                                    email={member.email} 
+                                    trigger={
+                                        <Button variant="outline" className="w-full h-12 rounded-full bg-background text-black hover:bg-muted text-base font-medium">
+                                            Change Password
+                                        </Button>
+                                    }
+                                />
                             </div>
                         </div>
-                        <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-8">
+
+                         {/* Desktop Layout */}
+                        <div className="hidden md:flex shrink-0 flex-col items-center gap-4">
+                            <Image src={member.avatar} alt={member.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                        </div>
+
+                        <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8">
                             <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.name}</p>
-                            </div>
-                            <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.phone}</p>
-                            </div>
-                             <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.email}</p>
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Full Name</Label>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.name}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
-                                <p className="text-primary text-lg leading-tight truncate">{member.role}</p>
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Phone Number</Label>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.phone}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.lastLogin}</p>
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Email Id</Label>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.dateJoined}</p>
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Role</Label>
+                                <p className="text-primary text-base md:text-lg leading-tight truncate">{member.role}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.dob}</p>
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Last Login</Label>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.lastLogin}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Date Joined</Label>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.dateJoined}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
-                                <p className="text-black text-lg leading-tight">{member.address}</p>
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Date of Birth</Label>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.dob}</p>
+                            </div>
+                             <div className="space-y-1 col-span-2 md:col-span-1">
+                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Address</Label>
+                                <p className="text-black text-base md:text-lg leading-tight">{member.address}</p>
                             </div>
                         </div>
                          <div className="hidden md:flex flex-col space-y-4 lg:pl-8">
