@@ -116,7 +116,7 @@ export function AddMemberSheet() {
         </Button>
       </DialogTrigger>
       <DialogContent 
-          className="p-0 flex flex-col m-0 bg-white sm:max-w-md rounded-[50px]"
+          className="p-0 flex flex-col m-0 bg-white sm:max-w-md w-full h-full sm:h-auto sm:rounded-[50px]"
       >
           <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
