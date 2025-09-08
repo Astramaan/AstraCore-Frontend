@@ -10,6 +10,14 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { Button } from './ui/button';
 import { ProjectTimelineStages } from './project-timeline-stages';
 import { X, MessageSquare, UserX } from 'lucide-react';
@@ -17,6 +25,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const projectTeam = [
     {
@@ -57,25 +66,36 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
 
 
 export const TimelineDialog = () => {
+    const isMobile = useIsMobile();
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <DialogOrSheet>
+      <DialogOrSheetTrigger asChild>
         <Button
             variant="link"
             className={cn("text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white", "hover:no-underline")}
         >
             Timeline
         </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
-        <DialogHeader className="p-4 border-b flex-row items-center">
-            <DialogTitle className="text-2xl font-semibold">Project Timeline</DialogTitle>
-             <DialogClose asChild>
+      </DialogOrSheetTrigger>
+      <DialogOrSheetContent className={cn(
+          "p-0 flex flex-col bg-white",
+          isMobile ? "w-full h-full" : "max-w-xl h-[90vh] rounded-[50px]"
+      )}>
+        <DialogOrSheetHeader className="p-4 border-b flex-row items-center">
+            <DialogOrSheetTitle className="text-2xl font-semibold">Project Timeline</DialogOrSheetTitle>
+             <DialogOrSheetClose asChild>
                 <Button variant="ghost" size="icon" className="ml-auto rounded-full bg-background w-[54px] h-[54px]">
                     <X className="h-5 w-5" />
                 </Button>
-            </DialogClose>
-        </DialogHeader>
+            </DialogOrSheetClose>
+        </DialogOrSheetHeader>
          <ScrollArea className="flex-1">
             <div className="p-6 space-y-6">
                 <Card className="border-none shadow-none">
@@ -89,7 +109,7 @@ export const TimelineDialog = () => {
                 <ProjectTimelineStages />
             </div>
         </ScrollArea>
-      </DialogContent>
-    </Dialog>
+      </DialogOrSheetContent>
+    </DialogOrSheet>
   );
 };
