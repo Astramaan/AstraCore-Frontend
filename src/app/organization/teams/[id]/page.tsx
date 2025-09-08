@@ -16,7 +16,7 @@ export default function MemberDetailsPage({ params }: { params: { id: string } }
         <div className="space-y-6">
             <PersonalDetails memberId={params.id} />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 flex">
                     <FeatureAccessCard />
                 </div>
                 <div className="flex flex-col gap-6">

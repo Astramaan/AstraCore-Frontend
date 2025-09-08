@@ -47,7 +47,7 @@ export const FeatureAccessCard = () => {
     
     return (
         <>
-            <Card className="rounded-[50px]">
+            <Card className="rounded-[50px] w-full h-full">
                 <CardHeader className="flex flex-row justify-between items-center p-6">
                     <div className="flex items-center gap-2">
                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
