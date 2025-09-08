@@ -217,7 +217,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
         </div>
         
         <div className="flex justify-end pt-8">
-            <Button className="px-14 h-12 text-lg rounded-full" onClick={handleSubmit}>
+            <Button className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full" onClick={handleSubmit}>
                 Assign
             </Button>
         </div>
@@ -250,7 +250,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                 </Button>
             </DialogTrigger>
             <DialogContent
-                className="p-0 m-0 flex flex-col bg-white sm:max-w-4xl w-full h-full sm:h-auto sm:rounded-[50px]"
+                className="p-0 m-0 flex flex-col bg-white sm:max-w-4xl w-full h-full sm:h-auto sm:rounded-[50px] sm:rounded-none"
             >
                 <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
