@@ -53,7 +53,7 @@ export const FeatureAccessCard = () => {
                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                             <Users className="h-6 w-6"/>
                         </div>
-                        <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
+                        <CardTitle className="text-2xl font-semibold">Feature access</CardTitle>
                     </div>
                      <Button size="icon" variant="ghost" className="bg-primary/10 text-primary rounded-full hover:bg-primary/20" onClick={() => setIsCreateRoleDialogOpen(true)}>
                         <Plus className="w-5 h-5"/>
