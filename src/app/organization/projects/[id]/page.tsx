@@ -108,9 +108,11 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
                 </div>
                 
                 <div className="w-full xl:w-[384px] space-y-6">
-                     <div className="flex gap-2 bg-zinc-100 p-1 rounded-full">
-                        <TimelineDialog />
-                        <PaymentsDialog />
+                     <div className="flex flex-col md:flex-row gap-2 bg-zinc-100 p-1 rounded-full">
+                        <div className="flex flex-1 gap-2">
+                           <TimelineDialog />
+                           <PaymentsDialog />
+                        </div>
                         <DesignDocumentsDialog files={displayProject.files} />
                     </div>
                      <ProjectMaterialsCard materials={displayProject.materials} />
