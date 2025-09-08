@@ -176,9 +176,9 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
                 </DropdownMenuContent>
             </DropdownMenu>
              <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
-                    <Trash2 className="mr-2" />
-                    Delete
+                <Button variant="destructive" className="h-14 w-14 md:w-auto p-0 md:px-10 rounded-full bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
+                    <Trash2 className="md:mr-2" />
+                    <span className="hidden md:inline">Delete</span>
                 </Button>
             </AlertDialogTrigger>
         </div>
@@ -449,3 +449,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
