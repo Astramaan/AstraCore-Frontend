@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -21,6 +22,7 @@ import { ChangePasswordDialog } from './change-password-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 import { deactivateUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
+import { ScrollArea } from './ui/scroll-area';
 
 
 export interface Member {
@@ -44,36 +46,49 @@ export interface Role {
     members: Member[];
 }
 
-const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; onDeactivate: (member: Member) => void; onStatusChange: (memberId: string, status: 'Active' | 'Inactive') => void; }) => {
+const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (member: Member) => void; }) => {
     
     return (
         <>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-                <Link href={`/organization/teams/${member.id}`} className="flex items-center gap-4 flex-1 cursor-pointer">
-                    <Avatar className="w-14 h-14">
-                        <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <p className="text-lg font-medium w-44">{member.name}</p>
-                </Link>
-                
-                <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <div className="flex justify-between items-start py-4 gap-4">
+                <div className="flex items-center gap-4 flex-1">
+                     <Link href={`/organization/teams/${member.id}`} className="flex items-center gap-4 cursor-pointer">
+                        <Avatar className="w-12 h-12">
+                            <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
+                            <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                     </Link>
+                    <div className="flex-1">
+                        <Link href={`/organization/teams/${member.id}`} className="cursor-pointer">
+                           <p className="text-lg font-medium">{member.name}</p>
+                        </Link>
+                        <div className="md:hidden mt-2 space-y-1 text-sm">
+                            <p><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
+                            <p><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
+                            <p><span className="text-grey-1">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
+                            <p><span className="text-grey-1">Last Active: </span>
+                                <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-black')}>
+                                    {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-                <div className="flex flex-col gap-2 flex-1">
+                <div className="hidden md:flex flex-col gap-2 flex-1">
                     <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
                     <p className="text-lg"><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
                 </div>
-                
-                <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-                <div className="flex flex-col items-end gap-2 flex-1 text-right">
-                    <p className="text-lg"><span className="text-grey-1">Status: </span><span className={member.status === 'Active' ? "text-green-600" : "text-red-600"}>{member.status}</span></p>
+                <div className="hidden md:flex flex-col items-end gap-2 flex-1 text-right">
+                    <p className="text-lg"><span className="text-grey-1">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
                     <p className="text-lg"><span className="text-grey-1">Last Active: </span>
                         <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-black')}>
                             {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
                         </span>
                     </p>
                 </div>
+                
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -81,6 +96,7 @@ const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; 
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                         <DropdownMenuItem asChild><Link href={`/organization/teams/${member.id}`}>View Details</Link></DropdownMenuItem>
                         <ChangePasswordDialog
                              email={member.email}
                              trigger={<DropdownMenuItem onSelect={(e) => e.preventDefault()}>Change Password</DropdownMenuItem>}
@@ -91,7 +107,7 @@ const MemberCard = ({ member, onDeactivate, onStatusChange }: { member: Member; 
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <Separator />
+            <Separator className="last:hidden"/>
         </>
     );
 };
@@ -146,7 +162,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                                 {role.icon}
                             </div>
-                            <h2 className="text-2xl font-semibold">{role.name}</h2>
+                            <h2 className="text-2xl font-semibold">{role.name} - Members</h2>
                         </div>
                         <div className="ml-auto">
                             <SheetClose asChild>
@@ -157,15 +173,17 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                         </div>
                     </SheetTitle>
                 </SheetHeader>
-                <div className="p-6 overflow-y-auto flex-1">
-                     {members.length > 0 ? (
-                        members.map((member) => <MemberCard key={member.id} member={member} onDeactivate={handleDeactivateClick} onStatusChange={handleStatusChange} />)
-                    ) : (
-                        <div className="text-center text-muted-foreground py-10">
-                            No members in this role yet.
-                        </div>
-                    )}
-                </div>
+                <ScrollArea className="flex-1">
+                    <div className="p-6">
+                        {members.length > 0 ? (
+                            members.map((member) => <MemberCard key={member.id} member={member} onDeactivate={handleDeactivateClick} />)
+                        ) : (
+                            <div className="text-center text-muted-foreground py-10">
+                                No members in this role yet.
+                            </div>
+                        )}
+                    </div>
+                </ScrollArea>
             </div>
             {memberToDeactivate && (
                  <AlertDialogContent className="max-w-md rounded-[50px]">
@@ -200,6 +218,20 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
     const isMobile = useIsMobile();
 
     if (!role) return null;
+
+    if (isMobile) {
+        return (
+             <Sheet open={isOpen} onOpenChange={onClose}>
+                <SheetContent 
+                    side={"right"}
+                    className="p-0 bg-white border-none shadow-none w-full h-full"
+                    overlayClassName="bg-transparent"
+                >
+                    <ViewMembersContent role={role} onClose={onClose} />
+                </SheetContent>
+            </Sheet>
+        )
+    }
 
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
