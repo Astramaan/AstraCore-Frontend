@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { addLead } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
+import { ScrollArea } from './ui/scroll-area';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
@@ -52,20 +53,20 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     }, [state, onFormSuccess, toast]);
 
     return (
-        <form action={formAction}>
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+        <form action={formAction} className="flex flex-col h-full">
+            <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-4">
                     <FloatingLabelInput id="full-name" name="name" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
                     <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
                     <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={(e) => setPincode(e.target.value)} />
                 </div>
-                
-                <div className="flex justify-center pt-8">
-                    <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg">
-                        Add
-                    </Button>
-                </div>
+            </ScrollArea>
+            
+            <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-center">
+                <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg">
+                    Add
+                </Button>
             </div>
         </form>
     );
@@ -82,9 +83,9 @@ export function AddLeadSheet() {
         setShowSuccess(true);
     };
 
-    const DialogOrSheet = isMobile ? Dialog : Dialog; // Always dialog for this one as per design
-    const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
@@ -100,8 +101,12 @@ export function AddLeadSheet() {
                 </DialogOrSheetTrigger>
                 <DialogOrSheetContent
                     className={cn(
-                        "p-0 rounded-[50px] w-[452px] bg-white"
+                        "p-0 flex flex-col bg-white",
+                        isMobile 
+                            ? "w-full h-full rounded-none border-none"
+                            : "md:max-w-md md:w-full rounded-[50px]"
                     )}
+                     {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
                         <div className="flex items-center justify-between">
@@ -118,7 +123,9 @@ export function AddLeadSheet() {
                             </DialogOrSheetClose>
                         </div>
                     </DialogOrSheetHeader>
-                    <AddLeadForm onFormSuccess={handleSuccess} />
+                     <div className="flex-1 flex flex-col overflow-hidden">
+                        <AddLeadForm onFormSuccess={handleSuccess} />
+                    </div>
                 </DialogOrSheetContent>
             </DialogOrSheet>
             <SuccessPopup
