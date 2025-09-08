@@ -95,6 +95,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
+                <Image src={snag.images[0]} width={56} height={56} alt={snag.title} className="rounded-lg object-cover" data-ai-hint="defect photo" />
                 <div className="flex flex-col gap-1 w-full md:w-60">
                     <p className="font-medium text-lg text-black group-hover:text-primary">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
