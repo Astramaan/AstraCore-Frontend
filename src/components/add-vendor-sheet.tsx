@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -39,19 +38,19 @@ const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTM
 )
 
 const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string, onRemove?: () => void }) => (
-    <div className="flex items-center rounded-full border border-stone-300 h-[54px] bg-input">
-        <Label htmlFor={id} className={cn("px-4 text-lg whitespace-nowrap", fileName ? "text-grey-1" : "text-zinc-900")}>{label}</Label>
-        <div className="border-l border-stone-300 h-full mx-2"></div>
-        <div className="flex-1 flex items-center justify-between px-3">
-             <span className="text-sm text-neutral-500 mr-2 truncate">{fileName || 'No file selected'}</span>
-             <div className="flex items-center gap-2">
+    <div className="flex items-center rounded-full border border-stone-300 h-auto min-h-[54px] bg-input p-2 md:p-0">
+        <Label htmlFor={id} className={cn("px-2 md:px-4 text-lg whitespace-nowrap", fileName ? "text-grey-1" : "text-zinc-900")}>{label}</Label>
+        <div className="border-l border-stone-300 h-full mx-2 hidden md:block"></div>
+        <div className="flex-1 flex items-center justify-between md:px-3">
+             <span className="text-sm text-neutral-500 mr-2 truncate flex-1">{fileName || 'No file selected'}</span>
+             <div className="flex items-center gap-1 md:gap-2">
                 {fileName && onRemove && (
                     <Button type="button" size="icon" variant="ghost" className="h-6 w-6 text-destructive hover:text-destructive" onClick={onRemove}>
                         <Trash2 className="w-4 h-4" />
                     </Button>
                 )}
                 <div className="border-l border-stone-300 h-6" />
-                <label htmlFor={id} className="cursor-pointer text-sm text-zinc-900 flex items-center gap-1 pl-2">
+                <label htmlFor={id} className="cursor-pointer text-sm text-zinc-900 flex items-center gap-1 pl-1 md:pl-2">
                     <Upload className="w-4 h-4" />
                     Upload
                 </label>
@@ -550,3 +549,5 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
         </>
     );
 }
+
+    
