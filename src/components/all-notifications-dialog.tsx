@@ -83,7 +83,7 @@ export function AllNotificationsDialog() {
             <DialogTrigger asChild>
                 <Button variant="link" className="w-full text-primary">View all notifications</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md p-0 rounded-2xl">
+            <DialogContent className="sm:max-w-md p-0 rounded-2xl bg-white">
                 <DialogHeader className="p-4 border-b">
                     <DialogTitle className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-2xl font-semibold">
