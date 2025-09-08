@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -690,18 +689,18 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                             </div>
                         ))}
                     </ScrollArea>
-                    <div className="px-6 py-4 border-t flex justify-between items-center gap-2 shrink-0 bg-white rounded-b-[20px]">
+                    <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
                         <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg">
+                            <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg flex-1">
                                 <Plus className="mr-2 h-5 w-5"/>
                                 Stage
                             </Button>
-                            <Button variant="outline" onClick={() => addStage('payment')} className="h-[54px] rounded-full text-lg text-green border-green hover:bg-green/10 hover:text-green">
+                            <Button variant="outline" onClick={() => addStage('payment')} className="h-[54px] rounded-full text-lg text-green border-green hover:bg-green/10 hover:text-green flex-1">
                                 <Banknote className="mr-2 h-5 w-5" />
                                 Payment
                             </Button>
                         </div>
-                        <Button onClick={handleSave} className="h-[54px] rounded-full text-lg">Save Template</Button>
+                         <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
                     </div>
                 </div>
             </DialogContentComponent>
