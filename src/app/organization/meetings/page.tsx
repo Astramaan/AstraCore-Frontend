@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -78,9 +79,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meetin
      <div className="flex flex-col">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2">
             <div className="flex items-center gap-4 flex-1">
-                <Avatar className="w-14 h-14 bg-background">
-                   <Calendar className="w-6 h-6 text-primary" />
-                </Avatar>
                 <div className="w-44">
                     <p className="text-xl font-semibold text-black group-hover:text-primary whitespace-nowrap">{meeting.name}, {meeting.city}</p>
                 </div>
