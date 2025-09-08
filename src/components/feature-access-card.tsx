@@ -47,7 +47,7 @@ export const FeatureAccessCard = () => {
     
     return (
         <>
-            <Card className="rounded-[50px] w-full h-full">
+            <Card className="rounded-[50px] w-full flex flex-col">
                 <CardHeader className="flex flex-row justify-between items-center p-6">
                     <div className="flex items-center gap-2">
                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
@@ -56,7 +56,7 @@ export const FeatureAccessCard = () => {
                         <CardTitle className="text-2xl font-semibold">Feature access</CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-2">
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-2 flex-grow">
                     {allRoles.map((role) => (
                        <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
                     ))}
