@@ -4,9 +4,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
-import { Shield, Briefcase, Code, Palette, Users } from 'lucide-react';
-import { ArrowRight } from 'lucide-react';
+import { Shield, Briefcase, Code, Palette, Users, Plus, ArrowRight } from 'lucide-react';
+import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { CreateRoleDialog } from './create-role-dialog';
 
 const allRoles: RoleData[] = [
     { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
@@ -18,7 +19,7 @@ const allRoles: RoleData[] = [
 ];
 
 const RoleListItem = ({ role, onClick, isLastInCol }: { role: RoleData; onClick: () => void; isLastInCol: boolean; }) => (
-    <div className={cn("flex justify-between items-center py-4 border-b cursor-pointer", isLastInCol && "border-b-0")} onClick={onClick}>
+    <div className={cn("flex justify-between items-center py-4 border-b cursor-pointer", isLastInCol && "border-b-0 md:border-b-0")} onClick={onClick}>
         <div className="flex items-center gap-4">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                 {role.icon}
@@ -32,6 +33,7 @@ const RoleListItem = ({ role, onClick, isLastInCol }: { role: RoleData; onClick:
 export const FeatureAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
     const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
+    const [isCreateRoleDialogOpen, setIsCreateRoleDialogOpen] = useState(false);
 
     const handleRoleClick = (role: RoleData) => {
         setSelectedRole(role);
@@ -53,10 +55,13 @@ export const FeatureAccessCard = () => {
                         </div>
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
+                     <Button size="icon" variant="ghost" className="bg-primary/10 text-primary rounded-full hover:bg-primary/20" onClick={() => setIsCreateRoleDialogOpen(true)}>
+                        <Plus className="w-5 h-5"/>
+                    </Button>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pt-0 pb-2">
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-2">
                     {allRoles.map((role, index) => {
-                        const isLastInCol = index >= allRoles.length - 2;
+                        const isLastInCol = index >= allRoles.length - (allRoles.length % 2 === 0 ? 2 : 1)
                         return <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} isLastInCol={isLastInCol} />
                     })}
                 </CardContent>
@@ -65,6 +70,10 @@ export const FeatureAccessCard = () => {
                 isOpen={isPermissionsDialogOpen}
                 onClose={closePermissionsDialog}
                 role={selectedRole}
+            />
+            <CreateRoleDialog
+                isOpen={isCreateRoleDialogOpen}
+                onOpenChange={setIsCreateRoleDialogOpen}
             />
         </>
     )

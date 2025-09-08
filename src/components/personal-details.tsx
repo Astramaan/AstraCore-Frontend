@@ -193,11 +193,20 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         <Dialog open={isEditing} onOpenChange={setIsEditing}>
             <Card className="rounded-[50px] p-4 md:p-8">
                 <CardContent className="p-0">
-                    <div className="flex flex-col lg:flex-row gap-8">
-                        <div className="shrink-0 flex items-center gap-4">
+                    <div className="flex flex-col items-center md:flex-row md:items-start gap-8">
+                        <div className="shrink-0 flex flex-col items-center gap-4">
                             <Image src={member.avatar} alt={member.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                             <div className="flex flex-col space-y-4 w-full md:hidden">
+                                <DialogTrigger asChild>
+                                    <Button className="w-full h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
+                                        <Edit className="mr-2 h-5 w-5" />
+                                        Edit Profile
+                                    </Button>
+                                </DialogTrigger>
+                                <ChangePasswordDialog email={member.email} />
+                            </div>
                         </div>
-                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-8">
+                        <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-8">
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Full Name</Label>
                                 <p className="text-black text-lg leading-tight truncate">{member.name}</p>
@@ -206,17 +215,17 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                 <Label className="text-base font-medium px-2 text-grey-1">Phone Number</Label>
                                 <p className="text-black text-lg leading-tight truncate">{member.phone}</p>
                             </div>
-                            <div className="space-y-1">
-                                <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
-                                <p className="text-black text-lg leading-tight truncate">{member.lastLogin}</p>
-                            </div>
-                            <div className="space-y-1">
+                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Email Id</Label>
                                 <p className="text-black text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Role</Label>
                                 <p className="text-primary text-lg leading-tight truncate">{member.role}</p>
+                            </div>
+                             <div className="space-y-1">
+                                <Label className="text-base font-medium px-2 text-grey-1">Last Login</Label>
+                                <p className="text-black text-lg leading-tight truncate">{member.lastLogin}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Date Joined</Label>
@@ -226,12 +235,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                 <Label className="text-base font-medium px-2 text-grey-1">Date of Birth</Label>
                                 <p className="text-black text-lg leading-tight truncate">{member.dob}</p>
                             </div>
-                            <div className="lg:col-span-2 space-y-1">
+                             <div className="space-y-1">
                                 <Label className="text-base font-medium px-2 text-grey-1">Address</Label>
                                 <p className="text-black text-lg leading-tight">{member.address}</p>
                             </div>
                         </div>
-                         <div className="flex flex-col space-y-4 lg:pl-8">
+                         <div className="hidden md:flex flex-col space-y-4 lg:pl-8">
                             <DialogTrigger asChild>
                                 <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
                                     <Edit className="mr-2 h-5 w-5" />
