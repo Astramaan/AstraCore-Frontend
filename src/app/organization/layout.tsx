@@ -58,7 +58,8 @@ const OrganizationHeader = () => {
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <Users className="mr-2 h-6 w-6"/>
-                  Teams Management
+                  <span className="hidden md:inline">Teams Management</span>
+                  <span className="md:hidden">Teams Mgmt.</span>
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -99,7 +100,8 @@ const OrganizationHeader = () => {
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <Users className="mr-2 h-6 w-6"/>
-                              Teams Management
+                              <span className="hidden md:inline">Teams Management</span>
+                              <span className="md:hidden">Teams Mgmt.</span>
                           </Button>
                         </Link>
                     </div>
