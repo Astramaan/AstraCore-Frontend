@@ -85,7 +85,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                 </div>
             </ScrollArea>
             
-            <div className="p-6 border-t">
+            <div className="p-6 mt-auto border-t">
                 <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-[50px] text-lg">
                     Create
                 </Button>
@@ -132,8 +132,10 @@ export function CreateDepartmentSheet() {
       </DialogOrSheetTrigger>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 rounded-[50px] w-full md:w-[452px] flex flex-col bg-white",
-             isMobile ? "m-4 h-auto" : "h-[90vh]"
+            "p-0 flex flex-col bg-white",
+            isMobile 
+                ? "w-full h-full rounded-none border-none"
+                : "md:w-[452px] rounded-[50px] h-[90vh]"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b">
@@ -151,7 +153,9 @@ export function CreateDepartmentSheet() {
                 </DialogOrSheetClose>
               </div>
           </DialogOrSheetHeader>
-          <CreateDepartmentForm onFormSuccess={handleSuccess} />
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <CreateDepartmentForm onFormSuccess={handleSuccess} />
+          </div>
       </DialogOrSheetContent>
     </DialogOrSheet>
     <SuccessPopup 
