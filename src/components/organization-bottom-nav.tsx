@@ -31,7 +31,7 @@ export const OrganizationBottomNav = () => {
                                 <div className={cn(
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-1 transition-colors duration-200 h-full w-full",
                                     "md:gap-2.5 md:py-3 md:px-5 md:rounded-[50px] min-w-max",
-                                    "h-[54px] w-[54px] rounded-full",
+                                    "h-auto w-auto p-2 rounded-full",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
