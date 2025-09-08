@@ -26,38 +26,24 @@ import { deleteProject } from "@/app/actions";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <div className="flex items-start md:items-center justify-between w-full">
-                <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer group">
-                    <Avatar className="w-14 h-14 shrink-0">
-                        <AvatarImage src={project.image} data-ai-hint="abstract building" />
-                        <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                        <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
-                        <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black">{project.city}</span></p>
-                    </div>
-                </Link>
-                <div className="md:hidden">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">Delete</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+         <Link href={`/organization/projects/${project.id}`} className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-2 md:gap-4 group cursor-pointer">
+            <div className="flex items-center gap-4 flex-1">
+                <Avatar className="w-14 h-14 shrink-0">
+                    <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                    <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                    <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
+                    <p className="text-lg md:hidden"><span className="text-grey-1">City: </span><span className="text-black">{project.city}</span></p>
+                    <p className="text-lg md:hidden"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
                 </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto gap-2 md:gap-4 pl-0 md:pl-4">
+            <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto gap-2 md:gap-4 pl-0 md:pl-16">
                 <div className="hidden md:block w-px h-14 bg-stone-300" />
                 <div className="flex flex-col gap-2 md:w-96">
                     <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+                    <p className="text-lg hidden md:block"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
                 </div>
                 <div className="hidden md:block w-px h-14 bg-stone-300" />
                 <div className="flex flex-col md:items-end gap-2 mt-2 md:mt-0">
@@ -66,7 +52,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                 </div>
             </div>
 
-            <div className="hidden md:block">
+            <div className="ml-auto" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -79,7 +65,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </div>
+        </Link>
         {!isLast && <div className="h-px bg-stone-300" />}
     </div>
 );
