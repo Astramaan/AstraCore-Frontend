@@ -87,7 +87,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
             <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full pl-16 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
-                <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-green-600 font-medium">{String(role.active).padStart(2, '0')}</span></p>
+                <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-black font-medium">{String(role.active).padStart(2, '0')}</span></p>
             </div>
             
             <div className="w-full md:w-px md:h-14 bg-stone-200" />
@@ -111,7 +111,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
                     <p className="text-base text-grey-1">Admin: <span className="text-black font-medium block">{role.admin}</span></p>
                 </div>
                  <div>
-                    <p className="text-base text-grey-1">Active Members: <span className="text-green-600 font-medium block">{String(role.active).padStart(2, '0')}</span></p>
+                    <p className="text-base text-grey-1">Active Members: <span className="text-black font-medium block">{String(role.active).padStart(2, '0')}</span></p>
                 </div>
                  <div>
                     <p className="text-base text-grey-1">Total Members: <span className="text-black font-medium block">{String(role.total).padStart(2, '0')}</span></p>
