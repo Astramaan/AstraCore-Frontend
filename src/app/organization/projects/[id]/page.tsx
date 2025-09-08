@@ -95,7 +95,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
     }
     
     // Using mock data for parts that are not in the API response yet.
-    const displayProject = { ...mockProject, ...project };
+    const displayProject = { ...mockProject, ...project, name: project.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: project.name || mockProject.personalInfo.name } };
 
     return (
         <div className="space-y-6">
