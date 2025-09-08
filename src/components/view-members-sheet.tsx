@@ -211,7 +211,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                             Are you sure you want to deactivate {memberToDeactivate.name}? They will lose access to the platform.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter className="sm:justify-center flex-row gap-4 pt-4">
+                    <AlertDialogFooter className="flex-row justify-center gap-4 pt-4">
                         <AlertDialogCancel onClick={() => setMemberToDeactivate(null)} className="w-full md:w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={confirmDeactivation} className="w-full md:w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Deactivate</AlertDialogAction>
                     </AlertDialogFooter>
