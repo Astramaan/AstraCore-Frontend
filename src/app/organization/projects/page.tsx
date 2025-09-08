@@ -46,7 +46,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                         <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
                     </div>
                     <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
-                    <div className="h-12 flex-col justify-between items-start md:items-end flex">
+                    <div className="h-auto md:h-12 flex flex-col justify-between items-start md:items-end mt-4 md:mt-0 gap-2">
                          <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
                          <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
                     </div>
