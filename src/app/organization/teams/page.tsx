@@ -94,28 +94,28 @@ const mockRoles: Role[] = [
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <div className="flex items-center gap-4 flex-1">
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+            <div className="flex items-center gap-4 w-full md:w-auto md:flex-1">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
                     {role.icon}
                 </div>
                 <p className="text-2xl font-semibold w-60">{role.name}</p>
             </div>
             
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <div className="w-full md:w-px md:h-14 bg-stone-200" />
 
-            <div className="flex flex-col gap-2 flex-1 pl-16 md:pl-0">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full">
                 <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-green-600 font-medium">{String(role.active).padStart(2, '0')}</span></p>
             </div>
             
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <div className="w-full md:w-px md:h-14 bg-stone-200" />
 
-            <div className="flex items-center gap-4 flex-1 justify-between md:justify-start pl-16 md:pl-0">
+            <div className="flex items-center gap-4 md:flex-1 w-full justify-between">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
                 <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
-        <Separator />
+        <Separator className="last:hidden"/>
     </>
 );
 
