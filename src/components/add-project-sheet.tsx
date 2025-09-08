@@ -566,6 +566,7 @@ const ProjectTimelineForm = ({
 
 const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isOpen: boolean, onClose: () => void, onSave: (template: TimelineTemplate) => void, templateToEdit: TimelineTemplate | null | undefined }) => {
     const { toast } = useToast();
+    const isMobile = useIsMobile();
     const [templateName, setTemplateName] = useState('');
     const [stages, setStages] = useState<CustomStage[]>([{ id: Date.now(), name: '', type: 'stage' }]);
 
@@ -631,9 +632,18 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
         onClose();
     };
 
+    const DialogComponent = isMobile ? Dialog : Dialog;
+    const DialogContentComponent = isMobile ? DialogContent : DialogContent;
+
+
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-xl p-0 rounded-[20px] bg-white flex flex-col h-[90vh]">
+        <DialogComponent open={isOpen} onOpenChange={onClose}>
+            <DialogContentComponent className={cn(
+                "p-0 flex flex-col bg-white",
+                 isMobile
+                  ? "w-full h-full rounded-none border-none"
+                  : "sm:max-w-xl rounded-[20px] h-[90vh]"
+            )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
                         <span className="text-2xl font-semibold">{templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}</span>
@@ -644,56 +654,58 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 p-6 space-y-4 overflow-y-auto no-scrollbar">
-                    <div className="space-y-2">
-                         <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? 'text-grey-1' : 'text-black')}>Template Name*</Label>
-                        <Input
-                            id="template-name"
-                            placeholder="Template Name*"
-                            value={templateName}
-                            onChange={e => setTemplateName(e.target.value)}
-                            className="h-[54px] bg-background rounded-full px-6 text-lg"
-                        />
-                    </div>
-                    <Separator className="my-4" />
-                    {stages.map((stage, index) => (
-                        <div key={stage.id} className="space-y-2">
-                             <Label htmlFor={`stage-name-${stage.id}`} className={cn("text-lg font-medium px-2", stage.name ? "text-grey-1" : "text-black")}>
-                                {stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
-                            </Label>
-                            <div className="flex items-center gap-2">
-                                <div className="relative flex-1">
-                                    <Input
-                                        id={`stage-name-${stage.id}`}
-                                        value={stage.name}
-                                        onChange={(e) => handleStageChange(stage.id, e.target.value)}
-                                        placeholder={stage.type === 'stage' ? 'Enter stage name' : 'Enter payment description'}
-                                        className={cn("h-[54px] bg-background rounded-full px-6 text-lg", stage.type === 'payment' && "pl-12")}
-                                    />
-                                    {stage.type === 'payment' && <Banknote className="h-5 w-5 text-green absolute left-4 top-1/2 -translate-y-1/2" />}
-                                </div>
-                                <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)} className="h-[54px] w-[54px]">
-                                    <Trash2 className="h-5 w-5 text-destructive" />
-                                </Button>
-                            </div>
+                <div className="flex-1 flex flex-col overflow-hidden">
+                    <ScrollArea className="flex-1 p-6 space-y-4 no-scrollbar">
+                        <div className="space-y-2">
+                            <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? 'text-grey-1' : 'text-black')}>Template Name*</Label>
+                            <Input
+                                id="template-name"
+                                placeholder="Template Name*"
+                                value={templateName}
+                                onChange={e => setTemplateName(e.target.value)}
+                                className="h-[54px] bg-background rounded-full px-6 text-lg"
+                            />
                         </div>
-                    ))}
-                </div>
-                <div className="px-6 py-4 border-t flex justify-between items-center gap-2 shrink-0 bg-white rounded-b-[20px]">
-                     <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg">
-                            <Plus className="mr-2 h-5 w-5"/>
-                            Stage
-                        </Button>
-                        <Button variant="outline" onClick={() => addStage('payment')} className="h-[54px] rounded-full text-lg text-green border-green hover:bg-green/10 hover:text-green">
-                            <Banknote className="mr-2 h-5 w-5" />
-                            Payment
-                        </Button>
+                        <Separator className="my-4" />
+                        {stages.map((stage, index) => (
+                            <div key={stage.id} className="space-y-2">
+                                <Label htmlFor={`stage-name-${stage.id}`} className={cn("text-lg font-medium px-2", stage.name ? "text-grey-1" : "text-black")}>
+                                    {stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
+                                </Label>
+                                <div className="flex items-center gap-2">
+                                    <div className="relative flex-1">
+                                        <Input
+                                            id={`stage-name-${stage.id}`}
+                                            value={stage.name}
+                                            onChange={(e) => handleStageChange(stage.id, e.target.value)}
+                                            placeholder={stage.type === 'stage' ? 'Enter stage name' : 'Enter payment description'}
+                                            className={cn("h-[54px] bg-background rounded-full px-6 text-lg", stage.type === 'payment' && "pl-12")}
+                                        />
+                                        {stage.type === 'payment' && <Banknote className="h-5 w-5 text-green absolute left-4 top-1/2 -translate-y-1/2" />}
+                                    </div>
+                                    <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)} className="h-[54px] w-[54px]">
+                                        <Trash2 className="h-5 w-5 text-destructive" />
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
+                    </ScrollArea>
+                    <div className="px-6 py-4 border-t flex justify-between items-center gap-2 shrink-0 bg-white rounded-b-[20px]">
+                        <div className="flex gap-2">
+                            <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg">
+                                <Plus className="mr-2 h-5 w-5"/>
+                                Stage
+                            </Button>
+                            <Button variant="outline" onClick={() => addStage('payment')} className="h-[54px] rounded-full text-lg text-green border-green hover:bg-green/10 hover:text-green">
+                                <Banknote className="mr-2 h-5 w-5" />
+                                Payment
+                            </Button>
+                        </div>
+                        <Button onClick={handleSave} className="h-[54px] rounded-full text-lg">Save Template</Button>
                     </div>
-                    <Button onClick={handleSave} className="h-[54px] rounded-full text-lg">Save Template</Button>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </DialogContentComponent>
+        </DialogComponent>
     );
 };
 
@@ -745,7 +757,7 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
 
     const DialogOrSheet = isMobile ? Dialog : Dialog;
     const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
+    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
     const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
     const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
