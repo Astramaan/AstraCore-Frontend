@@ -35,6 +35,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                     </Avatar>
                     <div className="flex-1">
                         <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
+                        <p className="text-sm text-muted-foreground">Location: {project.city}</p>
                     </div>
                 </div>
 
