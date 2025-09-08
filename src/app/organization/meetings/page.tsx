@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
 import { Input } from "@/components/ui/input";
-import { MoreVertical, Search, ShieldAlert } from "lucide-react";
+import { MoreVertical, Search, ShieldAlert, PlusCircle } from "lucide-react";
 import { CreateMeetingSheet } from '@/components/create-meeting-sheet';
 import { EditMeetingSheet, Meeting } from '@/components/edit-meeting-sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -38,7 +38,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
         <div className="space-y-4">
              <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
-                    <p className="font-semibold text-lg text-zinc-900">{meeting.name}</p>
+                    <p className="text-base"><span className="text-grey-2">Name: </span><span className="text-zinc-900 font-semibold">{meeting.name}</span></p>
                     <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
                 <DropdownMenu>
@@ -77,8 +77,9 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meetin
      <div className="flex flex-col">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2">
             <div className="flex items-center gap-4 flex-1">
-                <div className="w-44">
-                    <p className="text-xl font-semibold text-black group-hover:text-primary whitespace-nowrap">{meeting.name}, {meeting.city}</p>
+                 <div className="flex flex-col gap-2">
+                    <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
+                    <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black font-medium">{meeting.city}</span></p>
                 </div>
             </div>
             <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
@@ -225,7 +226,8 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
             {/* Mobile View */}
             <div className="md:hidden space-y-6">
-                <div className="flex flex-col md:flex-row justify-end items-center gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <h2 className="text-xl font-medium self-start">Client Meetings</h2>
                     <div className="flex items-center gap-4 w-full md:w-auto">
                         <div className="relative w-full md:w-64">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
@@ -240,7 +242,6 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     </div>
                 </div>
                 <div>
-                    <h2 className="text-xl font-medium mb-4">Client Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                         {filteredClientMeetings.map((meeting) => (
                             <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} />
