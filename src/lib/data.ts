@@ -192,6 +192,6 @@ export async function getProjectDetails(projectId: string) {
                 }
             };
         }
-        return mockProjectDetails;
+        return mockProjectDetails; // Fallback to default mock
     }
 }
