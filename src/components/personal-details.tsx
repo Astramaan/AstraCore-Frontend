@@ -194,7 +194,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
                             <div className="flex flex-col gap-2 flex-1">
                                  <DialogTrigger asChild>
-                                    <Button className="w-full h-12 rounded-full text-white text-base font-medium bg-primary hover:bg-primary/90">
+                                    <Button className="w-full h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Profile
                                     </Button>
@@ -251,7 +251,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                         </div>
                          <div className="hidden md:flex flex-col space-y-4 lg:pl-8">
                             <DialogTrigger asChild>
-                                <Button className="w-full md:w-56 h-14 px-10 rounded-full text-white text-lg font-medium bg-primary hover:bg-primary/90">
+                                <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                     <Edit className="mr-2 h-5 w-5" />
                                     Edit Profile
                                 </Button>
