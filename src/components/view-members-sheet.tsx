@@ -19,7 +19,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
-import { deactivateUser } from '@/app/actions';
+import { deactivateUser, requestPasswordReset } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { ScrollArea } from './ui/scroll-area';
 
@@ -46,6 +46,22 @@ export interface Role {
 }
 
 const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (member: Member) => void; }) => {
+    const { toast } = useToast();
+    
+    const handlePasswordReset = async () => {
+        const formData = new FormData();
+        formData.append('email', member.email);
+        
+        const result = await requestPasswordReset(null, formData);
+
+        if (result?.error) {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: result.error,
+            });
+        }
+    };
     
     return (
         <>
@@ -96,10 +112,7 @@ const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (m
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                          <DropdownMenuItem asChild><Link href={`/organization/teams/${member.id}`}>View Details</Link></DropdownMenuItem>
-                        <ChangePasswordDialog
-                             email={member.email}
-                             trigger={<DropdownMenuItem onSelect={(e) => e.preventDefault()}>Change Password</DropdownMenuItem>}
-                        />
+                        <DropdownMenuItem onSelect={handlePasswordReset}>Change Password</DropdownMenuItem>
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
                         </AlertDialogTrigger>
