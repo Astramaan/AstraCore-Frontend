@@ -123,7 +123,7 @@ const AddProjectForm = ({ onNext, projectToEdit }: { onNext: () => void, project
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
+            <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
                 <div className="space-y-6">
                     <h3 className="text-lg text-stone-500">Personal details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -264,7 +264,7 @@ const AddProjectForm = ({ onNext, projectToEdit }: { onNext: () => void, project
                 </div>
                 
                 <div className="flex justify-end pt-8">
-                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
+                    <Button type="submit" className="w-full md:w-auto px-10 h-14 text-lg rounded-full">
                         {projectToEdit ? 'Save & Next' : 'Next'}
                         <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
@@ -470,7 +470,7 @@ const ProjectTimelineForm = ({
     return (
         <>
             <form action={formAction}>
-                <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)]">
+                <div className="p-6 space-y-8 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
                     <div className="space-y-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                             <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
@@ -640,7 +640,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 p-6 space-y-4 overflow-y-auto">
+                <div className="flex-1 p-6 space-y-4 overflow-y-auto no-scrollbar">
                     <div className="space-y-2">
                          <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? 'text-grey-1' : 'text-black')}>Template Name*</Label>
                         <Input
@@ -808,3 +808,4 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
         </>
     );
 }
+
