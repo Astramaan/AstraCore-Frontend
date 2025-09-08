@@ -249,7 +249,7 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
 
 
                 <div className="flex justify-end pt-8">
-                    <Button type="submit" className="w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
+                    <Button type="submit" className="w-full md:w-auto h-[54px] px-10 py-3.5 bg-primary rounded-full text-lg">
                         {vendorToEdit ? 'Save & Next' : 'Next'}
                         <ArrowRight className="ml-2 h-5 w-5"/>
                     </Button>
@@ -553,3 +553,4 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
+
