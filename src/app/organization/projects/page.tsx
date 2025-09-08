@@ -27,16 +27,31 @@ import { deleteProject } from "@/app/actions";
 const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
     <div className="flex flex-col group">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer">
-            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
-                <Avatar className="w-14 h-14 shrink-0">
-                    <AvatarImage src={project.image} data-ai-hint="abstract building" />
-                    <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                    <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
+            <div className="flex justify-between w-full md:w-auto">
+                <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
+                    <Avatar className="w-14 h-14 shrink-0">
+                        <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                        <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                        <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
+                        <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
+                    </div>
+                </Link>
+                <div className="ml-auto self-center md:hidden" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <MoreVertical className="w-6 h-6" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">Delete</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-            </Link>
+            </div>
             
             <div className="hidden md:block w-px h-14 bg-stone-300" />
             
@@ -52,7 +67,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                 <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
             </div>
 
-            <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            <div className="ml-auto self-center hidden md:block" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
