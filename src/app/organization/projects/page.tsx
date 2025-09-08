@@ -27,26 +27,29 @@ import { deleteProject } from "@/app/actions";
 const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
         <div className="flex justify-between items-center py-4">
-            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1 cursor-pointer group w-full">
-                <div className="flex items-center gap-4 flex-1">
+            <Link href={`/organization/projects/${project.id}`} className="flex flex-col md:flex-row items-start md:items-center gap-4 flex-1 cursor-pointer group w-full">
+                <div className="flex items-center gap-4 flex-1 w-full">
                     <Avatar className="w-14 h-14">
                         <AvatarImage src={project.image} data-ai-hint="abstract building" />
                         <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
                     </Avatar>
-                    <div className="w-44">
+                    <div className="flex-1">
                         <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
                         <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black">{project.city}</span></p>
                     </div>
                 </div>
-                 <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
-                <div className="hidden md:flex flex-col gap-2 w-96">
-                    <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
-                </div>
-                 <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
-                <div className="h-12 flex-col justify-between items-end hidden md:inline-flex">
-                     <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
-                     <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+                
+                <div className="w-full md:w-auto flex flex-col md:flex-row md:items-center gap-4 mt-4 md:mt-0">
+                    <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+                    <div className="flex flex-col gap-2 md:w-96">
+                        <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
+                        <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+                    </div>
+                    <div className="w-px h-14 bg-stone-300/0 md:bg-stone-300" />
+                    <div className="h-12 flex-col justify-between items-start md:items-end flex">
+                         <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
+                         <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+                    </div>
                 </div>
             </Link>
              <DropdownMenu>
