@@ -11,7 +11,8 @@ import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-function SubmitButton({ pending }: { pending: boolean }) {
+function SubmitButton() {
+  const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
       {pending ? 'Verifying...' : 'Verify & Continue'}
@@ -36,7 +37,6 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
   }
   
   const [state, dispatch] = useActionState(formAction, undefined);
-  const { pending } = useFormStatus();
   
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
@@ -126,7 +126,6 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
                         onFocus={(e) => e.target.select()}
                         ref={(el) => (inputRefs.current[index] = el)}
                         className="w-[78px] h-[57px] text-center text-xl font-bold rounded-[15px] bg-background border-border focus:border-primary focus:ring-primary"
-                        disabled={pending}
                     />
                 ))}
                 </div>
@@ -135,7 +134,7 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
             <div className="flex justify-between items-center text-sm">
                 <div>
                     <span className="text-muted-foreground">Didn’t receive OTP? </span>
-                    <button type="button" onClick={handleResend} disabled={timer > 0 || pending} className="font-medium text-black underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
+                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-black underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
                         Resend
                     </button>
                 </div>
@@ -146,7 +145,7 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
         </div>
         
         <div className='pt-4 mt-auto'>
-            <SubmitButton pending={pending} />
+            <SubmitButton />
         </div>
     </form>
   );
