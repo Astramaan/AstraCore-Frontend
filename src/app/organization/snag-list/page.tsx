@@ -111,38 +111,40 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center justify-between md:justify-end md:gap-4 flex-wrap flex-1 pl-16 md:pl-0">
+            <div className="flex items-center justify-between md:justify-end md:gap-4 w-full md:w-auto flex-1 pl-16 md:pl-0">
                 <div className="text-left md:text-right">
                   <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                   <p className="text-sm text-grey-1">{snag.subStatus}</p>
                 </div>
                 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                            <MoreVertical className="w-6 h-6" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                        <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
-                        {snag.status === 'Open' && (
-                            <>
-                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
+                <div onClick={(e) => { e.stopPropagation(); }}>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <MoreVertical className="w-6 h-6" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
+                            {snag.status === 'Open' && (
+                                <>
+                                    <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
+                                </>
+                            )}
+                            {snag.status === 'In Progress' && (
                                 <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
-                            </>
-                        )}
-                        {snag.status === 'In Progress' && (
-                             <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
-                        )}
-                        {snag.status === 'Closed' && (
-                            <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
-                        )}
-                        <DropdownMenuSeparator />
-                        <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
-                        </AlertDialogTrigger>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            )}
+                            {snag.status === 'Closed' && (
+                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
+                            )}
+                            <DropdownMenuSeparator />
+                            <AlertDialogTrigger asChild>
+                                <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
+                            </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </div>
         {!isLast && <Separator className="mx-10" />}
