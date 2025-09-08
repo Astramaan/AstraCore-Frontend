@@ -177,13 +177,13 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                  <div className="p-4 border-t mt-auto">
                     <div className="flex justify-end gap-4">
                         {snag.status === 'Open' && (
-                            <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })} className="h-14 rounded-full px-8">Mark as In Progress</Button>
+                            <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })} className="w-full h-[54px] md:w-auto md:h-14 rounded-full md:px-8">Mark as In Progress</Button>
                         )}
                         {snag.status === 'In Progress' && (
-                            <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })} className="h-14 rounded-full px-8">Mark as Resolved</Button>
+                            <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })} className="w-full h-[54px] md:w-auto md:h-14 rounded-full md:px-8">Mark as Resolved</Button>
                         )}
                          {snag.status === 'Closed' && (
-                            <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })} className="h-14 rounded-full px-8">Re-open Snag</Button>
+                            <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })} className="w-full h-[54px] md:w-auto md:h-14 rounded-full md:px-8">Re-open Snag</Button>
                         )}
                     </div>
                 </div>
