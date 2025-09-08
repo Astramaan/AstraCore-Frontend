@@ -112,7 +112,7 @@ export function NotificationPopover() {
                         <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="w-full h-full max-w-full sm:max-w-full p-0 m-0 rounded-none border-none">
+                <DialogContent className="w-full h-full max-w-full sm:max-w-full p-0 m-0 rounded-none border-none bg-white">
                     <DialogHeader className="p-4 border-b">
                         <DialogTitle className="flex items-center justify-between">
                             <div className="flex items-center gap-2 text-2xl font-semibold">
