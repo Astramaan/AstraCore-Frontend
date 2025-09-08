@@ -126,8 +126,8 @@ const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-2 md:px-4 w-full">
-             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-4 md:py-4 md:px-6 max-w-screen-xl">
-                <div className="flex items-center justify-around gap-1 md:gap-4">
+             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-4 max-w-screen-xl">
+                <div className="flex items-center justify-around gap-4">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
                         return (
@@ -154,7 +154,7 @@ const OrganizationBottomNav = () => {
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
-        <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 space-y-6">
+        <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-4 md:px-8 py-6 space-y-6">
             <OrganizationHeader />
             {children}
         </main>

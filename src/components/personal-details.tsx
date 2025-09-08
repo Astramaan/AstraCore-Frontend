@@ -81,9 +81,11 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
     };
 
     const handleRoleChange = (value: string) => {
-        if (value !== formData.role) {
+        if (value !== formData.role && member.role === 'Super Admin') {
             setPendingRole(value);
             setIsRoleChangeConfirmOpen(true);
+        } else {
+            setFormData(prev => ({...prev, role: value}));
         }
     }
 
@@ -131,22 +133,16 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
                         <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
                         <div className="space-y-2">
                              <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
-                              {member.role === 'Super Admin' ? (
-                                <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
-                                    <SelectTrigger className="h-14 bg-background rounded-full px-5">
-                                        <SelectValue placeholder="Select a role" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Super Admin">Super Admin</SelectItem>
-                                        <SelectItem value="Admin">Admin</SelectItem>
-                                        <SelectItem value="Member">Member</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                             ) : (
-                                <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                                    <p className="text-black text-lg leading-tight truncate">{formData.role}</p>
-                                </div>
-                             )}
+                              <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
+                                <SelectTrigger className="h-14 bg-background rounded-full px-5">
+                                    <SelectValue placeholder="Select a role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="Super Admin">Super Admin</SelectItem>
+                                    <SelectItem value="Admin">Admin</SelectItem>
+                                    <SelectItem value="Member">Member</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <FloatingLabelInput id="address" name="address" label="Address" value={formData.address} onChange={handleInputChange} />
                     </div>
