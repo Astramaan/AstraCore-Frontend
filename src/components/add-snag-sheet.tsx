@@ -118,7 +118,7 @@ const AddSnagForm = ({ onFormSuccess, selectedProjectId }: { onFormSuccess: () =
                 </div>
             </div>
             <div className="px-6 py-4 border-t">
-                <Button type="submit" className="w-full rounded-full">Report Snag</Button>
+                <Button type="submit" className="w-full rounded-full h-[54px]">Report Snag</Button>
             </div>
         </form>
     );
