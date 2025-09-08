@@ -11,26 +11,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 
-const roleIcons: { [key: string]: React.ReactNode } = {
-    "Super Admin": <Shield className="w-6 h-6 text-black" />,
-    "Sales": <Briefcase className="w-6 h-6 text-black" />,
-    "Software Development": <Code className="w-6 h-6 text-black" />,
-    "Design": <Palette className="w-6 h-6 text-black" />,
-    "Support & Feedback": <Users className="w-6 h-6 text-black" />,
-    "Human Resources": <Users className="w-6 h-6 text-black" />,
-    "default": <Users className="w-6 h-6 text-black" />,
-};
-
-const roleColors: { [key: string]: string } = {
-    "Super Admin": "bg-red-200/30",
-    "Sales": "bg-yellow-400/30",
-    "Software Development": "bg-blue-300/30",
-    "Design": "bg-purple-300/30",
-    "Support & Feedback": "bg-green-300/30",
-    "Human Resources": "bg-pink-300/30",
-    "default": "bg-gray-300/30",
-};
-
 const mockRoles: Role[] = [
     { 
         name: "Super Admin", 
@@ -94,7 +74,8 @@ const mockRoles: Role[] = [
 
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+        {/* Desktop View */}
+        <div className="hidden md:flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
             <div className="flex items-center gap-4 w-full md:w-auto md:flex-1">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
                     {role.icon}
@@ -114,6 +95,28 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
             <div className="flex items-center gap-4 md:flex-1 w-full justify-between pl-16 md:pl-0">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
                 <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
+            </div>
+        </div>
+
+        {/* Mobile View */}
+        <div className="md:hidden flex flex-col py-4 gap-4">
+            <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
+                    {role.icon}
+                </div>
+                <p className="text-2xl font-semibold">{role.name}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                    <p className="text-base text-grey-1">Admin: <span className="text-black font-medium block">{role.admin}</span></p>
+                </div>
+                 <div>
+                    <p className="text-base text-grey-1">Active Members: <span className="text-green-600 font-medium block">{String(role.active).padStart(2, '0')}</span></p>
+                </div>
+                 <div>
+                    <p className="text-base text-grey-1">Total Members: <span className="text-black font-medium block">{String(role.total).padStart(2, '0')}</span></p>
+                </div>
+                <Button className="h-12 px-6 rounded-full bg-background text-black hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator className="last:hidden"/>
