@@ -1,5 +1,4 @@
 
-
 import { Member } from "@/components/view-members-sheet";
 
 export interface Department {
