@@ -22,23 +22,33 @@ export async function authenticate(prevState: any, formData: FormData) {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
+    const requestBody = { email, password };
+    console.log('Attempting to authenticate with API. Request Body:', JSON.stringify(requestBody));
+
     const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email, password}),
+      body: JSON.stringify(requestBody),
     });
 
     const data = await response.json();
+    console.log('Received response from API. Status:', response.status, 'Body:', JSON.stringify(data));
+
 
     if (!response.ok || !data.success) {
+      console.error('Authentication failed. API Message:', data?.message);
       return {
         success: false,
         error: data?.message || 'Authentication failed.',
       };
     }
     
+    console.log('Authentication successful. User role:', data.user.role);
     return data;
   } catch (error) {
+    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+        throw error;
+    }
     console.error('Login Action Error:', error);
     return {success: false, error: 'An unexpected error occurred.'};
   }
