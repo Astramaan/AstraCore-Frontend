@@ -23,10 +23,11 @@ export async function authenticate(
     });
     
     if (!response.ok) {
-        try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
             const data = await response.json();
             return data.message || 'Authentication failed.';
-        } catch (e) {
+        } else {
             return response.statusText || 'An unexpected error occurred.';
         }
     }
@@ -508,3 +509,5 @@ export async function changePassword(
     return { success: false, message: 'Incorrect current password.' };
   }
 }
+
+    
