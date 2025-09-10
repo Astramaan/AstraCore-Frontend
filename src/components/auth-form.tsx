@@ -2,7 +2,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useActionState } from "react";
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -30,22 +30,22 @@ export default function AuthForm() {
   const [password, setPassword] = useState('');
   const { toast } = useToast();
 
+  const [errorMessage, formAction] = useActionState(authenticate, undefined);
 
-  const handleSubmit = async (formData: FormData) => {
-    const errorMessage = await authenticate(undefined, formData);
+  useEffect(() => {
     if (errorMessage) {
-       toast({
+      toast({
         variant: "destructive",
         title: "Authentication Error",
         description: errorMessage,
       });
     }
-  }
+  }, [errorMessage, toast]);
 
 
   return (
     <div className="flex-grow flex flex-col">
-      <form action={handleSubmit} className="flex-grow flex flex-col">
+      <form action={formAction} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
             <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
