@@ -47,7 +47,7 @@ export async function authenticate(prevState: any, formData: FormData) {
     // This is necessary to pass the middleware check.
     cookies().set('auth_token', 'dummy_token_for_demo', { httpOnly: true, path: '/' });
 
-    console.log('Authentication successful. User role:', data.user.role);
+    console.log('Authentication successful. Returning data:', data);
     return data;
   } catch (error) {
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {

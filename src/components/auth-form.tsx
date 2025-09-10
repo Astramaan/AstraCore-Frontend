@@ -36,6 +36,10 @@ export default function AuthForm() {
 
   useEffect(() => {
     if (state?.success === true) {
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to your dashboard...",
+      });
       const role = state.user?.role;
       if (role === 'ORG_ADMIN') {
         router.push('/organization/home');
