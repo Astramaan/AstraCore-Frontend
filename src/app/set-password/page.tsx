@@ -12,11 +12,12 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
 
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
-            <div className="md:pt-4 md:pl-4 md:pb-4 h-full">
+            <div className="md:pt-4 md:pl-4 md:pb-4 h-full relative">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
                   fill
+                  priority
                   className="object-cover md:rounded-tl-[40px] md:rounded-bl-[40px]"
                   data-ai-hint="construction site company building"
               />
