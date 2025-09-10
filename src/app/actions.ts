@@ -6,6 +6,18 @@ import { cookies } from 'next/headers';
 
 const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
 
+async function getAuthHeaders() {
+    const token = cookies().get('auth_token')?.value;
+    const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+    };
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+}
+
+
 export async function authenticate(
   prevState: any,
   formData: FormData
@@ -232,9 +244,7 @@ export async function createPassword(
 
     const response = await fetch(`${API_BASE_URL}/api/v1/create-password`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: await getAuthHeaders(),
         body: body,
     });
     
@@ -272,9 +282,7 @@ export async function addMember(
     try {
         const response = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: await getAuthHeaders(),
             body: JSON.stringify({ email, role }),
         });
         
@@ -327,9 +335,7 @@ export async function updateProject(
     try {
         const response = await fetch(`${API_BASE_URL}/api/v1/org-clients/${projectId}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: await getAuthHeaders(),
             body: JSON.stringify(payload),
         });
 
@@ -353,6 +359,7 @@ export async function deleteProject(projectId: string) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/v1/org-clients/${projectId}`, {
             method: 'DELETE',
+            headers: await getAuthHeaders(),
         });
 
         if (!response.ok) {
@@ -399,9 +406,7 @@ export async function inviteUser(
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/invites`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: await getAuthHeaders(),
       body: JSON.stringify({ email, role }),
     });
     
@@ -427,6 +432,7 @@ export async function deactivateUser(userId: string) {
         // For example:
         // const response = await fetch(`${API_BASE_URL}/api/v1/users/${userId}/deactivate`, {
         //     method: 'POST',
+        //     headers: await getAuthHeaders(),
         // });
         // if (!response.ok) {
         //     const errorData = await response.json();
@@ -457,9 +463,7 @@ export async function updateUser(
     try {
         const response = await fetch(`${API_BASE_URL}/api/v1/org-users/${memberId}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: await getAuthHeaders(),
             body: JSON.stringify(payload),
         });
 
@@ -493,15 +497,25 @@ export async function changePassword(
     return { success: false, message: 'New passwords do not match.' };
   }
 
-  // In a real app, you would call your backend to change the password
-  // This is a mock implementation
-  console.log('Changing password for', email);
-  if (currentPassword === 'password123') { // Mock current password check
-    return { success: true, message: 'Password changed successfully!' };
-  } else {
-    return { success: false, message: 'Incorrect current password.' };
+  try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/change-password`, {
+          method: 'POST',
+          headers: await getAuthHeaders(),
+          body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      if (!response.ok) {
+          try {
+              const data = await response.json();
+              return { success: false, message: data.message || 'Failed to change password.' };
+          } catch (e) {
+              return { success: false, message: response.statusText || 'An unexpected error occurred.' };
+          }
+      }
+
+      return { success: true, message: 'Password changed successfully!' };
+  } catch (error) {
+      console.error('Change Password error:', error);
+      return { success: false, message: 'An unexpected error occurred.' };
   }
 }
-
-    
-    
