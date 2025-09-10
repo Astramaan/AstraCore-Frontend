@@ -42,10 +42,12 @@ export default function AuthForm() {
         description: state.error,
       });
     } else if (state?.role) {
-      if (state.role === 'admin') {
+      if (state.role === 'admin') { // This might be for a platform admin
         router.push('/platform/dashboard');
-      } else {
+      } else if (state.role === 'ORG_ADMIN') { // This matches your backend response
         router.push('/organization/home');
+      } else {
+        router.push('/organization/home'); // Default for other organization roles
       }
     }
   }, [state, toast, router]);
