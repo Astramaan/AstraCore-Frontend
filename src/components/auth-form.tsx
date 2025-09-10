@@ -42,6 +42,7 @@ export default function AuthForm() {
       } else if (role === 'admin') {
         router.push('/platform/dashboard');
       } else {
+        // Fallback for any other roles or if role is not defined
         router.push('/organization/home');
       }
     } else if (state?.success === false) {

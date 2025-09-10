@@ -1,3 +1,4 @@
+
 'use server';
 
 import {redirect} from 'next/navigation';
@@ -35,15 +36,10 @@ export async function authenticate(prevState: any, formData: FormData) {
         error: data?.message || 'Authentication failed.',
       };
     }
-
-    // The API response for login does not contain a token.
-    // We will proceed without setting a cookie for now and rely on role-based access.
-    // In a real-world scenario, a token would be expected here.
-
-    return {success: true, user: data.user};
+    
+    return data;
   } catch (error) {
     console.error('Login Action Error:', error);
-    if ((error as any).type === 'NEXT_REDIRECT') throw error;
     return {success: false, error: 'An unexpected error occurred.'};
   }
 }
