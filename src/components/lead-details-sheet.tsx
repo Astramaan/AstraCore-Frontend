@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -145,11 +146,8 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
             </DialogHeader>
             <ScrollArea className="flex-1">
                 <div className="p-6 space-y-6">
-                    <div className="relative">
+                    <div className="flex items-center gap-4">
                         <Image src={lead.profileImage} width={94} height={94} alt={lead.fullName} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
-                    </div>
-                    
-                    <div className="flex justify-between items-start -mt-4">
                         <div>
                              <h3 className="text-2xl font-semibold">{lead.fullName}</h3>
                              <p className="text-muted-foreground">{lead.leadId}</p>
