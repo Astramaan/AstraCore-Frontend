@@ -21,35 +21,27 @@ export async function authenticate(prevState: any, formData: FormData) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
-  const requestBody = { email, password };
-  console.log('[API Test] Sending request to:', `${API_BASE_URL}/api/v1/login`);
-  console.log('[API Test] Request Body:', JSON.stringify(requestBody));
-
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({ email, password }),
     });
 
-    console.log('[API Test] Response Status Code:', response.status);
-    
     const responseData = await response.json();
-    
-    console.log('----------- API TEST RESULT -----------');
-    console.log(JSON.stringify(responseData, null, 2));
-    console.log('---------------------------------------');
 
-    if (response.ok && responseData.success) {
-        cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-        return responseData;
-    } else {
-        return responseData;
+    if (!response.ok) {
+        return { success: false, message: responseData.message || 'Authentication failed.' };
     }
 
+    // Handle success
+    cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    return { success: true, user: responseData.user };
+
+
   } catch (error) {
-    console.error('[API Test] An error occurred during the API test:', error);
-    return { success: false, error: 'Failed to connect to the API.' };
+    console.error('Authentication error:', error);
+    return { success: false, message: 'Failed to connect to the server. Please try again.' };
   }
 }
 

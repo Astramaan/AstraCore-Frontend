@@ -45,13 +45,14 @@ export default function AuthForm() {
       } else if (role === 'admin') {
         router.push('/platform/dashboard');
       } else {
+        // Fallback for any other role
         router.push('/organization/home');
       }
-    } else if (state?.success === false) {
+    } else if (state?.success === false && state.message) {
       toast({
         variant: "destructive",
         title: "Authentication Error",
-        description: state.message || state.error || "An unknown error occurred.",
+        description: state.message,
       });
     }
   }, [state, router, toast]);
@@ -62,12 +63,12 @@ export default function AuthForm() {
       <form action={formAction} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
-            <Label htmlFor="email-input" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
+            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
             <div className="relative flex items-center">
               <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
               <div className="absolute left-14 h-6 w-px bg-grey-2" />
               <Input
-                id="email-input"
+                id="email"
                 name="email"
                 type="email"
                 autoComplete="email"
@@ -82,13 +83,13 @@ export default function AuthForm() {
 
           <div className="space-y-2 mt-6">
             <div className="flex items-center justify-between">
-                <Label htmlFor="password-input" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Password</Label>
+                <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Password</Label>
             </div>
             <div className="relative flex items-center">
               <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
               <div className="absolute left-14 h-6 w-px bg-grey-2" />
               <Input 
-                id="password-input" 
+                id="password" 
                 name="password" 
                 type={showPassword ? "text" : "password"} 
                 required 
