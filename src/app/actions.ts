@@ -18,43 +18,34 @@ async function getAuthHeaders() {
 }
 
 export async function authenticate(prevState: any, formData: FormData) {
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  const requestBody = { email, password };
+  console.log('[API Test] Sending request to:', `${API_BASE_URL}/api/v1/login`);
+  console.log('[API Test] Request Body:', JSON.stringify(requestBody));
+
   try {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    const requestBody = { email, password };
-    console.log('[Action] Attempting to authenticate with API. Request Body:', JSON.stringify(requestBody));
-
     const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(requestBody),
     });
 
-    const data = await response.json();
-    console.log('[Action] Received response from API. Status:', response.status);
-    console.log('[Action] Response Body:', JSON.stringify(data, null, 2));
-
-
-    if (!response.ok || !data.success) {
-      console.error('[Action] Authentication failed. API Message:', data?.message);
-      return {
-        success: false,
-        error: data?.message || 'Authentication failed.',
-      };
-    }
+    console.log('[API Test] Response Status Code:', response.status);
     
-    // On success, set a dummy token to pass middleware checks later
-    cookies().set('auth_token', 'dummy_token_for_demo', { httpOnly: true, path: '/' });
+    const responseData = await response.json();
+    
+    console.log('----------- API TEST RESULT -----------');
+    console.log(JSON.stringify(responseData, null, 2));
+    console.log('---------------------------------------');
 
-    console.log('[Action] Authentication successful. Returning data to client:', JSON.stringify(data, null, 2));
-    return data;
+    // For now, just return the raw data to see it on the client too
+    return responseData;
+
   } catch (error) {
-    if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-        throw error;
-    }
-    console.error('[Action] Login Action Error:', error);
-    return {success: false, error: 'An unexpected error occurred.'};
+    console.error('[API Test] An error occurred during the API test:', error);
+    return { success: false, error: 'Failed to connect to the API.' };
   }
 }
 
