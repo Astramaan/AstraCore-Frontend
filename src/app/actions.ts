@@ -12,14 +12,26 @@ export async function authenticate(
 ) {
   try {
     const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return data.message || 'Failed to login.';
+    }
     
-    // This is a mock authentication. In a real app, you'd verify credentials
-    // and get a token from your backend.
-    const mockToken = 'mock-auth-token-for-' + email;
-    cookies().set('auth_token', mockToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    cookies().set('auth_token', data.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
-    // Bypass authentication and redirect based on email
-    if (email === 'admin@example.com') {
+    // Redirect based on the response, assuming the API returns a role or similar indicator
+    if (data.user.role === 'admin') { // This is an assumption, adjust based on actual API response
       redirect('/platform/dashboard');
     } else {
       redirect('/organization/home');
