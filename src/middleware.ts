@@ -9,11 +9,12 @@ export function middleware(request: NextRequest) {
   // Define public paths that don't require authentication
   const publicPaths = ['/', '/signup', '/forgot-password', '/set-password', '/otp-verification', '/create-password', '/password-success'];
   
-  const isPublicPath = publicPaths.some(publicPath => path === publicPath);
+  const isPublicPath = publicPaths.includes(path);
 
   // If the user has an auth token and is trying to access a public page,
   // redirect them to the organization home.
-  if (authToken && isPublicPath) {
+  // We exclude the root path '/' from this check to prevent redirect loops after login.
+  if (authToken && isPublicPath && path !== '/') {
     return NextResponse.redirect(new URL('/organization/home', request.url));
   }
 
