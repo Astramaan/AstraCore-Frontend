@@ -200,7 +200,8 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 onProjectUpdated={handleProjectUpdated}
                 onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)} onProjectAdded={function (project: Project): void {
                     throw new Error('Function not implemented.');
-                } }            />
+                } }
+            />
 
             <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
