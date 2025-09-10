@@ -21,7 +21,7 @@ async function getAuthHeaders() {
 export async function authenticate(
   prevState: any,
   formData: FormData
-): Promise<{ error?: string; role?: string }> {
+): Promise<{ error?: string; success?: boolean; user?: any; }> {
   try {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
@@ -43,7 +43,7 @@ export async function authenticate(
     // The backend is not returning a token, so we can't set it.
     // cookies().set('auth_token', data.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
-    return { role: data.user.role };
+    return data;
 
   } catch (error) {
       if (error instanceof Error) {

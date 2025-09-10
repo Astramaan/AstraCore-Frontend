@@ -41,13 +41,14 @@ export default function AuthForm() {
         title: "Authentication Error",
         description: state.error,
       });
-    } else if (state?.role) {
-      if (state.role === 'admin') { // This might be for a platform admin
+    } else if (state?.success) {
+      const role = state.user?.role;
+      if (role === 'admin') {
         router.push('/platform/dashboard');
-      } else if (state.role === 'ORG_ADMIN') { // This matches your backend response
+      } else if (role === 'ORG_ADMIN') {
         router.push('/organization/home');
       } else {
-        router.push('/organization/home'); // Default for other organization roles
+        router.push('/organization/home');
       }
     }
   }, [state, toast, router]);
