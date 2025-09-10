@@ -7,9 +7,9 @@ import { cookies } from 'next/headers';
 const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
 
 export async function authenticate(
-  prevState: string | undefined,
+  prevState: any,
   formData: FormData
-) {
+): Promise<{ error?: string; role?: string }> {
   try {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
@@ -26,30 +26,23 @@ export async function authenticate(
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             const data = await response.json();
-            return data.message || 'Authentication failed.';
+            return { error: data.message || 'Authentication failed.' };
         } else {
-            return response.statusText || 'An unexpected error occurred.';
+            return { error: response.statusText || 'An unexpected error occurred.'};
         }
     }
     
     const data = await response.json();
     cookies().set('auth_token', data.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
-    if (data.user.role === 'admin') {
-      redirect('/platform/dashboard');
-    } else {
-      redirect('/organization/home');
-    }
+    return { role: data.user.role };
 
   } catch (error) {
       if (error instanceof Error) {
-        if ((error as any).type === 'NEXT_REDIRECT') {
-          throw error;
-        }
         console.error("Login Action Error:", error.message);
-        return 'An unexpected error occurred.';
+        return { error: 'An unexpected error occurred.' };
       }
-      return 'An unexpected error occurred.';
+      return { error: 'An unexpected error occurred.' };
   }
 }
 

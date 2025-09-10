@@ -3,6 +3,7 @@
 
 import { useFormStatus } from "react-dom";
 import React, { useState, useEffect, useActionState } from "react";
+import { useRouter } from 'next/navigation';
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -25,22 +26,29 @@ function SubmitButton() {
 }
 
 export default function AuthForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { toast } = useToast();
 
-  const [errorMessage, formAction] = useActionState(authenticate, undefined);
+  const [state, formAction] = useActionState(authenticate, undefined);
 
   useEffect(() => {
-    if (errorMessage) {
+    if (state?.error) {
       toast({
         variant: "destructive",
         title: "Authentication Error",
-        description: errorMessage,
+        description: state.error,
       });
+    } else if (state?.role) {
+      if (state.role === 'admin') {
+        router.push('/platform/dashboard');
+      } else {
+        router.push('/organization/home');
+      }
     }
-  }, [errorMessage, toast]);
+  }, [state, toast, router]);
 
 
   return (
