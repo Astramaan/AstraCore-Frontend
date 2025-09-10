@@ -46,8 +46,8 @@ interface LeadDetailsSheetProps {
     startInEditMode?: boolean;
 }
 
-const DetailField = ({ label, value, isEditing, onChange, name, placeholder, type = 'text' }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string, placeholder?: string, type?: string }) => (
-    <div className="space-y-2">
+const DetailField = ({ label, value, isEditing, onChange, name, placeholder, type = 'text', fullWidth = false }: { label: string, value: string, isEditing: boolean, onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void, name?: string, placeholder?: string, type?: string, fullWidth?: boolean }) => (
+    <div className={cn("space-y-2", fullWidth && "md:col-span-2")}>
         <Label htmlFor={name} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         {isEditing ? (
             <Input id={name} name={name} value={value} onChange={onChange} className="h-14 bg-background rounded-full px-5" placeholder={placeholder || label} type={type}/>
@@ -168,10 +168,8 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
                             <DetailField label="Phone Number" name="phone" value={lead.phone} isEditing={isEditing} onChange={handleInputChange} />
                             <DetailField label="Email" name="email" value={lead.email} isEditing={isEditing} onChange={handleInputChange} />
-                            <div className="md:col-span-2">
-                                 <DetailField label="Current address" name="address" value={lead.address} isEditing={isEditing} onChange={handleInputChange} />
-                            </div>
-                             <DetailField label="Site location Pin code" name="pincode" value={lead.pincode} isEditing={isEditing} onChange={handleInputChange} />
+                            <DetailField label="Current address" name="address" value={lead.address} isEditing={isEditing} onChange={handleInputChange} fullWidth />
+                            <DetailField label="Site location Pin code" name="pincode" value={lead.pincode} isEditing={isEditing} onChange={handleInputChange} />
                              
                             <div className="space-y-2">
                                 <Label htmlFor="level" className={cn("text-lg font-medium px-2", lead.level ? 'text-grey-1' : 'text-zinc-900')}>Lead Level</Label>
@@ -193,7 +191,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                                 )}
                             </div>
 
-                             <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} />
+                             <DetailField label="Tentative Total amount" name="tokenAmount" value={lead.tokenAmount} isEditing={isEditing} onChange={handleInputChange} fullWidth/>
                         </div>
                     </div>
                     
