@@ -4,6 +4,8 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
+const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
@@ -45,7 +47,7 @@ export async function signup(
   const password = formData.get('password') as string;
   
   try {
-    const response = await fetch('http://localhost:4000/api/v1/signup', {
+    const response = await fetch(`${API_BASE_URL}/api/v1/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +92,7 @@ export async function verifyOtp(
     const flow = formData.get('flow') as string;
 
     try {
-        const response = await fetch('http://localhost:4000/api/v1/verify-email', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/verify-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +147,7 @@ export async function requestPasswordReset(
 ) {
   const email = formData.get('email') as string;
   try {
-    const checkEmailResponse = await fetch('http://localhost:4000/api/v1/check-email-existed', {
+    const checkEmailResponse = await fetch(`${API_BASE_URL}/api/v1/check-email-existed`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
@@ -157,7 +159,7 @@ export async function requestPasswordReset(
     }
     
     if (data.exists) {
-        const sendOtpResponse = await fetch('http://localhost:4000/api/v1/send-otp-email', {
+        const sendOtpResponse = await fetch(`${API_BASE_URL}/api/v1/send-otp-email`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
@@ -202,7 +204,7 @@ export async function createPassword(
         body = JSON.stringify({ email, password, phone, organization });
     }
 
-    const response = await fetch('http://localhost:4000/api/v1/create-password', {
+    const response = await fetch(`${API_BASE_URL}/api/v1/create-password`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -238,7 +240,7 @@ export async function addMember(
     }
 
     try {
-        const response = await fetch('http://localhost:4000/api/v1/org-users', {
+        const response = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -289,7 +291,7 @@ export async function updateProject(
     }
 
     try {
-        const response = await fetch(`http://localhost:4000/api/v1/org-clients/${projectId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/v1/org-clients/${projectId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -311,7 +313,7 @@ export async function updateProject(
 
 export async function deleteProject(projectId: string) {
     try {
-        const response = await fetch(`http://localhost:4000/api/v1/org-clients/${projectId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/v1/org-clients/${projectId}`, {
             method: 'DELETE',
         });
 
@@ -353,7 +355,7 @@ export async function inviteUser(
   }
 
   try {
-    const response = await fetch('http://localhost:4000/api/v1/invites', {
+    const response = await fetch(`${API_BASE_URL}/api/v1/invites`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -377,7 +379,7 @@ export async function deactivateUser(userId: string) {
     try {
         // In a real app, you would make an API call to deactivate the user.
         // For example:
-        // const response = await fetch(`http://localhost:4000/api/v1/users/${userId}/deactivate`, {
+        // const response = await fetch(`${API_BASE_URL}/api/v1/users/${userId}/deactivate`, {
         //     method: 'POST',
         // });
         // if (!response.ok) {
@@ -407,7 +409,7 @@ export async function updateUser(
     }
 
     try {
-        const response = await fetch(`http://localhost:4000/api/v1/org-users/${memberId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/v1/org-users/${memberId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
