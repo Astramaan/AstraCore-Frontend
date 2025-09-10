@@ -1,5 +1,4 @@
 
-
 import CreatePasswordForm from "@/components/create-password-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
