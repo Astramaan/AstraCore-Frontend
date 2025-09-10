@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -783,7 +784,7 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
                         "p-0 bg-white flex flex-col",
                         isMobile 
                             ? "w-full h-full rounded-none border-none m-0"
-                            : "sm:max-w-3xl rounded-[50px] h-auto max-h-[90vh]"
+                            : "sm:max-w-3xl rounded-[50px] max-h-[90vh]"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
