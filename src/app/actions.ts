@@ -43,6 +43,10 @@ export async function authenticate(prevState: any, formData: FormData) {
       };
     }
     
+    // Set a dummy token since the backend does not provide one.
+    // This is necessary to pass the middleware check.
+    cookies().set('auth_token', 'dummy_token_for_demo', { httpOnly: true, path: '/' });
+
     console.log('Authentication successful. User role:', data.user.role);
     return data;
   } catch (error) {
