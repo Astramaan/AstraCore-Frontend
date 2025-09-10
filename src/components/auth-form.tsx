@@ -35,24 +35,23 @@ export default function AuthForm() {
   const [state, formAction] = useActionState(authenticate, undefined);
 
   useEffect(() => {
-    if (state?.success === false) {
+    if (state?.success === true) {
+      const role = state.user?.role;
+      if (role === 'ORG_ADMIN') {
+        router.push('/organization/home');
+      } else if (role === 'admin') {
+        router.push('/platform/dashboard');
+      } else {
+        router.push('/organization/home');
+      }
+    } else if (state?.success === false) {
       toast({
         variant: "destructive",
         title: "Authentication Error",
         description: state.error,
       });
-    } else if (state?.success === true) {
-      const role = state.user?.role;
-      if (role === 'ORG_ADMIN') {
-        router.push('/organization/home');
-      } else if (role === 'admin') { // Example for another role
-        router.push('/platform/dashboard');
-      } else {
-        // Fallback for any other roles or if role is not defined
-        router.push('/organization/home');
-      }
     }
-  }, [state, toast, router]);
+  }, [state, router, toast]);
 
 
   return (
