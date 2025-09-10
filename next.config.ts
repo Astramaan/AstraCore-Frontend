@@ -20,9 +20,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  allowedDevOrigins: [
-    'https://*.cloudworkstations.dev',
-  ],
 };
 
-export default nextConfig;
+/**
+ * @type {import('next').NextConfig}
+ */
+module.exports = () => {
+  const plugins = [];
+  return plugins.reduce((acc, plugin) => plugin(acc), { ...nextConfig });
+};
