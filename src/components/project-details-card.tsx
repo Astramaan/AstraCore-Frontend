@@ -43,9 +43,11 @@ interface ProjectDetailsCardProps {
         status: string;
         locationLink: string;
     };
+    onEdit: () => void;
+    onDelete: () => void;
 }
 
-export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetailsCardProps) => {
+export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete }: ProjectDetailsCardProps) => {
     return (
         <Card className="rounded-[50px] p-10">
             <CardContent className="p-0">
@@ -56,8 +58,8 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo }: ProjectDetails
                                 <Button variant="ghost" size="icon"><MoreVertical/></Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-zinc-100 rounded-[20px]">
-                                    <DropdownMenuItem className="rounded-[10px]">Edit</DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600 rounded-[10px]">Delete</DropdownMenuItem>
+                                    <DropdownMenuItem className="rounded-[10px]" onSelect={onEdit}>Edit</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-red-600 rounded-[10px]" onSelect={onDelete}>Delete</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

@@ -1,5 +1,7 @@
 
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
@@ -10,7 +12,23 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { PaymentsDialog } from '@/components/payments-dialog';
-import { getProjectDetails } from '@/lib/data';
+import { getProjectDetails, Project } from '@/lib/data';
+import { AddProjectSheet } from '@/components/add-project-sheet';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { deleteProject } from "@/app/actions";
+import { ShieldAlert } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 
 const mockProject = {
     id: "YAS2024",
@@ -18,6 +36,12 @@ const mockProject = {
     coverImage: "https://placehold.co/1216x144",
     profileImage: "https://placehold.co/94x94",
     progress: 25,
+    contact: "yash69@gmail.com | 1234567890",
+    city: "Bengaluru",
+    startDate: "25 May 2024",
+    status: "On going",
+    statusColor: "text-green-600",
+    image: "https://placehold.co/59x59",
     personalInfo: {
         name: "Yash",
         clientId: "YAS2024",
@@ -83,28 +107,81 @@ const mockProject = {
     }
 };
 
-export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
-    const project = await getProjectDetails(params.id);
+export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
+    const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
+    const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+    const { toast } = useToast();
+    const router = useRouter();
+
+    useEffect(() => {
+        const fetchProject = async () => {
+            const projectDetails = await getProjectDetails(params.id);
+            if (projectDetails) {
+                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: projectDetails.name || mockProject.personalInfo.name } };
+                setProject(displayProject as any);
+            }
+        };
+        fetchProject();
+    }, [params.id]);
+
 
     if (!project) {
         return (
             <div className="flex justify-center items-center h-full">
-                <p>Project not found.</p>
+                <p>Loading project details...</p>
             </div>
         );
     }
     
-    // Using mock data for parts that are not in the API response yet.
-    const displayProject = { ...mockProject, ...project, name: project.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: project.name || mockProject.personalInfo.name } };
+    const handleEdit = (project: Project) => {
+        setProjectToEdit(project);
+    };
+    
+    const handleDeleteClick = (project: Project) => {
+        setProjectToDelete(project);
+        setIsDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (projectToDelete) {
+            const result = await deleteProject(projectToDelete.id);
+            if (result.success) {
+                toast({
+                    title: 'Success',
+                    description: result.message,
+                });
+                router.push('/organization/projects');
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: result.message,
+                });
+            }
+            setIsDeleteDialogOpen(false);
+            setProjectToDelete(null);
+        }
+    };
+
+    const handleProjectUpdated = (updatedProject: Project) => {
+        setProject(prev => prev ? { ...prev, ...updatedProject } : null);
+    };
 
     return (
         <div className="space-y-6">
-            <ProjectInfoHeader project={displayProject} />
+            <ProjectInfoHeader project={project} />
 
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">
-                    <ProjectDetailsCard personalInfo={displayProject.personalInfo} projectInfo={displayProject.projectInfo} />
-                    <ProjectVisualsCard visuals={displayProject.visuals} />
+                    <ProjectDetailsCard 
+                        personalInfo={project.personalInfo} 
+                        projectInfo={project.projectInfo} 
+                        onEdit={() => handleEdit(project)}
+                        onDelete={() => handleDeleteClick(project)}
+                    />
+                    <ProjectVisualsCard visuals={project.visuals} />
                 </div>
                 
                 <div className="w-full xl:w-[384px] space-y-6">
@@ -113,11 +190,37 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
                            <TimelineDialog />
                            <PaymentsDialog />
                         </div>
-                        <DesignDocumentsDialog files={displayProject.files} />
+                        <DesignDocumentsDialog files={project.files} />
                     </div>
-                     <ProjectMaterialsCard materials={displayProject.materials} />
+                     <ProjectMaterialsCard materials={project.materials} />
                 </div>
             </div>
+             <AddProjectSheet 
+                projectToEdit={projectToEdit}
+                onProjectUpdated={handleProjectUpdated}
+                onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)} onProjectAdded={function (project: Project): void {
+                    throw new Error('Function not implemented.');
+                } }            />
+
+            <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                        <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                            <div className="w-full h-full bg-red-600/5 rounded-full" />
+                            <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                            <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Confirm Project Deletion?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                           Deleting project "{projectToDelete?.name}" will permanently remove it. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={confirmDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 }
