@@ -34,18 +34,12 @@ export async function authenticate(
       body: JSON.stringify({ email, password }),
     });
     
+    const data = await response.json();
+
     if (!response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            const data = await response.json();
-            return { error: data.message || 'Authentication failed.' };
-        } else {
-            const text = await response.text();
-            return { error: text || 'An unexpected error occurred.'};
-        }
+        return { error: data.message || 'Authentication failed.' };
     }
     
-    const data = await response.json();
     // The backend is not returning a token, so we can't set it.
     // cookies().set('auth_token', data.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
