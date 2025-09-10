@@ -2,7 +2,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import React, { useState, useEffect, useActionState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { authenticate } from "@/app/actions";
 import { Button } from "./ui/button";
@@ -31,10 +31,11 @@ export default function AuthForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { toast } = useToast();
-
-  const [state, formAction] = useActionState(authenticate, undefined);
+  const [state, formAction] = React.useActionState(authenticate, undefined);
 
   useEffect(() => {
+    console.log("[AuthForm] State changed:", state);
+
     if (state?.success === true) {
       toast({
         title: "Login Successful",

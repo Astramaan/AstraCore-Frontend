@@ -23,7 +23,7 @@ export async function authenticate(prevState: any, formData: FormData) {
     const password = formData.get('password') as string;
 
     const requestBody = { email, password };
-    console.log('Attempting to authenticate with API. Request Body:', JSON.stringify(requestBody));
+    console.log('[Action] Attempting to authenticate with API. Request Body:', JSON.stringify(requestBody));
 
     const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
       method: 'POST',
@@ -32,28 +32,28 @@ export async function authenticate(prevState: any, formData: FormData) {
     });
 
     const data = await response.json();
-    console.log('Received response from API. Status:', response.status, 'Body:', JSON.stringify(data));
+    console.log('[Action] Received response from API. Status:', response.status);
+    console.log('[Action] Response Body:', JSON.stringify(data, null, 2));
 
 
     if (!response.ok || !data.success) {
-      console.error('Authentication failed. API Message:', data?.message);
+      console.error('[Action] Authentication failed. API Message:', data?.message);
       return {
         success: false,
         error: data?.message || 'Authentication failed.',
       };
     }
     
-    // Set a dummy token since the backend does not provide one.
-    // This is necessary to pass the middleware check.
+    // On success, set a dummy token to pass middleware checks later
     cookies().set('auth_token', 'dummy_token_for_demo', { httpOnly: true, path: '/' });
 
-    console.log('Authentication successful. Returning data:', data);
+    console.log('[Action] Authentication successful. Returning data to client:', JSON.stringify(data, null, 2));
     return data;
   } catch (error) {
     if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
         throw error;
     }
-    console.error('Login Action Error:', error);
+    console.error('[Action] Login Action Error:', error);
     return {success: false, error: 'An unexpected error occurred.'};
   }
 }
