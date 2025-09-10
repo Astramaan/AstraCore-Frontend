@@ -40,8 +40,12 @@ export async function authenticate(prevState: any, formData: FormData) {
     console.log(JSON.stringify(responseData, null, 2));
     console.log('---------------------------------------');
 
-    // For now, just return the raw data to see it on the client too
-    return responseData;
+    if (response.ok && responseData.success) {
+        cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+        return responseData;
+    } else {
+        return responseData;
+    }
 
   } catch (error) {
     console.error('[API Test] An error occurred during the API test:', error);
