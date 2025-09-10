@@ -17,15 +17,13 @@ export function middleware(request: NextRequest) {
       '/set-password'
   ];
 
-  if (!token && !publicPaths.some(path => pathname.startsWith(path)) && !pathname.startsWith('/_next') && !pathname.startsWith('/api') && !pathname.match(/.*\..*/)) {
+  if (!token && !publicPaths.some(path => pathname === path)) {
     return NextResponse.redirect(new URL('/', request.url));
   }
   
-  if (token) {
-    if(publicPaths.some(path => pathname.startsWith(path))) {
-        // Redirect to dashboard if user is authenticated and tries to access public pages like login/signup
-        return NextResponse.redirect(new URL('/organization/home', request.url));
-    }
+  if (token && publicPaths.some(path => pathname === path)) {
+      // Redirect to dashboard if user is authenticated and tries to access public pages like login/signup
+      return NextResponse.redirect(new URL('/organization/home', request.url));
   }
 
   return NextResponse.next();
@@ -39,7 +37,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - images (image files)
+     * - fonts (font files)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|images).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|images|fonts).*)',
   ],
 }

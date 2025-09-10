@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useFormStatus } from "react-dom";
@@ -119,7 +120,7 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
             </div>
         </div>
       </div>
-      <div className="pt-6 mt-auto md:flex md:justify-end">
+      <div className="pt-6 mt-auto flex justify-end">
         <SubmitButton />
       </div>
     </form>

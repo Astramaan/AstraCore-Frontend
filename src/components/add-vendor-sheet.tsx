@@ -524,7 +524,6 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
                             ? "w-full h-full rounded-none border-none"
                             : "md:max-w-2xl rounded-[20px]"
                     )}
-                    {...(isMobile && { side: "bottom" })}
                 >
                     <DialogOrSheetHeader className="p-6 border-b shrink-0">
                         <div className="flex items-center justify-between">
@@ -558,6 +557,7 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
+
 
 
 
