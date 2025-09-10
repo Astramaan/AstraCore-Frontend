@@ -33,6 +33,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { updateUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 const initialMemberData = {
     id: "1",
@@ -112,6 +120,7 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
 
     return (
         <form action={formAction} className="flex flex-col h-full">
+            <input type="hidden" name="id" value={member.id} />
             <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                 <DialogTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
@@ -190,9 +199,13 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         }
         setIsEditing(open);
     }
+    
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+
 
     return (
-        <Dialog open={isEditing} onOpenChange={handleOpenChange}>
+        <DialogOrSheet open={isEditing} onOpenChange={handleOpenChange}>
             <Card className="rounded-[50px] py-4 px-4 md:px-8">
                 <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8">
@@ -200,12 +213,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                         <div className="flex md:hidden items-center gap-4 w-full">
                             <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
                             <div className="flex flex-col gap-2 flex-1">
-                                 <DialogTrigger asChild>
+                                 <DialogOrSheetTrigger asChild>
                                     <Button className="w-full h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Profile
                                     </Button>
-                                </DialogTrigger>
+                                </DialogOrSheetTrigger>
                                 <ChangePasswordDialog 
                                     email={member.email} 
                                     trigger={
@@ -257,27 +270,29 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             </div>
                         </div>
                          <div className="hidden md:flex flex-col space-y-4 lg:pl-8">
-                            <DialogTrigger asChild>
+                            <DialogOrSheetTrigger asChild>
                                 <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                     <Edit className="mr-2 h-5 w-5" />
                                     Edit Profile
                                 </Button>
-                            </DialogTrigger>
+                            </DialogOrSheetTrigger>
                             <ChangePasswordDialog email={member.email} />
                         </div>
                     </div>
                 </CardContent>
             </Card>
-            <DialogContent className={cn(
-                "p-0 flex flex-col m-0 bg-white sm:max-w-3xl",
-                isMobile ? "w-full h-full rounded-none" : "sm:h-auto sm:rounded-[50px]"
+            <DialogOrSheetContent className={cn(
+                "p-0 flex flex-col m-0 bg-white",
+                isMobile 
+                  ? "w-full h-full rounded-none border-none"
+                  : "sm:max-w-3xl sm:h-auto sm:rounded-[50px]"
             )}>
                 <EditProfileForm 
                     member={member}
                     onSave={handleSave}
                     onCancel={() => setIsEditing(false)}
                 />
-            </DialogContent>
-        </Dialog>
+            </DialogOrSheetContent>
+        </DialogOrSheet>
     );
 }

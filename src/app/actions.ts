@@ -2,6 +2,7 @@
 "use server";
 
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 export async function authenticate(
   prevState: string | undefined,
@@ -9,6 +10,11 @@ export async function authenticate(
 ) {
   try {
     const email = formData.get('email') as string;
+    
+    // This is a mock authentication. In a real app, you'd verify credentials
+    // and get a token from your backend.
+    const mockToken = 'mock-auth-token-for-' + email;
+    cookies().set('auth_token', mockToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
     // Bypass authentication and redirect based on email
     if (email === 'admin@example.com') {
