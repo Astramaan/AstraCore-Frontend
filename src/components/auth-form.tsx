@@ -34,8 +34,6 @@ export default function AuthForm() {
   const [state, formAction] = React.useActionState(authenticate, undefined);
 
   useEffect(() => {
-    console.log("[AuthForm] State changed:", state);
-
     if (state?.success === true) {
       toast({
         title: "Login Successful",
@@ -47,14 +45,13 @@ export default function AuthForm() {
       } else if (role === 'admin') {
         router.push('/platform/dashboard');
       } else {
-        // Fallback for any other roles or if role is not defined
         router.push('/organization/home');
       }
     } else if (state?.success === false) {
       toast({
         variant: "destructive",
         title: "Authentication Error",
-        description: state.error || state.message || "An unknown error occurred.",
+        description: state.message || state.error || "An unknown error occurred.",
       });
     }
   }, [state, router, toast]);
