@@ -21,13 +21,17 @@ export async function authenticate(
       },
       body: JSON.stringify({ email, password }),
     });
-
-    const data = await response.json();
-
+    
     if (!response.ok) {
-      return data.message || 'Authentication failed.';
+        try {
+            const data = await response.json();
+            return data.message || 'Authentication failed.';
+        } catch (e) {
+            return response.statusText || 'An unexpected error occurred.';
+        }
     }
     
+    const data = await response.json();
     cookies().set('auth_token', data.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
     if (data.user.role === 'admin') {
@@ -66,9 +70,13 @@ export async function signup(
       body: JSON.stringify({ email, phone, organization, password }),
     });
 
-    const data = await response.json();
     if (!response.ok) {
-      return { error: data.message || 'Failed to sign up.' };
+        try {
+            const data = await response.json();
+            return { error: data.message || 'Failed to sign up.' };
+        } catch (e) {
+            return { error: response.statusText || 'An unexpected error occurred.' };
+        }
     }
     
     // On success, redirect to OTP page
@@ -111,9 +119,13 @@ export async function verifyOtp(
             body: JSON.stringify({ email, otp }),
         });
         
-        const data = await response.json();
         if (!response.ok) {
-            return { error: data.message || 'Failed to verify OTP.' };
+            try {
+                const data = await response.json();
+                return { error: data.message || 'Failed to verify OTP.' };
+            } catch(e) {
+                return { error: response.statusText || 'An unexpected error occurred.' };
+            }
         }
 
         // On success, redirect based on the flow
@@ -164,11 +176,16 @@ export async function requestPasswordReset(
       body: JSON.stringify({ email }),
     });
     
-    const data = await checkEmailResponse.json();
     if (!checkEmailResponse.ok) {
-      return { error: data.message || 'Failed to check email.' };
+        try {
+            const data = await checkEmailResponse.json();
+            return { error: data.message || 'Failed to check email.' };
+        } catch (e) {
+             return { error: checkEmailResponse.statusText || 'An unexpected error occurred.' };
+        }
     }
     
+    const data = await checkEmailResponse.json();
     if (data.exists) {
         const sendOtpResponse = await fetch(`${API_BASE_URL}/api/v1/send-otp-email`, {
             method: 'POST',
@@ -177,8 +194,12 @@ export async function requestPasswordReset(
         });
 
         if (!sendOtpResponse.ok) {
-            const errorData = await sendOtpResponse.json();
-            return { error: errorData.message || 'Failed to send OTP.' };
+            try {
+                const errorData = await sendOtpResponse.json();
+                return { error: errorData.message || 'Failed to send OTP.' };
+            } catch(e) {
+                 return { error: sendOtpResponse.statusText || 'An unexpected error occurred.' };
+            }
         }
 
         const params = new URLSearchParams({ email, flow: 'change-password' });
@@ -223,9 +244,13 @@ export async function createPassword(
         body: body,
     });
     
-    const data = await response.json();
     if (!response.ok) {
-        return { error: data.message || 'Failed to create password.' };
+        try {
+            const data = await response.json();
+            return { error: data.message || 'Failed to create password.' };
+        } catch(e) {
+            return { error: response.statusText || 'An unexpected error occurred.' };
+        }
     }
     
     redirect('/password-success');
@@ -259,9 +284,13 @@ export async function addMember(
             body: JSON.stringify({ email, role }),
         });
         
-        const data = await response.json();
         if (!response.ok) {
-            return { success: false, message: data.message || 'Failed to send invitation.' };
+            try {
+                const data = await response.json();
+                return { success: false, message: data.message || 'Failed to send invitation.' };
+            } catch(e) {
+                return { success: false, message: response.statusText || 'An unexpected error occurred.' };
+            }
         }
 
         return { success: true, message: 'Invitation sent successfully!' };
@@ -310,9 +339,13 @@ export async function updateProject(
             body: JSON.stringify(payload),
         });
 
-        const data = await response.json();
         if (!response.ok) {
-            return { success: false, message: data.message || 'Failed to update project.' };
+            try {
+                const data = await response.json();
+                return { success: false, message: data.message || 'Failed to update project.' };
+            } catch(e) {
+                return { success: false, message: response.statusText || 'An unexpected error occurred.' };
+            }
         }
 
         return { success: true, message: 'Project updated successfully!' };
@@ -329,8 +362,12 @@ export async function deleteProject(projectId: string) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            return { success: false, message: errorData.message || 'Failed to delete project.' };
+            try {
+                const errorData = await response.json();
+                return { success: false, message: errorData.message || 'Failed to delete project.' };
+            } catch(e) {
+                return { success: false, message: response.statusText || 'An unexpected error occurred.' };
+            }
         }
 
         return { success: true, message: 'Project deleted successfully!' };
@@ -374,9 +411,13 @@ export async function inviteUser(
       body: JSON.stringify({ email, role }),
     });
     
-    const data = await response.json();
     if (!response.ok) {
-      return { success: false, message: data.message || 'Failed to send invitation.' };
+        try {
+            const data = await response.json();
+            return { success: false, message: data.message || 'Failed to send invitation.' };
+        } catch(e) {
+            return { success: false, message: response.statusText || 'An unexpected error occurred.' };
+        }
     }
 
     return { success: true, message: 'Invitation sent successfully!' };
@@ -428,9 +469,13 @@ export async function updateUser(
             body: JSON.stringify(payload),
         });
 
-        const data = await response.json();
         if (!response.ok) {
-            return { success: false, message: data.message || 'Failed to update user.' };
+            try {
+                const data = await response.json();
+                return { success: false, message: data.message || 'Failed to update user.' };
+            } catch(e) {
+                return { success: false, message: response.statusText || 'An unexpected error occurred.' };
+            }
         }
 
         return { success: true, message: 'User updated successfully!' };
