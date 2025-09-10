@@ -25,13 +25,12 @@ export async function authenticate(
     const data = await response.json();
 
     if (!response.ok) {
-      return data.message || 'Failed to login.';
+      return data.message || 'Authentication failed.';
     }
     
     cookies().set('auth_token', data.token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
     
-    // Redirect based on the response, assuming the API returns a role or similar indicator
-    if (data.user.role === 'admin') { // This is an assumption, adjust based on actual API response
+    if (data.user.role === 'admin') {
       redirect('/platform/dashboard');
     } else {
       redirect('/organization/home');
