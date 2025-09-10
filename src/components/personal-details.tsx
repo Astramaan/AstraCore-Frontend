@@ -42,6 +42,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
+import { ScrollArea } from './ui/scroll-area';
 
 const initialMemberData = {
     id: "1",
@@ -122,7 +123,7 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
     return (
         <form action={formAction} className="flex flex-col h-full">
             <input type="hidden" name="id" value={member.id} />
-            <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+            <DialogHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
                 <DialogTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
                     <DialogClose asChild>
@@ -132,33 +133,35 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
                     </DialogClose>
                 </DialogTitle>
             </DialogHeader>
-            <div className="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-250px)] bg-white no-scrollbar flex-1">
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-                    <div className="space-y-6">
-                        <FloatingLabelInput id="name" name="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
-                        <FloatingLabelInput id="email" name="email" label="Email Id" value={formData.email} onChange={handleInputChange} type="email" />
-                        <FloatingLabelInput id="dob" name="dob" label="Date of Birth" value={formData.dob} onChange={handleInputChange} />
-                    </div>
-                    <div className="space-y-6">
-                        <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
-                        <div className="space-y-2">
-                             <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
-                              <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
-                                <SelectTrigger className="h-14 bg-background rounded-full px-5">
-                                    <SelectValue placeholder="Select a role" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Super Admin">Super Admin</SelectItem>
-                                    <SelectItem value="Admin">Admin</SelectItem>
-                                    <SelectItem value="Member">Member</SelectItem>
-                                </SelectContent>
-                            </Select>
+            <ScrollArea className="flex-1">
+                <div className="p-6 space-y-4 bg-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                        <div className="space-y-6">
+                            <FloatingLabelInput id="name" name="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
+                            <FloatingLabelInput id="email" name="email" label="Email Id" value={formData.email} onChange={handleInputChange} type="email" />
+                            <FloatingLabelInput id="dob" name="dob" label="Date of Birth" value={formData.dob} onChange={handleInputChange} />
                         </div>
-                        <FloatingLabelInput id="address" name="address" label="Address" value={formData.address} onChange={handleInputChange} />
+                        <div className="space-y-6">
+                            <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
+                            <div className="space-y-2">
+                                <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
+                                <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
+                                    <SelectTrigger className="h-14 bg-background rounded-full px-5">
+                                        <SelectValue placeholder="Select a role" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Super Admin">Super Admin</SelectItem>
+                                        <SelectItem value="Admin">Admin</SelectItem>
+                                        <SelectItem value="Member">Member</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <FloatingLabelInput id="address" name="address" label="Address" value={formData.address} onChange={handleInputChange} />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px] mt-auto">
+            </ScrollArea>
+            <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px] mt-auto shrink-0">
                 <Button type="submit" className="w-full md:w-auto h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
             </div>
              <AlertDialog open={isRoleChangeConfirmOpen} onOpenChange={setIsRoleChangeConfirmOpen}>
@@ -201,8 +204,8 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         setIsEditing(open);
     }
     
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+    const DialogOrSheet = isMobile ? Dialog : Dialog;
+    const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
 
 
     return (
