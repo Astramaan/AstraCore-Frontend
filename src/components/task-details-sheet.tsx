@@ -214,10 +214,10 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
           className={cn(
-            "p-0 m-0 flex flex-col bg-white rounded-[20px]",
+            "p-0 m-0 flex flex-col bg-white rounded-[50px]",
             isMobile 
               ? "h-full rounded-none border-none"
-              : "sm:max-w-3xl bg-white rounded-[50px] !bottom-0 !top-auto !translate-y-0"
+              : "sm:max-w-3xl h-[90vh]"
           )}
           {...(isMobile && { side: "bottom" })}
       >
