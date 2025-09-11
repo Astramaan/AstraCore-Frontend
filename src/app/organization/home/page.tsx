@@ -289,8 +289,11 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </Card>
 
             <Card className="rounded-[50px]">
-                <CardContent className="pt-10">
-                    <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
+                <CardContent className="pt-10 relative">
+                    <TaskOverviewChart data={assignedTasksChartData} />
+                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none -translate-y-1">
+                        <div className="text-base font-medium text-center">Assigned<br />Tasks</div>
+                    </div>
                 </CardContent>
             </Card>
 
