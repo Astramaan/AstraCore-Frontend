@@ -97,24 +97,34 @@ export async function requestPasswordReset(prevState: any, formData: FormData) {
 
 export async function verifyOtp(prevState: any, formData: FormData) {
     const otp = (formData.getAll('otp') as string[]).join('');
+    const email = formData.get('email') as string;
     const flow = formData.get('flow');
-    console.log(`Verifying OTP ${otp} for flow: ${flow}`);
     
-    // Simulating OTP verification
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/verify-otp`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, otp }),
+        });
 
-    if (otp === "1234") {
-        if (flow === 'signup') {
-            const { redirect } = await import('next/navigation');
-            redirect(`/create-password?${new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>)}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            return { error: data.message || "Invalid OTP. Please try again." };
         }
-        if (flow === 'forgot-password' || flow === 'change-password') {
-            const { redirect } = await import('next/navigation');
+
+        const { redirect } = await import('next/navigation');
+        if (flow === 'signup') {
+            redirect(`/create-password?${new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>)}`);
+        } else if (flow === 'forgot-password' || flow === 'change-password') {
             redirect(`/set-password?${new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>)}`);
         }
+        
         return { success: true };
-    } else {
-        return { error: 'Invalid OTP. Please try again.' };
+
+    } catch (error) {
+        console.error("Verify OTP action failed:", error);
+        return { error: "An unexpected error occurred." };
     }
 }
 
