@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -20,6 +21,9 @@ import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ScrollArea } from './ui/scroll-area';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
+
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
@@ -103,6 +107,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 export function AddMemberSheet() {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleSuccess = () => {
     setIsOpen(false);
@@ -111,38 +116,53 @@ export function AddMemberSheet() {
   
   const handleClose = () => setIsOpen(false);
 
+  const DialogOrSheet = isMobile ? Sheet : Dialog;
+  const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
+
+
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
+      <DialogOrSheetTrigger asChild>
         <Button className="md:h-14 md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
             <UserPlus className="md:mr-2 h-6 w-6"/>
             <span className="hidden md:inline">Add New Member</span>
         </Button>
-      </DialogTrigger>
-      <DialogContent 
-          className="p-0 flex flex-col m-0 bg-white sm:max-w-md w-full h-full sm:h-auto sm:rounded-[50px]"
+      </DialogOrSheetTrigger>
+      <DialogOrSheetContent 
+          className={cn(
+            "p-0 flex flex-col m-0 bg-white",
+            isMobile 
+              ? "w-full h-full"
+              : "sm:max-w-md w-full h-auto sm:rounded-[50px] fixed left-[50%] top-[50%] z-50 grid max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"
+          )}
+          overlayClassName={cn(isMobile ? "bg-transparent" : "bg-black/80")}
+          {...(!isMobile && { side: "bottom" })} // A bit of a hack to prevent sheet.tsx default side styles
       >
-          <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
-                <DialogTitle className="flex items-center text-2xl font-semibold">
+                <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
                     Add New Member
-                </DialogTitle>
-                <DialogClose asChild>
+                </DialogOrSheetTitle>
+                <DialogOrSheetClose asChild>
                   <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                       <X className="h-6 w-6" />
                   </Button>
-                </DialogClose>
+                </DialogOrSheetClose>
               </div>
-          </DialogHeader>
+          </DialogOrSheetHeader>
           <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
             <AddMemberForm onFormSuccess={handleSuccess} onClose={handleClose} />
           </div>
-      </DialogContent>
-    </Dialog>
+      </DialogOrSheetContent>
+    </DialogOrSheet>
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
