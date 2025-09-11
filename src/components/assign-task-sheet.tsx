@@ -24,6 +24,7 @@ import type { Task } from "./task-details-sheet";
 import { SuccessPopup } from "./success-popup";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "./ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
+import AssignTaskIcon from "./icons/assign-task-icon";
 
 
 interface AssignTaskFormProps {
@@ -253,7 +254,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
                 <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
-                    <PlusCircle className="w-5 h-5 md:mr-2"/>
+                    <AssignTaskIcon className="w-5 h-5 md:mr-2"/>
                     <span className="hidden md:inline">Assign task</span>
                 </Button>
             </SheetTrigger>
@@ -263,9 +264,9 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
             >
                 <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
-                        <DialogTitle className="flex items-center text-2xl font-semibold">
+                        <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                             <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                <Plus className="h-6 w-6 text-gray-600"/>
+                                <AssignTaskIcon className="h-6 w-6 text-gray-600"/>
                             </div>
                             Assign task
                         </DialogTitle>
@@ -276,7 +277,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                         </SheetClose>
                     </div>
                 </DialogHeader>
-                <div className="flex-grow overflow-y-auto no-scrollbar">
+                <div className='font-gilroy-medium text-[18px] flex-1 flex flex-col overflow-hidden'>
                     <AssignTaskForm onTaskAssigned={handleSuccess} onClose={() => setIsOpen(false)} />
                 </div>
             </DialogOrSheetContent>
