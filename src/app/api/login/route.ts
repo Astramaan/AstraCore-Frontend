@@ -32,8 +32,9 @@ export async function POST(req: Request) {
 
     return response;
   } catch (err: any) {
+    console.error("Login proxy failed:", err);
     return NextResponse.json(
-      { error: "Login proxy failed", details: err.message },
+      { success: false, message: "Login proxy failed", details: err.message },
       { status: 500 }
     );
   }

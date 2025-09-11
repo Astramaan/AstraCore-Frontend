@@ -14,7 +14,7 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-async function loginUser(email: string, password: string): Promise<any> {
+async function loginUser(email: string, password: string): Promise<{ data: any; ok: boolean }> {
   try {
     const res = await fetch("/api/login", {
       method: "POST",
@@ -23,10 +23,10 @@ async function loginUser(email: string, password: string): Promise<any> {
     });
 
     const data = await res.json();
-    return data;
+    return { data, ok: res.ok };
   } catch (err: any) {
     console.error("Login fetch error:", err);
-    return { success: false, message: "A network error occurred. Please try again." };
+    return { data: { message: "A network error occurred. Please try again." }, ok: false };
   }
 }
 
@@ -42,9 +42,15 @@ export default function AuthForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    const data = await loginUser(email, password);
+    const { data, ok } = await loginUser(email, password);
 
-    if (data.success) {
+    if (!ok || !data.success) {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: data.message || "An unknown error occurred.",
+      });
+    } else {
       toast({
         title: "Login Successful",
         description: data.message || "Redirecting to your dashboard...",
@@ -56,13 +62,6 @@ export default function AuthForm() {
       } else {
           router.push('/organization/home');
       }
-    } else {
-      // Handle login failure
-      toast({
-        variant: "destructive",
-        title: "Login Failed",
-        description: data.message || "An unknown error occurred.",
-      });
     }
     
     setIsLoading(false);
