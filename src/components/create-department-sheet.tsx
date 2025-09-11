@@ -135,7 +135,7 @@ export function CreateDepartmentSheet() {
             "p-0 flex flex-col bg-white",
             isMobile 
                 ? "w-full h-full rounded-none border-none"
-                : "md:w-[452px] rounded-[50px] h-[90vh]"
+                : "md:w-[452px] rounded-[50px] h-auto"
           )}
       >
           <DialogOrSheetHeader className="p-6 border-b">
