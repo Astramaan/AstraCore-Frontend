@@ -14,21 +14,13 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-async function loginUser(email: string, password: string): Promise<{ ok: boolean, data: any }> {
-  try {
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
-    return { ok: res.ok, data };
-
-  } catch (err) {
-    console.error("Login error:", err);
-    return { ok: false, data: { message: "Network error occurred." } };
-  }
+async function loginUser(email: string, password: string) {
+  // This function now just performs the fetch and returns the Response object.
+  return fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
 }
 
 export default function AuthForm() {
@@ -43,28 +35,41 @@ export default function AuthForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    const response = await loginUser(email, password);
+    try {
+      const res = await loginUser(email, password);
+      const data = await res.json(); // Always parse the JSON body.
 
-    setIsLoading(false);
-
-    if (!response.ok) {
+      if (!res.ok) {
+        // If response is not OK, show the error message from the body.
+        toast({
+          variant: "destructive",
+          title: "Login Failed",
+          description: data.message || "An unknown error occurred.",
+        });
+      } else {
+        // If response is OK, show success and redirect.
+        toast({
+          title: "Login Successful",
+          description: "Redirecting to your dashboard...",
+        });
+        
+        // Role-based redirection
+        if (data.user?.role === 'platform-owner') {
+            router.push('/platform/dashboard');
+        } else {
+            router.push('/organization/home');
+        }
+      }
+    } catch (err) {
+      // Handle network errors or other exceptions during fetch.
+      console.error("Login error:", err);
       toast({
         variant: "destructive",
         title: "Login Failed",
-        description: response.data.message || "An unknown error occurred.",
+        description: "A network error occurred. Please try again.",
       });
-    } else {
-      toast({
-        title: "Login Successful",
-        description: "Redirecting to your dashboard...",
-      });
-      
-      // Role-based redirection
-      if (response.data.user?.role === 'platform-owner') {
-          router.push('/platform/dashboard');
-      } else {
-          router.push('/organization/home');
-      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
