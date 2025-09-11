@@ -129,12 +129,36 @@ export async function verifyOtp(prevState: any, formData: FormData) {
 }
 
 export async function createPassword(prevState: any, formData: FormData) {
-    console.log("Creating password for:", formData.get('email'));
-    // In a real app, call backend to set/create password
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const { redirect } = await import('next/navigation');
-    redirect('/password-success');
-    return { success: true };
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirm-password');
+
+    if (password !== confirmPassword) {
+        return { error: 'Passwords do not match.' };
+    }
+
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/create-password`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: formData.get('email'),
+                password: password
+            }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            return { error: data.message || "Failed to create password." };
+        }
+        
+        const { redirect } = await import('next/navigation');
+        redirect('/password-success');
+
+    } catch (error) {
+        console.error("Create password action failed:", error);
+        return { error: "An unexpected error occurred." };
+    }
 }
 
 export async function changePassword(prevState: any, formData: FormData) {
