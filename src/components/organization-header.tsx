@@ -46,7 +46,7 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="text-2xl font-semibold text-zinc-900">
+                    <h2 className="text-[40px] font-bold text-zinc-900">
                         {pageTitle === 'Teams Management' ? (
                             <>
                                 <span className="hidden md:inline">Teams Management</span>
