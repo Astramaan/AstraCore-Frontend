@@ -1,12 +1,25 @@
 
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { type NextRequest } from "next/server";
 
 const API_BASE_URL = "https://astramaan-be-1.onrender.com";
 
-export async function GET(req: Request) {
+function getTokenFromRequest(req: NextRequest): string | null {
+    const cookieHeader = req.headers.get("cookie");
+    if (!cookieHeader) return null;
+
+    const cookies = cookieHeader.split(';').map(c => c.trim());
+    const authTokenCookie = cookies.find(c => c.startsWith('auth_token='));
+
+    if (authTokenCookie) {
+        return authTokenCookie.split('=')[1];
+    }
+    return null;
+}
+
+export async function GET(req: NextRequest) {
   try {
-    const token = cookies().get("auth_token")?.value;
+    const token = getTokenFromRequest(req);
 
     if (!token) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -33,9 +46,9 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const token = cookies().get("auth_token")?.value;
+    const token = getTokenFromRequest(req);
 
     if (!token) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -65,9 +78,9 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
-    const token = cookies().get("auth_token")?.value;
+    const token = getTokenFromRequest(req);
 
     if (!token) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -98,9 +111,9 @@ export async function PATCH(req: Request) {
 }
 
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
   try {
-    const token = cookies().get("auth_token")?.value;
+    const token = getTokenFromRequest(req);
 
     if (!token) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -129,4 +142,3 @@ export async function DELETE(req: Request) {
     );
   }
 }
-
