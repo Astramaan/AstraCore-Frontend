@@ -118,7 +118,7 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
         const fetchUsers = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch('/api/users');
+                const response = await fetch('/api/users', { credentials: 'include' });
                 const result = await response.json();
                 
                 if (result.success) {
