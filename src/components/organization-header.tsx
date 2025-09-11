@@ -31,7 +31,7 @@ export const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/teams')) {
-        pageTitle = 'Teams';
+        pageTitle = 'Teams Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
@@ -48,14 +48,7 @@ export const OrganizationHeader = () => {
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
                     <h2 className="text-[40px] font-bold text-zinc-900">
-                        {pageTitle === 'Teams' ? (
-                            <>
-                                <span className="hidden md:inline">Teams</span>
-                                <span className="md:hidden">Teams</span>
-                            </>
-                        ) : (
-                            pageTitle
-                        )}
+                        {pageTitle}
                     </h2>
                 </>
              )}
@@ -68,7 +61,7 @@ export const OrganizationHeader = () => {
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <TeamIcon className="mr-2 h-6 w-6"/>
-                  <span>Teams</span>
+                  <span>Teams Management</span>
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -112,7 +105,7 @@ export const OrganizationHeader = () => {
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <TeamIcon className="mr-2 h-6 w-6"/>
-                              <span>Teams</span>
+                              <span>Teams Management</span>
                           </Button>
                         </Link>
                     </div>
