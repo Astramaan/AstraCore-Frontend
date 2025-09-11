@@ -148,7 +148,7 @@ export function NotificationPopover() {
                     <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 md:w-96 p-2 rounded-[50px] bg-white" align="end">
+            <PopoverContent className="w-80 md:w-96 p-2 rounded-[50px] bg-white border-0" align="end">
                 <div className="p-4 flex items-center gap-2">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
                         <Bell className="w-6 w-6"/>
