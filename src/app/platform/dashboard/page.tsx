@@ -6,13 +6,14 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, ArrowRight, Users, Bell, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare } from 'lucide-react';
+import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare } from 'lucide-react';
 import { RevenueChart } from '@/components/charts/revenue-chart';
 import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
 import { ExitSurveyChart } from '@/components/charts/exit-survey-chart';
 import Link from 'next/link';
 import { InviteUserSheet } from '@/components/invite-user-sheet';
+import NotificationBellIcon from '@/components/icons/notification-bell-icon';
 
 const FilterToggle = () => {
   const [active, setActive] = React.useState('Month');
@@ -178,7 +179,7 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
                   <QuickLinkCard icon={<Plus className="h-6 w-6" />} label="Create New Plan" color="hsl(var(--accent-color-01))" />
                   <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
                   <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
-                  <QuickLinkCard icon={<Bell className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
+                  <QuickLinkCard icon={<NotificationBellIcon className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
               </CardContent>
           </Card>
       </div>

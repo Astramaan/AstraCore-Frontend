@@ -10,9 +10,10 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Bell, Users, FileText, X } from "lucide-react";
+import { Users, FileText, X } from "lucide-react";
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
+import NotificationBellIcon from "./icons/notification-bell-icon";
 
 const allNotifications = [
     {
@@ -88,7 +89,7 @@ export function AllNotificationsDialog() {
                     <DialogTitle className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-2xl font-semibold">
                             <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
-                            <Bell className="w-6 w-6"/>
+                            <NotificationBellIcon className="w-6 w-6"/>
                             </div>
                             Notifications
                         </div>

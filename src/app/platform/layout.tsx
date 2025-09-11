@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Bell, Search, Menu } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { PlatformSidebar } from '@/components/platform-sidebar';
 import { usePathname } from 'next/navigation';
+import NotificationBellIcon from '@/components/icons/notification-bell-icon';
 
 
 const PlatformHeader = () => {
@@ -52,7 +53,7 @@ const PlatformHeader = () => {
                         </div>
                         <div className="flex items-center gap-4">
                             <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-primary/10 hover:text-primary">
-                                <Bell className="h-6 w-6" />
+                                <NotificationBellIcon className="h-6 w-6" />
                                 <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
                             </Button>
                             <div className="w-px h-10 bg-stone-300 hidden md:block" />

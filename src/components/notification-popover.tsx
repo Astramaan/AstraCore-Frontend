@@ -7,13 +7,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Bell, Users, FileText } from "lucide-react";
+import { Users, FileText } from "lucide-react";
 import { AllNotificationsDialog } from "./all-notifications-dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { X } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import React from "react";
+import NotificationBellIcon from "./icons/notification-bell-icon";
 
 const notifications = [
     {
@@ -108,7 +109,7 @@ export function NotificationPopover() {
             <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary relative">
-                        <Bell className="h-6 w-6" />
+                        <NotificationBellIcon className="h-6 w-6" />
                         <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                     </Button>
                 </DialogTrigger>
@@ -117,7 +118,7 @@ export function NotificationPopover() {
                         <DialogTitle className="flex items-center justify-between">
                             <div className="flex items-center gap-2 text-2xl font-semibold">
                                 <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
-                                <Bell className="w-6 w-6"/>
+                                <NotificationBellIcon className="w-6 w-6"/>
                                 </div>
                                 Notifications
                             </div>
@@ -144,14 +145,14 @@ export function NotificationPopover() {
         <Popover>
             <PopoverTrigger asChild>
                 <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary relative">
-                    <Bell className="h-6 w-6" />
+                    <NotificationBellIcon className="h-6 w-6" />
                     <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80 md:w-96 p-2 rounded-[50px] bg-white border-0" align="end">
                 <div className="p-4 flex items-center gap-2">
                     <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
-                        <Bell className="w-6 w-6"/>
+                        <NotificationBellIcon className="w-6 w-6"/>
                     </div>
                     <h3 className="text-xl font-semibold">Notifications</h3>
                 </div>
