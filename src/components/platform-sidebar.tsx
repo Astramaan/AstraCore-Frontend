@@ -7,10 +7,11 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Building2, GanttChartSquare, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HabiLogo } from './habi-logo';
+import OrganizationIcon from './icons/organization-icon';
 
 const navItems = [
     { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { href: "/platform/organizations", icon: Building2, label: "Organizations" },
+    { href: "/platform/organizations", icon: OrganizationIcon, label: "Organizations" },
     { href: "/platform/all-projects", icon: GanttChartSquare, label: "All Projects" },
     { href: "/platform/settings", icon: Settings, label: "Settings" },
 ];
