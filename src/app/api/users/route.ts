@@ -65,6 +65,39 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  try {
+    const token = cookies().get("auth_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    }
+    
+    const body = await req.json();
+
+    const res = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
+      method: "PATCH",
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+       },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    return NextResponse.json(data, { status: res.status });
+    
+  } catch (err: any) {
+    console.error("Update user proxy failed:", err);
+    return NextResponse.json(
+      { success: false, message: "Update user proxy failed", details: err.message },
+      { status: 500 }
+    );
+  }
+}
+
+
 export async function DELETE(req: Request) {
   try {
     const token = cookies().get("auth_token")?.value;

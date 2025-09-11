@@ -202,9 +202,21 @@ export async function changePassword(prevState: any, formData: FormData) {
 }
 
 export async function updateUser(prevState: any, formData: FormData) {
-  console.log("Updating user:", Object.fromEntries(formData.entries()));
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, message: 'Profile updated successfully' };
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(formData)),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return { success: false, message: data.message || "Failed to update user" };
+    }
+    return { success: true, message: data.message || "Profile updated successfully" };
+  } catch (error) {
+    console.error("Update user action failed:", error);
+    return { success: false, message: "An unexpected error occurred." };
+  }
 }
 
 export async function deactivateUser(userId: string) {
