@@ -21,17 +21,10 @@ async function loginUser(email: string, password: string): Promise<any> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      return { error: data.message || "Invalid credentials" };
-    }
-
-    return data;
+    return await res.json();
   } catch (err) {
     console.error("Login error:", err);
-    return { error: "Network error" };
+    return { message: "An unexpected network error occurred." };
   }
 }
 
@@ -51,24 +44,29 @@ export default function AuthForm() {
 
     setIsLoading(false);
 
-    if (response.error) {
+    if (response.message) {
       toast({
         variant: "destructive",
         title: "Login Failed",
-        description: response.error,
+        description: response.message,
       });
-    } else {
+    } else if (response.token) {
       toast({
         title: "Login Successful",
         description: "Redirecting to your dashboard...",
       });
       
-      // Redirect based on role
       if (response.user?.role === 'platform-owner') {
           router.push('/platform/dashboard');
       } else {
           router.push('/organization/home');
       }
+    } else {
+         toast({
+            variant: "destructive",
+            title: "Login Failed",
+            description: "An unknown error occurred. Please try again.",
+        });
     }
   };
 
