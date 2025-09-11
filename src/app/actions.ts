@@ -73,16 +73,26 @@ export async function inviteUser(prevState: any, formData: FormData) {
 
 export async function requestPasswordReset(prevState: any, formData: FormData) {
     const email = formData.get("email");
-    console.log(`Requesting password reset for ${email}`);
-    // In a real app, you would call your backend here.
-    // Simulating success for now.
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+        });
 
-    // Redirect to OTP page
-    const { redirect } = await import('next/navigation');
-    redirect(`/otp-verification?email=${email}&flow=forgot-password`);
-    
-    return { success: true };
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            return { error: data.message || "Failed to send OTP. Please try again." };
+        }
+
+        const { redirect } = await import('next/navigation');
+        redirect(`/otp-verification?email=${email}&flow=forgot-password`);
+        
+    } catch (error) {
+        console.error("Request password reset failed:", error);
+        return { error: "An unexpected error occurred." };
+    }
 }
 
 export async function verifyOtp(prevState: any, formData: FormData) {
