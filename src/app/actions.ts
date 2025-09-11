@@ -2,17 +2,36 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 // Note: The primary authenticate logic is now in the /api/login route proxy.
 // This file is kept for other server actions.
 
 export async function signup(prevState: any, formData: FormData) {
-  // This is a placeholder for the signup action.
-  // In a real application, you would add your signup logic here.
   const email = formData.get('email');
-  console.log('Signing up user with email:', email);
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, message: 'Signup successful! Please check your email to verify.' };
+  
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+        return { error: data.message || "Failed to send OTP. Please try again." };
+    }
+    
+    const params = new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>);
+    params.set('flow', 'signup');
+
+    redirect(`/otp-verification?${params.toString()}`);
+    
+  } catch (error) {
+      console.error("Signup action failed:", error);
+      return { error: "An unexpected error occurred." };
+  }
 }
 
 export async function addMember(prevState: any, formData: FormData) {

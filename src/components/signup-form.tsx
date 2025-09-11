@@ -2,7 +2,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import React, { useState, useEffect, useActionState } from "react";
+import React, { useState, useEffect, useActionState, useRef } from "react";
 import { signup } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -17,10 +17,10 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
 
-function SubmitButton() {
+function SubmitButton({ disabled }: { disabled: boolean }) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
+    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending || disabled}>
       {pending ? "Signing up..." : "Sign up"}
     </Button>
   );
@@ -35,6 +35,10 @@ export default function SignupForm() {
   const [password, setPassword] = useState('');
   const { pending } = useFormStatus();
   const { toast } = useToast();
+  
+  const [emailError, setEmailError] = useState('');
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (state?.error) {
@@ -45,6 +49,44 @@ export default function SignupForm() {
       });
     }
   }, [state, toast]);
+
+  const checkEmail = async (emailToCheck: string) => {
+    if (!emailToCheck || !/^\S+@\S+\.\S+$/.test(emailToCheck)) {
+        setEmailError('');
+        return;
+    }
+    
+    setIsCheckingEmail(true);
+    try {
+        const res = await fetch('/api/check-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailToCheck })
+        });
+        const data = await res.json();
+        if (data.message === "Email already exists") {
+            setEmailError("Email already exists. Please login.");
+        } else {
+            setEmailError('');
+        }
+    } catch (error) {
+        console.error("Failed to check email", error);
+        setEmailError(''); // Clear error on API failure
+    } finally {
+        setIsCheckingEmail(false);
+    }
+  };
+  
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setEmail(value);
+      if (debounceTimeout.current) {
+          clearTimeout(debounceTimeout.current);
+      }
+      debounceTimeout.current = setTimeout(() => {
+          checkEmail(value);
+      }, 500);
+  }
 
   return (
     <form action={action} className="flex flex-col flex-grow">
@@ -61,12 +103,17 @@ export default function SignupForm() {
               autoComplete="email"
               required
               placeholder="name@company.com"
-              className={`pl-20 rounded-full bg-background h-[54px]`}
+              className={cn(
+                `pl-20 rounded-full bg-background h-[54px]`,
+                emailError && 'border-destructive'
+              )}
               disabled={pending}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
           </div>
+           {isCheckingEmail && <p className="text-sm text-muted-foreground px-4">Checking...</p>}
+           {emailError && <p className="text-sm text-destructive px-4">{emailError}</p>}
         </div>
 
         <div className="space-y-2">
@@ -137,7 +184,7 @@ export default function SignupForm() {
 
       <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
         <div className="mb-4">
-          <SubmitButton />
+          <SubmitButton disabled={!!emailError || isCheckingEmail} />
         </div>
 
         <div className="text-center text-sm">
