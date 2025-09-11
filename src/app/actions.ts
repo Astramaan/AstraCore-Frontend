@@ -3,43 +3,10 @@
 
 import { cookies } from 'next/headers';
 
-const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
-
-export async function authenticate(prevState: any, formData: FormData) {
-  const email = formData.get("email");
-  const password = formData.get("password");
-
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-      cache: "no-store",
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      return { success: false, message: data.message || "Invalid credentials" };
-    }
-
-    // ✅ Save auth_token in cookies
-    cookies().set('auth_token', data.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-    });
-
-    return { success: true, user: data.user, token: data.token };
-
-  } catch (err: any) {
-    console.error("Auth error:", err.message);
-    return { success: false, message: err.message || "Network error" };
-  }
-}
+// Note: The primary authenticate logic is now in the /api/login route proxy.
+// This file is kept for other server actions. You can re-add the `authenticate`
+// function here if you decide to switch back to using it directly, but it would
+// need to call the proxy route: await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/login`, ...)
 
 export async function signup(prevState: any, formData: FormData) {
   // This is a placeholder for the signup action.

@@ -1,13 +1,11 @@
 
 "use client";
 
-import React, { useState, useEffect, useActionState } from "react";
-import { useFormStatus } from 'react-dom';
+import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { authenticate } from "@/app/actions";
 import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
 import EmailIcon from "./icons/email-icon";
@@ -16,48 +14,66 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-function LoginButton() {
-    const { pending } = useFormStatus();
-    return (
-        <Button type="submit" className="w-full h-[54px] rounded-full" disabled={pending}>
-            {pending ? "Logging in..." : "Login"}
-        </Button>
-    )
+async function loginUser(email: string, password: string) {
+  try {
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { error: data.message || "Invalid credentials" };
+    }
+
+    return data;
+  } catch (err) {
+    console.error("Login error:", err);
+    return { error: "Network error" };
+  }
 }
 
 export default function AuthForm() {
-  const [state, formAction] = useActionState(authenticate, undefined);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!state) return;
-    
-    if (state.success) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const response = await loginUser(email, password);
+
+    setIsLoading(false);
+
+    if (response.error) {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: response.error,
+      });
+    } else {
       toast({
         title: "Login Successful",
         description: "Redirecting to your dashboard...",
       });
+      
       // Redirect based on role
-      if (state.user?.role === 'platform-owner') {
+      if (response.user?.role === 'platform-owner') {
           router.push('/platform/dashboard');
       } else {
           router.push('/organization/home');
       }
-    } else if (state.message) {
-      toast({
-        variant: "destructive",
-        title: "Login Failed",
-        description: state.message,
-      });
     }
-  }, [state, toast, router]);
+  };
 
   return (
-    <form action={formAction} className="flex-grow flex flex-col">
+    <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
         <div className="space-y-4 flex-grow">
             <div className="space-y-2">
                 <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
@@ -74,6 +90,7 @@ export default function AuthForm() {
                         className={`pl-20 rounded-full bg-background h-[54px]`}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        disabled={isLoading}
                     />
                 </div>
             </div>
@@ -96,12 +113,14 @@ export default function AuthForm() {
                         className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={isLoading}
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-6 text-foreground"
                         aria-label={showPassword ? "Hide password" : "Show password"}
+                        disabled={isLoading}
                     >
                         {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
                     </button>
@@ -110,7 +129,9 @@ export default function AuthForm() {
         </div>
         <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
             <div className="mb-4">
-                 <LoginButton />
+                 <Button type="submit" className="w-full h-[54px] rounded-full" disabled={isLoading}>
+                    {isLoading ? "Logging in..." : "Login"}
+                </Button>
             </div>
             
             <div className="text-center text-sm">
