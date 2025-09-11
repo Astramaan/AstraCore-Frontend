@@ -14,17 +14,20 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-async function loginUser(email: string, password: string): Promise<any> {
+async function loginUser(email: string, password: string): Promise<{ ok: boolean, data: any }> {
   try {
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    return await res.json();
+
+    const data = await res.json();
+    return { ok: res.ok, data };
+
   } catch (err) {
     console.error("Login error:", err);
-    return { message: "An unexpected network error occurred." };
+    return { ok: false, data: { message: "Network error occurred." } };
   }
 }
 
@@ -44,29 +47,23 @@ export default function AuthForm() {
 
     setIsLoading(false);
 
-    if (response.message) {
+    if (!response.ok) {
       toast({
         variant: "destructive",
         title: "Login Failed",
-        description: response.message,
+        description: response.data.message || "An unknown error occurred.",
       });
-    } else if (response.token) {
+    } else {
       toast({
         title: "Login Successful",
         description: "Redirecting to your dashboard...",
       });
       
-      if (response.user?.role === 'platform-owner') {
+      if (response.data.user?.role === 'platform-owner') {
           router.push('/platform/dashboard');
       } else {
           router.push('/organization/home');
       }
-    } else {
-         toast({
-            variant: "destructive",
-            title: "Login Failed",
-            description: "An unknown error occurred. Please try again.",
-        });
     }
   };
 
