@@ -116,8 +116,8 @@ export function AddMemberSheet() {
   
   const handleClose = () => setIsOpen(false);
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+  const DialogOrSheet = isMobile ? Dialog : Dialog;
+  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
   const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
@@ -128,7 +128,7 @@ export function AddMemberSheet() {
     <>
     <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
       <DialogOrSheetTrigger asChild>
-        <Button className="md:h-14 md:px-4 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
+        <Button className="md:h-14 md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
             <UserPlus className="md:mr-2 h-6 w-6"/>
             <span className="hidden md:inline">Add New Member</span>
         </Button>
