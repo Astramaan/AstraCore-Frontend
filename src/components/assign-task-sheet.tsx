@@ -22,6 +22,8 @@ import { Calendar } from "./ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import type { Task } from "./task-details-sheet";
 import { SuccessPopup } from "./success-popup";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 interface AssignTaskFormProps {
@@ -235,12 +237,16 @@ interface AssignTaskSheetProps {
 export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const isMobile = useIsMobile();
 
     const handleSuccess = (task: Omit<Task, 'id' | 'attachments' | 'status'>) => {
         onTaskAssigned(task);
         setIsOpen(false);
         setShowSuccess(true);
     };
+
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
 
     return (
         <>
@@ -252,7 +258,12 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                 </Button>
             </DialogTrigger>
             <DialogContent
-                className="p-0 m-0 flex flex-col bg-white w-full h-full sm:max-w-4xl sm:h-auto sm:rounded-t-[50px]"
+                className={cn(
+                    "p-0 m-0 flex flex-col bg-white transition-all",
+                    isMobile 
+                        ? "h-full border-none"
+                        : "sm:max-w-4xl w-full h-[90vh] rounded-t-[50px] rounded-b-none"
+                )}
             >
                 <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
