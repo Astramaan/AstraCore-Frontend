@@ -53,7 +53,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                    
                     <p className="text-sm text-muted-foreground">{task.date}</p>
                 </div>
             </div>
@@ -285,20 +285,24 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
              </div>
              <Card className="rounded-[50px] relative">
                 <CardContent className="pt-10">
-                    <TaskOverviewChart data={myTasksChartData} />
+                    <div className="relative">
+                        <TaskOverviewChart data={myTasksChartData} />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
+                            <div className="text-base font-medium text-center">My Tasks</div>
+                        </div>
+                    </div>
                 </CardContent>
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
-                    <div className="text-base font-medium text-center">My Tasks</div>
-                </div>
             </Card>
 
             <Card className="rounded-[50px] relative">
                 <CardContent className="pt-10">
-                    <TaskOverviewChart data={assignedTasksChartData} />
+                    <div className="relative">
+                        <TaskOverviewChart data={assignedTasksChartData} />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="text-base font-medium text-center -translate-y-2">Assigned<br />Tasks</div>
+                        </div>
+                    </div>
                 </CardContent>
-                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
-                    <div className="text-base font-medium text-center">Assigned<br />Tasks</div>
-                </div>
             </Card>
 
         </aside>
