@@ -15,7 +15,6 @@ import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
 async function loginUser(email: string, password: string): Promise<any> {
-  // This function now just performs the fetch and returns the Response object.
   const res = await fetch("/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
