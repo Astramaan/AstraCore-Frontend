@@ -5,13 +5,15 @@ import {redirect} from 'next/navigation';
 import {cookies} from 'next/headers';
 
 const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
+const APP_URL = process.env.NODE_ENV === 'production' ? 'https://astramaan-be-1.onrender.com' : 'http://localhost:3000';
+
 
 export async function authenticate(prevState: any, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
+    const res = await fetch(`${APP_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +28,12 @@ export async function authenticate(prevState: any, formData: FormData) {
         return { success: false, message: data.message || "Invalid credentials" };
     }
     
-    cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    cookies().set('auth_token', data.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
 
     return { success: true, user: data.user, token: data.token };
 
