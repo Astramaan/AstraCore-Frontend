@@ -75,7 +75,7 @@ export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
       </ResponsiveContainer>
       {title && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="text-base font-medium text-center -translate-y-1">{title}</div>
+              <div className="text-base font-medium text-center">{title}</div>
           </div>
       )}
     </div>
