@@ -252,7 +252,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                 </Button>
             </DialogTrigger>
             <DialogContent
-                className="p-0 m-0 flex flex-col bg-white w-full h-full sm:max-w-4xl sm:h-auto sm:rounded-[50px]"
+                className="p-0 m-0 flex flex-col bg-white w-full h-full sm:max-w-4xl sm:h-auto sm:rounded-t-[50px]"
             >
                 <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
