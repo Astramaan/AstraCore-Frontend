@@ -6,6 +6,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 
 interface TaskOverviewChartProps {
     data: { name: string; value: number }[];
+    title?: string;
 }
 
 const COLORS = ["hsl(var(--chart-2))", "hsl(var(--chart-1))", "hsl(var(--muted))"];
@@ -36,7 +37,7 @@ const renderLegend = (props: any) => {
     );
   };
 
-export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
+export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
   const chartData = [...data];
   if(chartData.length > 2) {
       // Add "on hold" or other statuses if needed
@@ -45,31 +46,38 @@ export function TaskOverviewChart({ data }: TaskOverviewChartProps) {
 
 
   return (
-    <ResponsiveContainer width="100%" height={200}>
-      <PieChart>
-        <Pie
-          data={chartData}
-          cx="50%"
-          cy="50%"
-          labelLine={false}
-          outerRadius={80}
-          innerRadius={60}
-          fill="#8884d8"
-          dataKey="value"
-          paddingAngle={2}
-          stroke="hsl(var(--background))"
-          strokeWidth={5}
-        >
-          {chartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip content={<CustomTooltip />} />
-        <Legend 
-            content={renderLegend}
-            verticalAlign="bottom"
-        />
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="w-full h-[200px] relative">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            labelLine={false}
+            outerRadius={80}
+            innerRadius={60}
+            fill="#8884d8"
+            dataKey="value"
+            paddingAngle={2}
+            stroke="hsl(var(--background))"
+            strokeWidth={5}
+          >
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip content={<CustomTooltip />} />
+          <Legend 
+              content={renderLegend}
+              verticalAlign="bottom"
+          />
+        </PieChart>
+      </ResponsiveContainer>
+      {title && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p className="text-lg font-medium text-center">{title}</p>
+          </div>
+      )}
+    </div>
   );
 }
