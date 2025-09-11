@@ -68,7 +68,7 @@ const meetings = [
 
 const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
     <a href={meeting.link} target="_blank" rel="noopener noreferrer">
-        <Card className="w-full h-20 rounded-[50px] py-4 px-6 flex items-center justify-between cursor-pointer hover:bg-muted/50">
+        <Card className="w-full h-20 rounded-[50px] py-4 px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50">
             <div className="flex-1">
                 <p className="text-base font-medium">{meeting.client}</p>
                 <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
