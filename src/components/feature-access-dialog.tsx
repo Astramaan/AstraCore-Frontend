@@ -16,6 +16,7 @@ interface FeatureAccessDialogProps {
     onClose: () => void;
     category: string;
     roleName: string;
+    isEditingInitially?: boolean;
 }
 
 const permissionsData = {
@@ -119,12 +120,12 @@ const FeatureSectionView = ({ title, features }: { title: string, features: stri
 );
 
 
-export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: FeatureAccessDialogProps) => {
+export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName, isEditingInitially = false }: FeatureAccessDialogProps) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(isEditingInitially);
 
     const handleClose = () => {
-        setIsEditing(false); // Reset edit mode on close
+        setIsEditing(isEditingInitially); // Reset edit mode on close
         onClose();
     }
     
@@ -170,7 +171,7 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName }: Fea
                             </div>
                         </ScrollArea>
                         <div className="px-6 py-4 mt-auto border-t">
-                            <Button className="w-full h-14 rounded-full text-lg" onClick={() => setIsEditing(false)}>
+                            <Button className="w-full h-14 rounded-full text-lg" onClick={() => {setIsEditing(false); onClose();}}>
                                 Save Changes
                             </Button>
                         </div>

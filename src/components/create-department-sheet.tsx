@@ -97,6 +97,7 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
                 onClose={() => setIsFeatureDialogOpen(false)}
                 category={selectedRole}
                 roleName="New Role"
+                isEditingInitially={true}
             />
         )}
     </>
