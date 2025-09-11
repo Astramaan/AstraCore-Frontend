@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -59,7 +60,7 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
                 <DialogHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogTitle>{file.name}</DialogTitle>
                     <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="rounded-full bg-background w-[54px] h-[54px]">
+                        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
                             <X className="h-5 w-5" />
                         </Button>
                     </DialogClose>

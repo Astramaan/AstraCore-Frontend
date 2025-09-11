@@ -472,6 +472,7 @@ const ProjectTimelineForm = ({
     return (
         <>
             <form action={formAction} className="flex flex-col h-full">
+                <input type="hidden" name="startDate" value={startDate?.toISOString() ?? ''} />
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
@@ -648,7 +649,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                     <DialogTitle className="flex items-center justify-between">
                         <span className="text-2xl font-semibold">{templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}</span>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                            <Button variant="ghost" size="icon" className="w-9 h-9 bg-background rounded-full">
                                 <X className="h-6 w-6" />
                             </Button>
                         </DialogClose>

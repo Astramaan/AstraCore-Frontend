@@ -266,13 +266,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
 
             <div>
-                <div className="flex justify-between items-center mb-3">
+                <div className="flex justify-between items-center mb-3 mt-8">
                     <h2 className="text-xl font-medium">Meetings</h2>
                     <Link href="/organization/meetings" className="text-sm text-primary">
                         see all meetings
                     </Link>
                 </div>
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                     {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
                 </div>
             </div>

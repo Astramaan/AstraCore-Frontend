@@ -114,68 +114,6 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
     const [roles, setRoles] = useState<Role[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // useEffect(() => {
-    //     const fetchUsers = async () => {
-    //         setIsLoading(true);
-    //         try {
-    //             const response = await fetch('/api/users', { credentials: 'include' });
-    //             const result = await response.json();
-                
-    //             if (result.success) {
-    //                 const users: Member[] = result.data.map((user: any) => ({
-    //                     id: user.id,
-    //                     name: user.name,
-    //                     avatar: user.profileImage || `https://placehold.co/100x100.png`,
-    //                     contact: `${user.email} | ${user.phone}`,
-    //                     role: user.role,
-    //                     status: user.activeStatus ? 'Active' : 'Inactive',
-    //                     lastActive: 'N/A', // This info is not in the API response
-    //                     email: user.email,
-    //                 }));
-
-    //                 const rolesMap: { [key: string]: Role } = {};
-
-    //                 users.forEach(member => {
-    //                     const roleName = member.role || 'Unassigned';
-    //                     if (!rolesMap[roleName]) {
-    //                         const { icon, bgColor } = roleIconsAndColors[roleName] || roleIconsAndColors.default;
-    //                         rolesMap[roleName] = {
-    //                             name: roleName,
-    //                             icon,
-    //                             bgColor,
-    //                             admin: 'N/A', // This info is not in the API response
-    //                             active: 0,
-    //                             total: 0,
-    //                             members: []
-    //                         };
-    //                     }
-    //                     rolesMap[roleName].members.push(member);
-    //                     rolesMap[roleName].total += 1;
-    //                     if (member.status === 'Active') {
-    //                         rolesMap[roleName].active += 1;
-    //                     }
-    //                 });
-
-    //                 // Find an admin for each role (e.g., the first active user)
-    //                 Object.values(rolesMap).forEach(role => {
-    //                     const adminMember = role.members.find(m => m.status === 'Active');
-    //                     role.admin = adminMember ? adminMember.name : 'N/A';
-    //                 });
-
-    //                 setRoles(Object.values(rolesMap));
-
-    //             } else {
-    //                 console.error("Failed to fetch users:", result.message);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error fetching users:", error);
-    //         } finally {
-    //             setIsLoading(false);
-    //         }
-    //     };
-
-    //     fetchUsers();
-    // }, []);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
