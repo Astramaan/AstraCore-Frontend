@@ -12,6 +12,7 @@ import { HabiLogo } from '@/components/habi-logo';
 import { NotificationPopover } from '@/components/notification-popover';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import TeamIcon from './icons/team-icon';
 
 export const OrganizationHeader = () => {
     const pathname = usePathname();
@@ -30,7 +31,7 @@ export const OrganizationHeader = () => {
     } else if (pathname.startsWith('/organization/snag-list')) {
         pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/teams')) {
-        pageTitle = 'Teams Management';
+        pageTitle = 'Teams';
     } else if (pathname.startsWith('/organization/subscription-management')) {
         pageTitle = 'Subscription management'
     } else if (pathname.startsWith('/organization/profile')) {
@@ -47,10 +48,10 @@ export const OrganizationHeader = () => {
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
                     <h2 className="text-[40px] font-bold text-zinc-900">
-                        {pageTitle === 'Teams Management' ? (
+                        {pageTitle === 'Teams' ? (
                             <>
-                                <span className="hidden md:inline">Teams Management</span>
-                                <span className="md:hidden">Teams Man...</span>
+                                <span className="hidden md:inline">Teams</span>
+                                <span className="md:hidden">Teams</span>
                             </>
                         ) : (
                             pageTitle
@@ -66,8 +67,8 @@ export const OrganizationHeader = () => {
                   "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium flex items-center",
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
-                  <Users className="mr-2 h-6 w-6"/>
-                  <span>Teams Management</span>
+                  <TeamIcon className="mr-2 h-6 w-6"/>
+                  <span>Teams</span>
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
@@ -110,8 +111,8 @@ export const OrganizationHeader = () => {
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
-                              <Users className="mr-2 h-6 w-6"/>
-                              <span>Teams Management</span>
+                              <TeamIcon className="mr-2 h-6 w-6"/>
+                              <span>Teams</span>
                           </Button>
                         </Link>
                     </div>
