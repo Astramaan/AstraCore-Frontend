@@ -1,7 +1,13 @@
+
 'use server';
 
 import {redirect} from 'next/navigation';
 import {cookies} from 'next/headers';
+
+// This file is now simplified. The primary authentication logic has been moved
+// to the client-side in AuthForm to bypass server action proxy issues in this environment.
+// This authenticate function remains as a reference or for potential future use if the
+// environment changes.
 
 const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
 
