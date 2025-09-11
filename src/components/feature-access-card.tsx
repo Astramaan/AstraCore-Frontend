@@ -4,17 +4,17 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { RolePermissionsDialog, type RoleData } from './role-permissions-dialog';
-import { Shield, Briefcase, Code, Palette, Users, Plus, ArrowRight } from 'lucide-react';
+import { Shield, Briefcase, Code, Palette, Users, Plus, ArrowRight, TrendingUp, Flame, MessageSquareQuestion } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { CreateRoleDialog } from './create-role-dialog';
 
 const allRoles: RoleData[] = [
-    { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
-    { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
+    { name: "Sales", icon: <TrendingUp className="w-6 h-6 text-black" />, bgColor: "bg-green-200/30" },
+    { name: "Super Admin", icon: <Flame className="w-6 h-6 text-black" />, bgColor: "bg-cyan-200/30" },
     { name: "Software Development", icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
     { name: "Design", icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
-    { name: "Support & Feedback", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-green-300/30" },
+    { name: "Support & Feedback", icon: <MessageSquareQuestion className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
 
@@ -53,8 +53,11 @@ export const FeatureAccessCard = () => {
                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                             <Users className="h-6 w-6"/>
                         </div>
-                        <CardTitle className="text-2xl font-semibold">Feature access</CardTitle>
+                        <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                     </div>
+                    <Button variant="outline" className="rounded-full" onClick={() => setIsCreateRoleDialogOpen(true)}>
+                        <Plus className="mr-2 h-4 w-4" /> Create Role
+                    </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-2 flex-grow">
                     {allRoles.map((role) => (
