@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { HabiLogo } from '@/components/habi-logo';
 import { NotificationPopover } from '@/components/notification-popover';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 
 export const OrganizationHeader = () => {
@@ -90,6 +90,9 @@ export const OrganizationHeader = () => {
                     </Button>
                 </SheetTrigger>
                 <SheetContent className="bg-white">
+                    <SheetHeader>
+                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                    </SheetHeader>
                     <div className="flex flex-col gap-4 pt-8">
                         <Link href="/organization/profile" className="flex items-center gap-2">
                             <Avatar className="h-12 w-12">
