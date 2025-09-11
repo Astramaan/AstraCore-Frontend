@@ -59,8 +59,8 @@ export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
             fill="#8884d8"
             dataKey="value"
             paddingAngle={2}
-            stroke="hsl(var(--background))"
-            strokeWidth={5}
+            cornerRadius={40}
+            stroke="none"
           >
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
