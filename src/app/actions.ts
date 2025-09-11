@@ -3,12 +3,14 @@
 import {redirect} from 'next/navigation';
 import {cookies} from 'next/headers';
 
+const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
+
 export async function authenticate(prevState: any, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
   try {
-    const res = await fetch("https://astramaan-be-1.onrender.com/api/v1/login", {
+    const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
