@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X, UserPlus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addMember } from '@/app/actions';
 import { useToast } from './ui/use-toast';
@@ -23,6 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
+import UserPlusIcon from './icons/user-plus-icon';
 
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
@@ -129,7 +130,7 @@ export function AddMemberSheet() {
     <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
       <DialogOrSheetTrigger asChild>
         <Button className="md:h-14 md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
-            <UserPlus className="md:mr-2 h-6 w-6"/>
+            <UserPlusIcon className="md:mr-2 h-6 w-6"/>
             <span className="hidden md:inline">Add New Member</span>
         </Button>
       </DialogOrSheetTrigger>
