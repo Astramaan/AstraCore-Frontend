@@ -143,8 +143,8 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
         className={cn(
           "p-0 m-0 flex flex-col bg-white transition-all",
           isMobile
-            ? "h-full border-none rounded-t-[50px]" // ✅ Mobile bottom sheet
-            : "sm:max-w-3xl w-full h-[90vh] fixed bottom-0 left-1/2 -translate-x-1/2 rounded-t-[50px] rounded-b-none" // ✅ Desktop bottom sheet
+            ? "h-full border-none"
+            : "sm:max-w-3xl w-full h-[90vh] fixed bottom-0 left-1/2 -translate-x-1/2 rounded-t-[50px] rounded-b-none"
         )}
         {...(isMobile && { side: "bottom" })}
       >
