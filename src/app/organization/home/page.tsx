@@ -290,7 +290,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
 
             <Card className="rounded-[50px]">
                 <CardContent className="pt-10">
-                    <TaskOverviewChart data={assignedTasksChartData} title="Assigned Tasks" />
+                    <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
                 </CardContent>
             </Card>
 
