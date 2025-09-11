@@ -277,14 +277,19 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 </div>
             </div>
             
+             <div>
+                <div className="flex justify-between items-center mb-3">
+                    <h2 className="text-xl font-medium">Overview</h2>
+                </div>
+             </div>
              <Card className="rounded-[50px]">
-                <CardContent className="pt-6">
+                <CardContent className="pt-10">
                     <TaskOverviewChart data={myTasksChartData} />
                 </CardContent>
             </Card>
 
             <Card className="rounded-[50px]">
-                <CardContent className="pt-6">
+                <CardContent className="pt-10">
                     <TaskOverviewChart data={assignedTasksChartData} />
                 </CardContent>
             </Card>
