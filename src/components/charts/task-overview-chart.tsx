@@ -74,7 +74,7 @@ export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
         </PieChart>
       </ResponsiveContainer>
       {title && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none -translate-y-1">
               <div className="text-base font-medium text-center">{title}</div>
           </div>
       )}
