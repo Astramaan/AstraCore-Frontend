@@ -21,7 +21,7 @@ export default function ProfilePage() {
                     Keeping this div for structure but content might be removed if redundant. */}
             </div>
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-semibold hidden md:block">Personal Details</h2>
+                <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">Personal Details</h2>
                 <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
                     <ChevronLeft className="mr-2 h-4 w-4" />
                     Back
