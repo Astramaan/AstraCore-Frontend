@@ -3,7 +3,6 @@
 
 import {redirect} from 'next/navigation';
 import {cookies} from 'next/headers';
-import axios from 'axios';
 
 const API_BASE_URL = 'https://astramaan-be-1.onrender.com';
 
@@ -22,24 +21,32 @@ export async function authenticate(prevState: any, formData: FormData) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
+  console.log('[API Test] Attempting to authenticate for:', email);
+
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/v1/login`, { email, password });
+    const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    console.log('[API Test] Response Status:', response.status);
+    console.log('[API Test] Response Body:', data);
+
+    if (!response.ok) {
+      // API returned an error (e.g., 404, 401, 500)
+      return { success: false, message: data.message || 'Authentication failed.' };
+    }
     
     // Handle success
     cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-    return { success: true, user: response.data.user };
+    return { success: true, user: data.user };
 
   } catch (error: any) {
-    if (axios.isAxiosError(error) && error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.error('Authentication API Error:', error.response.data);
-      return { success: false, message: error.response.data.message || 'Authentication failed.' };
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.error('Authentication error:', error.message);
-      return { success: false, message: 'Failed to connect to the server. Please try again.' };
-    }
+    // Handle network errors or issues with fetch itself
+    console.error('[API Test] Fetch Error:', error);
+    return { success: false, message: 'Failed to connect to the server. Please try again.' };
   }
 }
 
