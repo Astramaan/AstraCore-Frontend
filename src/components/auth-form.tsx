@@ -45,6 +45,7 @@ export default function AuthForm() {
       } else if (role === 'admin') {
         router.push('/platform/dashboard');
       } else {
+        // Default redirect for other roles or if role is not specified
         router.push('/organization/home');
       }
     } else if (state?.success === false && state.message) {
