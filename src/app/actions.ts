@@ -46,9 +46,28 @@ export async function deleteProject(id: string) {
 }
 
 export async function inviteUser(prevState: any, formData: FormData) {
-    console.log("Inviting user:", Object.fromEntries(formData.entries()));
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true };
+    const email = formData.get('email');
+    const role = formData.get('role');
+
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/invite`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, role }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { success: false, message: data.message || "Invitation failed" };
+        }
+        
+        return { success: true, message: "Invitation sent successfully!" };
+
+    } catch (error) {
+        console.error("Invite user action failed:", error);
+        return { success: false, message: "An unexpected error occurred." };
+    }
 }
 
 
