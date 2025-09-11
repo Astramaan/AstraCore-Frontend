@@ -160,16 +160,18 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName, isEdi
                                 />
                             </div>
                         </div>
-                        <ScrollArea className="flex-1 p-6">
-                            <div className="space-y-4">
-                                <FeatureSectionEdit title="Home" features={permissionsData["Home"]} searchTerm={searchTerm} defaultEnabled />
-                                <FeatureSectionEdit title="Project Management" features={permissionsData["Project Management"]} searchTerm={searchTerm} />
-                                <FeatureSectionEdit title="Client & Lead Management" features={permissionsData["Client & Lead Management"]} searchTerm={searchTerm} />
-                                <FeatureSectionEdit title="Vendor Management" features={permissionsData["Vendor Management"]} searchTerm={searchTerm} />
-                                <FeatureSectionEdit title="Team Management" features={permissionsData["Team Management"]} searchTerm={searchTerm} defaultEnabled />
-                                <FeatureSectionEdit title="Settings" features={permissionsData["Settings"]} searchTerm={searchTerm} />
-                            </div>
-                        </ScrollArea>
+                        <div className="flex-1 overflow-y-auto">
+                            <ScrollArea className="h-full p-6">
+                                <div className="space-y-4">
+                                    <FeatureSectionEdit title="Home" features={permissionsData["Home"]} searchTerm={searchTerm} defaultEnabled />
+                                    <FeatureSectionEdit title="Project Management" features={permissionsData["Project Management"]} searchTerm={searchTerm} />
+                                    <FeatureSectionEdit title="Client & Lead Management" features={permissionsData["Client & Lead Management"]} searchTerm={searchTerm} />
+                                    <FeatureSectionEdit title="Vendor Management" features={permissionsData["Vendor Management"]} searchTerm={searchTerm} />
+                                    <FeatureSectionEdit title="Team Management" features={permissionsData["Team Management"]} searchTerm={searchTerm} defaultEnabled />
+                                    <FeatureSectionEdit title="Settings" features={permissionsData["Settings"]} searchTerm={searchTerm} />
+                                </div>
+                            </ScrollArea>
+                        </div>
                         <div className="px-6 py-4 mt-auto border-t">
                             <Button className="w-full h-14 rounded-full text-lg" onClick={() => {setIsEditing(false); onClose();}}>
                                 Save Changes
