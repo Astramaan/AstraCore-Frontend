@@ -14,13 +14,14 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-async function loginUser(email: string, password: string) {
+async function loginUser(email: string, password: string): Promise<any> {
   // This function now just performs the fetch and returns the Response object.
-  return fetch("/api/login", {
+  const res = await fetch("/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
+  return res.json();
 }
 
 export default function AuthForm() {
@@ -36,21 +37,12 @@ export default function AuthForm() {
     setIsLoading(true);
 
     try {
-      const res = await loginUser(email, password);
-      const data = await res.json(); // Always parse the JSON body.
+      const data = await loginUser(email, password);
 
-      if (!res.ok) {
-        // If response is not OK, show the error message from the body.
-        toast({
-          variant: "destructive",
-          title: "Login Failed",
-          description: data.message || "An unknown error occurred.",
-        });
-      } else {
-        // If response is OK, show success and redirect.
+      if (data.success) {
         toast({
           title: "Login Successful",
-          description: "Redirecting to your dashboard...",
+          description: data.message || "Redirecting to your dashboard...",
         });
         
         // Role-based redirection
@@ -59,6 +51,13 @@ export default function AuthForm() {
         } else {
             router.push('/organization/home');
         }
+      } else {
+        // Handle login failure
+        toast({
+          variant: "destructive",
+          title: "Login Failed",
+          description: data.message || "An unknown error occurred.",
+        });
       }
     } catch (err) {
       // Handle network errors or other exceptions during fetch.
