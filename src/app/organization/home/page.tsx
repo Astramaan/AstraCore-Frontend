@@ -278,7 +278,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
             
              <Card className="rounded-[50px]">
-                <CardHeader>
+                <CardHeader className="pl-10">
                     <CardTitle className="text-xl">My Tasks Overview</CardTitle>
                 </CardHeader>
                 <CardContent>
