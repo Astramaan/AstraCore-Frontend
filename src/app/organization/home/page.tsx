@@ -14,6 +14,7 @@ import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
+import RedirectionArrowIcon from '@/components/icons/redirection-arrow-icon';
 
 
 const initialTaskData: Task[] = [
@@ -78,7 +79,7 @@ const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
                 <p className="text-sm text-muted-foreground">{meeting.date}</p>
             </div>
             <div className="flex items-center gap-2 pl-4">
-                <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
             </div>
         </Card>
     </a>
@@ -282,22 +283,22 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     <h2 className="text-xl font-medium">Overview</h2>
                 </div>
              </div>
-             <Card className="rounded-[50px]">
-                <CardContent className="pt-10 relative">
+             <Card className="rounded-[50px] relative">
+                <CardContent className="pt-10">
                     <TaskOverviewChart data={myTasksChartData} />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none -translate-y-1">
-                        <div className="text-base font-medium text-center">My Tasks</div>
-                    </div>
                 </CardContent>
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
+                    <div className="text-base font-medium text-center">My Tasks</div>
+                </div>
             </Card>
 
-            <Card className="rounded-[50px]">
-                <CardContent className="pt-10 relative">
+            <Card className="rounded-[50px] relative">
+                <CardContent className="pt-10">
                     <TaskOverviewChart data={assignedTasksChartData} />
-                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none -translate-y-1">
-                        <div className="text-base font-medium text-center">Assigned<br />Tasks</div>
-                    </div>
                 </CardContent>
+                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
+                    <div className="text-base font-medium text-center">Assigned<br />Tasks</div>
+                </div>
             </Card>
 
         </aside>
