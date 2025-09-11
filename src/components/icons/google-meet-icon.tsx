@@ -1,21 +1,24 @@
 
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 const GoogleMeetIcon = ({ className }: { className?: string }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        x="0px" y="0px"
-        width="24" height="24"
-        viewBox="0 0 172 172"
-        className={className}
-        style={{ fill: "currentColor" }}
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        x="0px" y="0px" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 48 48"
+        className={cn(className)}
     >
-        <g fill="none" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" fontFamily="none" fontWeight="none" fontSize="none" textAnchor="none" style={{ mixBlendMode: "normal" }}>
-            <path d="M0,172v-172h172v172z" fill="none"></path>
-            <g fill="currentColor">
-                <path d="M21.5,21.5v129h64.5v-32.25v-64.5v-32.25zM86,53.75c0,17.7805 14.4695,32.25 32.25,32.25c17.7805,0 32.25,-14.4695 32.25,-32.25c0,-17.7805 -14.4695,-32.25 -32.25,-32.25c-17.7805,0 -32.25,14.4695 -32.25,32.25zM118.25,86c-17.7805,0 -32.25,14.4695 -32.25,32.25c0,17.7805 14.4695,32.25 32.25,32.25c17.7805,0 32.25,-14.4695 32.25,-32.25c0,-17.7805 -14.4695,-32.25 -32.25,-32.25z"></path>
-            </g>
-        </g>
+        <rect width="16" height="16" x="12" y="16" fill="#fff" transform="rotate(-90 20 24)"></rect>
+        <polygon fill="#1e88e5" points="3,17 3,31 8,32 13,31 13,17 8,16"></polygon>
+        <path fill="#4caf50" d="M37,24v14c0,1.657-1.343,3-3,3H13l-1-5l1-5h14v-7l5-1L37,24z"></path>
+        <path fill="#fbc02d" d="M37,10v14H27v-7H13l-1-5l1-5h21C35.657,7,37,8.343,37,10z"></path>
+        <path fill="#1565c0" d="M13,31v10H6c-1.657,0-3-1.343-3-3v-7H13z"></path>
+        <polygon fill="#e53935" points="13,7 13,17 3,17"></polygon>
+        <polygon fill="#2e7d32" points="38,24 37,32.45 27,24 37,15.55"></polygon>
+        <path fill="#4caf50" d="M46,10.11v27.78c0,0.84-0.98,1.31-1.63,0.78L37,32.45v-16.9l7.37-6.22C45.02,8.8,46,9.27,46,10.11z"></path>
     </svg>
 );
 
