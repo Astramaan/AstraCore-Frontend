@@ -18,35 +18,40 @@ async function getAuthHeaders() {
 }
 
 export async function authenticate(prevState: any, formData: FormData) {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-
-  console.log('[API Test] Attempting to authenticate for:', email);
+  const email = formData.get("email");
+  const password = formData.get("password");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/v1/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("https://astramaan-be-1.onrender.com/api/v1/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ email, password }),
+      cache: "no-store",
     });
 
-    const data = await response.json();
-    console.log('[API Test] Response Status:', response.status);
-    console.log('[API Test] Response Body:', data);
-
-    if (!response.ok) {
-      // API returned an error (e.g., 404, 401, 500)
-      return { success: false, message: data.message || 'Authentication failed.' };
+    if (!res.ok) {
+      const error = await res.json().catch(() => null);
+      // The API returns { success: false, message: '...' }
+      // We need to pass that shape back to the client
+      if (error && error.message) {
+         return { success: false, message: error.message };
+      }
+      return { success: false, message: "Invalid credentials" };
     }
-    
-    // Handle success
-    cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-    return { success: true, user: data.user };
 
-  } catch (error: any) {
-    // Handle network errors or issues with fetch itself
-    console.error('[API Test] Fetch Error:', error);
-    return { success: false, message: 'Failed to connect to the server. Please try again.' };
+    const data = await res.json();
+    
+    // Set a dummy cookie for now, as was intended
+    cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+    // Return the full success object which includes user data
+    return data;
+
+  } catch (err: any) {
+    console.error("Auth error:", err.message);
+    return { success: false, message: err.message || "Network error" };
   }
 }
 
