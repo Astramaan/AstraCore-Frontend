@@ -208,7 +208,22 @@ export async function updateUser(prevState: any, formData: FormData) {
 }
 
 export async function deactivateUser(userId: string) {
-    console.log("Deactivating user:", userId);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true, message: 'User deactivated successfully' };
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { success: false, message: data.message || "Failed to deactivate user" };
+        }
+
+        return { success: true, message: data.message || "User deactivated successfully!" };
+    } catch (error) {
+        console.error("Deactivate user action failed:", error);
+        return { success: false, message: "An unexpected error occurred." };
+    }
 }
