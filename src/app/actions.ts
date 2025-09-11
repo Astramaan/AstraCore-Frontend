@@ -31,23 +31,19 @@ export async function authenticate(prevState: any, formData: FormData) {
       cache: "no-store",
     });
 
-    if (!res.ok) {
-      const error = await res.json().catch(() => null);
-      // The API returns { success: false, message: '...' }
-      // We need to pass that shape back to the client
-      if (error && error.message) {
-         return { success: false, message: error.message };
-      }
-      return { success: false, message: "Invalid credentials" };
-    }
-
     const data = await res.json();
+
+    if (!res.ok) {
+        // The API returns { success: false, message: '...' }
+        // We need to pass that shape back to the client
+        return { success: false, message: data.message || "Invalid credentials" };
+    }
     
     // Set a dummy cookie for now, as was intended
     cookies().set('auth_token', 'dummy_token_for_now', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
     // Return the full success object which includes user data
-    return data;
+    return { success: true, user: data.user, token: data.token };
 
   } catch (err: any) {
     console.error("Auth error:", err.message);
