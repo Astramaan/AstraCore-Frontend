@@ -4,9 +4,7 @@
 import { cookies } from 'next/headers';
 
 // Note: The primary authenticate logic is now in the /api/login route proxy.
-// This file is kept for other server actions. You can re-add the `authenticate`
-// function here if you decide to switch back to using it directly, but it would
-// need to call the proxy route: await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/login`, ...)
+// This file is kept for other server actions.
 
 export async function signup(prevState: any, formData: FormData) {
   // This is a placeholder for the signup action.
