@@ -4,15 +4,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Calendar, GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
+import { GanttChartSquare, Users, Briefcase, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import HomeIcon from './icons/home-icon';
+import MeetingsIcon from './icons/meetings-icon';
 
 
 export const OrganizationBottomNav = () => {
     const navItems = [
         { href: "/organization/home", icon: HomeIcon, label: "Home" },
-        { href: "/organization/meetings", icon: Calendar, label: "Meetings" },
+        { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings" },
         { href: "/organization/projects", icon: GanttChartSquare, label: "Projects" },
         { href: "/organization/leads", icon: Users, label: "Leads" },
         { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
