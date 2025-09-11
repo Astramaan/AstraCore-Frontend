@@ -10,67 +10,17 @@ import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const mockRoles: Role[] = [
-    { 
-        name: "Super Admin", 
-        icon: <Shield className="w-6 h-6 text-black" />, 
-        bgColor: "bg-red-200/30",
-        admin: "Balaji Naik", 
-        active: 2, 
-        total: 2,
-        members: [
-            { id: '1', name: 'Balaji Naik', avatar: 'https://placehold.co/100x100.png', contact: 'balaji@habi.one | +91 9380032186', role: 'Super Admin', status: 'Active', lastActive: '6 hrs ago', email: 'balaji@habi.one' },
-            { id: '2', name: 'Anil Kumar', avatar: 'https://placehold.co/100x100.png', contact: 'anil@habi.one | +91 9876543210', role: 'Super Admin', status: 'Active', lastActive: '2 hrs ago', email: 'anil@habi.one' },
-        ]
-    },
-    { 
-        name: "Sales", 
-        icon: <Briefcase className="w-6 h-6 text-black" />, 
-        bgColor: "bg-yellow-400/30",
-        admin: "Balaji Naik", 
-        active: 3, 
-        total: 8,
-        members: []
-    },
-    { 
-        name: "Software Development", 
-        icon: <Code className="w-6 h-6 text-black" />, 
-        bgColor: "bg-blue-300/30",
-        admin: "Balaji Naik", 
-        active: 12, 
-        total: 12,
-        members: []
-    },
-    { 
-        name: "Design", 
-        icon: <Palette className="w-6 h-6 text-black" />, 
-        bgColor: "bg-purple-300/30",
-        admin: "Balaji Naik", 
-        active: 4, 
-        total: 4,
-        members: []
-    },
-    { 
-        name: "Support & Feedback", 
-        icon: <Users className="w-6 h-6 text-black" />,
-        bgColor: "bg-green-300/30",
-        admin: "Balaji Naik", 
-        active: 20, 
-        total: 20,
-        members: []
-    },
-    { 
-        name: "Human Resources", 
-        icon: <Users className="w-6 h-6 text-black" />, 
-        bgColor: "bg-pink-300/30",
-        admin: "Balaji Naik", 
-        active: 0, 
-        total: 2,
-        members: []
-    },
-];
-
+const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: string } } = {
+    "Super Admin": { icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
+    "Sales": { icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
+    "Software Development": { icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
+    "Design": { icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
+    "Support & Feedback": { icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-green-300/30" },
+    "Human Resources": { icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
+    "default": { icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-gray-200/30" }
+};
 
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
@@ -123,10 +73,109 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
     </>
 );
 
+const RoleCardSkeleton = () => (
+    <>
+        <div className="hidden md:flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
+            <div className="flex items-center gap-4 w-full md:w-auto md:flex-1">
+                <Skeleton className="w-14 h-14 rounded-full" />
+                <Skeleton className="h-8 w-48" />
+            </div>
+            <div className="w-full md:w-px md:h-14 bg-stone-200" />
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full pl-16 md:pl-0">
+                <Skeleton className="h-5 w-32 mb-2" />
+                <Skeleton className="h-5 w-36" />
+            </div>
+            <div className="w-full md:w-px md:h-14 bg-stone-200" />
+            <div className="flex items-center gap-4 md:flex-1 w-full justify-between pl-16 md:pl-0">
+                <Skeleton className="h-5 w-36" />
+                <Skeleton className="h-14 w-40 rounded-full" />
+            </div>
+        </div>
+        <div className="md:hidden flex flex-col py-4 gap-4">
+            <div className="flex items-center gap-4">
+                <Skeleton className="w-14 h-14 rounded-full" />
+                <Skeleton className="h-8 w-40" />
+            </div>
+             <div className="grid grid-cols-2 gap-4 mt-2">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full rounded-full" />
+            </div>
+        </div>
+        <Separator className="last:hidden"/>
+    </>
+);
+
+
 export default function TeamsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-    const [roles, setRoles] = useState<Role[]>(mockRoles);
+    const [roles, setRoles] = useState<Role[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch('/api/users');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const users: Member[] = result.data.map((user: any) => ({
+                        id: user.id,
+                        name: user.name,
+                        avatar: user.profileImage || `https://placehold.co/100x100.png`,
+                        contact: `${user.email} | ${user.phone}`,
+                        role: user.role,
+                        status: user.activeStatus ? 'Active' : 'Inactive',
+                        lastActive: 'N/A', // This info is not in the API response
+                        email: user.email,
+                    }));
+
+                    const rolesMap: { [key: string]: Role } = {};
+
+                    users.forEach(member => {
+                        const roleName = member.role || 'Unassigned';
+                        if (!rolesMap[roleName]) {
+                            const { icon, bgColor } = roleIconsAndColors[roleName] || roleIconsAndColors.default;
+                            rolesMap[roleName] = {
+                                name: roleName,
+                                icon,
+                                bgColor,
+                                admin: 'N/A', // This info is not in the API response
+                                active: 0,
+                                total: 0,
+                                members: []
+                            };
+                        }
+                        rolesMap[roleName].members.push(member);
+                        rolesMap[roleName].total += 1;
+                        if (member.status === 'Active') {
+                            rolesMap[roleName].active += 1;
+                        }
+                    });
+
+                    // Find an admin for each role (e.g., the first active user)
+                    Object.values(rolesMap).forEach(role => {
+                        const adminMember = role.members.find(m => m.status === 'Active');
+                        role.admin = adminMember ? adminMember.name : 'N/A';
+                    });
+
+                    setRoles(Object.values(rolesMap));
+
+                } else {
+                    console.error("Failed to fetch users:", result.message);
+                }
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
@@ -165,9 +214,17 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
             <Card className="rounded-[50px] overflow-hidden">
                 <CardContent className="p-6">
                     <div className="flex flex-col">
-                        {filteredRoles.map((role) => (
-                            <RoleCard key={role.name} role={role} onViewMembers={handleViewMembers}/>
-                        ))}
+                        {isLoading ? (
+                            Array.from({ length: 3 }).map((_, i) => <RoleCardSkeleton key={i} />)
+                        ) : (
+                            filteredRoles.length > 0 ? (
+                                filteredRoles.map((role) => (
+                                    <RoleCard key={role.name} role={role} onViewMembers={handleViewMembers}/>
+                                ))
+                            ) : (
+                                <p className="text-center py-10 text-muted-foreground">No teams found.</p>
+                            )
+                        )}
                     </div>
                 </CardContent>
             </Card>
