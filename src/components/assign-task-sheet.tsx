@@ -22,7 +22,7 @@ import { Calendar } from "./ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import type { Task } from "./task-details-sheet";
 import { SuccessPopup } from "./success-popup";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "./ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 
@@ -245,25 +245,21 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
         setShowSuccess(true);
     };
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetContent = SheetContent;
 
     return (
         <>
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
+            <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
                 <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
                     <PlusCircle className="w-5 h-5 md:mr-2"/>
                     <span className="hidden md:inline">Assign task</span>
                 </Button>
-            </DialogTrigger>
-            <DialogContent
-                className={cn(
-                    "p-0 m-0 flex flex-col bg-white transition-all",
-                    isMobile 
-                        ? "h-full border-none"
-                        : "sm:max-w-4xl w-full h-[90vh] rounded-t-[50px] rounded-b-none"
-                )}
+            </SheetTrigger>
+            <DialogOrSheetContent
+                side="bottom"
+                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
             >
                 <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
@@ -273,18 +269,18 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                             </div>
                             Assign task
                         </DialogTitle>
-                        <DialogClose asChild>
+                        <SheetClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                 <X className="h-6 w-6" />
                             </Button>
-                        </DialogClose>
+                        </SheetClose>
                     </div>
                 </DialogHeader>
                 <div className="flex-grow overflow-y-auto no-scrollbar">
                     <AssignTaskForm onTaskAssigned={handleSuccess} onClose={() => setIsOpen(false)} />
                 </div>
-            </DialogContent>
-            </Dialog>
+            </DialogOrSheetContent>
+            </DialogOrSheet>
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}

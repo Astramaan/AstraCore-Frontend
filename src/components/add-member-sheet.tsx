@@ -120,7 +120,7 @@ export function AddMemberSheet() {
   const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
   const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
   const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
+  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
   const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
 
 
@@ -140,6 +140,7 @@ export function AddMemberSheet() {
               ? "w-full h-full"
               : "sm:max-w-md w-full sm:rounded-[50px]"
           )}
+          {...(isMobile ? { side: "bottom" } : {})}
       >
           <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">

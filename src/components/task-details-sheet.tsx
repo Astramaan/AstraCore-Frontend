@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -6,6 +7,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetClose
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { X, UploadCloud, Paperclip } from "lucide-react";
@@ -131,35 +133,29 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
 
   if (!task) return null;
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
+  const DialogOrSheet = Sheet;
+  const DialogOrSheetContent = SheetContent;
 
   return (
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
+        side="bottom"
         className={cn(
-          "p-0 m-0 flex flex-col bg-white transition-all",
-          isMobile
-            ? "h-full border-none"
-            : "sm:max-w-3xl w-full h-[90vh] rounded-t-[50px] rounded-b-none"
+          "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
         )}
-        {...(isMobile && { side: "bottom" })}
       >
-        <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-          <DialogOrSheetTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
+        <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
             Task Details
             <div className="flex items-center gap-4 ml-auto">
-              <DialogOrSheetClose asChild>
+              <SheetClose asChild>
                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-gray-100 hover:bg-gray-200">
                   <X className="h-6 w-6"/>
                 </Button>
-              </DialogOrSheetClose>
+              </SheetClose>
             </div>
-          </DialogOrSheetTitle>
-        </DialogOrSheetHeader>
+          </DialogTitle>
+        </DialogHeader>
         <div className='font-gilroy-medium text-[18px] flex-1 flex flex-col overflow-hidden'>
           <TaskDetailsContent task={task} onUpdateTask={onUpdateTask} />
         </div>
