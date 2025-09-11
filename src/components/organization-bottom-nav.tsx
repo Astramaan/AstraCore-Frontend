@@ -4,13 +4,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import HomeIcon from './icons/home-icon';
 import MeetingsIcon from './icons/meetings-icon';
 import ProjectsIcon from './icons/projects-icon';
 import LeadsIcon from './icons/leads-icon';
 import VendorsIcon from './icons/vendors-icon';
+import SnagListIcon from './icons/snag-list-icon';
 
 
 export const OrganizationBottomNav = () => {
@@ -20,7 +20,7 @@ export const OrganizationBottomNav = () => {
         { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
         { href: "/organization/leads", icon: LeadsIcon, label: "Leads" },
         { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" },
-        { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
+        { href: "/organization/snag-list", icon: SnagListIcon, label: "Snag List" },
     ];
 
     const pathname = usePathname();
