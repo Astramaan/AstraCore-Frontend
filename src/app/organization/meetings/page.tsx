@@ -21,6 +21,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -33,8 +34,8 @@ const initialLeadMeetings: Meeting[] = [
     { type: 'lead', name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
-const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void }) => (
-    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer">
+const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void }) => (
+    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer" onClick={() => onViewDetails(meeting)}>
         <div className="space-y-4">
              <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -43,7 +44,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="w-5 h-5" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -63,7 +64,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
                  <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                 <div className="flex items-center gap-2 text-base">
                     <span className="text-grey-2">Link: </span> 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         Google Meet
                     </a>
@@ -73,9 +74,9 @@ const MeetingCard = ({ meeting, onEdit, onDelete }: { meeting: Meeting, onEdit: 
     </div>
 )
 
-const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, isLast?: boolean }) => (
+const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2" onClick={() => onViewDetails(meeting)}>
             <div className="flex items-center gap-4 flex-1">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
@@ -92,13 +93,13 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, isLast = false }: { meetin
                 <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                 <div className="flex items-center gap-2 text-lg">
                     <span className="text-grey-2">Link: </span> 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline">
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         Google Meet
                     </a>
                 </div>
             </div>
-            <div className="ml-auto self-center">
+            <div className="ml-auto self-center" onClick={(e) => e.stopPropagation()}>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -123,6 +124,8 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
     const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);
     const [meetingToDelete, setMeetingToDelete] = useState<Meeting | null>(null);
     const [meetingToEdit, setMeetingToEdit] = useState<Meeting | null>(null);
+    const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
+
 
     const handleAddNewMeeting = (newMeeting: Omit<Meeting, 'id'>) => {
         const meetingWithId = { ...newMeeting, id: `NEW${Date.now()}`};
@@ -168,6 +171,9 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
     const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm, clientMeetings]);
     const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm, leadMeetings]);
+    const handleViewDetails = (meeting: Meeting) => {
+        setSelectedMeeting(meeting);
+    }
 
     return (
         <div className="space-y-8">
@@ -197,6 +203,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                     meeting={meeting} 
                                     onEdit={setMeetingToEdit}
                                     onDelete={handleDeleteClick}
+                                    onViewDetails={handleViewDetails}
                                     isLast={index === filteredClientMeetings.length - 1}
                                 />
                             ))}
@@ -216,6 +223,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                     meeting={meeting}
                                     onEdit={setMeetingToEdit}
                                     onDelete={handleDeleteClick}
+                                    onViewDetails={handleViewDetails}
                                     isLast={index === filteredLeadMeetings.length - 1}
                                 />
                             ))}
@@ -244,7 +252,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 <div>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                         {filteredClientMeetings.map((meeting) => (
-                            <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} />
+                            <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} onViewDetails={handleViewDetails} />
                         ))}
                     </div>
                 </div>
@@ -252,7 +260,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                      <h2 className="text-xl font-medium mb-4">Lead Meetings</h2>
                     <div className="bg-white rounded-[20px] overflow-hidden">
                          {filteredLeadMeetings.map((meeting) => (
-                            <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} />
+                            <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} onViewDetails={handleViewDetails} />
                         ))}
                     </div>
                 </div>
@@ -284,8 +292,13 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                     onMeetingUpdated={handleUpdateMeeting}
                  />
             )}
+             {selectedMeeting && (
+                <MeetingDetailsSheet
+                    isOpen={!!selectedMeeting}
+                    onClose={() => setSelectedMeeting(null)}
+                    meeting={selectedMeeting}
+                />
+            )}
         </div>
     );
 }
-
-    

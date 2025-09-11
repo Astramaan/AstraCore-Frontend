@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
 import RedirectionArrowIcon from '@/components/icons/redirection-arrow-icon';
+import { MeetingDetailsSheet, type Meeting } from '@/components/meeting-details-sheet';
 
 
 const initialTaskData: Task[] = [
@@ -61,28 +62,26 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
     )
 }
 
-const meetings = [
-    { client: "Charan Project", id: "BAL2025", time: "4:00 PM", date: "10 August 2024", link: "https://meet.google.com/abc-xyz" },
-    { client: "Lead Discussion", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw" },
-    { client: "Internal Sync", id: "INT2025", time: "6:00 PM", date: "10 August 2024", link: "https://meet.google.com/ghi-rst" },
+const meetings: Meeting[] = [
+    { type: 'client', name: "Charan Project", city: "Mysuru", id: "BAL2025", time: "4:00 PM", date: "10 August 2024", link: "https://meet.google.com/abc-xyz", email: 'admin@abc.com', phone: '1234567890' },
+    { type: 'lead', name: "Lead Discussion", city: "Bengaluru", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw", email: 'lead@example.com', phone: '0987654321' },
+    { type: 'client', name: "Internal Sync", city: "Remote", id: "INT2025", time: "6:00 PM", date: "10 August 2024", link: "https://meet.google.com/ghi-rst", email: 'internal@sync.com', phone: '1122334455' },
 ]
 
-const MeetingCard = ({ meeting }: { meeting: typeof meetings[0] }) => (
-    <a href={meeting.link} target="_blank" rel="noopener noreferrer">
-        <Card className="w-full h-20 rounded-[50px] py-4 px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50">
-            <div className="flex-1">
-                <p className="text-base font-medium">{meeting.client}</p>
-                <p className="text-xs text-muted-foreground">{meeting.id.startsWith('LEAD') ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
-            </div>
-            <div className="text-right">
-                <p className="text-sm font-medium">{meeting.time}</p>
-                <p className="text-sm text-muted-foreground">{meeting.date}</p>
-            </div>
-            <div className="flex items-center gap-2 pl-4">
-                <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
-            </div>
-        </Card>
-    </a>
+const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
+    <Card className="w-full h-20 rounded-[50px] py-4 px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
+        <div className="flex-1">
+            <p className="text-base font-medium">{meeting.name}</p>
+            <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
+        </div>
+        <div className="text-right">
+            <p className="text-sm font-medium">{meeting.time}</p>
+            <p className="text-sm text-muted-foreground">{meeting.date}</p>
+        </div>
+        <div className="flex items-center gap-2 pl-4">
+            <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
+        </div>
+    </Card>
 )
 
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
@@ -91,6 +90,7 @@ const filterOptions: FilterType[] = ["High Priority", "In Progress", "Pending", 
 export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
   
   const handleFilterClick = (filter: FilterType) => {
@@ -161,6 +161,10 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     };
     setTaskData(prevTasks => [fullTask, ...prevTasks]);
   };
+
+  const handleMeetingClick = (meeting: Meeting) => {
+      setSelectedMeeting(meeting);
+  }
 
 
   return (
@@ -274,7 +278,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     </Link>
                 </div>
                 <div className="flex flex-col gap-4">
-                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} />)}
+                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} onClick={handleMeetingClick} />)}
                 </div>
             </div>
             
@@ -313,6 +317,14 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 onClose={() => setSelectedTask(null)}
                 task={selectedTask}
                 onUpdateTask={handleTaskUpdate}
+            />
+        )}
+
+        {selectedMeeting && (
+            <MeetingDetailsSheet
+                isOpen={!!selectedMeeting}
+                onClose={() => setSelectedMeeting(null)}
+                meeting={selectedMeeting}
             />
         )}
     </div>
