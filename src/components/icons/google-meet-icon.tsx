@@ -2,20 +2,20 @@
 import React from 'react';
 
 const GoogleMeetIcon = ({ className }: { className?: string }) => (
-    <svg 
-        width="24" 
-        height="24" 
-        viewBox="0 0 24 24" 
-        fill="none" 
+    <svg
         xmlns="http://www.w3.org/2000/svg"
+        x="0px" y="0px"
+        width="24" height="24"
+        viewBox="0 0 172 172"
         className={className}
+        style={{ fill: "currentColor" }}
     >
-        <path d="M12.45 14.1C12.95 14.1 13.38 13.91 13.74 13.55C14.1 13.19 14.3 12.76 14.3 12.25L14.8 8.05L12.45 6.5L10.1 8.05L10.6 12.25C10.6 12.76 10.8 13.19 11.16 13.55C11.52 13.91 11.95 14.1 12.45 14.1Z" fill="#fff"/>
-        <path d="M5.25 18.35L3.9 15.65L3 13.9L3.45 11.45L4.8 9.25L6.6 7.45L9.3 6.1L12.45 6.55L15.6 6.1L18.3 7.45L20.1 9.25L21.45 11.45L21.9 13.9L21 15.65L19.65 18.35L17.4 19.7L14.85 20.15L12.45 19.25L10.05 20.15L7.5 19.7L5.25 18.35Z" fill="#00AC47"/>
-        <path d="M12.45 6.55L14.8 8.05L10.1 8.05L12.45 6.55Z" fill="#00832D"/>
-        <path d="M14.8 8.05L14.3 12.25C14.3 12.76 14.1 13.19 13.74 13.55C13.38 13.91 12.95 14.1 12.45 14.1V19.25L14.85 20.15L17.4 19.7L19.65 18.35L21 15.65L21.9 13.9L21.45 11.45L20.1 9.25L18.3 7.45L15.6 6.1L14.8 8.05Z" fill="#FFBA00"/>
-        <path d="M12.45 19.25V14.1C11.95 14.1 11.52 13.91 11.16 13.55C10.8 13.19 10.6 12.76 10.6 12.25L10.1 8.05L9.3 6.1L7.5 5.25L5.25 6.6L3.9 9.3L3 11.1V13.9L3.9 15.65L5.25 18.35L7.5 19.7L10.05 20.15L12.45 19.25Z" fill="#EA4335"/>
-        <path d="M9.3 6.1L7.5 5.25L6.6 7.45L4.8 9.25L3.45 11.45L3 13.9V11.1L3.9 9.3L5.25 6.6L7.5 5.25L9.3 6.1Z" fill="#2684FC"/>
+        <g fill="none" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" fontFamily="none" fontWeight="none" fontSize="none" textAnchor="none" style={{ mixBlendMode: "normal" }}>
+            <path d="M0,172v-172h172v172z" fill="none"></path>
+            <g fill="currentColor">
+                <path d="M21.5,21.5v129h64.5v-32.25v-64.5v-32.25zM86,53.75c0,17.7805 14.4695,32.25 32.25,32.25c17.7805,0 32.25,-14.4695 32.25,-32.25c0,-17.7805 -14.4695,-32.25 -32.25,-32.25c-17.7805,0 -32.25,14.4695 -32.25,32.25zM118.25,86c-17.7805,0 -32.25,14.4695 -32.25,32.25c0,17.7805 14.4695,32.25 32.25,32.25c17.7805,0 32.25,-14.4695 32.25,-32.25c0,-17.7805 -14.4695,-32.25 -32.25,-32.25z"></path>
+            </g>
+        </g>
     </svg>
 );
 
