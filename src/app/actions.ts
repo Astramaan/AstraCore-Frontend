@@ -35,9 +35,24 @@ export async function signup(prevState: any, formData: FormData) {
 }
 
 export async function addMember(prevState: any, formData: FormData) {
-    console.log("Adding member with data:", Object.fromEntries(formData.entries()));
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true, message: 'Member added successfully' };
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Object.fromEntries(formData.entries())),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { success: false, message: data.message || "Failed to add member" };
+        }
+
+        return { success: true, message: data.message || "Member added successfully!" };
+    } catch (error) {
+        console.error("Add member action failed:", error);
+        return { success: false, message: "An unexpected error occurred." };
+    }
 }
 
 export async function addLead(prevState: any, formData: FormData) {
