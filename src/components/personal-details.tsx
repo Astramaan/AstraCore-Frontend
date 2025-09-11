@@ -206,6 +206,8 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     
     const DialogOrSheet = isMobile ? Dialog : Dialog;
     const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
+    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
+    const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
 
 
     return (
