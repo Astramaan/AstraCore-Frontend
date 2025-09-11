@@ -361,24 +361,24 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                             <AccordionTrigger className="w-full hover:no-underline px-6 md:px-10 py-6 group">
-                                <div className="flex justify-between items-center w-full">
-                                    <h3 className="text-lg font-semibold group-data-[state=open]:text-primary">{projectKey}</h3>
-                                    <div className="flex items-center gap-2">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                                                    <MoreVertical className="w-6 h-6" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
-                                                <DropdownMenuItem>View Project</DropdownMenuItem>
-                                                <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </div>
+                             <div className="flex justify-between items-center w-full group px-6 md:px-10 py-6">
+                                <AccordionTrigger className="w-full hover:no-underline p-0 flex-1">
+                                    <h3 className="text-lg font-semibold group-data-[state=open]:text-primary text-left">{projectKey}</h3>
+                                </AccordionTrigger>
+                                <div className="flex items-center gap-2">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                                                <MoreVertical className="w-6 h-6" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                                            <DropdownMenuItem>View Project</DropdownMenuItem>
+                                            <DropdownMenuItem onSelect={() => handleAddSnagForProject(projectData.projectId)}>Add Snag</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
-                            </AccordionTrigger>
+                            </div>
                             <AccordionContent>
                                 <div className="flex flex-col">
                                     {projectData.snags.map((snag, snagIndex) => (
@@ -449,4 +449,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
