@@ -59,6 +59,7 @@ export default function AuthForm() {
         description: "Redirecting to your dashboard...",
       });
       
+      // Role-based redirection
       if (response.data.user?.role === 'platform-owner') {
           router.push('/platform/dashboard');
       } else {
