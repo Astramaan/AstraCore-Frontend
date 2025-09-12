@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -31,7 +30,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
     <div className="flex flex-col group">
         <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
-             isLast && "hover:rounded-b-[40px]",
+             isLast && "hover:rounded-b-[30px]",
         )}>
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
@@ -225,4 +224,5 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
             </AlertDialog>
         </div>
     );
-}
+
+    
