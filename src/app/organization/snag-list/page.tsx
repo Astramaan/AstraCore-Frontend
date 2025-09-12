@@ -156,7 +156,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <Separator className="md:mx-2"/>}
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -389,7 +389,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </div>
                             </div>
                             <AccordionContent>
-                                <div className="flex flex-col px-4 md:px-6">
+                                <div className="flex flex-col px-4 md:px-8">
                                     {projectData.snags.map((snag, snagIndex) => (
                                         <SnagCard 
                                             key={snag.id} 
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
