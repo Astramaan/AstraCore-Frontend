@@ -102,7 +102,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = fa
             <div className="ml-auto self-center" onClick={(e) => e.stopPropagation()}>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="w-6 h-6" />
                         </Button>
                     </DropdownMenuTrigger>
