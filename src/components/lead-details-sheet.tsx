@@ -239,9 +239,8 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                 </div>
             </ScrollArea>
              {isEditing ? (
-                <div className="p-4 border-t mt-auto flex flex-col md:flex-row-reverse justify-end gap-2 shrink-0">
+                <div className="p-4 border-t mt-auto flex flex-col md:flex-row justify-end gap-2 shrink-0">
                     <Button onClick={handleSave} className="w-full md:w-auto rounded-full h-14 px-10 text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
-                    <Button variant="outline" onClick={handleCancel} className="w-full md:w-auto rounded-full h-14 px-10 text-lg">Cancel</Button>
                 </div>
              ) : (
                 <div className="p-4 border-t mt-auto flex justify-end">
