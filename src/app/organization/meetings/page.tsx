@@ -79,8 +79,8 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col">
         <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-2 -mx-2",
-            isFirst && "rounded-t-lg",
-            isLast && "rounded-b-lg",
+            isFirst && "hover:rounded-t-[50px]",
+            isLast && "hover:rounded-b-[50px]",
         )} onClick={() => onViewDetails(meeting)}>
             <div className="flex-1">
                  <div className="flex flex-col gap-2">
