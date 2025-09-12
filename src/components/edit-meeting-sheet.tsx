@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
+import { ScrollArea } from './ui/scroll-area';
 
 
 export interface Meeting {
@@ -116,173 +117,174 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
 
 
     return (
-    <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-120px)] no-scrollbar bg-white">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
-        
-            <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>
-                <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} />
-            </div>
+    <div className="flex flex-col h-full">
+        <ScrollArea className="flex-1 p-6 no-scrollbar">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+            
+                <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>
+                    <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} />
+                </div>
 
-            <div className="space-y-2">
-                <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
-                 <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={memberComboboxOpen}
-                            className="w-full justify-between h-14 bg-background rounded-full"
-                        >
-                            {members
-                                ? mockMembers.find((member) => member.id === members)?.name
-                                : "Select a team member..."}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                        <Command>
-                            <CommandInput placeholder="Search team member..." />
-                            <CommandList>
-                                <CommandEmpty>No member found.</CommandEmpty>
-                                <CommandGroup>
-                                    {mockMembers.map((member) => (
-                                        <CommandItem
-                                            key={member.id}
-                                            value={member.id}
-                                            onSelect={(currentValue) => {
-                                                setMembers(currentValue === members ? "" : currentValue)
-                                                setMemberComboboxOpen(false)
-                                            }}
-                                        >
-                                            <Check
-                                                className={cn(
-                                                    "mr-2 h-4 w-4",
-                                                    members === member.id ? "opacity-100" : "opacity-0"
-                                                )}
-                                            />
-                                            {member.name}
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-            </div>
-            
-            <div className="space-y-2">
-                <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Date*</Label>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
-                        variant={"outline"}
-                        className={cn(
-                            "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
-                            !date && "text-muted-foreground"
-                        )}
-                        >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? date.toLocaleDateString() : <span>Select date</span>}
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                        <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        initialFocus
-                        />
-                    </PopoverContent>
-                </Popover>
-            </div>
+                <div className="space-y-2">
+                    <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                    <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={memberComboboxOpen}
+                                className="w-full justify-between h-14 bg-background rounded-full"
+                            >
+                                {members
+                                    ? mockMembers.find((member) => member.id === members)?.name
+                                    : "Select a team member..."}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                            <Command>
+                                <CommandInput placeholder="Search team member..." />
+                                <CommandList>
+                                    <CommandEmpty>No member found.</CommandEmpty>
+                                    <CommandGroup>
+                                        {mockMembers.map((member) => (
+                                            <CommandItem
+                                                key={member.id}
+                                                value={member.id}
+                                                onSelect={(currentValue) => {
+                                                    setMembers(currentValue === members ? "" : currentValue)
+                                                    setMemberComboboxOpen(false)
+                                                }}
+                                            >
+                                                <Check
+                                                    className={cn(
+                                                        "mr-2 h-4 w-4",
+                                                        members === member.id ? "opacity-100" : "opacity-0"
+                                                    )}
+                                                />
+                                                {member.name}
+                                            </CommandItem>
+                                        ))}
+                                    </CommandGroup>
+                                </CommandList>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                </div>
+                
+                <div className="space-y-2">
+                    <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Date*</Label>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
+                                !date && "text-muted-foreground"
+                            )}
+                            >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {date ? date.toLocaleDateString() : <span>Select date</span>}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                            <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={setDate}
+                            initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
+                </div>
 
-             <div className="space-y-2">
-                <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-zinc-900')}>Time*</Label>
-                <Select value={time} onValueChange={setTime}>
-                    <SelectTrigger className="h-14 bg-background rounded-full">
-                        <SelectValue placeholder="Select a time slot" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {timeSlots.map(time => (
-                             <SelectItem key={time} value={time}>{time}</SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
+                <div className="space-y-2">
+                    <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-zinc-900')}>Time*</Label>
+                    <Select value={time} onValueChange={setTime}>
+                        <SelectTrigger className="h-14 bg-background rounded-full">
+                            <SelectValue placeholder="Select a time slot" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {timeSlots.map(time => (
+                                <SelectItem key={time} value={time}>{time}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                
+                <div className="space-y-2">
+                    <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
+                    <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={comboboxOpen}
+                                className="w-full justify-between h-14 bg-background rounded-full"
+                            >
+                                {selectedId
+                                    ? allContacts.find((contact) => contact.id === selectedId)?.name
+                                    : "Select Client or Lead..."}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                            <Command>
+                                <CommandInput placeholder="Search client or lead..." />
+                                <CommandList>
+                                    <CommandEmpty>No results found.</CommandEmpty>
+                                    <CommandGroup>
+                                        {allContacts.map((contact) => (
+                                            <CommandItem
+                                                key={contact.id}
+                                                value={contact.id}
+                                                onSelect={(currentValue) => {
+                                                    setSelectedId(currentValue === selectedId ? "" : currentValue)
+                                                    setComboboxOpen(false)
+                                                }}
+                                            >
+                                                <Check
+                                                    className={cn(
+                                                        "mr-2 h-4 w-4",
+                                                        selectedId === contact.id ? "opacity-100" : "opacity-0"
+                                                    )}
+                                                />
+                                                {contact.name} ({contact.id})
+                                            </CommandItem>
+                                        ))}
+                                    </CommandGroup>
+                                </CommandList>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                </div>
+                
+                {selectedId && (
+                    <>
+                        <div className="space-y-1">
+                            <p className="text-sm text-grey-1">Name</p>
+                            <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-sm text-grey-1">City</p>
+                            <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-sm text-grey-1">Email</p>
+                            <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-sm text-grey-1">Phone</p>
+                            <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
+                        </div>
+                    </>
+                )}
             
-            <div className="space-y-2">
-                <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
-                <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={comboboxOpen}
-                            className="w-full justify-between h-14 bg-background rounded-full"
-                        >
-                            {selectedId
-                                ? allContacts.find((contact) => contact.id === selectedId)?.name
-                                : "Select Client or Lead..."}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                        <Command>
-                            <CommandInput placeholder="Search client or lead..." />
-                            <CommandList>
-                                <CommandEmpty>No results found.</CommandEmpty>
-                                <CommandGroup>
-                                    {allContacts.map((contact) => (
-                                        <CommandItem
-                                            key={contact.id}
-                                            value={contact.id}
-                                            onSelect={(currentValue) => {
-                                                setSelectedId(currentValue === selectedId ? "" : currentValue)
-                                                setComboboxOpen(false)
-                                            }}
-                                        >
-                                            <Check
-                                                className={cn(
-                                                    "mr-2 h-4 w-4",
-                                                    selectedId === contact.id ? "opacity-100" : "opacity-0"
-                                                )}
-                                            />
-                                            {contact.name} ({contact.id})
-                                        </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
             </div>
-            
-            {selectedId && (
-                 <>
-                    <div className="space-y-1">
-                        <p className="text-sm text-grey-1">Name</p>
-                        <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
-                    </div>
-                     <div className="space-y-1">
-                        <p className="text-sm text-grey-1">City</p>
-                        <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
-                    </div>
-                     <div className="space-y-1">
-                        <p className="text-sm text-grey-1">Email</p>
-                        <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
-                    </div>
-                    <div className="space-y-1">
-                        <p className="text-sm text-grey-1">Phone</p>
-                        <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
-                    </div>
-                </>
-            )}
-        
-        </div>
-        
-        <div className="flex justify-end pt-8">
-            <Button onClick={handleSubmit} className="px-14 h-12 text-lg rounded-full">
+        </ScrollArea>
+        <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
+            <Button onClick={handleSubmit} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
                 Save Changes
             </Button>
         </div>
@@ -317,8 +319,11 @@ export function EditMeetingSheet({ isOpen, onClose, meeting, onMeetingUpdated }:
                   </div>
               </SheetTitle>
           </SheetHeader>
-          <EditMeetingForm meeting={meeting} onMeetingUpdated={onMeetingUpdated} onClose={onClose}/>
+          <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
+            <EditMeetingForm meeting={meeting} onMeetingUpdated={onMeetingUpdated} onClose={onClose}/>
+          </div>
       </SheetContent>
     </Sheet>
   );
 }
+
