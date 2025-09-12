@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, 'useState', useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -475,3 +475,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
