@@ -210,34 +210,41 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
                             <FloatingLabelInput id="company-name" name="company-name" label="Company Name*" placeholder="Enter company name" value={companyName} onChange={handleTextOnlyChange(setCompanyName)} />
                         </div>
                     </div>
-                     <FloatingLabelInput
-                        id="phone"
-                        name="phone"
-                        label="Phone Number*"
-                        type="tel"
-                        placeholder="Enter phone number"
-                        value={phoneNumber}
-                        onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
-                        />
-                     <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FloatingLabelInput
+                            id="phone"
+                            name="phone"
+                            label="Phone Number*"
+                            type="tel"
+                            placeholder="Enter phone number"
+                            value={phoneNumber}
+                            onChange={handleNumberOnlyChange(setPhoneNumber, 10)}
+                            />
+                        <FloatingLabelInput id="email" label="Email*" type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
                      <FloatingLabelTextarea id="address" label="Address" placeholder="Enter address" value={address} onChange={(e) => setAddress(e.target.value)}/>
-                    <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert, setCinCertName)} fileName={cinCertName} onRemove={handleRemoveFile(setCinCert, setCinCertName)} />
-                    <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert, setGstCertName)} fileName={gstCertName} onRemove={handleRemoveFile(setGstCert, setGstCertName)} />
-                    <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
-                    <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure, setBrochureName)} fileName={brochureName} onRemove={handleRemoveFile(setBrochure, setBrochureName)} />
-
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FileUploadField id="cin-cert" label="CIN Certificate" onChange={handleFileChange(setCinCert, setCinCertName)} fileName={cinCertName} onRemove={handleRemoveFile(setCinCert, setCinCertName)} />
+                        <FileUploadField id="gst-cert" label="GST Certificate" onChange={handleFileChange(setGstCert, setGstCertName)} fileName={gstCertName} onRemove={handleRemoveFile(setGstCert, setGstCertName)} />
+                    </div>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FloatingLabelInput id="gst-number" label="GST Number*" placeholder="Enter GST number" value={gstNumber} onChange={handleAlphanumericChange(setGstNumber)} />
+                        <FileUploadField id="brochure" label="Product Brochure" onChange={handleFileChange(setBrochure, setBrochureName)} fileName={brochureName} onRemove={handleRemoveFile(setBrochure, setBrochureName)} />
+                    </div>
                     <ServiceableCityInput cities={serviceableCities} setCities={setServiceableCities} />
 
-                     <div className="space-y-2">
-                        <Label className={cn("text-lg font-medium px-2", selectedDays.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Days</Label>
-                        <div className="flex gap-2">
-                            {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <Label className={cn("text-lg font-medium px-2", selectedDays.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Days</Label>
+                            <div className="flex gap-2">
+                                {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
-                        <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <FloatingLabelInput id="available-time-from" name="available-time-from" type="text" label="Available Time (From)" placeholder="e.g. 9:00 AM" value={availableTimeFrom} onChange={(e) => setAvailableTimeFrom(e.target.value)} />
+                            <FloatingLabelInput id="available-time-to" name="available-time-to" type="text" label="Available Time (To)" placeholder="e.g. 5:00 PM" value={availableTimeTo} onChange={(e) => setAvailableTimeTo(e.target.value)} />
+                        </div>
                     </div>
                 </div>
 
@@ -245,12 +252,14 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
 
                 <div className="space-y-6">
                     <h3 className="text-lg font-medium">Account details</h3>
-                    <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
-                    <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
-                    <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
-                    <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
-                    <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
-                    <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
+                        <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
+                        <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
+                        <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
+                        <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
+                        <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
+                    </div>
                 </div>
             </ScrollArea>
                 
