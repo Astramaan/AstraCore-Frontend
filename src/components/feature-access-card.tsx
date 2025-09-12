@@ -64,10 +64,6 @@ export const FeatureAccessCard = () => {
                         </div>
                         <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                     </div>
-                     <Button variant="outline" className="rounded-full h-12 px-6" onClick={() => setIsCreateRoleDialogOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Create Role
-                    </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 flex-grow">
                     {allRoles.map((role) => (
