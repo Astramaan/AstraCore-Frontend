@@ -95,13 +95,13 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             <div className="flex items-center gap-4 flex-1" onClick={() => onViewDetails(snag)}>
                 <Checkbox 
                     id={`select-${snag.id}`} 
-                    className="w-6 h-6 rounded-full shrink-0" 
+                    className="w-6 h-6 rounded-full shrink-0 ml-2" 
                     checked={isSelected}
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
                 <Image src={snag.images[0]} width={64} height={64} alt={snag.title} className="rounded-lg object-cover w-16 h-16 shrink-0" data-ai-hint="defect photo" />
-                <div className="flex flex-col gap-1 w-full md:pl-8">
+                <div className="flex-1 md:w-auto">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
                 </div>
@@ -156,7 +156,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <Separator />}
+        {!isLast && <Separator className="md:mx-2" />}
     </div>
 );
 
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
