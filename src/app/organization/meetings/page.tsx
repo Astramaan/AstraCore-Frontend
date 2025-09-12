@@ -88,15 +88,15 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                     <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black font-medium">{meeting.city}</span></p>
                 </div>
             </div>
-            <Separator orientation="vertical" className="h-14 hidden md:block mx-4" />
-            <div className="flex-1">
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <div className="flex-1 px-4">
                 <div className="flex flex-col gap-2 flex-1 md:pl-0">
                     <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                     <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
                 </div>
             </div>
-            <Separator orientation="vertical" className="h-14 hidden md:block mx-4" />
-            <div className="flex-1 flex justify-between items-center">
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <div className="flex-1 flex justify-between items-center px-4">
                 <div className="flex-1 flex flex-col justify-between items-start">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <div className="flex items-center gap-2 text-lg">
@@ -315,6 +315,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
