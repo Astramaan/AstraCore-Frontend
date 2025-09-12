@@ -20,7 +20,7 @@ const allRoles: RoleData[] = [
 ];
 
 const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
-    <>
+    <div>
         <div 
             className="group cursor-pointer hover:bg-muted/50 rounded-lg"
             onClick={onClick}
@@ -36,7 +36,7 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; 
             </div>
         </div>
         <Separator className="last-of-type:hidden" />
-    </>
+    </div>
 );
 
 export const FeatureAccessCard = () => {
