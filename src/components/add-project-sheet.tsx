@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -756,12 +755,12 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
     const handleNext = () => setStep(2);
     const handleBack = () => setStep(1);
 
-    const DialogOrSheet = isMobile ? Dialog : Dialog;
-    const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetContent = SheetContent;
+    const DialogOrSheetHeader = SheetHeader;
+    const DialogOrSheetTitle = SheetTitle;
+    const DialogOrSheetClose = SheetClose;
+    const DialogOrSheetTrigger = SheetTrigger;
 
     const title = isEditMode
         ? 'Edit Project'
@@ -781,11 +780,9 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
                     </DialogOrSheetTrigger>
                 )}
                 <DialogOrSheetContent
+                    side="bottom"
                     className={cn(
-                        "p-0 bg-white flex flex-col",
-                        isMobile 
-                            ? "w-full h-full rounded-none border-none m-0"
-                            : "sm:max-w-3xl rounded-[50px] h-[90vh]"
+                        "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
@@ -826,3 +823,4 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
         </>
     );
 }
+
