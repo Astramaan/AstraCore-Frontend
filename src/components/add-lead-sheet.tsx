@@ -75,7 +75,6 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
 
 
 export function AddLeadSheet() {
-    const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
@@ -84,51 +83,39 @@ export function AddLeadSheet() {
         setShowSuccess(true);
     };
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
-
     return (
         <>
-            <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
-                <DialogOrSheetTrigger asChild>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
                      <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
                         <UserPlusIcon className="md:mr-2 h-6 w-6"/>
                         <span className="hidden md:inline">Add New Lead</span>
                     </Button>
-                </DialogOrSheetTrigger>
-                <DialogOrSheetContent
-                    className={cn(
-                        "p-0 flex flex-col bg-white",
-                        isMobile 
-                            ? "w-full h-full rounded-none border-none"
-                            : "md:max-w-md md:w-full rounded-[50px]"
-                    )}
-                     {...(isMobile && { side: "bottom" })}
+                </SheetTrigger>
+                <SheetContent
+                    side="bottom"
+                    className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
                 >
-                    <DialogOrSheetHeader className="p-6 border-b">
+                    <SheetHeader className="p-6 border-b">
                         <div className="flex items-center justify-between">
-                            <DialogOrSheetTitle className="flex items-center gap-2 text-2xl font-semibold">
+                            <SheetTitle className="flex items-center gap-2 text-2xl font-semibold">
                                 <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1">
                                     <Plus className="h-6 w-6"/>
                                 </div>
                                 Add New Lead
-                            </DialogOrSheetTitle>
-                            <DialogOrSheetClose asChild>
+                            </SheetTitle>
+                            <SheetClose asChild>
                                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                     <X className="h-6 w-6" />
                                 </Button>
-                            </DialogOrSheetClose>
+                            </SheetClose>
                         </div>
-                    </DialogOrSheetHeader>
+                    </SheetHeader>
                      <div className="flex-1 flex flex-col overflow-hidden">
                         <AddLeadForm onFormSuccess={handleSuccess} />
                     </div>
-                </DialogOrSheetContent>
-            </DialogOrSheet>
+                </SheetContent>
+            </Sheet>
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
