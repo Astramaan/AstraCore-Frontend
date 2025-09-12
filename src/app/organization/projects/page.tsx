@@ -28,7 +28,7 @@ import { Separator } from "@/components/ui/separator";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg rounded-lg px-2 -mx-2">
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
                     <AvatarImage src={project.image} data-ai-hint="abstract building" />
@@ -72,7 +72,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator/>}
+        {!isLast && <Separator className="md:hidden" />}
     </div>
 );
 
@@ -208,6 +208,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
+
 
 
 
