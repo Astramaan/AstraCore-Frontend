@@ -85,10 +85,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
              isLast && "hover:rounded-b-[30px]",
         )}>
             <div onClick={() => onViewDetails(meeting)} className="flex items-center gap-4 flex-1 cursor-pointer">
-                <Avatar className="w-14 h-14 shrink-0">
-                    <AvatarImage src={'https://placehold.co/59x59'} data-ai-hint="abstract building" />
-                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
-                </Avatar>
                 <div className="flex-1">
                     <p className="text-xl font-semibold text-black">{meeting.name}</p>
                     <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
@@ -108,7 +104,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
 
             <div className="flex-1 md:pl-10">
                 <div className="flex flex-col gap-2">
-                    <p className="text-lg text-left"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                    <p className="text-lg text-left whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         Google Meet
@@ -323,6 +319,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
