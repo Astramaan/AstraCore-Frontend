@@ -101,7 +101,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     onClick={(e) => e.stopPropagation()}
                 />
                 <Image src={snag.images[0]} width={64} height={64} alt={snag.title} className="rounded-lg object-cover w-16 h-16 shrink-0" data-ai-hint="defect photo" />
-                <div className="flex flex-col gap-1 w-full md:pl-6">
+                <div className="flex flex-col gap-1 w-full md:pl-8">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
                 </div>
@@ -121,7 +121,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
 
             {/* Status & Actions */}
             <div className="flex-1 flex items-center justify-between w-full px-4">
-                 <div className="flex-1 flex flex-col md:items-end items-center gap-1">
+                 <div className="flex-1 flex flex-col md:items-end items-start gap-1">
                     <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                     <p className="text-sm text-grey-1">{snag.subStatus}</p>
                  </div>
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
