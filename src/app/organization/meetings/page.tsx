@@ -78,40 +78,44 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2" onClick={() => onViewDetails(meeting)}>
-            <div className="flex items-center gap-4 flex-1">
+            <div className="flex-1">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
                     <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black font-medium">{meeting.city}</span></p>
                 </div>
             </div>
             <Separator orientation="vertical" className="h-14 hidden md:block" />
-            <div className="flex flex-col gap-2 flex-1 md:pl-0">
-                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
-            </div>
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
-            <div className="flex-1 flex flex-col justify-between items-start md:pl-0">
-                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center gap-2 text-lg">
-                    <span className="text-grey-2">Link: </span> 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
-                        <GoogleMeetIcon className="w-6 h-6" />
-                        Google Meet
-                    </a>
+            <div className="flex-1">
+                <div className="flex flex-col gap-2 flex-1 md:pl-0">
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
                 </div>
             </div>
-            <div className="ml-auto self-center" onClick={(e) => e.stopPropagation()}>
-                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                            <MoreVertical className="w-6 h-6" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
-                        <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <div className="flex-1 flex justify-between items-center">
+                <div className="flex-1 flex flex-col justify-between items-start md:pl-0">
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                    <div className="flex items-center gap-2 text-lg">
+                        <span className="text-grey-2">Link: </span> 
+                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+                            <GoogleMeetIcon className="w-6 h-6" />
+                            Google Meet
+                        </a>
+                    </div>
+                </div>
+                <div className="ml-auto self-center" onClick={(e) => e.stopPropagation()}>
+                     <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                                <MoreVertical className="w-6 h-6" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </div>
         {!isLast && <Separator />}
