@@ -365,7 +365,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 <AccordionTrigger className="w-full hover:no-underline p-0 flex-1">
                                     <h3 className="text-lg font-semibold group-data-[state=open]:text-primary text-left">{projectKey}</h3>
                                 </AccordionTrigger>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
@@ -449,5 +449,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
 

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -52,7 +53,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
         <Card className="rounded-[50px] p-10">
             <CardContent className="p-0">
                 <div className="relative grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                    <div className="absolute right-0 top-0">
+                    <div className="absolute right-0 top-0" onClick={(e) => e.stopPropagation()}>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="icon"><MoreVertical/></Button>
