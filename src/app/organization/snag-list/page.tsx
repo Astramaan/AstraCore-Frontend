@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, 'useState', useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -85,14 +85,14 @@ const allSnagsData: Snag[] = [
 ];
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isFirst, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isFirst?: boolean, isLast: boolean }) => (
-    <div className="flex flex-col cursor-pointer group" onClick={() => onViewDetails(snag)}>
+    <div className="flex flex-col group">
         <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
              isSelected && "bg-hover-bg"
         )}>
             {/* Title & Image */}
-            <div className="flex items-center gap-4 flex-1">
+            <div className="flex items-center gap-4 flex-1" onClick={() => onViewDetails(snag)}>
                 <Checkbox 
                     id={`select-${snag.id}`} 
                     className="w-6 h-6 rounded-full shrink-0" 
@@ -120,40 +120,40 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Status & Actions */}
-            <div className="flex-1 md:pl-16">
+            <div className="flex-1 md:pl-16 flex items-center justify-between w-full">
                  <div className="flex flex-col md:items-start items-center gap-1">
                     <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                     <p className="text-sm text-grey-1">{snag.subStatus}</p>
                  </div>
-            </div>
-
-            <div className="ml-auto self-center" onClick={(e) => { e.stopPropagation(); }}>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical className="w-6 h-6" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                        <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
-                        {snag.status === 'Open' && (
-                            <>
-                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
+            
+                <div className="ml-auto self-center" onClick={(e) => { e.stopPropagation(); }}>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <MoreVertical className="w-6 h-6" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
+                            {snag.status === 'Open' && (
+                                <>
+                                    <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
+                                </>
+                            )}
+                            {snag.status === 'In Progress' && (
                                 <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
-                            </>
-                        )}
-                        {snag.status === 'In Progress' && (
-                            <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
-                        )}
-                        {snag.status === 'Closed' && (
-                            <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
-                        )}
-                        <DropdownMenuSeparator />
-                        <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
-                        </AlertDialogTrigger>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            )}
+                            {snag.status === 'Closed' && (
+                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
+                            )}
+                            <DropdownMenuSeparator />
+                            <AlertDialogTrigger asChild>
+                                <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
+                            </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </div>
         {!isLast && <Separator className="md:mx-2"/>}
