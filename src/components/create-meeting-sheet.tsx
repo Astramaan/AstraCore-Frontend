@@ -9,6 +9,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -334,53 +335,43 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
 
 export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void }) {
-  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
 
-  const DialogOrSheet = isMobile ? Dialog : Dialog;
-  const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
-
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
-      <DialogOrSheetTrigger asChild>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
         <Button className="rounded-full h-12 w-12 p-0 md:w-auto md:px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary text-lg font-medium">
             <PlusCircle className="h-5 w-5 md:mr-2" />
             <span className="hidden md:inline">Create</span>
         </Button>
-      </DialogOrSheetTrigger>
-      <DialogOrSheetContent 
+      </SheetTrigger>
+      <SheetContent 
+          side="bottom"
           className={cn(
-            "p-0 flex flex-col m-0 bg-white",
-            isMobile 
-              ? "w-full h-full sm:h-auto sm:rounded-none" 
-              : "sm:max-w-2xl p-0 rounded-[50px] bg-white"
+            "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
           )}
       >
-          <DialogOrSheetHeader className="p-6 border-b">
-              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+              <SheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
                     <Plus className="h-6 w-6 text-black"/>
                   </div>
                   Create New Meeting
                   <div className="flex items-center gap-4 ml-auto">
-                      <DialogOrSheetClose asChild>
+                      <SheetClose asChild>
                         <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                             <X className="h-6 w-6" />
                         </Button>
-                      </DialogOrSheetClose>
+                      </SheetClose>
                   </div>
-              </DialogOrSheetTitle>
-          </DialogOrSheetHeader>
+              </SheetTitle>
+          </SheetHeader>
           <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
             <CreateMeetingForm onMeetingCreated={onMeetingCreated} onClose={handleClose}/>
           </div>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 }
