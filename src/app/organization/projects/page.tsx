@@ -45,16 +45,16 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
             
-            <div className="flex-[1.5] md:pl-8 pl-16">
+            <div className="flex-[1.5] md:pl-8">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
-                    <p className="text-lg"><span className="zinc-900">{project.id}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="zinc-900">{project.id}</span></p>
                 </div>
             </div>
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
-            <div className="flex-1 md:pl-16 pl-16">
+            <div className="flex-1 md:pl-16">
                 <div className="flex flex-col gap-2">
                     <p className="text-lg text-left"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
                     <p className="text-lg text-left"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
