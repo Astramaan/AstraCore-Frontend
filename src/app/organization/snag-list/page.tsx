@@ -86,37 +86,35 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isFirst, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isFirst?: boolean, isLast: boolean }) => (
     <div className="flex flex-col cursor-pointer group" onClick={() => onViewDetails(snag)}>
-        {/* Desktop View */}
-        <div className={cn("hidden md:flex flex-row justify-between items-center py-4 gap-4 px-2 -mx-2",
-             isSelected && "bg-hover-bg",
-             isFirst && isSelected && "rounded-t-[25px]",
-             isLast && isSelected && "rounded-b-[25px]",
-        )}>
-            <div className="flex items-center gap-4 flex-1">
+        <div className={cn("flex flex-col md:flex-row md:items-center py-4 px-4 gap-4 md:gap-0", isSelected && "bg-hover-bg", isFirst && isSelected && "rounded-t-[25px]", isLast && isSelected && "rounded-b-[25px]")}>
+            {/* Title & Image */}
+            <div className="flex items-start md:items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
-                    className="w-6 h-6 rounded-full" 
+                    className="w-6 h-6 rounded-full shrink-0 mt-1 md:mt-0" 
                     checked={isSelected}
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
-                <Image src={snag.images[0]} width={64} height={64} alt={snag.title} className="rounded-lg object-cover" data-ai-hint="defect photo" />
-                <div className="flex flex-col gap-1 w-full md:w-60">
+                <Image src={snag.images[0]} width={64} height={64} alt={snag.title} className="rounded-lg object-cover w-16 h-16 md:w-16 md:h-16 shrink-0" data-ai-hint="defect photo" />
+                <div className="flex flex-col gap-1 w-full">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
                 </div>
             </div>
 
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden md:block mx-4" />
 
-            <div className="flex flex-col gap-2 flex-1 md:pl-0">
+            {/* Created By */}
+            <div className="flex flex-col gap-1 flex-1 md:max-w-xs pl-16 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                 <p className="text-sm text-grey-1">{snag.createdAt}</p>
             </div>
             
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden md:block mx-4" />
 
-            <div className="flex items-center justify-between md:justify-end md:gap-4 w-full md:w-auto flex-1 md:pl-0">
+            {/* Status & Actions */}
+            <div className="flex items-center justify-between md:justify-end gap-4 flex-1 pl-16 md:pl-0">
                 <div className="text-left md:text-right">
                   <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                   <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -149,62 +147,6 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                             </AlertDialogTrigger>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                </div>
-            </div>
-        </div>
-        
-        {/* Mobile View */}
-        <div className={cn("md:hidden p-4 space-y-4", isSelected && "bg-hover-bg", isFirst && isSelected && "rounded-t-[25px]", isLast && isSelected && "rounded-b-[25px]")}>
-            <div className="flex items-start gap-4">
-                <Checkbox 
-                    id={`mobile-select-${snag.id}`} 
-                    className="w-6 h-6 rounded-full mt-1" 
-                    checked={isSelected}
-                    onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
-                    onClick={(e) => e.stopPropagation()}
-                />
-                 <Image src={snag.images[0]} width={80} height={80} alt={snag.title} className="rounded-lg object-cover" data-ai-hint="defect photo" />
-                <div className="flex-1 space-y-1">
-                    <p className="font-medium text-lg text-black">{snag.title}</p>
-                    <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
-                </div>
-            </div>
-            <div className="pl-10 space-y-2">
-                 <p><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
-                 <p className="text-sm text-grey-1">{snag.createdAt}</p>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
-                        <p className="text-sm text-grey-1">{snag.subStatus}</p>
-                    </div>
-                     <div onClick={(e) => { e.stopPropagation(); }}>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                            <DropdownMenuItem onSelect={() => onEdit(snag)}>Edit</DropdownMenuItem>
-                            {snag.status === 'Open' && (
-                                <>
-                                    <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'In Progress')}>Mark as In Progress</DropdownMenuItem>
-                                    <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
-                                </>
-                            )}
-                            {snag.status === 'In Progress' && (
-                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Closed')}>Mark as Solved</DropdownMenuItem>
-                            )}
-                            {snag.status === 'Closed' && (
-                                <DropdownMenuItem onSelect={() => onStatusChange(snag.id, 'Open')}>Reopen</DropdownMenuItem>
-                            )}
-                            <DropdownMenuSeparator />
-                            <AlertDialogTrigger asChild>
-                                <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(snag.id); }}>Delete</DropdownMenuItem>
-                            </AlertDialogTrigger>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
                 </div>
             </div>
         </div>
