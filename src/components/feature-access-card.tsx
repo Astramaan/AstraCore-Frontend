@@ -19,16 +19,12 @@ const allRoles: RoleData[] = [
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
 
-const RoleListItem = ({ role, onClick, isFirst, isSecond, isSecondLast, isLast }: { role: RoleData; onClick: () => void; isFirst?: boolean; isSecond?: boolean; isSecondLast?: boolean; isLast?: boolean; }) => (
-    <div className={cn(
-        "p-4 group",
-    )}>
-        <div className={cn("flex justify-between items-center cursor-pointer hover:bg-muted/50 -mx-2 px-2",
-             isFirst && "hover:rounded-tl-[25px]",
-             isSecond && "hover:rounded-tr-[25px]",
-             isSecondLast && "hover:rounded-bl-[25px]",
-             isLast && "hover:rounded-br-[25px]",
-        )} onClick={onClick}>
+const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
+    <div 
+        className="p-4 group cursor-pointer hover:bg-muted/50 rounded-lg"
+        onClick={onClick}
+    >
+        <div className={cn("flex justify-between items-center")}>
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                     {role.icon}
@@ -37,9 +33,6 @@ const RoleListItem = ({ role, onClick, isFirst, isSecond, isSecondLast, isLast }
             </div>
             <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>
-        {!isLast && !isSecondLast && (
-            <Separator className="mt-2" />
-        )}
     </div>
 );
 
@@ -70,15 +63,11 @@ export const FeatureAccessCard = () => {
                     </div>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 px-6 pt-0 pb-6 flex-grow">
-                    {allRoles.map((role, index) => (
+                    {allRoles.map((role) => (
                        <RoleListItem 
                            key={role.name} 
                            role={role} 
                            onClick={() => handleRoleClick(role)}
-                           isFirst={index === 0}
-                           isSecond={index === 1}
-                           isSecondLast={index === allRoles.length - 2}
-                           isLast={index === allRoles.length - 1}
                        />
                     ))}
                 </CardContent>
