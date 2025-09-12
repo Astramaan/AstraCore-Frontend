@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -28,6 +29,8 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { LeadDetailsSheet, type Lead } from '@/components/lead-details-sheet';
+import { cn } from '@/lib/utils';
+import { Separator } from '@/components/ui/separator';
 
 const leadsData: Lead[] = [
     {
@@ -102,9 +105,12 @@ const leadsData: Lead[] = [
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (Lead) => void }) => (
+const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg rounded-lg px-2 -mx-2" onClick={() => onViewDetails(lead)}>
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-2 -mx-2",
+             isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
+             isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]",
+        )} onClick={() => onViewDetails(lead)}>
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${lead.leadId}`} 
@@ -119,14 +125,14 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 </div>
             </div>
 
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             <div className="flex flex-col gap-2 flex-1 pl-10 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{lead.contact.split(' | ')[0]}</span></p>
                 <p className="text-lg"><span className="text-grey-1">&nbsp;</span><span className="text-black font-medium">{lead.contact.split(' | ')[1]}</span></p>
             </div>
             
-            <div className="w-px h-14 bg-stone-200 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
             
             <div className="flex items-center gap-4 pl-10 md:pl-0" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
@@ -166,7 +172,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 </div>
             </div>
         </div>
-        <div className="h-px bg-stone-200" />
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -333,7 +339,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                  <Card className="rounded-[50px] overflow-hidden">
                     <CardContent className="p-6">
                         <div className="flex flex-col">
-                            {filteredLeads.map((lead) => (
+                            {filteredLeads.map((lead, index) => (
                                 <LeadCard 
                                     key={lead.leadId} 
                                     lead={lead} 
@@ -344,6 +350,8 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                                     onViewDetails={handleViewDetails}
                                     onLevelChange={handleLevelChange}
                                     onEdit={handleEdit}
+                                    isFirst={index === 0}
+                                    isLast={index === filteredLeads.length - 1}
                                 />
                             ))}
                         </div>
