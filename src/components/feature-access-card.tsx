@@ -8,6 +8,7 @@ import { Shield, Briefcase, Code, Palette, Users, Plus, ArrowRight } from 'lucid
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { CreateRoleDialog } from './create-role-dialog';
+import { Separator } from './ui/separator';
 
 const allRoles: RoleData[] = [
     { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-green-200/30" },
@@ -20,19 +21,24 @@ const allRoles: RoleData[] = [
 
 const RoleListItem = ({ role, onClick, isFirst, isSecond, isSecondLast, isLast }: { role: RoleData; onClick: () => void; isFirst?: boolean; isSecond?: boolean; isSecondLast?: boolean; isLast?: boolean; }) => (
     <div className={cn(
-        "flex justify-between items-center py-2 cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2 group",
+        "py-2 group",
         isFirst && "hover:rounded-tl-[25px]",
         isSecond && "hover:rounded-tr-[25px]",
         isSecondLast && "hover:rounded-bl-[25px]",
         isLast && "hover:rounded-br-[25px]"
-    )} onClick={onClick}>
-        <div className="flex items-center gap-4">
-            <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                {role.icon}
+    )}>
+        <div className="flex justify-between items-center cursor-pointer hover:bg-muted/50 -mx-2 px-2" onClick={onClick}>
+            <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                    {role.icon}
+                </div>
+                <p className="text-lg font-medium">{role.name}</p>
             </div>
-            <p className="text-lg font-medium">{role.name}</p>
+            <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>
-        <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+        {!isLast && !isSecondLast && (
+            <Separator className="mt-2" />
+        )}
     </div>
 );
 
