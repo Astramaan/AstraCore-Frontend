@@ -92,16 +92,16 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
              isSelected && "bg-hover-bg"
         )}>
             {/* Title & Image */}
-            <div className="flex items-center gap-8 flex-1" onClick={() => onViewDetails(snag)}>
+            <div className="flex items-center gap-8 flex-1 md:flex-[1.5]" onClick={() => onViewDetails(snag)}>
                 <Checkbox 
                     id={`select-${snag.id}`} 
-                    className="w-6 h-6 rounded-full shrink-0 ml-2" 
+                    className="w-6 h-6 rounded-full shrink-0" 
                     checked={isSelected}
                     onCheckedChange={(checked) => onSelectionChange(snag.id, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
                 <Image src={snag.images[0]} width={64} height={64} alt={snag.title} className="rounded-lg object-cover w-16 h-16 shrink-0" data-ai-hint="defect photo" />
-                <div className="flex-1 md:w-auto md:pl-8">
+                <div className="flex-1 md:w-auto">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
                 </div>
@@ -110,7 +110,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Created By */}
-            <div className="flex-1 md:flex-1.5 flex md:justify-center md:mr-8">
+            <div className="flex-1 flex md:justify-center">
                 <div className="flex flex-col gap-1">
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
@@ -120,7 +120,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Status & Actions */}
-            <div className="flex-1 flex items-center justify-between w-full md:ml-8">
+            <div className="flex-1 flex items-center justify-between w-full">
                  <div className="flex-1 flex flex-col items-center gap-1">
                     <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                     <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
