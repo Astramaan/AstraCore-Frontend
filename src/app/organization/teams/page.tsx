@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { Briefcase, Code, Palette, Search, Shield, Users } from 'lucide-react';
+import { Briefcase, Code, Palette, Search, Shield, Users, ChevronLeft } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -109,6 +110,7 @@ const RoleCardSkeleton = () => (
 
 
 export default function TeamsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+    const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
     const [roles, setRoles] = useState<Role[]>([]);
@@ -146,6 +148,10 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
                         />
                     </div>
                      <CreateDepartmentSheet />
+                     <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
+                        <ChevronLeft className="mr-2 h-4 w-4" />
+                        Back
+                    </Button>
                 </div>
             </div>
 
