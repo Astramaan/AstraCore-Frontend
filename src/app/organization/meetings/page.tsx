@@ -48,9 +48,9 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
                             <MoreVertical className="w-5 h-5" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDelete(meeting); }}>Delete</DropdownMenuItem>
+                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }}>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
@@ -106,9 +106,9 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = fa
                             <MoreVertical className="w-6 h-6" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
+                    <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
