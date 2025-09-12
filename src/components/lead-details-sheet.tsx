@@ -53,7 +53,7 @@ const DetailField = ({ label, value, isEditing, onChange, name, placeholder, typ
             <Input id={name} name={name} value={value} onChange={onChange} className="h-14 bg-background rounded-full px-5" placeholder={placeholder || label} type={type}/>
         ) : (
              <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                <p className="text-black text-base leading-tight">{value}</p>
+                <p className="text-black text-base leading-tight truncate">{value}</p>
             </div>
         )}
     </div>
@@ -246,32 +246,23 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
 
 export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditMode = false }: LeadDetailsSheetProps) {
-  const isMobile = useIsMobile();
-
   if (!lead) return null;
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={onClose}>
-      <DialogOrSheetContent 
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent 
+          side="bottom"
           className={cn(
-            "p-0 bg-white border-stone-300",
-            isMobile 
-              ? "w-full h-full rounded-none border-none"
-              : "md:max-w-xl lg:max-w-2xl rounded-[20px]"
+            "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
           )}
-          {...(isMobile ? { side: "bottom" } : { side: "right" })}
           onInteractOutside={(e) => {
-              // Prevent closing when clicking on dropdown menus inside
               if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
                   e.preventDefault();
               }
           }}
       >
           <LeadDetailsContent lead={lead} onClose={onClose} onDelete={onDelete} startInEditMode={startInEditMode}/>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 }
