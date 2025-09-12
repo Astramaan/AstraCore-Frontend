@@ -92,7 +92,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
              isSelected && "bg-hover-bg"
         )}>
             {/* Title & Image */}
-            <div className="flex items-center gap-4 flex-1" onClick={() => onViewDetails(snag)}>
+            <div className="flex items-center gap-6 flex-1" onClick={() => onViewDetails(snag)}>
                 <Checkbox 
                     id={`select-${snag.id}`} 
                     className="w-6 h-6 rounded-full shrink-0 ml-2" 
@@ -156,7 +156,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <Separator className="md:mx-2" />}
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
