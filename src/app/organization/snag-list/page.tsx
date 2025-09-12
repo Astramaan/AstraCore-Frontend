@@ -110,7 +110,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Created By */}
-            <div className="flex-[1.5] md:pl-8">
+            <div className="flex-1 md:pl-6">
                 <div className="flex flex-col gap-1">
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
@@ -120,7 +120,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Status & Actions */}
-            <div className="flex-1 md:pl-16 flex items-center justify-between w-full">
+            <div className="flex-1 md:pl-6 flex items-center justify-between w-full">
                  <div className="flex flex-col md:items-start items-center gap-1">
                     <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                     <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -475,4 +475,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
