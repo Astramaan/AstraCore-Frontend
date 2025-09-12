@@ -171,7 +171,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                         onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
                     />
                 </div>
-                <Card className="rounded-[50px]">
+                <Card className="rounded-t-[50px] md:rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {activeProjects.map((project, index) => (
                             <ProjectListItem 
@@ -189,7 +189,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
 
             <div>
                 <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
-                 <Card className="rounded-[50px]">
+                 <Card className="rounded-t-[50px] md:rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {completedProjects.map((project, index) => (
                             <ProjectListItem 
