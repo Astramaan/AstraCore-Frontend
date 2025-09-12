@@ -62,7 +62,7 @@ export const FeatureAccessCard = () => {
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 pb-6 flex-grow">
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 flex-grow">
                     {allRoles.map((role) => (
                        <RoleListItem 
                            key={role.name} 
