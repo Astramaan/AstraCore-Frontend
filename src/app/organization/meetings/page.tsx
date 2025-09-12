@@ -24,7 +24,6 @@ import {
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 
 const initialClientMeetings: Meeting[] = [
@@ -80,29 +79,29 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+        <div className={cn("hidden md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] md:items-center py-6 gap-x-4 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
-            <div onClick={() => onViewDetails(meeting)} className="flex items-center gap-4 flex-1 cursor-pointer">
+            <div onClick={() => onViewDetails(meeting)} className="flex items-center gap-4 cursor-pointer">
                 <div className="flex-1">
                     <p className="text-xl font-semibold text-black">{meeting.name}</p>
                     <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14" />
             
-            <div className="flex-[1.5] md:pl-6">
+            <div className="pl-6">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                     <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="zinc-900">{meeting.id}</span></p>
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14" />
 
-            <div className="flex-1 md:pl-10">
+            <div className="pl-10">
                 <div className="flex flex-col gap-2">
                     <p className="text-lg text-left whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
@@ -112,7 +111,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </div>
             </div>
 
-            <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            <div className="ml-auto justify-self-end" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -126,6 +125,37 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </DropdownMenu>
             </div>
         </div>
+
+        {/* Mobile View remains a flex layout */}
+        <div className="md:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
+             <div className="flex justify-between items-start">
+                <div>
+                    <p className="text-xl font-semibold text-black">{meeting.name}</p>
+                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
+                </div>
+                 <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+            <div className="mt-4 space-y-2">
+                 <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="zinc-900">{meeting.id}</span></p>
+                <p className="text-lg text-left whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
+                    <GoogleMeetIcon className="w-6 h-6" />
+                    Google Meet
+                </a>
+            </div>
+        </div>
+
         {!isLast && <Separator />}
     </div>
 );
@@ -209,7 +239,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-6">
+                        <CardContent className="p-0 md:p-6">
                            {filteredClientMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -230,7 +260,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-6">
+                        <CardContent className="p-0 md:p-6">
                              {filteredLeadMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -319,6 +349,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
