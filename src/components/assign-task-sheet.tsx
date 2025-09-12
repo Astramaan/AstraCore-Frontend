@@ -265,7 +265,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                 <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <div className="flex justify-between items-center">
                         <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
-                            <div className="w-[54px] h-[54px] rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                            <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
                                 <AssignTaskIcon className="h-6 w-6 text-gray-600"/>
                             </div>
                             Assign task
