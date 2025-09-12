@@ -9,11 +9,21 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Users, FileText, X } from "lucide-react";
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import NotificationBellIcon from "./icons/notification-bell-icon";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 const allNotifications = [
     {
@@ -79,35 +89,49 @@ const NotificationItem = ({ notification }: { notification: typeof allNotificati
 )
 
 export function AllNotificationsDialog() {
+    const isMobile = useIsMobile();
+    const DialogOrSheet = isMobile ? Sheet : Dialog;
+    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
+    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
+    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
+    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+
     return (
-        <Dialog>
-            <DialogTrigger asChild>
+        <DialogOrSheet>
+            <DialogOrSheetTrigger asChild>
                 <Button variant="link" className="w-full text-primary">View all notifications</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white">
-                <DialogHeader className="p-4 border-b">
-                    <DialogTitle className="flex items-center justify-between">
+            </DialogOrSheetTrigger>
+            <DialogOrSheetContent className={cn(
+                "p-0 m-0 flex flex-col bg-white transition-all border-none",
+                isMobile 
+                    ? "h-full rounded-none" 
+                    : "h-[90vh] max-w-xl mx-auto rounded-[50px]"
+            )}
+            {...(isMobile ? { side: "bottom" } : {})}>
+                <DialogOrSheetHeader className="p-6 border-b">
+                    <DialogOrSheetTitle className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-2xl font-semibold">
                             <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
                             <NotificationBellIcon className="w-6 w-6"/>
                             </div>
                             Notifications
                         </div>
-                        <DialogClose asChild>
+                        <DialogOrSheetClose asChild>
                             <Button variant="ghost" size="icon" className="rounded-full w-[54px] h-[54px] bg-background">
                                 <X className="h-6 w-6" />
                             </Button>
-                        </DialogClose>
-                    </DialogTitle>
-                </DialogHeader>
-                <ScrollArea className="h-[400px]">
-                    <div className="p-2">
+                        </DialogOrSheetClose>
+                    </DialogOrSheetTitle>
+                </DialogOrSheetHeader>
+                <ScrollArea className="flex-1">
+                    <div className="p-4">
                         {allNotifications.map((item, index) => (
                             <NotificationItem key={index} notification={item} />
                         ))}
                     </div>
                 </ScrollArea>
-            </DialogContent>
-        </Dialog>
+            </DialogOrSheetContent>
+        </DialogOrSheet>
     )
 }
