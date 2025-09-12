@@ -19,14 +19,14 @@ const allRoles: RoleData[] = [
 ];
 
 const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
-    <div className="flex justify-between items-center py-2 cursor-pointer" onClick={onClick}>
+    <div className="flex justify-between items-center py-2 cursor-pointer hover:bg-accent rounded-lg -mx-2 px-2 group" onClick={onClick}>
         <div className="flex items-center gap-4">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                 {role.icon}
             </div>
             <p className="text-lg font-medium">{role.name}</p>
         </div>
-        <ArrowRight className="w-4 h-4 text-muted-foreground" />
+        <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
     </div>
 );
 
