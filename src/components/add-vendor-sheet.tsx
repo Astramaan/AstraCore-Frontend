@@ -83,7 +83,12 @@ const DayToggle = ({ day, selectedDays, onDayToggle }: { day: string, selectedDa
     )
 };
 
-const ServiceableCityInput = ({cities, setCities}: {cities: string[], setCities: (cities: string[]) => void}) => {
+type ServiceableCityInputProps = {
+    cities: string[];
+    setCities: (cities: string[]) => void;
+};
+
+const ServiceableCityInput = ({cities, setCities}: ServiceableCityInputProps) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -451,7 +456,6 @@ interface AddVendorSheetProps {
 }
 
 export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }: AddVendorSheetProps) {
-    const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState<'addVendor' | 'addMaterials'>('addVendor');
@@ -495,12 +499,12 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
         else setIsOpen(true);
     }
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetTrigger = SheetTrigger;
+    const DialogOrSheetContent = SheetContent;
+    const DialogOrSheetHeader = SheetHeader;
+    const DialogOrSheetTitle = SheetTitle;
+    const DialogOrSheetClose = SheetClose;
 
     const Trigger = triggerButton ? (
         <div onClick={() => setIsOpen(true)}>{triggerButton}</div>
@@ -518,11 +522,9 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
                     {Trigger}
                 </DialogTrigger>
                 <DialogOrSheetContent
+                    side="bottom"
                     className={cn(
-                        "p-0 bg-white flex flex-col",
-                        isMobile
-                            ? "w-full h-full rounded-none border-none"
-                            : "md:max-w-2xl rounded-[20px]"
+                        "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b shrink-0">
@@ -557,8 +559,3 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
-
-
-
-
-
