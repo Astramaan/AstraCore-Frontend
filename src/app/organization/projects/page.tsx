@@ -29,7 +29,7 @@ import { Separator } from "@/components/ui/separator";
 const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
     <div className="flex flex-col group">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer">
-             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
+            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
                     <AvatarImage src={project.image} data-ai-hint="abstract building" />
                     <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
@@ -42,16 +42,20 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
             
-            <div className="flex flex-col gap-2 flex-1 md:pl-0 pl-16">
-                <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
-                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+            <div className="flex-1 md:pl-0 pl-16">
+                 <div className="flex flex-col gap-2">
+                    <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+                </div>
             </div>
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
-            <div className="flex flex-col gap-2 flex-1 md:pl-0 pl-16">
-                <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
-                <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+            <div className="flex-1 md:pl-0 pl-16">
+                <div className="flex flex-col gap-2">
+                    <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+                </div>
             </div>
 
             <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
@@ -68,7 +72,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator className="md:hidden"/>}
+        {!isLast && <Separator/>}
     </div>
 );
 
@@ -204,4 +208,5 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
+
 
