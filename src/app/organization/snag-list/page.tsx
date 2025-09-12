@@ -86,7 +86,7 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isFirst, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isFirst?: boolean, isLast: boolean }) => (
     <div className="flex flex-col cursor-pointer group" onClick={() => onViewDetails(snag)}>
-        <div className={cn("flex flex-col md:flex-row md:items-center py-4 px-4 gap-4 md:gap-0", isSelected && "bg-hover-bg", isFirst && isSelected && "rounded-t-[25px]", isLast && isSelected && "rounded-b-[25px]")}>
+        <div className={cn("flex flex-col md:flex-row md:items-center p-6 md:px-10 gap-4 md:gap-0", isSelected && "bg-hover-bg", isFirst && isSelected && "rounded-t-[25px]", isLast && isSelected && "rounded-b-[25px]")}>
             {/* Title & Image */}
             <div className="flex items-start md:items-center gap-4 flex-1">
                 <Checkbox 
@@ -463,3 +463,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
