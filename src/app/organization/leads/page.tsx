@@ -138,12 +138,12 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             <div className="flex-1 md:pl-6 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                             <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
+                             <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-auto justify-between hover:bg-primary/10 hover:text-primary">
                                 {lead.level}
-                                <ChevronDown />
+                                <ChevronDown className="ml-2"/>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
@@ -152,6 +152,10 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                             <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    <Button onClick={() => onContact(lead)} variant="outline" className="h-12 md:h-14 px-4 rounded-full text-grey-1 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary">
+                        <Phone className="mr-2 h-4 w-4"/>
+                        Contact
+                    </Button>
                 </div>
                 <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                     <DropdownMenu>
@@ -431,5 +435,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
 
 
