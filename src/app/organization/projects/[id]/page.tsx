@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
@@ -106,6 +106,7 @@ const mockProject = {
 };
 
 export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
+    const { id } = use(params);
     const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -115,14 +116,14 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
 
     useEffect(() => {
         const fetchProject = async () => {
-            const projectDetails = await getProjectDetails(params.id);
+            const projectDetails = await getProjectDetails(id);
             if (projectDetails) {
                  const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: projectDetails.name || mockProject.personalInfo.name } };
                 setProject(displayProject as any);
             }
         };
         fetchProject();
-    }, [params.id]);
+    }, [id]);
 
 
     if (!project) {
