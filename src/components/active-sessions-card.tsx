@@ -47,7 +47,7 @@ export const ActiveSessionsCard = () => {
                 {sessions.map(session => (
                     <div key={session.device} className="flex justify-between items-center py-4 border-b last:border-b-0 last:pb-0">
                         <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 rounded-2xl flex items-center justify-center border">
+                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center border">
                                 {session.icon}
                             </div>
                             <div>
