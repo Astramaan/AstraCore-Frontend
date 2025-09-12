@@ -97,7 +97,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
             <Separator orientation="vertical" className="h-14 hidden md:block" />
             <div className="flex-1 flex justify-between items-center px-0 md:px-4">
-                <div className="flex-1 flex flex-col justify-between items-start">
+                <div className="flex flex-col justify-between items-start">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <div className="flex items-center gap-2 text-lg">
                         <span className="text-grey-2">Link: </span> 
@@ -315,6 +315,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
