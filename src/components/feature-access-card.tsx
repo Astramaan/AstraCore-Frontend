@@ -18,11 +18,8 @@ const allRoles: RoleData[] = [
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
 
-const RoleListItem = ({ role, onClick, isFirst, isSecond }: { role: RoleData; onClick: () => void; isFirst?: boolean; isSecond?: boolean; }) => (
-    <div className={cn("flex justify-between items-center py-2 cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2 group",
-        isFirst && "hover:rounded-tl-[25px]",
-        isSecond && "hover:rounded-tr-[25px]",
-    )} onClick={onClick}>
+const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
+    <div className={cn("flex justify-between items-center py-2 cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2 group")} onClick={onClick}>
         <div className="flex items-center gap-4">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                 {role.icon}
@@ -65,8 +62,6 @@ export const FeatureAccessCard = () => {
                            key={role.name} 
                            role={role} 
                            onClick={() => handleRoleClick(role)}
-                           isFirst={index === 0}
-                           isSecond={index === 1}
                        />
                     ))}
                 </CardContent>
