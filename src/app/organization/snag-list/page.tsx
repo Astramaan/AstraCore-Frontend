@@ -84,9 +84,12 @@ const allSnagsData: Snag[] = [
     },
 ];
 
-const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isLast: boolean }) => (
+const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isFirst, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isFirst?: boolean, isLast: boolean }) => (
     <div className="flex flex-col cursor-pointer group" onClick={() => onViewDetails(snag)}>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-10 py-4 gap-4">
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-10 py-4 gap-4 hover:bg-hover-bg",
+            isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
+            isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]"
+        )}>
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${snag.id}`} 
@@ -391,6 +394,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                             onStatusChange={updateSnagStatus}
                                             onViewDetails={handleViewDetails}
                                             onEdit={handleEditSnag}
+                                            isFirst={snagIndex === 0}
                                             isLast={snagIndex === projectData.snags.length - 1}
                                         />
                                     ))}
@@ -449,6 +453,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
 
 
