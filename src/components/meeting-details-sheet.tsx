@@ -68,17 +68,16 @@ export function MeetingDetailsSheet({ isOpen, onClose, meeting }: MeetingDetails
 
   if (!meeting) return null;
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
+  const DialogOrSheet = Sheet;
+  const DialogOrSheetContent = SheetContent;
 
   return (
     <DialogOrSheet open={isOpen} onOpenChange={onClose}>
       <DialogOrSheetContent 
+        side="bottom"
         className={cn(
-          "p-0 m-0 flex flex-col bg-white transition-all md:max-w-2xl md:mx-auto rounded-t-[50px] border-none",
-          isMobile ? "h-full" : "h-[90vh]"
+          "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
         )}
-        {...(isMobile ? { side: "bottom" } : {})}
       >
         <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
           <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
