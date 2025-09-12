@@ -114,36 +114,38 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
     return (
         <div className="flex flex-col h-full">
-            <DialogHeader className="p-4 border-b">
-                <DialogTitle className="flex items-center font-medium">
+            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <SheetTitle className="flex items-center text-2xl font-semibold">
                     {isEditing ? 'Edit Lead Details' : 'Lead Details'}
-                    {isEditing ? (
-                        <div className="ml-auto flex items-center gap-2">
-                             <Button variant="ghost" onClick={handleCancel} className="rounded-full">Cancel</Button>
-                             <Button onClick={handleSave} className="rounded-full"><Save className="mr-2 h-4 w-4" /> Save</Button>
-                        </div>
-                    ) : (
-                        <div className="ml-auto flex items-center gap-2">
-                             <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <MoreVertical />
+                    <div className="ml-auto flex items-center gap-2">
+                        {isEditing ? (
+                            <>
+                                 <Button variant="ghost" onClick={handleCancel} className="rounded-full">Cancel</Button>
+                                 <Button onClick={handleSave} className="rounded-full"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                            </>
+                        ) : (
+                            <>
+                                 <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" size="icon">
+                                            <MoreVertical />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem onClick={() => setIsEditing(true)}>Edit</DropdownMenuItem>
+                                        <DropdownMenuItem className="text-red-600" onSelect={(e) => { onDelete(e as any); }}>Delete</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <SheetClose asChild>
+                                    <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                        <X className="h-5 w-5" />
                                     </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuItem onClick={() => setIsEditing(true)}>Edit</DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600" onSelect={(e) => { onDelete(e as any); }}>Delete</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            <DialogClose asChild>
-                                <Button variant="ghost" size="icon" className="rounded-full">
-                                    <X className="h-5 w-5" />
-                                </Button>
-                            </DialogClose>
-                        </div>
-                    )}
-                </DialogTitle>
-            </DialogHeader>
+                                </SheetClose>
+                            </>
+                        )}
+                    </div>
+                </SheetTitle>
+            </SheetHeader>
             <ScrollArea className="flex-1">
                 <div className="p-6 space-y-6">
                     <div className="flex items-center gap-4">
