@@ -31,6 +31,7 @@ import {
 import { LeadDetailsSheet, type Lead } from '@/components/lead-details-sheet';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const leadsData: Lead[] = [
     {
@@ -106,12 +107,12 @@ const leadsData: Lead[] = [
 ];
 
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
-    <div className="flex flex-col">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-2 -mx-2",
-             isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
-             isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]",
-        )} onClick={() => onViewDetails(lead)}>
-            <div className="flex items-center gap-4 flex-1">
+    <div className="flex flex-col group">
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+             isFirst && "hover:rounded-t-[30px]",
+             isLast && "hover:rounded-b-[30px]",
+        )}>
+            <div className="flex items-center gap-4 flex-1" onClick={() => onViewDetails(lead)}>
                 <Checkbox 
                     id={`select-${lead.leadId}`} 
                     className="w-6 h-6 rounded-full" 
@@ -119,51 +120,54 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
-                <div className="flex flex-col gap-2">
-                    <p className="text-lg"><span className="text-grey-1">Full Name: </span><span className="text-black font-medium">{lead.fullName}</span></p>
-                    <p className="text-lg"><span className="text-grey-1">Lead ID: </span><span className="text-black font-medium">{lead.leadId}</span></p>
+                 <Avatar className="w-14 h-14 shrink-0">
+                    <AvatarImage src={lead.profileImage} data-ai-hint="person portrait" />
+                    <AvatarFallback>{lead.fullName.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                    <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
                 </div>
             </div>
-
+            
             <Separator orientation="vertical" className="h-14 hidden md:block" />
-
-            <div className="flex flex-col gap-2 flex-1 pl-10 md:pl-0">
-                <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{lead.contact.split(' | ')[0]}</span></p>
-                <p className="text-lg"><span className="text-grey-1">&nbsp;</span><span className="text-black font-medium">{lead.contact.split(' | ')[1]}</span></p>
+            
+            <div className="flex-[1.5] md:pl-6" onClick={() => onViewDetails(lead)}>
+                 <div className="flex flex-col gap-2">
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="zinc-900">{lead.leadId}</span></p>
+                </div>
             </div>
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
-            
-            <div className="flex items-center gap-4 pl-10 md:pl-0" onClick={(e) => e.stopPropagation()}>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
-                            {lead.level}
-                            <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 1')}>Level 1</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 2')}>Level 2</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
 
-                <Button className="h-12 md:h-14 px-6 rounded-full bg-background text-black hover:bg-primary/10 hover:text-primary text-base md:text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
-                    <Phone className="mr-2"/>
-                    Contact
-                </Button>
-                
-                <div onClick={(e) => e.stopPropagation()}>
+            <div className="flex-1 md:pl-6 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+                <div className="flex flex-col gap-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                             <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
+                                {lead.level}
+                                <ChevronDown />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 1')}>Level 1</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 2')}>Level 2</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+                <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon">
                                 <MoreVertical className="w-6 h-6" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                             <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
+                             <DropdownMenuItem onSelect={() => onContact(lead)}>Contact</DropdownMenuItem>
                             <AlertDialogTrigger asChild>
                                 <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
                             </AlertDialogTrigger>
@@ -337,7 +341,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
             <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
                  <Card className="rounded-[50px] overflow-hidden">
-                    <CardContent className="p-6">
+                    <CardContent className="p-0 md:p-6">
                         <div className="flex flex-col">
                             {filteredLeads.map((lead, index) => (
                                 <LeadCard 
@@ -420,7 +424,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.id)
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
                 startInEditMode={isEditing}
