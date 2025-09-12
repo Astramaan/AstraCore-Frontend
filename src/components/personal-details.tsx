@@ -190,7 +190,6 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const [member, setMember] = useState(initialMemberData);
     const [isEditing, setIsEditing] = useState(false);
-    const isMobile = useIsMobile();
 
     const handleSave = (updatedMember: typeof initialMemberData) => {
         setMember(updatedMember);
@@ -204,10 +203,10 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         setIsEditing(open);
     }
     
-    const DialogOrSheet = isMobile ? Dialog : Dialog;
-    const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
-    const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
-    const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetContent = SheetContent;
+    const DialogOrSheetTrigger = SheetTrigger;
+    const DialogOrSheetClose = SheetClose;
 
 
     return (
@@ -287,12 +286,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                     </div>
                 </CardContent>
             </Card>
-            <DialogOrSheetContent className={cn(
-                "p-0 flex flex-col m-0 bg-white",
-                isMobile 
-                  ? "w-full h-full rounded-none border-none"
-                  : "sm:max-w-3xl sm:h-auto sm:rounded-[50px]"
-            )}>
+            <DialogOrSheetContent
+                side="bottom"
+                className={cn(
+                    "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+                )}
+            >
                 <EditProfileForm 
                     member={member}
                     onSave={handleSave}
