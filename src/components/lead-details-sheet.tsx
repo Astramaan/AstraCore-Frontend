@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -115,7 +116,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
         <div className="flex flex-col h-full">
             <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
                 <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
-                    <span>{isEditing ? 'Edit Lead Details' : 'Lead Details'}</span>
+                    <span className="flex-1 text-left">{isEditing ? 'Edit Lead Details' : 'Lead Details'}</span>
                     <div className="flex items-center gap-2">
                         {isEditing ? (
                             <>
