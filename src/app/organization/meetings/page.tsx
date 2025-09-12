@@ -37,7 +37,7 @@ const initialLeadMeetings: Meeting[] = [
 ];
 
 const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void }) => (
-    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-muted/50 cursor-pointer" onClick={() => onViewDetails(meeting)}>
+    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-hover-bg cursor-pointer" onClick={() => onViewDetails(meeting)}>
         <div className="space-y-4">
              <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
