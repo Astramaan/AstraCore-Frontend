@@ -29,9 +29,9 @@ import { cn } from "@/lib/utils";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-2 -mx-2",
-            isFirst && "hover:rounded-t-[30px]",
-            isLast && "hover:rounded-b-[40px]",
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+             isFirst && "hover:rounded-t-[30px]",
+             isLast && "hover:rounded-b-[40px]",
         )}>
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
@@ -172,7 +172,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                     />
                 </div>
                 <Card className="rounded-t-[40px] md:rounded-[50px]">
-                    <CardContent className="p-4 md:p-6">
+                    <CardContent className="p-0 md:p-6">
                         {activeProjects.map((project, index) => (
                             <ProjectListItem 
                                 key={project.id} 
@@ -190,7 +190,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
             <div>
                 <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
                  <Card className="rounded-t-[40px] md:rounded-[50px]">
-                    <CardContent className="p-4 md:p-6">
+                    <CardContent className="p-0 md:p-6">
                         {completedProjects.map((project, index) => (
                             <ProjectListItem 
                                 key={project.id} 
