@@ -18,8 +18,10 @@ const allRoles: RoleData[] = [
     { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
 ];
 
-const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
-    <div className="flex justify-between items-center py-2 cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2 group" onClick={onClick}>
+const RoleListItem = ({ role, onClick, isFirst }: { role: RoleData; onClick: () => void; isFirst?: boolean; }) => (
+    <div className={cn("flex justify-between items-center py-2 cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2 group",
+        isFirst && "hover:rounded-tl-[25px]"
+    )} onClick={onClick}>
         <div className="flex items-center gap-4">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                 {role.icon}
@@ -57,8 +59,13 @@ export const FeatureAccessCard = () => {
                     </div>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 px-6 pt-0 pb-6 flex-grow">
-                    {allRoles.map((role) => (
-                       <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
+                    {allRoles.map((role, index) => (
+                       <RoleListItem 
+                           key={role.name} 
+                           role={role} 
+                           onClick={() => handleRoleClick(role)}
+                           isFirst={index === 0 || (index === 1 && allRoles.length > 1)}
+                       />
                     ))}
                 </CardContent>
             </Card>
