@@ -30,8 +30,8 @@ import { cn } from "@/lib/utils";
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-2 -mx-2",
-            isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
-            isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]",
+            isFirst && "hover:rounded-tl-[50px] hover:rounded-tr-[50px]",
+            isLast && "hover:rounded-bl-[50px] hover:rounded-br-[50px]",
         )}>
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
@@ -49,7 +49,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             <div className="flex-1 md:pl-0 pl-16">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{project.contact}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="text-zinc-900">{project.id}</span></p>
+                    <p className="text-lg"><span className="text-zinc-900">{project.id}</span></p>
                 </div>
             </div>
             
