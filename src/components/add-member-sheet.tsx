@@ -108,7 +108,6 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 export function AddMemberSheet() {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const isMobile = useIsMobile();
 
   const handleSuccess = () => {
     setIsOpen(false);
@@ -117,52 +116,39 @@ export function AddMemberSheet() {
   
   const handleClose = () => setIsOpen(false);
 
-  const DialogOrSheet = isMobile ? Dialog : Dialog;
-  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-
-
   return (
     <>
-    <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
-      <DialogOrSheetTrigger asChild>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
         <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
             <UserPlusIcon className="md:mr-2 h-6 w-6"/>
             <span className="hidden md:inline">Add New Member</span>
         </Button>
-      </DialogOrSheetTrigger>
-      <DialogOrSheetContent 
-          className={cn(
-            "p-0 flex flex-col m-0 bg-white",
-            isMobile 
-              ? "w-full h-full"
-              : "sm:max-w-md w-full sm:rounded-[50px]"
-          )}
-          {...(isMobile ? { side: "bottom" } : {})}
+      </SheetTrigger>
+      <SheetContent 
+          side="bottom"
+          className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
       >
-          <DialogOrSheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <div className="flex items-center justify-between">
-                <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+                <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
                     Add New Member
-                </DialogOrSheetTitle>
-                <DialogOrSheetClose asChild>
+                </SheetTitle>
+                <SheetClose asChild>
                   <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                       <X className="h-6 w-6" />
                   </Button>
-                </DialogOrSheetClose>
+                </SheetClose>
               </div>
-          </DialogOrSheetHeader>
+          </SheetHeader>
           <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
             <AddMemberForm onFormSuccess={handleSuccess} onClose={handleClose} />
           </div>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
