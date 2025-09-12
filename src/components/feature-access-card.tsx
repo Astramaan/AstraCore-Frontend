@@ -21,7 +21,7 @@ const allRoles: RoleData[] = [
 
 const RoleListItem = ({ role, onClick, isFirst, isSecond, isSecondLast, isLast }: { role: RoleData; onClick: () => void; isFirst?: boolean; isSecond?: boolean; isSecondLast?: boolean; isLast?: boolean; }) => (
     <div className={cn(
-        "py-2 group",
+        "p-4 group",
     )}>
         <div className={cn("flex justify-between items-center cursor-pointer hover:bg-muted/50 -mx-2 px-2",
              isFirst && "hover:rounded-tl-[25px]",
