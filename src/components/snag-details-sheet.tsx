@@ -81,18 +81,16 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
     
     return (
         <div className="flex flex-col h-full">
-            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-                <SheetTitle className="flex items-center text-2xl font-semibold">
-                    {isEditing ? 'Edit Snag' : 'Snag Details'}
-                    <div className="ml-auto flex items-center gap-2">
+            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
+                <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
+                     <span className="flex-1 text-left">{isEditing ? 'Edit Snag' : 'Snag Details'}</span>
+                    <div className="flex items-center gap-2">
                         {isEditing ? (
-                            <>
-                                <Button variant="ghost" onClick={handleCancel} className="h-14 rounded-full px-8">Cancel</Button>
-                                <Button onClick={handleSave} className="h-14 rounded-full px-8">
-                                    <Save className="mr-2 h-4 w-4" />
-                                    Save
+                             <SheetClose asChild>
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full" onClick={handleCancel}>
+                                    <X className="h-5 w-5" />
                                 </Button>
-                            </>
+                            </SheetClose>
                         ) : (
                             <>
                                 <DropdownMenu>
@@ -173,7 +171,11 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                     </div>
                 </div>
             </ScrollArea>
-            {!isEditing && (
+             {isEditing ? (
+                <div className="p-4 border-t mt-auto flex justify-end gap-2 shrink-0">
+                    <Button onClick={handleSave} className="w-full md:w-auto md:flex-initial rounded-full h-14 px-10 text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                </div>
+            ) : (
                  <div className="p-4 border-t mt-auto">
                     <div className="flex justify-end gap-4">
                         {snag.status === 'Open' && (
