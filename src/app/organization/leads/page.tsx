@@ -143,7 +143,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="h-12 md:h-14 px-6 rounded-full bg-background text-black hover:bg-muted text-base md:text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
+                <Button className="h-12 md:h-14 px-6 rounded-full bg-background text-black hover:bg-primary/10 hover:text-primary text-base md:text-lg font-medium w-full md:w-auto" onClick={() => onContact(lead)}>
                     <Phone className="mr-2"/>
                     Contact
                 </Button>
