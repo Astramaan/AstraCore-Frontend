@@ -22,6 +22,7 @@ import { addLead } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { ScrollArea } from './ui/scroll-area';
+import UserPlusIcon from './icons/user-plus-icon';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
@@ -94,8 +95,8 @@ export function AddLeadSheet() {
         <>
             <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
                 <DialogOrSheetTrigger asChild>
-                     <Button className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-4">
-                        <Plus className="md:mr-2 h-6 w-6"/>
+                     <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
+                        <UserPlusIcon className="md:mr-2 h-6 w-6"/>
                         <span className="hidden md:inline">Add New Lead</span>
                     </Button>
                 </DialogOrSheetTrigger>
