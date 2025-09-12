@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -77,7 +76,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2" onClick={() => onViewDetails(meeting)}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg rounded-lg px-2 -mx-2" onClick={() => onViewDetails(meeting)}>
             <div className="flex-1">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
@@ -307,3 +306,5 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
+
+    
