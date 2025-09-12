@@ -47,20 +47,19 @@ export const FeatureAccessCard = () => {
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 flex-grow">
                     {allRoles.map((role) => (
-                       <div key={role.name}>
-                            <div 
-                                className="group cursor-pointer hover:bg-muted/50 rounded-lg"
-                                onClick={() => handleRoleClick(role)}
-                            >
-                                <div className="flex justify-between items-center py-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                            {role.icon}
-                                        </div>
-                                        <p className="text-lg font-medium">{role.name}</p>
+                        <div 
+                            key={role.name}
+                            className="group cursor-pointer hover:bg-muted/50 rounded-lg"
+                            onClick={() => handleRoleClick(role)}
+                        >
+                            <div className="flex justify-between items-center py-4">
+                                <div className="flex items-center gap-4">
+                                    <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                                        {role.icon}
                                     </div>
-                                    <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+                                    <p className="text-lg font-medium">{role.name}</p>
                                 </div>
+                                <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                             </div>
                             <Separator className="last-of-type:hidden" />
                         </div>
