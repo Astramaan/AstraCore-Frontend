@@ -86,7 +86,11 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isFirst, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isFirst?: boolean, isLast: boolean }) => (
     <div className="flex flex-col cursor-pointer group" onClick={() => onViewDetails(snag)}>
-        <div className={cn("flex flex-col md:flex-row md:items-center p-6 md:px-10 gap-4 md:gap-0", isSelected && "bg-hover-bg", isFirst && isSelected && "rounded-t-[25px]", isLast && isSelected && "rounded-b-[25px]")}>
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+             isFirst && "hover:rounded-t-[30px]",
+             isLast && "hover:rounded-b-[30px]",
+             isSelected && "bg-hover-bg"
+        )}>
             {/* Title & Image */}
             <div className="flex items-start md:items-center gap-4 flex-1">
                 <Checkbox 
@@ -103,18 +107,18 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
 
-            <Separator orientation="vertical" className="h-14 hidden md:block mx-4" />
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Created By */}
-            <div className="flex flex-col gap-1 flex-1 md:max-w-xs pl-16 md:pl-0">
+            <div className="flex flex-col gap-1 flex-1 md:max-w-xs md:pl-8">
                 <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                 <p className="text-sm text-grey-1">{snag.createdAt}</p>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block mx-4" />
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             {/* Status & Actions */}
-            <div className="flex items-center justify-between md:justify-end gap-4 flex-1 pl-16 md:pl-0">
+            <div className="flex items-center justify-between md:justify-end gap-4 flex-1 md:pl-8">
                 <div className="text-left md:text-right">
                   <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                   <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -463,4 +467,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
