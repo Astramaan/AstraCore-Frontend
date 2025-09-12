@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -74,9 +76,12 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
     </div>
 )
 
-const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = false }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isLast?: boolean }) => (
+const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg rounded-lg px-2 -mx-2" onClick={() => onViewDetails(meeting)}>
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-2 -mx-2",
+            isFirst && "rounded-t-lg",
+            isLast && "rounded-b-lg",
+        )} onClick={() => onViewDetails(meeting)}>
             <div className="flex-1">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
@@ -208,6 +213,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                     onEdit={setMeetingToEdit}
                                     onDelete={handleDeleteClick}
                                     onViewDetails={handleViewDetails}
+                                    isFirst={index === 0}
                                     isLast={index === filteredClientMeetings.length - 1}
                                 />
                             ))}
@@ -228,6 +234,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                                     onEdit={setMeetingToEdit}
                                     onDelete={handleDeleteClick}
                                     onViewDetails={handleViewDetails}
+                                    isFirst={index === 0}
                                     isLast={index === filteredLeadMeetings.length - 1}
                                 />
                             ))}
