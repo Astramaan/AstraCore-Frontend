@@ -63,9 +63,11 @@ export const FeatureAccessCard = () => {
                                         <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </div>
-                                <div className="md:hidden">
-                                  {index < allRoles.length - 1 && <Separator />}
-                                </div>
+                                {index % 2 === 1 && index < allRoles.length - 1 && (
+                                    <div className="col-span-2 -mx-2">
+                                        <Separator />
+                                    </div>
+                                )}
                             </React.Fragment>
                         ))}
                     </div>
