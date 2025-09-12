@@ -21,7 +21,7 @@ const allRoles: RoleData[] = [
 
 const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
     <div 
-        className="group cursor-pointer hover:bg-muted/50 rounded-lg"
+        className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
         onClick={onClick}
     >
         <div className="flex justify-between items-center py-4">
@@ -33,7 +33,6 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; 
             </div>
             <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>
-        <Separator/>
     </div>
 );
 
