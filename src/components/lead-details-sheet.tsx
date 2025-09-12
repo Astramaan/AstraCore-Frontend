@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -239,7 +238,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
             </ScrollArea>
              {!isEditing && (
                 <div className="p-4 border-t mt-auto md:flex md:justify-end">
-                    <Button className="w-full h-[54px] md:w-auto md:h-12 md:text-base md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">Request 1% Token</Button>
+                    <Button className="w-full h-[54px] md:w-auto md:text-base md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">Request 1% Token</Button>
                 </div>
             )}
         </div>
@@ -263,7 +262,7 @@ export function LeadDetailsSheet({ isOpen, onClose, lead, onDelete, startInEditM
               }
           }}
       >
-          <LeadDetailsContent lead={lead} onClose={onClose} onDelete={onDelete} startInEditMode={startInEditMode}/>
+          <LeadDetailsContent lead={lead} onClose={onClose} onDelete={onDelete} startInEditMode={startInEditMode} />
       </SheetContent>
     </Sheet>
   );
