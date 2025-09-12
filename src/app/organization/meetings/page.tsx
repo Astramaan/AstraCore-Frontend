@@ -82,21 +82,21 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
             isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]",
         )} onClick={() => onViewDetails(meeting)}>
-            <div className="w-full md:w-1/4">
+            <div className="w-full md:w-[20%]">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
                     <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black font-medium">{meeting.city}</span></p>
                 </div>
             </div>
             <Separator orientation="vertical" className="h-14 hidden md:block" />
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-[35%]">
                 <div className="flex flex-col gap-2 flex-1 md:pl-0">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                    <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                     <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
                 </div>
             </div>
             <Separator orientation="vertical" className="h-14 hidden md:block" />
-            <div className="w-full md:w-1/4 flex justify-between items-center">
+            <div className="w-full md:w-[45%] flex justify-between items-center">
                 <div className="flex-1 flex flex-col justify-between items-start">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <div className="flex items-center gap-2 text-lg">
@@ -315,3 +315,4 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
