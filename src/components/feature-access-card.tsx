@@ -31,7 +31,10 @@ const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; 
                 </div>
                 <p className="text-lg font-medium">{role.name}</p>
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+            <div className="flex items-center gap-4">
+                <Separator orientation="vertical" className="h-8" />
+                <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+            </div>
         </div>
     </div>
 );
