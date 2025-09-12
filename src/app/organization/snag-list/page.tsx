@@ -104,14 +104,14 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
 
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex flex-col gap-2 flex-1 pl-16 md:pl-0">
+            <div className="flex flex-col gap-2 flex-1 md:pl-0">
                 <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                 <p className="text-sm text-grey-1">{snag.createdAt}</p>
             </div>
             
             <div className="w-px h-14 bg-stone-200 hidden md:block" />
 
-            <div className="flex items-center justify-between md:justify-end md:gap-4 w-full md:w-auto flex-1 pl-16 md:pl-0">
+            <div className="flex items-center justify-between md:justify-end md:gap-4 w-full md:w-auto flex-1 md:pl-0">
                 <div className="text-left md:text-right">
                   <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                   <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -361,7 +361,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                             <div className="flex justify-between items-center w-full group px-6 md:px-10 py-6">
+                             <div className="flex justify-between items-center w-full group px-6 md:px-10 py-6" onClick={(e) => e.stopPropagation()}>
                                 <AccordionTrigger className="w-full hover:no-underline p-0 flex-1">
                                     <h3 className="text-lg font-semibold group-data-[state=open]:text-primary text-left">{projectKey}</h3>
                                 </AccordionTrigger>
@@ -449,6 +449,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
 
 
