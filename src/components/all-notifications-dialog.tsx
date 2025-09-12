@@ -96,7 +96,7 @@ export function AllNotificationsDialog() {
             </SheetTrigger>
             <SheetContent 
                 side="bottom"
-                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
             >
                 <SheetHeader className="p-6 border-b">
                     <SheetTitle className="flex items-center justify-between">
