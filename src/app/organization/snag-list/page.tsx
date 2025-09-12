@@ -92,7 +92,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
              isSelected && "bg-hover-bg"
         )}>
             {/* Title & Image */}
-            <div className="flex items-center gap-6 flex-1" onClick={() => onViewDetails(snag)}>
+            <div className="flex items-center gap-8 flex-1" onClick={() => onViewDetails(snag)}>
                 <Checkbox 
                     id={`select-${snag.id}`} 
                     className="w-6 h-6 rounded-full shrink-0 ml-2" 
@@ -156,7 +156,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <Separator />}
+        {!isLast && <Separator className="" />}
     </div>
 );
 
@@ -389,7 +389,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                 </div>
                             </div>
                             <AccordionContent>
-                                <div className="flex flex-col px-4 md:px-8">
+                                <div className="flex flex-col px-6 md:px-8">
                                     {projectData.snags.map((snag, snagIndex) => (
                                         <SnagCard 
                                             key={snag.id} 
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
