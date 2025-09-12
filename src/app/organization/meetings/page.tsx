@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
+import { Separator } from '@/components/ui/separator';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -83,12 +84,12 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = fa
                     <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black font-medium">{meeting.city}</span></p>
                 </div>
             </div>
-            <div className="w-px h-14 bg-stone-300 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
             <div className="flex flex-col gap-2 flex-1 md:pl-0">
                 <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                 <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
             </div>
-            <div className="w-px h-14 bg-stone-300 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden md:block" />
             <div className="flex-1 flex flex-col justify-between items-start md:pl-0">
                 <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                 <div className="flex items-center gap-2 text-lg">
@@ -113,7 +114,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isLast = fa
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <div className="h-px bg-stone-300" />}
+        {!isLast && <Separator />}
     </div>
 );
 
