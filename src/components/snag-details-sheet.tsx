@@ -194,23 +194,15 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
 
 
 export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate, startInEditMode = false }: SnagDetailsSheetProps) {
-  const isMobile = useIsMobile();
-
   if (!snag) return null;
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={onClose}>
-      <DialogOrSheetContent 
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent 
+          side="bottom"
           className={cn(
-            "p-0 bg-white border-stone-300",
-            isMobile 
-              ? "w-full h-full rounded-none border-none"
-              : "md:max-w-lg rounded-[20px]"
+            "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
           )}
-          {...(isMobile ? { side: "right" } : { side: "right" })}
           onInteractOutside={(e) => {
               if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
                   e.preventDefault();
@@ -218,7 +210,7 @@ export function SnagDetailsSheet({ isOpen, onClose, snag, onDelete, onUpdate, st
           }}
       >
           <SnagDetailsContent snag={snag} onClose={onClose} onDelete={onDelete} onUpdate={onUpdate} startInEditMode={startInEditMode} />
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 }
