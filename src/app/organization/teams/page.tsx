@@ -23,6 +23,68 @@ const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: str
     "default": { icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-gray-200/30" }
 };
 
+const initialRoles: Role[] = [
+    { 
+        name: "Super Admin", 
+        icon: <Shield className="w-6 h-6 text-black" />, 
+        bgColor: "bg-red-200/30",
+        admin: "Balaji Naik", 
+        active: 2, 
+        total: 2,
+        members: [
+            { id: '1', name: 'Balaji Naik', avatar: 'https://placehold.co/100x100', contact: 'balaji@habi.one | +91 9380032186', role: 'Super Admin', status: 'Active', lastActive: '6 hrs ago', email: 'balaji@habi.one'},
+            { id: '2', name: 'Anil Kumar', avatar: 'https://placehold.co/100x100', contact: 'anil@habi.one | +91 9876543210', role: 'Super Admin', status: 'Active', lastActive: '2 hrs ago', email: 'anil@habi.one' },
+        ]
+    },
+    { 
+        name: "Sales", 
+        icon: <Briefcase className="w-6 h-6 text-black" />, 
+        bgColor: "bg-yellow-400/30",
+        admin: "Balaji Naik", 
+        active: 3, 
+        total: 8,
+        members: [
+            { id: '3', name: 'Sales Person 1', avatar: 'https://placehold.co/100x100', contact: 'sales1@habi.one | +91 1111111111', role: 'Sales', status: 'Active', lastActive: '1 day ago', email: 'sales1@habi.one' },
+        ]
+    },
+    { 
+        name: "Software Development", 
+        icon: <Code className="w-6 h-6 text-black" />, 
+        bgColor: "bg-blue-300/30",
+        admin: "Balaji Naik", 
+        active: 12, 
+        total: 12,
+        members: []
+    },
+    { 
+        name: "Design", 
+        icon: <Palette className="w-6 h-6 text-black" />, 
+        bgColor: "bg-purple-300/30",
+        admin: "Balaji Naik", 
+        active: 4, 
+        total: 4,
+        members: []
+    },
+    { 
+        name: "Support & Feedback", 
+        icon: <Users className="w-6 h-6 text-black" />,
+        bgColor: "bg-green-300/30",
+        admin: "Balaji Naik", 
+        active: 20, 
+        total: 20,
+        members: []
+    },
+    { 
+        name: "Human Resources", 
+        icon: <Users className="w-6 h-6 text-black" />, 
+        bgColor: "bg-pink-300/30",
+        admin: "Balaji Naik", 
+        active: 0, 
+        total: 2,
+        members: []
+    },
+];
+
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         {/* Desktop View */}
@@ -113,8 +175,8 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-    const [roles, setRoles] = useState<Role[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [roles, setRoles] = useState<Role[]>(initialRoles);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const filteredRoles = useMemo(() => {
