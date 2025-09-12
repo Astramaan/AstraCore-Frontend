@@ -205,7 +205,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-0">
+                        <CardContent className="p-6">
                            {filteredClientMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -226,7 +226,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-0">
+                        <CardContent className="p-6">
                              {filteredLeadMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -315,6 +315,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
