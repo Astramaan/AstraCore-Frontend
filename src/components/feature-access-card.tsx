@@ -45,29 +45,28 @@ export const FeatureAccessCard = () => {
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 flex-grow">
-                    {allRoles.map((role, index) => (
-                        <React.Fragment key={role.name}>
-                            <div
-                                className={cn(
-                                    "group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2",
-                                    role.name === "Support & Feedback" && "rounded-bl-[25px]"
-                                )}
-                                onClick={() => handleRoleClick(role)}
-                            >
-                                <div className="flex justify-between items-center py-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                            {role.icon}
+                <CardContent className="px-6 flex-grow">
+                    <div className="flex flex-col">
+                        {allRoles.map((role, index) => (
+                            <React.Fragment key={role.name}>
+                                <div
+                                    className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
+                                    onClick={() => handleRoleClick(role)}
+                                >
+                                    <div className="flex justify-between items-center py-4">
+                                        <div className="flex items-center gap-4">
+                                            <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                                                {role.icon}
+                                            </div>
+                                            <p className="text-lg font-medium">{role.name}</p>
                                         </div>
-                                        <p className="text-lg font-medium">{role.name}</p>
+                                        <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                                     </div>
-                                    <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                                 </div>
-                            </div>
-                            {index < allRoles.length - 2 && <Separator />}
-                        </React.Fragment>
-                    ))}
+                                {index < allRoles.length - 1 && <Separator />}
+                            </React.Fragment>
+                        ))}
+                    </div>
                 </CardContent>
             </Card>
             <RolePermissionsDialog
