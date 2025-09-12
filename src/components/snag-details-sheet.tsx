@@ -81,8 +81,8 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
     
     return (
         <div className="flex flex-col h-full">
-            <DialogHeader className="p-4 border-b">
-                <DialogTitle className="flex items-center font-medium">
+            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <SheetTitle className="flex items-center text-2xl font-semibold">
                     {isEditing ? 'Edit Snag' : 'Snag Details'}
                     <div className="ml-auto flex items-center gap-2">
                         {isEditing ? (
@@ -112,16 +112,16 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <DialogClose asChild>
+                                <SheetClose asChild>
                                     <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                                         <X className="h-5 w-5" />
                                     </Button>
-                                </DialogClose>
+                                </SheetClose>
                             </>
                         )}
                     </div>
-                </DialogTitle>
-            </DialogHeader>
+                </SheetTitle>
+            </SheetHeader>
 
             <ScrollArea className="flex-1">
                 <div className="p-6 space-y-6">
