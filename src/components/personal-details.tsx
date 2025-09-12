@@ -12,7 +12,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
 import {
@@ -33,7 +32,6 @@ import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { updateUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
-import { useIsMobile } from '@/hooks/use-mobile';
 import {
   Sheet,
   SheetContent,
@@ -61,7 +59,7 @@ interface PersonalDetailsProps {
     memberId: string;
 }
 
-const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialMemberData, onSave: (data: typeof initialMemberData) => void, onCancel: () => void }) => {
+const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: typeof initialMemberData, onSave: (data: typeof initialMemberData) => void, onCancel: () => void }) => {
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
@@ -185,7 +183,9 @@ const EditProfileForm = ({ member, onSave, onCancel }: { member: typeof initialM
             </AlertDialog>
         </form>
     );
-};
+});
+
+EditProfileForm.displayName = 'EditProfileForm';
 
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const [member, setMember] = useState(initialMemberData);
@@ -198,7 +198,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     
     const handleOpenChange = (open: boolean) => {
         if (!open) {
-            setMember(initialMemberData);
+            // Do not reset member data here to avoid losing state during role change confirmation
         }
         setIsEditing(open);
     }
@@ -301,3 +301,5 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         </DialogOrSheet>
     );
 }
+
+    
