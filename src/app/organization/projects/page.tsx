@@ -72,7 +72,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator className="md:hidden" />}
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -208,8 +208,3 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
-
-
-
-
-
