@@ -30,8 +30,8 @@ import { cn } from "@/lib/utils";
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-2 -mx-2",
-            isFirst && "md:hover:rounded-tl-[40px] md:hover:rounded-tr-[40px]",
-            isLast && "md:hover:rounded-bl-[40px] md:hover:rounded-br-[40px]",
+            isFirst && "hover:rounded-t-[40px]",
+            isLast && "hover:rounded-b-[40px]",
         )}>
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
