@@ -35,7 +35,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { projec
                     <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                    <p className="text-xl font-semibold text-black group-hover:text-primary">{project.name}</p>
+                    <p className="text-xl font-semibold text-black">{project.name}</p>
                     <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
                 </div>
             </Link>
@@ -208,6 +208,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
+
 
 
 
