@@ -106,7 +106,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
-            <div className="flex-1 md:pl-16">
+            <div className="flex-1 md:pl-10">
                 <div className="flex flex-col gap-2">
                     <p className="text-lg text-left"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
@@ -323,6 +323,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
