@@ -150,7 +150,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <Separator className="mx-10" />}
+        {!isLast && <Separator />}
     </div>
 );
 
