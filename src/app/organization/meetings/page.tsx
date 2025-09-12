@@ -24,6 +24,8 @@ import {
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -77,56 +79,58 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 )
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
-     <div className="flex flex-col">
-        <div className={cn("py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-6",
-            "grid md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center",
-            isFirst && "hover:rounded-t-[25px]",
-            isLast && "hover:rounded-b-[25px]",
-        )} onClick={() => onViewDetails(meeting)}>
-            {/* Column 1: Name & City */}
-            <div className="flex flex-col gap-2">
-                <p className="text-lg"><span className="text-grey-1">Name: </span><span className="text-black font-medium">{meeting.name}</span></p>
-                <p className="text-lg"><span className="text-grey-1">City: </span><span className="text-black font-medium">{meeting.city}</span></p>
+     <div className="flex flex-col group">
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+             isFirst && "hover:rounded-t-[30px]",
+             isLast && "hover:rounded-b-[30px]",
+        )}>
+            <div onClick={() => onViewDetails(meeting)} className="flex items-center gap-4 flex-1 cursor-pointer">
+                <Avatar className="w-14 h-14 shrink-0">
+                    <AvatarImage src={'https://placehold.co/59x59'} data-ai-hint="abstract building" />
+                    <AvatarFallback>{meeting.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                    <p className="text-xl font-semibold text-black">{meeting.name}</p>
+                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
+                </div>
             </div>
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
             
-            {/* Column 2: Contact & ID */}
-            <div className="flex flex-col gap-2 md:pl-6">
-                <p className="text-lg whitespace-nowrap overflow-hidden text-ellipsis"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
+            <div className="flex-[1.5] md:pl-6">
+                 <div className="flex flex-col gap-2">
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="zinc-900">{meeting.id}</span></p>
+                </div>
             </div>
             
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
-            {/* Column 3: Date, Link & Actions */}
-            <div className="flex items-center justify-between md:pl-6">
-                <div className="flex flex-col justify-between items-start">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                    <div className="flex items-center gap-2 text-lg">
-                        <span className="text-grey-2">Link: </span> 
-                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
-                            <GoogleMeetIcon className="w-6 h-6" />
-                            Google Meet
-                        </a>
-                    </div>
-                </div>
-                <div className="ml-auto self-center" onClick={(e) => e.stopPropagation()}>
-                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
-                            <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+            <div className="flex-1 md:pl-16">
+                <div className="flex flex-col gap-2">
+                    <p className="text-lg text-left"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
+                        <GoogleMeetIcon className="w-6 h-6" />
+                        Google Meet
+                    </a>
                 </div>
             </div>
+
+            <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
         </div>
-        {!isLast && <Separator className="md:mx-6"/>}
+        {!isLast && <Separator />}
     </div>
 );
 
@@ -193,7 +197,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
             {/* Desktop View */}
             <div className="hidden md:block space-y-8">
                  <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-medium text-zinc-900">Client Meetings</h2>
+                    <h2 className="text-xl text-black font-medium">Client Meetings</h2>
                      <div className="flex items-center gap-4 w-full md:w-auto">
                         <div className="relative w-full md:w-64">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
@@ -209,7 +213,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-0">
+                        <CardContent className="p-6">
                            {filteredClientMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -226,11 +230,11 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
 
                  <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-medium text-zinc-900">Lead Meetings</h2>
+                    <h2 className="text-xl text-black font-medium">Lead Meetings</h2>
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-0">
+                        <CardContent className="p-6">
                              {filteredLeadMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -319,6 +323,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
