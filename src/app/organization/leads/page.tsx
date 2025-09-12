@@ -120,10 +120,6 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                     onClick={(e) => e.stopPropagation()}
                 />
-                 <Avatar className="w-14 h-14 shrink-0">
-                    <AvatarImage src={lead.profileImage} data-ai-hint="person portrait" />
-                    <AvatarFallback>{lead.fullName.charAt(0)}</AvatarFallback>
-                </Avatar>
                 <div className="flex-1">
                     <p className="text-xl font-semibold text-black">{lead.fullName}</p>
                     <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
@@ -424,7 +420,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.leadId)
+                      onDeleteFromDetails(selectedLeadDetails.id)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -435,3 +431,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
