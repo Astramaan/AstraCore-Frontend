@@ -114,7 +114,7 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
               </button>
             </div>
             <div className="text-right pt-1">
-               <Link href="/forgot-password" className="text-sm text-grey-1 underline">
+               <Link href="/forgot-password" className="text-sm text-grey-1 underline hover:text-primary">
                   Forgot current password?
               </Link>
             </div>
