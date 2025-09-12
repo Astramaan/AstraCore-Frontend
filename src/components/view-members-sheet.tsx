@@ -79,7 +79,7 @@ const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (m
                            <p className="text-lg font-medium">{member.name}</p>
                         </Link>
                         <div className="md:hidden mt-2 space-y-1 text-sm">
-                            <p><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
+                            <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
                             <p><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
                             <p><span className="text-grey-1">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
                             <p><span className="text-grey-1">Last Active: </span>
@@ -92,7 +92,7 @@ const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (m
                 </div>
 
                 <div className="hidden md:flex flex-col gap-2 flex-1">
-                    <p className="text-lg"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
+                    <p className="text-lg whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
                     <p className="text-lg"><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
                 </div>
 
