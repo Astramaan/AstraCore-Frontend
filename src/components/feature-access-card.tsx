@@ -47,9 +47,12 @@ export const FeatureAccessCard = () => {
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 flex-grow">
                     {allRoles.map((role, index) => (
-                        <div key={role.name}>
+                        <React.Fragment key={role.name}>
                             <div
-                                className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
+                                className={cn(
+                                    "group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2",
+                                    role.name === "Support & Feedback" && "rounded-bl-[25px]"
+                                )}
                                 onClick={() => handleRoleClick(role)}
                             >
                                 <div className="flex justify-between items-center py-4">
@@ -63,7 +66,7 @@ export const FeatureAccessCard = () => {
                                 </div>
                             </div>
                             {index < allRoles.length - 2 && <Separator />}
-                        </div>
+                        </React.Fragment>
                     ))}
                 </CardContent>
             </Card>
