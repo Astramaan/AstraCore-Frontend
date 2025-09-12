@@ -79,11 +79,11 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
-        <div className={cn("hidden md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] md:items-center py-6 gap-x-4 cursor-pointer hover:bg-hover-bg px-4",
+        <div className={cn("hidden md:flex md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
-            <div onClick={() => onViewDetails(meeting)} className="flex items-center gap-4 cursor-pointer">
+            <div onClick={() => onViewDetails(meeting)} className="flex items-center gap-4 flex-1 cursor-pointer">
                 <div className="flex-1">
                     <p className="text-xl font-semibold text-black">{meeting.name}</p>
                     <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
@@ -92,7 +92,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <Separator orientation="vertical" className="h-14" />
             
-            <div className="pl-6">
+            <div className="flex-[1.5] md:pl-8">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                     <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="zinc-900">{meeting.id}</span></p>
@@ -101,7 +101,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <Separator orientation="vertical" className="h-14" />
 
-            <div className="pl-10">
+            <div className="flex-1 md:pl-10">
                 <div className="flex flex-col gap-2">
                     <p className="text-lg text-left whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
@@ -349,6 +349,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
