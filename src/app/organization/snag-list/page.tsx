@@ -101,7 +101,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     onClick={(e) => e.stopPropagation()}
                 />
                 <Image src={snag.images[0]} width={64} height={64} alt={snag.title} className="rounded-lg object-cover w-16 h-16 shrink-0" data-ai-hint="defect photo" />
-                <div className="flex flex-col gap-1 w-full md:pl-4">
+                <div className="flex flex-col gap-1 w-full md:pl-6">
                     <p className="font-medium text-lg text-black">{snag.title}</p>
                     <p className="text-sm text-grey-1 line-clamp-2">{snag.description}</p>
                 </div>
@@ -195,7 +195,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
     const [allSnags, setAllSnags] = useState(allSnagsData);
     const [selectedSnags, setSelectedSnags] = useState<string[]>([]);
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
@@ -475,6 +475,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
 
