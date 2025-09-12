@@ -131,7 +131,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="flex-[1.5] md:pl-6" onClick={() => onViewDetails(lead)}>
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">Lead ID: </span><span className="zinc-900">{lead.leadId}</span></p>
+                    <p className="text-lg"><span className="zinc-900">{lead.leadId}</span></p>
                 </div>
             </div>
             
@@ -431,4 +431,5 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
 
