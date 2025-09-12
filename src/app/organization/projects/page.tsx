@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -56,8 +56,8 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
 
             <div className="flex-1 md:pl-0 pl-16">
                 <div className="flex flex-col gap-2">
-                    <p className="text-lg"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+                    <p className="text-lg text-left"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
+                    <p className="text-lg text-left"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
                 </div>
             </div>
 
