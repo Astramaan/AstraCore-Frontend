@@ -114,16 +114,11 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
 
     return (
         <div className="flex flex-col h-full">
-            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
                 <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
                     <span className="flex-1 text-left">{isEditing ? 'Edit Lead Details' : 'Lead Details'}</span>
                     <div className="flex items-center gap-2">
-                        {isEditing ? (
-                            <>
-                                 <Button variant="ghost" onClick={handleCancel} className="rounded-full">Cancel</Button>
-                                 <Button onClick={handleSave} className="rounded-full"><Save className="mr-2 h-4 w-4" /> Save</Button>
-                            </>
-                        ) : (
+                        {!isEditing && (
                             <>
                                  <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -237,7 +232,12 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                     </div>
                 </div>
             </ScrollArea>
-             {!isEditing && (
+             {isEditing ? (
+                <div className="p-4 border-t mt-auto flex justify-end gap-2 shrink-0">
+                    <Button variant="outline" onClick={handleCancel} className="rounded-full h-14 px-10 text-lg">Cancel</Button>
+                    <Button onClick={handleSave} className="rounded-full h-14 px-10 text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                </div>
+             ) : (
                 <div className="p-4 border-t mt-auto flex justify-end">
                     <Button className="w-full md:w-auto h-[54px] text-base md:px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 font-medium">Request 1% Token</Button>
                 </div>
