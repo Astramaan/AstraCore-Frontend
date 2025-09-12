@@ -46,7 +46,7 @@ export const FeatureAccessCard = () => {
                     </div>
                 </CardHeader>
                 <CardContent className="px-6 flex-grow">
-                    <div className="flex flex-col">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                         {allRoles.map((role, index) => (
                             <React.Fragment key={role.name}>
                                 <div
@@ -63,7 +63,9 @@ export const FeatureAccessCard = () => {
                                         <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </div>
-                                {index < allRoles.length - 1 && <Separator />}
+                                <div className="md:hidden">
+                                  {index < allRoles.length - 1 && <Separator />}
+                                </div>
                             </React.Fragment>
                         ))}
                     </div>
