@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { X, Calendar as CalendarIcon, Edit, Check, ChevronsUpDown } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
@@ -293,44 +292,33 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
 
 
 export function EditMeetingSheet({ isOpen, onClose, meeting, onMeetingUpdated }: EditMeetingSheetProps) {
-  const isMobile = useIsMobile();
-
   if (!meeting) return null;
 
-  const DialogOrSheet = isMobile ? Sheet : Dialog;
-  const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={onClose}>
-      <DialogOrSheetContent 
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent 
+          side="bottom"
           className={cn(
-            "bg-white",
-            isMobile 
-              ? "w-full p-0 rounded-t-[50px]" 
-              : "sm:max-w-2xl p-0 rounded-[50px]"
+            "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
           )}
-          {...(isMobile && { side: "bottom" })}
       >
-          <DialogOrSheetHeader className="p-6 border-b">
-              <DialogOrSheetTitle className="flex items-center text-2xl font-semibold">
+          <SheetHeader className="p-6 border-b">
+              <SheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
                     <Edit className="h-6 w-6 text-black"/>
                   </div>
                   Edit Meeting
                   <div className="flex items-center gap-4 ml-auto">
-                      <DialogOrSheetClose asChild>
+                      <SheetClose asChild>
                         <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                             <X className="h-6 w-6" />
                         </Button>
-                      </DialogOrSheetClose>
+                      </SheetClose>
                   </div>
-              </DialogOrSheetTitle>
-          </DialogOrSheetHeader>
+              </SheetTitle>
+          </SheetHeader>
           <EditMeetingForm meeting={meeting} onMeetingUpdated={onMeetingUpdated} onClose={onClose}/>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 }
