@@ -16,7 +16,6 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const { toast } = useToast();
-    const isMobile = useIsMobile();
     
     const handleOpenChange = (open: boolean) => {
         if (!open) {
@@ -42,22 +41,24 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
         </Button>
     )
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetTrigger = SheetTrigger;
+    const DialogOrSheetContent = SheetContent;
+    const DialogOrSheetHeader = SheetHeader;
+    const DialogOrSheetTitle = SheetTitle;
+    const DialogOrSheetClose = SheetClose;
 
     return (
         <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
             <DialogOrSheetTrigger asChild>
                 {trigger || defaultTrigger}
             </DialogOrSheetTrigger>
-            <DialogOrSheetContent className={cn(
-                "p-0 flex flex-col bg-white",
-                isMobile ? "w-full h-full rounded-none" : "sm:max-w-md rounded-[50px]"
-            )}>
+            <DialogOrSheetContent 
+                side="bottom"
+                className={cn(
+                    "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+                )}
+            >
                  <DialogOrSheetHeader className="p-6 border-b">
                     <DialogOrSheetTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">
@@ -91,4 +92,3 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
         </DialogOrSheet>
     );
 };
-
