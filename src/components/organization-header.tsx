@@ -47,7 +47,7 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="text-[40px] font-bold text-zinc-900">
+                    <h2 className="text-2xl md:text-[40px] font-semibold md:font-bold text-zinc-900">
                         {pageTitle}
                     </h2>
                 </>
