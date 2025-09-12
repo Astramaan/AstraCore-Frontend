@@ -118,7 +118,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                 <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
                     <span className="flex-1 text-left">{isEditing ? 'Edit Lead Details' : 'Lead Details'}</span>
                     <div className="flex items-center gap-2">
-                        {!isEditing && (
+                        {!isEditing ? (
                             <>
                                  <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -137,6 +137,12 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                                     </Button>
                                 </SheetClose>
                             </>
+                        ) : (
+                             <SheetClose asChild>
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full" onClick={handleCancel}>
+                                    <X className="h-5 w-5" />
+                                </Button>
+                            </SheetClose>
                         )}
                     </div>
                 </SheetTitle>
@@ -233,9 +239,9 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                 </div>
             </ScrollArea>
              {isEditing ? (
-                <div className="p-4 border-t mt-auto flex justify-end gap-2 shrink-0">
-                    <Button variant="outline" onClick={handleCancel} className="rounded-full h-14 px-10 text-lg">Cancel</Button>
-                    <Button onClick={handleSave} className="rounded-full h-14 px-10 text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                <div className="p-4 border-t mt-auto flex flex-col md:flex-row-reverse justify-end gap-2 shrink-0">
+                    <Button onClick={handleSave} className="w-full md:w-auto rounded-full h-14 px-10 text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                    <Button variant="outline" onClick={handleCancel} className="w-full md:w-auto rounded-full h-14 px-10 text-lg">Cancel</Button>
                 </div>
              ) : (
                 <div className="p-4 border-t mt-auto flex justify-end">
