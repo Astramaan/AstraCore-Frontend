@@ -20,20 +20,23 @@ const allRoles: RoleData[] = [
 ];
 
 const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
-    <div 
-        className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
-        onClick={onClick}
-    >
-        <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-4">
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                    {role.icon}
+    <>
+        <div 
+            className="group cursor-pointer hover:bg-muted/50 rounded-lg"
+            onClick={onClick}
+        >
+            <div className="flex justify-between items-center py-4">
+                <div className="flex items-center gap-4">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                        {role.icon}
+                    </div>
+                    <p className="text-lg font-medium">{role.name}</p>
                 </div>
-                <p className="text-lg font-medium">{role.name}</p>
+                <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>
-    </div>
+        <Separator className="last-of-type:hidden" />
+    </>
 );
 
 export const FeatureAccessCard = () => {
@@ -59,8 +62,12 @@ export const FeatureAccessCard = () => {
                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                             <Users className="h-6 w-6"/>
                         </div>
-                        <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
+                        <CardTitle className="text-2xl font-semibold">Role Access</CardTitle>
                     </div>
+                     <Button variant="outline" className="rounded-full h-12 px-6" onClick={() => setIsCreateRoleDialogOpen(true)}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create Role
+                    </Button>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 px-6 pt-0 flex-grow">
                     {allRoles.map((role) => (
