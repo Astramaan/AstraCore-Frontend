@@ -24,11 +24,15 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
 
-const ProjectListItem = ({ project, onEdit, onDelete, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isLast?: boolean }) => (
+const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg rounded-lg px-2 -mx-2">
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 cursor-pointer hover:bg-hover-bg px-2 -mx-2",
+            isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
+            isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]",
+        )}>
             <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 flex-1">
                 <Avatar className="w-14 h-14 shrink-0">
                     <AvatarImage src={project.image} data-ai-hint="abstract building" />
@@ -170,7 +174,14 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                 <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {activeProjects.map((project, index) => (
-                            <ProjectListItem key={project.id} project={project} onEdit={handleEdit} onDelete={handleDeleteClick} isLast={index === activeProjects.length - 1} />
+                            <ProjectListItem 
+                                key={project.id} 
+                                project={project} 
+                                onEdit={handleEdit} 
+                                onDelete={handleDeleteClick} 
+                                isFirst={index === 0}
+                                isLast={index === activeProjects.length - 1} 
+                            />
                         ))}
                     </CardContent>
                 </Card>
@@ -181,7 +192,14 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                  <Card className="rounded-[50px]">
                     <CardContent className="p-4 md:p-6">
                         {completedProjects.map((project, index) => (
-                            <ProjectListItem key={project.id} project={project} onEdit={handleEdit} onDelete={handleDeleteClick} isLast={index === completedProjects.length - 1} />
+                            <ProjectListItem 
+                                key={project.id} 
+                                project={project} 
+                                onEdit={handleEdit} 
+                                onDelete={handleDeleteClick} 
+                                isFirst={index === 0}
+                                isLast={index === completedProjects.length - 1} 
+                            />
                         ))}
                     </CardContent>
                 </Card>
