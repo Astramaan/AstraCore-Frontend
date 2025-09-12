@@ -138,7 +138,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <Separator orientation="vertical" className="h-14 hidden md:block" />
 
             <div className="flex-1 md:pl-6 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                              <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-auto justify-between hover:bg-primary/10 hover:text-primary">
@@ -435,6 +435,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
 
 
 
