@@ -78,7 +78,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-2 -mx-2",
+        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg px-6",
             isFirst && "hover:rounded-tl-[25px] hover:rounded-tr-[25px]",
             isLast && "hover:rounded-bl-[25px] hover:rounded-br-[25px]",
         )} onClick={() => onViewDetails(meeting)}>
@@ -89,7 +89,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </div>
             </div>
             <Separator orientation="vertical" className="h-14 hidden md:block" />
-            <div className="flex-1">
+            <div className="flex-1 md:px-6">
                 <div className="flex flex-col gap-2 flex-1 md:pl-0">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
                     <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="text-zinc-900">{meeting.id}</span></p>
@@ -97,7 +97,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
             <Separator orientation="vertical" className="h-14 hidden md:block" />
             <div className="flex-1 flex justify-between items-center">
-                <div className="flex-1 flex flex-col justify-between items-start md:pl-0">
+                <div className="flex-1 flex flex-col justify-between items-start md:pl-6">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
                     <div className="flex items-center gap-2 text-lg">
                         <span className="text-grey-2">Link: </span> 
@@ -205,7 +205,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-4 md:p-6">
+                        <CardContent className="p-0">
                            {filteredClientMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
@@ -226,7 +226,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
                 </div>
                 <div>
                     <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-4 md:p-6">
+                        <CardContent className="p-0">
                              {filteredLeadMeetings.map((meeting, index) => (
                                 <MeetingListItem 
                                     key={meeting.id} 
