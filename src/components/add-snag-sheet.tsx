@@ -4,13 +4,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ import { Plus, X, Camera, Image as ImageIcon } from "lucide-react";
 import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { cn } from '@/lib/utils';
+import { ScrollArea } from './ui/scroll-area';
 
 const activeProjects = [
     { id: "CHA2024", name: "Charan Project" },
@@ -55,69 +56,71 @@ const AddSnagForm = ({ onFormSuccess, selectedProjectId }: { onFormSuccess: () =
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-150px)] no-scrollbar">
-                <div className="space-y-2">
-                    <Label htmlFor="project-select" className={cn("text-lg font-medium", project ? "text-grey-1" : "text-black")}>Project*</Label>
-                    <Select value={project} onValueChange={setProject}>
-                        <SelectTrigger id="project-select" className="bg-background rounded-full h-12">
-                            <SelectValue placeholder="Select a project" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {activeProjects.map(project => (
-                                <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <ScrollArea className="flex-1 p-6 no-scrollbar">
+                <div className="space-y-6">
+                    <div className="space-y-2">
+                        <Label htmlFor="project-select" className={cn("text-lg font-medium", project ? "text-grey-1" : "text-black")}>Project*</Label>
+                        <Select value={project} onValueChange={setProject}>
+                            <SelectTrigger id="project-select" className="bg-background rounded-full h-12">
+                                <SelectValue placeholder="Select a project" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {activeProjects.map(project => (
+                                    <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="snag-title" className={cn("text-lg font-medium", title ? "text-grey-1" : "text-black")}>Snag Title*</Label>
+                        <Input id="snag-title" placeholder="Enter a title for the snag" className="bg-background rounded-full h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="snag-description" className={cn("text-lg font-medium", description ? "text-grey-1" : "text-black")}>Description</Label>
+                        <Textarea id="snag-description" placeholder="Describe the issue in detail" className="bg-background rounded-2xl" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label className="text-lg font-medium text-black">Attach Photos/Videos</Label>
+                        <div className="grid grid-cols-3 gap-4">
+                            {images.map((src, index) => (
+                                <div key={index} className="relative w-full aspect-square">
+                                    <Image src={src} alt={`upload-preview-${index}`} layout="fill" className="rounded-lg object-cover" />
+                                    <Button
+                                        type="button"
+                                        size="icon"
+                                        variant="destructive"
+                                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                                        onClick={() => handleRemoveImage(index)}
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="snag-title" className={cn("text-lg font-medium", title ? "text-grey-1" : "text-black")}>Snag Title*</Label>
-                    <Input id="snag-title" placeholder="Enter a title for the snag" className="bg-background rounded-full h-12" value={title} onChange={(e) => setTitle(e.target.value)} />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="snag-description" className={cn("text-lg font-medium", description ? "text-grey-1" : "text-black")}>Description</Label>
-                    <Textarea id="snag-description" placeholder="Describe the issue in detail" className="bg-background rounded-2xl" value={description} onChange={(e) => setDescription(e.target.value)} />
-                </div>
-                <div className="space-y-2">
-                    <Label className="text-lg font-medium text-black">Attach Photos/Videos</Label>
-                    <div className="grid grid-cols-3 gap-4">
-                        {images.map((src, index) => (
-                            <div key={index} className="relative w-full aspect-square">
-                                <Image src={src} alt={`upload-preview-${index}`} layout="fill" className="rounded-lg object-cover" />
-                                <Button
-                                    type="button"
-                                    size="icon"
-                                    variant="destructive"
-                                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
-                                    onClick={() => handleRemoveImage(index)}
-                                >
-                                    <X className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        ))}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                         <Button type="button" variant="outline" className="flex-1 rounded-full" onClick={() => fileInputRef.current?.click()}>
+                            <ImageIcon className="mr-2" />
+                            Upload
+                        </Button>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            className="hidden"
+                            accept="image/*"
+                            multiple
+                            onChange={handleImageUpload}
+                        />
+                        <Button type="button" variant="outline" className="flex-1 rounded-full">
+                            <Camera className="mr-2" />
+                            Take Photo
+                        </Button>
                     </div>
                 </div>
-
-                <div className="flex gap-4">
-                     <Button type="button" variant="outline" className="flex-1 rounded-full" onClick={() => fileInputRef.current?.click()}>
-                        <ImageIcon className="mr-2" />
-                        Upload
-                    </Button>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        className="hidden"
-                        accept="image/*"
-                        multiple
-                        onChange={handleImageUpload}
-                    />
-                    <Button type="button" variant="outline" className="flex-1 rounded-full">
-                        <Camera className="mr-2" />
-                        Take Photo
-                    </Button>
-                </div>
-            </div>
-            <div className="px-6 py-4 border-t">
+            </ScrollArea>
+            <div className="p-6 mt-auto border-t md:border-0">
                 <Button type="submit" className="w-full rounded-full h-[54px]">Report Snag</Button>
             </div>
         </form>
@@ -146,21 +149,31 @@ export function AddSnagSheet({ isOpen, onOpenChange, selectedProjectId, trigger 
   );
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild>{Trigger}</DialogTrigger>
-        <DialogContent className="sm:max-w-md p-0 rounded-lg bg-card">
-            <DialogHeader className="p-4 border-b">
-                <DialogTitle className="flex justify-between items-center text-2xl font-semibold">
-                    Report a New Snag
-                    <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="rounded-full">
-                            <X className="h-4 w-4" />
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+        <SheetTrigger asChild>{Trigger}</SheetTrigger>
+        <SheetContent 
+            side="bottom"
+            className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+        >
+            <SheetHeader className="p-6 border-b">
+                <SheetTitle className="flex justify-between items-center">
+                    <span className="flex items-center text-2xl font-semibold">
+                         <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
+                            <Plus className="h-6 w-6 text-black"/>
+                        </div>
+                        Report a New Snag
+                    </span>
+                    <SheetClose asChild>
+                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                            <X className="h-6 w-6" />
                         </Button>
-                    </DialogClose>
-                </DialogTitle>
-            </DialogHeader>
-            <AddSnagForm onFormSuccess={handleSuccess} selectedProjectId={selectedProjectId} />
-        </DialogContent>
-    </Dialog>
+                    </SheetClose>
+                </SheetTitle>
+            </SheetHeader>
+            <div className="flex-1 flex flex-col overflow-hidden">
+                <AddSnagForm onFormSuccess={handleSuccess} selectedProjectId={selectedProjectId} />
+            </div>
+        </SheetContent>
+    </Sheet>
   );
 }
