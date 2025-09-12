@@ -8,9 +8,6 @@ import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { ProjectMaterialsCard } from '@/components/project-materials-card';
 import { TimelineDialog } from '@/components/timeline-dialog';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { getProjectDetails, Project } from '@/lib/data';
 import { AddProjectSheet } from '@/components/add-project-sheet';
@@ -28,6 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/app/actions";
 import { ShieldAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 
 
 const mockProject = {

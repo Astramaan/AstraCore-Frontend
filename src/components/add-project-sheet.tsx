@@ -710,13 +710,14 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
 };
 
 interface AddProjectSheetProps {
+    trigger?: React.ReactNode;
     onProjectAdded: (project: Project) => void;
     onProjectUpdated: (project: Project) => void;
     projectToEdit: Project | null;
     onOpenChange: (isOpen: boolean) => void;
 }
 
-export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdated, onOpenChange }: AddProjectSheetProps) {
+export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProjectUpdated, onOpenChange }: AddProjectSheetProps) {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -767,16 +768,20 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
         : step === 1
         ? 'Add New Project'
         : 'Project Timeline';
+        
+    const DefaultTrigger = (
+        <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
+            <PlusCircle className="mr-2 h-5 w-5" />
+            Add Project
+        </Button>
+    );
 
     return (
         <>
             <DialogOrSheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
                 {!isEditMode && (
                     <DialogOrSheetTrigger asChild>
-                        <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
-                            <PlusCircle className="mr-2 h-5 w-5" />
-                            Add Project
-                        </Button>
+                        {trigger || DefaultTrigger}
                     </DialogOrSheetTrigger>
                 )}
                 <DialogOrSheetContent
@@ -823,4 +828,3 @@ export function AddProjectSheet({ onProjectAdded, projectToEdit, onProjectUpdate
         </>
     );
 }
-
