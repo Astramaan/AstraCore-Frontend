@@ -197,9 +197,6 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     };
     
     const handleOpenChange = (open: boolean) => {
-        if (!open) {
-            // Do not reset member data here to avoid losing state during role change confirmation
-        }
         setIsEditing(open);
     }
     
