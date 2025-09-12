@@ -105,7 +105,7 @@ const leadsData: Lead[] = [
 
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void }) => (
     <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-muted/50 rounded-lg px-2 -mx-2" onClick={() => onViewDetails(lead)}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4 group cursor-pointer hover:bg-hover-bg rounded-lg px-2 -mx-2" onClick={() => onViewDetails(lead)}>
             <div className="flex items-center gap-4 flex-1">
                 <Checkbox 
                     id={`select-${lead.leadId}`} 
@@ -132,7 +132,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="flex items-center gap-4 pl-10 md:pl-0" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
+                        <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-48 justify-between hover:bg-primary/10 hover:text-primary border-black">
                             {lead.level}
                             <ChevronDown />
                         </Button>
