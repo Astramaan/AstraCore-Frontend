@@ -21,21 +21,19 @@ const allRoles: RoleData[] = [
 
 const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void; }) => (
     <div 
-        className="group cursor-pointer hover:bg-muted/50 rounded-lg"
+        className="group cursor-pointer hover:bg-muted/50 rounded-lg px-2"
         onClick={onClick}
     >
-        <div className={cn("flex justify-between items-center")}>
+        <div className="flex justify-between items-center py-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
                     {role.icon}
                 </div>
                 <p className="text-lg font-medium">{role.name}</p>
             </div>
-            <div className="flex items-center gap-4">
-                <Separator orientation="vertical" className="h-8" />
-                <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
-            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
         </div>
+        <Separator/>
     </div>
 );
 
