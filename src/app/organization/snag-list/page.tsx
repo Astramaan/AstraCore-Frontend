@@ -428,7 +428,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                             <div className="flex justify-between items-center w-full group px-6 md:px-8 py-6" onClick={(e) => e.stopPropagation()}>
+                             <div className="flex justify-between items-center w-full group p-8" onClick={(e) => e.stopPropagation()}>
                                 <AccordionTrigger className="w-full hover:no-underline p-0 flex-1">
                                     <h3 className="text-lg font-semibold group-data-[state=open]:text-primary text-left">{projectKey}</h3>
                                 </AccordionTrigger>
@@ -535,4 +535,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
 
