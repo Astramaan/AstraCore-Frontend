@@ -14,6 +14,7 @@ import LockIcon from "./icons/lock";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
+import { CheckCircle2 } from "lucide-react";
 
 async function loginUser(prevState: any, formData: FormData): Promise<{ message?: string, success?: boolean, user?: { role: string} }> {
   try {
@@ -58,7 +59,6 @@ export default function AuthForm() {
     if (state.success === true) {
       toast({
         variant: "success",
-        title: "Login Successful",
         description: state.message || "Redirecting to your dashboard...",
       });
       
@@ -70,7 +70,6 @@ export default function AuthForm() {
     } else if (state.success === false) {
        toast({
         variant: "destructive",
-        title: "Login Failed",
         description: state.message || "An unknown error occurred.",
       });
     }
