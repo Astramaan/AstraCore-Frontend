@@ -201,12 +201,12 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 md:grid md:grid-cols-2 md:gap-4 md:items-center">
-                <div className="md:col-span-1">
+            <div className="mt-4 md:flex md:justify-between md:items-start">
+                <div className="md:pl-[80px]">
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
                 </div>
-                 <div className="md:col-span-1 flex md:justify-end mt-2 md:mt-0">
+                 <div className="mt-2 md:mt-0">
                      <div className="flex flex-col gap-1 items-start md:text-right">
                         <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                         <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -535,6 +535,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
 
 
 
