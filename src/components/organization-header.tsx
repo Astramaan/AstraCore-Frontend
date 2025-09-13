@@ -47,17 +47,17 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden lg:block" />
-                    <h2 className="hidden md:block text-2xl font-semibold text-zinc-900">
+                    <h2 className="text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900">
                         {pageTitle}
                     </h2>
                 </>
              )}
         </div>
-        <div className="hidden md:flex items-center gap-2 lg:gap-6 w-full md:w-auto">
+        <div className="hidden md:flex items-center gap-2 lg:gap-4 w-full md:w-auto">
             <NotificationPopover />
             <Link href="/organization/teams">
               <Button className={cn(
-                  "rounded-full h-12 md:h-14 px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
+                  "rounded-full h-12 lg:h-14 px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <TeamIcon className="mr-2 h-6 w-6"/>
@@ -65,13 +65,13 @@ export const OrganizationHeader = () => {
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
-                <Avatar className="h-12 w-12 md:h-14 md:w-14">
+                <Avatar className="h-12 w-12 lg:h-14 lg:w-14">
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
                 </Avatar>
-                <div className="hidden md:block">
-                    <p className="text-base md:text-lg font-medium">Balaji Naik</p>
-                    <p className="text-sm md:text-base text-grey-2">Super Admin</p>
+                <div className="hidden lg:block">
+                    <p className="text-base lg:text-lg font-medium">Balaji Naik</p>
+                    <p className="text-sm lg:text-base text-grey-2">Super Admin</p>
                 </div>
             </Link>
         </div>
