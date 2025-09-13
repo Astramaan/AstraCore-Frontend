@@ -53,11 +53,11 @@ export const OrganizationHeader = () => {
                 </>
              )}
         </div>
-        <div className="hidden md:flex items-center gap-2 md:gap-6 w-full md:w-auto">
+        <div className="hidden md:flex items-center gap-2 lg:gap-6 w-full md:w-auto">
             <NotificationPopover />
             <Link href="/organization/teams">
               <Button className={cn(
-                  "rounded-full h-12 md:h-14 px-4 md:px-10 text-base md:text-lg font-medium flex items-center",
+                  "rounded-full h-12 md:h-14 px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <TeamIcon className="mr-2 h-6 w-6"/>
@@ -69,7 +69,7 @@ export const OrganizationHeader = () => {
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
                 </Avatar>
-                <div className="hidden sm:block">
+                <div className="hidden lg:block">
                     <p className="text-base md:text-lg font-medium">Balaji Naik</p>
                     <p className="text-sm md:text-base text-grey-2">Super Admin</p>
                 </div>
