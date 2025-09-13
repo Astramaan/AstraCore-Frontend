@@ -79,7 +79,8 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
-        <div className={cn("hidden md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+        {/* Desktop View */}
+        <div className={cn("hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -126,8 +127,8 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
         </div>
 
-        {/* Mobile View remains a flex layout */}
-        <div className="md:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
+        {/* Mobile & Tablet View */}
+        <div className="lg:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
              <div className="flex justify-between items-start">
                 <div>
                     <p className="text-xl font-semibold text-black">{meeting.name}</p>
@@ -220,96 +221,60 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
     return (
         <div className="space-y-8">
-            {/* Desktop View */}
-            <div className="hidden md:block space-y-8">
-                 <div className="flex justify-between items-center">
-                    <h2 className="text-xl text-black font-medium">Client Meetings</h2>
-                     <div className="flex items-center gap-4 w-full md:w-auto">
-                        <div className="relative w-full md:w-64">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
-                            <Input 
-                                placeholder="Search Meetings..." 
-                                className="pl-12 h-14 rounded-full bg-white text-lg" 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                        <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
+            <div className="flex justify-between items-center">
+                <h2 className="text-xl text-black font-medium">Client Meetings</h2>
+                 <div className="flex items-center gap-4 w-full md:w-auto">
+                    <div className="relative w-full md:w-64">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                        <Input 
+                            placeholder="Search Meetings..." 
+                            className="pl-12 h-14 rounded-full bg-white text-lg" 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                </div>
-                <div>
-                    <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-0 md:p-6">
-                           {filteredClientMeetings.map((meeting, index) => (
-                                <MeetingListItem 
-                                    key={meeting.id} 
-                                    meeting={meeting} 
-                                    onEdit={setMeetingToEdit}
-                                    onDelete={handleDeleteClick}
-                                    onViewDetails={handleViewDetails}
-                                    isFirst={index === 0}
-                                    isLast={index === filteredClientMeetings.length - 1}
-                                />
-                            ))}
-                        </CardContent>
-                    </Card>
-                </div>
-
-                 <div className="flex justify-between items-center">
-                    <h2 className="text-xl text-black font-medium">Lead Meetings</h2>
-                </div>
-                <div>
-                    <Card className="rounded-[50px] bg-white">
-                        <CardContent className="p-0 md:p-6">
-                             {filteredLeadMeetings.map((meeting, index) => (
-                                <MeetingListItem 
-                                    key={meeting.id} 
-                                    meeting={meeting}
-                                    onEdit={setMeetingToEdit}
-                                    onDelete={handleDeleteClick}
-                                    onViewDetails={handleViewDetails}
-                                    isFirst={index === 0}
-                                    isLast={index === filteredLeadMeetings.length - 1}
-                                />
-                            ))}
-                        </CardContent>
-                    </Card>
+                    <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
                 </div>
             </div>
-
-            {/* Mobile View */}
-            <div className="md:hidden space-y-6">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h2 className="text-xl font-medium self-start">Client Meetings</h2>
-                    <div className="flex items-center gap-4 w-full md:w-auto">
-                        <div className="relative w-full md:w-64">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
-                            <Input 
-                                placeholder="Search Meetings..." 
-                                className="pl-12 h-14 rounded-full bg-white text-lg" 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
+            <div>
+                <Card className="rounded-[50px] bg-white">
+                    <CardContent className="p-0 md:p-6">
+                       {filteredClientMeetings.map((meeting, index) => (
+                            <MeetingListItem 
+                                key={meeting.id} 
+                                meeting={meeting} 
+                                onEdit={setMeetingToEdit}
+                                onDelete={handleDeleteClick}
+                                onViewDetails={handleViewDetails}
+                                isFirst={index === 0}
+                                isLast={index === filteredClientMeetings.length - 1}
                             />
-                        </div>
-                        <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
-                    </div>
-                </div>
-                <div>
-                    <div className="bg-white rounded-[20px] overflow-hidden">
-                        {filteredClientMeetings.map((meeting) => (
-                            <MeetingCard key={`mobile-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} onViewDetails={handleViewDetails} />
                         ))}
-                    </div>
-                </div>
-                <div>
-                     <h2 className="text-xl font-medium mb-4">Lead Meetings</h2>
-                    <div className="bg-white rounded-[20px] overflow-hidden">
-                         {filteredLeadMeetings.map((meeting) => (
-                            <MeetingCard key={`mobile-lead-${meeting.id}`} meeting={meeting} onEdit={setMeetingToEdit} onDelete={handleDeleteClick} onViewDetails={handleViewDetails} />
-                        ))}
-                    </div>
-                </div>
+                    </CardContent>
+                </Card>
             </div>
+
+             <div className="flex justify-between items-center">
+                <h2 className="text-xl text-black font-medium">Lead Meetings</h2>
+            </div>
+            <div>
+                <Card className="rounded-[50px] bg-white">
+                    <CardContent className="p-0 md:p-6">
+                         {filteredLeadMeetings.map((meeting, index) => (
+                            <MeetingListItem 
+                                key={meeting.id} 
+                                meeting={meeting}
+                                onEdit={setMeetingToEdit}
+                                onDelete={handleDeleteClick}
+                                onViewDetails={handleViewDetails}
+                                isFirst={index === 0}
+                                isLast={index === filteredLeadMeetings.length - 1}
+                            />
+                        ))}
+                    </CardContent>
+                </Card>
+            </div>
+            
             <AlertDialog open={!!meetingToDelete} onOpenChange={(isOpen) => !isOpen && setMeetingToDelete(null)}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
                     <AlertDialogHeader className="items-center text-center">
@@ -349,6 +314,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
