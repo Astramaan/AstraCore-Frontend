@@ -110,7 +110,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
         {/* Desktop View */}
         <div
           className={cn(
-            "hidden lg:grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch p-10 cursor-pointer hover:bg-hover-bg",
+            "hidden lg:grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch py-6 px-4 cursor-pointer hover:bg-hover-bg",
             isFirst && "hover:rounded-t-[30px]",
             isLast && "hover:rounded-b-[30px]"
           )}
@@ -535,3 +535,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
