@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -107,10 +108,10 @@ const leadsData: Lead[] = [
 
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        {/* Desktop View */}
+        {/* Tablet + Desktop View */}
         <div
           className={cn(
-            "hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+            "hidden md:grid md:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
             isFirst && "hover:rounded-t-[30px]",
             isLast && "hover:rounded-b-[30px]"
           )}
@@ -229,9 +230,9 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             </div>
           </div>
         </div>
-
-        {/* Mobile & Tablet View */}
-        <div className="lg:hidden p-4">
+        
+        {/* Mobile View */}
+        <div className="block md:hidden p-4">
              <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4" onClick={() => onViewDetails(lead)}>
                     <Checkbox 
@@ -265,7 +266,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="mt-4 ml-10 space-y-2">
                  <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
                 <p className="text-lg"><span className="zinc-900">{lead.leadId}</span></p>
-                <div className="flex items-center gap-4 pt-2 md:justify-end">
+                <div className="flex items-center gap-4 pt-2 justify-end">
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                              <Button variant="outline" className="h-12 px-6 rounded-full text-grey-1 text-base font-medium justify-between hover:bg-primary/10 hover:text-primary">
@@ -545,4 +546,5 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
 
