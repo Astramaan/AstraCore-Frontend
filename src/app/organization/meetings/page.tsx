@@ -80,7 +80,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className={cn("hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+        <div className={cn("hidden lg:grid lg:grid-cols-[1fr_1.5fr_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -91,8 +91,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14" />
-            
             <div>
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black break-all">{meeting.email} | {meeting.phone}</span></p>
@@ -100,8 +98,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14" />
-
             <div>
                 <div className="flex flex-col gap-2">
                     <p className="text-lg text-left whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
@@ -111,8 +107,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                     </a>
                 </div>
             </div>
-
-            <Separator orientation="vertical" className="h-14" />
 
             <div className="justify-self-end" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                 <DropdownMenu>
