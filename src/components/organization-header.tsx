@@ -57,7 +57,7 @@ export const OrganizationHeader = () => {
             <NotificationPopover />
             <Link href="/organization/teams">
               <Button className={cn(
-                  "rounded-full h-12 lg:h-14 px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
+                  "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <TeamIcon className="mr-2 h-6 w-6"/>
