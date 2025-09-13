@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -76,6 +76,11 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   const handleFilterClick = (filter: FilterType) => {
     if (activeFilter === filter) {
@@ -247,14 +252,16 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                 </div>
             </div>
         </main>
-
-        <HomeAside
-            meetings={meetings}
-            myTasksChartData={myTasksChartData}
-            assignedTasksChartData={assignedTasksChartData}
-            onMeetingClick={handleMeetingClick}
-            onAddTask={handleAddTask}
-        />
+        
+        {isClient && (
+            <HomeAside
+                meetings={meetings}
+                myTasksChartData={myTasksChartData}
+                assignedTasksChartData={assignedTasksChartData}
+                onMeetingClick={handleMeetingClick}
+                onAddTask={handleAddTask}
+            />
+        )}
         
         {selectedTask && (
             <TaskDetailsSheet
