@@ -28,7 +28,43 @@ import { cn } from "@/lib/utils";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        <div className={cn("flex flex-col md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+        {/* Mobile View */}
+        <div className="flex flex-col md:hidden p-4 gap-4">
+            <div className="flex items-start justify-between gap-4">
+                <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
+                    <Avatar className="w-14 h-14 shrink-0">
+                        <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                        <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                        <p className="text-xl font-semibold text-black">{project.name}</p>
+                        <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
+                    </div>
+                </Link>
+                <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <MoreVertical className="w-6 h-6" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">Delete</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+            <div className="space-y-2">
+                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black break-all">{project.contact}</span></p>
+                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="zinc-900">{project.id}</span></p>
+                <p className="text-lg text-left"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
+                <p className="text-lg text-left"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+            </div>
+        </div>
+
+        {/* Desktop & Tablet View */}
+        <div className={cn("hidden md:grid md:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -43,25 +79,25 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 </div>
             </Link>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14" />
             
-            <div className="w-full mt-4 md:mt-0">
+            <div className="w-full">
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black break-all">{project.contact}</span></p>
                     <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="zinc-900">{project.id}</span></p>
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14" />
 
-            <div className="w-full mt-4 md:mt-0">
+            <div className="w-full">
                 <div className="flex flex-col gap-2">
                     <p className="text-lg text-left"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
                     <p className="text-lg text-left"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
                 </div>
             </div>
 
-            <div className="justify-self-end self-start md:self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            <div className="justify-self-end self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -75,7 +111,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 </DropdownMenu>
             </div>
         </div>
-        {!isLast && <Separator />}
+        {!isLast && <Separator className="md:mx-6" />}
     </div>
 );
 
@@ -170,7 +206,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                         onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
                     />
                 </div>
-                <Card className="rounded-t-[40px] rounded-b-[50px] md:rounded-[50px]">
+                <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 md:p-6">
                         {activeProjects.map((project, index) => (
                             <ProjectListItem 
@@ -231,3 +267,6 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
 
     
 
+
+
+    
