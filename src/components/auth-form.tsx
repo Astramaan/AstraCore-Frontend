@@ -57,6 +57,7 @@ export default function AuthForm() {
 
     if (state.success === true) {
       toast({
+        variant: "success",
         title: "Login Successful",
         description: state.message || "Redirecting to your dashboard...",
       });
