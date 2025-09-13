@@ -209,11 +209,11 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         <DialogOrSheet open={isEditing} onOpenChange={handleOpenChange}>
             <Card className="rounded-[50px] p-10">
                 <CardContent className="p-0">
-                    <div className="flex flex-col md:flex-col lg:flex-row md:items-start gap-4 md:gap-8">
+                    <div className="flex flex-col md:items-end lg:flex-row md:items-start gap-4 md:gap-8">
                         {/* Mobile and Tablet Layout */}
                         <div className="flex lg:hidden items-center gap-4 w-full">
                             <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
-                            <div className="flex flex-col gap-2 flex-1">
+                            <div className="flex flex-col gap-2 md:w-auto">
                                  <DialogOrSheetTrigger asChild>
                                     <Button className="w-full md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                         <Edit className="mr-2 h-4 w-4" />
