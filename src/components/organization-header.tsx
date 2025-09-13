@@ -46,8 +46,8 @@ export const OrganizationHeader = () => {
             <HabiLogo />
              {pageTitle && (
                 <>
-                    <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="text-2xl md:text-[40px] font-semibold md:font-bold text-zinc-900">
+                    <div className="w-px h-8 bg-stone-300 hidden lg:block" />
+                    <h2 className="hidden lg:block text-2xl md:text-[40px] font-semibold md:font-bold text-zinc-900">
                         {pageTitle}
                     </h2>
                 </>
@@ -69,7 +69,7 @@ export const OrganizationHeader = () => {
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>
                 </Avatar>
-                <div className="hidden lg:block">
+                <div className="hidden md:block">
                     <p className="text-base md:text-lg font-medium">Balaji Naik</p>
                     <p className="text-sm md:text-base text-grey-2">Super Admin</p>
                 </div>
