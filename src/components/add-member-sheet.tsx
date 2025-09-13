@@ -23,6 +23,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 import UserPlusIcon from './icons/user-plus-icon';
+import { SuccessPopup } from './success-popup';
 
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
@@ -44,11 +45,6 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
     useEffect(() => {
         if (state.success) {
-            toast({
-                variant: 'success',
-                title: 'Success!',
-                description: state.message || "Member added successfully!",
-            });
             onFormSuccess();
         } else if (state.message) {
             toast({
@@ -111,9 +107,11 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
 export function AddMemberSheet() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSuccess = () => {
     setIsOpen(false);
+    setShowSuccess(true);
   };
   
   const handleClose = () => setIsOpen(false);
@@ -151,6 +149,12 @@ export function AddMemberSheet() {
           </div>
       </SheetContent>
     </Sheet>
+    <SuccessPopup 
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Employee Added Successfully"
+        message="The new employee has been added. A password creation link has been sent to their email, allowing them to access AstraCore."
+    />
     </>
   );
 }
