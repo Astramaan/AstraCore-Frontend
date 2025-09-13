@@ -14,9 +14,8 @@ import { AddMemberSheet } from "@/components/add-member-sheet";
 import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
-import RedirectionArrowIcon from '@/components/icons/redirection-arrow-icon';
 import { MeetingDetailsSheet, type Meeting } from '@/components/meeting-details-sheet';
+import { HomeAside } from '@/components/home-aside';
 
 
 const initialTaskData: Task[] = [
@@ -68,22 +67,6 @@ const meetings: Meeting[] = [
     { type: 'lead', name: "Lead Discussion", city: "Bengaluru", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw", email: 'lead@example.com', phone: '0987654321' },
     { type: 'client', name: "Internal Sync", city: "Remote", id: "INT2025", time: "6:00 PM", date: "10 August 2024", link: "https://meet.google.com/ghi-rst", email: 'internal@sync.com', phone: '1122334455' },
 ]
-
-const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
-    <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
-        <div className="flex-1">
-            <p className="text-base font-medium">{meeting.name}</p>
-            <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
-        </div>
-        <div className="text-right">
-            <p className="text-sm font-medium">{meeting.time}</p>
-            <p className="text-sm text-muted-foreground">{meeting.date}</p>
-        </div>
-        <div className="flex items-center gap-2 pl-4">
-            <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
-        </div>
-    </Card>
-)
 
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
 const filterOptions: FilterType[] = ["High Priority", "In Progress", "Pending", "Completed"];
@@ -265,54 +248,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
         </main>
 
-        <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
-            <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
-                 <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                <AddMemberSheet />
-            </div>
-
-            <div>
-                <div className="flex justify-between items-center mb-3 mt-8">
-                    <h2 className="text-xl font-medium">Meetings</h2>
-                    <Link href="/organization/meetings" className="text-sm text-primary">
-                        see all meetings
-                    </Link>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} onClick={handleMeetingClick} />)}
-                </div>
-            </div>
-            
-             <div>
-                <div className="flex justify-between items-center mb-3">
-                    <h2 className="text-xl font-medium">Overview</h2>
-                </div>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-                <Card className="rounded-[50px] relative">
-                    <CardContent className="pt-10">
-                        <div className="relative">
-                            <TaskOverviewChart data={myTasksChartData} />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
-                                <div className="text-base font-medium text-center">My Tasks</div>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card className="rounded-[50px] relative">
-                    <CardContent className="pt-10">
-                        <div className="relative">
-                            <TaskOverviewChart data={assignedTasksChartData} />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div className="text-base font-medium text-center -translate-y-2">Assigned<br />Tasks</div>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-
-        </aside>
+        <HomeAside
+            meetings={meetings}
+            myTasksChartData={myTasksChartData}
+            assignedTasksChartData={assignedTasksChartData}
+            onMeetingClick={handleMeetingClick}
+            onAddTask={handleAddTask}
+        />
         
         {selectedTask && (
             <TaskDetailsSheet
