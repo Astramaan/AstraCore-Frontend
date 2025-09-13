@@ -201,12 +201,12 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2 items-center">
+            <div className="mt-4 md:grid md:grid-cols-[1.5fr_1fr] md:gap-4 md:items-center">
                 <div className="md:col-span-1">
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
                 </div>
-                 <div className="md:col-span-1 flex md:justify-center">
+                 <div className="md:col-span-1 flex md:justify-start mt-2 md:mt-0">
                      <div className="flex flex-col gap-1 items-start">
                         <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                         <p className="text-sm text-grey-1">{snag.subStatus}</p>
@@ -428,7 +428,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                 {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
                     <Card key={projectKey} className="rounded-[50px] overflow-hidden">
                         <AccordionItem value={projectKey} className="border-b-0">
-                             <div className="flex justify-between items-center w-full group px-10 py-8" onClick={(e) => e.stopPropagation()}>
+                             <div className="flex justify-between items-center w-full group p-8" onClick={(e) => e.stopPropagation()}>
                                 <AccordionTrigger className="w-full hover:no-underline p-0 flex-1">
                                     <h3 className="text-lg font-semibold group-data-[state=open]:text-primary text-left">{projectKey}</h3>
                                 </AccordionTrigger>
@@ -535,6 +535,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
 
 
 
