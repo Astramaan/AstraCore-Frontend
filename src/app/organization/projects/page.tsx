@@ -65,51 +65,82 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
         </div>
 
         {/* Desktop View */}
-        <div className={cn("hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
-             isFirst && "hover:rounded-t-[30px]",
-             isLast && "hover:rounded-b-[30px]",
-        )}>
-            <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
-                <Avatar className="w-14 h-14 shrink-0">
-                    <AvatarImage src={project.image} data-ai-hint="abstract building" />
-                    <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                    <p className="text-xl font-semibold text-black">{project.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
-                </div>
-            </Link>
-            
-            <Separator orientation="vertical" className="h-14" />
-            
-            <div className="w-full">
-                 <div className="flex flex-col gap-2">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black break-all">{project.contact}</span></p>
-                    <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="zinc-900">{project.id}</span></p>
-                </div>
+        <div
+          className={cn(
+            "hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+            isFirst && "hover:rounded-t-[30px]",
+            isLast && "hover:rounded-b-[30px]"
+          )}
+        >
+          {/* Project avatar + name */}
+          <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
+            <Avatar className="w-14 h-14 shrink-0">
+              <AvatarImage src={project.image} data-ai-hint="abstract building" />
+              <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <p className="text-xl font-semibold text-black">{project.name}</p>
+              <p className="text-lg">
+                <span className="text-grey-2">Location: </span>
+                <span className="text-black">{project.city}</span>
+              </p>
             </div>
-            
-            <Separator orientation="vertical" className="h-14" />
+          </Link>
 
-            <div className="w-full flex justify-between">
-                <div className="flex flex-col gap-2">
-                    <p className="text-lg text-left"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
-                    <p className="text-lg text-left"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
-                </div>
-                <div className="self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">Delete</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+          {/* Full height separator */}
+          <Separator orientation="vertical" className="self-stretch" />
+
+          {/* Contact + Client ID */}
+          <div className="flex flex-col justify-center gap-2">
+            <p className="text-lg break-all">
+              <span className="text-grey-2">Contact: </span>
+              <span className="text-black">{project.contact}</span>
+            </p>
+            <p className="text-lg">
+              <span className="text-grey-2">Client ID: </span>
+              <span className="zinc-900">{project.id}</span>
+            </p>
+          </div>
+
+          {/* Full height separator */}
+          <Separator orientation="vertical" className="self-stretch" />
+
+          {/* Dates + Status + Actions */}
+          <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-2">
+              <p className="text-lg">
+                <span className="text-grey-2">Started Date: </span>
+                <span className="text-zinc-900">{project.startDate}</span>
+              </p>
+              <p className="text-lg">
+                <span className="text-grey-2">Status: </span>
+                <span className={project.statusColor}>{project.status}</span>
+              </p>
             </div>
+
+            {/* Actions Menu */}
+            <div
+              className="self-center"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <MoreVertical className="w-6 h-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
         </div>
         {!isLast && <Separator className="lg:mx-6" />}
     </div>
