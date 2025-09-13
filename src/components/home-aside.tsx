@@ -75,10 +75,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                 <Card className="rounded-[50px] relative">
                     <CardContent className="pt-10">
                         <div className="relative">
-                            <TaskOverviewChart data={myTasksChartData} />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div className="text-base font-medium text-center">My Tasks</div>
-                            </div>
+                            <TaskOverviewChart data={myTasksChartData} title="My Tasks" />
                         </div>
                     </CardContent>
                 </Card>
@@ -86,10 +83,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                 <Card className="rounded-[50px] relative">
                     <CardContent className="pt-10">
                         <div className="relative">
-                            <TaskOverviewChart data={assignedTasksChartData} />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div className="text-base font-medium text-center -translate-y-2">Assigned<br />Tasks</div>
-                            </div>
+                            <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
                         </div>
                     </CardContent>
                 </Card>
@@ -97,4 +91,3 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
         </aside>
     );
 }
-
