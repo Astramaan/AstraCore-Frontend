@@ -32,15 +32,15 @@ export const OrganizationBottomNav = () => {
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
                         return (
-                             <Link href={item.href} key={item.label} className="flex-1 md:flex-none">
+                             <Link href={item.href} key={item.label} className="flex-1 lg:flex-none">
                                 <div className={cn(
-                                    "flex flex-col md:flex-row items-center justify-center text-center gap-1 transition-colors duration-200",
-                                    "md:gap-2.5 md:py-3 md:px-5 md:rounded-full min-w-max",
-                                    "h-12 w-12 md:h-[54px] p-2 rounded-full",
+                                    "flex flex-col lg:flex-row items-center justify-center text-center gap-1 transition-colors duration-200",
+                                    "lg:gap-2.5 lg:py-3 lg:px-5 lg:rounded-full min-w-max",
+                                    "h-12 w-12 lg:h-[54px] p-2 rounded-full",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
-                                    <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap hidden md:inline">{item.label}</span>
+                                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
+                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap hidden lg:inline">{item.label}</span>
                                 </div>
                             </Link>
                         )
