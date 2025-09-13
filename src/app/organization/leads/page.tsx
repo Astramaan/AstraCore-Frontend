@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -213,7 +212,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
             <div className="mt-4 ml-10 space-y-2">
                  <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
                 <p className="text-lg"><span className="zinc-900">{lead.leadId}</span></p>
-                <div className="flex items-center gap-4 pt-2">
+                <div className="flex items-center gap-4 pt-2 md:justify-end">
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                              <Button variant="outline" className="h-12 px-6 rounded-full text-grey-1 text-base font-medium justify-between hover:bg-primary/10 hover:text-primary">
@@ -482,7 +481,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.leadId)
+                      onDeleteFromDetails(selectedLeadDetails.id)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -491,12 +490,5 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
         </div>
     );
 }
-
-    
-
-
-
-
-
 
     
