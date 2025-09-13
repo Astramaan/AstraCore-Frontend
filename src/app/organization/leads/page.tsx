@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -110,7 +111,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
         {/* Desktop View */}
         <div
           className={cn(
-            "hidden lg:grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch py-6 cursor-pointer hover:bg-hover-bg px-6",
+            "hidden lg:grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch p-10 cursor-pointer hover:bg-hover-bg",
             isFirst && "hover:rounded-t-[30px]",
             isLast && "hover:rounded-b-[30px]"
           )}
@@ -225,7 +226,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
         </div>
         
         {/* Mobile View */}
-        <div className="block lg:hidden p-4">
+        <div className="block lg:hidden p-10">
              <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4" onClick={() => onViewDetails(lead)}>
                     <Checkbox 
