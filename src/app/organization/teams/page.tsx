@@ -87,25 +87,25 @@ const initialRoles: Role[] = [
 
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
-        {/* Desktop View */}
-        <div className="hidden md:flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <div className="flex items-center gap-4 w-full md:w-auto md:flex-1">
+        {/* Desktop & Tablet View */}
+        <div className="hidden md:grid md:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
+            <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
                     {role.icon}
                 </div>
-                <p className="text-2xl font-semibold w-60">{role.name}</p>
+                <p className="text-xl font-semibold">{role.name}</p>
             </div>
             
-            <div className="w-full md:w-px md:h-14 bg-stone-200" />
+            <Separator orientation="vertical" className="h-14" />
 
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full pl-16 md:pl-0">
+            <div className="flex flex-col gap-2">
                 <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-black font-medium">{String(role.active).padStart(2, '0')}</span></p>
             </div>
             
-            <div className="w-full md:w-px md:h-14 bg-stone-200" />
+            <Separator orientation="vertical" className="h-14" />
 
-            <div className="flex items-center gap-4 md:flex-1 w-full justify-between pl-16 md:pl-0">
+            <div className="flex items-center justify-between gap-4">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>
                 <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
@@ -138,18 +138,18 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
 const RoleCardSkeleton = () => (
     <>
-        <div className="hidden md:flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
-            <div className="flex items-center gap-4 w-full md:w-auto md:flex-1">
+        <div className="hidden md:grid md:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
+            <div className="flex items-center gap-4">
                 <Skeleton className="w-14 h-14 rounded-full" />
-                <Skeleton className="h-8 w-48" />
+                <Skeleton className="h-8 w-40" />
             </div>
-            <div className="w-full md:w-px md:h-14 bg-stone-200" />
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-2 md:flex-1 w-full pl-16 md:pl-0">
-                <Skeleton className="h-5 w-32 mb-2" />
+            <Separator orientation="vertical" className="h-14" />
+            <div className="space-y-2">
+                <Skeleton className="h-5 w-32" />
                 <Skeleton className="h-5 w-36" />
             </div>
-            <div className="w-full md:w-px md:h-14 bg-stone-200" />
-            <div className="flex items-center gap-4 md:flex-1 w-full justify-between pl-16 md:pl-0">
+            <Separator orientation="vertical" className="h-14" />
+            <div className="flex items-center justify-between gap-4">
                 <Skeleton className="h-5 w-36" />
                 <Skeleton className="h-14 w-40 rounded-full" />
             </div>
