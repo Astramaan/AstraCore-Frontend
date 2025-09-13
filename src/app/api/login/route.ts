@@ -21,15 +21,6 @@ export async function POST(req: Request) {
 
     const response = NextResponse.json(data, { status: res.status });
 
-    if (data.token) {
-      response.cookies.set("auth_token", data.token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-      });
-    }
-
     return response;
   } catch (err: any) {
     console.error("Login proxy failed:", err);

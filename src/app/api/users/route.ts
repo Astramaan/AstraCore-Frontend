@@ -4,24 +4,25 @@ import { type NextRequest } from "next/server";
 
 const API_BASE_URL = "https://astramaan-be-1.onrender.com";
 
-function getTokenFromRequest(req: NextRequest): string | null {
-    const cookieHeader = req.headers.get("cookie");
-    if (!cookieHeader) return null;
+function getAuthHeadersFromRequest(req: NextRequest): Record<string, string> {
+    const headers: Record<string, string> = {};
+    const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode'];
+    
+    userHeaders.forEach(headerKey => {
+        const headerValue = req.headers.get(headerKey);
+        if (headerValue) {
+            headers[headerKey] = headerValue;
+        }
+    });
 
-    const cookies = cookieHeader.split(';').map(c => c.trim());
-    const authTokenCookie = cookies.find(c => c.startsWith('auth_token='));
-
-    if (authTokenCookie) {
-        return authTokenCookie.split('=')[1];
-    }
-    return null;
+    return headers;
 }
 
 export async function GET(req: NextRequest) {
   try {
-    const token = getTokenFromRequest(req);
+    const authHeaders = getAuthHeadersFromRequest(req);
 
-    if (!token) {
+    if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
 
@@ -29,7 +30,7 @@ export async function GET(req: NextRequest) {
       method: "GET",
       headers: { 
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        ...authHeaders
        },
     });
 
@@ -48,9 +49,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const token = getTokenFromRequest(req);
+    const authHeaders = getAuthHeadersFromRequest(req);
 
-    if (!token) {
+    if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        ...authHeaders
        },
       body: JSON.stringify(body),
     });
@@ -79,10 +80,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  try {
-    const token = getTokenFromRequest(req);
+  try
+    const authHeaders = getAuthHeadersFromRequest(req);
 
-    if (!token) {
+    if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     
@@ -92,7 +93,7 @@ export async function PATCH(req: NextRequest) {
       method: "PATCH",
       headers: { 
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        ...authHeaders
        },
       body: JSON.stringify(body),
     });
@@ -113,9 +114,9 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const token = getTokenFromRequest(req);
+    const authHeaders = getAuthHeadersFromRequest(req);
 
-    if (!token) {
+    if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     
@@ -125,7 +126,7 @@ export async function DELETE(req: NextRequest) {
       method: "DELETE",
       headers: { 
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        ...authHeaders
        },
       body: JSON.stringify(body),
     });
@@ -142,3 +143,4 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
+
