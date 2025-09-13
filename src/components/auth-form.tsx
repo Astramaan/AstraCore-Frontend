@@ -1,7 +1,8 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useActionState, useEffect } from "react";
+import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,11 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-async function loginUser(email: string, password: string): Promise<{ data: any; ok: boolean }> {
+async function loginUser(prevState: any, formData: FormData): Promise<{ data: any; ok: boolean, message?: string, success?: boolean, user?: { role: string} }> {
   try {
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -23,55 +27,59 @@ async function loginUser(email: string, password: string): Promise<{ data: any; 
     });
 
     const data = await res.json();
-    return { data, ok: res.ok };
+    return { data, ok: res.ok, ...data };
   } catch (err: any) {
     console.error("Login fetch error:", err);
-    return { data: { message: "A network error occurred. Please try again." }, ok: false };
+    return { data: { message: "A network error occurred. Please try again." }, ok: false, message: "A network error occurred. Please try again.", success: false };
   }
 }
 
+function SubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+        <Button type="submit" className="w-full h-[54px] rounded-full" disabled={pending}>
+            {pending ? "Logging in..." : "Login"}
+        </Button>
+    )
+}
+
+
 export default function AuthForm() {
-  const [email, setEmail] = useState("");
+  const [state, formAction] = useActionState(loginUser, { data: null, ok: false });
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+   useEffect(() => {
+    if (!state) return;
 
-    const { data, ok } = await loginUser(email, password);
-
-    if (!ok || !data.success) {
+    if (!state.ok || !state.success) {
       toast({
         variant: "destructive",
         title: "Login Failed",
-        description: data.message || "An unknown error occurred.",
+        description: state.message || "An unknown error occurred.",
       });
     } else {
       toast({
         title: "Login Successful",
-        description: data.message || "Redirecting to your dashboard...",
+        description: state.message || "Redirecting to your dashboard...",
       });
       
       // Role-based redirection
-      if (data.user?.role === 'platform-owner') {
+      if (state.user?.role === 'platform-owner') {
           router.push('/platform/dashboard');
       } else {
           router.push('/organization/home');
       }
     }
-    
-    setIsLoading(false);
-  };
+  }, [state, toast, router]);
 
   return (
-    <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
+    <form action={formAction} className="flex-grow flex flex-col">
         <div className="space-y-4 flex-grow">
             <div className="space-y-2">
-                <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
+                <Label htmlFor="email" className={cn("text-lg font-medium", "text-black")}>Email ID</Label>
                 <div className="relative flex items-center">
                     <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
                     <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -83,9 +91,6 @@ export default function AuthForm() {
                         required
                         placeholder="name@company.com"
                         className={`pl-20 rounded-full bg-background h-[54px]`}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={isLoading}
                     />
                 </div>
             </div>
@@ -108,14 +113,12 @@ export default function AuthForm() {
                         className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        disabled={isLoading}
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-6 text-foreground"
                         aria-label={showPassword ? "Hide password" : "Show password"}
-                        disabled={isLoading}
                     >
                         {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
                     </button>
@@ -124,9 +127,7 @@ export default function AuthForm() {
         </div>
         <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
             <div className="mb-4">
-                 <Button type="submit" className="w-full h-[54px] rounded-full" disabled={isLoading}>
-                    {isLoading ? "Logging in..." : "Login"}
-                </Button>
+                 <SubmitButton />
             </div>
             
             <div className="text-center text-sm">
