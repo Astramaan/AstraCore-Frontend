@@ -126,7 +126,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     <p className="text-sm text-grey-1">{snag.subStatus}</p>
                  </div>
             
-                <div className="ml-auto self-center" onClick={(e) => { e.stopPropagation(); }}>
+                <div className="ml-auto self-center mr-2" onClick={(e) => { e.stopPropagation(); }}>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon">
@@ -535,6 +535,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
 
 
 
