@@ -160,7 +160,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     <DropdownMenuTrigger asChild>
                     <Button
                         variant="outline"
-                        className="h-12 lg:h-14 px-6 rounded-full text-grey-1 text-base lg:text-lg font-medium w-full lg:w-auto justify-between hover:bg-primary/10 hover:text-primary"
+                        className="h-12 lg:h-14 px-6 rounded-full text-black text-base lg:text-lg font-medium w-full lg:w-auto justify-between hover:bg-primary/10 hover:text-primary"
                     >
                         {lead.level}
                         <ChevronDown className="ml-2" />
@@ -263,7 +263,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 <div className="flex items-center gap-4 pt-2 justify-end">
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                             <Button variant="outline" className="h-12 px-6 rounded-full text-grey-1 text-base font-medium justify-between hover:bg-primary/10 hover:text-primary">
+                             <Button variant="outline" className="h-12 px-6 rounded-full text-black text-base font-medium justify-between hover:bg-primary/10 hover:text-primary">
                                 {lead.level}
                                 <ChevronDown className="ml-2"/>
                             </Button>
@@ -538,4 +538,5 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
 
