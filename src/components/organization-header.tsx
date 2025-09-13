@@ -46,7 +46,7 @@ export const OrganizationHeader = () => {
             <HabiLogo />
              {pageTitle && (
                 <>
-                    <div className="w-px h-8 bg-stone-300 hidden lg:block" />
+                    <div className="w-px h-8 bg-stone-300" />
                     <h2 className="text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900 hidden md:block">
                         {pageTitle}
                     </h2>
