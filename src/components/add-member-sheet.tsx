@@ -17,8 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addMember } from '@/app/actions';
-import { useToast } from './ui/use-toast';
-import { SuccessPopup } from './success-popup';
+import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -45,6 +44,11 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
     useEffect(() => {
         if (state.success) {
+            toast({
+                variant: 'success',
+                title: 'Success!',
+                description: state.message || "Member added successfully!",
+            });
             onFormSuccess();
         } else if (state.message) {
             toast({
@@ -107,11 +111,9 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
 export function AddMemberSheet() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSuccess = () => {
     setIsOpen(false);
-    setShowSuccess(true);
   };
   
   const handleClose = () => setIsOpen(false);
@@ -149,12 +151,6 @@ export function AddMemberSheet() {
           </div>
       </SheetContent>
     </Sheet>
-    <SuccessPopup 
-        isOpen={showSuccess}
-        onClose={() => setShowSuccess(false)}
-        title="Invitation Sent"
-        message="The new member has been invited and will receive an email to set up their account."
-    />
     </>
   );
 }
