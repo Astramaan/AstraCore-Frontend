@@ -76,7 +76,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                     <CardContent className="pt-10">
                         <div className="relative">
                             <TaskOverviewChart data={myTasksChartData} />
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                 <div className="text-base font-medium text-center">My Tasks</div>
                             </div>
                         </div>
@@ -97,3 +97,4 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
         </aside>
     );
 }
+
