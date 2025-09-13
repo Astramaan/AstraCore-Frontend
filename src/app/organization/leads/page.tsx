@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -131,7 +130,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 <div>
                 <p className="text-xl font-semibold text-black">{lead.fullName}</p>
                 <p className="text-lg">
-                    <span className="text-grey-2">Location: </span>
+                    <span className="text-grey-2">Location: </span> 
                     <span className="text-black">
                     {lead.address.split(",").pop()?.trim().split(" ")[0] || "N/A"}
                     </span>
@@ -141,9 +140,9 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
 
             {/* Col 2: Contact + ID */}
             <div className="flex flex-col justify-center gap-2 border-l border-gray-200 pl-6">
-                <p className="text-lg whitespace-nowrap">
-                <span className="text-grey-2">Contact: </span>
-                <span className="text-black break-all">{lead.contact}</span>
+                <p className="text-lg break-words">
+                    <span className="text-grey-2">Contact: </span> 
+                    <span className="text-black">{lead.contact}</span>
                 </p>
                 <p className="text-lg">
                 <span className="text-zinc-900">{lead.leadId}</span>
@@ -258,7 +257,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 </DropdownMenu>
             </div>
             <div className="mt-4 ml-10 space-y-2">
-                 <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
+                 <p className="text-lg break-words"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
                 <p className="text-lg"><span className="zinc-900">{lead.leadId}</span></p>
                 <div className="flex items-center gap-4 pt-2 justify-end">
                      <DropdownMenu>
@@ -525,7 +524,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.id)
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -536,11 +535,3 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
-
-
-
-
-
-
-
-
