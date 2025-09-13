@@ -202,7 +202,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </DropdownMenu>
             </div>
             <div className="mt-4 flex w-full md:justify-between items-start md:items-center">
-                <div className="md:ml-12">
+                <div className="md:ml-20">
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
                 </div>
@@ -426,8 +426,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
             <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(groupedSnags)}>
                 {Object.entries(groupedSnags).map(([projectKey, projectData], index) => (
-                    <Card key={projectKey} className="rounded-[50px] overflow-hidden">
-                        <AccordionItem value={projectKey} className="border-b-0">
+                    <AccordionItem value={projectKey} key={projectKey} asChild>
+                        <Card className="rounded-[50px] overflow-hidden">
                              <div className="flex justify-between items-center w-full group p-8">
                                 <AccordionTrigger className="w-full hover:no-underline p-0 flex-1">
                                     <h3 className="text-lg font-semibold group-data-[state=open]:text-primary text-left">{projectKey}</h3>
@@ -464,8 +464,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                                     ))}
                                 </div>
                             </AccordionContent>
-                        </AccordionItem>
-                    </Card>
+                        </Card>
+                    </AccordionItem>
                 ))}
             </Accordion>
 
@@ -535,6 +535,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
 
 
 
