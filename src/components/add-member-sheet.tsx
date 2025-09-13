@@ -73,7 +73,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                         </SelectTrigger>
                         <SelectContent>
                              {teams.map(r => (
-                                <SelectItem key={r} value={r}>{r}</SelectItem>
+                                <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
