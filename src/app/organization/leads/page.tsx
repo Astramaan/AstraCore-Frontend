@@ -108,7 +108,7 @@ const leadsData: Lead[] = [
 
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
+        <div className={cn("flex flex-col lg:flex-row justify-between items-start lg:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -126,18 +126,18 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden lg:block" />
             
-            <div className="flex-[1.5] md:pl-6" onClick={() => onViewDetails(lead)}>
+            <div className="flex-[1.5] lg:pl-6" onClick={() => onViewDetails(lead)}>
                  <div className="flex flex-col gap-2">
                     <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
                     <p className="text-lg"><span className="zinc-900">{lead.leadId}</span></p>
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden lg:block" />
 
-            <div className="flex-1 md:pl-6 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+            <div className="flex-1 lg:pl-6 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center gap-4">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -424,7 +424,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.id)
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -439,3 +439,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
 
 
+
+
+    

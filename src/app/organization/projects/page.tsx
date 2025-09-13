@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,8 +29,8 @@ import { cn } from "@/lib/utils";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
-        {/* Mobile View */}
-        <div className="md:hidden p-4 gap-4">
+        {/* Mobile & Tablet View */}
+        <div className="lg:hidden p-4 gap-4">
             <div className="flex items-start justify-between gap-4">
                 <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
                     <Avatar className="w-14 h-14 shrink-0">
@@ -63,8 +64,8 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             </div>
         </div>
 
-        {/* Desktop & Tablet View */}
-        <div className={cn("hidden md:grid md:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+        {/* Desktop View */}
+        <div className={cn("hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -110,7 +111,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 </div>
             </div>
         </div>
-        {!isLast && <Separator className="md:mx-6" />}
+        {!isLast && <Separator className="lg:mx-6" />}
     </div>
 );
 
@@ -267,6 +268,8 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
     
 
 
+
+    
 
     
 

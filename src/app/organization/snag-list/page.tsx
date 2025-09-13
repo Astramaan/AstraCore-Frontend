@@ -86,13 +86,13 @@ const allSnagsData: Snag[] = [
 
 const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatusChange, onViewDetails, onEdit, isFirst, isLast }: { snag: Snag, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onStatusChange: (id: string, status: Snag['status']) => void, onViewDetails: (snag: Snag) => void, onEdit: (snag: Snag) => void, isFirst?: boolean, isLast: boolean }) => (
     <div className="flex flex-col group">
-        <div className={cn("flex flex-col md:flex-row justify-between items-start md:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg",
+        <div className={cn("flex flex-col lg:flex-row justify-between items-start lg:items-center py-6 gap-4 cursor-pointer hover:bg-hover-bg",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
              isSelected && "bg-hover-bg"
         )}>
             {/* Title & Image */}
-            <div className="flex items-center gap-8 flex-1 md:flex-[1.5]" onClick={() => onViewDetails(snag)}>
+            <div className="flex items-center gap-8 flex-1 lg:flex-[1.5]" onClick={() => onViewDetails(snag)}>
                 <Checkbox 
                     id={`select-${snag.id}`} 
                     className="w-6 h-6 rounded-full shrink-0" 
@@ -107,17 +107,17 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
 
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden lg:block" />
 
             {/* Created By */}
-            <div className="flex-1 flex md:justify-center">
+            <div className="flex-1 flex lg:justify-center">
                 <div className="flex flex-col gap-1">
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
                 </div>
             </div>
             
-            <Separator orientation="vertical" className="h-14 hidden md:block" />
+            <Separator orientation="vertical" className="h-14 hidden lg:block" />
 
             {/* Status & Actions */}
             <div className="flex-1 flex items-center justify-between w-full">
@@ -476,21 +476,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
