@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -69,7 +70,7 @@ const meetings: Meeting[] = [
 ]
 
 const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
-    <Card className="w-full h-20 rounded-[50px] py-4 px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
+    <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
         <div className="flex-1">
             <p className="text-base font-medium">{meeting.name}</p>
             <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
@@ -168,11 +169,11 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
 
 
   return (
-    <div className="flex flex-col md:flex-row gap-6">
+    <div className="flex flex-col lg:flex-row gap-6">
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                  {/* Desktop Filters */}
-                <div className="hidden md:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+                <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
                     <Button 
                         variant="outline" 
                         className={cn(
@@ -216,8 +217,8 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     </Button>
                 </div>
 
-                {/* Mobile Filter Dropdown & Actions */}
-                <div className="flex md:hidden justify-between items-center w-full">
+                {/* Mobile/Tablet Filter Dropdown & Actions */}
+                <div className="flex lg:hidden justify-between items-center w-full">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
@@ -264,8 +265,8 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
         </main>
 
-        <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
-            <div className="hidden md:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
+        <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
+            <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet onTaskAssigned={handleAddTask} />
                 <AddMemberSheet />
             </div>
