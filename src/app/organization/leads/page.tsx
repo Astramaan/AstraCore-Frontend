@@ -181,7 +181,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 <Button
                     onClick={() => onContact(lead)}
                     variant="outline"
-                    className="h-12 lg:h-14 px-4 rounded-full text-grey-1 text-base lg:text-lg font-medium hover:bg-primary/10 hover:text-primary"
+                    className="h-12 lg:h-14 px-4 rounded-full text-black text-base lg:text-lg font-medium hover:bg-primary/10 hover:text-primary"
                 >
                     <Phone className="mr-2 h-4 w-4" />
                     Contact
@@ -274,7 +274,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                             <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button onClick={() => onContact(lead)} variant="outline" className="h-12 px-4 rounded-full text-grey-1 text-base font-medium hover:bg-primary/10 hover:text-primary">
+                    <Button onClick={() => onContact(lead)} variant="outline" className="h-12 px-4 rounded-full text-black text-base font-medium hover:bg-primary/10 hover:text-primary">
                         <Phone className="mr-2 h-4 w-4"/>
                         Contact
                     </Button>
@@ -525,7 +525,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.leadId)
+                      onDeleteFromDetails(selectedLeadDetails.id)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -538,3 +538,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
