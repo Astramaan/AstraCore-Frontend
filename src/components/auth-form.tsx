@@ -6,7 +6,7 @@ import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
 import EmailIcon from "./icons/email-icon";
@@ -15,7 +15,7 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 
-async function loginUser(prevState: any, formData: FormData): Promise<{ data: any; ok: boolean, message?: string, success?: boolean, user?: { role: string} }> {
+async function loginUser(prevState: any, formData: FormData): Promise<{ message?: string, success?: boolean, user?: { role: string} }> {
   try {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
@@ -25,12 +25,13 @@ async function loginUser(prevState: any, formData: FormData): Promise<{ data: an
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-
+    
     const data = await res.json();
-    return { data, ok: res.ok, ...data };
+    return data;
+
   } catch (err: any) {
     console.error("Login fetch error:", err);
-    return { data: { message: "A network error occurred. Please try again." }, ok: false, message: "A network error occurred. Please try again.", success: false };
+    return { message: "A network error occurred. Please try again.", success: false };
   }
 }
 
@@ -45,7 +46,7 @@ function SubmitButton() {
 
 
 export default function AuthForm() {
-  const [state, formAction] = useActionState(loginUser, { data: null, ok: false });
+  const [state, formAction] = useActionState(loginUser, undefined);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
@@ -54,24 +55,23 @@ export default function AuthForm() {
    useEffect(() => {
     if (!state) return;
 
-    if (!state.ok || !state.success) {
-      toast({
-        variant: "destructive",
-        title: "Login Failed",
-        description: state.message || "An unknown error occurred.",
-      });
-    } else {
+    if (state.success === true) {
       toast({
         title: "Login Successful",
         description: state.message || "Redirecting to your dashboard...",
       });
       
-      // Role-based redirection
       if (state.user?.role === 'platform-owner') {
           router.push('/platform/dashboard');
       } else {
           router.push('/organization/home');
       }
+    } else if (state.success === false) {
+       toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: state.message || "An unknown error occurred.",
+      });
     }
   }, [state, toast, router]);
 
