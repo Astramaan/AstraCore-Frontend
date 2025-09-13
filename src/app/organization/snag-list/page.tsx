@@ -121,7 +121,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
 
             {/* Status & Actions */}
             <div className="flex-1 flex items-center justify-between w-full">
-                 <div className="flex-1 flex flex-col items-center gap-1">
+                 <div className="flex-1 flex flex-col lg:items-center gap-1">
                     <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                     <p className="text-sm text-grey-1">{snag.subStatus}</p>
                  </div>
