@@ -82,7 +82,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
         {/* Desktop View */}
         <div
             className={cn(
-                "hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+                "hidden md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -151,7 +151,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
         </div>
 
         {/* Mobile & Tablet View */}
-        <div className="lg:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
+        <div className="md:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
              <div className="flex justify-between items-start">
                 <div>
                     <p className="text-xl font-semibold text-black">{meeting.name}</p>
@@ -356,4 +356,5 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 

@@ -88,7 +88,7 @@ const initialRoles: Role[] = [
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         {/* Desktop & Tablet View */}
-        <div className="hidden md:grid md:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
+        <div className="hidden md:grid md:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-stretch py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
                     {role.icon}
@@ -96,14 +96,14 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
                 <p className="text-xl font-semibold">{role.name}</p>
             </div>
             
-            <Separator orientation="vertical" className="h-14" />
+            <Separator orientation="vertical" className="self-stretch" />
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col justify-center gap-2">
                 <p className="text-lg"><span className="text-grey-1">Admin: </span><span className="text-black font-medium">{role.admin}</span></p>
                 <p className="text-lg"><span className="text-grey-1">Active Members: </span><span className="text-black font-medium">{String(role.active).padStart(2, '0')}</span></p>
             </div>
             
-            <Separator orientation="vertical" className="h-14" />
+            <Separator orientation="vertical" className="self-stretch" />
 
             <div className="flex items-center justify-between gap-4">
                  <p className="text-lg"><span className="text-grey-1">Total Members: </span><span className="text-black font-medium">{String(role.total).padStart(2, '0')}</span></p>

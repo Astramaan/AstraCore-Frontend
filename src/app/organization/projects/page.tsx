@@ -67,7 +67,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
         {/* Desktop View */}
         <div
           className={cn(
-            "hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+            "hidden md:grid md:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
             isFirst && "hover:rounded-t-[30px]",
             isLast && "hover:rounded-b-[30px]"
           )}
@@ -142,7 +142,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             </div>
           </div>
         </div>
-        {!isLast && <Separator className="lg:mx-6" />}
+        {!isLast && <Separator className="md:mx-6" />}
     </div>
 );
 
