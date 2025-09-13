@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -140,7 +141,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </div>
 
                     {/* Col 2: Contact + ID */}
-                    <div className="flex flex-col justify-center gap-2 border-l border-gray-200 p-6">
+                    <div className="flex flex-col justify-center gap-2 border-l border-gray-200 px-6">
                         <p className="text-lg break-words">
                             <span className="text-grey-2">Contact: </span> 
                             <span className="text-black">{lead.contact}</span>
@@ -152,7 +153,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
 
                     {/* Col 3: Actions */}
                     <div
-                        className="flex items-center justify-between border-l border-gray-200 p-6"
+                        className="flex items-center justify-between border-l border-gray-200 px-6"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center gap-4">
