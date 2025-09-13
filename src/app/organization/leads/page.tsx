@@ -316,7 +316,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
             </DropdownMenu>
              <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
-                    <Trash2 className="mr-2" />
+                    <Trash2 className="md:mr-2" />
                     Delete
                 </Button>
             </AlertDialogTrigger>
@@ -545,3 +545,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
