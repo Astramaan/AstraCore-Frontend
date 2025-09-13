@@ -108,73 +108,126 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className={cn("hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
-             isFirst && "hover:rounded-t-[30px]",
-             isLast && "hover:rounded-b-[30px]",
-        )}>
-            <div onClick={() => onViewDetails(lead)} className="flex items-center gap-4 cursor-pointer">
-                <Checkbox 
-                    id={`select-${lead.leadId}-desktop`} 
-                    className="w-6 h-6 rounded-full" 
-                    checked={isSelected}
-                    onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
-                    onClick={(e) => e.stopPropagation()}
-                />
-                <div>
-                    <p className="text-xl font-semibold text-black">{lead.fullName}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
-                </div>
-            </div>
-            
-            <Separator orientation="vertical" className="h-14" />
-            
+        <div
+          className={cn(
+            "hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+            isFirst && "hover:rounded-t-[30px]",
+            isLast && "hover:rounded-b-[30px]"
+          )}
+        >
+          {/* Name + Location + Checkbox */}
+          <div
+            onClick={() => onViewDetails(lead)}
+            className="flex items-center gap-4 cursor-pointer"
+          >
+            <Checkbox
+              id={`select-${lead.leadId}-desktop`}
+              className="w-6 h-6 rounded-full"
+              checked={isSelected}
+              onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
+              onClick={(e) => e.stopPropagation()}
+            />
             <div>
-                 <div className="flex flex-col gap-2">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black break-all">{lead.contact}</span></p>
-                    <p className="text-lg"><span className="text-zinc-900">{lead.leadId}</span></p>
-                </div>
+              <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+              <p className="text-lg">
+                <span className="text-grey-2">Location: </span>
+                <span className="text-black">
+                  {lead.address.split(",").pop()?.trim().split(" ")[0] || "N/A"}
+                </span>
+              </p>
             </div>
-            
-            <Separator orientation="vertical" className="h-14" />
+          </div>
 
-            <div className="flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center gap-4">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                             <Button variant="outline" className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-auto justify-between hover:bg-primary/10 hover:text-primary">
-                                {lead.level}
-                                <ChevronDown className="ml-2"/>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 1')}>Level 1</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 2')}>Level 2</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Button onClick={() => onContact(lead)} variant="outline" className="h-12 md:h-14 px-4 rounded-full text-grey-1 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary">
-                        <Phone className="mr-2 h-4 w-4"/>
-                        Contact
-                    </Button>
-                </div>
-                <div className="ml-auto self-center" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
-                             <DropdownMenuItem onSelect={() => onContact(lead)}>Contact</DropdownMenuItem>
-                            <AlertDialogTrigger asChild>
-                                <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
-                            </AlertDialogTrigger>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+          {/* Stretching separator */}
+          <Separator orientation="vertical" className="self-stretch" />
+
+          {/* Contact + ID */}
+          <div className="flex flex-col justify-center gap-2">
+            <p className="text-lg whitespace-nowrap">
+              <span className="text-grey-2">Contact: </span>
+              <span className="text-black break-all">{lead.contact}</span>
+            </p>
+            <p className="text-lg">
+              <span className="text-zinc-900">{lead.leadId}</span>
+            </p>
+          </div>
+
+          {/* Stretching separator */}
+          <Separator orientation="vertical" className="self-stretch" />
+
+          {/* Actions */}
+          <div
+            className="flex items-center justify-between"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="h-12 md:h-14 px-6 rounded-full text-grey-1 text-base md:text-lg font-medium w-full md:w-auto justify-between hover:bg-primary/10 hover:text-primary"
+                  >
+                    {lead.level}
+                    <ChevronDown className="ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 1")}>
+                    Level 1
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 2")}>
+                    Level 2
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 3")}>
+                    Level 3
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button
+                onClick={() => onContact(lead)}
+                variant="outline"
+                className="h-12 md:h-14 px-4 rounded-full text-grey-1 text-base md:text-lg font-medium hover:bg-primary/10 hover:text-primary"
+              >
+                <Phone className="mr-2 h-4 w-4" />
+                Contact
+              </Button>
             </div>
+            <div
+              className="ml-auto self-center"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <MoreVertical className="w-6 h-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onSelect={() => onViewDetails(lead)}>
+                    View Details
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => onContact(lead)}>
+                    Contact
+                  </DropdownMenuItem>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem
+                      className="text-red-600"
+                      onSelect={(e) => {
+                        e.preventDefault();
+                        onSingleDelete(lead.leadId);
+                      }}
+                    >
+                      Delete
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
         </div>
 
         {/* Mobile & Tablet View */}
@@ -481,7 +534,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.id)
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
                 startInEditMode={isEditing}
