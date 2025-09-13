@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     
     const body = await req.json();
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/invites`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  try
+  try {
     const authHeaders = getAuthHeadersFromRequest(req);
 
     if (Object.keys(authHeaders).length === 0) {
