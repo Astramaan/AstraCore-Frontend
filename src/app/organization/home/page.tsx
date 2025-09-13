@@ -288,27 +288,29 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
                     <h2 className="text-xl font-medium">Overview</h2>
                 </div>
              </div>
-             <Card className="rounded-[50px] relative">
-                <CardContent className="pt-10">
-                    <div className="relative">
-                        <TaskOverviewChart data={myTasksChartData} />
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
-                            <div className="text-base font-medium text-center">My Tasks</div>
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+                <Card className="rounded-[50px] relative">
+                    <CardContent className="pt-10">
+                        <div className="relative">
+                            <TaskOverviewChart data={myTasksChartData} />
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -bottom-8">
+                                <div className="text-base font-medium text-center">My Tasks</div>
+                            </div>
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
 
-            <Card className="rounded-[50px] relative">
-                <CardContent className="pt-10">
-                    <div className="relative">
-                        <TaskOverviewChart data={assignedTasksChartData} />
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="text-base font-medium text-center -translate-y-2">Assigned<br />Tasks</div>
+                <Card className="rounded-[50px] relative">
+                    <CardContent className="pt-10">
+                        <div className="relative">
+                            <TaskOverviewChart data={assignedTasksChartData} />
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div className="text-base font-medium text-center -translate-y-2">Assigned<br />Tasks</div>
+                            </div>
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+            </div>
 
         </aside>
         
