@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -239,35 +238,35 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
 
                         <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8">
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Full Name</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Full Name</Label>
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.name}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Phone Number</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Phone Number</Label>
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.phone}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Email Id</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Email Id</Label>
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Role</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Role</Label>
                                 <p className="text-primary text-base md:text-lg leading-tight truncate">{member.role}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Last Login</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Last Login</Label>
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.lastLogin}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Date Joined</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Date Joined</Label>
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.dateJoined}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Date of Birth</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Date of Birth</Label>
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.dob}</p>
                             </div>
                              <div className="space-y-1 col-span-2 md:col-span-1">
-                                <Label className="text-sm md:text-base font-medium px-2 text-grey-1">Address</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Address</Label>
                                 <p className="text-black text-base md:text-lg leading-tight">{member.address}</p>
                             </div>
                         </div>
