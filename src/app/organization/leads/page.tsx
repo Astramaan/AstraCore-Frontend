@@ -119,7 +119,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     {/* Col 1: Name + Location */}
                     <div
                         onClick={() => onViewDetails(lead)}
-                        className="flex items-center gap-4 cursor-pointer"
+                        className="flex items-center gap-4 cursor-pointer p-6"
                     >
                         <Checkbox
                             id={`select-${lead.leadId}-desktop`}
@@ -140,7 +140,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </div>
 
                     {/* Col 2: Contact + ID */}
-                    <div className="flex flex-col justify-center gap-2 border-l border-gray-200 pl-6">
+                    <div className="flex flex-col justify-center gap-2 border-l border-gray-200 p-6">
                         <p className="text-lg break-words">
                             <span className="text-grey-2">Contact: </span> 
                             <span className="text-black">{lead.contact}</span>
@@ -152,7 +152,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
 
                     {/* Col 3: Actions */}
                     <div
-                        className="flex items-center justify-between border-l border-gray-200 pl-6"
+                        className="flex items-center justify-between border-l border-gray-200 p-6"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center gap-4">
@@ -446,32 +446,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
             </div>
 
             <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-                <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
-                    {filteredLeads.map((lead, index) => (
-                        <LeadCard 
-                            key={lead.leadId} 
-                            lead={lead} 
-                            onSelectionChange={handleSelectionChange}
-                            isSelected={selectedLeads.includes(lead.leadId)}
-                            onSingleDelete={handleSingleDelete}
-                            onContact={handleContact}
-                            onViewDetails={handleViewDetails}
-                            onLevelChange={handleLevelChange}
-                            onEdit={handleEdit}
-                            isFirst={index === 0}
-                            isLast={index === filteredLeads.length - 1}
-                        />
-                    ))}
-                </div>
-
-                <FloatingActionBar 
-                    selectedCount={selectedLeads.length}
-                    onSelectAll={handleSelectAll}
-                    allSelected={allLeadsSelected}
-                    onDeleteMultiple={handleDeleteMultiple}
-                    onBulkLevelChange={handleBulkLevelChange}
-                />
-
                 <AlertDialogContent className="max-w-md rounded-[50px]">
                     <AlertDialogHeader className="items-center text-center">
                          <div className="relative mb-6 flex items-center justify-center h-20 w-20">
@@ -531,11 +505,33 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                   }}
                 startInEditMode={isEditing}
             />
+<div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
+                    {filteredLeads.map((lead, index) => (
+                        <LeadCard 
+                            key={lead.leadId} 
+                            lead={lead} 
+                            onSelectionChange={handleSelectionChange}
+                            isSelected={selectedLeads.includes(lead.leadId)}
+                            onSingleDelete={handleSingleDelete}
+                            onContact={handleContact}
+                            onViewDetails={handleViewDetails}
+                            onLevelChange={handleLevelChange}
+                            onEdit={handleEdit}
+                            isFirst={index === 0}
+                            isLast={index === filteredLeads.length - 1}
+                        />
+                    ))}
+                </div>
 
+                <FloatingActionBar 
+                    selectedCount={selectedLeads.length}
+                    onSelectAll={handleSelectAll}
+                    allSelected={allLeadsSelected}
+                    onDeleteMultiple={handleDeleteMultiple}
+                    onBulkLevelChange={handleBulkLevelChange}
+                />
         </div>
     );
 }
 
     
-
-
