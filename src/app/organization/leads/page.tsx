@@ -110,19 +110,11 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
         {/* Desktop View */}
         <div
           className={cn(
-            "hidden lg:block cursor-pointer",
+            "hidden lg:grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch p-10 cursor-pointer hover:bg-hover-bg",
             isFirst && "hover:rounded-t-[30px]",
             isLast && "hover:rounded-b-[30px]"
           )}
         >
-          <div
-            className={cn(
-                "hover:bg-hover-bg p-10",
-                isFirst && "hover:rounded-t-[30px]",
-                isLast && "hover:rounded-b-[30px]"
-            )}
-          >
-            <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch">
                 {/* Col 1: Name + Location */}
                 <div
                     onClick={() => onViewDetails(lead)}
@@ -230,8 +222,6 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     </DropdownMenu>
                     </div>
                 </div>
-              </div>
-            </div>
         </div>
         
         {/* Mobile View */}
