@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -113,7 +112,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: type
     
     const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
         <div className="space-y-2">
-            <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+            <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
             <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
         </div>
     );
@@ -142,7 +141,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: type
                         <div className="space-y-6">
                             <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
                             <div className="space-y-2">
-                                <Label className={cn("text-lg font-medium px-2 text-grey-1")}>Role</Label>
+                                <Label className={cn("text-lg font-medium", 'text-grey-1')}>Role</Label>
                                 <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
@@ -216,7 +215,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
                             <div className="flex flex-col gap-2 flex-1">
                                  <DialogOrSheetTrigger asChild>
-                                    <Button className="w-full h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
+                                    <Button className="w-full md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit Profile
                                     </Button>
@@ -224,7 +223,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                 <ChangePasswordDialog 
                                     email={member.email} 
                                     trigger={
-                                        <Button variant="outline" className="w-full h-12 rounded-full bg-background text-black hover:bg-muted text-base font-medium">
+                                        <Button variant="outline" className="w-full md:w-56 h-12 rounded-full bg-background text-black hover:bg-muted text-base font-medium">
                                             Change Password
                                         </Button>
                                     }
