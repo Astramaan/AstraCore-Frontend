@@ -47,13 +47,13 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden lg:block" />
-                    <h2 className="text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900">
+                    <h2 className="text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900 hidden md:block">
                         {pageTitle}
                     </h2>
                 </>
              )}
         </div>
-        <div className="hidden md:flex items-center gap-2 lg:gap-4 w-full md:w-auto">
+        <div className="hidden md:flex items-center gap-2 lg:gap-4">
             <NotificationPopover />
             <Link href="/organization/teams">
               <Button className={cn(
@@ -64,7 +64,7 @@ export const OrganizationHeader = () => {
                   <span>Teams Management</span>
               </Button>
             </Link>
-            <Link href="/organization/profile" className="flex items-center gap-2 flex-1 justify-end">
+            <Link href="/organization/profile" className="flex items-center gap-2">
                 <Avatar className="h-12 w-12 lg:h-14 lg:w-14">
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>BN</AvatarFallback>

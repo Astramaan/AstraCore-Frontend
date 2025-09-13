@@ -80,7 +80,7 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className={cn("hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+        <div className={cn("hidden md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1fr_auto_auto] items-center py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
              isFirst && "hover:rounded-t-[30px]",
              isLast && "hover:rounded-b-[30px]",
         )}>
@@ -112,6 +112,8 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </div>
             </div>
 
+            <Separator orientation="vertical" className="h-14" />
+
             <div className="justify-self-end" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -127,8 +129,8 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
         </div>
 
-        {/* Mobile & Tablet View */}
-        <div className="lg:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
+        {/* Mobile View */}
+        <div className="md:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
              <div className="flex justify-between items-start">
                 <div>
                     <p className="text-xl font-semibold text-black">{meeting.name}</p>
@@ -221,8 +223,8 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
-                <h2 className="text-xl text-black font-medium">Client Meetings</h2>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <h2 className="text-xl text-black font-medium self-start md:self-center">Client Meetings</h2>
                  <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
@@ -314,6 +316,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
+
 
 
 
