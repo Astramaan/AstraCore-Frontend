@@ -283,7 +283,11 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 </div>
             </div>
         </div>
-        {!isLast && <Separator className="mx-10" />}
+        {!isLast && (
+          <div className="px-10">
+            <Separator />
+          </div>
+        )}
     </div>
 );
 
@@ -536,3 +540,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 }
 
     
+
