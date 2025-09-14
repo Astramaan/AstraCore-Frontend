@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -109,12 +108,12 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:block p-6">
             <div
             className={cn(
-                "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer hover:bg-hover-bg p-6",
-                isFirst && "hover:rounded-t-[30px]",
-                isLast && "hover:rounded-b-[30px]"
+                "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer hover:bg-hover-bg",
+                isFirst && "rounded-t-[30px]",
+                isLast && "rounded-b-[30px]"
             )}
             >
                     {/* Col 1: Name + Location */}
@@ -451,6 +450,23 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
             </div>
 
             <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
+                 <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
+                    {filteredLeads.map((lead, index) => (
+                        <LeadCard 
+                            key={lead.leadId} 
+                            lead={lead} 
+                            onSelectionChange={handleSelectionChange}
+                            isSelected={selectedLeads.includes(lead.leadId)}
+                            onSingleDelete={handleSingleDelete}
+                            onContact={handleContact}
+                            onViewDetails={handleViewDetails}
+                            onLevelChange={handleLevelChange}
+                            onEdit={handleEdit}
+                            isFirst={index === 0}
+                            isLast={index === filteredLeads.length - 1}
+                        />
+                    ))}
+                </div>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
                     <AlertDialogHeader className="items-center text-center">
                          <div className="relative mb-6 flex items-center justify-center h-20 w-20">
@@ -510,23 +526,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                   }}
                 startInEditMode={isEditing}
             />
-<div className="flex flex-col bg-white rounded-[30px] overflow-hidden lg:p-6">
-                    {filteredLeads.map((lead, index) => (
-                        <LeadCard 
-                            key={lead.leadId} 
-                            lead={lead} 
-                            onSelectionChange={handleSelectionChange}
-                            isSelected={selectedLeads.includes(lead.leadId)}
-                            onSingleDelete={handleSingleDelete}
-                            onContact={handleContact}
-                            onViewDetails={handleViewDetails}
-                            onLevelChange={handleLevelChange}
-                            onEdit={handleEdit}
-                            isFirst={index === 0}
-                            isLast={index === filteredLeads.length - 1}
-                        />
-                    ))}
-                </div>
 
                 <FloatingActionBar 
                     selectedCount={selectedLeads.length}
@@ -546,5 +545,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
 
+
+    
 
     
