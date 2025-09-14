@@ -109,119 +109,119 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className="hidden lg:block p-6">
-            <div className={cn(
-                    "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer hover:bg-hover-bg",
-                    isFirst && "rounded-t-[30px]",
-                    isLast && "rounded-b-[30px]",
-                )}>
-                    {/* Col 1: Name + Location */}
-                    <div
-                        onClick={() => onViewDetails(lead)}
-                        className="flex items-center gap-4 cursor-pointer"
-                    >
-                        <Checkbox
-                            id={`select-${lead.leadId}-desktop`}
-                            className="w-6 h-6 rounded-full"
-                            checked={isSelected}
-                            onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
-                            onClick={(e) => e.stopPropagation()}
-                        />
-                        <div>
-                        <p className="text-xl font-semibold text-black">{lead.fullName}</p>
-                        <p className="text-lg">
-                            <span className="text-grey-2">Location: </span> 
-                            <span className="text-black">
-                            {lead.address.split(",").pop()?.trim().split(" ")[0] || "N/A"}
-                            </span>
-                        </p>
-                        </div>
-                    </div>
-
-                    {/* Col 2: Contact + ID */}
-                    <div className="flex flex-col justify-center gap-2 border-l border-gray-200 px-6">
-                        <p className="text-lg break-words">
-                            <span className="text-grey-2">Contact: </span> 
-                            <span className="text-black">{lead.contact}</span>
-                        </p>
-                        <p className="text-lg">
-                        <span className="text-zinc-900">{lead.leadId}</span>
-                        </p>
-                    </div>
-
-                    {/* Col 3: Actions */}
-                    <div
-                        className="flex items-center justify-between border-l border-gray-200 px-6"
+        <div className={cn(
+            "hidden lg:block p-6 cursor-pointer hover:bg-hover-bg",
+            isFirst && "rounded-t-[30px]",
+            isLast && "rounded-b-[30px]",
+        )}>
+            <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch">
+                {/* Col 1: Name + Location */}
+                <div
+                    onClick={() => onViewDetails(lead)}
+                    className="flex items-center gap-4 cursor-pointer"
+                >
+                    <Checkbox
+                        id={`select-${lead.leadId}-desktop`}
+                        className="w-6 h-6 rounded-full"
+                        checked={isSelected}
+                        onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                         onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="flex items-center gap-4">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="outline"
-                                className="h-12 lg:h-14 px-6 rounded-full text-black text-base lg:text-lg font-medium w-full lg:w-auto justify-between hover:bg-primary/10 hover:text-primary"
-                            >
-                                {lead.level}
-                                <ChevronDown className="ml-2" />
-                            </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 1")}>
-                                Level 1
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 2")}>
-                                Level 2
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 3")}>
-                                Level 3
-                            </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        <Button
-                            onClick={() => onContact(lead)}
-                            variant="outline"
-                            className="h-12 lg:h-14 px-4 rounded-full text-black text-base lg:text-lg font-medium hover:bg-primary/10 hover:text-primary"
-                        >
-                            <Phone className="mr-2 h-4 w-4" />
-                            Contact
-                        </Button>
-                        </div>
-                        <div
-                        className="ml-auto self-center"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }}
-                        >
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onViewDetails(lead)}>
-                                View Details
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onContact(lead)}>
-                                Contact
-                            </DropdownMenuItem>
-                            <AlertDialogTrigger asChild>
-                                <DropdownMenuItem
-                                className="text-red-600"
-                                onSelect={(e) => {
-                                    e.preventDefault();
-                                    onSingleDelete(lead.leadId);
-                                }}
-                                >
-                                Delete
-                                </DropdownMenuItem>
-                            </AlertDialogTrigger>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        </div>
+                    />
+                    <div>
+                    <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+                    <p className="text-lg">
+                        <span className="text-grey-2">Location: </span> 
+                        <span className="text-black">
+                        {lead.address.split(",").pop()?.trim().split(" ")[0] || "N/A"}
+                        </span>
+                    </p>
                     </div>
+                </div>
+
+                {/* Col 2: Contact + ID */}
+                <div className="flex flex-col justify-center gap-2 border-l border-gray-200 px-6">
+                    <p className="text-lg break-words">
+                        <span className="text-grey-2">Contact: </span> 
+                        <span className="text-black">{lead.contact}</span>
+                    </p>
+                    <p className="text-lg">
+                    <span className="text-zinc-900">{lead.leadId}</span>
+                    </p>
+                </div>
+
+                {/* Col 3: Actions */}
+                <div
+                    className="flex items-center justify-between border-l border-gray-200 px-6"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div className="flex items-center gap-4">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="outline"
+                            className="h-12 lg:h-14 px-6 rounded-full text-black text-base lg:text-lg font-medium w-full lg:w-auto justify-between hover:bg-primary/10 hover:text-primary"
+                        >
+                            {lead.level}
+                            <ChevronDown className="ml-2" />
+                        </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 1")}>
+                            Level 1
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 2")}>
+                            Level 2
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 3")}>
+                            Level 3
+                        </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Button
+                        onClick={() => onContact(lead)}
+                        variant="outline"
+                        className="h-12 lg:h-14 px-4 rounded-full text-black text-base lg:text-lg font-medium hover:bg-primary/10 hover:text-primary"
+                    >
+                        <Phone className="mr-2 h-4 w-4" />
+                        Contact
+                    </Button>
+                    </div>
+                    <div
+                    className="ml-auto self-center"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }}
+                    >
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onViewDetails(lead)}>
+                            View Details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onContact(lead)}>
+                            Contact
+                        </DropdownMenuItem>
+                        <AlertDialogTrigger asChild>
+                            <DropdownMenuItem
+                            className="text-red-600"
+                            onSelect={(e) => {
+                                e.preventDefault();
+                                onSingleDelete(lead.leadId);
+                            }}
+                            >
+                            Delete
+                            </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -449,7 +449,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
             </div>
 
              <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-                <div className="flex flex-col bg-white rounded-[30px] overflow-hidden lg:p-6">
+                <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
                     {filteredLeads.map((lead, index) => (
                         <LeadCard 
                             key={lead.leadId} 
@@ -550,3 +550,4 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
