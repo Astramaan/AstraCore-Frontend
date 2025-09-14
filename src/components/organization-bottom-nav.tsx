@@ -34,9 +34,9 @@ export const OrganizationBottomNav = () => {
                         return (
                              <Link href={item.href} key={item.label} className="flex-1 lg:flex-none" title={item.label}>
                                 <div className={cn(
-                                    "flex flex-col lg:flex-row items-center justify-center text-center gap-1 transition-colors duration-200",
+                                    "flex flex-row items-center justify-center text-center gap-1.5 transition-colors duration-200",
                                     "lg:gap-2.5 lg:py-3 lg:px-5 lg:rounded-full min-w-max",
-                                    "h-12 w-12 lg:h-[54px] p-2 rounded-full",
+                                    "h-12 w-auto px-3 rounded-full lg:h-[54px]",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
