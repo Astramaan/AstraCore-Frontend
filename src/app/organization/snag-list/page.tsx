@@ -214,7 +214,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <div className="lg:px-8"><Separator /></div>}
+        {!isLast && <div className="px-8"><Separator /></div>}
     </div>
 );
 
@@ -397,7 +397,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     };
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="space-y-6 pb-28">
         <div className="flex flex-col md:flex-row justify-end items-center gap-4">
             <div className="flex items-center gap-4 w-full md:w-auto">
                 <div className="relative w-full md:w-64">
@@ -548,3 +548,6 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
 
+
+
+    

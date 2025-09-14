@@ -434,7 +434,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
 
     return (
-        <div className="space-y-8 pb-24">
+        <div className="space-y-8 pb-28">
             <div className="flex flex-col md:flex-row justify-end items-center gap-4">
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative w-full md:w-64">
@@ -541,3 +541,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
     
 
+
+
+    
