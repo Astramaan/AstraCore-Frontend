@@ -39,7 +39,7 @@ const initialLeadMeetings: Meeting[] = [
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
-        <div className="lg:hidden p-4" onClick={() => onViewDetails(meeting)}>
+        <div className="lg:hidden p-10" onClick={() => onViewDetails(meeting)}>
             <div className="space-y-4">
                  <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
