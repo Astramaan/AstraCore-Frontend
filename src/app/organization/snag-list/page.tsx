@@ -400,7 +400,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     <div className="space-y-6 pb-28">
         <div className="flex flex-col md:flex-row justify-end items-center gap-4">
             <div className="flex items-center gap-4 w-full md:w-auto">
-                <div className="relative w-full md:w-64">
+                <div className="relative flex-1 md:w-64">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                     <Input 
                         placeholder="Search Snags" 
@@ -414,7 +414,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
                     onOpenChange={setSnagSheetOpen} 
                     selectedProjectId={selectedProjectForSnag}
                     trigger={
-                        <Button onClick={openAddSnagSheet} className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6">
+                        <Button onClick={openAddSnagSheet} className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6 shrink-0">
                             <Plus className="md:mr-2"/>
                             <span className="hidden md:inline">New snag</span>
                         </Button>
@@ -549,5 +549,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
 
+
+    
 
     
