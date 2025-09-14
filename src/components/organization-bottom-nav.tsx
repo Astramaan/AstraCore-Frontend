@@ -40,7 +40,7 @@ export const OrganizationBottomNav = () => {
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
-                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap hidden lg:inline">{item.label}</span>
+                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
                                 </div>
                             </Link>
                         )
