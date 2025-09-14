@@ -27,7 +27,7 @@ export const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-2 flex justify-center">
-             <div className="relative mx-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-2 max-w-fit">
+             <div className="relative w-full lg:w-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2 px-2">
                 <div className="grid grid-cols-3 gap-2 lg:flex lg:items-center lg:justify-center">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
