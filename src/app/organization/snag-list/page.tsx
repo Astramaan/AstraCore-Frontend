@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -156,7 +157,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
         </div>
         
         {/* Mobile & Tablet View */}
-        <div className="lg:hidden flex flex-col p-4 md:p-6" onClick={() => onViewDetails(snag)}>
+         <div className="lg:hidden flex flex-col p-4 md:p-6 gap-4" onClick={() => onViewDetails(snag)}>
              <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4 flex-1">
                      <Checkbox 
@@ -199,7 +200,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 flex w-full items-center pl-[40px] justify-between">
+            <div className="flex w-full items-center justify-between ml-[calc(24px+1rem)]">
                 <div>
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
@@ -251,7 +252,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
+export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [allSnags, setAllSnags] = useState(allSnagsData);
     const [selectedSnags, setSelectedSnags] = useState<string[]>([]);
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
@@ -513,42 +514,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
-
-    
 
