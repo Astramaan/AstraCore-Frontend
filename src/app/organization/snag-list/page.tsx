@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -201,13 +199,13 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 flex w-full md:justify-between items-start md:items-center">
-                <div className="md:ml-20">
+            <div className="mt-4 ml-10 flex w-full justify-between items-center">
+                <div>
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
                 </div>
-                 <div className="mt-2 md:mt-0 ml-auto md:ml-0 md:text-right">
-                     <div className="flex flex-col gap-1 items-start md:items-end">
+                 <div className="mt-2 md:mt-0 text-right">
+                     <div className="flex flex-col gap-1 items-end">
                         <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                         <p className="text-sm text-grey-1">{snag.subStatus}</p>
                      </div>
@@ -398,29 +396,27 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
   return (
     <div className="space-y-6 pb-28">
-        <div className="flex flex-col md:flex-row justify-end items-center gap-4">
-            <div className="flex items-center gap-4 w-full md:w-auto">
-                <div className="relative flex-1 md:w-64">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
-                    <Input 
-                        placeholder="Search Snags" 
-                        className="pl-12 h-14 rounded-full bg-white text-lg" 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                 <AddSnagSheet 
-                    isOpen={snagSheetOpen} 
-                    onOpenChange={setSnagSheetOpen} 
-                    selectedProjectId={selectedProjectForSnag}
-                    trigger={
-                        <Button onClick={openAddSnagSheet} className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6 shrink-0">
-                            <Plus className="md:mr-2"/>
-                            <span className="hidden md:inline">New snag</span>
-                        </Button>
-                    }
+        <div className="flex justify-end items-center gap-4">
+            <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                <Input 
+                    placeholder="Search Snags" 
+                    className="pl-12 h-14 rounded-full bg-white text-lg" 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
+            <AddSnagSheet 
+                isOpen={snagSheetOpen} 
+                onOpenChange={setSnagSheetOpen} 
+                selectedProjectId={selectedProjectForSnag}
+                trigger={
+                    <Button onClick={openAddSnagSheet} className="h-[54px] w-[54px] p-0 shrink-0 md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium md:px-6">
+                        <Plus className="md:mr-2"/>
+                        <span className="hidden md:inline">New snag</span>
+                    </Button>
+                }
+            />
         </div>
         
          <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
@@ -549,6 +545,8 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
 
 
 
+
+    
 
     
 
