@@ -199,7 +199,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 ml-10 flex w-full justify-between items-center">
+            <div className="mt-4 flex w-full items-center pl-[40px] justify-between">
                 <div>
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
@@ -251,7 +251,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function SnagListPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
     const [allSnags, setAllSnags] = useState(allSnagsData);
     const [selectedSnags, setSelectedSnags] = useState<string[]>([]);
     const [snagToDelete, setSnagToDelete] = useState<string[]>([]);
@@ -551,3 +551,4 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
