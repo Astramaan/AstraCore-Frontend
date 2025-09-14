@@ -75,12 +75,16 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </div>
             </div>
         </div>
-        <div className="hidden lg:block p-10">
+        <div
+            className={cn(
+                "hidden lg:block hover:bg-hover-bg py-6 px-10",
+                isFirst && "hover:rounded-t-[30px]",
+                isLast && "hover:rounded-b-[30px]"
+            )}
+        >
           <div
               className={cn(
-                  "grid lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch gap-x-6 gap-y-4 cursor-pointer hover:bg-hover-bg",
-                  isFirst && "hover:rounded-t-[30px]",
-                  isLast && "hover:rounded-b-[30px]"
+                  "grid lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch gap-x-6 gap-y-4 cursor-pointer",
               )}
               >
               {/* Company Name & City */}
@@ -227,7 +231,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
             </div>
             <div>
                 <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0">
+                    <CardContent className="p-0 lg:p-6">
                        {filteredClientMeetings.map((meeting, index) => (
                             <MeetingListItem 
                                 key={meeting.id} 
@@ -248,7 +252,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
             </div>
             <div>
                 <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0">
+                    <CardContent className="p-0 lg:p-6">
                          {filteredLeadMeetings.map((meeting, index) => (
                             <MeetingListItem 
                                 key={meeting.id} 
