@@ -110,9 +110,9 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
     <div className="flex flex-col group">
         {/* Desktop View */}
         <div className={cn(
-            "hidden lg:block p-6 cursor-pointer hover:bg-hover-bg",
-            isFirst && "rounded-t-[30px]",
-            isLast && "rounded-b-[30px]",
+            "hidden lg:block hover:bg-hover-bg py-6 px-10",
+            isFirst && "hover:rounded-t-[30px]",
+            isLast && "hover:rounded-b-[30px]",
         )}>
             <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch">
                 {/* Col 1: Name + Location */}
@@ -520,7 +520,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.id)
+                      onDeleteFromDetails(selectedLeadDetails.leadId)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -550,4 +550,5 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
 
