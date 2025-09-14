@@ -109,11 +109,7 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className={cn(
-            "hidden lg:block hover:bg-hover-bg py-6 px-10",
-            isFirst && "hover:rounded-t-[30px]",
-            isLast && "hover:rounded-b-[30px]",
-        )}>
+         <div className="hidden lg:block py-6 px-10 hover:bg-hover-bg">
             <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch">
                 {/* Col 1: Name + Location */}
                 <div
@@ -324,7 +320,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function LeadsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function LeadsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
     const [allLeads, setAllLeads] = useState(leadsData);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
@@ -550,5 +546,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
 
 
