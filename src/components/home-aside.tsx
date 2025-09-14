@@ -62,7 +62,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                     <div className="flex justify-between items-center mb-3">
                         <h2 className="text-xl font-medium">Overview</h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
                         <Card className="rounded-[50px] relative">
                             <CardContent className="pt-10">
                                 <div className="relative">
