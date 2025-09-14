@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Mobile & Tablet View */}
-        <div className="lg:hidden p-10 gap-4">
+        <div className="lg:hidden p-6 md:p-10 gap-4">
             <div className="flex items-start justify-between gap-4">
                 <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
                     <Avatar className="w-14 h-14 shrink-0">
@@ -56,11 +56,23 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                     </DropdownMenu>
                 </div>
             </div>
-            <div className="space-y-2 mt-4">
-                <p className="text-lg whitespace-nowrap"><span className="text-grey-2">Contact: </span><span className="text-black break-all">{project.contact}</span></p>
-                <p className="text-lg"><span className="text-grey-2">Client ID: </span><span className="zinc-900">{project.id}</span></p>
-                <p className="text-lg text-left"><span className="text-grey-2">Started Date: </span><span className="text-zinc-900">{project.startDate}</span></p>
-                <p className="text-lg text-left"><span className="text-grey-2">Status: </span><span className={project.statusColor}>{project.status}</span></p>
+            <div className="space-y-2 mt-4 ml-18 grid grid-cols-2 gap-x-4 gap-y-2">
+                <div>
+                    <span className="text-grey-2 text-base">Contact: </span>
+                    <p className="text-black font-medium text-base break-all">{project.contact}</p>
+                </div>
+                 <div>
+                    <span className="text-grey-2 text-base">Client ID: </span>
+                    <p className="zinc-900 font-medium text-base">{project.id}</p>
+                </div>
+                 <div>
+                    <span className="text-grey-2 text-base">Started Date: </span>
+                    <p className="text-zinc-900 font-medium text-base">{project.startDate}</p>
+                </div>
+                 <div>
+                    <span className="text-grey-2 text-base">Status: </span>
+                    <p className={cn(project.statusColor, 'font-medium text-base')}>{project.status}</p>
+                </div>
             </div>
         </div>
 
