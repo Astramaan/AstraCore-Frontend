@@ -79,10 +79,9 @@ const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Me
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
-        {/* Desktop View */}
         <div
             className={cn(
-                "hidden md:grid md:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 gap-y-4 cursor-pointer hover:bg-hover-bg px-4",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -97,10 +96,10 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
 
             {/* Separator - full height */}
-            <Separator orientation="vertical" className="self-stretch" />
+            <Separator orientation="vertical" className="self-stretch hidden lg:block" />
 
             {/* Contact Info */}
-            <div className="flex flex-col justify-center gap-2">
+            <div className="flex flex-col justify-center gap-2 lg:border-none border-t border-dashed pt-4 lg:pt-0">
                 <p className="text-lg break-all">
                 <span className="text-grey-2">Contact: </span>
                 <span className="text-black">{meeting.email} | {meeting.phone}</span>
@@ -112,10 +111,10 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
 
             {/* Separator */}
-            <Separator orientation="vertical" className="self-stretch" />
+            <Separator orientation="vertical" className="self-stretch hidden lg:block" />
 
             {/* Date & Time + Link */}
-            <div className="flex flex-col justify-center gap-2">
+            <div className="flex flex-col justify-center gap-2 md:border-t md:border-dashed lg:border-none pt-4 lg:pt-0">
                 <p className="text-lg whitespace-nowrap">
                 <span className="text-grey-2">Date & Time: </span>
                 <span className="text-zinc-900">{meeting.date}, {meeting.time}</span>
@@ -133,7 +132,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
 
             {/* Actions Menu */}
-            <div className="justify-self-end flex items-center">
+            <div className="justify-self-end flex items-center absolute top-4 right-4 md:static">
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon">
@@ -149,37 +148,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 </DropdownMenu>
             </div>
         </div>
-
-        {/* Mobile & Tablet View */}
-        <div className="md:hidden flex flex-col p-4" onClick={() => onViewDetails(meeting)}>
-             <div className="flex justify-between items-start">
-                <div>
-                    <p className="text-xl font-semibold text-black">{meeting.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
-                </div>
-                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                            <MoreVertical className="w-6 h-6" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={() => onEdit(meeting)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onDelete(meeting)} className="text-red-500">Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-            <div className="mt-4 space-y-2">
-                 <p className="text-lg"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-lg"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span><span className="zinc-900">{meeting.id}</span></p>
-                <p className="text-lg text-left whitespace-nowrap"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg" onClick={(e) => e.stopPropagation()}>
-                    <GoogleMeetIcon className="w-6 h-6" />
-                    Google Meet
-                </a>
-            </div>
-        </div>
-
         {!isLast && <Separator />}
     </div>
 );
@@ -261,7 +229,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
             </div>
             <div>
                 <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0 md:p-6">
+                    <CardContent className="p-0">
                        {filteredClientMeetings.map((meeting, index) => (
                             <MeetingListItem 
                                 key={meeting.id} 
@@ -282,7 +250,7 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
             </div>
             <div>
                 <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0 md:p-6">
+                    <CardContent className="p-0">
                          {filteredLeadMeetings.map((meeting, index) => (
                             <MeetingListItem 
                                 key={meeting.id} 
@@ -356,5 +324,6 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
 
     
+
 
 
