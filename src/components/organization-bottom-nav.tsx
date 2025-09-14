@@ -27,7 +27,7 @@ export const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-2 flex justify-center">
-             <div className="relative w-full lg:w-auto h-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px]">
+             <div className="relative w-full lg:w-auto bg-neutral-900/20 rounded-[50px] border border-grey-1 backdrop-blur-[5px] py-2">
                 <div className="grid grid-cols-3 gap-2 lg:flex lg:items-center lg:justify-center">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
@@ -36,7 +36,7 @@ export const OrganizationBottomNav = () => {
                                 <div className={cn(
                                     "flex flex-row items-center justify-center text-center gap-1.5 transition-colors duration-200",
                                     "lg:gap-2.5 lg:py-3 lg:px-5 lg:rounded-full min-w-max",
-                                    "h-12 w-auto px-3 rounded-full lg:h-[54px]",
+                                    "h-12 w-auto px-2 rounded-full lg:h-[54px]",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
