@@ -283,7 +283,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                 </div>
             </div>
         </div>
-        {!isLast && <Separator />}
+        {!isLast && <Separator className="mx-10" />}
     </div>
 );
 
