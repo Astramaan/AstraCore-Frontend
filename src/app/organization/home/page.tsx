@@ -152,7 +152,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
 
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
+    <div className="flex flex-col md:flex-row gap-6">
         <main className="flex-1">
             <div className="flex justify-between items-center mb-6">
                  {/* Desktop Filters */}
@@ -248,7 +248,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
         </main>
         
-        <div className="hidden lg:block lg:w-[420px] lg:flex-shrink-0">
+        <div className="hidden md:block lg:w-[420px] lg:flex-shrink-0">
           <HomeAside
               meetings={meetings}
               myTasksChartData={myTasksChartData}

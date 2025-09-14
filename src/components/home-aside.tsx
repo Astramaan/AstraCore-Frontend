@@ -12,8 +12,6 @@ import RedirectionArrowIcon from '@/components/icons/redirection-arrow-icon';
 import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
 import type { Meeting } from '@/components/meeting-details-sheet';
 import type { Task } from '@/components/task-details-sheet';
-import { useIsMobile } from '@/hooks/use-mobile';
-
 
 const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
     <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
@@ -40,12 +38,6 @@ interface HomeAsideProps {
 }
 
 export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
-    const isMobile = useIsMobile();
-
-    if (isMobile) {
-        return null;
-    }
-
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
