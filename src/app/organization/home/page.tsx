@@ -248,15 +248,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
         </main>
         
-        <div className="w-full mt-6 md:mt-0 md:w-[420px] md:flex-shrink-0">
-          <HomeAside
-              meetings={meetings}
-              myTasksChartData={myTasksChartData}
-              assignedTasksChartData={assignedTasksChartData}
-              onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
-          />
-        </div>
+        <HomeAside
+            meetings={meetings}
+            myTasksChartData={myTasksChartData}
+            assignedTasksChartData={assignedTasksChartData}
+            onMeetingClick={handleMeetingClick}
+            onAddTask={handleAddTask}
+        />
         
         {selectedTask && (
             <TaskDetailsSheet
