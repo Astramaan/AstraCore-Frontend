@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Mobile & Tablet View */}
-        <div className="lg:hidden p-4 gap-4">
+        <div className="lg:hidden p-10 gap-4">
             <div className="flex items-start justify-between gap-4">
                 <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
                     <Avatar className="w-14 h-14 shrink-0">
