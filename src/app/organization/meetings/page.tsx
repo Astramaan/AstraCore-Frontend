@@ -37,51 +37,48 @@ const initialLeadMeetings: Meeting[] = [
     { type: 'lead', name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
-const MeetingCard = ({ meeting, onEdit, onDelete, onViewDetails }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void }) => (
-    <div className="bg-white p-4 border-b border-stone-200 last:border-b-0 hover:bg-hover-bg cursor-pointer" onClick={() => onViewDetails(meeting)}>
-        <div className="space-y-4">
-             <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                    <p className="text-base"><span className="text-grey-2">Name: </span><span className="text-zinc-900 font-semibold">{meeting.name}</span></p>
-                    <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
+     <div className="flex flex-col group">
+        <div className="lg:hidden p-4" onClick={() => onViewDetails(meeting)}>
+            <div className="space-y-4">
+                 <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                        <p className="text-base"><span className="text-grey-2">Name: </span><span className="text-zinc-900 font-semibold">{meeting.name}</span></p>
+                        <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                                <MoreVertical className="w-5 h-5" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                            <MoreVertical className="w-5 h-5" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                        <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }}>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-            
-            <div>
-                <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                <p className="text-base"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
-            </div>
-            
-            <div className="space-y-1">
-                 <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                <div className="flex items-center gap-2 text-base">
-                    <span className="text-grey-2">Link: </span> 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
-                        <GoogleMeetIcon className="w-6 h-6" />
-                        Google Meet
-                    </a>
+                
+                <div>
+                    <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
+                    <p className="text-base"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+                </div>
+                
+                <div className="space-y-1">
+                     <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
+                    <div className="flex items-center gap-2 text-base">
+                        <span className="text-grey-2">Link: </span> 
+                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+                            <GoogleMeetIcon className="w-6 h-6" />
+                            Google Meet
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-)
-
-const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
-     <div className="flex flex-col group">
         <div
             className={cn(
-                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 gap-y-4 cursor-pointer hover:bg-hover-bg px-4",
+                "hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 gap-y-4 cursor-pointer hover:bg-hover-bg px-4",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -132,7 +129,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             </div>
 
             {/* Actions Menu */}
-            <div className="justify-self-end flex items-center absolute top-4 right-4 md:static">
+            <div className="justify-self-end flex items-center md:static">
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon">
@@ -327,3 +324,6 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 
 
 
+
+
+    
