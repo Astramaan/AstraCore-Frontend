@@ -88,7 +88,7 @@ const initialRoles: Role[] = [
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         {/* Desktop & Tablet View */}
-        <div className="hidden md:grid md:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-stretch py-4 gap-4">
+        <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-stretch py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
                     {role.icon}
@@ -112,7 +112,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
         </div>
 
         {/* Mobile View */}
-        <div className="md:hidden flex flex-col py-4 gap-4">
+        <div className="lg:hidden flex flex-col py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
                     {role.icon}
@@ -138,7 +138,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
 const RoleCardSkeleton = () => (
     <>
-        <div className="hidden md:grid md:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
+        <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
             <div className="flex items-center gap-4">
                 <Skeleton className="w-14 h-14 rounded-full" />
                 <Skeleton className="h-8 w-40" />
@@ -154,7 +154,7 @@ const RoleCardSkeleton = () => (
                 <Skeleton className="h-14 w-40 rounded-full" />
             </div>
         </div>
-        <div className="md:hidden flex flex-col py-4 gap-4">
+        <div className="lg:hidden flex flex-col py-4 gap-4">
             <div className="flex items-center gap-4">
                 <Skeleton className="w-14 h-14 rounded-full" />
                 <Skeleton className="h-8 w-40" />
