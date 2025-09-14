@@ -248,7 +248,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
         </main>
         
-        <div className="hidden md:block lg:w-[420px] lg:flex-shrink-0">
+        <div className="w-full mt-6 md:mt-0 md:w-[420px] md:flex-shrink-0">
           <HomeAside
               meetings={meetings}
               myTasksChartData={myTasksChartData}
