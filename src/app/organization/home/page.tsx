@@ -76,11 +76,6 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
   
   const handleFilterClick = (filter: FilterType) => {
     if (activeFilter === filter) {
@@ -253,16 +248,14 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
         </main>
         
-        <div className={cn("lg:w-[420px] lg:flex-shrink-0", !isClient && "hidden lg:block")}>
-          {isClient && (
-              <HomeAside
-                  meetings={meetings}
-                  myTasksChartData={myTasksChartData}
-                  assignedTasksChartData={assignedTasksChartData}
-                  onMeetingClick={handleMeetingClick}
-                  onAddTask={handleAddTask}
-              />
-          )}
+        <div className="hidden lg:block lg:w-[420px] lg:flex-shrink-0">
+          <HomeAside
+              meetings={meetings}
+              myTasksChartData={myTasksChartData}
+              assignedTasksChartData={assignedTasksChartData}
+              onMeetingClick={handleMeetingClick}
+              onAddTask={handleAddTask}
+          />
         </div>
         
         {selectedTask && (

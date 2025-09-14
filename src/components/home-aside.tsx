@@ -41,7 +41,6 @@ interface HomeAsideProps {
 
 export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
     const isMobile = useIsMobile();
-    const isTablet = useIsMobile(); // We can refine this hook later if needed
 
     if (isMobile) {
         return null;
