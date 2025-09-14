@@ -39,7 +39,7 @@ interface HomeAsideProps {
 
 export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
     return (
-        <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
+        <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet onTaskAssigned={onAddTask} />
                 <AddMemberSheet />
@@ -62,7 +62,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                     <div className="flex justify-between items-center mb-3">
                         <h2 className="text-xl font-medium">Overview</h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-6">
                         <Card className="rounded-[50px] relative">
                             <CardContent className="pt-10">
                                 <div className="relative">
