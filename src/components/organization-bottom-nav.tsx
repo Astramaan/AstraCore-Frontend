@@ -32,7 +32,7 @@ export const OrganizationBottomNav = () => {
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
                         return (
-                             <Link href={item.href} key={item.label} className="flex-1 lg:flex-none">
+                             <Link href={item.href} key={item.label} className="flex-1 lg:flex-none" title={item.label}>
                                 <div className={cn(
                                     "flex flex-col lg:flex-row items-center justify-center text-center gap-1 transition-colors duration-200",
                                     "lg:gap-2.5 lg:py-3 lg:px-5 lg:rounded-full min-w-max",
