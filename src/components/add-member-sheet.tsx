@@ -38,6 +38,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const { toast } = useToast();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [team, setTeam] = useState('');
     const [role, setRole] = useState('');
 
@@ -64,6 +65,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             <div className="space-y-6">
                 <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
                 <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 <div className="space-y-2">
                     <Label htmlFor="team" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
