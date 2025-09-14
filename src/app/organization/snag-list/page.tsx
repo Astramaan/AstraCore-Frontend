@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -200,16 +201,16 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="flex w-full items-center justify-between ml-[calc(24px+1rem)]">
+            <div className="space-y-2 ml-[calc(24px+1rem)]">
                 <div>
                     <p className="text-lg"><span className="text-grey-1">Created By: </span><span className="text-black font-medium">{snag.createdBy}</span></p>
                     <p className="text-sm text-grey-1">{snag.createdAt}</p>
                 </div>
-                 <div className="mt-2 md:mt-0 text-right">
-                     <div className="flex flex-col gap-1 items-end">
+                <div className="text-left">
+                    <div className="flex flex-col gap-1 items-start">
                         <p className={cn("text-lg font-medium", snag.statusColor)}>{snag.status}</p>
                         <p className="text-sm text-grey-1">{snag.subStatus}</p>
-                     </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -514,4 +515,5 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     </div>
   );
 }
+
 
