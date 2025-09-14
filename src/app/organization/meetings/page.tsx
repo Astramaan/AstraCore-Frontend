@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -78,7 +77,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
         </div>
         <div
             className={cn(
-                "hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch py-6 gap-x-6 gap-y-4 cursor-pointer hover:bg-hover-bg px-4",
+                "hidden lg:grid lg:grid-cols-[1fr_auto_1.5fr_auto_1.5fr_auto] items-stretch gap-x-6 gap-y-4 cursor-pointer hover:bg-hover-bg p-10",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -87,7 +86,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             <div onClick={() => onViewDetails(meeting)} className="flex flex-col justify-center">
                 <p className="text-xl font-semibold text-black break-words">{meeting.name}</p>
                 <p className="text-lg">
-                <span className="text-grey-2">Location: </span>
+                <span className="text-grey-2">Location: </span> 
                 <span className="text-black">{meeting.city}</span>
                 </p>
             </div>
@@ -98,11 +97,11 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             {/* Contact Info */}
             <div className="flex flex-col justify-center gap-2 lg:border-none border-t border-dashed pt-4 lg:pt-0">
                 <p className="text-lg break-all">
-                <span className="text-grey-2">Contact: </span>
+                <span className="text-grey-2">Contact: </span> 
                 <span className="text-black">{meeting.email} | {meeting.phone}</span>
                 </p>
                 <p className="text-lg">
-                <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span>
+                <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span> 
                 <span className="text-zinc-900">{meeting.id}</span>
                 </p>
             </div>
@@ -113,7 +112,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             {/* Date & Time + Link */}
             <div className="flex flex-col justify-center gap-2 md:border-t md:border-dashed lg:border-none pt-4 lg:pt-0">
                 <p className="text-lg whitespace-nowrap">
-                <span className="text-grey-2">Date & Time: </span>
+                <span className="text-grey-2">Date & Time: </span> 
                 <span className="text-zinc-900">{meeting.date}, {meeting.time}</span>
                 </p>
                 <a
@@ -302,29 +301,3 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
 }
 
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-    
-
