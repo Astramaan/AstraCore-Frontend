@@ -142,7 +142,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             </div>
           </div>
         </div>
-        {!isLast && <Separator className="md:mx-6" />}
+        {!isLast && <Separator />}
     </div>
 );
 
