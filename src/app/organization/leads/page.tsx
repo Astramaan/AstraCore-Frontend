@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -320,7 +319,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function LeadsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
+export default function LeadsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const [allLeads, setAllLeads] = useState(leadsData);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
@@ -516,7 +515,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 onDelete={(e) => {
                     e.preventDefault();
                     if(selectedLeadDetails) {
-                      onDeleteFromDetails(selectedLeadDetails.leadId)
+                      onDeleteFromDetails(selectedLeadDetails.id)
                     }
                   }}
                 startInEditMode={isEditing}
@@ -546,6 +545,8 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
+
 
 
 
