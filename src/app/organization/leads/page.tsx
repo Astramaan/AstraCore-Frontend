@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -108,12 +109,15 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className="hidden lg:block p-6">
+        <div className={cn(
+                "hidden lg:block p-6",
+                isFirst && "rounded-t-[30px]",
+                isLast && "rounded-b-[30px]",
+                "hover:bg-hover-bg"
+            )}>
             <div
             className={cn(
-                "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer hover:bg-hover-bg",
-                isFirst && "rounded-t-[30px]",
-                isLast && "rounded-b-[30px]"
+                "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer",
             )}
             >
                     {/* Col 1: Name + Location */}
@@ -449,8 +453,8 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                 </div>
             </div>
 
-            <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-                 <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
+             <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
+                <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
                     {filteredLeads.map((lead, index) => (
                         <LeadCard 
                             key={lead.leadId} 
@@ -545,6 +549,8 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
 
+
+    
 
     
 
