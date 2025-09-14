@@ -67,7 +67,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
         {/* Desktop View */}
         <div
           className={cn(
-            "hidden md:grid md:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+            "hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
             isFirst && "hover:rounded-t-[30px]",
             isLast && "hover:rounded-b-[30px]"
           )}
@@ -238,7 +238,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                     />
                 </div>
                 <Card className="rounded-[40px] md:rounded-[50px]">
-                    <CardContent className="p-0 md:p-6">
+                    <CardContent className="p-0 lg:p-6">
                         {activeProjects.map((project, index) => (
                             <ProjectListItem 
                                 key={project.id} 
@@ -256,7 +256,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
             <div>
                 <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
                  <Card className="rounded-[40px] md:rounded-[50px]">
-                    <CardContent className="p-0 md:p-6">
+                    <CardContent className="p-0 lg:p-6">
                         {completedProjects.map((project, index) => (
                             <ProjectListItem 
                                 key={project.id} 
