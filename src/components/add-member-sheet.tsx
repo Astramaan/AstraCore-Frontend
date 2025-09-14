@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addMember } from '@/app/actions';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
