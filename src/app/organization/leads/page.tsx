@@ -109,10 +109,10 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-        <div className="hidden lg:block py-6 px-4">
+        <div className="hidden lg:block">
             <div
             className={cn(
-                "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer hover:bg-hover-bg",
+                "grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch cursor-pointer hover:bg-hover-bg p-6",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -120,7 +120,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     {/* Col 1: Name + Location */}
                     <div
                         onClick={() => onViewDetails(lead)}
-                        className="flex items-center gap-4 cursor-pointer p-6"
+                        className="flex items-center gap-4 cursor-pointer"
                     >
                         <Checkbox
                             id={`select-${lead.leadId}-desktop`}
@@ -510,7 +510,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
                   }}
                 startInEditMode={isEditing}
             />
-<div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
+<div className="flex flex-col bg-white rounded-[30px] overflow-hidden lg:p-6">
                     {filteredLeads.map((lead, index) => (
                         <LeadCard 
                             key={lead.leadId} 
@@ -545,3 +545,6 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
 
     
 
+
+
+    
