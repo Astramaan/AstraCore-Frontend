@@ -39,45 +39,47 @@ interface HomeAsideProps {
 
 export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
     return (
-        <aside className="w-full md:w-[420px] space-y-6 flex-shrink-0">
+        <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                  <AssignTaskSheet onTaskAssigned={onAddTask} />
                 <AddMemberSheet />
             </div>
 
-            <div>
-                <div className="flex justify-between items-center mb-3 mt-8">
-                    <h2 className="text-xl font-medium">Meetings</h2>
-                    <Link href="/organization/meetings" className="text-sm text-primary">
-                        see all meetings
-                    </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+                <div>
+                    <div className="flex justify-between items-center mb-3 mt-8 lg:mt-0">
+                        <h2 className="text-xl font-medium">Meetings</h2>
+                        <Link href="/organization/meetings" className="text-sm text-primary">
+                            see all meetings
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                        {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} onClick={onMeetingClick} />)}
+                    </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                    {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} onClick={onMeetingClick} />)}
-                </div>
-            </div>
-            
-             <div>
-                <div className="flex justify-between items-center mb-3">
-                    <h2 className="text-xl font-medium">Overview</h2>
-                </div>
-             </div>
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
-                <Card className="rounded-[50px] relative">
-                    <CardContent className="pt-10">
-                        <div className="relative">
-                            <TaskOverviewChart data={myTasksChartData} title="My Tasks" />
-                        </div>
-                    </CardContent>
-                </Card>
+                
+                 <div>
+                    <div className="flex justify-between items-center mb-3">
+                        <h2 className="text-xl font-medium">Overview</h2>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <Card className="rounded-[50px] relative">
+                            <CardContent className="pt-10">
+                                <div className="relative">
+                                    <TaskOverviewChart data={myTasksChartData} title="My Tasks" />
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                <Card className="rounded-[50px] relative">
-                    <CardContent className="pt-10">
-                        <div className="relative">
-                            <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
-                        </div>
-                    </CardContent>
-                </Card>
+                        <Card className="rounded-[50px] relative">
+                            <CardContent className="pt-10">
+                                <div className="relative">
+                                    <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
             </div>
         </aside>
     );
