@@ -214,7 +214,7 @@ const SnagCard = ({ snag, onSelectionChange, isSelected, onSingleDelete, onStatu
                 </div>
             </div>
         </div>
-        {!isLast && <Separator className="lg:mx-8" />}
+        {!isLast && <div className="lg:px-8"><Separator /></div>}
     </div>
 );
 
@@ -535,6 +535,7 @@ export default function SnagListPage({ searchParams }: { searchParams: { [key: s
     
 
     
+
 
 
 
