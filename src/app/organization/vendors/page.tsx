@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -137,7 +136,6 @@ const vendorsData = [
 export type Vendor = typeof vendorsData[0];
 
 const allLocations = [...new Set(vendorsData.map(v => v.location))];
-const allMaterialsList = [...new Set(vendorsData.flatMap(v => v.materials))];
 
 const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewVendors: (material: Material) => void; }) => (
     <>
@@ -189,7 +187,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [allVendors, setAllVendors] = useState(vendorsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
-    const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
     const [showFavorites, setShowFavorites] = useState(false);
 
@@ -204,9 +201,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         const materialMap: Record<string, Vendor[]> = {};
         for (const vendor of filteredVendors) {
             for (const material of vendor.materials) {
-                if (selectedMaterials.length > 0 && !selectedMaterials.includes(material)) {
-                    continue;
-                }
                 if (!materialMap[material]) {
                     materialMap[material] = [];
                 }
@@ -218,17 +212,11 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             name: materialName,
             vendors: materialMap[materialName]
         }));
-    }, [searchTerm, selectedLocations, selectedMaterials, allVendors, showFavorites]);
+    }, [searchTerm, selectedLocations, allVendors, showFavorites]);
 
     const handleLocationToggle = (location: string) => {
         setSelectedLocations(prev => 
             prev.includes(location) ? prev.filter(l => l !== location) : [...prev, location]
-        );
-    }
-    
-    const handleMaterialToggle = (material: string) => {
-        setSelectedMaterials(prev => 
-            prev.includes(material) ? prev.filter(m => m !== material) : [...prev, material]
         );
     }
 
@@ -280,18 +268,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                                     {location}
                                 </DropdownMenuCheckboxItem>
                             ))}
-                            <DropdownMenuSeparator />
-                             <DropdownMenuLabel>Materials</DropdownMenuLabel>
-                             {allMaterialsList.map(material => (
-                                <DropdownMenuCheckboxItem
-                                    key={material}
-                                    checked={selectedMaterials.includes(material)}
-                                    onSelect={(e) => e.preventDefault()}
-                                    onClick={() => handleMaterialToggle(material)}
-                                >
-                                    {material}
-                                </DropdownMenuCheckboxItem>
-                            ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <AddVendorSheet />
@@ -317,5 +293,4 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     );
 }
 
-
-
+    
