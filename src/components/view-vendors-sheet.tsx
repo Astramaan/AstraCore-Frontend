@@ -48,16 +48,9 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                         </Link>
                         <div className="flex-1">
                             <div className="flex justify-between items-start">
-                                <div>
-                                    <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
-                                        <p className="text-lg font-medium">{vendor.companyName}</p>
-                                    </Link>
-                                    <div className="mt-2 space-y-1 text-sm">
-                                        <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                                        <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
-                                        <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial h-10 rounded-full px-4 mt-2 bg-primary text-white">Order</Button>
-                                    </div>
-                                </div>
+                                <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
+                                    <p className="text-lg font-medium">{vendor.companyName}</p>
+                                </Link>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button variant="ghost" size="icon">
@@ -69,6 +62,11 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                                         <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
+                            </div>
+                            <div className="mt-2 space-y-1 text-sm">
+                                <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
+                                <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                                <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-10 rounded-full px-4 mt-2 bg-primary text-white">Order</Button>
                             </div>
                         </div>
                     </div>
