@@ -33,6 +33,8 @@ export default function AuthForm() {
   const { toast } = useToast();
 
    useEffect(() => {
+    // This effect will only run if the login fails and the page re-renders.
+    // A successful login will redirect and this component will unmount.
     if (state && state.success === false) {
        toast({
         variant: "destructive",

@@ -25,11 +25,9 @@ export async function login(prevState: any, formData: FormData) {
             maxAge: 60 * 60 * 24 * 7 // 1 week
         });
         
-        if (data.user.team === 'Project Manager') {
-            redirect('/organization/home');
-        } else {
-            redirect('/organization/home');
-        }
+        // Redirect on the server-side after setting the cookie.
+        // This is the reliable way to handle post-login navigation.
+        redirect('/organization/home');
     }
 
     return data;
