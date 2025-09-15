@@ -38,7 +38,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
         <>
             <div className="flex flex-col">
                 {/* Mobile View */}
-                <div className="md:hidden flex flex-col p-6">
+                 <div className="md:hidden flex flex-col p-6">
                     <div className="flex items-start gap-4">
                         <div className="flex items-center gap-4 flex-1">
                              <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
@@ -70,7 +70,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                         <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
                         <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
                         <div className="pt-4">
-                             <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-10 rounded-full px-4 bg-primary text-white">Order</Button>
+                            <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-10 rounded-full bg-primary text-white">Order</Button>
                         </div>
                     </div>
                 </div>
@@ -175,28 +175,15 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
 
     if (!material) return null;
 
-    if (isMobile) {
-        return (
-             <Sheet open={isOpen} onOpenChange={onClose}>
-                <SheetContent 
-                    side={"right"}
-                    className="p-0 bg-white border-none shadow-none w-full h-full"
-                    overlayClassName="bg-transparent"
-                >
-                    <ViewVendorsContent material={material} onClose={onClose} />
-                </SheetContent>
-            </Sheet>
-        )
-    }
-
     return (
          <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
-                side={"bottom"}
+                side={isMobile ? "bottom" : "bottom"}
                 className={cn(
-                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]",
+                    "p-0 bg-transparent border-none shadow-none w-full",
+                    isMobile ? "h-full" : "md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]"
                 )}
-                overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
+                overlayClassName={cn(isMobile ? "bg-transparent" : "bg-neutral-900/10 backdrop-blur-sm")}
             >
                 <ViewVendorsContent material={material} onClose={onClose} />
             </SheetContent>
