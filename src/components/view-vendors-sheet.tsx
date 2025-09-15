@@ -38,7 +38,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
         <>
             <div className="flex flex-col">
                 {/* Mobile View */}
-                <div className="md:hidden flex justify-between items-start py-4 gap-4">
+                <div className="md:hidden flex justify-between items-start p-10 gap-4">
                     <div className="flex items-center gap-4 flex-1">
                         <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
                             <Avatar className="w-12 h-12">
@@ -171,31 +171,15 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
 
     if (!material) return null;
 
-    if (isMobile) {
-        return (
-             <Sheet open={isOpen} onOpenChange={onClose}>
-                <SheetContent 
-                    side={"bottom"}
-                    className="p-0 bg-transparent border-none shadow-none w-full h-[90vh] bottom-0 rounded-t-[50px]"
-                    overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
-                >
-                    <ViewVendorsContent material={material} onClose={onClose} />
-                </SheetContent>
-            </Sheet>
-        )
-    }
-
     return (
-        <Sheet open={isOpen} onOpenChange={onClose}>
+         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
                 side={"bottom"}
-                className={cn(
-                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]",
-                )}
+                className="p-0 bg-transparent border-none shadow-none w-full h-[90vh] bottom-0 rounded-t-[50px]"
                 overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
             >
-              <ViewVendorsContent material={material} onClose={onClose} />
+                <ViewVendorsContent material={material} onClose={onClose} />
             </SheetContent>
         </Sheet>
-    );
+    )
 }
