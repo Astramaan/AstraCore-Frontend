@@ -15,7 +15,6 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 import { login } from "@/app/actions";
-import { getUserData } from "@/app/actions";
 
 function SubmitButton() {
     const { pending } = useFormStatus();
@@ -28,7 +27,7 @@ function SubmitButton() {
 
 
 export default function AuthForm() {
-  const [state, formAction] = useActionState(login, undefined);
+  const [state, formAction] = useActionState(login, { success: false, message: '', user: null });
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
@@ -37,30 +36,18 @@ export default function AuthForm() {
    useEffect(() => {
     if (!state) return;
 
-    if (state.success === true) {
+    if (state.success === true && state.user) {
       toast({
         variant: "success",
         description: state.message || "Redirecting to your dashboard...",
       });
       
-      const checkUserAndRedirect = async () => {
-        try {
-          const user = await getUserData();
-          if (user?.role === 'platform-owner') {
-              router.push('/platform/dashboard');
-          } else {
-              router.push('/organization/home');
-          }
-        } catch (error) {
-          console.error("Failed to fetch user data for redirect", error);
-          toast({
-            variant: "destructive",
-            description: "Could not determine where to redirect.",
-          });
-        }
-      };
-
-      checkUserAndRedirect();
+      // Redirect based on the user data returned from the login action
+      if (state.user.role === 'platform-owner') {
+          router.push('/platform/dashboard');
+      } else {
+          router.push('/organization/home');
+      }
 
     } else if (state.success === false) {
        toast({
