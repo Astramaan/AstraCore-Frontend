@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import StarIcon from '@/components/icons/star-icon';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 
 const vendorsData = [
     {
@@ -121,29 +123,76 @@ type Vendor = typeof vendorsData[0];
 const allLocations = [...new Set(vendorsData.map(v => v.location))];
 const allMaterials = [...new Set(vendorsData.flatMap(v => v.materials))];
 
-const VendorListItem = ({ vendor, onFavoriteToggle }: { vendor: Vendor, onFavoriteToggle: (id: string) => void }) => (
-    <div className="flex flex-col md:flex-row items-center gap-4 p-4 rounded-[20px] bg-card shadow-sm hover:shadow-lg transition-shadow relative group">
-        <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 w-full">
-            <Avatar className="w-16 h-16 rounded-[15px]">
-                <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
-                <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div className="space-y-1 flex-1">
-                <p className="text-black text-base font-semibold">{vendor.companyName}</p>
-                <p className="text-muted-foreground text-sm">{vendor.location}</p>
+const VendorListItem = ({ vendor, onFavoriteToggle, isFirst, isLast }: { vendor: Vendor, onFavoriteToggle: (id: string) => void, isFirst?: boolean, isLast?: boolean }) => (
+    <div className="group">
+        <div className={cn("hidden lg:grid grid-cols-[1.5fr_auto_1.5fr_auto_1fr] items-center py-4 gap-6 hover:bg-hover-bg px-4",
+            isFirst && "rounded-t-[20px]",
+            isLast && "rounded-b-[20px]")}>
+            <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4">
+                <Avatar className="w-14 h-14 rounded-[15px] shrink-0">
+                    <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
+                    <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="space-y-1 flex-1">
+                    <p className="text-black text-base font-semibold">{vendor.companyName}</p>
+                    <p className="text-muted-foreground text-sm">{vendor.location}</p>
+                </div>
+            </Link>
+            
+            <Separator orientation="vertical" className="h-14" />
+
+            <div className="flex flex-col gap-1">
+                <p className="text-sm text-grey-1">Contact</p>
+                <p className="text-sm font-medium">{vendor.phone}</p>
+                <p className="text-sm font-medium">{vendor.email}</p>
             </div>
-        </Link>
-        <div className="flex items-center gap-2 w-full md:w-auto">
-             <Button 
-                size="icon" 
-                variant="ghost" 
-                className="text-yellow-400 hover:text-yellow-500 z-10"
-                onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
-            >
-                <StarIcon isFilled={vendor.isFavorite} />
-            </Button>
-            <Button className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+
+            <Separator orientation="vertical" className="h-14" />
+
+            <div className="flex items-center justify-end gap-2">
+                 <Button 
+                    size="icon" 
+                    variant="ghost" 
+                    className="text-yellow-400 hover:text-yellow-500 z-10"
+                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
+                >
+                    <StarIcon isFilled={vendor.isFavorite} />
+                </Button>
+                <Button className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+            </div>
         </div>
+
+        <div className="lg:hidden p-4">
+            <div className="flex flex-col gap-4 p-4 rounded-[20px] bg-card shadow-sm">
+                <Link href={`/organization/vendors/${vendor.id}`} className="flex items-start justify-between gap-4 w-full">
+                    <div className="flex items-center gap-4">
+                        <Avatar className="w-14 h-14 rounded-[15px] shrink-0">
+                            <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
+                            <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="space-y-1 flex-1">
+                            <p className="text-black text-base font-semibold">{vendor.companyName}</p>
+                            <p className="text-muted-foreground text-sm">{vendor.location}</p>
+                        </div>
+                    </div>
+                    <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        className="text-yellow-400 hover:text-yellow-500 z-10"
+                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
+                    >
+                        <StarIcon isFilled={vendor.isFavorite} />
+                    </Button>
+                </Link>
+                <div className="space-y-2">
+                     <p className="text-sm text-grey-1">Contact</p>
+                     <p className="text-sm font-medium">{vendor.phone}</p>
+                     <p className="text-sm font-medium">{vendor.email}</p>
+                </div>
+                <Button className="w-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full">Order</Button>
+            </div>
+        </div>
+        {!isLast && <div className="lg:px-4"><Separator /></div>}
     </div>
 );
 
@@ -271,9 +320,15 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                                 {material}
                             </AccordionTrigger>
                             <AccordionContent className="p-6 pt-0">
-                                <div className="space-y-4">
-                                    {vendorsList.map((vendor) => (
-                                        <VendorListItem key={vendor.id} vendor={vendor} onFavoriteToggle={handleFavoriteToggle} />
+                                <div className="space-y-2">
+                                    {vendorsList.map((vendor, index) => (
+                                        <VendorListItem 
+                                            key={vendor.id} 
+                                            vendor={vendor} 
+                                            onFavoriteToggle={handleFavoriteToggle} 
+                                            isFirst={index === 0}
+                                            isLast={index === vendorsList.length - 1}
+                                        />
                                     ))}
                                 </div>
                             </AccordionContent>
