@@ -31,31 +31,15 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
 
    useEffect(() => {
-    if (!state) return;
-
-    if (state.success === true && state.user) {
-      toast({
-        variant: "success",
-        description: state.message || "Redirecting to your dashboard...",
-      });
-      
-      // Redirect based on the user data returned from the login action
-      if (state.user.role === 'platform-owner') {
-          router.push('/platform/dashboard');
-      } else {
-          router.push('/organization/home');
-      }
-
-    } else if (state.success === false) {
+    if (state && state.success === false) {
        toast({
         variant: "destructive",
         description: state.message || "An unknown error occurred.",
       });
     }
-  }, [state, toast, router]);
+  }, [state, toast]);
 
   return (
     <form action={formAction} className="flex-grow flex flex-col">

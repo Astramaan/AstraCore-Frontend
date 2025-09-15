@@ -24,6 +24,12 @@ export async function login(prevState: any, formData: FormData) {
             path: '/',
             maxAge: 60 * 60 * 24 * 7 // 1 week
         });
+        
+        if (data.user.team === 'Project Manager') {
+            redirect('/organization/home');
+        } else {
+            redirect('/organization/home');
+        }
     }
 
     return data;
