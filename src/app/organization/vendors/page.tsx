@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Plus, SlidersHorizontal, Search } from 'lucide-react';
 import { AddVendorSheet } from '@/components/add-vendor-sheet';
 import Link from 'next/link';
@@ -369,4 +369,5 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
+
 
