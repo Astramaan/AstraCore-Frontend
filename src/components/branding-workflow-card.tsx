@@ -28,8 +28,7 @@ export const BrandingWorkflowCard = () => {
     const { toast } = useToast();
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
     const [primaryColor, setPrimaryColor] = useState('#0FB4C3');
-    const [backgroundColor, setBackgroundColor] = useState('#F2F2F2');
-    const [accentColor, setAccentColor] = useState('#B9E3D5');
+    
 
     const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
@@ -40,9 +39,29 @@ export const BrandingWorkflowCard = () => {
     
     const handleSave = () => {
         // In a real app, you would save these to a backend
-        document.documentElement.style.setProperty('--primary', primaryColor.substring(1));
-        document.documentElement.style.setProperty('--background', backgroundColor.substring(1));
-        document.documentElement.style.setProperty('--accent', accentColor.substring(1));
+        // This is a simplified example of how you might apply the color
+        const hexToHsl = (hex: string): string => {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            if (!result) return '0 0% 0%';
+            let r = parseInt(result[1], 16) / 255;
+            let g = parseInt(result[2], 16) / 255;
+            let b = parseInt(result[3], 16) / 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h=0, s=0, l = (max + min) / 2;
+            if (max !== min) {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
+        };
+
+        document.documentElement.style.setProperty('--primary', hexToHsl(primaryColor));
         
         toast({
             title: "Branding Updated",
@@ -77,8 +96,6 @@ export const BrandingWorkflowCard = () => {
                     <h4 className="text-lg font-medium text-grey-1">Theme Colors</h4>
                     <div className="flex flex-wrap gap-6">
                         <ColorInput label="Primary" color={primaryColor} setColor={setPrimaryColor} />
-                        <ColorInput label="Background" color={backgroundColor} setColor={setBackgroundColor} />
-                        <ColorInput label="Accent" color={accentColor} setColor={setAccentColor} />
                     </div>
                 </div>
                 <div className="flex justify-end">
