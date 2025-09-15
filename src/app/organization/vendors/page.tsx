@@ -243,17 +243,17 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <Button 
                         variant="outline" 
-                        className={cn("w-[54px] h-[54px] md:w-auto md:h-14 p-0 md:px-4 justify-center rounded-full text-lg", showFavorites ? "bg-primary text-white" : "bg-white")}
+                        className={cn("w-auto h-[54px] md:h-14 px-4 justify-center rounded-full text-lg", showFavorites ? "bg-primary text-white" : "bg-white")}
                         onClick={() => setShowFavorites(prev => !prev)}
                     >
                         <StarIcon className="md:mr-2 h-5 w-5" isFilled={showFavorites} />
-                        <span className="hidden md:inline">Favorites</span>
+                        <span className="inline">Favorites</span>
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="w-[54px] h-[54px] md:w-auto md:h-14 p-0 md:px-4 justify-center rounded-full bg-white text-lg">
-                                <SlidersHorizontal className="md:mr-2 h-5 w-5" />
-                                <span className="hidden md:inline">Filter</span>
+                            <Button variant="outline" className="w-auto h-[54px] md:h-14 px-4 justify-center rounded-full bg-white text-lg">
+                                <SlidersHorizontal className="mr-2 h-5 w-5" />
+                                <span className="inline">Filter</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
@@ -294,5 +294,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
 }
 
     
+
 
 
