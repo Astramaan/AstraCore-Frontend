@@ -221,19 +221,15 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-    const [showFavorites, setShowFavorites] = useState(false);
     const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
     const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
     const [selectedMaterialForOrder, setSelectedMaterialForOrder] = useState('');
-    const [openMaterial, setOpenMaterial] = useState<string | null>(null);
-
 
     const materialsWithVendors = useMemo(() => {
         const filteredVendors = allVendors.filter(vendor => {
             const matchesSearch = vendor.companyName.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(vendor.location);
-            const matchesFavorites = !showFavorites || vendor.isFavorite;
-            return matchesSearch && matchesLocation && matchesFavorites;
+            return matchesSearch && matchesLocation;
         });
 
         const grouped: Record<string, Vendor[]> = {};
@@ -249,7 +245,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             }
         }
         return grouped;
-    }, [searchTerm, selectedLocations, selectedMaterials, showFavorites, allVendors]);
+    }, [searchTerm, selectedLocations, selectedMaterials, allVendors]);
 
     const handleLocationToggle = (location: string) => {
         setSelectedLocations(prev => 
@@ -272,10 +268,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         setSelectedMaterialForOrder(material);
         setIsOrderFormOpen(true);
     };
-
-    const handleMaterialClick = (material: string) => {
-        setOpenMaterial(prev => prev === material ? null : material);
-    }
 
     return (
         <div className="space-y-6">
@@ -327,15 +319,15 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                 </div>
             </div>
             
-            <div className="space-y-6">
+            <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(materialsWithVendors)}>
                 {Object.entries(materialsWithVendors).map(([material, vendorsList]) => (
-                    <Card key={material} className="rounded-[50px] overflow-hidden bg-white">
-                        <div className="p-8 cursor-pointer" onClick={() => handleMaterialClick(material)}>
-                             <h3 className="text-xl font-semibold">{material}</h3>
-                        </div>
-                        {openMaterial === material && (
-                             <CardContent className="p-6 pt-0">
-                                <div className="space-y-2">
+                    <AccordionItem value={material} key={material} asChild>
+                         <Card className="rounded-[50px] overflow-hidden bg-white">
+                            <AccordionTrigger className="p-8 w-full hover:no-underline">
+                                <h3 className="text-xl font-semibold">{material}</h3>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <div className="px-6 pb-6 space-y-2">
                                     {vendorsList.map((vendor, index) => (
                                         <VendorListItem 
                                             key={vendor.id} 
@@ -347,11 +339,11 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                                         />
                                     ))}
                                 </div>
-                            </CardContent>
-                        )}
-                    </Card>
+                            </AccordionContent>
+                        </Card>
+                    </AccordionItem>
                 ))}
-            </div>
+            </Accordion>
 
              <OrderFormDialog
                 isOpen={isOrderFormOpen}
@@ -362,3 +354,4 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
+
