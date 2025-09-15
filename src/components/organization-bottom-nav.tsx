@@ -35,12 +35,12 @@ export const OrganizationBottomNav = () => {
                              <Link href={item.href} key={item.label} title={item.label}>
                                 <div className={cn(
                                     "flex flex-row items-center justify-center text-center gap-1.5 transition-colors duration-200",
-                                    "md:gap-2.5 md:py-3 md:px-5 md:rounded-full min-w-max",
-                                    "h-12 w-auto px-1.5 rounded-full md:h-[54px]",
+                                    "lg:gap-2.5 md:py-3 md:px-5 md:rounded-full min-w-max",
+                                    "h-12 w-auto px-1.5 rounded-full lg:h-[54px]",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
-                                    <item.icon className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-                                    <span className="text-xs font-medium md:text-lg whitespace-nowrap">{item.label}</span>
+                                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
+                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
                                 </div>
                             </Link>
                         )
