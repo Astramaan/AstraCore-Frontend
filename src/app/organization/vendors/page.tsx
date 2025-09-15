@@ -162,12 +162,10 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
         </div>
 
         <div className="lg:hidden flex flex-col p-10 gap-4">
-            <div className="flex items-center gap-4">
-                 <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
-                    {/* Placeholder for material icon */}
-                </div>
-                <p className="text-2xl font-semibold">{material.name}</p>
+             <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
+                {/* Placeholder for material icon */}
             </div>
+            <p className="text-2xl font-semibold">{material.name}</p>
             <div className="grid grid-cols-2 gap-4 mt-2">
                 <div>
                     <p className="text-base text-grey-1">Top Supplier: <span className="text-black font-medium block">{material.vendors[0]?.companyName || 'N/A'}</span></p>
@@ -243,7 +241,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <Button 
                         variant="outline" 
-                        className={cn("w-auto h-[54px] md:h-14 px-4 justify-center rounded-full text-lg", showFavorites ? "bg-primary text-white" : "bg-white")}
+                        className={cn("h-[54px] md:h-14 justify-center rounded-full text-lg flex-1 md:flex-initial md:w-auto md:px-4", showFavorites ? "bg-primary text-white" : "bg-white")}
                         onClick={() => setShowFavorites(prev => !prev)}
                     >
                         <StarIcon className="md:mr-2 h-5 w-5" isFilled={showFavorites} />
@@ -251,7 +249,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="w-auto h-[54px] md:h-14 px-4 justify-center rounded-full bg-white text-lg">
+                            <Button variant="outline" className="h-[54px] md:h-14 justify-center rounded-full bg-white text-lg flex-1 md:flex-initial md:w-auto md:px-4">
                                 <SlidersHorizontal className="mr-2 h-5 w-5" />
                                 <span className="inline">Filter</span>
                             </Button>
@@ -294,6 +292,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
 }
 
     
+
 
 
 

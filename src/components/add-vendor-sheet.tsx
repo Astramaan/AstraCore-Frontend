@@ -518,7 +518,7 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
     const Trigger = triggerButton ? (
         <div onClick={() => setIsOpen(true)}>{triggerButton}</div>
     ) : (
-        <Button className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6">
+        <Button className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6 flex-shrink-0">
             <Plus className="md:mr-2" />
             <span className="hidden md:inline">Add Vendor</span>
         </Button>
@@ -568,6 +568,7 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
 }
 
     
+
 
 
 
