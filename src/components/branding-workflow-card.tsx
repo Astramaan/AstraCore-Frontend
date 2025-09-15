@@ -85,9 +85,9 @@ export const BrandingWorkflowCard = () => {
                     <CardTitle className="text-2xl font-semibold">Branding & Workflow</CardTitle>
                 </div>
             </CardHeader>
-            <CardContent className="px-6 pb-6 space-y-6">
+            <CardContent className="px-6 pb-6 flex items-center justify-between">
                 <div className="flex items-center gap-6">
-                    <div className="relative w-24 h-24 rounded-full border">
+                    <div className="relative w-16 h-16 rounded-full border">
                         <Image src={logo || '/logo-placeholder.svg'} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
                     </div>
                     <label htmlFor="logo-upload" className="cursor-pointer">
@@ -98,18 +98,14 @@ export const BrandingWorkflowCard = () => {
                         <input id="logo-upload" type="file" className="hidden" accept="image/*" onChange={handleLogoUpload}/>
                     </label>
                 </div>
-                <div className="space-y-4">
+                <div className="flex items-center gap-4">
                     <h4 className="text-lg font-medium text-grey-1">Theme Colors</h4>
-                    <div className="flex flex-wrap gap-6">
-                        <ColorInput label="Primary" color={primaryColor} setColor={setPrimaryColor} />
-                    </div>
+                    <ColorInput label="Primary" color={primaryColor} setColor={setPrimaryColor} />
                 </div>
-                <div className="flex justify-end">
-                    <Button className="rounded-full h-14 px-10 text-lg" onClick={handleSave}>
-                        <Save className="mr-2 h-5 w-5"/>
-                        Save Changes
-                    </Button>
-                </div>
+                <Button className="rounded-full h-14 px-10 text-lg" onClick={handleSave}>
+                    <Save className="mr-2 h-5 w-5"/>
+                    Save Changes
+                </Button>
             </CardContent>
         </Card>
     );
