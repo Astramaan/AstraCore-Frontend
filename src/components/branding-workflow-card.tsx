@@ -4,12 +4,12 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import { Upload, Palette, Save } from 'lucide-react';
+import { Upload, Palette, Save, Edit, X } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
 
-const ColorInput = ({ label, color, setColor }: { label: string, color: string, setColor: (color: string) => void }) => (
+const ColorInput = ({ label, color, setColor, disabled }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean }) => (
     <div className="flex items-center gap-2">
         <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
              <input
@@ -17,6 +17,7 @@ const ColorInput = ({ label, color, setColor }: { label: string, color: string, 
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
+                disabled={disabled}
             />
         </div>
         <Input 
@@ -25,6 +26,7 @@ const ColorInput = ({ label, color, setColor }: { label: string, color: string, 
             onChange={(e) => setColor(e.target.value)}
             className="w-32"
             placeholder="#0FB4C3"
+            disabled={disabled}
         />
     </div>
 );
@@ -34,18 +36,33 @@ export const BrandingWorkflowCard = () => {
     const { toast } = useToast();
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
     const [primaryColor, setPrimaryColor] = useState('#0FB4C3');
-    
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [tempLogo, setTempLogo] = useState(logo);
+    const [tempPrimaryColor, setTempPrimaryColor] = useState(primaryColor);
+
 
     const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
-            setLogo(URL.createObjectURL(file));
+            setTempLogo(URL.createObjectURL(file));
         }
     };
     
+    const handleEdit = () => {
+        setTempLogo(logo);
+        setTempPrimaryColor(primaryColor);
+        setIsEditing(true);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+    };
+
     const handleSave = () => {
-        // In a real app, you would save these to a backend
-        // This is a simplified example of how you might apply the color
+        setLogo(tempLogo);
+        setPrimaryColor(tempPrimaryColor);
+        
         const hexToHsl = (hex: string): string => {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             if (!result) return '0 0% 0%';
@@ -67,12 +84,13 @@ export const BrandingWorkflowCard = () => {
             return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
         };
 
-        document.documentElement.style.setProperty('--primary', hexToHsl(primaryColor));
+        document.documentElement.style.setProperty('--primary', hexToHsl(tempPrimaryColor));
         
         toast({
             title: "Branding Updated",
             description: "Your branding changes have been applied.",
         })
+        setIsEditing(false);
     }
 
     return (
@@ -86,26 +104,40 @@ export const BrandingWorkflowCard = () => {
                 </div>
             </CardHeader>
             <CardContent className="px-6 pb-6 flex items-center justify-between">
-                <div className="flex items-center gap-6">
+                 <div className="flex items-center gap-6">
                     <div className="relative w-16 h-16 rounded-full border">
-                        <Image src={logo || '/logo-placeholder.svg'} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
+                        <Image src={isEditing ? tempLogo : logo} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
                     </div>
-                    <label htmlFor="logo-upload" className="cursor-pointer">
+                    <label htmlFor="logo-upload" className={!isEditing ? 'cursor-not-allowed' : 'cursor-pointer'}>
                         <div className="flex items-center gap-2 text-primary">
                             <Upload className="h-5 w-5" />
                             <span className="font-medium">Upload Logo</span>
                         </div>
-                        <input id="logo-upload" type="file" className="hidden" accept="image/*" onChange={handleLogoUpload}/>
+                        <input id="logo-upload" type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} disabled={!isEditing}/>
                     </label>
                 </div>
                 <div className="flex items-center gap-4">
                     <h4 className="text-lg font-medium text-grey-1">Theme Colors</h4>
-                    <ColorInput label="Primary" color={primaryColor} setColor={setPrimaryColor} />
+                    <ColorInput label="Primary" color={isEditing ? tempPrimaryColor : primaryColor} setColor={setTempPrimaryColor} disabled={!isEditing}/>
                 </div>
-                <Button className="rounded-full h-14 px-10 text-lg" onClick={handleSave}>
-                    <Save className="mr-2 h-5 w-5"/>
-                    Save Changes
-                </Button>
+
+                {isEditing ? (
+                    <div className="flex gap-2">
+                        <Button variant="ghost" className="rounded-full h-14 px-10 text-lg" onClick={handleCancel}>
+                            <X className="mr-2 h-5 w-5"/>
+                            Cancel
+                        </Button>
+                        <Button className="rounded-full h-14 px-10 text-lg" onClick={handleSave}>
+                            <Save className="mr-2 h-5 w-5"/>
+                            Save Changes
+                        </Button>
+                    </div>
+                ) : (
+                    <Button className="rounded-full h-14 px-10 text-lg" onClick={handleEdit}>
+                        <Edit className="mr-2 h-5 w-5"/>
+                        Customize
+                    </Button>
+                )}
             </CardContent>
         </Card>
     );
