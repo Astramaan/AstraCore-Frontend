@@ -25,7 +25,7 @@ export const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-[30px] md:rounded-[50px] border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
+             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-start md:justify-center overflow-x-auto no-scrollbar gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
@@ -33,8 +33,8 @@ export const OrganizationBottomNav = () => {
                              <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
-                                    "lg:gap-2.5 md:py-3 md:px-5 md:rounded-full min-w-max",
-                                    "h-16 w-20 md:h-12 md:w-auto px-1 md:px-4 rounded-full lg:h-[54px]",
+                                    "lg:gap-2.5 md:py-3 rounded-full min-w-max",
+                                    "h-16 w-20 md:h-12 md:w-auto px-1 md:px-4 lg:h-[54px]",
                                     isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
                                 )}>
                                     <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
