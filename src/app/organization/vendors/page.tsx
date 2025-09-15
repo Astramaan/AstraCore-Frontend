@@ -11,6 +11,7 @@ import { Plus, SlidersHorizontal, Search } from 'lucide-react';
 import { AddVendorSheet } from '@/components/add-vendor-sheet';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import StarIcon from '@/components/icons/star-icon';
 
 const vendors = [
     {
@@ -21,7 +22,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Steel", "Cement"]
+        materials: ["Steel", "Cement"],
+        isFavorite: true,
     },
     {
         id: "2",
@@ -31,7 +33,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Mysuru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Mysuru",
-        materials: ["Bricks", "Sand"]
+        materials: ["Bricks", "Sand"],
+        isFavorite: false,
     },
     {
         id: "3",
@@ -41,7 +44,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Steel", "Gravel"]
+        materials: ["Steel", "Gravel"],
+        isFavorite: false,
     },
     {
         id: "4",
@@ -51,7 +55,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Chennai, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Chennai",
-        materials: ["Paint"]
+        materials: ["Paint"],
+        isFavorite: true,
     },
     {
         id: "5",
@@ -61,7 +66,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Cement"]
+        materials: ["Cement"],
+        isFavorite: false,
     },
     {
         id: "6",
@@ -71,7 +77,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Steel"]
+        materials: ["Steel"],
+        isFavorite: false,
     },
     {
         id: "7",
@@ -81,7 +88,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Sand"]
+        materials: ["Sand"],
+        isFavorite: false,
     },
     {
         id: "8",
@@ -91,7 +99,8 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Bricks"]
+        materials: ["Bricks"],
+        isFavorite: true,
     },
     {
         id: "9",
@@ -101,16 +110,25 @@ const vendors = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
-        materials: ["Gravel", "Paint"]
+        materials: ["Gravel", "Paint"],
+        isFavorite: false,
     },
 ];
 
 const allLocations = [...new Set(vendors.map(v => v.location))];
 const allMaterials = [...new Set(vendors.flatMap(v => v.materials))];
 
-const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
-    <Link href={`/organization/vendors/${vendor.id}`}>
-        <Card className="rounded-[30px] p-4 bg-card shadow-sm h-full hover:shadow-lg transition-shadow cursor-pointer">
+const VendorCard = ({ vendor, onFavoriteToggle }: { vendor: typeof vendors[0], onFavoriteToggle: (id: string) => void }) => (
+    <Card className="rounded-[30px] p-4 bg-card shadow-sm h-full hover:shadow-lg transition-shadow relative group">
+        <Button 
+            size="icon" 
+            variant="ghost" 
+            className="absolute top-2 right-2 rounded-full text-yellow-400 hover:text-yellow-500 z-10"
+            onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
+        >
+            <StarIcon isFilled={vendor.isFavorite} />
+        </Button>
+        <Link href={`/organization/vendors/${vendor.id}`}>
             <CardContent className="p-0 space-y-4">
                 <div className="flex items-start gap-4">
                     <Avatar className="w-24 h-24 rounded-[20px]">
@@ -125,23 +143,29 @@ const VendorCard = ({ vendor }: { vendor: typeof vendors[0] }) => (
                 </div>
                 <p className="text-muted-foreground text-sm">{vendor.address}</p>
             </CardContent>
-        </Card>
-    </Link>
+        </Link>
+    </Card>
 );
 
 export default function VendorsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+    const [allVendors, setAllVendors] = useState(vendors);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+    const [showFavorites, setShowFavorites] = useState(false);
+    const [showRecentlyOrdered, setShowRecentlyOrdered] = useState(false);
 
     const filteredVendors = useMemo(() => {
-        return vendors.filter(vendor => {
+        return allVendors.filter(vendor => {
             const matchesSearch = vendor.companyName.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(vendor.location);
             const matchesMaterial = selectedMaterials.length === 0 || vendor.materials.some(m => selectedMaterials.includes(m));
-            return matchesSearch && matchesLocation && matchesMaterial;
+            const matchesFavorites = !showFavorites || vendor.isFavorite;
+            // recently ordered logic is mocked
+            const matchesRecentlyOrdered = !showRecentlyOrdered || ['1', '3', '5'].includes(vendor.id);
+            return matchesSearch && matchesLocation && matchesMaterial && matchesFavorites && matchesRecentlyOrdered;
         });
-    }, [searchTerm, selectedLocations, selectedMaterials]);
+    }, [searchTerm, selectedLocations, selectedMaterials, showFavorites, showRecentlyOrdered, allVendors]);
 
     const handleLocationToggle = (location: string) => {
         setSelectedLocations(prev => 
@@ -154,6 +178,11 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             prev.includes(material) ? prev.filter(m => m !== material) : [...prev, material]
         );
     }
+    
+    const handleFavoriteToggle = (id: string) => {
+        setAllVendors(prev => prev.map(v => v.id === id ? { ...v, isFavorite: !v.isFavorite } : v));
+    }
+
 
     return (
         <div className="space-y-6">
@@ -176,6 +205,22 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
+                             <DropdownMenuLabel>Sort By</DropdownMenuLabel>
+                             <DropdownMenuCheckboxItem
+                                checked={showFavorites}
+                                onSelect={(e) => e.preventDefault()}
+                                onClick={() => setShowFavorites(!showFavorites)}
+                            >
+                                Favorites
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuCheckboxItem
+                                checked={showRecentlyOrdered}
+                                onSelect={(e) => e.preventDefault()}
+                                onClick={() => setShowRecentlyOrdered(!showRecentlyOrdered)}
+                            >
+                                Recently Ordered
+                            </DropdownMenuCheckboxItem>
+                            <DropdownMenuSeparator />
                              <DropdownMenuLabel>Location</DropdownMenuLabel>
                             {allLocations.map(location => (
                                 <DropdownMenuCheckboxItem
@@ -207,10 +252,9 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredVendors.map((vendor) => (
-                    <VendorCard key={vendor.id} vendor={vendor} />
+                    <VendorCard key={vendor.id} vendor={vendor} onFavoriteToggle={handleFavoriteToggle} />
                 ))}
             </div>
         </div>
     );
 }
-
