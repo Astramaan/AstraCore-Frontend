@@ -38,7 +38,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
         <>
             <div className="flex flex-col">
                 {/* Mobile View */}
-                 <div className="md:hidden flex flex-col p-6">
+                 <div className="md:hidden flex flex-col px-6 py-4">
                     <div className="flex items-start gap-4">
                         <div className="flex items-center gap-4 flex-1">
                              <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
