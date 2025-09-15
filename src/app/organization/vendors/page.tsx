@@ -222,7 +222,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [showFavorites, setShowFavorites] = useState(false);
-    const [showRecentlyOrdered, setShowRecentlyOrdered] = useState(false);
     const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
     const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
     const [selectedMaterialForOrder, setSelectedMaterialForOrder] = useState('');
@@ -233,8 +232,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             const matchesSearch = vendor.companyName.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(vendor.location);
             const matchesFavorites = !showFavorites || vendor.isFavorite;
-            const matchesRecentlyOrdered = !showRecentlyOrdered || ['1', '3', '5'].includes(vendor.id);
-            return matchesSearch && matchesLocation && matchesFavorites && matchesRecentlyOrdered;
+            return matchesSearch && matchesLocation && matchesFavorites;
         });
 
         const grouped: Record<string, Vendor[]> = {};
@@ -250,7 +248,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             }
         }
         return grouped;
-    }, [searchTerm, selectedLocations, selectedMaterials, showFavorites, showRecentlyOrdered, allVendors]);
+    }, [searchTerm, selectedLocations, selectedMaterials, showFavorites, allVendors]);
 
     const handleLocationToggle = (location: string) => {
         setSelectedLocations(prev => 
@@ -306,22 +304,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
-                             <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-                             <DropdownMenuCheckboxItem
-                                checked={showFavorites}
-                                onSelect={(e) => e.preventDefault()}
-                                onClick={() => setShowFavorites(!showFavorites)}
-                            >
-                                Favorites
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem
-                                checked={showRecentlyOrdered}
-                                onSelect={(e) => e.preventDefault()}
-                                onClick={() => setShowRecentlyOrdered(!showRecentlyOrdered)}
-                            >
-                                Recently Ordered
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuSeparator />
                              <DropdownMenuLabel>Location</DropdownMenuLabel>
                             {allLocations.map(location => (
                                 <DropdownMenuCheckboxItem
@@ -385,6 +367,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
+
 
 
 
