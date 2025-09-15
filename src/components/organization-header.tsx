@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Users, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,13 +13,14 @@ import { NotificationPopover } from '@/components/notification-popover';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import TeamIcon from './icons/team-icon';
+import { useUser } from '@/context/user-context';
 
 export const OrganizationHeader = () => {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const userName = searchParams.get('name') || 'User';
-    const userTeam = searchParams.get('role') || 'Team';
-    const userRole = searchParams.get('role');
+    const { user } = useUser();
+    
+    const userName = user?.name || 'User';
+    const userTeam = user?.team || 'Team';
 
     let pageTitle = '';
 

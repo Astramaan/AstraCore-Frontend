@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -41,6 +40,8 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { ScrollArea } from './ui/scroll-area';
+import { useUser } from '@/context/user-context';
+
 
 const initialMemberData = {
     id: "1",
@@ -59,7 +60,7 @@ interface PersonalDetailsProps {
     memberId: string;
 }
 
-const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: typeof initialMemberData, onSave: (data: typeof initialMemberData) => void, onCancel: () => void }) => {
+const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any, onSave: (data: any) => void, onCancel: () => void }) => {
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
@@ -140,10 +141,10 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: type
                             <FloatingLabelInput id="dob" name="dob" label="Date of Birth" value={formData.dob} onChange={handleInputChange} />
                         </div>
                         <div className="space-y-6">
-                            <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.phone} onChange={handleInputChange} />
+                            <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.mobileNumber} onChange={handleInputChange} />
                             <div className="space-y-2">
                                 <Label className={cn("text-lg font-medium", 'text-grey-1')}>Role</Label>
-                                <Select name="role" value={formData.role} onValueChange={handleRoleChange}>
+                                <Select name="role" value={formData.team} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
                                     </SelectTrigger>
@@ -188,11 +189,16 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: type
 EditProfileForm.displayName = 'EditProfileForm';
 
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
-    const [member, setMember] = useState(initialMemberData);
+    const { user, loading } = useUser();
     const [isEditing, setIsEditing] = useState(false);
+    
+    // This will hold the member data to display/edit.
+    // If we're viewing another member's profile, we'd fetch their data.
+    // For now, it defaults to the logged-in user's data.
+    const member = user; // Simplified for now.
 
-    const handleSave = (updatedMember: typeof initialMemberData) => {
-        setMember(updatedMember);
+    const handleSave = (updatedMember: any) => {
+        // Here you would refresh the user context or refetch data if needed
         setIsEditing(false);
     };
     
@@ -203,8 +209,14 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const DialogOrSheet = Sheet;
     const DialogOrSheetContent = SheetContent;
     const DialogOrSheetTrigger = SheetTrigger;
-    const DialogOrSheetClose = SheetClose;
 
+    if (loading) {
+        return <Card className="rounded-[50px] p-10"><CardContent className="p-0">Loading...</CardContent></Card>
+    }
+
+    if (!member) {
+        return <Card className="rounded-[50px] p-10"><CardContent className="p-0">Could not load user details.</CardContent></Card>
+    }
 
     return (
         <DialogOrSheet open={isEditing} onOpenChange={handleOpenChange}>
@@ -213,7 +225,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                     <div className="flex flex-col md:flex-col lg:flex-row md:items-start gap-4 md:gap-8">
                         {/* Mobile and Tablet Layout */}
                         <div className="flex lg:hidden items-center md:justify-between gap-4 w-full">
-                            <Image src={member.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
+                            <Image src={initialMemberData.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
                             <div className="flex flex-col gap-2 md:items-end">
                                  <DialogOrSheetTrigger asChild>
                                     <Button className="md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
@@ -234,7 +246,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
 
                          {/* Desktop Layout */}
                         <div className="hidden lg:flex shrink-0 flex-col items-center gap-4">
-                            <Image src={member.avatar} alt={member.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
+                            <Image src={initialMemberData.avatar} alt={member.name} width={156} height={156} className="rounded-full" data-ai-hint="person portrait"/>
                         </div>
 
                         <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8">
@@ -244,7 +256,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Phone Number</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.phone}</p>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.mobileNumber}</p>
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Email Id</Label>
@@ -252,23 +264,23 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Role</Label>
-                                <p className="text-primary text-base md:text-lg leading-tight truncate">{member.role}</p>
+                                <p className="text-primary text-base md:text-lg leading-tight truncate">{member.team}</p>
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Last Login</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.lastLogin}</p>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{initialMemberData.lastLogin}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Date Joined</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.dateJoined}</p>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{initialMemberData.dateJoined}</p>
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Date of Birth</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.dob}</p>
+                                <p className="text-black text-base md:text-lg leading-tight truncate">{initialMemberData.dob}</p>
                             </div>
                              <div className="space-y-1 col-span-2 md:col-span-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Address</Label>
-                                <p className="text-black text-base md:text-lg leading-tight">{member.address}</p>
+                                <p className="text-black text-base md:text-lg leading-tight">{initialMemberData.address}</p>
                             </div>
                         </div>
                          <div className="hidden lg:flex flex-col space-y-4 lg:pl-8">
@@ -298,5 +310,3 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
         </DialogOrSheet>
     );
 }
-
-    

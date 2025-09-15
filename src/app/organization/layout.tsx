@@ -1,9 +1,10 @@
 
 'use client';
 
-import React, { Suspense } from 'react';
+import React, from 'react';
 import { OrganizationHeader } from '@/components/organization-header';
 import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
+import { UserProvider } from '@/context/user-context';
 
 
 function OrganizationLayoutContent({ children }: { children: React.ReactNode }) {
@@ -20,8 +21,8 @@ function OrganizationLayoutContent({ children }: { children: React.ReactNode }) 
 
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense>
+    <UserProvider>
       <OrganizationLayoutContent>{children}</OrganizationLayoutContent>
-    </Suspense>
+    </UserProvider>
   )
 }

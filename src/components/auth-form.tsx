@@ -14,27 +14,8 @@ import LockIcon from "./icons/lock";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
-
-async function loginUser(prevState: any, formData: FormData): Promise<{ message?: string, success?: boolean, user?: { role: string} }> {
-  try {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    
-    const data = await res.json();
-    return data;
-
-  } catch (err: any) {
-    console.error("Login fetch error:", err);
-    return { message: "A network error occurred. Please try again.", success: false };
-  }
-}
+import { login } from "@/app/actions";
+import { getUserData } from "@/app/actions";
 
 function SubmitButton() {
     const { pending } = useFormStatus();
@@ -47,7 +28,7 @@ function SubmitButton() {
 
 
 export default function AuthForm() {
-  const [state, formAction] = useActionState(loginUser, undefined);
+  const [state, formAction] = useActionState(login, undefined);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
@@ -62,11 +43,25 @@ export default function AuthForm() {
         description: state.message || "Redirecting to your dashboard...",
       });
       
-      if (state.user?.role === 'platform-owner') {
-          router.push('/platform/dashboard');
-      } else {
-          router.push('/organization/home');
-      }
+      const checkUserAndRedirect = async () => {
+        try {
+          const user = await getUserData();
+          if (user?.role === 'platform-owner') {
+              router.push('/platform/dashboard');
+          } else {
+              router.push('/organization/home');
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data for redirect", error);
+          toast({
+            variant: "destructive",
+            description: "Could not determine where to redirect.",
+          });
+        }
+      };
+
+      checkUserAndRedirect();
+
     } else if (state.success === false) {
        toast({
         variant: "destructive",

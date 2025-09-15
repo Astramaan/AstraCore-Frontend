@@ -1,5 +1,6 @@
 
 import { NextResponse } from "next/server";
+import { cookies } from 'next/headers';
 
 const API_BASE_URL = "https://astramaan-be-1.onrender.com";
 
@@ -19,7 +20,16 @@ export async function POST(req: Request) {
       return NextResponse.json(data, { status: res.status });
     }
 
-    const response = NextResponse.json(data, { status: res.status });
+    if (data.success && data.user) {
+        cookies().set('user-data', JSON.stringify(data.user), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== 'development',
+            sameSite: 'strict',
+            path: '/',
+        });
+    }
+
+    const response = NextResponse.json({ success: data.success, message: data.message });
 
     return response;
   } catch (err: any) {

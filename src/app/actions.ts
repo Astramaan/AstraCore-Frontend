@@ -8,7 +8,6 @@ import { redirect } from 'next/navigation';
 // This file is kept for other server actions.
 
 export async function login(prevState: any, formData: FormData) {
-  const email = formData.get('email') as string;
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/login`, {
         method: "POST",
@@ -17,25 +16,13 @@ export async function login(prevState: any, formData: FormData) {
     });
 
     const data = await res.json();
-    console.log("Login API response:", data);
-
-    if (data.success && data.user) {
-      // Use the 'team' from the API response as the role
-      const role = data.user.team || 'Employee'; // Default to 'Employee' if team is not present
-      data.user.role = role;
-      
-      const params = new URLSearchParams({
-          name: data.user.name,
-          email: data.user.email,
-          role: data.user.role,
-          orgCode: data.user.orgCode,
-      });
-
-      if (role === 'Super Admin') {
-          redirect(`/platform/dashboard?${params.toString()}`);
-      } else {
-          redirect(`/organization/home?${params.toString()}`);
-      }
+    
+    if (data.success) {
+      // The user data is now in an httpOnly cookie, so we can redirect.
+      // We need to figure out where to redirect based on the role that's in the cookie.
+      // But server actions can't read cookies set in the same request/response cycle.
+      // The client will fetch the user data and redirect.
+      // So here we just signal success.
     }
 
     return data;
@@ -282,3 +269,12 @@ export async function deactivateUser(userId: string) {
     }
 }
 
+export async function getUserData() {
+    'use server';
+    const cookieStore = cookies();
+    const userDataCookie = cookieStore.get('user-data');
+    if (userDataCookie) {
+        return JSON.parse(userDataCookie.value);
+    }
+    return null;
+}
