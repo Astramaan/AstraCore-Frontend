@@ -47,28 +47,31 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                             </Avatar>
                         </Link>
                         <div className="flex-1">
-                            <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
-                            <p className="text-lg font-medium">{vendor.companyName}</p>
-                            </Link>
-                            <div className="mt-2 space-y-1 text-sm">
-                                <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                                <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
-                                <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial h-10 rounded-full px-4 mt-2">Order</Button>
+                            <div className="flex justify-between items-start">
+                                <div>
+                                    <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
+                                        <p className="text-lg font-medium">{vendor.companyName}</p>
+                                    </Link>
+                                    <div className="mt-2 space-y-1 text-sm">
+                                        <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
+                                        <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                                        <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial h-10 rounded-full px-4 mt-2 bg-primary text-white">Order</Button>
+                                    </div>
+                                </div>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" size="icon">
+                                            <MoreVertical className="w-6 h-6" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                         </div>
                     </div>
-                    
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
                 
                 {/* Desktop View */}
@@ -174,9 +177,9 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
     return (
          <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent 
-                side={isMobile ? "bottom" : "bottom"}
+                side={"bottom"}
                 className={cn(
-                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] bottom-0 rounded-t-[50px]",
+                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]",
                 )}
                 overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
             >
