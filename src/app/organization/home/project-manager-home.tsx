@@ -45,7 +45,9 @@ const projectsData = [
     id: "CHA2024",
     name: "Charan Project",
     siteSupervisor: "Yaswanth",
+    siteSupervisorPhone: "9876543210",
     architect: "Darshan",
+    architectPhone: "1234567890",
     tasks: allStages
   }
 ];
@@ -124,6 +126,9 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" size="icon" className="rounded-full"><MessageCircle className="h-4 w-4"/></Button>
+                 <a href={`tel:${project.siteSupervisorPhone}`}>
+                  <Button variant="outline" size="icon" className="rounded-full"><Phone className="h-4 w-4"/></Button>
+                </a>
                 <Button variant="outline" className="rounded-full text-destructive"><User className="h-4 w-4 mr-2" />Profile</Button>
               </div>
             </div>
@@ -133,7 +138,9 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 <p className="font-semibold">{project.architect}</p>
               </div>
                <div className="flex gap-2">
-                <Button variant="outline" size="icon" className="rounded-full"><Phone className="h-4 w-4"/></Button>
+                 <a href={`tel:${project.architectPhone}`}>
+                  <Button variant="outline" size="icon" className="rounded-full"><Phone className="h-4 w-4"/></Button>
+                </a>
                 <Button variant="outline" className="rounded-full text-destructive"><User className="h-4 w-4 mr-2" />Profile</Button>
               </div>
             </div>
