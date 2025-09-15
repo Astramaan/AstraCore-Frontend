@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -33,6 +34,24 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const leadsData: Lead[] = [
+    {
+        organization: "Platinum Partners",
+        leadId: "PLATINUMHYD789",
+        fullName: "Rajesh Singh",
+        contact: "raj.singh@platinum.co | +91 7654321098",
+        phone: "7654321098",
+        email: "raj.singh@platinum.co",
+        address: "Door 789, Platinum Heights, Jubilee Hills, Hyderabad, Telangana 500033",
+        pincode: "500033",
+        tokenAmount: "5,00,000",
+        level: "Level 3",
+        profileImage: "https://placehold.co/94x94.png",
+        coverImage: "https://placehold.co/712x144.png",
+        siteImages: [
+            "https://placehold.co/150x150.png",
+            "https://placehold.co/150x150.png"
+        ]
+    },
     {
         organization: "Golden Ventures",
         leadId: "GOLDMYS7890",
@@ -84,24 +103,6 @@ const leadsData: Lead[] = [
         profileImage: "https://placehold.co/94x94.png",
         coverImage: "https://placehold.co/712x144.png",
         siteImages: []
-    },
-     {
-        organization: "Platinum Partners",
-        leadId: "PLATINUMHYD789",
-        fullName: "Rajesh Singh",
-        contact: "raj.singh@platinum.co | +91 7654321098",
-        phone: "7654321098",
-        email: "raj.singh@platinum.co",
-        address: "Door 789, Platinum Heights, Jubilee Hills, Hyderabad, Telangana 500033",
-        pincode: "500033",
-        tokenAmount: "5,00,000",
-        level: "Level 3",
-        profileImage: "https://placehold.co/94x94.png",
-        coverImage: "https://placehold.co/712x144.png",
-        siteImages: [
-            "https://placehold.co/150x150.png",
-            "https://placehold.co/150x150.png"
-        ]
     },
 ];
 
@@ -331,8 +332,13 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     const [isEditing, setIsEditing] = useState(false);
 
     const filteredLeads = useMemo(() => {
-        if (!searchTerm) return allLeads;
-        return allLeads.filter(lead =>
+        let leads = [...allLeads].sort((a, b) => {
+            if (a.level === 'Level 3' && b.level !== 'Level 3') return -1;
+            if (a.level !== 'Level 3' && b.level === 'Level 3') return 1;
+            return 0;
+        });
+        if (!searchTerm) return leads;
+        return leads.filter(lead =>
             lead.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             lead.leadId.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -545,6 +551,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
 
 
 
