@@ -87,7 +87,7 @@ export const BrandingWorkflowCard = () => {
             </CardHeader>
             <CardContent className="px-6 pb-6 space-y-6">
                 <div className="flex items-center gap-6">
-                    <div className="relative w-24 h-24">
+                    <div className="relative w-24 h-24 rounded-full border">
                         <Image src={logo || '/logo-placeholder.svg'} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
                     </div>
                     <label htmlFor="logo-upload" className="cursor-pointer">
