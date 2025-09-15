@@ -27,21 +27,28 @@ function SubmitButton() {
 
 
 export default function AuthForm() {
+  const router = useRouter();
   const [state, formAction] = useActionState(login, { success: false, message: '', user: null });
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
 
    useEffect(() => {
-    // This effect will only run if the login fails and the page re-renders.
-    // A successful login will redirect and this component will unmount.
-    if (state && state.success === false) {
+    if (state.success && state.user) {
+        localStorage.setItem("astramaan_user", JSON.stringify(state.user));
+        
+        if (state.user.team === 'Project Manager') {
+            router.push('/organization/home');
+        } else {
+            router.push('/organization/home');
+        }
+    } else if (state.message) {
        toast({
         variant: "destructive",
         description: state.message || "An unknown error occurred.",
       });
     }
-  }, [state, toast]);
+  }, [state, router, toast]);
 
   return (
     <form action={formAction} className="flex-grow flex flex-col">

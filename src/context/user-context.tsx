@@ -27,24 +27,19 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch('/api/user');
-        if (response.ok) {
-            const userData = await response.json();
-            setUser(userData);
-        } else {
-            setUser(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data", error);
+    try {
+      const storedUser = localStorage.getItem("astramaan_user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
         setUser(null);
-      } finally {
-        setLoading(false);
       }
-    };
-
-    fetchUser();
+    } catch (error) {
+      console.error("Failed to parse user data from localStorage", error);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return (

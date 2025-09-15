@@ -24,18 +24,13 @@ export async function login(prevState: any, formData: FormData) {
             path: '/',
             maxAge: 60 * 60 * 24 * 7 // 1 week
         });
-        
-        // Redirect on the server-side after setting the cookie.
-        // This is the reliable way to handle post-login navigation.
-        redirect('/organization/home');
+        // The component will handle the redirect based on the response
+        return { success: true, user: data.user };
     }
 
-    return data;
+    return { success: false, message: data.message || "Login failed." };
   } catch (error) {
       console.error("Login action failed:", error);
-      if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
-        throw error;
-      }
       return { success: false, message: "An unexpected error occurred." };
   }
 }
