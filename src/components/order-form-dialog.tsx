@@ -37,8 +37,8 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
           <DialogTitle className="flex justify-between items-center p-6">
             <span className="text-xl">Order from {vendor.companyName}</span>
             <DialogClose asChild>
-                <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
-                    <X className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="rounded-full w-[54px] h-[54px] bg-background">
+                    <X className="h-6 w-6" />
                 </Button>
             </DialogClose>
           </DialogTitle>
