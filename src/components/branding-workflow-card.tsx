@@ -7,19 +7,25 @@ import { Button } from './ui/button';
 import { Upload, Palette, Save } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
+import { Input } from './ui/input';
 
 const ColorInput = ({ label, color, setColor }: { label: string, color: string, setColor: (color: string) => void }) => (
     <div className="flex items-center gap-2">
-        <div className="relative w-8 h-8 rounded-full border">
-            <input
+        <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
+             <input
                 type="color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
             />
-            <div className="w-full h-full rounded-full" style={{ backgroundColor: color }} />
         </div>
-        <span className="text-sm text-muted-foreground">{label}</span>
+        <Input 
+            type="text" 
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="w-32"
+            placeholder="#0FB4C3"
+        />
     </div>
 );
 
