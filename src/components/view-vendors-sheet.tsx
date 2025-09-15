@@ -53,7 +53,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                             <div className="mt-2 space-y-1 text-sm">
                                 <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
                                 <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
-                                <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-10 rounded-full px-4 mt-2">Order</Button>
+                                <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial h-10 rounded-full px-4 mt-2">Order</Button>
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                     <Separator orientation="vertical" />
 
                     <div className="flex items-center justify-end gap-4 pl-4">
-                        <Button onClick={() => setIsOrderFormOpen(true)} className="bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+                        <Button onClick={() => setIsOrderFormOpen(true)} className="h-12 rounded-full px-6">Order</Button>
                         <StarIcon isFilled={vendor.isFavorite} className="text-yellow-400" />
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
