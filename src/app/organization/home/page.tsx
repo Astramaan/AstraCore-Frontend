@@ -3,6 +3,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -72,7 +73,8 @@ const meetings: Meeting[] = [
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
 const filterOptions: FilterType[] = ["High Priority", "In Progress", "Pending", "Completed"];
 
-export default function OrganizationHomePage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function OrganizationHomePage() {
+  const searchParams = useSearchParams();
   const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -162,7 +164,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
       setSelectedMeeting(meeting);
   }
 
-  const userRole = searchParams.role;
+  const userRole = searchParams.get('role');
   const canFilterProjects = userRole === 'Project Manager' || userRole === 'Architect' || userRole === 'Site Supervisor';
 
 
