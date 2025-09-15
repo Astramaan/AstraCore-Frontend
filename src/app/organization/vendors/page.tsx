@@ -12,8 +12,9 @@ import { AddVendorSheet } from '@/components/add-vendor-sheet';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import StarIcon from '@/components/icons/star-icon';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
-const vendors = [
+const vendorsData = [
     {
         id: "1",
         companyName: "Teju Pan Shop",
@@ -115,56 +116,68 @@ const vendors = [
     },
 ];
 
-const allLocations = [...new Set(vendors.map(v => v.location))];
-const allMaterials = [...new Set(vendors.flatMap(v => v.materials))];
+type Vendor = typeof vendorsData[0];
 
-const VendorCard = ({ vendor, onFavoriteToggle }: { vendor: typeof vendors[0], onFavoriteToggle: (id: string) => void }) => (
-    <Card className="rounded-[30px] p-4 bg-card shadow-sm h-full hover:shadow-lg transition-shadow relative group">
-        <Button 
-            size="icon" 
-            variant="ghost" 
-            className="absolute top-2 right-2 rounded-full text-yellow-400 hover:text-yellow-500 z-10"
-            onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
-        >
-            <StarIcon isFilled={vendor.isFavorite} />
-        </Button>
-        <Link href={`/organization/vendors/${vendor.id}`}>
-            <CardContent className="p-0 space-y-4">
-                <div className="flex items-start gap-4">
-                    <Avatar className="w-24 h-24 rounded-[20px]">
-                        <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
-                        <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="space-y-1 flex-1">
-                        <p className="text-black text-lg font-semibold">{vendor.companyName}</p>
-                        <p className="text-muted-foreground text-base">{vendor.phone}</p>
-                        <p className="text-muted-foreground text-base">{vendor.email}</p>
-                    </div>
-                </div>
-                <p className="text-muted-foreground text-sm">{vendor.address}</p>
-            </CardContent>
+const allLocations = [...new Set(vendorsData.map(v => v.location))];
+const allMaterials = [...new Set(vendorsData.flatMap(v => v.materials))];
+
+const VendorListItem = ({ vendor, onFavoriteToggle }: { vendor: Vendor, onFavoriteToggle: (id: string) => void }) => (
+    <div className="flex flex-col md:flex-row items-center gap-4 p-4 rounded-[20px] bg-card shadow-sm hover:shadow-lg transition-shadow relative group">
+        <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 w-full">
+            <Avatar className="w-16 h-16 rounded-[15px]">
+                <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
+                <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="space-y-1 flex-1">
+                <p className="text-black text-base font-semibold">{vendor.companyName}</p>
+                <p className="text-muted-foreground text-sm">{vendor.location}</p>
+            </div>
         </Link>
-    </Card>
+        <div className="flex items-center gap-2 w-full md:w-auto">
+             <Button 
+                size="icon" 
+                variant="ghost" 
+                className="text-yellow-400 hover:text-yellow-500 z-10"
+                onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
+            >
+                <StarIcon isFilled={vendor.isFavorite} />
+            </Button>
+            <Button className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+        </div>
+    </div>
 );
 
+
 export default function VendorsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-    const [allVendors, setAllVendors] = useState(vendors);
+    const [allVendors, setAllVendors] = useState(vendorsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [showFavorites, setShowFavorites] = useState(false);
     const [showRecentlyOrdered, setShowRecentlyOrdered] = useState(false);
 
-    const filteredVendors = useMemo(() => {
-        return allVendors.filter(vendor => {
+    const materialsWithVendors = useMemo(() => {
+        const filteredVendors = allVendors.filter(vendor => {
             const matchesSearch = vendor.companyName.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(vendor.location);
-            const matchesMaterial = selectedMaterials.length === 0 || vendor.materials.some(m => selectedMaterials.includes(m));
             const matchesFavorites = !showFavorites || vendor.isFavorite;
-            // recently ordered logic is mocked
             const matchesRecentlyOrdered = !showRecentlyOrdered || ['1', '3', '5'].includes(vendor.id);
-            return matchesSearch && matchesLocation && matchesMaterial && matchesFavorites && matchesRecentlyOrdered;
+            return matchesSearch && matchesLocation && matchesFavorites && matchesRecentlyOrdered;
         });
+
+        const grouped: Record<string, Vendor[]> = {};
+        for (const vendor of filteredVendors) {
+            for (const material of vendor.materials) {
+                if (selectedMaterials.length > 0 && !selectedMaterials.includes(material)) {
+                    continue;
+                }
+                if (!grouped[material]) {
+                    grouped[material] = [];
+                }
+                grouped[material].push(vendor);
+            }
+        }
+        return grouped;
     }, [searchTerm, selectedLocations, selectedMaterials, showFavorites, showRecentlyOrdered, allVendors]);
 
     const handleLocationToggle = (location: string) => {
@@ -250,11 +263,25 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredVendors.map((vendor) => (
-                    <VendorCard key={vendor.id} vendor={vendor} onFavoriteToggle={handleFavoriteToggle} />
+            <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(materialsWithVendors)}>
+                {Object.entries(materialsWithVendors).map(([material, vendorsList]) => (
+                    <AccordionItem value={material} key={material} asChild>
+                         <Card className="rounded-[50px] overflow-hidden bg-white">
+                            <AccordionTrigger className="p-8 hover:no-underline text-xl font-semibold">
+                                {material}
+                            </AccordionTrigger>
+                            <AccordionContent className="p-6 pt-0">
+                                <div className="space-y-4">
+                                    {vendorsList.map((vendor) => (
+                                        <VendorListItem key={vendor.id} vendor={vendor} onFavoriteToggle={handleFavoriteToggle} />
+                                    ))}
+                                </div>
+                            </AccordionContent>
+                        </Card>
+                    </AccordionItem>
                 ))}
-            </div>
+             </Accordion>
+
         </div>
     );
 }
