@@ -129,7 +129,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
                  <div>
                     <p className="text-base text-grey-1">Total Members: <span className="text-black font-medium block">{String(role.total).padStart(2, '0')}</span></p>
                 </div>
-                <Button className="h-12 px-6 rounded-full bg-background text-black hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-12 px-6 col-span-2 rounded-full bg-background text-black hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator className="last:hidden"/>
@@ -177,14 +177,22 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
     const [roles, setRoles] = useState<Role[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    
+    const userRole = searchParams.role;
 
     useEffect(() => {
         // Simulate fetching data
         setTimeout(() => {
-            setRoles(allRoles);
+            let rolesToShow = allRoles;
+            if (userRole === 'Project Manager') {
+                rolesToShow = allRoles.filter(role => 
+                    ["Software Development", "Design", "Support & Feedback"].includes(role.name)
+                );
+            }
+            setRoles(rolesToShow);
             setIsLoading(false);
         }, 500);
-    }, []);
+    }, [userRole]);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
