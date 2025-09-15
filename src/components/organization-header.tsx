@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Users, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,6 +16,9 @@ import TeamIcon from './icons/team-icon';
 
 export const OrganizationHeader = () => {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const userRole = searchParams.get('role');
+
     let pageTitle = '';
 
     if (pathname.startsWith('/organization/home')) {
@@ -37,6 +40,7 @@ export const OrganizationHeader = () => {
     }
     
     const isTeamsActive = pathname.startsWith('/organization/teams');
+    const teamsButtonText = userRole === 'Super Admin' ? 'Teams Management' : 'Teams';
 
     return (
     <header className="flex flex-row justify-between items-center w-full gap-4">
@@ -59,7 +63,7 @@ export const OrganizationHeader = () => {
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
               )}>
                   <TeamIcon className="mr-2 h-6 w-6"/>
-                  <span>Teams Management</span>
+                  <span>{teamsButtonText}</span>
               </Button>
             </Link>
             <Link href="/organization/profile" className="flex items-center gap-2">
@@ -103,7 +107,7 @@ export const OrganizationHeader = () => {
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
                           )}>
                               <TeamIcon className="mr-2 h-6 w-6"/>
-                              <span>Teams Management</span>
+                              <span>{teamsButtonText}</span>
                           </Button>
                         </Link>
                     </div>
