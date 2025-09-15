@@ -49,6 +49,8 @@ const StageCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage
         pending: "text-yellow-600 border-yellow-600"
     };
 
+    const showApprovalUI = stage.status === 'ongoing' && stage.siteImages && stage.siteImages.length > 0;
+
     return (
         <Card className={cn(
             "rounded-[25px] border p-4 cursor-pointer",
@@ -71,6 +73,19 @@ const StageCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage
                     <p className={cn("text-base font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
                 </div>
             </div>
+             {showApprovalUI && (
+                <div className="mt-4 space-y-4">
+                    <div className="grid grid-cols-4 gap-2">
+                        {stage.siteImages?.map((img, index) => (
+                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                        ))}
+                    </div>
+                    <div className="flex gap-4">
+                        <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
+                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Complete</Button>
+                    </div>
+                </div>
+            )}
         </Card>
     );
 };
