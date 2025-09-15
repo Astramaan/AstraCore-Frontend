@@ -15,6 +15,7 @@ import StarIcon from '@/components/icons/star-icon';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { OrderFormDialog } from '@/components/order-form-dialog';
 
 const vendorsData = [
     {
@@ -136,12 +137,12 @@ const vendorsData = [
     },
 ];
 
-type Vendor = typeof vendorsData[0];
+export type Vendor = typeof vendorsData[0];
 
 const allLocations = [...new Set(vendorsData.map(v => v.location))];
 const allMaterials = [...new Set(vendorsData.flatMap(v => v.materials))];
 
-const VendorListItem = ({ vendor, onFavoriteToggle, isFirst, isLast }: { vendor: Vendor, onFavoriteToggle: (id: string) => void, isFirst?: boolean, isLast?: boolean }) => (
+const VendorListItem = ({ vendor, onFavoriteToggle, onOrder, isFirst, isLast }: { vendor: Vendor, onFavoriteToggle: (id: string) => void, onOrder: (vendor: Vendor) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="group">
         <div className={cn("hidden lg:grid grid-cols-[1.5fr_auto_1.5fr_auto_1fr] items-center py-4 gap-6 hover:bg-hover-bg px-4",
             isFirst && "rounded-t-[20px]",
@@ -176,7 +177,7 @@ const VendorListItem = ({ vendor, onFavoriteToggle, isFirst, isLast }: { vendor:
                 >
                     <StarIcon isFilled={vendor.isFavorite} />
                 </Button>
-                <Button className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+                <Button onClick={() => onOrder(vendor)} className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
             </div>
         </div>
 
@@ -207,7 +208,7 @@ const VendorListItem = ({ vendor, onFavoriteToggle, isFirst, isLast }: { vendor:
                      <p className="text-sm font-medium">{vendor.phone}</p>
                      <p className="text-sm font-medium">{vendor.email}</p>
                 </div>
-                <Button className="w-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full">Order</Button>
+                <Button onClick={() => onOrder(vendor)} className="w-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full">Order</Button>
             </div>
         </div>
         {!isLast && <div className="lg:px-4"><Separator /></div>}
@@ -222,6 +223,10 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [showFavorites, setShowFavorites] = useState(false);
     const [showRecentlyOrdered, setShowRecentlyOrdered] = useState(false);
+    const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
+    const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
+    const [selectedMaterialForOrder, setSelectedMaterialForOrder] = useState('');
+
 
     const materialsWithVendors = useMemo(() => {
         const filteredVendors = allVendors.filter(vendor => {
@@ -263,6 +268,11 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         setAllVendors(prev => prev.map(v => v.id === id ? { ...v, isFavorite: !v.isFavorite } : v));
     }
 
+    const handleOrderClick = (vendor: Vendor, material: string) => {
+        setSelectedVendor(vendor);
+        setSelectedMaterialForOrder(material);
+        setIsOrderFormOpen(true);
+    };
 
     return (
         <div className="space-y-6">
@@ -355,6 +365,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                                             key={vendor.id} 
                                             vendor={vendor} 
                                             onFavoriteToggle={handleFavoriteToggle} 
+                                            onOrder={(v) => handleOrderClick(v, material)}
                                             isFirst={index === 0}
                                             isLast={index === vendorsList.length - 1}
                                         />
@@ -365,9 +376,15 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                     </AccordionItem>
                 ))}
              </Accordion>
-
+             <OrderFormDialog
+                isOpen={isOrderFormOpen}
+                onClose={() => setIsOrderFormOpen(false)}
+                vendor={selectedVendor}
+                materialName={selectedMaterialForOrder}
+            />
         </div>
     );
 }
+
 
 
