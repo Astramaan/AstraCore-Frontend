@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Briefcase, Code, Palette, Search, Shield, Users, ChevronLeft } from 'lucide-react';
 import React, { useState, useMemo, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -171,14 +171,15 @@ const RoleCardSkeleton = () => (
 );
 
 
-export default function TeamsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function TeamsPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
     const [roles, setRoles] = useState<Role[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     
-    const userRole = searchParams.role;
+    const userRole = searchParams.get('role');
 
     useEffect(() => {
         // Simulate fetching data
@@ -258,3 +259,4 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
         </div>
     );
 }
+
