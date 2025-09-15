@@ -11,6 +11,8 @@ import { AddVendorSheet } from '@/components/add-vendor-sheet';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { ViewVendorsSheet, type Material } from '@/components/view-vendors-sheet';
+import StarIcon from '@/components/icons/star-icon';
+import { cn } from '@/lib/utils';
 
 const vendorsData = [
     {
@@ -189,12 +191,14 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
     const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
+    const [showFavorites, setShowFavorites] = useState(false);
 
     const materialsWithVendors = useMemo(() => {
         const filteredVendors = allVendors.filter(vendor => {
             const matchesSearch = vendor.companyName.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesLocation = selectedLocations.length === 0 || selectedLocations.includes(vendor.location);
-            return matchesSearch && matchesLocation;
+            const matchesFavorite = !showFavorites || vendor.isFavorite;
+            return matchesSearch && matchesLocation && matchesFavorite;
         });
 
         const materialMap: Record<string, Vendor[]> = {};
@@ -214,7 +218,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             name: materialName,
             vendors: materialMap[materialName]
         }));
-    }, [searchTerm, selectedLocations, selectedMaterials, allVendors]);
+    }, [searchTerm, selectedLocations, selectedMaterials, allVendors, showFavorites]);
 
     const handleLocationToggle = (location: string) => {
         setSelectedLocations(prev => 
@@ -249,6 +253,14 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                     />
                 </div>
                 <div className="flex items-center gap-4 w-full md:w-auto">
+                    <Button 
+                        variant="outline" 
+                        className={cn("w-full md:w-auto justify-center h-14 rounded-full text-lg", showFavorites ? "bg-primary text-white" : "bg-white")}
+                        onClick={() => setShowFavorites(prev => !prev)}
+                    >
+                        <StarIcon className="mr-2 h-5 w-5" isFilled={showFavorites} />
+                        Favorites
+                    </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="w-full md:w-auto justify-center h-14 rounded-full bg-white text-lg">
@@ -304,5 +316,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
+
 
 
