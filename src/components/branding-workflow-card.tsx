@@ -11,7 +11,7 @@ import { Input } from './ui/input';
 
 const ColorInput = ({ label, color, setColor, disabled }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean }) => (
     <div className="flex items-center gap-2">
-        <div className="relative w-8 h-8 rounded-full border">
+        <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
              <input
                 type="color"
                 value={color}
@@ -100,12 +100,12 @@ export const BrandingWorkflowCard = () => {
                     <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                         <Palette className="h-6 w-6"/>
                     </div>
-                    <CardTitle className="text-2xl font-semibold">Branding & Workflow</CardTitle>
+                    <CardTitle className="text-2xl font-semibold">Branding</CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="px-6 pb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                  <div className="flex items-center gap-6">
-                    <div className="relative w-16 h-16 rounded-full border">
+                    <div className="relative w-16 h-16 rounded-full border border-border">
                         <Image src={isEditing ? tempLogo ?? '' : logo ?? ''} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
                     </div>
                     <label htmlFor="logo-upload" className={!isEditing ? 'cursor-not-allowed' : 'cursor-pointer'}>
