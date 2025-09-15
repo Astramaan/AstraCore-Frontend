@@ -40,7 +40,7 @@ export const OrganizationHeader = () => {
     }
     
     const isTeamsActive = pathname.startsWith('/organization/teams');
-    const teamsButtonText = userRole === 'Super Admin' ? 'Teams Management' : 'Teams';
+    const teamsButtonText = 'Teams Management';
 
     return (
     <header className="flex flex-row justify-between items-center w-full gap-4">
