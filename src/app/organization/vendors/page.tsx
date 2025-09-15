@@ -161,7 +161,7 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
             </div>
         </div>
 
-        <div className="lg:hidden flex flex-col py-4 gap-4">
+        <div className="lg:hidden flex flex-col p-10 gap-4">
             <div className="flex items-center gap-4">
                  <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
                     {/* Placeholder for material icon */}
@@ -294,3 +294,4 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
 }
 
     
+
