@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -177,16 +176,9 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                 </div>
             ) : (
                  <div className="p-4 border-t mt-auto">
-                    <div className="flex justify-end gap-4">
-                        {snag.status === 'Open' && (
-                            <Button onClick={() => onUpdate({ ...snag, status: 'In Progress' })} className="w-full h-[54px] md:w-auto md:h-14 rounded-full md:px-8">Mark as In Progress</Button>
-                        )}
-                        {snag.status === 'In Progress' && (
-                            <Button onClick={() => onUpdate({ ...snag, status: 'Closed' })} className="w-full h-[54px] md:w-auto md:h-14 rounded-full md:px-8">Mark as Resolved</Button>
-                        )}
-                         {snag.status === 'Closed' && (
-                            <Button variant="outline" onClick={() => onUpdate({ ...snag, status: 'Open' })} className="w-full h-[54px] md:w-auto md:h-14 rounded-full md:px-8">Re-open Snag</Button>
-                        )}
+                    <div className="flex gap-4">
+                        <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
+                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
                     </div>
                 </div>
             )}
