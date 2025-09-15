@@ -225,6 +225,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
     const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
     const [selectedMaterialForOrder, setSelectedMaterialForOrder] = useState('');
+    const [openMaterial, setOpenMaterial] = useState<string | null>(null);
 
 
     const materialsWithVendors = useMemo(() => {
@@ -272,6 +273,10 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         setIsOrderFormOpen(true);
     };
 
+    const handleMaterialClick = (material: string) => {
+        setOpenMaterial(prev => prev === material ? null : material);
+    }
+
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row justify-end items-center gap-4">
@@ -285,17 +290,6 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                     />
                 </div>
                 <div className="flex items-center gap-4 w-full md:w-auto">
-                    <Button
-                        variant={showFavorites ? "default" : "outline"}
-                        onClick={() => setShowFavorites(!showFavorites)}
-                        className={cn(
-                            "w-full md:w-auto justify-center h-14 rounded-full text-lg",
-                            showFavorites ? "bg-primary text-white" : "bg-white"
-                        )}
-                    >
-                        <StarIcon isFilled={showFavorites} className={cn("mr-2 h-5 w-5", showFavorites ? "text-yellow-300" : "text-yellow-400")} />
-                        Favorites
-                    </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="w-full md:w-auto justify-center h-14 rounded-full bg-white text-lg">
@@ -332,15 +326,15 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                     <AddVendorSheet />
                 </div>
             </div>
-
-            <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(materialsWithVendors)}>
+            
+            <div className="space-y-6">
                 {Object.entries(materialsWithVendors).map(([material, vendorsList]) => (
-                    <AccordionItem value={material} key={material} asChild>
-                         <Card className="rounded-[50px] overflow-hidden bg-white">
-                            <AccordionTrigger className="p-8 hover:no-underline text-xl font-semibold">
-                                {material}
-                            </AccordionTrigger>
-                            <AccordionContent className="p-6 pt-0">
+                    <Card key={material} className="rounded-[50px] overflow-hidden bg-white">
+                        <div className="p-8 cursor-pointer" onClick={() => handleMaterialClick(material)}>
+                             <h3 className="text-xl font-semibold">{material}</h3>
+                        </div>
+                        {openMaterial === material && (
+                             <CardContent className="p-6 pt-0">
                                 <div className="space-y-2">
                                     {vendorsList.map((vendor, index) => (
                                         <VendorListItem 
@@ -353,11 +347,12 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                                         />
                                     ))}
                                 </div>
-                            </AccordionContent>
-                        </Card>
-                    </AccordionItem>
+                            </CardContent>
+                        )}
+                    </Card>
                 ))}
-             </Accordion>
+            </div>
+
              <OrderFormDialog
                 isOpen={isOrderFormOpen}
                 onClose={() => setIsOrderFormOpen(false)}
@@ -367,8 +362,3 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
-
-
-
-
-
