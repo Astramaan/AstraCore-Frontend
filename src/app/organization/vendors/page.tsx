@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Plus, SlidersHorizontal, Search } from 'lucide-react';
 import { AddVendorSheet } from '@/components/add-vendor-sheet';
 import Link from 'next/link';
@@ -25,6 +25,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "Kodihalli",
+        pincode: "560008",
         materials: ["Steel", "Cement"],
         isFavorite: true,
     },
@@ -36,6 +38,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Mysuru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Mysuru",
+        area: "Hebbal",
+        pincode: "570016",
         materials: ["Bricks", "Sand"],
         isFavorite: false,
     },
@@ -47,6 +51,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "Koramangala",
+        pincode: "560034",
         materials: ["Steel", "Gravel"],
         isFavorite: false,
     },
@@ -58,6 +64,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Chennai, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Chennai",
+        area: "T. Nagar",
+        pincode: "600017",
         materials: ["Paint"],
         isFavorite: true,
     },
@@ -69,6 +77,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "Indiranagar",
+        pincode: "560038",
         materials: ["Cement"],
         isFavorite: false,
     },
@@ -80,6 +90,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "Jayanagar",
+        pincode: "560041",
         materials: ["Steel"],
         isFavorite: false,
     },
@@ -91,6 +103,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "HSR Layout",
+        pincode: "560102",
         materials: ["Sand"],
         isFavorite: false,
     },
@@ -102,6 +116,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "Whitefield",
+        pincode: "560066",
         materials: ["Bricks"],
         isFavorite: true,
     },
@@ -113,6 +129,8 @@ const vendorsData = [
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
         location: "Bengaluru",
+        area: "Marathahalli",
+        pincode: "560037",
         materials: ["Gravel", "Paint"],
         isFavorite: false,
     },
@@ -135,7 +153,7 @@ const VendorListItem = ({ vendor, onFavoriteToggle, isFirst, isLast }: { vendor:
                 </Avatar>
                 <div className="space-y-1 flex-1">
                     <p className="text-black text-base font-semibold">{vendor.companyName}</p>
-                    <p className="text-muted-foreground text-sm">{vendor.location}</p>
+                    <p className="text-muted-foreground text-sm">{`${vendor.area}, ${vendor.location} - ${vendor.pincode}`}</p>
                 </div>
             </Link>
             
@@ -172,7 +190,7 @@ const VendorListItem = ({ vendor, onFavoriteToggle, isFirst, isLast }: { vendor:
                         </Avatar>
                         <div className="space-y-1 flex-1">
                             <p className="text-black text-base font-semibold">{vendor.companyName}</p>
-                            <p className="text-muted-foreground text-sm">{vendor.location}</p>
+                            <p className="text-muted-foreground text-sm">{`${vendor.area}, ${vendor.location} - ${vendor.pincode}`}</p>
                         </div>
                     </div>
                     <Button 
@@ -351,3 +369,4 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
+
