@@ -58,7 +58,7 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
           </div>
           <Button onClick={handleSendWhatsApp} className="w-full">
             <Send className="mr-2 h-4 w-4" />
-            Send on WhatsApp
+            order now
           </Button>
         </div>
       </DialogContent>
