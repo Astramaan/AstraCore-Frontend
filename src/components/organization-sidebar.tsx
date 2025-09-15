@@ -15,7 +15,6 @@ const navItems = [
     { href: "/organization/leads", icon: Users, label: "Leads" },
     { href: "/organization/vendors", icon: Briefcase, label: "Vendors" },
     { href: "/organization/blog", icon: FileText, label: "Blog" },
-    { href: "/organization/snag-list", icon: Bot, label: "Snag List" },
 ];
 
 const NavItem = ({ item }: { item: typeof navItems[0] }) => {

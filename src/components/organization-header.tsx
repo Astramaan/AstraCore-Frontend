@@ -28,8 +28,6 @@ export const OrganizationHeader = () => {
         pageTitle = 'Leads';
     } else if (pathname.startsWith('/organization/vendors')) {
         pageTitle = 'Vendors';
-    } else if (pathname.startsWith('/organization/snag-list')) {
-        pageTitle = 'Snag List';
     } else if (pathname.startsWith('/organization/teams')) {
         pageTitle = 'Teams Management';
     } else if (pathname.startsWith('/organization/subscription-management')) {

@@ -20,7 +20,6 @@ export const OrganizationBottomNav = () => {
         { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
         { href: "/organization/leads", icon: LeadsIcon, label: "Leads" },
         { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" },
-        { href: "/organization/snag-list", icon: SnagListIcon, label: "Snag List" },
     ];
 
     const pathname = usePathname();
