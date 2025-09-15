@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function LoginPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background md:flex md:items-center md:justify-center md:p-4">
-      <div className="flex flex-col min-h-screen md:h-auto md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:max-w-4xl w-full">
+      <div className="flex flex-col md:h-auto md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:max-w-4xl w-full">
           
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
