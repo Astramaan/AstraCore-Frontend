@@ -162,6 +162,9 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
       setSelectedMeeting(meeting);
   }
 
+  const userRole = searchParams.role;
+  const canFilterProjects = userRole === 'Project Manager' || userRole === 'Architect' || userRole === 'Site Supervisor';
+
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
@@ -249,19 +252,21 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             <div>
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-medium">My Tasks</h2>
-                  <div className="w-48">
-                    <Select value={selectedProject} onValueChange={setSelectedProject}>
-                      <SelectTrigger className="rounded-full bg-white">
-                        <SelectValue placeholder="All Projects" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Projects</SelectItem>
-                        {projectNames.map(name => (
-                          <SelectItem key={name} value={name}>{name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  {canFilterProjects && (
+                    <div className="w-48">
+                      <Select value={selectedProject} onValueChange={setSelectedProject}>
+                        <SelectTrigger className="rounded-full bg-white">
+                          <SelectValue placeholder="All Projects" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Projects</SelectItem>
+                          {projectNames.map(name => (
+                            <SelectItem key={name} value={name}>{name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
