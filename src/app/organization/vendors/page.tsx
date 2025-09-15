@@ -259,6 +259,17 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                     />
                 </div>
                 <div className="flex items-center gap-4 w-full md:w-auto">
+                    <Button
+                        variant={showFavorites ? "default" : "outline"}
+                        onClick={() => setShowFavorites(!showFavorites)}
+                        className={cn(
+                            "w-full md:w-auto justify-center h-14 rounded-full text-lg",
+                            showFavorites ? "bg-primary text-white" : "bg-white"
+                        )}
+                    >
+                        <StarIcon isFilled={showFavorites} className={cn("mr-2 h-5 w-5", showFavorites ? "text-yellow-300" : "text-yellow-400")} />
+                        Favorites
+                    </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="w-full md:w-auto justify-center h-14 rounded-full bg-white text-lg">
