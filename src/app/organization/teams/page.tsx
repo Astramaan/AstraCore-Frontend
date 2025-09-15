@@ -85,10 +85,6 @@ const allRoles: Role[] = [
     },
 ];
 
-const projectManagerRoles = allRoles.filter(role => 
-    ["Software Development", "Design", "Support & Feedback"].includes(role.name)
-);
-
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         {/* Desktop & Tablet View */}
@@ -185,7 +181,7 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
     useEffect(() => {
         // Simulate fetching data
         setTimeout(() => {
-            setRoles(projectManagerRoles);
+            setRoles(allRoles);
             setIsLoading(false);
         }, 500);
     }, []);
@@ -254,4 +250,3 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
         </div>
     );
 }
-
