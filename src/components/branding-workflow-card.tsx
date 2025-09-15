@@ -11,7 +11,7 @@ import { Input } from './ui/input';
 
 const ColorInput = ({ label, color, setColor, disabled }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean }) => (
     <div className="flex items-center gap-2">
-        <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
+        <div className="relative w-8 h-8 rounded-full border">
              <input
                 type="color"
                 value={color}
@@ -103,10 +103,10 @@ export const BrandingWorkflowCard = () => {
                     <CardTitle className="text-2xl font-semibold">Branding & Workflow</CardTitle>
                 </div>
             </CardHeader>
-            <CardContent className="px-6 pb-6 flex items-center justify-between">
+            <CardContent className="px-6 pb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                  <div className="flex items-center gap-6">
                     <div className="relative w-16 h-16 rounded-full border">
-                        <Image src={isEditing ? tempLogo : logo} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
+                        <Image src={isEditing ? tempLogo ?? '' : logo ?? ''} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
                     </div>
                     <label htmlFor="logo-upload" className={!isEditing ? 'cursor-not-allowed' : 'cursor-pointer'}>
                         <div className="flex items-center gap-2 text-primary">
@@ -121,23 +121,25 @@ export const BrandingWorkflowCard = () => {
                     <ColorInput label="Primary" color={isEditing ? tempPrimaryColor : primaryColor} setColor={setTempPrimaryColor} disabled={!isEditing}/>
                 </div>
 
-                {isEditing ? (
-                    <div className="flex gap-2">
-                        <Button variant="ghost" className="rounded-full h-14 px-10 text-lg" onClick={handleCancel}>
-                            <X className="mr-2 h-5 w-5"/>
-                            Cancel
+                <div className="w-full md:w-auto">
+                    {isEditing ? (
+                        <div className="flex gap-2">
+                            <Button variant="ghost" className="rounded-full h-14 w-full md:w-auto px-10 text-lg" onClick={handleCancel}>
+                                <X className="mr-2 h-5 w-5"/>
+                                Cancel
+                            </Button>
+                            <Button className="rounded-full h-14 w-full md:w-auto px-10 text-lg" onClick={handleSave}>
+                                <Save className="mr-2 h-5 w-5"/>
+                                Save Changes
+                            </Button>
+                        </div>
+                    ) : (
+                        <Button className="rounded-full h-14 w-full md:w-auto px-10 text-lg" onClick={handleEdit}>
+                            <Edit className="mr-2 h-5 w-5"/>
+                            Customize
                         </Button>
-                        <Button className="rounded-full h-14 px-10 text-lg" onClick={handleSave}>
-                            <Save className="mr-2 h-5 w-5"/>
-                            Save Changes
-                        </Button>
-                    </div>
-                ) : (
-                    <Button className="rounded-full h-14 px-10 text-lg" onClick={handleEdit}>
-                        <Edit className="mr-2 h-5 w-5"/>
-                        Customize
-                    </Button>
-                )}
+                    )}
+                </div>
             </CardContent>
         </Card>
     );
