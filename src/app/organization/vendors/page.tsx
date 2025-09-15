@@ -275,7 +275,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             </div>
             
              <Card className="rounded-[50px] overflow-hidden">
-                <CardContent className="p-6">
+                <CardContent className="py-6 px-0 md:px-6">
                     <div className="flex flex-col">
                         {materialsWithVendors.map((material) => (
                            <MaterialCard key={material.name} material={material} onViewVendors={handleViewVendors}/>
