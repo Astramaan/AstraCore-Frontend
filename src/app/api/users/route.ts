@@ -6,7 +6,7 @@ const API_BASE_URL = "https://astramaan-be-1.onrender.com";
 
 function getAuthHeadersFromRequest(req: NextRequest): Record<string, string> {
     const headers: Record<string, string> = {};
-    const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode'];
+    const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
     
     userHeaders.forEach(headerKey => {
         const headerValue = req.headers.get(headerKey);
@@ -143,4 +143,3 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
-

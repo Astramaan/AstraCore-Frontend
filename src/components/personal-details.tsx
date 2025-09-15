@@ -61,6 +61,7 @@ interface PersonalDetailsProps {
 }
 
 const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any, onSave: (data: any) => void, onCancel: () => void }) => {
+    const { user } = useUser();
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
@@ -119,8 +120,21 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
         </div>
     );
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formDataObj = new FormData(event.currentTarget);
+        if (user) {
+            Object.entries(user).forEach(([key, value]) => {
+                if(!formDataObj.has(key)) {
+                    formDataObj.append(key, value);
+                }
+            });
+        }
+        formAction(formDataObj);
+    };
+
     return (
-        <form action={formAction} className="flex flex-col h-full">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
             <input type="hidden" name="id" value={member.id} />
             <DialogHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
                 <DialogTitle className="flex justify-between items-center">
@@ -141,10 +155,10 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                             <FloatingLabelInput id="dob" name="dob" label="Date of Birth" value={formData.dob} onChange={handleInputChange} />
                         </div>
                         <div className="space-y-6">
-                            <FloatingLabelInput id="phone" name="phone" label="Phone Number" value={formData.mobileNumber} onChange={handleInputChange} />
+                            <FloatingLabelInput id="phone" name="mobileNumber" label="Phone Number" value={formData.mobileNumber} onChange={handleInputChange} />
                             <div className="space-y-2">
                                 <Label className={cn("text-lg font-medium", 'text-grey-1')}>Role</Label>
-                                <Select name="role" value={formData.team} onValueChange={handleRoleChange}>
+                                <Select name="team" value={formData.team} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
                                     </SelectTrigger>

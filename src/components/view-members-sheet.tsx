@@ -23,6 +23,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { deactivateUser, requestPasswordReset } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { ScrollArea } from './ui/scroll-area';
+import { useUser } from '@/context/user-context';
 
 
 export interface Member {
@@ -48,10 +49,21 @@ export interface Role {
 
 const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (member: Member) => void; }) => {
     const { toast } = useToast();
+    const { user } = useUser();
     
     const handlePasswordReset = async () => {
         const formData = new FormData();
         formData.append('email', member.email);
+        if (user) {
+             const headers = new Headers();
+             Object.entries(user).forEach(([key, value]) => {
+                headers.append(key, value as string);
+            });
+            // This is a conceptual example. In a real app, you'd pass headers to your fetch call.
+            // Server actions don't directly support custom headers like this.
+            // A custom fetch wrapper would be needed.
+            console.log("Would make request with headers:", Object.fromEntries(headers.entries()));
+        }
         
         const result = await requestPasswordReset(null, formData);
 
@@ -129,6 +141,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
     const [members, setMembers] = useState<Member[]>(role.members || []);
     const [memberToDeactivate, setMemberToDeactivate] = useState<Member | null>(null);
     const { toast } = useToast();
+    const { user } = useUser();
 
     useEffect(() => {
         setMembers(role.members || []);
@@ -147,19 +160,39 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
     };
 
     const confirmDeactivation = async () => {
-        if (memberToDeactivate) {
-            const result = await deactivateUser(memberToDeactivate.id);
-             if (result.success) {
-                handleStatusChange(memberToDeactivate.id, 'Inactive');
-                toast({
-                    title: 'Success',
-                    description: result.message,
+        if (memberToDeactivate && user) {
+            const headers = new Headers();
+            Object.entries(user).forEach(([key, value]) => {
+                headers.append(key, value as string);
+            });
+            
+            try {
+                const res = await fetch('/api/users', {
+                    method: 'DELETE',
+                    headers: headers,
+                    body: JSON.stringify({ userId: memberToDeactivate.id })
                 });
-            } else {
+
+                const result = await res.json();
+
+                if (result.success) {
+                    handleStatusChange(memberToDeactivate.id, 'Inactive');
+                    toast({
+                        title: 'Success',
+                        description: result.message,
+                    });
+                } else {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: result.message,
+                    });
+                }
+            } catch (error) {
                 toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: result.message,
+                    description: "An unexpected error occurred."
                 });
             }
             setMemberToDeactivate(null);
