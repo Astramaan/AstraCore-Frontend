@@ -9,11 +9,13 @@ import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import { Button } from '@/components/ui/button';
 import { LogOut, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
+import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 
 export default function ProfilePage() {
     const router = useRouter();
-    // In a real app, you would fetch the logged-in user's data.
-    // For now, we'll use a mock ID.
+    // In a real app, you would get this from your auth context
+    const isSuperAdmin = true;
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center md:hidden">
@@ -28,6 +30,15 @@ export default function ProfilePage() {
                 </Button>
             </div>
             <PersonalDetails memberId="1" />
+            
+            {isSuperAdmin && (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2">
+                        <BrandingWorkflowCard />
+                    </div>
+                </div>
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 flex">
                     <FeatureAccessCard />
