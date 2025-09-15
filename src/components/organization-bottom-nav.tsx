@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 import HomeIcon from './icons/home-icon';
 import MeetingsIcon from './icons/meetings-icon';
 import ProjectsIcon from './icons/projects-icon';
-import LeadsIcon from './icons/leads-icon';
 import VendorsIcon from './icons/vendors-icon';
+import TeamIcon from './icons/team-icon';
 
 
 export const OrganizationBottomNav = () => {
@@ -17,8 +17,8 @@ export const OrganizationBottomNav = () => {
         { href: "/organization/home", icon: HomeIcon, label: "Home" },
         { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings" },
         { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
-        { href: "/organization/leads", icon: LeadsIcon, label: "Leads" },
         { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" },
+        { href: "/organization/teams", icon: TeamIcon, label: "Teams" },
     ];
 
     const pathname = usePathname();
