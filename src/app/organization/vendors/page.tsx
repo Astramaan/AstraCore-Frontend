@@ -21,7 +21,7 @@ const vendorsData = [
     {
         id: "1",
         companyName: "Teju Pan Shop",
-        phone: "1234567890",
+        phone: "9380032186",
         email: "Company@gmail.com",
         address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
         image: "https://placehold.co/100x100.png",
@@ -385,6 +385,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
         </div>
     );
 }
+
 
 
 
