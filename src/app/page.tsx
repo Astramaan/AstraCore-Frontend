@@ -26,8 +26,8 @@ export default function LoginPage({ searchParams }: { searchParams: { [key: stri
           <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:px-10 md:w-auto">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo className="md:mx-auto" />
-              <p className="text-lg text-grey-1 mt-6 md:mt-8 mb-6 md:mb-0">Log in and let’s get to work on<br className="md:hidden"/> your projects.</p>
-              <div className="mt-0 md:mt-8 flex-grow flex flex-col">
+              <p className="text-lg text-grey-1 mt-6 md:mt-8">Log in and let’s get to work on your projects.</p>
+              <div className="mt-8 flex-grow flex flex-col">
                 <AuthForm />
               </div>
             </div>
