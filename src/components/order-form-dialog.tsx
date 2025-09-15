@@ -32,9 +32,9 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md rounded-[20px] bg-white">
+      <DialogContent className="sm:max-w-md rounded-[20px] bg-white p-0">
         <DialogHeader>
-          <DialogTitle className="flex justify-between items-center">
+          <DialogTitle className="flex justify-between items-center p-6">
             <span className="text-xl">Order from {vendor.companyName}</span>
             <DialogClose asChild>
                 <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
@@ -43,7 +43,7 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
             </DialogClose>
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className="space-y-4 px-6 pb-6">
           <div className="space-y-2">
             <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-grey-1' : 'text-zinc-900')}>Material</Label>
             <Input id="material" value={materialName} readOnly className="h-14 bg-background rounded-full px-5" />
