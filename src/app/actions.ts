@@ -19,22 +19,9 @@ export async function login(prevState: any, formData: FormData) {
     const data = await res.json();
     console.log("Login API response:", data);
 
-    if (data.success) {
-      let role = 'Project Manager'; // Default role
-      const userEmail = data.user?.email;
-
-      const roleMap: { [email: string]: string } = {
-        'anil@habi.one': 'Super Admin',
-        'priya@habi.one': 'Project Manager',
-        'yaswanth@habi.one': 'Site Supervisor',
-        'naveen@habi.one': 'Sales',
-        'darshan@habi.one': 'Architect'
-      };
-
-      if (userEmail && roleMap[userEmail]) {
-        role = roleMap[userEmail];
-      }
-
+    if (data.success && data.user) {
+      // Use the 'team' from the API response as the role
+      const role = data.user.team || 'Employee'; // Default to 'Employee' if team is not present
       data.user.role = role;
       
       const params = new URLSearchParams({
@@ -294,3 +281,4 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
+

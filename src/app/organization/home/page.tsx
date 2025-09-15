@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -199,239 +199,247 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
     );
   };
 
-export default function OrganizationHomePage() {
-  const searchParams = useSearchParams();
-  const userRole = searchParams.get('role');
-
-  const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
-  const [activeFilter, setActiveFilter] = useState<FilterType>(null);
-  const [selectedProject, setSelectedProject] = useState<string>('all');
+  const OrganizationHomePageContent = () => {
+    const searchParams = useSearchParams();
+    const userRole = searchParams.get('role');
   
-  // State for PM Home
-  const [selectedStage, setSelectedStage] = useState<Stage | null>(null);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  // Common handlers and memos
-  const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
-  const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
-    const fullTask: Task = {
-        ...newTask,
-        id: `TSK${String(taskData.length + 1).padStart(3, '0')}`,
-        status: 'Pending',
-        attachments: []
+    const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
+    const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+    const [selectedProject, setSelectedProject] = useState<string>('all');
+    
+    // State for PM Home
+    const [selectedStage, setSelectedStage] = useState<Stage | null>(null);
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
+  
+    // Common handlers and memos
+    const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
+    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
+      const fullTask: Task = {
+          ...newTask,
+          id: `TSK${String(taskData.length + 1).padStart(3, '0')}`,
+          status: 'Pending',
+          attachments: []
+      };
+      setTaskData(prevTasks => [fullTask, ...prevTasks]);
     };
-    setTaskData(prevTasks => [fullTask, ...prevTasks]);
-  };
-  const myTasksChartData = useMemo(() => {
-    const statusCounts = taskData.reduce((acc, task) => {
-        if(task.status !== 'Completed') {
-            acc[task.status] = (acc[task.status] || 0) + 1;
-        }
-        return acc;
-    }, {} as Record<string, number>);
-    return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-  }, [taskData]);
-
-  const assignedTasksChartData = useMemo(() => {
-    const statusCounts = assignedTasksData.reduce((acc, task) => {
-        if(task.status !== 'Completed') {
-            acc[task.status] = (acc[task.status] || 0) + 1;
-        }
-        return acc;
-    }, {} as Record<string, number>);
-    return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-  }, []);
-
-  // Handlers for Default Home
-  const handleFilterClick = (filter: FilterType) => {
-    setActiveFilter(activeFilter === filter ? null : filter);
-  };
-  const handleTaskUpdate = (updatedTask: Task) => {
-    setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
-    setSelectedTask(updatedTask);
-  };
-  const projectNames = useMemo(() => [...new Set(taskData.map(task => task.project))], [taskData]);
-  const filteredTasks = useMemo(() => {
-    let tasks = taskData;
-    if (activeFilter) {
-        tasks = tasks.filter(task => {
-            if (activeFilter === 'High Priority') return task.priority === 'High';
-            if (activeFilter === 'In Progress') return task.status === 'In Progress';
-            if (activeFilter === 'Pending') return task.status === 'Pending';
-            if (activeFilter === 'Completed') return task.status === 'Completed';
-            return true;
-        });
-    } else {
-        tasks = tasks.filter(task => task.status !== 'Completed');
-    }
-    if (selectedProject !== 'all') {
-        tasks = tasks.filter(task => task.project === selectedProject);
-    }
-    return tasks;
-  }, [activeFilter, taskData, selectedProject]);
-  const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
-  const canFilterProjects = userRole === 'Project Manager' || userRole === 'Architect' || userRole === 'Site Supervisor';
-
-
-  // Handlers for PM Home
-  const handleStageClick = (stage: Stage) => {
-    setSelectedStage(stage);
-    setIsSheetOpen(true);
-  };
-  const handleSheetClose = () => {
-    setIsSheetOpen(false);
-    setSelectedStage(null);
-  };
-  const dummySnag: Snag | null = selectedStage ? {
-    id: `snag-${selectedStage.id}`,
-    title: selectedStage.title,
-    description: `Details about the stage: ${selectedStage.subtitle}`,
-    createdBy: selectedStage.createdBy,
-    createdAt: selectedStage.createdAt,
-    status: 'Open',
-    subStatus: '',
-    statusColor: 'text-red-500',
-    images: selectedStage.siteImages || [],
-    projectId: 'CHA2024',
-    projectName: 'Charan Project'
-  } : null;
-
-  const renderDefaultHome = () => (
-    <main className="flex-1">
-        <div className="flex justify-between items-center mb-6">
-             {/* Desktop Filters */}
-            <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
-                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                     <Button 
-                        key={filter}
-                        variant="outline" 
-                        className={cn(
-                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                            activeFilter === filter ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                        )}
-                        onClick={() => handleFilterClick(filter as FilterType)}
-                    >
-                        {filter}
-                        {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                    </Button>
-                ))}
-            </div>
-
-            {/* Mobile/Tablet Filter Dropdown & Actions */}
-            <div className="flex lg:hidden justify-between items-center w-full">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
-                            <SlidersHorizontal className="mr-2 h-4 w-4" />
-                            Filter
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                        <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
-                            All (exclude completed)
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
-                            <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
-                                <div className="w-4 mr-2">
-                                 {activeFilter === option && <Check className="h-4 w-4" />}
-                                </div>
-                                {option}
-                                 {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                            </DropdownMenuItem>
+    const myTasksChartData = useMemo(() => {
+      const statusCounts = taskData.reduce((acc, task) => {
+          if(task.status !== 'Completed') {
+              acc[task.status] = (acc[task.status] || 0) + 1;
+          }
+          return acc;
+      }, {} as Record<string, number>);
+      return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+    }, [taskData]);
+  
+    const assignedTasksChartData = useMemo(() => {
+      const statusCounts = assignedTasksData.reduce((acc, task) => {
+          if(task.status !== 'Completed') {
+              acc[task.status] = (acc[task.status] || 0) + 1;
+          }
+          return acc;
+      }, {} as Record<string, number>);
+      return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+    }, []);
+  
+    // Handlers for Default Home
+    const handleFilterClick = (filter: FilterType) => {
+      setActiveFilter(activeFilter === filter ? null : filter);
+    };
+    const handleTaskUpdate = (updatedTask: Task) => {
+      setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
+      setSelectedTask(updatedTask);
+    };
+    const projectNames = useMemo(() => [...new Set(taskData.map(task => task.project))], [taskData]);
+    const filteredTasks = useMemo(() => {
+      let tasks = taskData;
+      if (activeFilter) {
+          tasks = tasks.filter(task => {
+              if (activeFilter === 'High Priority') return task.priority === 'High';
+              if (activeFilter === 'In Progress') return task.status === 'In Progress';
+              if (activeFilter === 'Pending') return task.status === 'Pending';
+              if (activeFilter === 'Completed') return task.status === 'Completed';
+              return true;
+          });
+      } else {
+          tasks = tasks.filter(task => task.status !== 'Completed');
+      }
+      if (selectedProject !== 'all') {
+          tasks = tasks.filter(task => task.project === selectedProject);
+      }
+      return tasks;
+    }, [activeFilter, taskData, selectedProject]);
+    const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
+    const canFilterProjects = userRole === 'Project Manager' || userRole === 'Architect' || userRole === 'Site Supervisor';
+  
+  
+    // Handlers for PM Home
+    const handleStageClick = (stage: Stage) => {
+      setSelectedStage(stage);
+      setIsSheetOpen(true);
+    };
+    const handleSheetClose = () => {
+      setIsSheetOpen(false);
+      setSelectedStage(null);
+    };
+    const dummySnag: Snag | null = selectedStage ? {
+      id: `snag-${selectedStage.id}`,
+      title: selectedStage.title,
+      description: `Details about the stage: ${selectedStage.subtitle}`,
+      createdBy: selectedStage.createdBy,
+      createdAt: selectedStage.createdAt,
+      status: 'Open',
+      subStatus: '',
+      statusColor: 'text-red-500',
+      images: selectedStage.siteImages || [],
+      projectId: 'CHA2024',
+      projectName: 'Charan Project'
+    } : null;
+  
+    const renderDefaultHome = () => (
+      <main className="flex-1">
+          <div className="flex justify-between items-center mb-6">
+               {/* Desktop Filters */}
+              <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+                  {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                       <Button 
+                          key={filter}
+                          variant="outline" 
+                          className={cn(
+                              "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                              activeFilter === filter ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                          )}
+                          onClick={() => handleFilterClick(filter as FilterType)}
+                      >
+                          {filter}
+                          {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                      </Button>
+                  ))}
+              </div>
+  
+              {/* Mobile/Tablet Filter Dropdown & Actions */}
+              <div className="flex lg:hidden justify-between items-center w-full">
+                  <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                          <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                              <SlidersHorizontal className="mr-2 h-4 w-4" />
+                              Filter
+                          </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                          <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                              All (exclude completed)
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
+                              <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
+                                  <div className="w-4 mr-2">
+                                   {activeFilter === option && <Check className="h-4 w-4" />}
+                                  </div>
+                                  {option}
+                                   {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                              </DropdownMenuItem>
+                          ))}
+                      </DropdownMenuContent>
+                  </DropdownMenu>
+  
+                   <div className="flex items-center gap-4">
+                      <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                      <AddMemberSheet />
+                  </div>
+              </div>
+          </div>
+  
+          <div>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-medium">My Tasks</h2>
+                {canFilterProjects && (
+                  <div className="w-48">
+                    <Select value={selectedProject} onValueChange={setSelectedProject}>
+                      <SelectTrigger className="rounded-full bg-white">
+                        <SelectValue placeholder="All Projects" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Projects</SelectItem>
+                        {projectNames.map(name => (
+                          <SelectItem key={name} value={name}>{name}</SelectItem>
                         ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                 <div className="flex items-center gap-4">
-                    <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                    <AddMemberSheet />
-                </div>
-            </div>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+              </div>
+          </div>
+          <div className="mt-8">
+              <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                   {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+              </div>
+          </div>
+      </main>
+    );
+  
+    const renderProjectManagerHome = () => (
+      <main className="flex-1 space-y-6">
+        <h2 className="text-xl font-medium">My Tasks</h2>
+        <div className="space-y-4">
+          {projectsData.map((project) => (
+            <ProjectSection key={project.id} project={project} onStageClick={handleStageClick} />
+          ))}
         </div>
-
-        <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-medium">My Tasks</h2>
-              {canFilterProjects && (
-                <div className="w-48">
-                  <Select value={selectedProject} onValueChange={setSelectedProject}>
-                    <SelectTrigger className="rounded-full bg-white">
-                      <SelectValue placeholder="All Projects" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Projects</SelectItem>
-                      {projectNames.map(name => (
-                        <SelectItem key={name} value={name}>{name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-            </div>
-        </div>
-        <div className="mt-8">
-            <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-            </div>
-        </div>
-    </main>
-  );
-
-  const renderProjectManagerHome = () => (
-    <main className="flex-1 space-y-6">
-      <h2 className="text-xl font-medium">My Tasks</h2>
-      <div className="space-y-4">
-        {projectsData.map((project) => (
-          <ProjectSection key={project.id} project={project} onStageClick={handleStageClick} />
-        ))}
+      </main>
+    );
+  
+    return (
+      <div className="flex flex-col lg:flex-row gap-6">
+          {userRole === 'Project Manager' ? renderProjectManagerHome() : renderDefaultHome()}
+          
+          <HomeAside
+              meetings={meetings}
+              myTasksChartData={myTasksChartData}
+              assignedTasksChartData={assignedTasksChartData}
+              onMeetingClick={handleMeetingClick}
+              onAddTask={handleAddTask}
+          />
+          
+          {/* Modals and Sheets */}
+          {selectedTask && (
+              <TaskDetailsSheet
+                  isOpen={!!selectedTask}
+                  onClose={() => setSelectedTask(null)}
+                  task={selectedTask}
+                  onUpdateTask={handleTaskUpdate}
+              />
+          )}
+          {selectedMeeting && (
+              <MeetingDetailsSheet
+                  isOpen={!!selectedMeeting}
+                  onClose={() => setSelectedMeeting(null)}
+                  meeting={selectedMeeting}
+              />
+          )}
+          {dummySnag && userRole === 'Project Manager' && (
+               <SnagDetailsSheet
+                  isOpen={isSheetOpen}
+                  onClose={handleSheetClose}
+                  snag={dummySnag}
+                  onDelete={() => console.log('delete')}
+                  onUpdate={(snag) => console.log('update', snag)}
+              />
+          )}
       </div>
-    </main>
-  );
+    );
+  }
 
-  return (
-    <div className="flex flex-col lg:flex-row gap-6">
-        {userRole === 'Project Manager' ? renderProjectManagerHome() : renderDefaultHome()}
-        
-        <HomeAside
-            meetings={meetings}
-            myTasksChartData={myTasksChartData}
-            assignedTasksChartData={assignedTasksChartData}
-            onMeetingClick={handleMeetingClick}
-            onAddTask={handleAddTask}
-        />
-        
-        {/* Modals and Sheets */}
-        {selectedTask && (
-            <TaskDetailsSheet
-                isOpen={!!selectedTask}
-                onClose={() => setSelectedTask(null)}
-                task={selectedTask}
-                onUpdateTask={handleTaskUpdate}
-            />
-        )}
-        {selectedMeeting && (
-            <MeetingDetailsSheet
-                isOpen={!!selectedMeeting}
-                onClose={() => setSelectedMeeting(null)}
-                meeting={selectedMeeting}
-            />
-        )}
-        {dummySnag && userRole === 'Project Manager' && (
-             <SnagDetailsSheet
-                isOpen={isSheetOpen}
-                onClose={handleSheetClose}
-                snag={dummySnag}
-                onDelete={() => console.log('delete')}
-                onUpdate={(snag) => console.log('update', snag)}
-            />
-        )}
-    </div>
-  );
-}
+  export default function OrganizationHomePage() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <OrganizationHomePageContent />
+      </Suspense>
+    );
+  }
