@@ -23,7 +23,7 @@ const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: str
     "default": { icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-gray-200/30" }
 };
 
-const initialRoles: Role[] = [
+const allRoles: Role[] = [
     { 
         name: "Super Admin", 
         icon: <Shield className="w-6 h-6 text-black" />, 
@@ -84,6 +84,10 @@ const initialRoles: Role[] = [
         members: []
     },
 ];
+
+const projectManagerRoles = allRoles.filter(role => 
+    ["Software Development", "Design", "Support & Feedback"].includes(role.name)
+);
 
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
@@ -175,9 +179,16 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
-    const [roles, setRoles] = useState<Role[]>(initialRoles);
-    const [isLoading, setIsLoading] = useState(false);
+    const [roles, setRoles] = useState<Role[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
+    useEffect(() => {
+        // Simulate fetching data
+        setTimeout(() => {
+            setRoles(projectManagerRoles);
+            setIsLoading(false);
+        }, 500);
+    }, []);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
@@ -243,3 +254,4 @@ export default function TeamsPage({ searchParams }: { searchParams: { [key: stri
         </div>
     );
 }
+
