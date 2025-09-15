@@ -7,6 +7,61 @@ import { redirect } from 'next/navigation';
 // Note: The primary authenticate logic is now in the /api/login route proxy.
 // This file is kept for other server actions.
 
+export async function login(prevState: any, formData: FormData) {
+  const email = formData.get('email') as string;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData)),
+    });
+
+    const data = await res.json();
+    console.log("Login API response:", data);
+
+    if (data.success) {
+      let role = 'Project Manager'; // Default role
+      const userEmail = data.user?.email;
+
+      const roleMap: { [email: string]: string } = {
+        'anil@habi.one': 'Super Admin',
+        'priya@habi.one': 'Project Manager',
+        'yaswanth@habi.one': 'Site Supervisor',
+        'naveen@habi.one': 'Sales',
+        'darshan@habi.one': 'Architect'
+      };
+
+      if (userEmail && roleMap[userEmail]) {
+        role = roleMap[userEmail];
+      }
+
+      data.user.role = role;
+      
+      const params = new URLSearchParams({
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          orgCode: data.user.orgCode,
+      });
+
+      if (role === 'Super Admin') {
+          redirect(`/platform/dashboard?${params.toString()}`);
+      } else {
+          redirect(`/organization/home?${params.toString()}`);
+      }
+    }
+
+    return data;
+  } catch (error) {
+      console.error("Login action failed:", error);
+      if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+        throw error;
+      }
+      return { success: false, message: "An unexpected error occurred." };
+  }
+}
+
+
 export async function signup(prevState: any, formData: FormData) {
   const email = formData.get('email');
   
