@@ -1,26 +1,37 @@
 
 import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
+import { cookies } from 'next/headers';
 
 const API_BASE_URL = "https://astramaan-be-1.onrender.com";
 
-function getAuthHeadersFromRequest(req: NextRequest): Record<string, string> {
-    const headers: Record<string, string> = {};
-    const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
-    
-    userHeaders.forEach(headerKey => {
-        const headerValue = req.headers.get(headerKey);
-        if (headerValue) {
-            headers[headerKey] = headerValue;
-        }
-    });
+function getAuthHeadersFromCookie(): Record<string, string> {
+    const cookieStore = cookies();
+    const userDataCookie = cookieStore.get('user-data');
+    if (!userDataCookie) {
+        return {};
+    }
 
-    return headers;
+    try {
+        const userData = JSON.parse(userDataCookie.value);
+        const headers: Record<string, string> = {};
+        const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
+        
+        userHeaders.forEach(headerKey => {
+            if (userData[headerKey]) {
+                headers[headerKey] = String(userData[headerKey]);
+            }
+        });
+        return headers;
+    } catch (e) {
+        console.error("Failed to parse user data cookie", e);
+        return {};
+    }
 }
 
 export async function GET(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromRequest(req);
+    const authHeaders = getAuthHeadersFromCookie();
 
     if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -49,7 +60,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromRequest(req);
+    const authHeaders = getAuthHeadersFromCookie();
 
     if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -81,7 +92,7 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromRequest(req);
+    const authHeaders = getAuthHeadersFromCookie();
 
     if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -114,7 +125,7 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromRequest(req);
+    const authHeaders = getAuthHeadersFromCookie();
 
     if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
