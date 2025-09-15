@@ -32,7 +32,7 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md rounded-[20px] bg-white p-0">
+      <DialogContent className="sm:max-w-md rounded-[50px] bg-white p-0">
         <DialogHeader>
           <DialogTitle className="flex justify-between items-center p-6">
             <span className="text-xl">Order from {vendor.companyName}</span>
