@@ -11,7 +11,7 @@ import React, { useState, useMemo } from 'react';
 import { ViewMembersSheet, type Role } from '@/components/view-members-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 
-const roles: Role[] = [
+const allRoles: Role[] = [
     { 
         name: "Super Admin", 
         icon: <Shield className="w-6 h-6 text-black" />, 
@@ -62,6 +62,10 @@ const roles: Role[] = [
     },
 ];
 
+const projectManagerRoles = allRoles.filter(role => 
+    ["Software Development", "Design", "Support & Feedback"].includes(role.name)
+);
+
 const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
     <>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 gap-4">
@@ -95,8 +99,8 @@ export default function EmployeeManagementPage({ searchParams }: { searchParams:
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
     const filteredRoles = useMemo(() => {
-        if (!searchTerm) return roles;
-        return roles.filter(role =>
+        if (!searchTerm) return projectManagerRoles;
+        return projectManagerRoles.filter(role =>
             role.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             role.admin.toLowerCase().includes(searchTerm.toLowerCase())
         );
