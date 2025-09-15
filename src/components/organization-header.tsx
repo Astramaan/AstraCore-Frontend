@@ -17,6 +17,8 @@ import TeamIcon from './icons/team-icon';
 export const OrganizationHeader = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const userName = searchParams.get('name') || 'User';
+    const userTeam = searchParams.get('role') || 'Team';
     const userRole = searchParams.get('role');
 
     let pageTitle = '';
@@ -41,6 +43,8 @@ export const OrganizationHeader = () => {
     
     const isTeamsActive = pathname.startsWith('/organization/teams');
     const teamsButtonText = 'Teams Management';
+    
+    const userInitials = userName.split(' ').map(n => n[0]).join('');
 
     return (
     <header className="flex flex-row justify-between items-center w-full gap-4">
@@ -69,11 +73,11 @@ export const OrganizationHeader = () => {
             <Link href="/organization/profile" className="flex items-center gap-2">
                 <Avatar className="h-[54px] w-[54px]">
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                    <AvatarFallback>BN</AvatarFallback>
+                    <AvatarFallback>{userInitials}</AvatarFallback>
                 </Avatar>
                 <div className="hidden lg:block">
-                    <p className="text-base lg:text-lg font-medium">Balaji Naik</p>
-                    <p className="text-sm lg:text-base text-grey-2">Super Admin</p>
+                    <p className="text-base lg:text-lg font-medium">{userName}</p>
+                    <p className="text-sm lg:text-base text-grey-2">{userTeam}</p>
                 </div>
             </Link>
         </div>
@@ -93,11 +97,11 @@ export const OrganizationHeader = () => {
                         <Link href="/organization/profile" className="flex items-center gap-2">
                             <Avatar className="h-[54px] w-[54px]">
                                 <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                                <AvatarFallback>BN</AvatarFallback>
+                                <AvatarFallback>{userInitials}</AvatarFallback>
                             </Avatar>
                             <div>
-                                <p className="text-base font-medium">Balaji Naik</p>
-                                <p className="text-sm text-grey-2">Super Admin</p>
+                                <p className="text-base font-medium">{userName}</p>
+                                <p className="text-sm text-grey-2">{userTeam}</p>
                             </div>
                         </Link>
                         <Separator />
