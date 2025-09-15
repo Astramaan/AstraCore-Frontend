@@ -3,19 +3,14 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Plus, SlidersHorizontal, Search } from 'lucide-react';
 import { AddVendorSheet } from '@/components/add-vendor-sheet';
-import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import StarIcon from '@/components/icons/star-icon';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
-import { OrderFormDialog } from '@/components/order-form-dialog';
+import { ViewVendorsSheet, type Material } from '@/components/view-vendors-sheet';
 
 const vendorsData = [
     {
@@ -140,79 +135,51 @@ const vendorsData = [
 export type Vendor = typeof vendorsData[0];
 
 const allLocations = [...new Set(vendorsData.map(v => v.location))];
-const allMaterials = [...new Set(vendorsData.flatMap(v => v.materials))];
+const allMaterialsList = [...new Set(vendorsData.flatMap(v => v.materials))];
 
-const VendorListItem = ({ vendor, onFavoriteToggle, onOrder, isFirst, isLast }: { vendor: Vendor, onFavoriteToggle: (id: string) => void, onOrder: (vendor: Vendor) => void, isFirst?: boolean, isLast?: boolean }) => (
-    <div className="group">
-        <div className={cn("hidden lg:grid grid-cols-[1.5fr_auto_1.5fr_auto_1fr] items-center py-4 gap-6 hover:bg-hover-bg px-4",
-            isFirst && "rounded-t-[20px]",
-            isLast && "rounded-b-[20px]")}>
-            <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4">
-                <Avatar className="w-14 h-14 rounded-[15px] shrink-0">
-                    <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
-                    <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="space-y-1 flex-1">
-                    <p className="text-black text-base font-semibold">{vendor.companyName}</p>
-                    <p className="text-muted-foreground text-sm">{`${vendor.area}, ${vendor.location} - ${vendor.pincode}`}</p>
+const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewVendors: (material: Material) => void; }) => (
+    <>
+        <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-stretch py-4 gap-4">
+            <div className="flex items-center gap-4">
+                <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
+                    {/* Placeholder for material icon */}
                 </div>
-            </Link>
+                <p className="text-xl font-semibold">{material.name}</p>
+            </div>
             
-            <Separator orientation="vertical" className="h-14" />
+            <Separator orientation="vertical" className="self-stretch" />
 
-            <div className="flex flex-col gap-1">
-                <p className="text-sm text-grey-1">Contact</p>
-                <p className="text-sm font-medium">{vendor.phone}</p>
-                <p className="text-sm font-medium">{vendor.email}</p>
+            <div className="flex flex-col justify-center gap-2">
+                <p className="text-lg"><span className="text-grey-1">Top Supplier: </span><span className="text-black font-medium">{material.vendors[0]?.companyName || 'N/A'}</span></p>
             </div>
+            
+            <Separator orientation="vertical" className="self-stretch" />
 
-            <Separator orientation="vertical" className="h-14" />
-
-            <div className="flex items-center justify-end gap-2">
-                 <Button 
-                    size="icon" 
-                    variant="ghost" 
-                    className="text-yellow-400 hover:text-yellow-500 z-10"
-                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
-                >
-                    <StarIcon isFilled={vendor.isFavorite} />
-                </Button>
-                <Button onClick={() => onOrder(vendor)} className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+            <div className="flex items-center justify-between gap-4">
+                 <p className="text-lg"><span className="text-grey-1">Total Vendors: </span><span className="text-black font-medium">{String(material.vendors.length).padStart(2, '0')}</span></p>
+                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
             </div>
         </div>
 
-        <div className="lg:hidden p-4">
-            <div className="flex flex-col gap-4 p-4 rounded-[20px] bg-card shadow-sm">
-                <Link href={`/organization/vendors/${vendor.id}`} className="flex items-start justify-between gap-4 w-full">
-                    <div className="flex items-center gap-4">
-                        <Avatar className="w-14 h-14 rounded-[15px] shrink-0">
-                            <AvatarImage src={vendor.image} alt={vendor.companyName} data-ai-hint="company logo"/>
-                            <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="space-y-1 flex-1">
-                            <p className="text-black text-base font-semibold">{vendor.companyName}</p>
-                            <p className="text-muted-foreground text-sm">{`${vendor.area}, ${vendor.location} - ${vendor.pincode}`}</p>
-                        </div>
-                    </div>
-                    <Button 
-                        size="icon" 
-                        variant="ghost" 
-                        className="text-yellow-400 hover:text-yellow-500 z-10"
-                        onClick={(e) => { e.stopPropagation(); e.preventDefault(); onFavoriteToggle(vendor.id); }}
-                    >
-                        <StarIcon isFilled={vendor.isFavorite} />
-                    </Button>
-                </Link>
-                <div className="space-y-2">
-                     <p className="text-sm text-grey-1">Contact</p>
-                     <p className="text-sm font-medium">{vendor.phone}</p>
-                     <p className="text-sm font-medium">{vendor.email}</p>
+        <div className="lg:hidden flex flex-col py-4 gap-4">
+            <div className="flex items-center gap-4">
+                 <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
+                    {/* Placeholder for material icon */}
                 </div>
-                <Button onClick={() => onOrder(vendor)} className="w-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full">Order</Button>
+                <p className="text-2xl font-semibold">{material.name}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                    <p className="text-base text-grey-1">Top Supplier: <span className="text-black font-medium block">{material.vendors[0]?.companyName || 'N/A'}</span></p>
+                </div>
+                 <div>
+                    <p className="text-base text-grey-1">Total Vendors: <span className="text-black font-medium block">{String(material.vendors.length).padStart(2, '0')}</span></p>
+                </div>
+                <Button className="h-12 px-6 col-span-2 rounded-full bg-background text-black hover:bg-muted text-base font-medium self-end" onClick={() => onViewVendors(material)}>View Vendors</Button>
             </div>
         </div>
-        {!isLast && <div className="lg:px-4"><Separator /></div>}
-    </div>
+        <Separator className="last:hidden"/>
+    </>
 );
 
 
@@ -221,9 +188,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-    const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
-    const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
-    const [selectedMaterialForOrder, setSelectedMaterialForOrder] = useState('');
+    const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
 
     const materialsWithVendors = useMemo(() => {
         const filteredVendors = allVendors.filter(vendor => {
@@ -232,19 +197,23 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             return matchesSearch && matchesLocation;
         });
 
-        const grouped: Record<string, Vendor[]> = {};
+        const materialMap: Record<string, Vendor[]> = {};
         for (const vendor of filteredVendors) {
             for (const material of vendor.materials) {
                 if (selectedMaterials.length > 0 && !selectedMaterials.includes(material)) {
                     continue;
                 }
-                if (!grouped[material]) {
-                    grouped[material] = [];
+                if (!materialMap[material]) {
+                    materialMap[material] = [];
                 }
-                grouped[material].push(vendor);
+                materialMap[material].push(vendor);
             }
         }
-        return grouped;
+
+        return Object.keys(materialMap).map(materialName => ({
+            name: materialName,
+            vendors: materialMap[materialName]
+        }));
     }, [searchTerm, selectedLocations, selectedMaterials, allVendors]);
 
     const handleLocationToggle = (location: string) => {
@@ -258,15 +227,13 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
             prev.includes(material) ? prev.filter(m => m !== material) : [...prev, material]
         );
     }
-    
-    const handleFavoriteToggle = (id: string) => {
-        setAllVendors(prev => prev.map(v => v.id === id ? { ...v, isFavorite: !v.isFavorite } : v));
-    }
 
-    const handleOrderClick = (vendor: Vendor, material: string) => {
-        setSelectedVendor(vendor);
-        setSelectedMaterialForOrder(material);
-        setIsOrderFormOpen(true);
+    const handleViewVendors = (material: Material) => {
+        setSelectedMaterial(material);
+    };
+
+    const handleCloseSheet = () => {
+        setSelectedMaterial(null);
     };
 
     return (
@@ -303,7 +270,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                             ))}
                             <DropdownMenuSeparator />
                              <DropdownMenuLabel>Materials</DropdownMenuLabel>
-                             {allMaterials.map(material => (
+                             {allMaterialsList.map(material => (
                                 <DropdownMenuCheckboxItem
                                     key={material}
                                     checked={selectedMaterials.includes(material)}
@@ -319,39 +286,23 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
                 </div>
             </div>
             
-            <Accordion type="multiple" className="space-y-6" defaultValue={Object.keys(materialsWithVendors)}>
-                {Object.entries(materialsWithVendors).map(([material, vendorsList]) => (
-                    <AccordionItem value={material} key={material} asChild>
-                         <Card className="rounded-[50px] overflow-hidden bg-white">
-                            <AccordionTrigger className="p-8 w-full hover:no-underline">
-                                <h3 className="text-xl font-semibold">{material}</h3>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                <div className="px-6 pb-6 space-y-2">
-                                    {vendorsList.map((vendor, index) => (
-                                        <VendorListItem 
-                                            key={vendor.id} 
-                                            vendor={vendor} 
-                                            onFavoriteToggle={handleFavoriteToggle} 
-                                            onOrder={(v) => handleOrderClick(v, material)}
-                                            isFirst={index === 0}
-                                            isLast={index === vendorsList.length - 1}
-                                        />
-                                    ))}
-                                </div>
-                            </AccordionContent>
-                        </Card>
-                    </AccordionItem>
-                ))}
-            </Accordion>
+             <Card className="rounded-[50px] overflow-hidden">
+                <CardContent className="p-6">
+                    <div className="flex flex-col">
+                        {materialsWithVendors.map((material) => (
+                           <MaterialCard key={material.name} material={material} onViewVendors={handleViewVendors}/>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
 
-             <OrderFormDialog
-                isOpen={isOrderFormOpen}
-                onClose={() => setIsOrderFormOpen(false)}
-                vendor={selectedVendor}
-                materialName={selectedMaterialForOrder}
+            <ViewVendorsSheet 
+                isOpen={!!selectedMaterial}
+                onClose={handleCloseSheet}
+                material={selectedMaterial}
             />
         </div>
     );
 }
+
 
