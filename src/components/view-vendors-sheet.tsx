@@ -95,7 +95,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                     <Separator orientation="vertical" />
 
                     <div className="flex items-center justify-end gap-4 pl-4">
-                        <Button onClick={() => setIsOrderFormOpen(true)} className="h-12 rounded-full px-6">Order</Button>
+                        <Button onClick={() => setIsOrderFormOpen(true)} className="h-12 rounded-full px-6 bg-primary text-white">Order</Button>
                         <StarIcon isFilled={vendor.isFavorite} className="text-yellow-400" />
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -175,9 +175,9 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
         return (
              <Sheet open={isOpen} onOpenChange={onClose}>
                 <SheetContent 
-                    side={"right"}
-                    className="p-0 bg-white border-none shadow-none w-full h-full"
-                    overlayClassName="bg-transparent"
+                    side={"bottom"}
+                    className="p-0 bg-transparent border-none shadow-none w-full h-[90vh] bottom-0 rounded-t-[50px]"
+                    overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
                 >
                     <ViewVendorsContent material={material} onClose={onClose} />
                 </SheetContent>
