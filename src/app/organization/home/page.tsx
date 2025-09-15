@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, ArrowRight, SlidersHorizontal, Check, Calendar } from "lucide-react";
+import { Plus, ArrowRight, SlidersHorizontal, Check, Calendar, ChevronDown } from "lucide-react";
 import Link from 'next/link';
 import { AssignTaskSheet } from "@/components/assign-task-sheet";
 import { AddMemberSheet } from "@/components/add-member-sheet";
@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { MeetingDetailsSheet, type Meeting } from '@/components/meeting-details-sheet';
 import { HomeAside } from '@/components/home-aside';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 const initialTaskData: Task[] = [
@@ -76,6 +77,7 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+  const [selectedProject, setSelectedProject] = useState<string>('all');
   
   const handleFilterClick = (filter: FilterType) => {
     if (activeFilter === filter) {
@@ -84,6 +86,11 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
       setActiveFilter(filter);
     }
   };
+
+  const projectNames = useMemo(() => {
+    const allProjects = [...new Set(taskData.map(task => task.project))];
+    return allProjects;
+  }, [taskData]);
 
   const filteredTasks = useMemo(() => {
     let tasks = taskData;
@@ -106,8 +113,13 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
     } else {
         tasks = tasks.filter(task => task.status !== 'Completed');
     }
+
+    if (selectedProject !== 'all') {
+        tasks = tasks.filter(task => task.project === selectedProject);
+    }
+    
     return tasks;
-  }, [activeFilter, taskData]);
+  }, [activeFilter, taskData, selectedProject]);
   
   const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
 
@@ -235,7 +247,22 @@ export default function OrganizationHomePage({ searchParams }: { searchParams: {
             </div>
 
             <div>
-                <h2 className="text-xl font-medium mb-4">My Tasks</h2>
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-medium">My Tasks</h2>
+                  <div className="w-48">
+                    <Select value={selectedProject} onValueChange={setSelectedProject}>
+                      <SelectTrigger className="rounded-full bg-white">
+                        <SelectValue placeholder="All Projects" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Projects</SelectItem>
+                        {projectNames.map(name => (
+                          <SelectItem key={name} value={name}>{name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                 </div>
