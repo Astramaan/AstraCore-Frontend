@@ -269,13 +269,3 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
-
-export async function getUserData() {
-    'use server';
-    const cookieStore = cookies();
-    const userDataCookie = cookieStore.get('user-data');
-    if (userDataCookie) {
-        return JSON.parse(userDataCookie.value);
-    }
-    return null;
-}

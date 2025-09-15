@@ -2,7 +2,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { getUserData } from '@/app/actions';
 
 interface User {
     userId: string;
@@ -30,8 +29,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await getUserData();
-        setUser(userData);
+        const response = await fetch('/api/user');
+        if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+        } else {
+            setUser(null);
+        }
       } catch (error) {
         console.error("Failed to fetch user data", error);
         setUser(null);
