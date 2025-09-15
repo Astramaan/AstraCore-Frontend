@@ -23,6 +23,7 @@ import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { ScrollArea } from './ui/scroll-area';
+import { useSearchParams } from 'next/navigation';
 
 export interface Snag {
     id: string;
@@ -55,6 +56,8 @@ const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) 
 );
 
 const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, startInEditMode = false }: { snag: Snag, onClose: () => void, onDelete: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void, onUpdate: (snag: Snag) => void, startInEditMode?: boolean }) => {
+    const searchParams = useSearchParams();
+    const userRole = searchParams.get('role');
     const [isEditing, setIsEditing] = useState(startInEditMode);
     const [snag, setSnag] = useState(initialSnag);
 
@@ -174,14 +177,14 @@ const SnagDetailsContent = ({ snag: initialSnag, onClose, onDelete, onUpdate, st
                 <div className="p-4 border-t mt-auto flex justify-end gap-2 shrink-0">
                     <Button onClick={handleSave} className="w-full md:w-auto md:flex-initial rounded-full h-14 px-10 text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
                 </div>
-            ) : (
+            ) : userRole === 'Project Manager' ? (
                  <div className="p-4 border-t mt-auto">
                     <div className="flex gap-4">
                         <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
                         <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
                     </div>
                 </div>
-            )}
+            ) : null}
         </div>
     );
 };
