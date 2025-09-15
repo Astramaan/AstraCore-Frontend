@@ -36,49 +36,84 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
     
     return (
         <>
-            <div className="flex justify-between items-start py-4 gap-4">
-                <div className="flex items-center gap-4 flex-1">
-                     <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
-                        <Avatar className="w-12 h-12">
-                            <AvatarImage src={vendor.image} data-ai-hint="company logo" />
-                            <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                     </Link>
-                    <div className="flex-1">
-                        <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
-                           <p className="text-lg font-medium">{vendor.companyName}</p>
+            <div className="flex flex-col">
+                {/* Mobile View */}
+                <div className="md:hidden flex justify-between items-start py-4 gap-4">
+                    <div className="flex items-center gap-4 flex-1">
+                        <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
+                            <Avatar className="w-12 h-12">
+                                <AvatarImage src={vendor.image} data-ai-hint="company logo" />
+                                <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
+                            </Avatar>
                         </Link>
-                        <div className="md:hidden mt-2 space-y-1 text-sm">
-                            <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                            <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
-                            <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-10 rounded-full px-4 mt-2">Order</Button>
+                        <div className="flex-1">
+                            <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
+                            <p className="text-lg font-medium">{vendor.companyName}</p>
+                            </Link>
+                            <div className="mt-2 space-y-1 text-sm">
+                                <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
+                                <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                                <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-10 rounded-full px-4 mt-2">Order</Button>
+                            </div>
                         </div>
+                    </div>
+                    
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <MoreVertical className="w-6 h-6" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+                
+                {/* Desktop View */}
+                <div className="hidden md:grid md:grid-cols-[1.5fr_auto_1.5fr_auto_1fr] items-stretch py-4">
+                    <div className="flex items-center gap-4 pr-4">
+                        <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
+                            <Avatar className="w-12 h-12">
+                                <AvatarImage src={vendor.image} data-ai-hint="company logo" />
+                                <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                        </Link>
+                        <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer flex-1">
+                            <p className="text-lg font-medium truncate">{vendor.companyName}</p>
+                        </Link>
+                    </div>
+
+                    <Separator orientation="vertical" />
+                    
+                    <div className="flex flex-col justify-center gap-2 px-4">
+                        <p className="text-lg whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
+                        <p className="text-lg"><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                    </div>
+
+                    <Separator orientation="vertical" />
+
+                    <div className="flex items-center justify-end gap-4 pl-4">
+                        <Button onClick={() => setIsOrderFormOpen(true)} className="bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
+                        <StarIcon isFilled={vendor.isFavorite} className="text-yellow-400" />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                    <MoreVertical className="w-6 h-6" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
 
-                <div className="hidden md:flex flex-col gap-2 flex-1">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                </div>
-                
-                <div className="hidden md:flex flex-1 items-center justify-end gap-4">
-                    <Button onClick={() => setIsOrderFormOpen(true)} className="flex-1 md:flex-initial bg-primary/10 text-primary border border-primary hover:bg-primary/20 h-12 rounded-full px-6">Order</Button>
-                    <StarIcon isFilled={vendor.isFavorite} className="text-yellow-400" />
-                </div>
-                
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical className="w-6 h-6" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                         <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
-                         <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
             <Separator className="last:hidden"/>
-             <OrderFormDialog
+            <OrderFormDialog
                 isOpen={isOrderFormOpen}
                 onClose={() => setIsOrderFormOpen(false)}
                 vendor={vendor}
@@ -164,4 +199,3 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
         </Sheet>
     );
 }
-
