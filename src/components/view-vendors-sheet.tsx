@@ -38,36 +38,39 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
         <>
             <div className="flex flex-col">
                 {/* Mobile View */}
-                <div className="md:hidden flex justify-between items-start p-6 gap-4">
-                    <div className="flex items-center gap-4 flex-1">
-                        <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
-                            <Avatar className="w-12 h-12">
-                                <AvatarImage src={vendor.image} data-ai-hint="company logo" />
-                                <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                        </Link>
-                        <div className="flex-1">
-                            <div className="flex justify-between items-start">
+                <div className="md:hidden flex flex-col p-6">
+                    <div className="flex items-start gap-4">
+                        <div className="flex items-center gap-4 flex-1">
+                             <Link href={`/organization/vendors/${vendor.id}`} className="flex items-center gap-4 cursor-pointer">
+                                <Avatar className="w-12 h-12">
+                                    <AvatarImage src={vendor.image} data-ai-hint="company logo" />
+                                    <AvatarFallback>{vendor.companyName.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                             </Link>
+                            <div className="flex-1">
                                 <Link href={`/organization/vendors/${vendor.id}`} className="cursor-pointer">
                                     <p className="text-lg font-medium">{vendor.companyName}</p>
                                 </Link>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon">
-                                            <MoreVertical className="w-6 h-6" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
                             </div>
-                            <div className="mt-2 space-y-1 text-sm">
-                                <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                                <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
-                                <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-10 rounded-full px-4 mt-2 bg-primary text-white">Order</Button>
-                            </div>
+                        </div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                    <MoreVertical className="w-6 h-6" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem asChild><Link href={`/organization/vendors/${vendor.id}`}>View Details</Link></DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setIsOrderFormOpen(true)}>Order</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+
+                    <div className="mt-2 space-y-1 text-sm">
+                        <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
+                        <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                        <div className="pt-4">
+                             <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-10 rounded-full px-4 bg-primary text-white">Order</Button>
                         </div>
                     </div>
                 </div>
@@ -171,6 +174,20 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
     const isMobile = useIsMobile();
 
     if (!material) return null;
+
+    if (isMobile) {
+        return (
+             <Sheet open={isOpen} onOpenChange={onClose}>
+                <SheetContent 
+                    side={"right"}
+                    className="p-0 bg-white border-none shadow-none w-full h-full"
+                    overlayClassName="bg-transparent"
+                >
+                    <ViewVendorsContent material={material} onClose={onClose} />
+                </SheetContent>
+            </Sheet>
+        )
+    }
 
     return (
          <Sheet open={isOpen} onOpenChange={onClose}>
