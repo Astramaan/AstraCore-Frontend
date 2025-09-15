@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { X, Send } from 'lucide-react';
 import type { Vendor } from '@/app/organization/vendors/page';
+import { cn } from '@/lib/utils';
 
 interface OrderFormDialogProps {
   isOpen: boolean;
@@ -44,19 +45,20 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
         </DialogHeader>
         <div className="p-6 space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="material">Material</Label>
-            <Input id="material" value={materialName} readOnly className="bg-muted" />
+            <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-grey-1' : 'text-zinc-900')}>Material</Label>
+            <Input id="material" value={materialName} readOnly className="h-14 bg-background rounded-full px-5" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="quantity">Quantity</Label>
+            <Label htmlFor="quantity" className={cn("text-lg font-medium px-2", quantity ? 'text-grey-1' : 'text-zinc-900')}>Quantity</Label>
             <Input
               id="quantity"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               placeholder="e.g., 100 bags, 5 tons"
+              className="h-14 bg-background rounded-full px-5"
             />
           </div>
-          <Button onClick={handleSendWhatsApp} className="w-full">
+          <Button onClick={handleSendWhatsApp} className="w-full h-14 rounded-full text-lg">
             <Send className="mr-2 h-4 w-4" />
             order now
           </Button>
