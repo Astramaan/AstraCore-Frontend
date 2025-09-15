@@ -124,7 +124,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" size="icon" className="rounded-full"><MessageCircle className="h-4 w-4"/></Button>
-                <Button variant="outline" size="icon" className="rounded-full text-destructive"><User className="h-4 w-4" /></Button>
+                <Button variant="outline" className="rounded-full text-destructive"><User className="h-4 w-4 mr-2" />Profile</Button>
               </div>
             </div>
             <div className="bg-white rounded-[20px] p-4 flex justify-between items-center">
@@ -134,7 +134,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
               </div>
                <div className="flex gap-2">
                 <Button variant="outline" size="icon" className="rounded-full"><Phone className="h-4 w-4"/></Button>
-                <Button variant="outline" size="icon" className="rounded-full text-destructive"><User className="h-4 w-4" /></Button>
+                <Button variant="outline" className="rounded-full text-destructive"><User className="h-4 w-4 mr-2" />Profile</Button>
               </div>
             </div>
           </div>
