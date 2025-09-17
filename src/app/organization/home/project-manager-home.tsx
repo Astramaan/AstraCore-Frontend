@@ -296,7 +296,7 @@ export default function ProjectManagerHome() {
                         <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} showCompleted={showCompleted} />
                     )}
                 </div>
-                <div className="text-center">
+                 <div className="text-center mt-6">
                     <Button
                         variant="outline"
                         onClick={() => setShowCompleted(!showCompleted)}
