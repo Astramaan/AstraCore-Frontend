@@ -18,44 +18,22 @@ export const OrganizationBottomNav = () => {
     const pathname = usePathname();
 
     const navItems = [
-        { href: "/organization/home", icon: HomeIcon, label: "Home", roles: ['superAdmin', 'Project Manager', 'Architect', 'Site Supervisor'] },
-        { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings", roles: ['superAdmin', 'Project Manager', 'Architect', 'Site Supervisor'] },
-        { href: "/organization/projects", icon: ProjectsIcon, label: "Projects", roles: ['superAdmin', 'Project Manager', 'Architect', 'Site Supervisor'] },
-        { href: "/organization/leads", icon: LeadsIcon, label: "Leads", roles: ['superAdmin'] },
-        { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors", roles: ['superAdmin', 'Project Manager'] },
+        { href: "/organization/home", icon: HomeIcon, label: "Home" },
+        { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings" },
+        { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
+        { href: "/organization/leads", icon: LeadsIcon, label: "Leads" },
+        { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" },
     ];
     
-    if (loading) {
+    if (loading || !user) {
         return null;
     }
-    
-    if (!user) {
-        return null;
-    }
-
-    const accessibleNavItems = navItems.filter(item => {
-        if (user.role === 'superAdmin') {
-            return true;
-        }
-
-        const userRole = user.role || '';
-        const userTeam = user.team || '';
-        
-        const lowerCaseRoles = item.roles.map(r => r.toLowerCase());
-
-        return lowerCaseRoles.includes(userRole.toLowerCase()) || lowerCaseRoles.includes(userTeam.toLowerCase());
-    });
-    
-    if (accessibleNavItems.length === 0) {
-        return null;
-    }
-
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
              <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
-                    {accessibleNavItems.map((item) => {
+                    {navItems.map((item) => {
                         const isActive = pathname.startsWith(item.href);
                         return (
                              <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
