@@ -17,7 +17,8 @@ export async function login(prevState: any, formData: FormData) {
     const data = await res.json();
 
     if (data.success && data.user) {
-        cookies().set('user-data', JSON.stringify(data.user), {
+        const user = data.user;
+        cookies().set('user-data', JSON.stringify(user), {
             httpOnly: true,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
@@ -26,7 +27,7 @@ export async function login(prevState: any, formData: FormData) {
         });
         
         // The component will handle the redirect and localStorage saving
-        return { success: true, user: data.user };
+        return { success: true, user: user };
     }
 
     return { success: false, message: data.message || "Login failed." };
@@ -91,69 +92,16 @@ export async function addLead(prevState: any, formData: FormData) {
     return { success: true, message: 'Lead added successfully' };
 }
 
-export async function addProject(prevState: any, formData: FormData) {
-    const projectData: Record<string, any> = {};
-    const timeline: any[] = [];
-    let stageIndex = 0;
+export async function addProject(projectData: any) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+    });
 
-    // Extract project details from form data
-    for (const [key, value] of formData.entries()) {
-        if (!key.startsWith('stage_') && !key.startsWith('substage_') && !key.startsWith('task_') && !key.startsWith('duration_')) {
-            projectData[key] = value;
-        }
-    }
-
-    // Reconstruct timeline from form data
-    while (formData.has(`stage_${stageIndex}_name`)) {
-        const stageName = formData.get(`stage_${stageIndex}_name`) as string;
-        const subStages: any[] = [];
-        let subStageIndex = 0;
-
-        while (formData.has(`substage_${stageIndex}_${subStageIndex}_name`)) {
-            const subStageName = formData.get(`substage_${stageIndex}_${subStageIndex}_name`) as string;
-            const tasks: any[] = [];
-            let taskIndex = 0;
-
-            while (formData.has(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`)) {
-                tasks.push({
-                    name: formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`),
-                    duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`),
-                });
-                taskIndex++;
-            }
-            subStages.push({ name: subStageName, tasks });
-            subStageIndex++;
-        }
-        timeline.push({ name: stageName, subStages });
-        stageIndex++;
-    }
-
-    const fullData = { ...projectData, timeline };
-
-    try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(fullData),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            console.error("API Error:", data);
-            return { success: false, message: data.message || "Failed to add project" };
-        }
-
-        return { success: true, message: data.message || "Project added successfully!" };
-    } catch (error) {
-        console.error("Add project action failed:", error);
-        if (error instanceof SyntaxError) {
-            return { success: false, message: "Failed to parse response from server." }
-        }
-        return { success: false, message: "An unexpected error occurred." };
-    }
+    return res.json();
 }
 
 

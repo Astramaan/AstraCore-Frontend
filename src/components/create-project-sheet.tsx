@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useActionState, useEffect, useTransition } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -17,7 +17,6 @@ import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edi
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
-import { addProject, updateProject } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
@@ -374,27 +373,75 @@ const ProjectTimelineForm = ({
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [isPending, startTransition] = useTransition();
 
-    const [state, formAction] = useActionState(isEditMode ? updateProject : addProject, null);
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formData = new FormData(form);
 
-    useEffect(() => {
-        if (state?.success) {
-            onFormSuccess();
-        } else if (state?.message) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
+        const timeline: Stage[] = [];
+        let stageIndex = 0;
+        while (formData.get(`stage_${stageIndex}_name`)) {
+            const stageName = formData.get(`stage_${stageIndex}_name`) as string;
+            const subStages: SubStage[] = [];
+            let subStageIndex = 0;
+
+            while (formData.get(`substage_${stageIndex}_${subStageIndex}_name`)) {
+                const subStageName = formData.get(`substage_${stageIndex}_${subStageIndex}_name`) as string;
+                const tasks: Task[] = [];
+                let taskIndex = 0;
+
+                while (formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`)) {
+                    tasks.push({
+                        name: formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`) as string,
+                        duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`) as string,
+                        status: 'Not Started',
+                    });
+                    taskIndex++;
+                }
+                subStages.push({ name: subStageName, tasks });
+                subStageIndex++;
+            }
+            timeline.push({ name: stageName, subStages });
+            stageIndex++;
         }
-    }, [state, onFormSuccess, toast]);
+
+        const fullData = { ...projectData, timeline, startDate: startDate?.toISOString() };
+
+        startTransition(async () => {
+            try {
+                const response = await fetch('/api/projects', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(fullData),
+                });
+                const result = await response.json();
+                if (result.success) {
+                    onFormSuccess();
+                } else {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: result.message || 'Failed to create project.',
+                    });
+                }
+            } catch (error) {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: 'An unexpected error occurred.',
+                });
+            }
+        });
+    };
 
     return (
         <>
             <form
-                action={formAction}
+                onSubmit={handleSubmit}
                 className="flex flex-col h-full"
             >
-                <input type="hidden" name="projectData" value={JSON.stringify(projectData)} />
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
@@ -658,4 +705,3 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-
