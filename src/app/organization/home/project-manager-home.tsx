@@ -98,14 +98,14 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                 <div className="flex items-center justify-between mt-2">
-                    <Badge className={cn(statusColor)}>{statusText}</Badge>
-                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
+                    <div className="flex items-center gap-2">
+                        <Badge className={cn(statusColor)}>{statusText}</Badge>
+                        {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
+                    </div>
                 </div>
             </div>
             <div className="flex justify-between items-center">
-                 <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                </div>
+                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 <div className="text-right flex items-center gap-2">
                     <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
                 </div>
@@ -201,7 +201,7 @@ export default function ProjectManagerHome() {
                     <h2 className="text-xl font-medium">My Tasks</h2>
                     <div className="w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                            <SelectTrigger className="rounded-full bg-white h-12">
+                            <SelectTrigger className="rounded-full bg-white h-[54px]">
                                 <SelectValue placeholder="Select a Project" />
                             </SelectTrigger>
                             <SelectContent>
