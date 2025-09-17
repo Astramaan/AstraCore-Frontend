@@ -6,6 +6,31 @@ import { redirect } from 'next/navigation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
+function getAuthHeadersFromCookie(): Record<string, string> {
+    const cookieStore = cookies();
+    const userDataCookie = cookieStore.get('user-data');
+    if (!userDataCookie) {
+        return {};
+    }
+
+    try {
+        const userData = JSON.parse(userDataCookie.value);
+        const headers: Record<string, string> = {};
+        const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
+        
+        userHeaders.forEach(headerKey => {
+            if (userData[headerKey]) {
+                headers[headerKey] = String(userData[headerKey]);
+            }
+        });
+        return headers;
+    } catch (e) {
+        console.error("Failed to parse user data cookie", e);
+        return {};
+    }
+}
+
+
 export async function login(prevState: any, formData: FormData) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
@@ -91,20 +116,30 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function addProject(prevState: any, formData: FormData) {
-    const projectDataJSON = formData.get('projectData') as string;
-    const projectData = JSON.parse(projectDataJSON);
-    
-    const timeline = [];
+    const projectData: Record<string, any> = {};
+    const timeline: any[] = [];
+    const ignoredKeys = ['$$id', '$$typeof'];
     let stageIndex = 0;
-    while(formData.has(`stage_${stageIndex}_name`)) {
+
+    // Extract project details from form data
+    for (const [key, value] of formData.entries()) {
+        if (!key.startsWith('stage_') && !key.startsWith('substage_') && !key.startsWith('task_') && !key.startsWith('duration_') && !ignoredKeys.includes(key)) {
+            projectData[key] = value;
+        }
+    }
+
+    // Reconstruct timeline from form data
+    while (formData.has(`stage_${stageIndex}_name`)) {
         const stageName = formData.get(`stage_${stageIndex}_name`) as string;
-        const subStages = [];
+        const subStages: any[] = [];
         let subStageIndex = 0;
-        while(formData.has(`substage_${stageIndex}_${subStageIndex}_name`)) {
+
+        while (formData.has(`substage_${stageIndex}_${subStageIndex}_name`)) {
             const subStageName = formData.get(`substage_${stageIndex}_${subStageIndex}_name`) as string;
-            const tasks = [];
+            const tasks: any[] = [];
             let taskIndex = 0;
-            while(formData.has(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`)) {
+
+            while (formData.has(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`)) {
                 tasks.push({
                     name: formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`),
                     duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`),
@@ -118,13 +153,16 @@ export async function addProject(prevState: any, formData: FormData) {
         stageIndex++;
     }
 
-    const fullData = { ...projectData, timeline, startDate: formData.get('startDate') };
+    const fullData = { ...projectData, timeline };
+
+    const authHeaders = getAuthHeadersFromCookie();
 
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
+                ...authHeaders
             },
             body: JSON.stringify(fullData),
         });
@@ -132,6 +170,7 @@ export async function addProject(prevState: any, formData: FormData) {
         const data = await res.json();
 
         if (!res.ok) {
+            console.error("API Error:", data);
             return { success: false, message: data.message || "Failed to add project" };
         }
 
