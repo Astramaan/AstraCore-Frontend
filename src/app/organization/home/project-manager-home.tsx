@@ -98,17 +98,13 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    {stage.status === 'completed' ? (
-                       <Badge className={cn("capitalize", statusColor)}>Completed</Badge>
-                    ) : (
+                    {stage.status !== 'completed' && (
                        <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
                     )}
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                  <div className="flex justify-between items-center mt-2">
-                    <div className="flex items-center gap-2">
-                        <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                    </div>
+                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
                     {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
             </div>
@@ -318,3 +314,4 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
