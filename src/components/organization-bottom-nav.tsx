@@ -9,17 +9,25 @@ import HomeIcon from './icons/home-icon';
 import MeetingsIcon from './icons/meetings-icon';
 import ProjectsIcon from './icons/projects-icon';
 import VendorsIcon from './icons/vendors-icon';
+import LeadsIcon from './icons/leads-icon';
+import { useUser } from '@/context/user-context';
 
 
 export const OrganizationBottomNav = () => {
-    const navItems = [
+    const { user } = useUser();
+    const pathname = usePathname();
+
+    const baseNavItems = [
         { href: "/organization/home", icon: HomeIcon, label: "Home" },
         { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings" },
         { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
         { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" },
     ];
 
-    const pathname = usePathname();
+    const navItems = user?.roleType === 'superAdmin' 
+        ? [...baseNavItems.slice(0, 3), { href: "/organization/leads", icon: LeadsIcon, label: "Leads" }, ...baseNavItems.slice(3)] 
+        : baseNavItems;
+
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
