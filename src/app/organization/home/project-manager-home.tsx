@@ -163,7 +163,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, activeFilter }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType }) => {
+const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, showCompleted: boolean }) => {
     const filteredTasks = useMemo(() => {
         let tasks = project.tasks;
         if (activeFilter) {
@@ -175,11 +175,11 @@ const ProjectSection = ({ project, onStageClick, activeFilter }: { project: type
                 return true;
             });
         }
-        else {
+        else if (!showCompleted) {
           tasks = tasks.filter(task => task.status !== 'completed');
         }
         return tasks;
-    }, [activeFilter, project.tasks]);
+    }, [activeFilter, project.tasks, showCompleted]);
 
     return (
       <div className="space-y-4">
@@ -227,6 +227,7 @@ export default function ProjectManagerHome() {
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
     const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
+    const [showCompleted, setShowCompleted] = useState(false);
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -290,7 +291,7 @@ export default function ProjectManagerHome() {
 
                 <div className="space-y-4">
                     {selectedProject && (
-                        <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} />
+                        <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} showCompleted={showCompleted} />
                     )}
                 </div>
                 
@@ -350,6 +351,15 @@ export default function ProjectManagerHome() {
                             </DropdownMenu>
                         </div>
                     </div>
+                    <div className="text-center mb-4">
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowCompleted(!showCompleted)}
+                            className="rounded-full"
+                        >
+                            {showCompleted ? "Hide" : "Show"} Completed Project Tasks
+                        </Button>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
@@ -404,5 +414,6 @@ export default function ProjectManagerHome() {
 
 
     
+
 
 
