@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -75,6 +76,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
         "Low": "bg-cyan-500/10 text-cyan-500",
         "High": "bg-red-500/10 text-red-500",
     }
+    const needsApproval = stage.status === 'ongoing';
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
@@ -94,6 +96,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
+                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                     <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
                 </div>
             </div>
