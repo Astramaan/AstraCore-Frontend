@@ -90,14 +90,43 @@ export async function addLead(prevState: any, formData: FormData) {
     return { success: true, message: 'Lead added successfully' };
 }
 
-export async function addProject(projectData: any) {
+export async function addProject(prevState: any, formData: FormData) {
+    const projectDataJSON = formData.get('projectData') as string;
+    const projectData = JSON.parse(projectDataJSON);
+    
+    const timeline = [];
+    let stageIndex = 0;
+    while(formData.has(`stage_${stageIndex}_name`)) {
+        const stageName = formData.get(`stage_${stageIndex}_name`) as string;
+        const subStages = [];
+        let subStageIndex = 0;
+        while(formData.has(`substage_${stageIndex}_${subStageIndex}_name`)) {
+            const subStageName = formData.get(`substage_${stageIndex}_${subStageIndex}_name`) as string;
+            const tasks = [];
+            let taskIndex = 0;
+            while(formData.has(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`)) {
+                tasks.push({
+                    name: formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`),
+                    duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`),
+                });
+                taskIndex++;
+            }
+            subStages.push({ name: subStageName, tasks });
+            subStageIndex++;
+        }
+        timeline.push({ name: stageName, subStages });
+        stageIndex++;
+    }
+
+    const fullData = { ...projectData, timeline, startDate: formData.get('startDate') };
+
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(projectData),
+            body: JSON.stringify(fullData),
         });
 
         const data = await res.json();

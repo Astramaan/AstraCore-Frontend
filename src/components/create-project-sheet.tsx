@@ -82,7 +82,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.email || '');
     const [currentLocation, setCurrentLocation] = useState(projectData?.currentLocation || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectCost || '');
-    const [status, setStatus] = useState(projectToEdit?.status.toLowerCase().replace(' ', '-') || projectData?.status || '');
     const [dimension, setDimension] = useState(projectData?.dimension || '');
     const [floor, setFloor] = useState(projectData?.floor || '');
     const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.siteLocation || '');
@@ -126,7 +125,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             email,
             currentLocation,
             projectCost,
-            status,
             dimension,
             floor,
             siteLocation,
@@ -200,11 +198,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                         <h3 className="text-lg text-stone-500">Project details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
-                            <FloatingLabelSelect id="status" label="Status*" value={status} onValueChange={setStatus}>
-                                <SelectItem value="on-going">On Going</SelectItem>
-                                <SelectItem value="delay">Delay</SelectItem>
-                                <SelectItem value="completed">Completed</SelectItem>
-                            </FloatingLabelSelect>
                             <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
                             <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
                                 {Array.from({ length: 8 }, (_, i) => `G+${i + 1}`).map(f => (
@@ -378,53 +371,32 @@ const ProjectTimelineForm = ({
     projectData: any;
 }) => {
     const { toast } = useToast();
-    const [isPending, startTransition] = useTransition();
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [stageDurations, setStageDurations] = useState<{ [key: string]: string }>({});
+
+    const [state, formAction] = useActionState(isEditMode ? updateProject : addProject, null);
+
+    useEffect(() => {
+        if (state?.success) {
+            onFormSuccess();
+        } else if (state?.message) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: state.message,
+            });
+        }
+    }, [state, onFormSuccess, toast]);
 
     const handleDurationChange = (taskName: string, stageName: string, subStageName: string, duration: string) => {
         const key = `${stageName}-${subStageName}-${taskName}`;
         setStageDurations(prev => ({ ...prev, [key]: duration }));
     }
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        
-        const timeline = initialTimelineData.map(stage => ({
-            ...stage,
-            subStages: stage.subStages.map(subStage => ({
-                ...subStage,
-                tasks: subStage.tasks.map(task => ({
-                    ...task,
-                    duration: stageDurations[`${stage.name}-${subStage.name}-${task.name}`] || task.duration
-                }))
-            }))
-        }));
-
-        const finalProjectData = {
-            ...projectData,
-            startDate: startDate?.toISOString() ?? '',
-            timeline: timeline,
-        };
-
-        startTransition(async () => {
-            const result = isEditMode ? await updateProject(finalProjectData) : await addProject(finalProjectData);
-            
-            if (result.success) {
-                onFormSuccess();
-            } else {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: result.message,
-                });
-            }
-        });
-    };
-
     return (
         <>
-            <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <form action={formAction} className="flex flex-col h-full">
+                <input type="hidden" name="projectData" value={JSON.stringify(projectData)} />
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
@@ -454,30 +426,30 @@ const ProjectTimelineForm = ({
                                                 />
                                             </PopoverContent>
                                         </Popover>
+                                        <input type="hidden" name="startDate" value={startDate?.toISOString()} />
                                     </div>
                                 </div>
                             </div>
 
                             <Accordion type="multiple" defaultValue={initialTimelineData.map(s => s.name)} className="w-full space-y-4">
-                                {initialTimelineData.map(stage => (
+                                {initialTimelineData.map((stage, stageIndex) => (
                                     <AccordionItem key={stage.name} value={stage.name} className="bg-background rounded-3xl px-6">
                                         <AccordionTrigger className="text-xl font-semibold hover:no-underline">{stage.name}</AccordionTrigger>
                                         <AccordionContent>
                                             <Accordion type="multiple" defaultValue={stage.subStages.map(ss => ss.name)} className="w-full space-y-2">
-                                                {stage.subStages.map(subStage => (
+                                                {stage.subStages.map((subStage, subStageIndex) => (
                                                     <AccordionItem key={subStage.name} value={subStage.name} className="border-b-0">
                                                         <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">{subStage.name}</AccordionTrigger>
                                                         <AccordionContent className="pl-4">
                                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                                {subStage.tasks.map(task => (
+                                                                {subStage.tasks.map((task, taskIndex) => (
                                                                     <div key={task.name} className="space-y-2">
                                                                         <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
                                                                         <Input
-                                                                            name={`duration-${stage.name}-${subStage.name}-${task.name}`}
+                                                                            name={`duration_${stageIndex}_${subStageIndex}_${taskIndex}`}
                                                                             className="h-12 bg-white rounded-full px-5"
                                                                             placeholder="Enter days"
-                                                                            value={stageDurations[`${stage.name}-${subStage.name}-${task.name}`] || ''}
-                                                                            onChange={(e) => handleDurationChange(task.name, stage.name, subStage.name, e.target.value)}
+                                                                            defaultValue={task.duration}
                                                                         />
                                                                     </div>
                                                                 ))}
@@ -497,8 +469,8 @@ const ProjectTimelineForm = ({
                     <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                         Back
                     </Button>
-                    <Button type="submit" className="px-10 h-14 text-lg rounded-full" disabled={isPending}>
-                        {isPending ? (isEditMode ? 'Saving...' : 'Creating...') : (isEditMode ? 'Save Changes' : 'Create Project')}
+                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
+                         {isEditMode ? 'Save Changes' : 'Create Project'}
                     </Button>
                 </div>
             </form>
@@ -685,3 +657,4 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
+
