@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useActionState, useEffect } from 'react';
+import React, { useState, useActionState, useEffect, useTransition } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -486,26 +486,10 @@ const ProjectTimelineForm = ({
         setIsCustomTimelineDialogOpen(true);
     };
     
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const timelineFormData = new FormData(event.currentTarget);
-        const timelineData: { [key: string]: string } = {};
-        timelineFormData.forEach((value, key) => {
-            timelineData[key] = value as string;
-        });
-
-        const fullData = { ...projectData, ...timelineData };
-        
-        const dataForAction = new FormData();
-        for (const key in fullData) {
-            dataForAction.append(key, fullData[key]);
-        }
-        formAction(dataForAction);
-    };
-
     return (
         <>
-            <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <form action={formAction} className="flex flex-col h-full">
+                <input type="hidden" name="projectData" value={JSON.stringify(projectData)} />
                 <input type="hidden" name="startDate" value={startDate?.toISOString() ?? ''} />
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
@@ -868,4 +852,3 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-

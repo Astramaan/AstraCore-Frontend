@@ -91,11 +91,18 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function addProject(prevState: any, formData: FormData) {
+    const projectDataString = formData.get('projectData');
+    if (!projectDataString) {
+        return { success: false, message: 'Project data is missing.' };
+    }
+
     try {
-        const res = await fetch('/api/projects', {
+        const projectData = JSON.parse(projectDataString as string);
+        
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(Object.fromEntries(formData)),
+            body: JSON.stringify(projectData),
         });
 
         const data = await res.json();
