@@ -39,7 +39,6 @@ const allStages: Stage[] = [
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '29 May 2024', description: 'Mark the grid lines for foundation work.', priority: 'Low' },
     { id: 6, title: 'Foundation Work', subtitle: 'Sub-structure', category: 'Civil', image: 'https://picsum.photos/seed/foundation/100/100', duration: '5 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '30 May 2024', description: 'Lay the foundation for the structure.', priority: 'High' },
     { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium' },
-    { id: 8, title: 'Roofing', subtitle: 'Exterior', category: 'Roofing', image: 'https://picsum.photos/seed/roofing/100/100', duration: '3 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '12 June 2024', description: 'Install roofing materials.', priority: 'Low' },
 ];
 
 const projectsData = [
@@ -94,17 +93,18 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     }, [stage.status]);
 
     const needsApproval = stage.status === 'ongoing';
+    const showPriority = priority === 'High' || needsApproval;
 
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
             <div className="flex justify-between items-start">
                 <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                {stage.status !== 'completed' ? (
-                     <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
-                ) : (
-                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                )}
+                {stage.status === 'completed' ? (
+                     <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
+                ) : showPriority ? (
+                    <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
+                ) : null}
             </div>
             <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                 {stage.status !== 'completed' && 
@@ -322,6 +322,8 @@ export default function ProjectManagerHome() {
     );
 }
 
+
+    
 
     
 
