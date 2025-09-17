@@ -165,7 +165,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, onToggleShowCompleted }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, showCompleted: boolean, onToggleShowCompleted: () => void }) => {
+const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, onToggleShowCompleted, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, showCompleted: boolean, onToggleShowCompleted: () => void, onOpenUpcomingTasks: () => void }) => {
     const filteredTasks = useMemo(() => {
         let tasks = project.tasks;
         if (activeFilter) {
@@ -211,13 +211,20 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, on
               </div>
             </div>
         </div>
-        <div className="text-center mt-6">
+        <div className="text-center mt-6 flex flex-col md:flex-row gap-4 justify-center">
             <Button
                 variant="outline"
                 onClick={onToggleShowCompleted}
                 className="rounded-full"
             >
                 {showCompleted ? "Hide" : "Show"} Completed Project Tasks
+            </Button>
+            <Button
+                variant="outline"
+                className="rounded-full bg-white h-[54px]"
+                onClick={onOpenUpcomingTasks}
+            >
+                View all upcoming project tasks
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -308,67 +315,59 @@ export default function ProjectManagerHome() {
                             activeFilter={activeFilter} 
                             showCompleted={showCompleted}
                             onToggleShowCompleted={() => setShowCompleted(!showCompleted)}
+                             onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
                         />
                     )}
-                </div>
-                 <div className="text-center mt-6">
-                    <Button
-                        variant="outline"
-                        className="rounded-full bg-white h-[54px]"
-                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
-                    >
-                        View all upcoming project tasks
-                    </Button>
                 </div>
                 <div className="mt-8">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
                          <h2 className="text-xl font-medium text-left">My Task</h2>
-                        <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
-                            {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                                <Button
-                                    key={filter}
-                                    variant="outline"
-                                    className={cn(
-                                        "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                                        activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                                    )}
-                                    onClick={() => handleFilterClick(filter as FilterType)}
-                                >
-                                    {filter}
-                                    {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                </Button>
-                            ))}
+                         <div className="flex items-center gap-2 self-end">
+                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                            <AddMemberSheet />
                         </div>
+                    </div>
+                     <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
+                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                            <Button
+                                key={filter}
+                                variant="outline"
+                                className={cn(
+                                    "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                                    activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                                )}
+                                onClick={() => handleFilterClick(filter as FilterType)}
+                            >
+                                {filter}
+                                {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                            </Button>
+                        ))}
+                    </div>
 
-                        <div className="flex lg:hidden justify-between items-center w-full">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
-                                        <SlidersHorizontal className="mr-2 h-4 w-4" />
-                                        Filter
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start">
-                                    <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
-                                        All (exclude completed)
+                    <div className="flex lg:hidden justify-between items-center w-full mb-4">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
+                                    Filter
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                                    All (exclude completed)
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
+                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
+                                        <div className="w-4 mr-2">
+                                        {activeFilter === option && <Check className="h-4 w-4" />}
+                                        </div>
+                                        {option}
+                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
                                     </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
-                                        <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
-                                            <div className="w-4 mr-2">
-                                            {activeFilter === option && <Check className="h-4 w-4" />}
-                                            </div>
-                                            {option}
-                                            {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                             <div className="flex items-center gap-2">
-                                <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                                <AddMemberSheet />
-                            </div>
-                        </div>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
