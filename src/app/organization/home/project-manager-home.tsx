@@ -61,10 +61,9 @@ const meetings: Meeting[] = [
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priority = stage.status === 'ongoing' ? 'High' : stage.status === 'upcoming' ? 'Medium' : 'Low';
+    const priority = stage.status === 'ongoing' ? 'High' : 'Low';
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
     }
 
