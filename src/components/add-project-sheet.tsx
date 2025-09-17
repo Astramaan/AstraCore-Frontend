@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -766,7 +767,7 @@ export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProj
     const title = isEditMode
         ? 'Edit Project'
         : step === 1
-        ? 'Add New Project'
+        ? 'Create New Project'
         : 'Project Timeline';
         
     const DefaultTrigger = (
