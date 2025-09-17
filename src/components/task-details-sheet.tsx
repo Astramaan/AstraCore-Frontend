@@ -19,6 +19,7 @@ import PdfIcon from './icons/pdf-icon';
 import Image from 'next/image';
 import { ScrollArea } from './ui/scroll-area';
 import { useUser } from '@/context/user-context';
+import { ReworkTaskSheet } from './rework-task-sheet';
 
 export interface Task {
   id: string;
@@ -61,6 +62,7 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
   const [attachments, setAttachments] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedAttachment, setSelectedAttachment] = useState<Task['attachments'][0] | null>(null);
+  const [isReworkSheetOpen, setIsReworkSheetOpen] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -90,59 +92,65 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
   };
   
   const handleRework = () => {
-    // In a real app, this might change status to 'Needs Rework'
-    console.log("Task sent for rework");
+    setIsReworkSheetOpen(true);
   };
 
 
   const isProjectManager = user?.team === 'Project Manager';
 
   return (
-    <div className="flex flex-col h-full">
-      <ScrollArea className="flex-1 no-scrollbar">
-        <div className="p-6 space-y-6">
-          <div className="space-y-8">
-            <DetailRow label="Title" value={task.title} />
-            <DetailRow label="Project" value={task.project} />
-            <DetailRow label="Client ID" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.clientId}</Badge>} />
-            <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-            <DetailRow label="Due Date" value={task.date} />
-            <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
-            <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
-            {task.status === 'Completed' && task.completedDate && (
-              <DetailRow label="Completed Date" value={task.completedDate} />
-            )}
+    <>
+      <div className="flex flex-col h-full">
+        <ScrollArea className="flex-1 no-scrollbar">
+          <div className="p-6 space-y-6">
+            <div className="space-y-8">
+              <DetailRow label="Title" value={task.title} />
+              <DetailRow label="Project" value={task.project} />
+              <DetailRow label="Client ID" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.clientId}</Badge>} />
+              <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
+              <DetailRow label="Due Date" value={task.date} />
+              <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
+              <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
+              {task.status === 'Completed' && task.completedDate && (
+                <DetailRow label="Completed Date" value={task.completedDate} />
+              )}
 
-            <div>
-              <p className="text-lg text-stone-500 mb-4">Attachment</p>
-              <div className="flex gap-4">
-                {task.attachments.map((file, index) => (
-                  <button onClick={() => setSelectedAttachment(file)} key={index} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
-                    {file.type === 'pdf' ? <PdfIcon className="w-10 h-10" /> : <Image src={file.url} alt={file.name} width={65} height={65} className="rounded" />}
-                  </button>
-                ))}
+              <div>
+                <p className="text-lg text-stone-500 mb-4">Attachment</p>
+                <div className="flex gap-4">
+                  {task.attachments.map((file, index) => (
+                    <button onClick={() => setSelectedAttachment(file)} key={index} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
+                      {file.type === 'pdf' ? <PdfIcon className="w-10 h-10" /> : <Image src={file.url} alt={file.name} width={65} height={65} className="rounded" />}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
+        </ScrollArea>
+        <div className="p-6 mt-auto border-t md:border-0">
+            {isProjectManager && task.status === 'ongoing' ? (
+                <div className="flex gap-4">
+                    <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
+                    <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                </div>
+            ) : !isProjectManager && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
+                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                    Start
+                </Button>
+            ) : !isProjectManager && task.status === 'In Progress' ? (
+                <Button onClick={handleCompleteTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                    Mark as Complete
+                </Button>
+            ) : null}
         </div>
-      </ScrollArea>
-      <div className="p-6 mt-auto border-t md:border-0">
-          {isProjectManager && task.status === 'ongoing' ? (
-              <div className="flex gap-4">
-                  <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
-                  <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-              </div>
-          ) : !isProjectManager && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
-              <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                  Start
-              </Button>
-          ) : !isProjectManager && task.status === 'In Progress' ? (
-              <Button onClick={handleCompleteTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                  Mark as Complete
-              </Button>
-          ) : null}
       </div>
-    </div>
+      <ReworkTaskSheet 
+        isOpen={isReworkSheetOpen}
+        onClose={() => setIsReworkSheetOpen(false)}
+        task={task}
+      />
+    </>
   );
 };
 
