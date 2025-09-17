@@ -118,12 +118,11 @@ export async function addLead(prevState: any, formData: FormData) {
 export async function addProject(prevState: any, formData: FormData) {
     const projectData: Record<string, any> = {};
     const timeline: any[] = [];
-    const ignoredKeys = ['$$id', '$$typeof'];
     let stageIndex = 0;
 
     // Extract project details from form data
     for (const [key, value] of formData.entries()) {
-        if (!key.startsWith('stage_') && !key.startsWith('substage_') && !key.startsWith('task_') && !key.startsWith('duration_') && !ignoredKeys.includes(key)) {
+        if (!key.startsWith('stage_') && !key.startsWith('substage_') && !key.startsWith('task_') && !key.startsWith('duration_')) {
             projectData[key] = value;
         }
     }
@@ -356,3 +355,5 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
+
+    

@@ -41,7 +41,8 @@ export async function GET(req: NextRequest) {
       method: "GET",
       headers: { 
         "Content-Type": "application/json",
-        ...authHeaders
+        ...authHeaders,
+        'x-user-id': authHeaders.userId
        },
     });
 
@@ -154,3 +155,5 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
+
+    
