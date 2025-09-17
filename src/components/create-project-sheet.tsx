@@ -28,6 +28,7 @@ import { Calendar } from './ui/calendar';
 import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -290,212 +291,124 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     );
 };
 
-export interface CustomStage {
-    id: number;
+export interface Stage {
     name: string;
-    type: 'stage' | 'payment';
-    duration?: string;
+    subStages: SubStage[];
+}
+
+export interface SubStage {
+    name: string;
+    tasks: Task[];
+}
+
+export interface Task {
+    name: string;
+    duration: string;
+    status: string;
 }
 
 export interface TimelineTemplate {
     id: string;
     name: string;
-    stages: CustomStage[];
+    stages: Stage[];
     isCustom?: boolean;
 }
 
-const initialDesignStages: CustomStage[] = [
-    { id: 1, name: "1% Of Over all Quote", type: 'payment' },
-    { id: 2, name: "Level 3 lead Converted to Client", type: 'stage' },
-    { id: 3, name: "Project Manager is assigned", type: 'stage' },
-    { id: 4, name: "Soil Testing & Site Visit", type: 'stage' },
-    { id: 5, name: "Mood Board Selection in App", type: 'stage' },
-    { id: 6, name: "Architectural Concept Design", type: 'stage' },
-    { id: 7, name: "Layout", type: 'stage' },
-    { id: 8, name: "Presentation (ideation)", type: 'stage' },
-    { id: 9, name: "Interior Conceptual Design", type: 'stage' },
-    { id: 10, name: "Interior Layout", type: 'stage' },
-    { id: 11, name: "Interior Presentation (Ideation)", type: 'stage' },
-    { id: 12, name: "3D Conceptual From Exploration", type: 'stage' },
-    { id: 13, name: "Renders", type: 'stage' },
-    { id: 14, name: "Plans", type: 'stage' },
-    { id: 15, name: "Elevation", type: 'stage' },
-    { id: 16, name: "Sections", type: 'stage' },
-    { id: 17, name: "Views , videos", type: 'stage' },
-    { id: 18, name: "Structural Design", type: 'stage' },
-    { id: 19, name: "Sanction + Tender Drawings", type: 'stage' },
-    { id: 20, name: "Structural Drawings", type: 'stage' },
-    { id: 21, name: "Costing Estimator 2.0 (BOQ)", type: 'stage' },
-    { id: 22, name: "Good For Construction Civil Architectural Interior Electrical Plumbing Misc (GFC) Solar Rainwater STP., etc.", type: 'stage' }
-];
-
-const initialConstructionStages: CustomStage[] = [
-    { id: 23, name: "20% Payment with Difference Amount of 1 %", type: 'payment' },
-    { id: 24, name: "Construction Started", type: 'stage' },
-    { id: 25, name: "Site Clearence", type: 'stage' },
-    { id: 26, name: "Bhumi Pujan", type: 'stage' },
-    { id: 27, name: "Site Marking", type: 'stage' },
-    { id: 28, name: "Surveyor", type: 'stage' },
-    { id: 29, name: "Grid + Foundation Marking", type: 'stage' },
-    { id: 30, name: "Isolated Foundation", type: 'stage' },
-    { id: 31, name: "Raft Foundation", type: 'stage' },
-    { id: 32, name: "EXcavation", type: 'stage' },
-    { id: 33, name: "Grid Marking", type: 'stage' },
-    { id: 34, name: "Column Marking", type: 'stage' },
-    { id: 35, name: "Excavation", type: 'stage' },
-    { id: 36, name: "Column Marking", type: 'stage' },
-    { id: 37, name: "Dressing", type: 'stage' },
-    { id: 38, name: "Compaction", type: 'stage' },
-    { id: 39, name: "PCC", type: 'stage' },
-    { id: 40, name: "Bar Bending", type: 'stage' },
-    { id: 41, name: "Shuttering", type: 'stage' },
-    { id: 42, name: "Pedestal | Raft", type: 'stage' },
-    { id: 43, name: "Concreting", type: 'stage' },
-    { id: 44, name: "Removal of Shuttering", type: 'stage' },
-    { id: 45, name: "Starter Marking", type: 'stage' },
-    { id: 46, name: "Bar Bending", type: 'stage' },
-    { id: 47, name: "Columns", type: 'stage' },
-    { id: 48, name: "Shuttering", type: 'stage' },
-    { id: 49, name: "Concreting", type: 'stage' },
-    { id: 50, name: "Removal of Shuttering", type: 'stage' },
-    { id: 51, name: "Sump Construction", type: 'stage' },
-    { id: 52, name: "Back Filling", type: 'stage' },
-    { id: 53, name: "Plinth Work | Sump Slab", type: 'stage' },
-    { id: 54, name: "Stone Masonry", type: 'stage' },
-    { id: 55, name: "Barbending", type: 'stage' },
-    { id: 56, name: "Shuttering", type: 'stage' },
-    { id: 57, name: "Concreting", type: 'stage' },
-    { id: 58, name: "Removal of Shuttering", type: 'stage' },
-    { id: 59, name: "Backfilling", type: 'stage' },
-    { id: 60, name: "Plinth", type: 'stage' },
-    { id: 61, name: "Compaction", type: 'stage' },
-    { id: 62, name: "Termite Treatment", type: 'stage' },
-    { id: 63, name: "PCC", type: 'stage' },
-    { id: 64, name: "30% Of Overall Quote", type: 'payment' },
-    { id: 65, name: "Starter Marking", type: 'stage' },
-    { id: 66, name: "Bar Bending", type: 'stage' },
-    { id: 67, name: "Columns", type: 'stage' },
-    { id: 68, name: "Shuttering", type: 'stage' },
-    { id: 69, name: "Concreting", type: 'stage' },
-    { id: 70, name: "Removal Of Shuttering", type: 'stage' },
-    { id: 71, name: "Shuttering", type: 'stage' },
-    { id: 72, name: "Ground Floor Beams | Slab", type: 'stage' },
-    { id: 73, name: "Bar bending", type: 'stage' },
-    { id: 74, name: "Concreting (RMC)", type: 'stage' },
-    { id: 75, name: "1st Floor", type: 'stage' },
-    { id: 76, name: "Starter Marking", type: 'stage' },
-    { id: 77, name: "Bar Bending", type: 'stage' },
-    { id: 78, name: "Columns", type: 'stage' },
-    { id: 79, name: "Shuttering", type: 'stage' },
-    { id: 80, name: "Concreting", type: 'stage' },
-    { id: 81, name: "Ground Floor", type: 'stage' },
-    { id: 82, name: "Removal of Shuttering (Slab)", type: 'stage' },
-    { id: 83, name: "Block Work (Slowly)", type: 'stage' },
-    { id: 84, name: "1st Floor", type: 'stage' },
-    { id: 85, name: "Shuttering", type: 'stage' },
-    { id: 86, name: "Bar bending", type: 'stage' },
-    { id: 87, name: "Concreting", type: 'stage' },
-    { id: 88, name: "20% of Total Quote", type: 'payment' },
-    { id: 89, name: "Ground Floor", type: 'stage' },
-    { id: 90, name: "Completion of Block work", type: 'stage' },
-    { id: 91, name: "1st Floor", type: 'stage' },
-    { id: 92, name: "Removal of shuttering", type: 'stage' },
-    { id: 93, name: "Completion of Block work", type: 'stage' },
-    { id: 94, name: "Groundfloor (Keeping as standard)", type: 'stage' },
-    { id: 95, name: "Electrical Wiring", type: 'stage' },
-    { id: 96, name: "Plumbing", type: 'stage' },
-    { id: 97, name: "Tiles Laying", type: 'stage' },
-    { id: 98, name: "Door & Window Installation", type: 'stage' },
-    { id: 99, name: "Paint Work", type: 'stage' },
-    { id: 100, name: "15% of Overall Quote", type: 'payment' },
-    { id: 101, name: "Toilet Fixtures", type: 'stage' },
-    { id: 102, name: "Electrical Fixtures", type: 'stage' },
-    { id: 103, name: "10% of Overall Quote", type: 'payment' },
-    { id: 104, name: "Window Grill", type: 'stage' },
-    { id: 105, name: "Railing", type: 'stage' },
-    { id: 106, name: "Inspection By Client", type: 'stage' },
-    { id: 107, name: "04% of Overall Quote", type: 'payment' },
-    { id: 108, name: "Key Handover", type: 'stage' },
-    { id: 109, name: "Documents Handover", type: 'stage' }
-];
+const initialTimelineData: Stage[] = [
+    {
+      "name": "Foundation",
+      "subStages": [
+        {
+          "name": "Excavation",
+          "tasks": [
+            { "name": "Digging", "duration": "3 Days", "status": "In Progress" },
+            { "name": "Soil Testing", "duration": "2 Days", "status": "Not Started" }
+          ]
+        },
+        {
+          "name": "Concrete Work",
+          "tasks": [
+            { "name": "Footing", "duration": "4 Days", "status": "Not Started" },
+            { "name": "Column Base", "duration": "2 Days", "status": "Not Started" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Electrical",
+      "subStages": [
+        {
+          "name": "Wiring",
+          "tasks": [
+            { "name": "Conduit Laying", "duration": "5 Days", "status": "Not Started" },
+            { "name": "Cable Pulling", "duration": "3 Days", "status": "Not Started" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Finishing",
+      "subStages": [
+        {
+          "name": "Painting",
+          "tasks": [
+            { "name": "Primer Coat", "duration": "2 Days", "status": "Not Started" },
+            { "name": "Final Paint", "duration": "3 Days", "status": "Not Started" }
+          ]
+        },
+        {
+          "name": "Flooring",
+          "tasks": [
+            { "name": "Tile Laying", "duration": "4 Days", "status": "Not Started" }
+          ]
+        }
+      ]
+    }
+  ];
 
 const ProjectTimelineForm = ({
     onFormSuccess,
     onBack,
-    templates,
-    setTemplates,
-    selectedTemplateId,
-    setSelectedTemplateId,
     isEditMode,
     projectData,
 }: {
     onFormSuccess: () => void;
     onBack: () => void;
-    templates: TimelineTemplate[];
-    setTemplates: React.Dispatch<React.SetStateAction<TimelineTemplate[]>>;
-    selectedTemplateId: string;
-    setSelectedTemplateId: (id: string) => void;
     isEditMode: boolean;
     projectData: any;
 }) => {
     const { toast } = useToast();
     const [isPending, startTransition] = useTransition();
-    const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
     const [startDate, setStartDate] = useState<Date | undefined>();
-    const [stageDurations, setStageDurations] = useState<{[key: string]: string}>({});
-    
-    const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
-    const stages = selectedTemplate?.stages || [];
-    
-    const handleSaveTemplate = (updatedTemplate: TimelineTemplate) => {
-        setTemplates(prev => {
-            const existingIndex = prev.findIndex(t => t.id === updatedTemplate.id);
-            if (existingIndex > -1) {
-                const newTemplates = [...prev];
-                newTemplates[existingIndex] = updatedTemplate;
-                return newTemplates;
-            }
-            return [...prev, updatedTemplate];
-        });
-        setSelectedTemplateId(updatedTemplate.id);
-    };
+    const [stageDurations, setStageDurations] = useState<{ [key: string]: string }>({});
 
-    const handleSelectChange = (value: string) => {
-        if (value === 'custom_new') {
-            setSelectedTemplateId('custom_new'); // Temporarily set to indicate creation mode
-            setIsCustomTimelineDialogOpen(true);
-        } else {
-            setSelectedTemplateId(value);
-        }
-    };
-    
-    const handleEditTemplate = () => {
-        if (selectedTemplateId === 'custom_new') return;
-        setIsCustomTimelineDialogOpen(true);
-    };
-
-    const handleDurationChange = (stageName: string, duration: string) => {
-        setStageDurations(prev => ({ ...prev, [stageName]: duration }));
+    const handleDurationChange = (taskName: string, stageName: string, subStageName: string, duration: string) => {
+        const key = `${stageName}-${subStageName}-${taskName}`;
+        setStageDurations(prev => ({ ...prev, [key]: duration }));
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
-        const timeline = stages.map(stage => ({
-            name: stage.name,
-            type: stage.type,
-            duration: stage.type === 'stage' ? (stageDurations[stage.name] || '0') : '0'
+        const timeline = initialTimelineData.map(stage => ({
+            ...stage,
+            subStages: stage.subStages.map(subStage => ({
+                ...subStage,
+                tasks: subStage.tasks.map(task => ({
+                    ...task,
+                    duration: stageDurations[`${stage.name}-${subStage.name}-${task.name}`] || task.duration
+                }))
+            }))
         }));
 
         const finalProjectData = {
             ...projectData,
             startDate: startDate?.toISOString() ?? '',
-            template: selectedTemplateId,
             timeline: timeline,
         };
 
         startTransition(async () => {
-            const result = isEditMode ? await updateProject(null, new FormData()) : await addProject(finalProjectData);
+            const result = isEditMode ? await updateProject(finalProjectData) : await addProject(finalProjectData);
             
             if (result.success) {
                 onFormSuccess();
@@ -509,7 +422,6 @@ const ProjectTimelineForm = ({
         });
     };
 
-
     return (
         <>
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
@@ -518,13 +430,7 @@ const ProjectTimelineForm = ({
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                                 <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
-                                    <FloatingLabelSelect id="timeline-template-display" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
-                                        {templates.map(template => (
-                                            <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
-                                        ))}
-                                        <SelectItem value="custom_new">Create Custom Timeline</SelectItem>
-                                    </FloatingLabelSelect>
-                                <div className="space-y-2">
+                                    <div className="space-y-2">
                                         <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
                                         <Popover>
                                             <PopoverTrigger asChild>
@@ -549,37 +455,41 @@ const ProjectTimelineForm = ({
                                             </PopoverContent>
                                         </Popover>
                                     </div>
-                                    <Button type="button" variant="outline" className="h-14 rounded-full" onClick={handleEditTemplate}>
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit Timeline
-                                    </Button>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                {stages.map(stage => {
-                                    const isPaymentStage = stage.type === 'payment';
-                                    return (
-                                        <div key={stage.id} className="space-y-2">
-                                            <Label className="text-lg font-medium px-2 text-zinc-900">{stage.name}</Label>
-                                            {isPaymentStage ? (
-                                                <div className="h-14 bg-green-light rounded-full px-5 flex items-center text-green font-medium">
-                                                    <Banknote className="mr-2 h-5 w-5" />
-                                                    Payment Reminder
-                                                </div>
-                                            ) : (
-                                                <Input
-                                                    name={`days-${stage.name}`}
-                                                    className="h-14 bg-background rounded-full px-5"
-                                                    placeholder="Enter days"
-                                                    value={stageDurations[stage.name] || ''}
-                                                    onChange={(e) => handleDurationChange(stage.name, e.target.value)}
-                                                />
-                                            )}
-                                        </div>
-                                    )
-                                })}
-                            </div>
+                            <Accordion type="multiple" defaultValue={initialTimelineData.map(s => s.name)} className="w-full space-y-4">
+                                {initialTimelineData.map(stage => (
+                                    <AccordionItem key={stage.name} value={stage.name} className="bg-background rounded-3xl px-6">
+                                        <AccordionTrigger className="text-xl font-semibold hover:no-underline">{stage.name}</AccordionTrigger>
+                                        <AccordionContent>
+                                            <Accordion type="multiple" defaultValue={stage.subStages.map(ss => ss.name)} className="w-full space-y-2">
+                                                {stage.subStages.map(subStage => (
+                                                    <AccordionItem key={subStage.name} value={subStage.name} className="border-b-0">
+                                                        <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">{subStage.name}</AccordionTrigger>
+                                                        <AccordionContent className="pl-4">
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                {subStage.tasks.map(task => (
+                                                                    <div key={task.name} className="space-y-2">
+                                                                        <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
+                                                                        <Input
+                                                                            name={`duration-${stage.name}-${subStage.name}-${task.name}`}
+                                                                            className="h-12 bg-white rounded-full px-5"
+                                                                            placeholder="Enter days"
+                                                                            value={stageDurations[`${stage.name}-${subStage.name}-${task.name}`] || ''}
+                                                                            onChange={(e) => handleDurationChange(task.name, stage.name, subStage.name, e.target.value)}
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                ))}
+                                            </Accordion>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
                         </div>
                     </div>
                 </ScrollArea>
@@ -592,17 +502,6 @@ const ProjectTimelineForm = ({
                     </Button>
                 </div>
             </form>
-            <CustomTimelineDialog
-                isOpen={isCustomTimelineDialogOpen}
-                onClose={() => {
-                    setIsCustomTimelineDialogOpen(false);
-                    if (selectedTemplateId === 'custom_new') {
-                        setSelectedTemplateId(templates[0]?.id || '');
-                    }
-                }}
-                onSave={handleSaveTemplate}
-                templateToEdit={selectedTemplateId !== 'custom_new' ? templates.find(t => t.id === selectedTemplateId) : null}
-            />
         </>
     );
 };
@@ -611,7 +510,8 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     const { toast } = useToast();
     const isMobile = useIsMobile();
     const [templateName, setTemplateName] = useState('');
-    const [stages, setStages] = useState<CustomStage[]>([{ id: Date.now(), name: '', type: 'stage' }]);
+    const [stages, setStages] = useState<Stage[]>([{ name: '', subStages: [{ name: '', tasks: [{ name: '', duration: '', status: '' }] }] }]);
+
 
     useEffect(() => {
         if (isOpen) {
@@ -620,58 +520,15 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 setStages(templateToEdit.stages);
             } else {
                 setTemplateName('');
-                setStages([{ id: Date.now(), name: '', type: 'stage' }]);
+                setStages([{ name: '', subStages: [{ name: '', tasks: [{ name: '', duration: '', status: '' }] }] }]);
             }
         }
     }, [templateToEdit, isOpen]);
 
-    const addStage = (type: 'stage' | 'payment') => {
-        setStages([...stages, { id: Date.now(), name: '', type }]);
-    };
-
-    const handleStageChange = (id: number, value: string) => {
-        const newStages = stages.map(stage => stage.id === id ? { ...stage, name: value } : stage);
-        setStages(newStages);
-    };
-
-    const handleRemoveStage = (id: number) => {
-        if (stages.length > 1) {
-            const newStages = stages.filter(stage => stage.id !== id);
-            setStages(newStages);
-        } else {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: 'A template must have at least one stage.',
-            });
-        }
-    };
 
     const handleSave = () => {
-        if (!templateName.trim()) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: 'Template Name is required.',
-            });
-            return;
-        }
-        const finalStages = stages.filter(s => s.name.trim() !== '');
-        if (finalStages.length === 0) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: 'A template must have at least one stage.',
-            });
-            return;
-        }
-        
-        onSave({
-            id: templateToEdit?.id || `custom-${Date.now()}`,
-            name: templateName,
-            stages: finalStages,
-            isCustom: true,
-        });
+        // This functionality needs to be implemented based on the new structure
+        toast({ title: "Custom timelines not yet implemented" });
         onClose();
     };
 
@@ -699,51 +556,9 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 </DialogHeader>
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <ScrollArea className="flex-1 p-6 space-y-4 no-scrollbar">
-                        <div className="space-y-2">
-                            <Label htmlFor="template-name" className={cn("text-lg font-medium px-2", templateName ? 'text-grey-1' : 'text-black')}>Template Name*</Label>
-                            <Input
-                                id="template-name"
-                                placeholder="Template Name*"
-                                value={templateName}
-                                onChange={e => setTemplateName(e.target.value)}
-                                className="h-[54px] bg-background rounded-full px-6 text-lg"
-                            />
-                        </div>
-                        <Separator className="my-4" />
-                        {stages.map((stage, index) => (
-                            <div key={stage.id} className="space-y-2">
-                                <Label htmlFor={`stage-name-${stage.id}`} className={cn("text-lg font-medium px-2", stage.name ? "text-grey-1" : "text-black")}>
-                                    {stage.type === 'stage' ? `Stage ${index + 1}` : `Payment ${index + 1}`}
-                                </Label>
-                                <div className="flex items-center gap-2">
-                                    <div className="relative flex-1">
-                                        <Input
-                                            id={`stage-name-${stage.id}`}
-                                            value={stage.name}
-                                            onChange={(e) => handleStageChange(stage.id, e.target.value)}
-                                            placeholder={stage.type === 'stage' ? 'Enter stage name' : 'Enter payment description'}
-                                            className={cn("h-[54px] bg-background rounded-full px-6 text-lg", stage.type === 'payment' && "pl-12")}
-                                        />
-                                        {stage.type === 'payment' && <Banknote className="h-5 w-5 text-green absolute left-4 top-1/2 -translate-y-1/2" />}
-                                    </div>
-                                    <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(stage.id)} className="h-[54px] w-[54px]">
-                                        <Trash2 className="h-5 w-5 text-destructive" />
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
+                        <p>Custom timeline creation UI will go here.</p>
                     </ScrollArea>
                     <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
-                        <div className="flex gap-2">
-                            <Button variant="outline" onClick={() => addStage('stage')} className="h-[54px] rounded-full text-lg flex-1">
-                                <Plus className="mr-2 h-5 w-5"/>
-                                Stage
-                            </Button>
-                            <Button variant="outline" onClick={() => addStage('payment')} className="h-[54px] rounded-full text-lg text-green border-green hover:bg-green/10 hover:text-green flex-1">
-                                <Banknote className="mr-2 h-5 w-5" />
-                                Payment
-                            </Button>
-                        </div>
                          <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
                     </div>
                 </div>
@@ -767,12 +582,6 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
     const [step, setStep] = useState(1);
     const [projectData, setProjectData] = useState<any>(null);
     
-    const [templates, setTemplates] = useState<TimelineTemplate[]>([
-        { id: 'design', name: 'Only Design (Architectural)', stages: initialDesignStages },
-        { id: 'construction', name: 'Only Construction', stages: initialConstructionStages },
-        { id: 'both', name: 'Design & Construction', stages: [...initialDesignStages, ...initialConstructionStages] },
-    ]);
-    const [selectedTemplateId, setSelectedTemplateId] = useState('both');
 
     const isEditMode = !!projectToEdit;
 
@@ -860,10 +669,6 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                             <ProjectTimelineForm
                                 onFormSuccess={handleSuccess}
                                 onBack={handleBack}
-                                templates={templates}
-                                setTemplates={setTemplates}
-                                selectedTemplateId={selectedTemplateId}
-                                setSelectedTemplateId={setSelectedTemplateId}
                                 isEditMode={isEditMode}
                                 projectData={projectData}
                             />

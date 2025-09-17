@@ -116,8 +116,8 @@ export async function addProject(projectData: any) {
     }
 }
 
-export async function updateProject(prevState: any, formData: FormData) {
-    console.log("Updating project with data:", Object.fromEntries(formData.entries()));
+export async function updateProject(projectData: any) {
+    console.log("Updating project with data:", projectData);
     await new Promise(resolve => setTimeout(resolve, 1000));
     return { success: true, message: 'Project updated successfully' };
 }
