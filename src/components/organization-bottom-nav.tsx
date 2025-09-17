@@ -26,22 +26,20 @@ export const OrganizationBottomNav = () => {
     ];
     
     if (loading) {
-        return null; // Or a loading skeleton
+        return null;
     }
     
     if (!user) {
-        // Don't render the nav if there is no user
         return null;
     }
 
-    const userRole = user?.role;
-    const userTeam = user?.team;
-
     const accessibleNavItems = navItems.filter(item => {
-        // The roles array can contain a role (e.g., 'superAdmin') or a team name (e.g., 'Project Manager')
-        const lowerCaseRoles = item.roles.map(r => r.toLowerCase());
+        const userRole = user.role || '';
+        const userTeam = user.team || '';
         
-        return lowerCaseRoles.includes(userRole.toLowerCase()) || (userTeam && lowerCaseRoles.includes(userTeam.toLowerCase()));
+        const lowerCaseRoles = item.roles.map(r => r.toLowerCase());
+
+        return lowerCaseRoles.includes(userRole.toLowerCase()) || lowerCaseRoles.includes(userTeam.toLowerCase());
     });
     
     if (accessibleNavItems.length === 0) {
