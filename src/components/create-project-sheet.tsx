@@ -439,26 +439,13 @@ const ProjectTimelineForm = ({
     projectData: any;
 }) => {
     const { toast } = useToast();
-    const action = isEditMode ? updateProject : addProject;
-    const [state, formAction, isPending] = useActionState(action, null);
+    const [isPending, startTransition] = useTransition();
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [stageDurations, setStageDurations] = useState<{[key: string]: string}>({});
     
     const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
     const stages = selectedTemplate?.stages || [];
-
-    useEffect(() => {
-        if (state?.success) {
-            onFormSuccess();
-        } else if (state?.message) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
-        }
-    }, [state, onFormSuccess, toast]);
     
     const handleSaveTemplate = (updatedTemplate: TimelineTemplate) => {
         setTemplates(prev => {
@@ -491,20 +478,41 @@ const ProjectTimelineForm = ({
         setStageDurations(prev => ({ ...prev, [stageName]: duration }));
     }
 
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        
+        const timeline = stages.map(stage => ({
+            name: stage.name,
+            type: stage.type,
+            duration: stage.type === 'stage' ? (stageDurations[stage.name] || '0') : '0'
+        }));
+
+        const finalProjectData = {
+            ...projectData,
+            startDate: startDate?.toISOString() ?? '',
+            template: selectedTemplateId,
+            timeline: timeline,
+        };
+
+        startTransition(async () => {
+            const result = isEditMode ? await updateProject(null, new FormData()) : await addProject(finalProjectData);
+            
+            if (result.success) {
+                onFormSuccess();
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: result.message,
+                });
+            }
+        });
+    };
+
+
     return (
         <>
-            <form action={formAction} className="flex flex-col h-full">
-                {Object.entries(projectData).map(([key, value]) => (
-                    <input key={key} type="hidden" name={key} value={value as string} />
-                ))}
-                <input type="hidden" name="startDate" value={startDate?.toISOString() ?? ''} />
-                <input type="hidden" name="template" value={selectedTemplateId} />
-                <input type="hidden" name="timeline" value={JSON.stringify(stages.map(stage => ({
-                    name: stage.name,
-                    type: stage.type,
-                    duration: stage.type === 'stage' ? stageDurations[stage.name] || '0' : '0'
-                })))} />
-
+            <form onSubmit={handleSubmit} className="flex flex-col h-full">
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
