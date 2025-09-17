@@ -12,6 +12,7 @@ import RedirectionArrowIcon from '@/components/icons/redirection-arrow-icon';
 import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
 import type { Meeting } from '@/components/meeting-details-sheet';
 import type { Task } from '@/components/task-details-sheet';
+import GoogleMeetIcon from './icons/google-meet-icon';
 
 const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
     <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
@@ -23,8 +24,9 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
             <p className="text-sm font-medium">{meeting.time}</p>
             <p className="text-sm text-muted-foreground">{meeting.date}</p>
         </div>
-        <div className="flex items-center gap-2 pl-4">
+        <div className="flex flex-col items-center gap-1 pl-4">
             <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
+            <GoogleMeetIcon className="w-5 h-5" />
         </div>
     </Card>
 )
