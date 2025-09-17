@@ -16,6 +16,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
+import { AssignTaskSheet } from '@/components/assign-task-sheet';
+import { AddMemberSheet } from '@/components/add-member-sheet';
 
 // Data for Project Manager Home
 interface Stage {
@@ -273,7 +275,7 @@ export default function ProjectManagerHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
@@ -312,10 +314,10 @@ export default function ProjectManagerHome() {
                         View all upcoming project tasks
                     </Button>
                 </div>
-                 <div className="mt-8">
+                <div className="mt-8">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-                        <h2 className="text-xl font-medium text-left">My Task</h2>
-                        <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
+                         <h2 className="text-xl font-medium text-left">My Task</h2>
+                        <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
                                     key={filter}
@@ -356,6 +358,10 @@ export default function ProjectManagerHome() {
                                     ))}
                                 </DropdownMenuContent>
                             </DropdownMenu>
+                             <div className="flex items-center gap-2">
+                                <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                                <AddMemberSheet />
+                            </div>
                         </div>
                     </div>
                    
@@ -401,22 +407,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-
-    
-
-    
-
-
-
-    
-
-
-    
-
-
-
-
-
-
-    
