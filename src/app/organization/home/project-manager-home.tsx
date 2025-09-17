@@ -296,7 +296,7 @@ export default function ProjectManagerHome() {
                         <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} showCompleted={showCompleted} />
                     )}
                 </div>
-                <div className="text-center mb-4">
+                <div className="text-center">
                     <Button
                         variant="outline"
                         onClick={() => setShowCompleted(!showCompleted)}
@@ -305,7 +305,7 @@ export default function ProjectManagerHome() {
                         {showCompleted ? "Hide" : "Show"} Completed Project Tasks
                     </Button>
                 </div>
-                <div className="text-center mt-6">
+                 <div className="text-center mt-6">
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px]"
@@ -317,7 +317,7 @@ export default function ProjectManagerHome() {
                 <div className="mt-8">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
                          <h2 className="text-xl font-medium text-left">My Task</h2>
-                        <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
+                        <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
                                     key={filter}
@@ -407,3 +407,4 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
