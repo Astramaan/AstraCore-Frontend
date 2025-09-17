@@ -91,9 +91,24 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function addProject(prevState: any, formData: FormData) {
-    console.log("Adding project with data:", Object.fromEntries(formData.entries()));
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true, message: 'Project added successfully' };
+    try {
+        const res = await fetch('/api/projects', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Object.fromEntries(formData)),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { success: false, message: data.message || "Failed to add project" };
+        }
+
+        return { success: true, message: data.message || "Project added successfully!" };
+    } catch (error) {
+        console.error("Add project action failed:", error);
+        return { success: false, message: "An unexpected error occurred." };
+    }
 }
 
 export async function updateProject(prevState: any, formData: FormData) {
