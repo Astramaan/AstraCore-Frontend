@@ -295,6 +295,7 @@ export interface CustomStage {
     id: number;
     name: string;
     type: 'stage' | 'payment';
+    duration?: string;
 }
 
 export interface TimelineTemplate {
@@ -439,18 +440,18 @@ const ProjectTimelineForm = ({
     projectData: any;
 }) => {
     const { toast } = useToast();
-    const action = isEditMode ? updateProject : addProject;
-    const [state, formAction] = useActionState(action, { success: false, message: '' });
+    const [state, formAction, isPending] = useActionState(isEditMode ? updateProject : addProject, null);
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
     const [startDate, setStartDate] = useState<Date | undefined>();
+    const [stageDurations, setStageDurations] = useState<{[key: string]: string}>({});
     
     const selectedTemplate = templates.find(t => t.id === selectedTemplateId);
     const stages = selectedTemplate?.stages || [];
 
     useEffect(() => {
-        if (state.success) {
+        if (state?.success) {
             onFormSuccess();
-        } else if (state.message) {
+        } else if (state?.message) {
             toast({
                 variant: 'destructive',
                 title: 'Error',
@@ -485,12 +486,36 @@ const ProjectTimelineForm = ({
         if (selectedTemplateId === 'custom_new') return;
         setIsCustomTimelineDialogOpen(true);
     };
+
+    const handleDurationChange = (stageName: string, duration: string) => {
+        setStageDurations(prev => ({ ...prev, [stageName]: duration }));
+    }
     
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        
+        const timeline = stages.map(stage => ({
+            name: stage.name,
+            type: stage.type,
+            duration: stage.type === 'stage' ? stageDurations[stage.name] || '0' : '0'
+        }));
+
+        const fullData = { 
+            ...projectData, 
+            timeline,
+            startDate: startDate?.toISOString() ?? '',
+            template: selectedTemplateId
+        };
+        
+        const formData = new FormData();
+        formData.append('projectData', JSON.stringify(fullData));
+        
+        formAction(formData);
+    };
+
     return (
         <>
-            <form action={formAction} className="flex flex-col h-full">
-                <input type="hidden" name="projectData" value={JSON.stringify(projectData)} />
-                <input type="hidden" name="startDate" value={startDate?.toISOString() ?? ''} />
+            <form onSubmit={handleSubmit} className="flex flex-col h-full">
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
@@ -550,6 +575,8 @@ const ProjectTimelineForm = ({
                                                     name={`days-${stage.name}`}
                                                     className="h-14 bg-background rounded-full px-5"
                                                     placeholder="Enter days"
+                                                    value={stageDurations[stage.name] || ''}
+                                                    onChange={(e) => handleDurationChange(stage.name, e.target.value)}
                                                 />
                                             )}
                                         </div>
@@ -563,8 +590,8 @@ const ProjectTimelineForm = ({
                     <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                         Back
                     </Button>
-                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
-                        {isEditMode ? 'Save Changes' : 'Create Project'}
+                    <Button type="submit" className="px-10 h-14 text-lg rounded-full" disabled={isPending}>
+                        {isPending ? (isEditMode ? 'Saving...' : 'Creating...') : (isEditMode ? 'Save Changes' : 'Create Project')}
                     </Button>
                 </div>
             </form>
