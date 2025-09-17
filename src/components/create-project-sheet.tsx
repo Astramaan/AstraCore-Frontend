@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect, useTransition } from 'react';
@@ -75,20 +74,20 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
     </div>
 )
 
-const CreateProjectForm = ({ onNext, projectToEdit }: { onNext: (data: any) => void, projectToEdit: Project | null }) => {
-    const [name, setName] = useState(projectToEdit?.name || '');
-    const [clientId, setClientId] = useState(projectToEdit?.id || '');
-    const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || '');
-    const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || '');
-    const [currentLocation, setCurrentLocation] = useState('');
-    const [projectCost, setProjectCost] = useState('');
-    const [status, setStatus] = useState(projectToEdit?.status.toLowerCase().replace(' ', '-') || '');
-    const [dimension, setDimension] = useState('');
-    const [floor, setFloor] = useState('');
-    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || '');
-    const [siteLocationLink, setSiteLocationLink] = useState('');
-    const [architect, setArchitect] = useState('');
-    const [siteSupervisor, setSiteSupervisor] = useState('');
+const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (data: any) => void, projectToEdit: Project | null, projectData: any }) => {
+    const [name, setName] = useState(projectToEdit?.name || projectData?.name || '');
+    const [clientId, setClientId] = useState(projectToEdit?.id || projectData?.clientId || '');
+    const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.phone || '');
+    const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.email || '');
+    const [currentLocation, setCurrentLocation] = useState(projectData?.currentLocation || '');
+    const [projectCost, setProjectCost] = useState(projectData?.projectCost || '');
+    const [status, setStatus] = useState(projectToEdit?.status.toLowerCase().replace(' ', '-') || projectData?.status || '');
+    const [dimension, setDimension] = useState(projectData?.dimension || '');
+    const [floor, setFloor] = useState(projectData?.floor || '');
+    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.siteLocation || '');
+    const [siteLocationLink, setSiteLocationLink] = useState(projectData?.siteLocationLink || '');
+    const [architect, setArchitect] = useState(projectData?.architect || '');
+    const [siteSupervisor, setSiteSupervisor] = useState(projectData?.siteSupervisor || '');
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
     const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
@@ -440,7 +439,8 @@ const ProjectTimelineForm = ({
     projectData: any;
 }) => {
     const { toast } = useToast();
-    const [state, formAction, isPending] = useActionState(isEditMode ? updateProject : addProject, null);
+    const action = isEditMode ? updateProject : addProject;
+    const [state, formAction, isPending] = useActionState(action, null);
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [stageDurations, setStageDurations] = useState<{[key: string]: string}>({});
@@ -490,38 +490,27 @@ const ProjectTimelineForm = ({
     const handleDurationChange = (stageName: string, duration: string) => {
         setStageDurations(prev => ({ ...prev, [stageName]: duration }));
     }
-    
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        
-        const timeline = stages.map(stage => ({
-            name: stage.name,
-            type: stage.type,
-            duration: stage.type === 'stage' ? stageDurations[stage.name] || '0' : '0'
-        }));
-
-        const fullData = { 
-            ...projectData, 
-            timeline,
-            startDate: startDate?.toISOString() ?? '',
-            template: selectedTemplateId
-        };
-        
-        const formData = new FormData();
-        formData.append('projectData', JSON.stringify(fullData));
-        
-        formAction(formData);
-    };
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="flex flex-col h-full">
+            <form action={formAction} className="flex flex-col h-full">
+                {Object.entries(projectData).map(([key, value]) => (
+                    <input key={key} type="hidden" name={key} value={value as string} />
+                ))}
+                <input type="hidden" name="startDate" value={startDate?.toISOString() ?? ''} />
+                <input type="hidden" name="template" value={selectedTemplateId} />
+                <input type="hidden" name="timeline" value={JSON.stringify(stages.map(stage => ({
+                    name: stage.name,
+                    type: stage.type,
+                    duration: stage.type === 'stage' ? stageDurations[stage.name] || '0' : '0'
+                })))} />
+
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                                 <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
-                                    <FloatingLabelSelect id="timeline-template" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
+                                    <FloatingLabelSelect id="timeline-template-display" label="Timeline Template" value={selectedTemplateId} onValueChange={handleSelectChange}>
                                         {templates.map(template => (
                                             <SelectItem key={template.id} value={template.id}>{template.name}</SelectItem>
                                         ))}
@@ -788,6 +777,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
     const handleOpenChangeInternal = (open: boolean) => {
         if (!open) {
             setStep(1);
+            setProjectData(null);
             onOpenChange(false);
         }
         setIsOpen(open);
@@ -796,7 +786,10 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
     const handleSuccess = () => {
         setIsOpen(false);
         setShowSuccess(true);
-        setTimeout(() => setStep(1), 500); // Reset step after closing
+        setTimeout(() => {
+            setStep(1);
+            setProjectData(null);
+        }, 500); // Reset step after closing
         // You would call onProjectAdded or onProjectUpdated here with the new/updated project data
     };
 
@@ -854,7 +847,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                     </DialogOrSheetHeader>
                     <div className="flex-1 flex flex-col overflow-hidden">
                         {step === 1 ? (
-                            <CreateProjectForm onNext={handleNext} projectToEdit={projectToEdit} />
+                            <CreateProjectForm onNext={handleNext} projectToEdit={projectToEdit} projectData={projectData} />
                         ) : (
                             <ProjectTimelineForm
                                 onFormSuccess={handleSuccess}

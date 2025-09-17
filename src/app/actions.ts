@@ -91,17 +91,34 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function addProject(prevState: any, formData: FormData) {
-    const projectDataString = formData.get('projectData');
-    if (!projectDataString) {
-        return { success: false, message: 'Project data is missing.' };
-    }
-
     try {
-        const projectData = JSON.parse(projectDataString as string);
+        const rawFormData = Object.fromEntries(formData.entries());
+        const timeline = JSON.parse(rawFormData.timeline as string);
         
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+        const projectData = {
+            name: rawFormData.name,
+            clientId: rawFormData.client_id,
+            phone: rawFormData.phone_number,
+            email: rawFormData.email,
+            currentLocation: rawFormData.current_location,
+            projectCost: rawFormData.project_cost,
+            status: rawFormData.status,
+            dimension: rawFormData.dimension,
+            floor: rawFormData.floor,
+            siteLocation: rawFormData.site_location,
+            siteLocationLink: rawFormData.site_location_link,
+            architect: rawFormData.architect,
+            siteSupervisor: rawFormData.siteSupervisor,
+            startDate: rawFormData.startDate,
+            template: rawFormData.template,
+            timeline: timeline,
+        };
+        
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(projectData),
         });
 
@@ -114,6 +131,9 @@ export async function addProject(prevState: any, formData: FormData) {
         return { success: true, message: data.message || "Project added successfully!" };
     } catch (error) {
         console.error("Add project action failed:", error);
+        if (error instanceof SyntaxError) {
+            return { success: false, message: "Failed to parse timeline data. Invalid JSON format."}
+        }
         return { success: false, message: "An unexpected error occurred." };
     }
 }
