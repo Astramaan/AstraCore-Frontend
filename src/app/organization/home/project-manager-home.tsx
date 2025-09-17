@@ -99,15 +99,13 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    {stage.status === 'completed' ? (
-                       <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                    ) : stage.priority === 'High' && (
-                         <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
+                    {needsApproval && (
+                         <Badge className={cn("capitalize", priorityColors['High'])}>High</Badge>
                     )}
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                  <div className="flex justify-between items-center mt-2">
-                    {stage.status !== 'completed' && <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>}
+                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
                     {needsApproval && <Badge className="bg-orange-100 text-orange-600 ml-auto">Needs Approval</Badge>}
                 </div>
             </div>
@@ -122,15 +120,14 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
 const ProjectSection = ({ project, onStageClick, activeFilter }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType }) => {
     const filteredTasks = useMemo(() => {
         let tasks = project.tasks;
-        if (activeFilter && activeFilter !== 'Completed') {
+        if (activeFilter) {
             tasks = tasks.filter(task => {
                 if (activeFilter === 'High Priority') return task.priority === 'High';
                 if (activeFilter === 'In Progress') return task.status === 'ongoing';
                 if (activeFilter === 'Pending') return task.status === 'pending' || task.status === 'upcoming';
+                if (activeFilter === 'Completed') return task.status === 'completed';
                 return true;
             });
-        } else if (activeFilter === 'Completed') {
-            tasks = tasks.filter(task => task.status === 'completed');
         }
         else {
           tasks = tasks.filter(task => task.status !== 'completed');
@@ -272,7 +269,7 @@ export default function ProjectManagerHome() {
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <h2 className="text-xl font-medium">My Tasks</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
