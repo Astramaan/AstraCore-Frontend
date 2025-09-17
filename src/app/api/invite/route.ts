@@ -34,8 +34,9 @@ export async function POST(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
     
-    // Some invite logic might not require auth, adjust as needed.
-    // For now, we'll pass them if they exist.
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
+    }
 
     const body = await req.json();
 

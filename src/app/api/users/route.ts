@@ -33,8 +33,8 @@ export async function GET(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
 
-    if (Object.keys(authHeaders).length === 0) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
 
     const res = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
@@ -63,8 +63,8 @@ export async function POST(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
 
-    if (Object.keys(authHeaders).length === 0) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
     const body = await req.json();
@@ -95,8 +95,8 @@ export async function PATCH(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
 
-    if (Object.keys(authHeaders).length === 0) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
     const body = await req.json();
@@ -128,8 +128,8 @@ export async function DELETE(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
 
-    if (Object.keys(authHeaders).length === 0) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
     const body = await req.json();
@@ -155,5 +155,3 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
-
-    

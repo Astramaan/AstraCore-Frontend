@@ -6,31 +6,6 @@ import { redirect } from 'next/navigation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
-function getAuthHeadersFromCookie(): Record<string, string> {
-    const cookieStore = cookies();
-    const userDataCookie = cookieStore.get('user-data');
-    if (!userDataCookie) {
-        return {};
-    }
-
-    try {
-        const userData = JSON.parse(userDataCookie.value);
-        const headers: Record<string, string> = {};
-        const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
-        
-        userHeaders.forEach(headerKey => {
-            if (userData[headerKey]) {
-                headers[headerKey] = String(userData[headerKey]);
-            }
-        });
-        return headers;
-    } catch (e) {
-        console.error("Failed to parse user data cookie", e);
-        return {};
-    }
-}
-
-
 export async function login(prevState: any, formData: FormData) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
@@ -49,7 +24,8 @@ export async function login(prevState: any, formData: FormData) {
             path: '/',
             maxAge: 60 * 60 * 24 * 7 // 1 week
         });
-        // The component will handle the redirect based on the response
+        
+        // The component will handle the redirect and localStorage saving
         return { success: true, user: data.user };
     }
 
@@ -154,14 +130,11 @@ export async function addProject(prevState: any, formData: FormData) {
 
     const fullData = { ...projectData, timeline };
 
-    const authHeaders = getAuthHeadersFromCookie();
-
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
-                ...authHeaders
             },
             body: JSON.stringify(fullData),
         });
@@ -182,6 +155,7 @@ export async function addProject(prevState: any, formData: FormData) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
+
 
 export async function updateProject(projectData: any) {
     console.log("Updating project with data:", projectData);
@@ -355,5 +329,3 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
-
-    
