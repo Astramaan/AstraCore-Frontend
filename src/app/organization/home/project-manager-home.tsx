@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge';
 import type { Meeting } from '@/components/meeting-details-sheet';
 import type { Task } from '@/components/task-details-sheet';
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // Data for Project Manager Home
 interface Stage {
@@ -68,40 +69,35 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     };
 
     const showApprovalUI = stage.status === 'ongoing' && stage.siteImages && stage.siteImages.length > 0;
+    
+    const priority = stage.status === 'ongoing' ? 'High' : stage.status === 'upcoming' ? 'Medium' : 'Low';
+    const priorityColors: { [key: string]: string } = {
+        "Low": "bg-cyan-500/10 text-cyan-500",
+        "Medium": "bg-yellow-500/10 text-yellow-500",
+        "High": "bg-red-500/10 text-red-500",
+    }
 
     return (
-        <Card className={cn(
-            "rounded-[25px] border p-4 cursor-pointer",
-            stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200'
-        )} onClick={() => onStageClick(stage)}>
-            <div className="flex items-center gap-4">
-                <div className="relative w-24 h-24 shrink-0">
-                     <Image src={stage.image} alt="Task image" width={96} height={96} className="rounded-2xl object-cover" data-ai-hint="construction work" />
-                    <Badge className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white border-transparent">{stage.category}</Badge>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
+            <div>
+                <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                    <Badge className={priorityColors[priority]}>{priority}</Badge>
                 </div>
-                <div className="flex-1 space-y-1">
-                    <p className="font-semibold text-lg">{stage.title}</p>
-                    <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
-                    {stage.snagCount && stage.snagCount > 0 && <Badge variant="destructive">{stage.snagCount} Snags</Badge>}
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
+            </div>
+            <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                    <div className="flex -space-x-2">
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                    </div>
+                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 </div>
-                <div className="text-right">
-                    <p className="text-sm text-muted-foreground">{stage.duration}</p>
-                    <p className={cn("text-base font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
+                <div className="text-right flex items-center gap-2">
+                    <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
                 </div>
             </div>
-             {showApprovalUI && (
-                <div className="mt-4 space-y-4">
-                    <div className="grid grid-cols-4 gap-2">
-                        {stage.siteImages?.map((img, index) => (
-                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                        ))}
-                    </div>
-                     <div className="flex gap-4">
-                        <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Complete</Button>
-                    </div>
-                </div>
-            )}
         </Card>
     );
 };
@@ -225,3 +221,5 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
+    
