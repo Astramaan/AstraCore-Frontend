@@ -28,6 +28,7 @@ import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import { addProject } from '@/app/actions';
 
 const mockArchitects = [
     { value: "darshan@habi.one", label: "Darshan" },
@@ -375,62 +376,37 @@ const ProjectTimelineForm = ({
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const form = event.currentTarget;
-        const formData = new FormData(form);
-
+        
+        const formData = new FormData(event.currentTarget);
         const timeline: Stage[] = [];
-        let stageIndex = 0;
-        while (formData.get(`stage_${stageIndex}_name`)) {
-            const stageName = formData.get(`stage_${stageIndex}_name`) as string;
-            const subStages: SubStage[] = [];
-            let subStageIndex = 0;
 
-            while (formData.get(`substage_${stageIndex}_${subStageIndex}_name`)) {
-                const subStageName = formData.get(`substage_${stageIndex}_${subStageIndex}_name`) as string;
-                const tasks: Task[] = [];
-                let taskIndex = 0;
-
-                while (formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`)) {
-                    tasks.push({
-                        name: formData.get(`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`) as string,
-                        duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`) as string,
+        initialTimelineData.forEach((stage, stageIndex) => {
+            const newStage: Stage = { name: stage.name, subStages: [] };
+            stage.subStages.forEach((subStage, subStageIndex) => {
+                const newSubStage: SubStage = { name: subStage.name, tasks: [] };
+                subStage.tasks.forEach((task, taskIndex) => {
+                    newSubStage.tasks.push({
+                        name: task.name,
+                        duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`) as string || task.duration,
                         status: 'Not Started',
                     });
-                    taskIndex++;
-                }
-                subStages.push({ name: subStageName, tasks });
-                subStageIndex++;
-            }
-            timeline.push({ name: stageName, subStages });
-            stageIndex++;
-        }
+                });
+                newStage.subStages.push(newSubStage);
+            });
+            timeline.push(newStage);
+        });
 
         const fullData = { ...projectData, timeline, startDate: startDate?.toISOString() };
 
         startTransition(async () => {
-            try {
-                const response = await fetch('/api/projects', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(fullData),
-                });
-                const result = await response.json();
-                if (result.success) {
-                    onFormSuccess();
-                } else {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: result.message || 'Failed to create project.',
-                    });
-                }
-            } catch (error) {
-                 toast({
+            const result = await addProject(fullData);
+            if (result.success) {
+                onFormSuccess();
+            } else {
+                toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: 'An unexpected error occurred.',
+                    description: result.message || 'Failed to create project.',
                 });
             }
         });
