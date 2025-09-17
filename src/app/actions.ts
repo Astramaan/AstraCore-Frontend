@@ -6,6 +6,30 @@ import { redirect } from 'next/navigation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
+function getAuthHeadersFromCookie(): Record<string, string> {
+    const cookieStore = cookies();
+    const userDataCookie = cookieStore.get('user-data');
+    if (!userDataCookie) {
+        return {};
+    }
+
+    try {
+        const userData = JSON.parse(userDataCookie.value);
+        const headers: Record<string, string> = {};
+        const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
+        
+        userHeaders.forEach(headerKey => {
+            if (userData[headerKey]) {
+                headers[headerKey] = String(userData[headerKey]);
+            }
+        });
+        return headers;
+    } catch (e) {
+        console.error("Failed to parse user data cookie", e);
+        return {};
+    }
+}
+
 export async function login(prevState: any, formData: FormData) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
@@ -93,10 +117,16 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function addProject(projectData: any) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+    const authHeaders = getAuthHeadersFromCookie();
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return { success: false, message: "Unauthorized: Missing user data" };
+    }
+
+    const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            ...authHeaders,
         },
         body: JSON.stringify(projectData),
     });
@@ -277,3 +307,5 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
+
+    
