@@ -211,7 +211,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, on
               </div>
             </div>
         </div>
-        <div className="text-center mt-6 flex flex-col md:flex-row gap-4 justify-center">
+        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
             <Button
                 variant="outline"
                 onClick={onToggleShowCompleted}
