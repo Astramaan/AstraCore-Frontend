@@ -318,7 +318,7 @@ export default function ProjectManagerHome() {
                 </div>
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <h2 className="text-xl font-medium">Project Task</h2>
+                    <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4">
@@ -338,9 +338,19 @@ export default function ProjectManagerHome() {
                         <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} />
                     )}
                 </div>
+                
+                <div className="text-center mt-6">
+                    <Button
+                        variant="outline"
+                        className="rounded-full bg-white h-[54px]"
+                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
+                    >
+                        View all upcoming project tasks
+                    </Button>
+                </div>
 
                 <div className="mt-8">
-                    <h2 className="text-xl font-medium mb-4">My Task</h2>
+                    <h2 className="text-xl font-medium mb-4 text-left">My Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
@@ -350,16 +360,6 @@ export default function ProjectManagerHome() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
-                </div>
-
-                <div className="text-center mt-6">
-                    <Button
-                        variant="outline"
-                        className="rounded-full bg-white h-[54px]"
-                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
-                    >
-                        View all upcoming project tasks
-                    </Button>
                 </div>
             </main>
             <HomeAside
@@ -399,3 +399,6 @@ export default function ProjectManagerHome() {
 
     
 
+
+
+    
