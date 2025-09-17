@@ -99,10 +99,10 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                 <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-2">
-                        <Badge className={cn(statusColor)}>{statusText}</Badge>
-                        <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                        {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
+                         <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                         {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                     </div>
+                     <Badge className={cn(statusColor)}>{statusText}</Badge>
                 </div>
             </div>
             <div className="flex justify-between items-center">
@@ -119,7 +119,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-zinc-100 rounded-[50px] p-4 flex justify-between items-center">
+            <div className="bg-background rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -131,7 +131,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 </a>
               </div>
             </div>
-            <div className="bg-zinc-100 rounded-[50px] p-4 flex justify-between items-center">
+            <div className="bg-background rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
