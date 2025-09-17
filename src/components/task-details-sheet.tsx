@@ -18,6 +18,7 @@ import { Badge } from './ui/badge';
 import PdfIcon from './icons/pdf-icon';
 import Image from 'next/image';
 import { ScrollArea } from './ui/scroll-area';
+import { useUser } from '@/context/user-context';
 
 export interface Task {
   id: string;
@@ -50,6 +51,7 @@ const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) 
 );
 
 const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: (task: Task) => void; }) => {
+  const { user } = useUser();
   const priorityColors: { [key: string]: string } = {
     "Low": "bg-cyan-500/10 text-cyan-500",
     "Medium": "bg-yellow-500/10 text-yellow-500",
@@ -83,6 +85,18 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
     onUpdateTask({ ...task, status: 'Completed', completedDate: completedDate });
   };
 
+  const handleApprove = () => {
+     handleCompleteTask();
+  };
+  
+  const handleRework = () => {
+    // In a real app, this might change status to 'Needs Rework'
+    console.log("Task sent for rework");
+  };
+
+
+  const isProjectManager = user?.team === 'Project Manager';
+
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1 no-scrollbar">
@@ -112,17 +126,21 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
           </div>
         </div>
       </ScrollArea>
-      <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
-        {task.status !== 'In Progress' && task.status !== 'Completed' && (
-          <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-            Start
-          </Button>
-        )}
-        {task.status === 'In Progress' && (
-          <Button onClick={handleCompleteTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-            Mark as Complete
-          </Button>
-        )}
+      <div className="p-6 mt-auto border-t md:border-0">
+          {isProjectManager && task.status === 'ongoing' ? (
+              <div className="flex gap-4">
+                  <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
+                  <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+              </div>
+          ) : !isProjectManager && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
+              <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                  Start
+              </Button>
+          ) : !isProjectManager && task.status === 'In Progress' ? (
+              <Button onClick={handleCompleteTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                  Mark as Complete
+              </Button>
+          ) : null}
       </div>
     </div>
   );
