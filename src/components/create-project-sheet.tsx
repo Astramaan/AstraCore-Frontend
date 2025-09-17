@@ -372,7 +372,7 @@ const ProjectTimelineForm = ({
 }) => {
     const { toast } = useToast();
     const [startDate, setStartDate] = useState<Date | undefined>();
-    const [stageDurations, setStageDurations] = useState<{ [key: string]: string }>({});
+    const [isPending, startTransition] = useTransition();
 
     const [state, formAction] = useActionState(isEditMode ? updateProject : addProject, null);
 
@@ -388,14 +388,12 @@ const ProjectTimelineForm = ({
         }
     }, [state, onFormSuccess, toast]);
 
-    const handleDurationChange = (taskName: string, stageName: string, subStageName: string, duration: string) => {
-        const key = `${stageName}-${subStageName}-${taskName}`;
-        setStageDurations(prev => ({ ...prev, [key]: duration }));
-    }
-
     return (
         <>
-            <form action={formAction} className="flex flex-col h-full">
+            <form
+                action={formAction}
+                className="flex flex-col h-full"
+            >
                 <input type="hidden" name="projectData" value={JSON.stringify(projectData)} />
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
@@ -426,7 +424,7 @@ const ProjectTimelineForm = ({
                                                 />
                                             </PopoverContent>
                                         </Popover>
-                                        <input type="hidden" name="startDate" value={startDate?.toISOString()} />
+                                        <input type="hidden" name="startDate" value={startDate?.toISOString() || ''} />
                                     </div>
                                 </div>
                             </div>
@@ -434,16 +432,19 @@ const ProjectTimelineForm = ({
                             <Accordion type="multiple" defaultValue={initialTimelineData.map(s => s.name)} className="w-full space-y-4">
                                 {initialTimelineData.map((stage, stageIndex) => (
                                     <AccordionItem key={stage.name} value={stage.name} className="bg-background rounded-3xl px-6">
+                                        <input type="hidden" name={`stage_${stageIndex}_name`} value={stage.name} />
                                         <AccordionTrigger className="text-xl font-semibold hover:no-underline">{stage.name}</AccordionTrigger>
                                         <AccordionContent>
                                             <Accordion type="multiple" defaultValue={stage.subStages.map(ss => ss.name)} className="w-full space-y-2">
                                                 {stage.subStages.map((subStage, subStageIndex) => (
                                                     <AccordionItem key={subStage.name} value={subStage.name} className="border-b-0">
+                                                        <input type="hidden" name={`substage_${stageIndex}_${subStageIndex}_name`} value={subStage.name} />
                                                         <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">{subStage.name}</AccordionTrigger>
                                                         <AccordionContent className="pl-4">
                                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                                 {subStage.tasks.map((task, taskIndex) => (
                                                                     <div key={task.name} className="space-y-2">
+                                                                        <input type="hidden" name={`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`} value={task.name} />
                                                                         <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
                                                                         <Input
                                                                             name={`duration_${stageIndex}_${subStageIndex}_${taskIndex}`}
@@ -469,8 +470,8 @@ const ProjectTimelineForm = ({
                     <Button type="button" variant="outline" className="px-10 h-14 text-lg rounded-full" onClick={onBack}>
                         Back
                     </Button>
-                    <Button type="submit" className="px-10 h-14 text-lg rounded-full">
-                         {isEditMode ? 'Save Changes' : 'Create Project'}
+                    <Button type="submit" className="px-10 h-14 text-lg rounded-full" disabled={isPending}>
+                         {isPending ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create Project')}
                     </Button>
                 </div>
             </form>
