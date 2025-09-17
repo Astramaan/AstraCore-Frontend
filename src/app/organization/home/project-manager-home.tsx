@@ -276,7 +276,7 @@ export default function ProjectManagerHome() {
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                            <SelectTrigger className="rounded-full bg-white h-[54px] px-4">
+                            <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
                                 <SelectValue placeholder="Select a Project" />
                             </SelectTrigger>
                             <SelectContent>
@@ -404,3 +404,4 @@ export default function ProjectManagerHome() {
 
 
     
+
