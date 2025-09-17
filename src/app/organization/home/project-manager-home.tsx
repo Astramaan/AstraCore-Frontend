@@ -67,7 +67,7 @@ const meetings: Meeting[] = [
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priority = stage.status === 'ongoing' || stage.status === 'upcoming' ? 'High' : 'Low';
+    const priority = stage.status === 'ongoing' || stage.status === 'pending' ? 'High' : 'Low';
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
         "High": "bg-red-500/10 text-red-500",
@@ -102,8 +102,8 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             </div>
             <div className="flex justify-between items-center">
                  <div className="flex items-center gap-2">
-                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                     <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
                 <div className="text-right flex items-center gap-2">
                     <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
@@ -242,6 +242,7 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
 
 
 
