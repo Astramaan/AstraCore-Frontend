@@ -31,7 +31,7 @@ export const OrganizationBottomNav = () => {
     } else if (user?.team === 'Project Manager') {
         navItems.push({ href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" });
     } else {
-        // Default for other roles if needed
+        // Fallback for other roles, assuming they might need vendors
         navItems.push({ href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" });
     }
 
