@@ -18,6 +18,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { AssignTaskSheet } from '@/components/assign-task-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
+import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 
 // Data for Project Manager Home
 interface Stage {
@@ -165,7 +166,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, onToggleShowCompleted, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, showCompleted: boolean, onToggleShowCompleted: () => void, onOpenUpcomingTasks: () => void }) => {
+const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const filteredTasks = useMemo(() => {
         let tasks = project.tasks;
         if (activeFilter) {
@@ -173,15 +174,14 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, on
                 if (activeFilter === 'High Priority') return task.priority === 'High';
                 if (activeFilter === 'In Progress') return task.status === 'ongoing';
                 if (activeFilter === 'Pending') return task.status === 'pending' || task.status === 'upcoming';
-                if (activeFilter === 'Completed') return task.status === 'completed';
                 return true;
             });
         }
-        else if (!showCompleted) {
+        else {
           tasks = tasks.filter(task => task.status !== 'completed');
         }
         return tasks;
-    }, [activeFilter, project.tasks, showCompleted]);
+    }, [activeFilter, project.tasks]);
 
     return (
       <div className="space-y-4">
@@ -212,12 +212,12 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, on
             </div>
         </div>
         <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
-             <Button
+            <Button
                 variant="outline"
-                onClick={onToggleShowCompleted}
+                onClick={onOpenCompletedTasks}
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary"
             >
-                {showCompleted ? "Hide" : "Show"} Completed Project Tasks
+                Show Completed Project Tasks
             </Button>
             <Button
                 variant="outline"
@@ -245,7 +245,7 @@ export default function ProjectManagerHome() {
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
     const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
-    const [showCompleted, setShowCompleted] = useState(false);
+    const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -287,6 +287,7 @@ export default function ProjectManagerHome() {
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
     const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'upcoming' || stage.status === 'pending'), []);
+    const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
     return (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -312,10 +313,9 @@ export default function ProjectManagerHome() {
                         <ProjectSection 
                             project={selectedProject} 
                             onStageClick={handleStageClick} 
-                            activeFilter={activeFilter} 
-                            showCompleted={showCompleted}
-                            onToggleShowCompleted={() => setShowCompleted(!showCompleted)}
-                             onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
+                            activeFilter={activeFilter}
+                            onOpenCompletedTasks={() => setIsCompletedTasksSheetOpen(true)}
+                            onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
                         />
                     )}
                 </div>
@@ -407,6 +407,12 @@ export default function ProjectManagerHome() {
                 isOpen={isUpcomingTasksSheetOpen}
                 onClose={() => setIsUpcomingTasksSheetOpen(false)}
                 tasks={upcomingTasks}
+                onTaskClick={handleStageClick}
+            />
+            <ViewCompletedTasksSheet
+                isOpen={isCompletedTasksSheetOpen}
+                onClose={() => setIsCompletedTasksSheetOpen(false)}
+                tasks={completedTasks}
                 onTaskClick={handleStageClick}
             />
         </div>
