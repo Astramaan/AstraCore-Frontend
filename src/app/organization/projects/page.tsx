@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical, ShieldAlert } from "lucide-react";
 import React, { useState, useEffect } from 'react';
-import { AddProjectSheet } from "@/components/add-project-sheet";
+import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { getProjects, Project } from "@/lib/data";
@@ -242,7 +242,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
             <div>
                  <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl text-black font-medium">Active Projects</h2>
-                    <AddProjectSheet 
+                    <CreateProjectSheet 
                         onProjectAdded={handleProjectAdded} 
                         projectToEdit={projectToEdit}
                         onProjectUpdated={handleProjectUpdated}

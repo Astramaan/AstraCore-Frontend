@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, use } from 'react';
@@ -10,7 +11,7 @@ import { ProjectMaterialsCard } from '@/components/project-materials-card';
 import { TimelineDialog } from '@/components/timeline-dialog';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { getProjectDetails, Project } from '@/lib/data';
-import { AddProjectSheet } from '@/components/add-project-sheet';
+import { CreateProjectSheet } from '@/components/create-project-sheet';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -194,7 +195,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
             </div>
-             <AddProjectSheet 
+             <CreateProjectSheet 
                 projectToEdit={projectToEdit}
                 onProjectUpdated={handleProjectUpdated}
                 onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)} onProjectAdded={function (project: Project): void {
