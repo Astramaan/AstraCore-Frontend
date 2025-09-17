@@ -294,7 +294,15 @@ export default function ProjectManagerHome() {
                         <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} showCompleted={showCompleted} />
                     )}
                 </div>
-                
+                 <div className="text-center mb-4">
+                    <Button
+                        variant="outline"
+                        onClick={() => setShowCompleted(!showCompleted)}
+                        className="rounded-full"
+                    >
+                        {showCompleted ? "Hide" : "Show"} Completed Project Tasks
+                    </Button>
+                </div>
                 <div className="text-center mt-6">
                     <Button
                         variant="outline"
@@ -351,15 +359,7 @@ export default function ProjectManagerHome() {
                             </DropdownMenu>
                         </div>
                     </div>
-                    <div className="text-center mb-4">
-                        <Button
-                            variant="outline"
-                            onClick={() => setShowCompleted(!showCompleted)}
-                            className="rounded-full"
-                        >
-                            {showCompleted ? "Hide" : "Show"} Completed Project Tasks
-                        </Button>
-                    </div>
+                   
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
@@ -414,6 +414,7 @@ export default function ProjectManagerHome() {
 
 
     
+
 
 
 
