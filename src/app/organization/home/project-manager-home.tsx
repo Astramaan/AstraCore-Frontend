@@ -119,7 +119,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-background rounded-[50px] p-4 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -131,7 +131,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 </a>
               </div>
             </div>
-            <div className="bg-background rounded-[50px] p-4 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
