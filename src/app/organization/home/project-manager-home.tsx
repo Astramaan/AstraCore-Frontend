@@ -94,13 +94,13 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    <Badge className={priorityColors[priority]}>{priority}</Badge>
+                    <Badge className={stage.status === 'completed' ? 'bg-green-100 text-green-600' : priorityColors[priority]}>{stage.status === 'completed' ? 'Completed' : priority}</Badge>
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                 <div className="flex justify-between items-center mt-2">
-                    <div className="flex items-center gap-2">
+                     <div className="flex items-center gap-2">
                         <Badge className={cn(statusColor)}>{statusText}</Badge>
-                        {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
+                         {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-[50px] p-4 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] p-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -128,7 +128,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-[50px] p-4 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] p-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
