@@ -312,7 +312,6 @@ export default function ProjectManagerHome() {
                         View all upcoming project tasks
                     </Button>
                 </div>
-
                  <div className="mt-8">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
                         <h2 className="text-xl font-medium text-left">My Task</h2>
