@@ -34,6 +34,10 @@ export const OrganizationBottomNav = () => {
     }
 
     const accessibleNavItems = navItems.filter(item => {
+        if (user.role === 'superAdmin') {
+            return true;
+        }
+
         const userRole = user.role || '';
         const userTeam = user.team || '';
         
