@@ -61,15 +61,6 @@ const meetings: Meeting[] = [
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const statusStyles = {
-        ongoing: "text-cyan-500 border-cyan-500",
-        upcoming: "text-muted-foreground border-gray-300",
-        completed: "text-green-600 border-green-600",
-        pending: "text-yellow-600 border-yellow-600"
-    };
-
-    const showApprovalUI = stage.status === 'ongoing' && stage.siteImages && stage.siteImages.length > 0;
-    
     const priority = stage.status === 'ongoing' ? 'High' : stage.status === 'upcoming' ? 'Medium' : 'Low';
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
@@ -140,9 +131,11 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
               </div>
             </div>
           </div>
-          {project.tasks.map((stage) => (
-            <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
-          ))}
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {project.tasks.map((stage) => (
+                <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
+            ))}
+           </div>
         </CollapsibleContent>
       </Collapsible>
     );
