@@ -28,22 +28,23 @@ export const OrganizationBottomNav = () => {
     if (loading) {
         return null; // Or a loading skeleton
     }
+    
+    if (!user) {
+        // Don't render the nav if there is no user
+        return null;
+    }
 
     const userRole = user?.role;
     const userTeam = user?.team;
 
     const accessibleNavItems = navItems.filter(item => {
-        if (!userRole) return false; // Don't show anything if user is not logged in
-        
-        // The roles array can contain either a roleType or a team name.
+        // The roles array can contain a role (e.g., 'superAdmin') or a team name (e.g., 'Project Manager')
         const lowerCaseRoles = item.roles.map(r => r.toLowerCase());
         
         return lowerCaseRoles.includes(userRole.toLowerCase()) || (userTeam && lowerCaseRoles.includes(userTeam.toLowerCase()));
     });
-
+    
     if (accessibleNavItems.length === 0) {
-        // If for some reason no items are accessible, don't render the nav bar
-        // This can happen briefly during logout/login transitions
         return null;
     }
 
