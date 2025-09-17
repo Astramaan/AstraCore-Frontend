@@ -97,7 +97,6 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
                 <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                     <Badge className={cn(statusColor)}>{statusText}</Badge>
                 </div>
             </div>
@@ -106,6 +105,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                     {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
                 <div className="text-right flex items-center gap-2">
+                    <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                     <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
                 </div>
             </div>
@@ -242,5 +242,6 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
 
 
