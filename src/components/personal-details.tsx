@@ -126,7 +126,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
         if (user) {
             Object.entries(user).forEach(([key, value]) => {
                 if(!formDataObj.has(key)) {
-                    formDataObj.append(key, value);
+                    formDataObj.append(key, value as string);
                 }
             });
         }

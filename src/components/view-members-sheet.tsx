@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -161,15 +160,11 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
 
     const confirmDeactivation = async () => {
         if (memberToDeactivate && user) {
-            const headers = new Headers();
-            Object.entries(user).forEach(([key, value]) => {
-                headers.append(key, value as string);
-            });
             
             try {
                 const res = await fetch('/api/users', {
                     method: 'DELETE',
-                    headers: headers,
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userId: memberToDeactivate.id })
                 });
 
