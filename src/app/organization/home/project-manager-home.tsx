@@ -37,6 +37,9 @@ const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low' },
     { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: '28 May 2024', description: 'Begin excavation as per the approved site plan.', priority: 'High' },
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '29 May 2024', description: 'Mark the grid lines for foundation work.', priority: 'Low' },
+    { id: 6, title: 'Foundation Work', subtitle: 'Sub-structure', category: 'Civil', image: 'https://picsum.photos/seed/foundation/100/100', duration: '5 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '30 May 2024', description: 'Lay the foundation for the structure.', priority: 'High' },
+    { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium' },
+    { id: 8, title: 'Roofing', subtitle: 'Exterior', category: 'Roofing', image: 'https://picsum.photos/seed/roofing/100/100', duration: '3 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '12 June 2024', description: 'Install roofing materials.', priority: 'Low' },
 ];
 
 const projectsData = [
@@ -95,17 +98,21 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    {stage.status !== 'completed' && <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>}
-                </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                 <div className="flex justify-between items-center mt-2">
+            <div className="flex justify-between items-start">
+                <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                {stage.status !== 'completed' ? (
+                     <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
+                ) : (
                     <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
-                </div>
+                )}
             </div>
+            <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
+                {stage.status !== 'completed' && 
+                    <div className="flex justify-between items-center mt-2">
+                        <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
+                        {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
+                    </div>
+                }
             <div className="flex justify-between items-center mt-auto">
                  <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
@@ -134,7 +141,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter }: { project: type
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-[50px] p-6 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -146,7 +153,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter }: { project: type
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-[50px] p-6 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -315,5 +322,7 @@ export default function ProjectManagerHome() {
     );
 }
 
+
+    
 
     
