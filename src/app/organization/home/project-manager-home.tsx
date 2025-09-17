@@ -67,12 +67,11 @@ const meetings: Meeting[] = [
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priority = stage.status === 'ongoing' || stage.status === 'pending' ? 'High' : 'Low';
+    const priority = stage.status === 'upcoming' ? 'Low' : stage.status === 'ongoing' || stage.status === 'pending' ? 'High' : 'Low';
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
         "High": "bg-red-500/10 text-red-500",
     }
-    const needsApproval = stage.status === 'ongoing';
     
     const { text: statusText, color: statusColor } = useMemo(() => {
         switch (stage.status) {
@@ -87,6 +86,8 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
         }
     }, [stage.status]);
 
+    const needsApproval = stage.status === 'ongoing';
+
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
@@ -96,14 +97,14 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                     <Badge className={priorityColors[priority]}>{priority}</Badge>
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                <div className="flex items-center gap-2 mt-2">
+                <div className="flex items-center justify-between mt-2">
                     <Badge className={cn(statusColor)}>{statusText}</Badge>
+                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
             </div>
             <div className="flex justify-between items-center">
                  <div className="flex items-center gap-2">
                     <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
                 <div className="text-right flex items-center gap-2">
                     <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
@@ -242,8 +243,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-
-
-
-
