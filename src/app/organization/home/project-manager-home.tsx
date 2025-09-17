@@ -297,7 +297,7 @@ export default function ProjectManagerHome() {
                 <div className="text-center mt-6">
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white"
+                        className="rounded-full bg-white h-[54px]"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
                         View all upcoming project tasks
@@ -336,5 +336,7 @@ export default function ProjectManagerHome() {
     );
 }
 
+
+    
 
     
