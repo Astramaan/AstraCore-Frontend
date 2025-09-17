@@ -14,7 +14,7 @@ import { useUser } from '@/context/user-context';
 
 
 export const OrganizationBottomNav = () => {
-    const { user } = useUser();
+    const { user, loading } = useUser();
     const pathname = usePathname();
 
     const navItems = [
@@ -25,7 +25,27 @@ export const OrganizationBottomNav = () => {
         { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors", roles: ['superAdmin', 'Project Manager'] },
     ];
     
-    const accessibleNavItems = user ? navItems.filter(item => item.roles.includes(user.role)) : navItems.slice(0,3);
+    if (loading) {
+        return null; // Or a loading skeleton
+    }
+
+    const userRole = user?.role;
+    const userTeam = user?.team;
+
+    const accessibleNavItems = navItems.filter(item => {
+        if (!userRole) return false; // Don't show anything if user is not logged in
+        
+        // The roles array can contain either a roleType or a team name.
+        const lowerCaseRoles = item.roles.map(r => r.toLowerCase());
+        
+        return lowerCaseRoles.includes(userRole.toLowerCase()) || (userTeam && lowerCaseRoles.includes(userTeam.toLowerCase()));
+    });
+
+    if (accessibleNavItems.length === 0) {
+        // If for some reason no items are accessible, don't render the nav bar
+        // This can happen briefly during logout/login transitions
+        return null;
+    }
 
 
     return (
