@@ -23,7 +23,7 @@ export const OrganizationBottomNav = () => {
         { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
     ];
     
-    let navItems = [...baseNavItems];
+    const navItems = [...baseNavItems];
 
     if (user?.roleType === 'superAdmin') {
         navItems.push({ href: "/organization/leads", icon: LeadsIcon, label: "Leads" });
