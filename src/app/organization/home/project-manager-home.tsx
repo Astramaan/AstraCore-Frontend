@@ -15,6 +15,7 @@ import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 
 // Data for Project Manager Home
 interface Stage {
@@ -99,8 +100,8 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    {needsApproval && (
-                         <Badge className={cn("capitalize", priorityColors['High'])}>High</Badge>
+                    {stage.status !== 'completed' && (
+                         <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
                     )}
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
@@ -180,6 +181,7 @@ export default function ProjectManagerHome() {
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
     const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
+    const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -220,6 +222,7 @@ export default function ProjectManagerHome() {
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
+    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'upcoming' || stage.status === 'pending'), []);
 
     return (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -290,6 +293,16 @@ export default function ProjectManagerHome() {
                         <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} />
                     )}
                 </div>
+
+                <div className="text-center mt-6">
+                    <Button
+                        variant="outline"
+                        className="rounded-full bg-white"
+                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
+                    >
+                        View all upcoming project tasks
+                    </Button>
+                </div>
             </main>
             <HomeAside
               meetings={meetings}
@@ -313,6 +326,15 @@ export default function ProjectManagerHome() {
                   meeting={selectedMeeting}
               />
           )}
+           <ViewUpcomingTasksSheet 
+                isOpen={isUpcomingTasksSheetOpen}
+                onClose={() => setIsUpcomingTasksSheetOpen(false)}
+                tasks={upcomingTasks}
+                onTaskClick={handleStageClick}
+            />
         </div>
     );
 }
+
+
+    
