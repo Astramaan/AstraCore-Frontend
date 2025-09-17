@@ -1,7 +1,7 @@
 
 import { NextResponse } from "next/server";
 
-const API_BASE_URL = "https://astramaan-be-1.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
 export async function POST(req: Request) {
   try {

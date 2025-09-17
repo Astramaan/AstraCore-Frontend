@@ -4,7 +4,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const API_BASE_URL = "https://astramaan-be-1.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
 export async function login(prevState: any, formData: FormData) {
   try {
