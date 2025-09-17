@@ -100,12 +100,13 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-2">
                         <Badge className={cn(statusColor)}>{statusText}</Badge>
+                        <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                         {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                     </div>
                 </div>
             </div>
             <div className="flex justify-between items-center">
-                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                 <div />
                 <div className="text-right flex items-center gap-2">
                     <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
                 </div>
@@ -118,7 +119,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-zinc-100 rounded-[30px] p-4 flex justify-between items-center">
+            <div className="bg-zinc-100 rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -130,7 +131,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 </a>
               </div>
             </div>
-            <div className="bg-zinc-100 rounded-[30px] p-4 flex justify-between items-center">
+            <div className="bg-zinc-100 rounded-[50px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -201,7 +202,7 @@ export default function ProjectManagerHome() {
                     <h2 className="text-xl font-medium">My Tasks</h2>
                     <div className="w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                            <SelectTrigger className="rounded-full bg-white h-[54px]">
+                            <SelectTrigger className="rounded-full bg-white h-[54px] px-4">
                                 <SelectValue placeholder="Select a Project" />
                             </SelectTrigger>
                             <SelectContent>
