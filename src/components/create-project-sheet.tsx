@@ -31,13 +31,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 import { addProject } from '@/app/actions';
 
 const mockArchitects = [
-    { value: "darshan@habi.one", label: "Darshan" },
+    { value: "554cee57f2f634d9", label: "Darshan" },
     { value: "anil@habi.one", label: "Anil Kumar" },
     { value: "yaswanth@habi.one", label: "Yaswanth" },
 ];
 
 const mockSupervisors = [
-    { value: "supervisor1", label: "Supervisor 1" },
+    { value: "55e79200c1635b37", label: "Supervisor 1" },
     { value: "supervisor2", label: "Supervisor 2" },
     { value: "supervisor3", label: "Supervisor 3" },
 ];
@@ -76,18 +76,18 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
 )
 
 const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (data: any) => void, projectToEdit: Project | null, projectData: any }) => {
-    const [name, setName] = useState(projectToEdit?.name || projectData?.name || '');
-    const [clientId, setClientId] = useState(projectToEdit?.id || projectData?.clientId || '');
-    const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.phone || '');
-    const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.email || '');
-    const [currentLocation, setCurrentLocation] = useState(projectData?.currentLocation || '');
-    const [projectCost, setProjectCost] = useState(projectData?.projectCost || '');
-    const [dimension, setDimension] = useState(projectData?.dimension || '');
-    const [floor, setFloor] = useState(projectData?.floor || '');
-    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.siteLocation || '');
-    const [siteLocationLink, setSiteLocationLink] = useState(projectData?.siteLocationLink || '');
-    const [architect, setArchitect] = useState(projectData?.architect || '');
-    const [siteSupervisor, setSiteSupervisor] = useState(projectData?.siteSupervisor || '');
+    const [name, setName] = useState(projectToEdit?.name || projectData?.customerDetails?.name || '');
+    const [clientId, setClientId] = useState(projectToEdit?.id || projectData?.customerDetails?.clientId || '');
+    const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
+    const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
+    const [currentLocation, setCurrentLocation] = useState(projectData?.customerDetails?.currentLocation || '');
+    const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
+    const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
+    const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
+    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.projectDetails?.siteLocation || '');
+    const [siteLocationLink, setSiteLocationLink] = useState(projectData?.projectDetails?.siteLink || '');
+    const [architect, setArchitect] = useState(projectData?.projectAssign?.architect || '');
+    const [siteSupervisor, setSiteSupervisor] = useState(projectData?.projectAssign?.siteSupervisor || '');
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
     const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
@@ -119,18 +119,24 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const formData = {
-            name,
-            clientId,
-            phone,
-            email,
-            currentLocation,
-            projectCost,
-            dimension,
-            floor,
-            siteLocation,
-            siteLocationLink,
-            architect,
-            siteSupervisor
+            customerDetails: {
+                name: name,
+                email: email,
+                phoneNumber: phone,
+                currentLocation: currentLocation,
+                clientId: clientId
+            },
+            projectDetails: {
+                projectCost: projectCost,
+                dimension: dimension,
+                floor: floor,
+                siteLocation: siteLocation,
+                siteLink: siteLocationLink
+            },
+            projectAssign: {
+                architect: architect,
+                siteSupervisor: siteSupervisor
+            }
         };
         onNext(formData);
     };
@@ -396,7 +402,7 @@ const ProjectTimelineForm = ({
             timeline.push(newStage);
         });
 
-        const fullData = { ...projectData, timeline, startDate: startDate?.toISOString() };
+        const fullData = { ...projectData, stages: timeline, startDate: startDate?.toISOString() };
 
         startTransition(async () => {
             const result = await addProject(fullData);
