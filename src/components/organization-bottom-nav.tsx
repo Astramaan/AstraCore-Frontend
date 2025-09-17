@@ -22,10 +22,18 @@ export const OrganizationBottomNav = () => {
         { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings" },
         { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
     ];
+    
+    let navItems = [...baseNavItems];
 
-    const navItems = user?.roleType === 'superAdmin' 
-        ? [...baseNavItems, { href: "/organization/leads", icon: LeadsIcon, label: "Leads" }, { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" }]
-        : [...baseNavItems, { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" }];
+    if (user?.roleType === 'superAdmin') {
+        navItems.push({ href: "/organization/leads", icon: LeadsIcon, label: "Leads" });
+        navItems.push({ href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" });
+    } else if (user?.team === 'Project Manager') {
+        navItems.push({ href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" });
+    } else {
+        // Default for other roles if needed
+        navItems.push({ href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" });
+    }
 
 
     return (
