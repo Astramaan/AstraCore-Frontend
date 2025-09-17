@@ -128,7 +128,7 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
             </div>
           </div>
         </ScrollArea>
-        <div className="p-6 mt-auto border-t md:border-0">
+        <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
             {isProjectManager && task.status === 'ongoing' ? (
                 <div className="flex gap-4">
                     <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
