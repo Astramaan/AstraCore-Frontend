@@ -1,7 +1,6 @@
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
@@ -19,6 +18,7 @@ import type { Meeting } from '@/components/meeting-details-sheet';
 import type { Task } from '@/components/task-details-sheet';
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // Data for Project Manager Home
 interface Stage {
@@ -50,6 +50,15 @@ const projectsData = [
     architect: "Darshan",
     architectPhone: "1234567890",
     tasks: allStages
+  },
+  {
+    id: "SAT2025",
+    name: "Satish Project",
+    siteSupervisor: "Priya",
+    siteSupervisorPhone: "9876543210",
+    architect: "Anil",
+    architectPhone: "1234567890",
+    tasks: allStages.slice(0, 2)
   }
 ];
 
@@ -94,17 +103,8 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
 
 const ProjectSection = ({ project, onStageClick }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void }) => {
     return (
-      <Collapsible defaultOpen={true}>
-        <div className="bg-zinc-100 rounded-[30px] p-4 flex justify-between items-center">
-          <h3 className="text-lg font-semibold">{project.name}</h3>
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <ChevronsUpDown className="h-4 w-4" />
-            </Button>
-          </CollapsibleTrigger>
-        </div>
-        <CollapsibleContent className="space-y-4 pt-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-white rounded-[30px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
@@ -135,8 +135,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
             ))}
            </div>
-        </CollapsibleContent>
-      </Collapsible>
+      </div>
     );
   };
 
@@ -145,6 +144,7 @@ export default function ProjectManagerHome() {
     const [selectedStage, setSelectedStage] = useState<Stage | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
+    const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
 
     const handleStageClick = (stage: Stage) => {
         setSelectedStage(stage);
@@ -177,14 +177,30 @@ export default function ProjectManagerHome() {
         console.log("New task assigned:", newTask);
     };
 
+    const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
+
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                <h2 className="text-xl font-medium">My Tasks</h2>
+                 <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-medium">My Tasks</h2>
+                    <div className="w-64">
+                         <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
+                            <SelectTrigger className="rounded-full bg-white h-12">
+                                <SelectValue placeholder="Select a Project" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {projectsData.map(project => (
+                                    <SelectItem key={project.id} value={project.id}>{project.name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
                 <div className="space-y-4">
-                    {projectsData.map((project) => (
-                        <ProjectSection key={project.id} project={project} onStageClick={handleStageClick} />
-                    ))}
+                    {selectedProject && (
+                        <ProjectSection project={selectedProject} onStageClick={handleStageClick} />
+                    )}
                 </div>
             </main>
             <HomeAside
