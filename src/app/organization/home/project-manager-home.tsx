@@ -99,7 +99,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
                     {stage.status === 'completed' ? (
-                       <Badge className={statusColor}>Completed</Badge>
+                       <Badge className={cn("capitalize", statusColor)}>Completed</Badge>
                     ) : (
                        <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
                     )}
@@ -269,6 +269,10 @@ export default function ProjectManagerHome() {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
+                </div>
+
+                <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-medium">My Tasks</h2>
                      <div className="w-full lg:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4">
@@ -281,10 +285,6 @@ export default function ProjectManagerHome() {
                             </SelectContent>
                         </Select>
                     </div>
-                </div>
-
-                <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-medium">My Tasks</h2>
                 </div>
 
                 <div className="space-y-4">
@@ -318,9 +318,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-    
-
-    
-
-
