@@ -215,7 +215,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, on
             <Button
                 variant="outline"
                 onClick={onToggleShowCompleted}
-                className="rounded-full"
+                className="rounded-full bg-white h-[54px]"
             >
                 {showCompleted ? "Hide" : "Show"} Completed Project Tasks
             </Button>
