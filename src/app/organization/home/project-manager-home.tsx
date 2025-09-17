@@ -212,7 +212,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, on
             </div>
         </div>
         <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
-            <Button
+             <Button
                 variant="outline"
                 onClick={onToggleShowCompleted}
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary"
@@ -413,5 +413,7 @@ export default function ProjectManagerHome() {
     );
 }
 
+
+    
 
     
