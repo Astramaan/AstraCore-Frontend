@@ -129,7 +129,6 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                  <a href={`tel:${project.siteSupervisorPhone}`}>
                   <Button variant="outline" className="rounded-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
                 </a>
-                <Button variant="outline" className="rounded-full text-destructive"><User className="h-4 w-4 mr-2" />Profile</Button>
               </div>
             </div>
             <div className="bg-white rounded-[20px] p-4 flex justify-between items-center">
@@ -141,7 +140,6 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                  <a href={`tel:${project.architectPhone}`}>
                   <Button variant="outline" className="rounded-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
                 </a>
-                <Button variant="outline" className="rounded-full text-destructive"><User className="h-4 w-4 mr-2" />Profile</Button>
               </div>
             </div>
           </div>
