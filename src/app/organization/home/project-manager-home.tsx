@@ -8,12 +8,13 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { HomeAside } from '@/components/home-aside';
 import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
-import { ChevronsUpDown, User, MessageCircle, Phone } from 'lucide-react';
+import { ChevronsUpDown, User, MessageCircle, Phone, SlidersHorizontal, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { Meeting } from '@/components/meeting-details-sheet';
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 // Data for Project Manager Home
 interface Stage {
@@ -65,18 +66,21 @@ const meetings: Meeting[] = [
     { type: 'client', name: "Internal Sync", city: "Remote", id: "INT2025", time: "6:00 PM", date: "10 August 2024", link: "https://meet.google.com/ghi-rst", email: 'internal@sync.com', phone: '1122334455' },
 ];
 
+type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
+
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priority = stage.status === 'upcoming' ? 'Low' : stage.status === 'ongoing' || stage.status === 'pending' ? 'High' : 'Low';
+    const priority = stage.priority;
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
+        "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
-    }
+    };
     
     const { text: statusText, color: statusColor } = useMemo(() => {
         switch (stage.status) {
             case 'completed':
-                return { text: 'Completed', color: 'bg-green-100 text-green-600' };
+                return { text: 'Completed', color: 'bg-green-100 text-green-700' };
             case 'ongoing':
                 return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
             case 'upcoming':
@@ -95,7 +99,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
                     {stage.status === 'completed' ? (
-                       <Badge className={'bg-green-100 text-green-600'}>Completed</Badge>
+                       <Badge className={statusColor}>Completed</Badge>
                     ) : (
                        <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
                     )}
@@ -116,7 +120,21 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void }) => {
+const ProjectSection = ({ project, onStageClick, activeFilter }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType }) => {
+    const filteredTasks = useMemo(() => {
+        let tasks = project.tasks;
+        if (activeFilter) {
+            tasks = tasks.filter(task => {
+                if (activeFilter === 'High Priority') return task.priority === 'High';
+                if (activeFilter === 'In Progress') return task.status === 'ongoing';
+                if (activeFilter === 'Pending') return task.status === 'pending' || task.status === 'upcoming';
+                if (activeFilter === 'Completed') return task.status === 'completed';
+                return true;
+            });
+        }
+        return tasks;
+    }, [activeFilter, project.tasks]);
+
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -146,7 +164,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
             </div>
           </div>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {project.tasks.map((stage) => (
+            {filteredTasks.map((stage) => (
                 <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
             ))}
            </div>
@@ -160,6 +178,13 @@ export default function ProjectManagerHome() {
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
+    const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+    const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
+
+
+    const handleFilterClick = (filter: FilterType) => {
+        setActiveFilter(activeFilter === filter ? null : filter);
+    };
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
@@ -199,9 +224,52 @@ export default function ProjectManagerHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                 <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-medium">My Tasks</h2>
-                    <div className="w-64">
+                 <div className="flex flex-col lg:flex-row justify-between items-center mb-6 gap-4">
+                    {/* Desktop Filters */}
+                    <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                            <Button
+                                key={filter}
+                                variant="outline"
+                                className={cn(
+                                    "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                                    activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                                )}
+                                onClick={() => handleFilterClick(filter as FilterType)}
+                            >
+                                {filter}
+                                {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                            </Button>
+                        ))}
+                    </div>
+
+                    {/* Mobile/Tablet Filter Dropdown */}
+                    <div className="flex lg:hidden justify-between items-center w-full">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
+                                    Filter
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                                    All (exclude completed)
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
+                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
+                                        <div className="w-4 mr-2">
+                                        {activeFilter === option && <Check className="h-4 w-4" />}
+                                        </div>
+                                        {option}
+                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                     <div className="w-full lg:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4">
                                 <SelectValue placeholder="Select a Project" />
@@ -214,9 +282,14 @@ export default function ProjectManagerHome() {
                         </Select>
                     </div>
                 </div>
+
+                <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-medium">My Tasks</h2>
+                </div>
+
                 <div className="space-y-4">
                     {selectedProject && (
-                        <ProjectSection project={selectedProject} onStageClick={handleStageClick} />
+                        <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} />
                     )}
                 </div>
             </main>
@@ -249,4 +322,5 @@ export default function ProjectManagerHome() {
     
 
     
+
 
