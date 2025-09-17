@@ -75,7 +75,7 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
     </div>
 )
 
-const AddProjectForm = ({ onNext, projectToEdit }: { onNext: () => void, projectToEdit: Project | null }) => {
+const AddProjectForm = ({ onNext, projectToEdit }: { onNext: (data: any) => void, projectToEdit: Project | null }) => {
     const [name, setName] = useState(projectToEdit?.name || '');
     const [clientId, setClientId] = useState(projectToEdit?.id || '');
     const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || '');
@@ -119,7 +119,22 @@ const AddProjectForm = ({ onNext, projectToEdit }: { onNext: () => void, project
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onNext();
+        const formData = {
+            name,
+            clientId,
+            phone,
+            email,
+            currentLocation,
+            projectCost,
+            status,
+            dimension,
+            floor,
+            siteLocation,
+            siteLocationLink,
+            architect,
+            siteSupervisor
+        };
+        onNext(formData);
     };
 
     return (
@@ -412,6 +427,7 @@ const ProjectTimelineForm = ({
     selectedTemplateId,
     setSelectedTemplateId,
     isEditMode,
+    projectData,
 }: {
     onFormSuccess: () => void;
     onBack: () => void;
@@ -420,6 +436,7 @@ const ProjectTimelineForm = ({
     selectedTemplateId: string;
     setSelectedTemplateId: (id: string) => void;
     isEditMode: boolean;
+    projectData: any;
 }) => {
     const { toast } = useToast();
     const action = isEditMode ? updateProject : addProject;
@@ -468,10 +485,27 @@ const ProjectTimelineForm = ({
         if (selectedTemplateId === 'custom_new') return;
         setIsCustomTimelineDialogOpen(true);
     };
+    
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const timelineFormData = new FormData(event.currentTarget);
+        const timelineData: { [key: string]: string } = {};
+        timelineFormData.forEach((value, key) => {
+            timelineData[key] = value as string;
+        });
+
+        const fullData = { ...projectData, ...timelineData };
+        
+        const dataForAction = new FormData();
+        for (const key in fullData) {
+            dataForAction.append(key, fullData[key]);
+        }
+        formAction(dataForAction);
+    };
 
     return (
         <>
-            <form action={formAction} className="flex flex-col h-full">
+            <form onSubmit={handleSubmit} className="flex flex-col h-full">
                 <input type="hidden" name="startDate" value={startDate?.toISOString() ?? ''} />
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
@@ -723,6 +757,7 @@ export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProj
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState(1);
+    const [projectData, setProjectData] = useState<any>(null);
     
     const [templates, setTemplates] = useState<TimelineTemplate[]>([
         { id: 'design', name: 'Only Design (Architectural)', stages: initialDesignStages },
@@ -754,7 +789,10 @@ export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProj
         // You would call onProjectAdded or onProjectUpdated here with the new/updated project data
     };
 
-    const handleNext = () => setStep(2);
+    const handleNext = (data: any) => {
+        setProjectData(data);
+        setStep(2);
+    };
     const handleBack = () => setStep(1);
 
     const DialogOrSheet = Sheet;
@@ -815,6 +853,7 @@ export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProj
                                 selectedTemplateId={selectedTemplateId}
                                 setSelectedTemplateId={setSelectedTemplateId}
                                 isEditMode={isEditMode}
+                                projectData={projectData}
                             />
                         )}
                     </div>
@@ -829,3 +868,4 @@ export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProj
         </>
     );
 }
+
