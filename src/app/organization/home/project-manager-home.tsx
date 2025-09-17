@@ -93,26 +93,22 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     }, [stage.status]);
 
     const needsApproval = stage.status === 'ongoing';
-    const showPriority = priority === 'High' || needsApproval;
-
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
-            <div className="flex justify-between items-start">
-                <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                {stage.status === 'completed' ? (
-                     <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                ) : showPriority ? (
-                    <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
-                ) : null}
+            <div>
+                <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                    {stage.priority === 'High' && stage.status !== 'completed' && (
+                         <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
+                    )}
+                </div>
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
+                <div className="flex justify-between items-center mt-2">
+                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
+                    {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
+                </div>
             </div>
-            <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                {stage.status !== 'completed' && 
-                    <div className="flex justify-between items-center mt-2">
-                        <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                        {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
-                    </div>
-                }
             <div className="flex justify-between items-center mt-auto">
                  <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
@@ -228,49 +224,47 @@ export default function ProjectManagerHome() {
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
                  <div className="flex flex-col lg:flex-row justify-between items-center mb-6 gap-4">
-                    <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
-                        <div className="hidden lg:flex items-center gap-4">
-                            {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                                <Button
-                                    key={filter}
-                                    variant="outline"
-                                    className={cn(
-                                        "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                                        activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                                    )}
-                                    onClick={() => handleFilterClick(filter as FilterType)}
-                                >
-                                    {filter}
-                                    {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                </Button>
-                            ))}
-                        </div>
+                    <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
+                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                            <Button
+                                key={filter}
+                                variant="outline"
+                                className={cn(
+                                    "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                                    activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                                )}
+                                onClick={() => handleFilterClick(filter as FilterType)}
+                            >
+                                {filter}
+                                {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                            </Button>
+                        ))}
+                    </div>
 
-                        <div className="flex lg:hidden justify-between items-center w-full">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
-                                        <SlidersHorizontal className="mr-2 h-4 w-4" />
-                                        Filter
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start">
-                                    <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
-                                        All (exclude completed)
+                    <div className="flex lg:hidden justify-between items-center w-full">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
+                                    Filter
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                                    All (exclude completed)
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
+                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
+                                        <div className="w-4 mr-2">
+                                        {activeFilter === option && <Check className="h-4 w-4" />}
+                                        </div>
+                                        {option}
+                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
                                     </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
-                                        <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
-                                            <div className="w-4 mr-2">
-                                            {activeFilter === option && <Check className="h-4 w-4" />}
-                                            </div>
-                                            {option}
-                                            {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
 
