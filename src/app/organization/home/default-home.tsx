@@ -198,7 +198,7 @@ export default function DefaultHomePage() {
 
                 <div>
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-medium">My Tasks</h2>
+                        <h2 className="text-xl font-medium">Project Task</h2>
                         {canFilterProjects && (
                         <div className="w-48">
                             <Select value={selectedProject} onValueChange={setSelectedProject}>
