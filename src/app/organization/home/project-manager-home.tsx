@@ -7,16 +7,10 @@ import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { HomeAside } from '@/components/home-aside';
-import { SnagDetailsSheet, Snag } from '@/components/snag-details-sheet';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
 import { ChevronsUpDown, User, MessageCircle, Phone } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { Meeting } from '@/components/meeting-details-sheet';
-import type { Task } from '@/components/task-details-sheet';
 import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -35,11 +29,13 @@ interface Stage {
     snagCount?: number;
     createdBy: string;
     createdAt: string;
+    description: string;
+    priority: 'Low' | 'Medium' | 'High';
 }
 const allStages: Stage[] = [
-    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024' },
-    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: '28 May 2024' },
-    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '29 May 2024' },
+    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low' },
+    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: '28 May 2024', description: 'Begin excavation as per the approved site plan.', priority: 'High' },
+    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '29 May 2024', description: 'Mark the grid lines for foundation work.', priority: 'Low' },
 ];
 
 const projectsData = [
@@ -144,40 +140,42 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
 
 
 export default function ProjectManagerHome() {
-    const [selectedStage, setSelectedStage] = useState<Stage | null>(null);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
 
     const handleStageClick = (stage: Stage) => {
-        setSelectedStage(stage);
+        const task: Task = {
+            id: stage.id.toString(),
+            title: stage.title,
+            description: stage.description,
+            date: stage.createdAt,
+            priority: stage.priority,
+            status: stage.status,
+            category: stage.category,
+            project: selectedProject?.name || 'Unknown Project',
+            clientId: selectedProject?.id || 'Unknown',
+            attachments: stage.siteImages?.map(img => ({type: 'image', name: 'site-image.png', url: img})) || []
+        };
+        setSelectedTask(task);
         setIsSheetOpen(true);
     };
 
     const handleSheetClose = () => {
         setIsSheetOpen(false);
-        setSelectedStage(null);
+        setSelectedTask(null);
     };
-
-    const dummySnag: Snag | null = selectedStage ? {
-        id: `snag-${selectedStage.id}`,
-        title: selectedStage.title,
-        description: `Details about the stage: ${selectedStage.subtitle}`,
-        createdBy: selectedStage.createdBy,
-        createdAt: selectedStage.createdAt,
-        status: 'Open',
-        subStatus: '',
-        statusColor: 'text-red-500',
-        images: selectedStage.siteImages || [],
-        projectId: 'CHA2024',
-        projectName: 'Charan Project'
-    } : null;
 
     const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
     const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
-        // This is a placeholder. In a real app, you'd update your state.
         console.log("New task assigned:", newTask);
+    };
+
+    const handleUpdateTask = (updatedTask: Task) => {
+      setSelectedTask(updatedTask);
+      // Here you would update the actual data source
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
@@ -213,13 +211,12 @@ export default function ProjectManagerHome() {
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
             />
-            {dummySnag && (
-                <SnagDetailsSheet
+            {selectedTask && (
+                <TaskDetailsSheet
                     isOpen={isSheetOpen}
                     onClose={handleSheetClose}
-                    snag={dummySnag}
-                    onDelete={() => console.log('delete')}
-                    onUpdate={(snag) => console.log('update', snag)}
+                    task={selectedTask}
+                    onUpdateTask={handleUpdateTask}
                 />
             )}
              {selectedMeeting && (
@@ -232,3 +229,4 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
