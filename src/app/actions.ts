@@ -307,5 +307,3 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
-
-    
