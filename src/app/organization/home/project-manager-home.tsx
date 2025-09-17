@@ -73,6 +73,20 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
         "High": "bg-red-500/10 text-red-500",
     }
     const needsApproval = stage.status === 'ongoing';
+    
+    const { text: statusText, color: statusColor } = useMemo(() => {
+        switch (stage.status) {
+            case 'completed':
+                return { text: 'Completed', color: 'bg-green-100 text-green-600' };
+            case 'ongoing':
+                return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
+            case 'upcoming':
+            case 'pending':
+            default:
+                return { text: 'Not Yet', color: 'bg-yellow-100 text-yellow-600' };
+        }
+    }, [stage.status]);
+
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
@@ -85,11 +99,8 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             </div>
             <div className="flex justify-between items-center">
                 <div className="flex items-center">
-                    <div className="flex -space-x-2">
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                    </div>
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                     <Badge className={cn("ml-2", statusColor)}>{statusText}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
                     {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
@@ -104,7 +115,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-[30px] p-4 flex justify-between items-center">
+            <div className="bg-zinc-100 rounded-[30px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -116,7 +127,7 @@ const ProjectSection = ({ project, onStageClick }: { project: typeof projectsDat
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-[30px] p-4 flex justify-between items-center">
+            <div className="bg-zinc-100 rounded-[30px] p-4 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
