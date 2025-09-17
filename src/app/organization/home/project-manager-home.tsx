@@ -165,7 +165,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, showCompleted: boolean }) => {
+const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted, onToggleShowCompleted }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, showCompleted: boolean, onToggleShowCompleted: () => void }) => {
     const filteredTasks = useMemo(() => {
         let tasks = project.tasks;
         if (activeFilter) {
@@ -210,12 +210,21 @@ const ProjectSection = ({ project, onStageClick, activeFilter, showCompleted }: 
                 </a>
               </div>
             </div>
-          </div>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        </div>
+        <div className="text-center mt-6">
+            <Button
+                variant="outline"
+                onClick={onToggleShowCompleted}
+                className="rounded-full"
+            >
+                {showCompleted ? "Hide" : "Show"} Completed Project Tasks
+            </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredTasks.map((stage) => (
                 <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
             ))}
-           </div>
+        </div>
       </div>
     );
   };
@@ -293,17 +302,14 @@ export default function ProjectManagerHome() {
 
                 <div className="space-y-4">
                     {selectedProject && (
-                        <ProjectSection project={selectedProject} onStageClick={handleStageClick} activeFilter={activeFilter} showCompleted={showCompleted} />
+                        <ProjectSection 
+                            project={selectedProject} 
+                            onStageClick={handleStageClick} 
+                            activeFilter={activeFilter} 
+                            showCompleted={showCompleted}
+                            onToggleShowCompleted={() => setShowCompleted(!showCompleted)}
+                        />
                     )}
-                </div>
-                 <div className="text-center mt-6">
-                    <Button
-                        variant="outline"
-                        onClick={() => setShowCompleted(!showCompleted)}
-                        className="rounded-full"
-                    >
-                        {showCompleted ? "Hide" : "Show"} Completed Project Tasks
-                    </Button>
                 </div>
                  <div className="text-center mt-6">
                     <Button
@@ -407,4 +413,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
