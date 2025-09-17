@@ -76,7 +76,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     const { text: statusText, color: statusColor } = useMemo(() => {
         switch (stage.status) {
             case 'completed':
-                return { text: 'Completed', color: 'bg-green-100 text-green-600' };
+                return { text: 'Completed', color: 'bg-cyan-500/10 text-cyan-500' };
             case 'ongoing':
                 return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
             case 'upcoming':
@@ -97,16 +97,14 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                     <Badge className={priorityColors[priority]}>{priority}</Badge>
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-            </div>
-            <div className="flex justify-between items-end">
-                <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                <div className="flex justify-between items-center mt-2">
+                    <Badge className={cn(statusColor)}>{statusText}</Badge>
                     {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
-                <div className="flex flex-col items-end gap-1">
-                    <Badge className={cn(statusColor)}>{statusText}</Badge>
-                    <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
-                </div>
+            </div>
+            <div className="flex justify-end items-center gap-2">
+                <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
             </div>
         </Card>
     );
@@ -241,4 +239,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
