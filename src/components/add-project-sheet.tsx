@@ -772,7 +772,7 @@ export function AddProjectSheet({ trigger, onProjectAdded, projectToEdit, onProj
     const DefaultTrigger = (
         <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
             <PlusCircle className="mr-2 h-5 w-5" />
-            Add Project
+            Create project
         </Button>
     );
 
