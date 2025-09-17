@@ -102,7 +102,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                     {needsApproval && <Badge className="bg-orange-100 text-orange-600">Needs Approval</Badge>}
                 </div>
             </div>
-            <div className="flex justify-end items-center gap-2">
+            <div className="flex justify-between items-center mt-auto">
                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
             </div>
