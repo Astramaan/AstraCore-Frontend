@@ -55,7 +55,7 @@ const ClientBottomNav = () => {
 
 export default function LeadHomePage({ params }: { params: { organizationId: string, leadId: string } }) {
     return (
-        <div className="bg-zinc-100 min-h-screen pb-32">
+        <div className="bg-zinc-100 min-h-screen pb-4">
             
             <main>
                 <div className="max-w-[1240px] mx-auto py-8 px-4">
@@ -74,7 +74,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 hidden md:block"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-20rem)] h-px bg-gray-300 -z-0 hidden md:block"></div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
@@ -83,7 +83,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                                 </div>
                             </div>
                              <div className="relative">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 hidden md:block"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-20rem)] h-px bg-gray-300 -z-0 hidden md:block"></div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
