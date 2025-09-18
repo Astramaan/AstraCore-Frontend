@@ -211,6 +211,8 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     // For now, it defaults to the logged-in user's data.
     const member = user; // Simplified for now.
 
+    const isOwner = user?.userId === memberId;
+
     const handleSave = (updatedMember: any) => {
         // Here you would refresh the user context or refetch data if needed
         setIsEditing(false);
@@ -240,22 +242,24 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                         {/* Mobile and Tablet Layout */}
                         <div className="flex lg:hidden items-center md:justify-between gap-4 w-full">
                             <Image src={initialMemberData.avatar} alt={member.name} width={100} height={100} className="rounded-full" data-ai-hint="person portrait"/>
-                            <div className="flex flex-col gap-2 md:items-end">
-                                 <DialogOrSheetTrigger asChild>
-                                    <Button className="md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
-                                        <Edit className="mr-2 h-4 w-4" />
-                                        Edit Profile
-                                    </Button>
-                                </DialogOrSheetTrigger>
-                                <ChangePasswordDialog 
-                                    email={member.email} 
-                                    trigger={
-                                        <Button variant="outline" className="md:w-56 h-12 rounded-full bg-background text-black hover:bg-muted text-base font-medium">
-                                            Change Password
+                            {isOwner && (
+                                <div className="flex flex-col gap-2 md:items-end">
+                                    <DialogOrSheetTrigger asChild>
+                                        <Button className="md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
+                                            <Edit className="mr-2 h-4 w-4" />
+                                            Edit Profile
                                         </Button>
-                                    }
-                                />
-                            </div>
+                                    </DialogOrSheetTrigger>
+                                    <ChangePasswordDialog 
+                                        email={member.email} 
+                                        trigger={
+                                            <Button variant="outline" className="md:w-56 h-12 rounded-full bg-background text-black hover:bg-muted text-base font-medium">
+                                                Change Password
+                                            </Button>
+                                        }
+                                    />
+                                </div>
+                            )}
                         </div>
 
                          {/* Desktop Layout */}
@@ -297,15 +301,17 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                 <p className="text-black text-base md:text-lg leading-tight">{initialMemberData.address}</p>
                             </div>
                         </div>
-                         <div className="hidden lg:flex flex-col space-y-4 lg:pl-8">
-                            <DialogOrSheetTrigger asChild>
-                                <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20">
-                                    <Edit className="mr-2 h-5 w-5" />
-                                    Edit Profile
-                                </Button>
-                            </DialogOrSheetTrigger>
-                            <ChangePasswordDialog email={member.email} />
-                        </div>
+                         {isOwner && (
+                            <div className="hidden lg:flex flex-col space-y-4 lg:pl-8">
+                                <DialogOrSheetTrigger asChild>
+                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20">
+                                        <Edit className="mr-2 h-5 w-5" />
+                                        Edit Profile
+                                    </Button>
+                                </DialogOrSheetTrigger>
+                                <ChangePasswordDialog email={member.email} />
+                            </div>
+                        )}
                     </div>
                 </CardContent>
             </Card>
