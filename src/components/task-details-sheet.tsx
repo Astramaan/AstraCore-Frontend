@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { ShieldAlert } from 'lucide-react';
+import { useToast } from './ui/use-toast';
 
 
 export interface Task {
@@ -95,31 +96,103 @@ const AttachmentViewerDialog = ({ attachment, onClose }: { attachment: Task['att
     );
 };
 
+const UploadAttachmentsDialog = ({ isOpen, onClose, onUpload }: { isOpen: boolean, onClose: () => void, onUpload: (files: File[]) => void }) => {
+    const [attachments, setAttachments] = useState<File[]>([]);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+          setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
+        }
+    };
+    
+    const handleRemoveFile = (index: number) => {
+        setAttachments(prev => prev.filter((_, i) => i !== index));
+    };
+    
+    const handleSubmit = () => {
+        onUpload(attachments);
+        onClose();
+    }
+
+    return (
+        <Dialog open={isOpen} onOpenChange={onClose}>
+            <DialogContent className="sm:max-w-md rounded-[50px] p-0">
+                <DialogHeader className="p-6">
+                    <DialogTitle className="flex justify-between items-center">
+                        <span className="text-xl">Upload Attachments</span>
+                        <DialogClose asChild>
+                            <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
+                                <X className="h-5 w-5" />
+                            </Button>
+                        </DialogClose>
+                    </DialogTitle>
+                </DialogHeader>
+                <div className="px-6 pb-6 space-y-4">
+                    <div
+                        className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background cursor-pointer"
+                        onClick={() => fileInputRef.current?.click()}
+                    >
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            className="hidden"
+                            multiple
+                        />
+                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                            <UploadCloud className="w-6 h-6 text-gray-500" />
+                        </div>
+                        <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
+                        <p className="text-xs text-gray-400">JPG, PNG, PDF • Up to 10Mb</p>
+                    </div>
+                     {attachments.length > 0 && (
+                        <div className="space-y-2 pt-4">
+                            <p className="text-sm font-medium">Attached files:</p>
+                            <div className="space-y-2">
+                                {attachments.map((file, index) => (
+                                    <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
+                                        <div className="flex items-center gap-2">
+                                            <Paperclip className="h-4 w-4" />
+                                            <span className="text-sm truncate">{file.name}</span>
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-6 w-6"
+                                            onClick={() => handleRemoveFile(index)}
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    <Button onClick={handleSubmit} className="w-full h-14 rounded-full text-lg" disabled={attachments.length === 0}>
+                        Submit Attachments
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    )
+}
 
 const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpdateTask: (task: Task) => void; onClose: () => void; }) => {
   const { user } = useUser();
+  const { toast } = useToast();
   const priorityColors: { [key: string]: string } = {
     "Low": "bg-cyan-500/10 text-cyan-500",
     "Medium": "bg-yellow-500/10 text-yellow-500",
     "High": "bg-red-500/10 text-red-500",
   };
   
-  const [attachments, setAttachments] = useState<File[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedAttachment, setSelectedAttachment] = useState<Task['attachments'][0] | null>(null);
   const [isReworkSheetOpen, setIsReworkSheetOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
-    }
-  };
-  
-  const handleRemoveFile = (index: number) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index));
-  };
 
   const handleStartTask = () => {
     onUpdateTask({ ...task, status: 'In Progress' });
@@ -146,6 +219,14 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
       console.log("Deleting task:", task.id);
       setIsDeleteDialogOpen(false);
       onClose(); // Close sheet after deletion
+  }
+
+  const handleAttachmentsUploaded = (files: File[]) => {
+      console.log("Uploaded files:", files);
+      toast({
+          title: "Attachments Uploaded",
+          description: `${files.length} file(s) have been attached to the task.`,
+      })
   }
 
 
@@ -175,10 +256,10 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
             </div>
         )
     }
-     if (task.status === 'In Progress') {
+     if (task.status === 'In Progress' && !task.isProjectTask) {
          return (
              <div className="flex gap-4">
-                <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
+                <Button onClick={() => setIsUploadDialogOpen(true)} variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
                     Upload Attachments
                 </Button>
                 <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
@@ -198,15 +279,18 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
     }
     
     if (task.isAssigned) {
-        return (
-            <div className="flex gap-4">
-                <Button variant="outline" onClick={() => setIsDeleteDialogOpen(true)} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
-                    <Trash2 className="mr-2 h-4 w-4"/>
-                    Delete
-                </Button>
-                <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-            </div>
-        )
+        const showApproveDelete = (user?.roleType === 'superAdmin' || isProjectManager || isArchitect);
+        if (showApproveDelete) {
+            return (
+                <div className="flex gap-4">
+                    <Button variant="outline" onClick={() => setIsDeleteDialogOpen(true)} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
+                        <Trash2 className="mr-2 h-4 w-4"/>
+                        Delete
+                    </Button>
+                    <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                </div>
+            )
+        }
     }
      
      return null;
@@ -253,52 +337,6 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
                 </div>
               )}
             </div>
-             {!task.isProjectTask && task.status === 'In Progress' && (
-              <div className="space-y-2 mt-6">
-                  <p className="text-lg text-stone-500">Attach Files</p>
-                  <div
-                      className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background cursor-pointer"
-                      onClick={() => fileInputRef.current?.click()}
-                  >
-                      <input
-                          type="file"
-                          ref={fileInputRef}
-                          onChange={handleFileChange}
-                          className="hidden"
-                          multiple
-                      />
-                      <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                          <UploadCloud className="w-6 h-6 text-gray-500" />
-                      </div>
-                      <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
-                      <p className="text-xs text-gray-400">JPG, PNG, PDF • Up to 10Mb</p>
-                  </div>
-                    {attachments.length > 0 && (
-                      <div className="space-y-2 pt-4">
-                          <p className="text-sm font-medium">Attached files:</p>
-                          <div className="space-y-2">
-                              {attachments.map((file, index) => (
-                                  <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
-                                      <div className="flex items-center gap-2">
-                                          <Paperclip className="h-4 w-4" />
-                                          <span className="text-sm truncate">{file.name}</span>
-                                      </div>
-                                      <Button
-                                          type="button"
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-6 w-6"
-                                          onClick={() => handleRemoveFile(index)}
-                                      >
-                                          <X className="h-4 w-4" />
-                                      </Button>
-                                  </div>
-                              ))}
-                          </div>
-                      </div>
-                  )}
-              </div>
-            )}
           </div>
         </ScrollArea>
         <div className="p-6 mt-auto border-t md:border-0">
@@ -333,6 +371,11 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+        <UploadAttachmentsDialog 
+            isOpen={isUploadDialogOpen}
+            onClose={() => setIsUploadDialogOpen(false)}
+            onUpload={handleAttachmentsUploaded}
+        />
     </>
   );
 };
