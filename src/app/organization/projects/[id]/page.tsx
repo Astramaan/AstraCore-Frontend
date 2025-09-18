@@ -26,6 +26,7 @@ import { deleteProject } from "@/app/actions";
 import { ShieldAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
+import { useUser } from '@/context/user-context';
 
 
 const mockProject = {
@@ -107,6 +108,7 @@ const mockProject = {
 
 export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
     const { id } = use(params);
+    const { user } = useUser();
     const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -167,6 +169,8 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
     const handleProjectUpdated = (updatedProject: Project) => {
         setProject(prev => prev ? { ...prev, ...updatedProject } : null);
     };
+    
+    const canViewPayments = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
 
     return (
         <div className="space-y-6">
@@ -187,7 +191,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                      <div className="flex flex-col gap-2 bg-zinc-100 p-1 rounded-full">
                         <div className="flex flex-1 gap-2">
                            <TimelineDialog />
-                           <PaymentsDialog />
+                           {canViewPayments && <PaymentsDialog />}
                         </div>
                         <DesignDocumentsDialog files={project.files} />
                     </div>
