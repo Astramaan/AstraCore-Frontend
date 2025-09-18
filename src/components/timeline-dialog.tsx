@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useUser } from '@/context/user-context';
 
 const projectTeam = [
     {
@@ -67,6 +68,8 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
 
 export const TimelineDialog = () => {
     const isMobile = useIsMobile();
+    const { user } = useUser();
+
     const DialogOrSheet = isMobile ? Sheet : Dialog;
     const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
     const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
@@ -74,6 +77,12 @@ export const TimelineDialog = () => {
     const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
     const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
 
+    const visibleTeamMembers = projectTeam.filter(member => {
+        if (user?.team === 'Project Manager') {
+            return member.role !== 'Project Manager';
+        }
+        return true;
+    });
 
   return (
     <DialogOrSheet>
@@ -99,14 +108,16 @@ export const TimelineDialog = () => {
         </DialogOrSheetHeader>
          <ScrollArea className="flex-1">
             <div className="p-6 space-y-6">
-                <Card className="border-none shadow-none">
-                    <CardHeader className="p-0">
-                        <CardTitle>Team</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0 mt-4">
-                        {projectTeam.map(member => <TeamMemberCard key={member.role} member={member} />)}
-                    </CardContent>
-                </Card>
+                {user?.roleType === 'superAdmin' && (
+                    <Card className="border-none shadow-none">
+                        <CardHeader className="p-0">
+                            <CardTitle>Team</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0 mt-4">
+                            {visibleTeamMembers.map(member => <TeamMemberCard key={member.role} member={member} />)}
+                        </CardContent>
+                    </Card>
+                )}
                 <ProjectTimelineStages />
             </div>
         </ScrollArea>
