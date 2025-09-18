@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -25,6 +24,7 @@ import type { Meeting } from './edit-meeting-sheet';
 import { Switch } from './ui/switch';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { ScrollArea } from './ui/scroll-area';
+import { Badge } from './ui/badge';
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -56,7 +56,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
     const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | ''>('');
-    const [members, setMembers] = React.useState('');
+    const [members, setMembers] = React.useState<string[]>([]);
     const [time, setTime] = React.useState('');
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
@@ -108,6 +108,14 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             alert("Please fill all required fields.");
         }
     }
+    
+    const toggleMember = (memberId: string) => {
+        setMembers(prev => 
+            prev.includes(memberId) 
+                ? prev.filter(id => id !== memberId)
+                : [...prev, memberId]
+        );
+    }
 
 
     return (
@@ -121,18 +129,25 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                    <Label htmlFor="add-members" className={cn("text-lg font-medium", members.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
                     <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
                         <PopoverTrigger asChild>
                             <Button
                                 variant="outline"
                                 role="combobox"
                                 aria-expanded={memberComboboxOpen}
-                                className="w-full justify-between h-14 bg-background rounded-full"
+                                className="w-full justify-between h-auto min-h-14 bg-background rounded-full flex-wrap"
                             >
-                                {members
-                                    ? mockMembers.find((member) => member.id === members)?.name
-                                    : "Select a team member..."}
+                                <div className="flex gap-1 flex-wrap">
+                                    {members.length > 0
+                                        ? members.map(memberId => (
+                                            <Badge key={memberId} variant="secondary" className="gap-1" onClick={(e) => { e.stopPropagation(); toggleMember(memberId); }}>
+                                                {mockMembers.find((member) => member.id === memberId)?.name}
+                                                <X className="h-3 w-3"/>
+                                            </Badge>
+                                        ))
+                                        : "Select team members..."}
+                                </div>
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
@@ -145,16 +160,13 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                         {mockMembers.map((member) => (
                                             <CommandItem
                                                 key={member.id}
-                                                value={member.id}
-                                                onSelect={(currentValue) => {
-                                                    setMembers(currentValue === members ? "" : currentValue)
-                                                    setMemberComboboxOpen(false)
-                                                }}
+                                                value={member.name}
+                                                onSelect={() => toggleMember(member.id)}
                                             >
                                                 <Check
                                                     className={cn(
                                                         "mr-2 h-4 w-4",
-                                                        members === member.id ? "opacity-100" : "opacity-0"
+                                                        members.includes(member.id) ? "opacity-100" : "opacity-0"
                                                     )}
                                                 />
                                                 {member.name}
@@ -375,4 +387,3 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </Sheet>
   );
 }
-
