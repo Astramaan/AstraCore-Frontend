@@ -200,17 +200,7 @@ export default function ProjectDetailsPage({ params }: { params: { organizationI
                            {canViewPayments ? <PaymentsDialog /> : <DesignDocumentsDialog files={project.files} />}
                         </div>
                         {canViewPayments && <DesignDocumentsDialog files={project.files} />}
-                        <Link href={`/organization/${organizationId}/projects/${id}/client`} legacyBehavior>
-                            <a target="_blank" className="w-full">
-                                <Button
-                                    variant="link"
-                                    className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
-                                >
-                                    <Eye className="mr-2 h-5 w-5" />
-                                    View Client Version
-                                </Button>
-                            </a>
-                        </Link>
+                        
                     </div>
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
@@ -247,7 +237,3 @@ export default function ProjectDetailsPage({ params }: { params: { organizationI
         </div>
     );
 }
-
-    
-
-    
