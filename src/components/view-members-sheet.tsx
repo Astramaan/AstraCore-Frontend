@@ -46,23 +46,13 @@ export interface Role {
     members: Member[];
 }
 
-const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (member: Member) => void; }) => {
+const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamName: string; onDeactivate: (member: Member) => void; }) => {
     const { toast } = useToast();
     const { user } = useUser();
     
     const handlePasswordReset = async () => {
         const formData = new FormData();
         formData.append('email', member.email);
-        if (user) {
-             const headers = new Headers();
-             Object.entries(user).forEach(([key, value]) => {
-                headers.append(key, value as string);
-            });
-            // This is a conceptual example. In a real app, you'd pass headers to your fetch call.
-            // Server actions don't directly support custom headers like this.
-            // A custom fetch wrapper would be needed.
-            console.log("Would make request with headers:", Object.fromEntries(headers.entries()));
-        }
         
         const result = await requestPasswordReset(null, formData);
 
@@ -75,6 +65,11 @@ const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (m
         }
     };
     
+    const canManage = user && (
+        user.roleType === 'superAdmin' ||
+        (user.team === teamName && user.roleType === 'admin')
+    );
+
     return (
         <>
             <div className="flex justify-between items-start py-4 gap-4">
@@ -124,10 +119,14 @@ const MemberCard = ({ member, onDeactivate }: { member: Member; onDeactivate: (m
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                          <DropdownMenuItem asChild><Link href={`/organization/teams/${member.id}`}>View Details</Link></DropdownMenuItem>
-                        <DropdownMenuItem onSelect={handlePasswordReset}>Change Password</DropdownMenuItem>
-                        <AlertDialogTrigger asChild>
-                            <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
-                        </AlertDialogTrigger>
+                         {canManage && (
+                             <>
+                                <DropdownMenuItem onSelect={handlePasswordReset}>Change Password</DropdownMenuItem>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
+                                </AlertDialogTrigger>
+                             </>
+                         )}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
@@ -217,7 +216,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                 <ScrollArea className="flex-1">
                     <div className="p-6">
                         {members.length > 0 ? (
-                            members.map((member) => <MemberCard key={member.id} member={member} onDeactivate={handleDeactivateClick} />)
+                            members.map((member) => <MemberCard key={member.id} member={member} teamName={role.name} onDeactivate={handleDeactivateClick} />)
                         ) : (
                             <div className="text-center text-muted-foreground py-10">
                                 No members in this role yet.
