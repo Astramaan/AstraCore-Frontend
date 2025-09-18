@@ -52,23 +52,6 @@ const leadsData: Lead[] = [
     },
 ];
 
-const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
-    <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
-        <div className="flex-1">
-            <p className="text-base font-medium">{meeting.name}</p>
-            <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
-        </div>
-        <div className="text-right">
-            <p className="text-sm font-medium">{meeting.time}</p>
-            <p className="text-sm text-muted-foreground">{meeting.date}</p>
-        </div>
-        <div className="flex flex-col items-center gap-1 pl-4">
-            <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
-            <GoogleMeetIcon className="w-5 h-5" />
-        </div>
-    </Card>
-);
-
 const LeadCard = ({ lead, onViewDetails }: { lead: Lead, onViewDetails: (lead: Lead) => void }) => (
     <div className="p-4 border rounded-[40px] flex items-center gap-4 cursor-pointer hover:bg-muted/10" onClick={() => onViewDetails(lead)}>
         <div className="w-20 h-20 bg-muted rounded-3xl" />
@@ -117,15 +100,6 @@ export default function SalesHome() {
                     <SalesStatCard title="New Leads" value="32" icon={<Users className="w-5 h-5"/>} change="+5 this week" />
                     <SalesStatCard title="Meetings Scheduled" value="12" icon={<Calendar className="w-5 h-5"/>} change="+2 this week" />
                     <SalesStatCard title="Conversion Rate" value="25%" icon={<TrendingUp className="w-5 h-5"/>} change="+1.5% this month" />
-                </div>
-
-                 <div>
-                    <h2 className="text-xl font-medium mb-4">New Leads</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {leadsData.map(lead => (
-                            <LeadCard key={lead.leadId} lead={lead} onViewDetails={handleLeadClick} />
-                        ))}
-                    </div>
                 </div>
             </main>
 
