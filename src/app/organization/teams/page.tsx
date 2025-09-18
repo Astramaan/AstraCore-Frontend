@@ -232,7 +232,7 @@ export default function TeamsPage() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                     <CreateDepartmentSheet />
+                     {user?.roleType === 'superAdmin' && <CreateDepartmentSheet />}
                      <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
                         <ChevronLeft className="mr-2 h-4 w-4" />
                         Back
