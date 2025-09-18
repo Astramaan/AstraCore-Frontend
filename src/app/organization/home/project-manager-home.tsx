@@ -223,7 +223,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-[50px] px-6 py-4 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] py-4 px-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -281,6 +281,7 @@ export default function ProjectManagerHome() {
         const task: Task = {
             id: stage.id.toString(),
             title: stage.title,
+            subtitle: stage.subtitle,
             description: stage.description,
             date: stage.createdAt,
             priority: stage.priority,
@@ -415,7 +416,7 @@ export default function ProjectManagerHome() {
             />
             {selectedTask && (
                 <TaskDetailsSheet
-                    isOpen={isSheetOpen}
+                    isOpen={isSheetOpen || !!selectedTask}
                     onClose={handleSheetClose}
                     task={selectedTask}
                     onUpdateTask={handleUpdateTask}
@@ -468,6 +469,7 @@ export default function ProjectManagerHome() {
     
 
     
+
 
 
 

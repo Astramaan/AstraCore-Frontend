@@ -34,6 +34,7 @@ export interface Task {
   attachments: { type: 'pdf' | 'image', name: string, url: string }[];
   completedDate?: string;
   isProjectTask?: boolean;
+  subtitle?: string;
 }
 
 interface TaskDetailsSheetProps {
@@ -145,7 +146,14 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6 space-y-6">
             <div className="space-y-8">
-              <DetailRow label={task.isProjectTask ? 'Sub-task' : 'Title'} value={task.title} />
+              {task.isProjectTask ? (
+                <>
+                  <DetailRow label="Task" value={task.title} />
+                  <DetailRow label="Sub-task" value={task.subtitle || ''} />
+                </>
+              ) : (
+                <DetailRow label="Title" value={task.title} />
+              )}
               <DetailRow label="Project" value={task.project} />
               <DetailRow label="Client ID" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.clientId}</Badge>} />
               <DetailRow label={task.isProjectTask ? "Stage" : "Category"} value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
