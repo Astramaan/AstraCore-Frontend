@@ -53,8 +53,8 @@ const projectsData = [
     name: "Charan Project",
     siteSupervisor: "Yaswanth",
     siteSupervisorPhone: "9876543210",
-    architect: "Darshan",
-    architectPhone: "1234567890",
+    projectManager: "Priya",
+    projectManagerPhone: "1234567890",
     tasks: allStages
   },
   {
@@ -62,8 +62,8 @@ const projectsData = [
     name: "Satish Project",
     siteSupervisor: "Priya",
     siteSupervisorPhone: "9876543210",
-    architect: "Anil",
-    architectPhone: "1234567890",
+    projectManager: "Anil",
+    projectManagerPhone: "1234567890",
     tasks: allStages.slice(0, 2)
   }
 ];
@@ -225,12 +225,12 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
             </div>
             <div className="bg-white rounded-[50px] py-4 px-6 flex justify-between items-center">
               <div>
-                <p className="text-sm text-muted-foreground">Architect</p>
-                <p className="font-semibold">{project.architect}</p>
+                <p className="text-sm text-muted-foreground">Project Manager</p>
+                <p className="font-semibold">{project.projectManager}</p>
               </div>
                <div className="flex gap-2">
                  <Button variant="outline" className="rounded-full"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
-                 <a href={`tel:${project.architectPhone}`}>
+                 <a href={`tel:${project.projectManagerPhone}`}>
                   <Button variant="outline" className="rounded-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
                 </a>
               </div>
