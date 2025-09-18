@@ -17,7 +17,7 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
 
 export default function LeadHomePage({ params }: { params: { organizationId: string, leadId: string } }) {
     return (
-        <div className="bg-zinc-100 min-h-screen -m-4">
+        <div className="bg-zinc-100 min-h-screen">
             <aside className="w-48 fixed top-0 left-0 h-full bg-slate-50 border-r border-stone-300 flex-col hidden md:flex">
                 <div className="p-4 pt-8 flex justify-center">
                     <HabiLogo />
@@ -133,5 +133,3 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
         </div>
     )
 }
-
-    
