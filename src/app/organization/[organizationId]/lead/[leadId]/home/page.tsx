@@ -5,6 +5,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube } from 'lucide-react';
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center">
@@ -15,32 +17,49 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
     </div>
 )
 
+const ClientBottomNav = () => {
+    const navItems = [
+        { href: `#`, icon: Home, label: "Home" },
+        { href: `#`, icon: Award, label: "Packages" },
+        { href: `#`, icon: GanttChartSquare, label: "Portfolio" },
+        { href: `#`, icon: User, label: "Profile" },
+    ];
+
+    const pathname = ''; // Placeholder
+
+    return (
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
+             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
+                <div className="flex items-center justify-around md:justify-center md:gap-4">
+                    {navItems.map((item) => {
+                        const isActive = item.label === 'Home'; // Simplified for this page
+                        return (
+                             <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
+                                <div className={cn(
+                                    "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
+                                    "lg:gap-2.5 md:py-3 rounded-full min-w-max",
+                                    "h-16 w-16 md:h-12 md:w-auto px-1 md:px-4 lg:h-[54px]",
+                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
+                                )}>
+                                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
+                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
+                                </div>
+                            </Link>
+                        )
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export default function LeadHomePage({ params }: { params: { organizationId: string, leadId: string } }) {
     return (
-        <div className="bg-zinc-100 min-h-screen">
-            <aside className="w-48 fixed top-0 left-0 h-full bg-white border-r border-stone-300 flex-col hidden md:flex">
-                <div className="p-4 pt-8 flex justify-center">
-                    <HabiLogo />
-                </div>
-                <nav className="flex-grow px-4 mt-8">
-                    <ul className="space-y-2">
-                        <li className="relative">
-                            <a href="#" className="flex items-center gap-3 text-lg p-3 rounded-l-[10px] text-primary bg-primary/10">
-                                <Home className="h-6 w-6 text-primary" />
-                                <span>Home</span>
-                            </a>
-                            <div className="absolute left-0 top-0 h-full w-[5px] bg-primary rounded-tr-[3px] rounded-br-[3px]" />
-                        </li>
-                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><Award className="h-6 w-6"/><span>Packages</span></a></li>
-                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><GanttChartSquare className="h-6 w-6"/><span>Portfolio</span></a></li>
-                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><User className="h-6 w-6"/><span>Profile</span></a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <main className="md:ml-48">
+        <div className="bg-zinc-100 min-h-screen pb-32 md:pb-40">
+            
+            <main>
                 <div className="max-w-[1240px] mx-auto py-8 px-4">
-                    <Card className="w-full p-4 md:p-8 bg-white shadow-lg rounded-2xl flex flex-col justify-center items-center">
+                    <Card className="w-full p-4 md:p-8 bg-white rounded-2xl flex flex-col justify-center items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
                         <Card className="w-full max-w-3xl rounded-[20px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
@@ -84,27 +103,27 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                     <Card className="w-full mt-8 p-4 md:p-8 bg-white shadow-lg rounded-2xl">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
-                            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
-                                <AccordionItem value="item-1">
-                                    <AccordionTrigger className="bg-primary/10 rounded-t-md px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
+                            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
+                                <AccordionItem value="item-1" className="border-b-0">
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-md">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-2">
-                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2">Does habi charge an advance payment?</AccordionTrigger>
+                                <AccordionItem value="item-2" className="border-b-0">
+                                    <AccordionTrigger className="bg-primary/10 px-4 rounded-full">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-3">
-                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2">Does habi charge an advance payment?</AccordionTrigger>
+                                <AccordionItem value="item-3" className="border-b-0">
+                                    <AccordionTrigger className="bg-primary/10 px-4 rounded-full">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0">
                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-4">
-                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2">Does habi charge an advance payment?</AccordionTrigger>
+                                <AccordionItem value="item-4" className="border-b-0">
+                                    <AccordionTrigger className="bg-primary/10 px-4 rounded-full">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
@@ -130,8 +149,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                     </footer>
                 </div>
             </main>
+            <ClientBottomNav />
         </div>
     )
 }
-
-    
