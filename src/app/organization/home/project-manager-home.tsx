@@ -218,7 +218,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
                 onClick={onOpenCompletedTasks}
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary"
             >
-                Show Completed Project Tasks
+                View Completed Tasks
             </Button>
             <Button
                 variant="outline"
@@ -351,7 +351,7 @@ export default function ProjectManagerHome() {
                         </DropdownMenu>
                     </div>
                    
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
                          <div className="hidden lg:flex items-center gap-4 overflow-x-auto w-full lg:w-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
@@ -368,9 +368,9 @@ export default function ProjectManagerHome() {
                                 </Button>
                             ))}
                         </div>
+                        <h2 className="text-xl font-medium text-left">My Task</h2>
                     </div>
-                     <h2 className="text-xl font-medium text-left mt-6">My Task</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
