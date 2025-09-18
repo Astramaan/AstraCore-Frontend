@@ -24,6 +24,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 import UserPlusIcon from './icons/user-plus-icon';
 import { SuccessPopup } from './success-popup';
+import { useUser } from '@/context/user-context';
 
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
@@ -36,11 +37,14 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 
 const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, onClose: () => void }) => {
     const { toast } = useToast();
+    const { user } = useUser();
+    const isArchitect = user?.team === 'Architect';
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [team, setTeam] = useState('');
-    const [role, setRole] = useState('');
+    const [team, setTeam] = useState(isArchitect ? 'architect' : '');
+    const [role, setRole] = useState(isArchitect ? 'member' : '');
 
     const [state, formAction] = useActionState(addMember, { success: false, message: '' });
 
@@ -67,33 +71,42 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                 <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
-                <div className="space-y-2">
-                    <Label htmlFor="team" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
-                    <Select name="team" onValueChange={setTeam}>
-                        <SelectTrigger id="team" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Select a team" />
-                        </SelectTrigger>
-                        <SelectContent>
-                             {teams.map(r => (
-                                <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
+                {isArchitect ? (
+                    <>
+                        <input type="hidden" name="team" value="architect" />
+                        <input type="hidden" name="role" value="member" />
+                    </>
+                ) : (
+                    <>
+                        <div className="space-y-2">
+                            <Label htmlFor="team" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
+                            <Select name="team" onValueChange={setTeam} value={team}>
+                                <SelectTrigger id="team" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                                    <SelectValue placeholder="Select a team" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {teams.map(r => (
+                                        <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
 
-                <div className="space-y-2">
-                    <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
-                    <Select name="role" onValueChange={setRole}>
-                        <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                             {roles.map(r => (
-                                <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
+                            <Select name="role" onValueChange={setRole} value={role}>
+                                <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                                    <SelectValue placeholder="Select a role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {roles.map(r => (
+                                        <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </>
+                )}
             </div>
         </ScrollArea>
         
