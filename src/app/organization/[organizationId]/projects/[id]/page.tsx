@@ -29,6 +29,7 @@ import { useRouter } from 'next/navigation';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { useUser } from '@/context/user-context';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 
 const mockProject = {
