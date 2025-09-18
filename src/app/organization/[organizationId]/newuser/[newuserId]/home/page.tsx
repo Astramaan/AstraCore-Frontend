@@ -75,7 +75,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%_-_(100%_/_8))] md:w-[calc(100%_-_(100%_/_4)_/_2)] h-px bg-gray-300 -z-0 hidden md:block"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gray-300 -z-0 hidden md:block"></div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
@@ -84,7 +84,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </div>
                             </div>
                             <div className="relative">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%_-_(100%_/_8))] md:w-[calc(100%_-_(100%_/_4)_/_2)] h-px bg-gray-300 -z-0 hidden md:block"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gray-300 -z-0 hidden md:block"></div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
