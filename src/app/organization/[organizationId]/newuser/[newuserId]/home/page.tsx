@@ -75,22 +75,22 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%_-_(100%_/_8))] md:w-[calc(100%_-_(100%_/_4)_/_2)] h-px bg-gray-300 -z-0 hidden md:block"></div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
                                     <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="1 Year Warranty"/>
                                 </div>
-                                <div className="absolute top-6 left-0 right-0 w-full h-px bg-gray-300 -z-0 hidden md:block"></div>
                             </div>
                             <div className="relative">
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%_-_(100%_/_8))] md:w-[calc(100%_-_(100%_/_4)_/_2)] h-px bg-gray-300 -z-0 hidden md:block"></div>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
                                     <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
                                     <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
                                 </div>
-                                <div className="absolute top-6 left-0 right-0 w-full h-px bg-gray-300 -z-0 hidden md:block"></div>
                             </div>
 
                             <div className="mt-16 flex flex-col md:flex-row items-center gap-8">
@@ -113,25 +113,25 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
                                 <AccordionItem value="item-1" className="border-b-0">
                                     <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
+                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-2" className="border-b-0">
                                     <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
+                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-3" className="border-b-0">
                                     <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
+                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-4" className="border-b-0">
                                     <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
+                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
@@ -148,3 +148,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     )
 }
+
+    
