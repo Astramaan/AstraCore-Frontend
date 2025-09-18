@@ -225,7 +225,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary"
                 onClick={onOpenUpcomingTasks}
             >
-                View all upcoming project tasks
+                View Upcoming Tasks
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -321,9 +321,9 @@ export default function ProjectManagerHome() {
                     )}
                 </div>
 
-                <Separator className="my-10" />
+                <Separator className="my-6" />
                 
-                <div className="mt-16">
+                <div className="mt-8">
                     
                     <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
@@ -352,7 +352,7 @@ export default function ProjectManagerHome() {
                     </div>
                    
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto w-full lg:w-auto">
+                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
                                     key={filter}
@@ -431,6 +431,8 @@ export default function ProjectManagerHome() {
 
 
 
+
+    
 
     
 
