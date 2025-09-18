@@ -171,8 +171,8 @@ export default function DefaultHomePage() {
         if (selectedProject !== 'all') {
             tasks = tasks.filter(task => task.project === selectedProject);
         }
-        return tasks;
-    }, [taskData, selectedProject]);
+        return applyFilters(tasks);
+    }, [taskData, selectedProject, activeFilter]);
 
     const inProgressCount = useMemo(() => {
         const myTasksInProgress = taskData.filter(t => !t.isProjectTask && !t.isAssigned && t.status === 'In Progress').length;
