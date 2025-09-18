@@ -44,6 +44,8 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
         "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
     }
+    const formattedDate = new Date(task.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
+
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
             <div>
@@ -62,8 +64,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
-                    
-                    <p className="text-sm text-muted-foreground">{task.date}</p>
+                    <p className="text-sm text-muted-foreground">Due Date: {formattedDate}</p>
                 </div>
             </div>
         </Card>
