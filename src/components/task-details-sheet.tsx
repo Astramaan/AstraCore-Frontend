@@ -167,9 +167,11 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
     if (isArchitect) {
         if (task.status !== 'In Progress' && task.status !== 'Completed') {
             return (
-                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                    Start
-                </Button>
+                <div className="flex justify-end">
+                    <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                        Start
+                    </Button>
+                </div>
             )
         }
         if (task.status === 'In Progress') {
@@ -209,9 +211,11 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
     
      if (!task.isProjectTask && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing') {
          return (
-            <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                Start
-            </Button>
+            <div className="flex justify-end">
+                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                    Start
+                </Button>
+            </div>
          )
      }
      
