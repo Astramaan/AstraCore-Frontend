@@ -29,6 +29,7 @@ function SubmitButton() {
 export default function AuthForm() {
   const router = useRouter();
   const [state, formAction] = useActionState(login, { success: false, message: '', user: null });
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
@@ -66,6 +67,8 @@ export default function AuthForm() {
                         required
                         placeholder="name@company.com"
                         className={`pl-20 rounded-full bg-background h-[54px]`}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
             </div>
