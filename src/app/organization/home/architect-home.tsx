@@ -191,22 +191,10 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, activeFilter: FilterType, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
-    const filteredTasks = useMemo(() => {
-        let tasks = project.tasks;
-        if (activeFilter) {
-            tasks = tasks.filter(task => {
-                if (activeFilter === 'High Priority') return task.priority === 'High';
-                if (activeFilter === 'In Progress') return task.status === 'ongoing';
-                if (activeFilter === 'Pending') return task.status === 'pending' || task.status === 'upcoming';
-                return true;
-            });
-        }
-        else {
-          tasks = tasks.filter(task => task.status !== 'completed');
-        }
-        return tasks;
-    }, [activeFilter, project.tasks]);
+const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
+    const projectTasks = useMemo(() => {
+        return project.tasks.filter(task => task.status !== 'completed');
+    }, [project.tasks]);
 
     return (
       <div className="space-y-4">
@@ -253,7 +241,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredTasks.map((stage) => (
+            {projectTasks.map((stage) => (
                 <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
             ))}
         </div>
@@ -316,6 +304,19 @@ export default function ArchitectHome() {
     const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'upcoming' || stage.status === 'pending'), []);
     const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
+    const applyFilters = (tasks: Task[]) => {
+        if (activeFilter) {
+            return tasks.filter(task => {
+                if (activeFilter === 'High Priority') return task.priority === 'High';
+                return task.status === activeFilter;
+            });
+        }
+        return tasks.filter(task => task.status !== 'Completed');
+    };
+
+    const filteredMyTasks = useMemo(() => applyFilters(initialTaskData), [activeFilter]);
+    const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasksData), [activeFilter]);
+
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
@@ -340,7 +341,6 @@ export default function ArchitectHome() {
                         <ProjectSection 
                             project={selectedProject} 
                             onStageClick={handleStageClick} 
-                            activeFilter={activeFilter}
                             onOpenCompletedTasks={() => setIsCompletedTasksSheetOpen(true)}
                             onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
                         />
@@ -397,13 +397,13 @@ export default function ArchitectHome() {
                         <h2 className="text-xl font-medium text-left pt-4">My Task</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                        {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                        {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
                 <div className="mt-8">
                     <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
             </main>
@@ -444,3 +444,4 @@ export default function ArchitectHome() {
         </div>
     );
 }
+
