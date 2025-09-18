@@ -88,7 +88,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             </div>
 
                             <div className="mt-16 flex flex-col md:flex-row items-center gap-8">
-                                <div className="w-full md:w-80 h-48 bg-black/25 rounded-[10px] border border-stone-300 flex items-center justify-center shrink-0">
+                                <div className="w-full md:w-80 h-48 bg-black/25 rounded-[30px] border border-stone-300 flex items-center justify-center shrink-0">
                                     <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70">
                                         <Youtube className="w-8 h-8 text-white"/>
                                     </Button>
