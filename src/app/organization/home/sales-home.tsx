@@ -28,7 +28,10 @@ const initialTaskData: Task[] = [
     { id: "TSK001", title: "Follow up with Platinum Partners", date: "25 May 2024", description: "Follow up call with Rajesh Singh regarding the new proposal.", priority: "High", status: "Pending", category: "Sales", project: "Platinum Lead", clientId: "PLATINUMHYD789", attachments: [] },
     { id: "TSK002", title: "Prepare quote for Golden Ventures", date: "26 May 2024", description: "Prepare a detailed quote for the construction project for Golden Ventures.", priority: "High", status: "In Progress", category: "Sales", project: "Golden Lead", clientId: "GOLDMYS7890", attachments: [] },
 ];
-const assignedTasksData: Task[] = [];
+const assignedTasksData: Task[] = [
+    { id: "TSK005", title: "Schedule follow-up with Bronze Builders", date: "28 May 2024", description: "Contact Sunita Reddy to schedule a follow-up meeting to discuss the quote.", priority: "Medium", status: "Pending", category: "Sales", project: "Bronze Lead", clientId: "BRONZECHE456", attachments: [], isAssigned: true },
+    { id: "TSK006", title: "Update CRM with new lead information", date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), description: "Ensure all new leads from the past week are correctly entered and categorized in the CRM.", priority: "Low", status: "Pending", category: "Admin", project: "Sales Operations", clientId: "INTERNAL", attachments: [], isAssigned: true },
+];
 
 
 const SalesStatCard = ({ title, value, icon, change }: { title: string, value: string, icon: React.ReactNode, change: string }) => (
@@ -285,5 +288,6 @@ export default function SalesHome() {
                 />
             )}
         </div>
-    )
+    );
 }
+
