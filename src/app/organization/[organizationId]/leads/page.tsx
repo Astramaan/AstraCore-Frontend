@@ -109,11 +109,11 @@ const leadsData: Lead[] = [
 const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, organizationId: string, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
-         <div className="hidden lg:block py-6 px-10 hover:bg-hover-bg">
+         <div className="hidden lg:block py-6 px-10 hover:bg-hover-bg cursor-pointer" onClick={() => onViewDetails(lead)}>
             <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch">
                 {/* Col 1: Name + Location */}
                 <div
-                    className="flex items-center gap-4 cursor-pointer"
+                    className="flex items-center gap-4"
                 >
                     <Checkbox
                         id={`select-${lead.leadId}-desktop`}
@@ -122,7 +122,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                         onClick={(e) => e.stopPropagation()}
                     />
-                    <Link href={`/organization/${organizationId}/lead/${lead.leadId}/home`} className="flex-1">
+                    <Link href={`/organization/${organizationId}/lead/${lead.leadId}/home`} className="flex-1" onClick={(e) => e.stopPropagation()}>
                         <div>
                         <p className="text-xl font-semibold text-black">{lead.fullName}</p>
                         <p className="text-lg">
@@ -538,3 +538,4 @@ export default function LeadsPage({ params }: { params: { organizationId: string
         </div>
     );
 }
+
