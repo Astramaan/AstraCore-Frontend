@@ -141,14 +141,14 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
               <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
               <DetailRow label="Due Date" value={task.date} />
               <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
-              <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
+              {!task.isProjectTask && <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />}
               {task.status === 'Completed' && task.completedDate && (
                 <DetailRow label="Completed Date" value={task.completedDate} />
               )}
 
               <div>
                 <p className="text-lg text-stone-500 mb-4">Attachment</p>
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-wrap">
                   {task.attachments.map((file, index) => (
                     <button onClick={() => setSelectedAttachment(file)} key={index} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
                       {file.type === 'pdf' ? <PdfIcon className="w-10 h-10" /> : <Image src={file.url} alt={file.name} width={65} height={65} className="rounded" />}
