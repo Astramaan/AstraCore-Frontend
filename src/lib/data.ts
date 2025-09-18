@@ -16,6 +16,7 @@ export interface Project {
     status: string;
     statusColor: string;
     image: string;
+    progress: number;
 }
 
 const mockProjects: Project[] = [
@@ -27,7 +28,8 @@ const mockProjects: Project[] = [
         startDate: "21st Sept 2024",
         status: "On Going",
         statusColor: "text-green-600",
-        image: "https://placehold.co/59x59"
+        image: "https://placehold.co/59x59",
+        progress: 75,
     },
     {
         id: "YAS2024",
@@ -37,7 +39,8 @@ const mockProjects: Project[] = [
         startDate: "21st Sept 2024",
         status: "Delay",
         statusColor: "text-red-600",
-        image: "https://placehold.co/59x59"
+        image: "https://placehold.co/59x59",
+        progress: 25,
     },
     {
         id: "CHA2024-2",
@@ -47,7 +50,8 @@ const mockProjects: Project[] = [
         startDate: "21st Sept 2024",
         status: "On Going",
         statusColor: "text-green-600",
-        image: "https://placehold.co/59x59"
+        image: "https://placehold.co/59x59",
+        progress: 50,
     },
     {
         id: "CHA2024-3",
@@ -57,7 +61,8 @@ const mockProjects: Project[] = [
         startDate: "21st Sept 2024",
         status: "Completed",
         statusColor: "text-cyan-500",
-        image: "https://placehold.co/59x59"
+        image: "https://placehold.co/59x59",
+        progress: 100,
     },
 ];
 
@@ -155,6 +160,7 @@ export async function getProjectDetails(projectId: string) {
             ...mockProjectDetails,
             id: mockProject.id,
             name: mockProject.name,
+            progress: mockProject.progress,
             personalInfo: {
                 ...mockProjectDetails.personalInfo,
                 name: mockProject.name,

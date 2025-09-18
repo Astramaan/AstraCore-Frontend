@@ -25,7 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-
+import { AvatarWithProgress } from "@/components/avatar-with-progress";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
@@ -33,10 +33,12 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
         <div className="lg:hidden p-6 md:p-10 gap-4">
             <div className="flex items-start justify-between gap-4">
                 <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
-                    <Avatar className="w-14 h-14 shrink-0">
-                        <AvatarImage src={project.image} data-ai-hint="abstract building" />
-                        <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
+                    <AvatarWithProgress value={project.progress}>
+                        <Avatar className="w-14 h-14 shrink-0">
+                            <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                            <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                    </AvatarWithProgress>
                     <div className="flex-1">
                         <p className="text-xl font-semibold text-black">{project.name}</p>
                         <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
@@ -87,10 +89,12 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             >
             {/* Project avatar + name */}
             <div className="flex items-center gap-4 w-full">
-                <Avatar className="w-14 h-14 shrink-0">
-                <AvatarImage src={project.image} data-ai-hint="abstract building" />
-                <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                 <AvatarWithProgress value={project.progress}>
+                    <Avatar className="w-14 h-14 shrink-0">
+                        <AvatarImage src={project.image} data-ai-hint="abstract building" />
+                        <AvatarFallback>{project.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                </AvatarWithProgress>
                 <div className="flex-1">
                 <p className="text-xl font-semibold text-black">{project.name}</p>
                 <p className="text-lg">
