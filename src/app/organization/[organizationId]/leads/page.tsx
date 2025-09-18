@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, use } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -320,7 +320,8 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function LeadsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
+export default function LeadsPage({ params }: { params: { organizationId: string } }) {
+    const { organizationId } = use(params);
     const [allLeads, setAllLeads] = useState(leadsData);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
@@ -552,14 +553,233 @@ export default function LeadsPage({ params: { organizationId } }: { params: { or
     
 
     
+    
+
+    
+
+    
 
 
 
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+- src/app/organization/layout.tsx:
+```tsx
+'use client';
+
+import React, { Suspense } from 'react';
+import { UserProvider } from '@/context/user-context';
+import { OrganizationHeader } from '@/components/organization-header';
+import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
 
 
+function OrganizationLayoutContent({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
+           <div className="max-w-[1440px] mx-auto p-4">
+             <OrganizationHeader />
+           </div>
+        </header>
+        <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 p-4 space-y-6">
+            <Suspense fallback={<div>Loading...</div>}>
+                {children}
+            </Suspense>
+        </main>
+        <OrganizationBottomNav />
+    </div>
+  );
+}
 
+export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <UserProvider>
+      <OrganizationLayoutContent>{children}</OrganizationLayoutContent>
+    </UserProvider>
+  )
+}
+```
+- src/app/organization/[organizationId]/layout.tsx:
+```tsx
 
+'use client';
 
+import React, { Suspense } from 'react';
 
+function OrganizationIdLayout({ children }: { children: React.ReactNode }) {
+  return (
+      <Suspense fallback={<div>Loading...</div>}>
+          {children}
+      </Suspense>
+  );
+}
 
+export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
+  return (
+      <OrganizationIdLayout>{children}</OrganizationIdLayout>
+  )
+}
+```
+- src/app/layout.tsx:
+```tsx
 
+import type {Metadata, Viewport} from 'next';
+import './globals.css';
+import { Toaster } from "@/components/ui/toaster"
+import { gilroy } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
+import { UserProvider } from '@/context/user-context';
+
+export const metadata: Metadata = {
+  title: 'Astramaan',
+  description: 'Project Management for the modern age.',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning className="no-scrollbar md:overflow-y-scroll">
+      <body className={cn("antialiased font-sans", gilroy.variable)}>
+        <UserProvider>
+          {children}
+          <Toaster />
+        </UserProvider>
+      </body>
+    </html>
+  );
+}
+```
