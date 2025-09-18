@@ -6,6 +6,7 @@ import { useUser } from '@/context/user-context';
 import DefaultHomePage from './default-home';
 import ProjectManagerHome from './project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
+import ArchitectHome from './architect-home';
 
 function OrganizationHomePageContent() {
     const { user, loading } = useUser();
@@ -48,7 +49,7 @@ function OrganizationHomePageContent() {
     }
     
     if (user.team === 'Architect') {
-        return <DefaultHomePage />;
+        return <ArchitectHome />;
     }
 
     return <DefaultHomePage />;

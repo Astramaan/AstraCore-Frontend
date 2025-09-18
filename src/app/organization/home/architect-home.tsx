@@ -262,7 +262,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
   };
 
 
-export default function ProjectManagerHome() {
+export default function ArchitectHome() {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
