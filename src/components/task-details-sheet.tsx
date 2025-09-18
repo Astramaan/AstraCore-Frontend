@@ -128,6 +128,17 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
 
 
   const isProjectManager = user?.team === 'Project Manager';
+  
+  const formatDate = (dateString: string) => {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) {
+        return dateString;
+    }
+  };
 
   return (
     <>
@@ -139,11 +150,11 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
               <DetailRow label="Project" value={task.project} />
               <DetailRow label="Client ID" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.clientId}</Badge>} />
               <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-              <DetailRow label="Due Date" value={task.date} />
+              <DetailRow label="Due Date" value={formatDate(task.date)} />
               <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
               {!task.isProjectTask && <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />}
               {task.status === 'Completed' && task.completedDate && (
-                <DetailRow label="Completed Date" value={task.completedDate} />
+                <DetailRow label="Completed Date" value={formatDate(task.completedDate)} />
               )}
 
               <div>
