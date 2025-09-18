@@ -164,29 +164,29 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
   };
   
   const renderCtas = () => {
-    if (isArchitect) {
-        if (!task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed') {
-            return (
-                <div className="flex justify-end">
-                    <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                        Start
-                    </Button>
-                </div>
-            )
-        }
-        if (task.status === 'In Progress') {
-             return (
-                 <div className="flex gap-4">
-                    <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
-                        Upload Attachments
-                    </Button>
-                    <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
-                        Mark as Complete
-                    </Button>
-                </div>
-            )
-        }
+    const showStartButton = !task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing';
+    
+    if (showStartButton) {
+        return (
+            <div className="flex justify-end">
+                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                    Start
+                </Button>
+            </div>
+        )
     }
+     if (task.status === 'In Progress') {
+         return (
+             <div className="flex gap-4">
+                <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
+                    Upload Attachments
+                </Button>
+                <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
+                    Mark as Complete
+                </Button>
+            </div>
+         )
+     }
     
     if (isProjectManager && task.isProjectTask && task.status === 'ongoing') {
         return (
@@ -208,29 +208,6 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
             </div>
         )
     }
-    
-     if (!task.isProjectTask && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing') {
-         return (
-            <div className="flex justify-end">
-                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                    Start
-                </Button>
-            </div>
-         )
-     }
-     
-     if (!task.isProjectTask && task.status === 'In Progress') {
-         return (
-             <div className="flex gap-4">
-                <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
-                    Upload Attachments
-                </Button>
-                <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
-                    Mark as Complete
-                </Button>
-            </div>
-         )
-     }
      
      return null;
   }
