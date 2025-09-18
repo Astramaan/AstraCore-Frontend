@@ -320,7 +320,7 @@ export default function ProjectManagerHome() {
                     )}
                 </div>
                 <div className="mt-40">
-                     <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto mt-10">
+                     <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto mt-20">
                         {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                             <Button
                                 key={filter}
