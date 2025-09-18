@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -33,6 +34,7 @@ export interface Task {
   clientId: string;
   attachments: { type: 'pdf' | 'image', name: string, url: string }[];
   completedDate?: string;
+  isProjectTask?: boolean;
 }
 
 interface TaskDetailsSheetProps {
@@ -205,7 +207,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
       >
         <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
           <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
-            Task Details
+            {task.isProjectTask ? 'Project Task Details' : 'Task Details'}
             <div className="flex items-center gap-4 ml-auto">
               <SheetClose asChild>
                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-gray-100 hover:bg-gray-200">

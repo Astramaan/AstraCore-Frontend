@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -287,7 +288,8 @@ export default function ProjectManagerHome() {
             category: stage.category,
             project: selectedProject?.name || 'Unknown Project',
             clientId: selectedProject?.id || 'Unknown',
-            attachments: stage.siteImages?.map(img => ({type: 'image', name: 'site-image.png', url: img})) || []
+            attachments: stage.siteImages?.map(img => ({type: 'image', name: 'site-image.png', url: img})) || [],
+            isProjectTask: true,
         };
         setSelectedTask(task);
         setIsSheetOpen(true);
@@ -466,6 +468,7 @@ export default function ProjectManagerHome() {
     
 
     
+
 
 
 
