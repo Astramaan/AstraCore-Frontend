@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -146,7 +145,7 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6 space-y-6">
             <div className="space-y-8">
-              <DetailRow label="Title" value={task.title} />
+              <DetailRow label={task.isProjectTask ? 'Sub-task' : 'Title'} value={task.title} />
               <DetailRow label="Project" value={task.project} />
               <DetailRow label="Client ID" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.clientId}</Badge>} />
               <DetailRow label={task.isProjectTask ? "Stage" : "Category"} value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
