@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -245,9 +244,9 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
   };
   
   const renderCtas = () => {
-    const showStartButton = !task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing';
+    const canStartTask = !task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing';
     
-    if (showStartButton) {
+    if (canStartTask) {
         return (
             <div className="flex justify-end">
                 <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
@@ -256,7 +255,8 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
             </div>
         )
     }
-     if (task.status === 'In Progress' && !task.isProjectTask) {
+
+     if (task.status === 'In Progress' || task.status === 'ongoing') {
          return (
              <div className="flex gap-4">
                 <Button onClick={() => setIsUploadDialogOpen(true)} variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
