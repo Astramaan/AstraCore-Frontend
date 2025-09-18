@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/context/user-context';
 
 const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: string } } = {
     "Super Admin": { icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
@@ -174,6 +175,7 @@ const RoleCardSkeleton = () => (
 export default function TeamsPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { user } = useUser();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
     const [roles, setRoles] = useState<Role[]>([]);
@@ -182,18 +184,23 @@ export default function TeamsPage() {
     const userRole = searchParams.get('role');
 
     useEffect(() => {
+        setIsLoading(true);
         // Simulate fetching data
         setTimeout(() => {
             let rolesToShow = allRoles;
+            if (user?.roleType !== 'superAdmin') {
+                rolesToShow = rolesToShow.filter(role => role.name !== "Super Admin");
+            }
+
             if (userRole === 'Project Manager') {
-                rolesToShow = allRoles.filter(role => 
+                rolesToShow = rolesToShow.filter(role => 
                     ["Software Development", "Design", "Support & Feedback"].includes(role.name)
                 );
             }
             setRoles(rolesToShow);
             setIsLoading(false);
-        }, 500);
-    }, [userRole]);
+        }, 100); // reduced delay
+    }, [userRole, user]);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
@@ -259,4 +266,3 @@ export default function TeamsPage() {
         </div>
     );
 }
-
