@@ -38,19 +38,25 @@ const renderLegend = (props: any) => {
   };
 
 export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
-  const chartData = [...data];
-  if(chartData.length > 2) {
-      // Add "on hold" or other statuses if needed
-      chartData.push({name: 'on hold', value: 2})
-  }
-
+    if (!data || data.length === 0) {
+        return (
+            <div className="w-full h-[200px] relative flex flex-col items-center justify-center">
+                 {title && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none -translate-y-3">
+                        <div className="text-base font-medium text-center">{title}</div>
+                    </div>
+                )}
+                <p className="text-muted-foreground mt-8">No data</p>
+            </div>
+        )
+    }
 
   return (
     <div className="w-full h-[200px] relative">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
-            data={chartData}
+            data={data}
             cx="50%"
             cy="50%"
             labelLine={false}
@@ -62,7 +68,7 @@ export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
             cornerRadius={40}
             stroke="none"
           >
-            {chartData.map((entry, index) => (
+            {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
