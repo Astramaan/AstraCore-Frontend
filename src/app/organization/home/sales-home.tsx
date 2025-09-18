@@ -247,10 +247,13 @@ export default function SalesHome() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
-                    <SalesStatCard title="New Leads" value="32" icon={<Users className="w-5 h-5"/>} change="+5 this week" />
-                    <SalesStatCard title="Meetings Scheduled" value="12" icon={<Calendar className="w-5 h-5"/>} change="+2 this week" />
-                    <SalesStatCard title="Conversion Rate" value="25%" icon={<TrendingUp className="w-5 h-5"/>} change="+1.5% this month" />
+                <div className="pt-8">
+                    <h2 className="text-xl font-medium mb-4">Sales Performance</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <SalesStatCard title="New Leads" value="32" icon={<Users className="w-5 h-5"/>} change="+5 this week" />
+                        <SalesStatCard title="Meetings Scheduled" value="12" icon={<Calendar className="w-5 h-5"/>} change="+2 this week" />
+                        <SalesStatCard title="Conversion Rate" value="25%" icon={<TrendingUp className="w-5 h-5"/>} change="+1.5% this month" />
+                    </div>
                 </div>
             </main>
 
@@ -290,4 +293,3 @@ export default function SalesHome() {
         </div>
     );
 }
-
