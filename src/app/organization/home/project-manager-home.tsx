@@ -163,7 +163,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             </div>
             <div className="flex justify-between items-center mt-auto">
                  <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className="text-sm text-muted-foreground">{formattedDate}</p>
+                <p className="text-sm text-muted-foreground">Due Date: {formattedDate}</p>
             </div>
         </Card>
     );
@@ -445,3 +445,4 @@ export default function ProjectManagerHome() {
     
 
     
+
