@@ -316,7 +316,7 @@ export default function ProjectManagerHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                 <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
@@ -346,7 +346,7 @@ export default function ProjectManagerHome() {
 
                 <Separator className="my-6" />
                 
-                <div className="mt-8">
+                <div className="mt-8 space-y-4">
                     
                     <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
@@ -374,7 +374,7 @@ export default function ProjectManagerHome() {
                         </DropdownMenu>
                     </div>
                    
-                    <div className="space-y-4">
+                    <div>
                          <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
@@ -466,6 +466,7 @@ export default function ProjectManagerHome() {
     
 
     
+
 
 
 
