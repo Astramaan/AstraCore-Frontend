@@ -9,7 +9,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
-    <div className="flex flex-col items-center gap-4 text-center">
+    <div className="flex flex-col items-center gap-4 text-center z-10">
         <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
             {icon}
         </div>
@@ -74,17 +74,23 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
-                             <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 mb-8 justify-items-center">
-                                <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
-                                <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
-                                <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
-                                <FeatureCard icon={<Award className="text-white"/>} text="1 Year Warranty"/>
+                             <div className="relative mb-8">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
+                                    <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
+                                    <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
+                                    <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
+                                    <FeatureCard icon={<Award className="text-white"/>} text="1 Year Warranty"/>
+                                </div>
+                                <div className="absolute top-6 left-0 right-0 w-full h-px bg-gray-300 -z-0 hidden md:block"></div>
                             </div>
-                             <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
-                                <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
-                                <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
-                                <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
-                                <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
+                            <div className="relative">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
+                                    <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
+                                    <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
+                                    <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
+                                    <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
+                                </div>
+                                <div className="absolute top-6 left-0 right-0 w-full h-px bg-gray-300 -z-0 hidden md:block"></div>
                             </div>
 
                             <div className="mt-16 flex flex-col md:flex-row items-center gap-8">
@@ -112,19 +118,19 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-2" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 px-4 rounded-full">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-3" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 px-4 rounded-full">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-4" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 px-4 rounded-full">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-3xl">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
@@ -142,5 +148,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     )
 }
-
-    
