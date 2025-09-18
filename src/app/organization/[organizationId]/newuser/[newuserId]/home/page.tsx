@@ -5,6 +5,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube } from 'lucide-react';
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center">
@@ -15,30 +17,48 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
     </div>
 )
 
+const ClientBottomNav = () => {
+    const navItems = [
+        { href: `#`, icon: Home, label: "Home" },
+        { href: `#`, icon: Award, label: "Packages" },
+        { href: `#`, icon: GanttChartSquare, label: "Portfolio" },
+        { href: `#`, icon: User, label: "Profile" },
+    ];
+
+    // For this standalone page, we can assume 'Home' is always active.
+    const pathname = ''; // Placeholder
+
+    return (
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
+             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
+                <div className="flex items-center justify-around md:justify-center md:gap-4">
+                    {navItems.map((item) => {
+                        const isActive = item.label === 'Home'; // Simplified for this page
+                        return (
+                             <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
+                                <div className={cn(
+                                    "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
+                                    "lg:gap-2.5 md:py-3 rounded-full min-w-max",
+                                    "h-16 w-16 md:h-12 md:w-auto px-1 md:px-4 lg:h-[54px]",
+                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
+                                )}>
+                                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
+                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
+                                </div>
+                            </Link>
+                        )
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
 export default function NewUserHomePage({ params }: { params: { organizationId: string, newuserId: string } }) {
     return (
-        <div className="bg-zinc-100 min-h-screen">
-            <aside className="w-48 fixed top-0 left-0 h-full bg-slate-50 border-r border-stone-300 flex-col hidden md:flex">
-                <div className="p-4 pt-8 flex justify-center">
-                    <HabiLogo />
-                </div>
-                <nav className="flex-grow px-4 mt-8">
-                    <ul className="space-y-2">
-                        <li className="relative">
-                            <a href="#" className="flex items-center gap-3 text-lg p-3 rounded-l-[10px] text-primary bg-primary/10">
-                                <Home className="h-6 w-6 text-primary" />
-                                <span>Home</span>
-                            </a>
-                            <div className="absolute left-0 top-0 h-full w-[5px] bg-primary rounded-tr-[3px] rounded-br-[3px]" />
-                        </li>
-                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><Award className="h-6 w-6"/><span>Packages</span></a></li>
-                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><GanttChartSquare className="h-6 w-6"/><span>Portfolio</span></a></li>
-                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><User className="h-6 w-6"/><span>Profile</span></a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <main className="md:ml-48">
+        <div className="bg-zinc-100 min-h-screen pb-32 md:pb-40">
+            <main>
                 <div className="max-w-[1240px] mx-auto py-8 px-4">
                     <Card className="w-full p-4 md:p-8 bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
@@ -130,6 +150,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     </footer>
                 </div>
             </main>
+            <ClientBottomNav />
         </div>
     )
 }
