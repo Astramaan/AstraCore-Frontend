@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useUser } from '@/context/user-context';
 import DefaultHomePage from './default-home';
 import ProjectManagerHome from './project-manager-home';
@@ -10,9 +10,18 @@ import ArchitectHome from './architect-home';
 import SalesHome from './sales-home';
 import SiteSupervisorHome from './site-supervisor-home';
 import NewUserHomePage from '../newuser/[newuserId]/home/page';
+import { useRouter } from 'next/navigation';
+
 
 function OrganizationHomePageContent({ params: { organizationId } }: { params: { organizationId: string } }) {
     const { user, loading } = useUser();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/');
+        }
+    }, [loading, user, router]);
 
     if (loading) {
         return (
@@ -42,8 +51,7 @@ function OrganizationHomePageContent({ params: { organizationId } }: { params: {
     }
 
     if (!user) {
-        // You can return a loading spinner or a default view
-        return <div>Failed to load user data. Please try logging in again.</div>;
+        return <div>Redirecting to login...</div>;
     }
 
     // Use the user's team to determine which component to render
