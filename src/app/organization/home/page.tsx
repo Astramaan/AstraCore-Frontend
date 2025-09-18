@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ArchitectHome from './architect-home';
 import SalesHome from './sales-home';
 import SiteSupervisorHome from './site-supervisor-home';
+import NewUserHomePage from '../[organizationId]/newuser/[newuserId]/home/page';
 
 function OrganizationHomePageContent({ params: { organizationId } }: { params: { organizationId: string } }) {
     const { user, loading } = useUser();
@@ -60,6 +61,10 @@ function OrganizationHomePageContent({ params: { organizationId } }: { params: {
 
     if (user.team === 'Sales') {
         return <SalesHome />;
+    }
+    
+    if (user.team === 'New User') {
+        return <NewUserHomePage params={{ organizationId: user.organizationId, newuserId: user.userId }} />;
     }
 
     return <DefaultHomePage />;
