@@ -51,6 +51,35 @@ const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) 
   </div>
 );
 
+const AttachmentViewerDialog = ({ attachment, onClose }: { attachment: Task['attachments'][0] | null, onClose: () => void }) => {
+    if (!attachment) return null;
+
+    return (
+        <Dialog open={!!attachment} onOpenChange={onClose}>
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
+                    <DialogTitle>{attachment.name}</DialogTitle>
+                    <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
+                            <X className="h-5 w-5" />
+                        </Button>
+                    </DialogClose>
+                </DialogHeader>
+                <div className="flex-1 flex items-center justify-center p-4">
+                    {attachment.type === 'pdf' ? (
+                        <iframe src={`https://docs.google.com/gview?url=${attachment.url}&embedded=true`} className="w-full h-full" title={attachment.name} />
+                    ) : (
+                        <div className="relative w-full h-full">
+                            <Image src={attachment.url} alt={attachment.name} layout="fill" objectFit="contain" />
+                        </div>
+                    )}
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+
 const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: (task: Task) => void; }) => {
   const { user } = useUser();
   const priorityColors: { [key: string]: string } = {
@@ -145,6 +174,10 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
             ) : null}
         </div>
       </div>
+       <AttachmentViewerDialog 
+            attachment={selectedAttachment}
+            onClose={() => setSelectedAttachment(null)}
+       />
       <ReworkTaskSheet 
         isOpen={isReworkSheetOpen}
         onClose={() => setIsReworkSheetOpen(false)}
