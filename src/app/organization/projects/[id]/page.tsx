@@ -195,13 +195,15 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
             </div>
-             <CreateProjectSheet 
-                projectToEdit={projectToEdit}
-                onProjectUpdated={handleProjectUpdated}
-                onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)} onProjectAdded={function (project: Project): void {
-                    throw new Error('Function not implemented.');
-                } }
-            />
+             {projectToEdit && (
+                <CreateProjectSheet
+                    projectToEdit={projectToEdit}
+                    onProjectUpdated={handleProjectUpdated}
+                    onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)} onProjectAdded={function (project: Project): void {
+                        throw new Error('Function not implemented.');
+                    } }
+                />
+            )}
 
             <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">

@@ -622,11 +622,16 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
     return (
         <>
             <DialogOrSheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
-                {!isEditMode && (
+                {!isEditMode && trigger && (
                     <DialogOrSheetTrigger asChild>
-                        {trigger || DefaultTrigger}
+                        {trigger}
                     </DialogOrSheetTrigger>
                 )}
+                 {!isEditMode && !trigger && (
+                    <DialogOrSheetTrigger asChild>
+                        {DefaultTrigger}
+                    </DialogOrSheetTrigger>
+                 )}
                 <DialogOrSheetContent
                     side="bottom"
                     className={cn(
