@@ -32,6 +32,7 @@ import { LeadDetailsSheet, type Lead } from '@/components/lead-details-sheet';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
 
 const leadsData: Lead[] = [
     {
@@ -106,14 +107,13 @@ const leadsData: Lead[] = [
     },
 ];
 
-const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
+const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, organizationId: string, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
         {/* Desktop View */}
          <div className="hidden lg:block py-6 px-10 hover:bg-hover-bg">
             <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-stretch">
                 {/* Col 1: Name + Location */}
                 <div
-                    onClick={() => onViewDetails(lead)}
                     className="flex items-center gap-4 cursor-pointer"
                 >
                     <Checkbox
@@ -123,15 +123,17 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                         onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                         onClick={(e) => e.stopPropagation()}
                     />
-                    <div>
-                    <p className="text-xl font-semibold text-black">{lead.fullName}</p>
-                    <p className="text-lg">
-                        <span className="text-grey-2">Location: </span> 
-                        <span className="text-black">
-                        {lead.address.split(",").pop()?.trim().split(" ")[0] || "N/A"}
-                        </span>
-                    </p>
-                    </div>
+                    <Link href={`/organization/${organizationId}/lead/${lead.leadId}/home`} className="flex-1">
+                        <div>
+                        <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+                        <p className="text-lg">
+                            <span className="text-grey-2">Location: </span> 
+                            <span className="text-black">
+                            {lead.address.split(",").pop()?.trim().split(" ")[0] || "N/A"}
+                            </span>
+                        </p>
+                        </div>
+                    </Link>
                 </div>
 
                 {/* Col 2: Contact + ID */}
@@ -221,7 +223,7 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
         {/* Mobile View */}
         <div className="block lg:hidden p-10">
              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4" onClick={() => onViewDetails(lead)}>
+                <div className="flex items-center gap-4">
                     <Checkbox 
                         id={`select-${lead.leadId}-mobile`} 
                         className="w-6 h-6 rounded-full" 
@@ -229,10 +231,12 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                         onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                         onClick={(e) => e.stopPropagation()}
                     />
-                    <div>
-                        <p className="text-xl font-semibold text-black">{lead.fullName}</p>
-                        <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
-                    </div>
+                    <Link href={`/organization/${organizationId}/lead/${lead.leadId}/home`}>
+                        <div>
+                            <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+                            <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
+                        </div>
+                    </Link>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -451,6 +455,7 @@ export default function LeadsPage({ params: { organizationId } }: { params: { or
                         <LeadCard 
                             key={lead.leadId} 
                             lead={lead} 
+                            organizationId={organizationId}
                             onSelectionChange={handleSelectionChange}
                             isSelected={selectedLeads.includes(lead.leadId)}
                             onSingleDelete={handleSingleDelete}
@@ -547,6 +552,7 @@ export default function LeadsPage({ params: { organizationId } }: { params: { or
     
 
     
+
 
 
 
