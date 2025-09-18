@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -44,26 +43,30 @@ interface ProjectDetailsCardProps {
         status: string;
         locationLink: string;
     };
-    onEdit: () => void;
-    onDelete: () => void;
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
 export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete }: ProjectDetailsCardProps) => {
+    const canManage = onEdit && onDelete;
+
     return (
         <Card className="rounded-[50px] p-6 md:p-10">
             <CardContent className="p-0">
                 <div className="relative grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                    <div className="absolute right-0 top-0" onClick={(e) => e.stopPropagation()}>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon"><MoreVertical/></Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-zinc-100 rounded-[20px]">
-                                    <DropdownMenuItem className="rounded-[10px]" onSelect={onEdit}>Edit</DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600 rounded-[10px]" onSelect={onDelete}>Delete</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+                    {canManage && (
+                        <div className="absolute right-0 top-0" onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon"><MoreVertical/></Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="bg-zinc-100 rounded-[20px]">
+                                        <DropdownMenuItem className="rounded-[10px]" onSelect={onEdit}>Edit</DropdownMenuItem>
+                                        <DropdownMenuItem className="text-red-600 rounded-[10px]" onSelect={onDelete}>Delete</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    )}
 
                     <div className="space-y-6">
                         <h3 className="text-xl font-medium">Personal Information</h3>

@@ -41,6 +41,8 @@ const mockProject = {
     status: "On going",
     statusColor: "text-green-600",
     image: "https://placehold.co/59x59",
+    // Adding createdBy field for permission check
+    createdBy: "pm_user_id", // This should come from your data source
     personalInfo: {
         name: "Yash",
         clientId: "YAS2024",
@@ -127,6 +129,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
         fetchProject();
     }, [id]);
 
+    const canManageProject = user?.roleType === 'superAdmin' || (user?.team === 'Project Manager' && user.userId === project?.createdBy);
 
     if (!project) {
         return (
@@ -181,8 +184,8 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                     <ProjectDetailsCard 
                         personalInfo={project.personalInfo} 
                         projectInfo={project.projectInfo} 
-                        onEdit={() => handleEdit(project)}
-                        onDelete={() => handleDeleteClick(project)}
+                        onEdit={canManageProject ? () => handleEdit(project) : undefined}
+                        onDelete={canManageProject ? () => handleDeleteClick(project) : undefined}
                     />
                     <ProjectVisualsCard visuals={project.visuals} />
                 </div>
