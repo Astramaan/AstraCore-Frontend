@@ -160,7 +160,6 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                 </>
               )}
               <DetailRow label="Project" value={task.project} />
-              <DetailRow label="Client ID" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.clientId}</Badge>} />
               <DetailRow label="Due Date" value={formatDate(task.date)} />
               <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
               {task.status === 'Completed' && task.completedDate && (
