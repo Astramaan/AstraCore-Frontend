@@ -81,6 +81,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
+             onClick={() => onViewDetails(meeting)}
         >
           <div
               className={cn(
@@ -88,7 +89,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               )}
               >
               {/* Company Name & City */}
-              <div onClick={() => onViewDetails(meeting)} className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center">
                   <p className="text-xl font-semibold text-black break-words">{meeting.name}</p>
                   <p className="text-lg">
                   <span className="text-grey-2">Location: </span> 
@@ -133,7 +134,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               </div>
 
               {/* Actions Menu */}
-              <div className="justify-self-end flex items-center md:static">
+              <div className="justify-self-end flex items-center md:static" onClick={(e) => e.stopPropagation()}>
                   <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
@@ -305,7 +306,3 @@ export default function MeetingsPage({ searchParams }: { searchParams: { [key: s
         </div>
     );
 }
-
-    
-
-    
