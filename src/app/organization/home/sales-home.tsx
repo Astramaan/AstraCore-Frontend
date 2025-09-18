@@ -147,7 +147,12 @@ export default function SalesHome() {
     };
 
     const filteredMyTasks = useMemo(() => applyFilters(taskData), [taskData, activeFilter]);
-    const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
+    const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasks), [assignedTasks, activeFilter]);
+    const inProgressCount = useMemo(() => {
+        const myTasksInProgress = taskData.filter(t => t.status === 'In Progress').length;
+        const assignedTasksInProgress = assignedTasks.filter(t => t.status === 'In Progress').length;
+        return myTasksInProgress + assignedTasksInProgress;
+    }, [taskData, assignedTasks]);
 
     const myTasksChartData = useMemo(() => {
         const statusCounts = taskData.reduce((acc, task) => {
@@ -234,6 +239,12 @@ export default function SalesHome() {
                     <h2 className="text-xl font-medium mb-4">My Tasks</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
             </main>
