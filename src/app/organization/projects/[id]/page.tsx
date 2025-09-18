@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, use } from 'react';
@@ -185,7 +184,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 </div>
                 
                 <div className="w-full xl:w-[384px] space-y-6">
-                     <div className="flex flex-col md:flex-row gap-2 bg-zinc-100 p-1 rounded-full">
+                     <div className="flex flex-col gap-2 bg-zinc-100 p-1 rounded-full">
                         <div className="flex flex-1 gap-2">
                            <TimelineDialog />
                            <PaymentsDialog />
