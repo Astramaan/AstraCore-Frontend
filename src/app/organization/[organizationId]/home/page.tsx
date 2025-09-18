@@ -4,12 +4,12 @@
 import React, { Suspense } from 'react';
 import { useUser } from '@/context/user-context';
 import DefaultHomePage from './default-home';
-import ProjectManagerHome from '../[organizationId]/home/project-manager-home';
+import ProjectManagerHome from './project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
-import ArchitectHome from '../[organizationId]/home/architect-home';
-import SalesHome from '../[organizationId]/home/sales-home';
-import SiteSupervisorHome from '../[organizationId]/home/site-supervisor-home';
-import NewUserHomePage from '../[organizationId]/newuser/[newuserId]/home/page';
+import ArchitectHome from './architect-home';
+import SalesHome from './sales-home';
+import SiteSupervisorHome from './site-supervisor-home';
+import NewUserHomePage from '../newuser/[newuserId]/home/page';
 
 function OrganizationHomePageContent({ params: { organizationId } }: { params: { organizationId: string } }) {
     const { user, loading } = useUser();
