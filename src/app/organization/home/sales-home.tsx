@@ -273,5 +273,4 @@ export default function SalesHome() {
             )}
         </div>
     )
-
-    
+}
