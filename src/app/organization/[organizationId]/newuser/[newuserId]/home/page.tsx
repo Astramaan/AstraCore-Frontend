@@ -62,7 +62,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 <div className="max-w-[1240px] mx-auto py-8 px-4">
                     <Card className="w-full p-4 md:p-8 bg-white rounded-[50px] flex flex-col justify-center items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
-                        <Card className="w-full max-w-3xl rounded-[20px] border border-stone-300 p-6 flex flex-col justify-center items-center">
+                        <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                 <Button className="w-full md:w-64 h-16 rounded-[10px] text-lg">Physically</Button>
