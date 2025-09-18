@@ -293,7 +293,7 @@ export default function ProjectManagerHome() {
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
                  <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h2 className="text-xl font-medium text-left">My Task</h2>
+                    <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
@@ -321,7 +321,7 @@ export default function ProjectManagerHome() {
                 </div>
                 <div className="mt-8">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-                         <h2 className="text-xl font-medium text-left">My Task</h2>
+                         <h2 className="text-xl font-medium text-left">Project Task</h2>
                     </div>
                      <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
                         {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
@@ -421,3 +421,6 @@ export default function ProjectManagerHome() {
     
 
 
+
+
+    
