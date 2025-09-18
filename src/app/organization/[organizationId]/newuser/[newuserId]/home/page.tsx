@@ -136,18 +136,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <footer className="mt-16 text-center">
-                        <div className="flex flex-wrap justify-center items-center gap-4 mb-2">
-                            <a href="#" className="text-zinc-500 text-sm">Instagram</a>
-                            <a href="#" className="text-zinc-500 text-sm">Facebook</a>
-                            <a href="#" className="text-zinc-500 text-sm">LinkedIn</a>
-                            <a href="#" className="text-zinc-500 text-sm">YouTube</a>
-                            <a href="#" className="text-zinc-500 text-sm">Pinterest</a>
-                            <a href="#" className="text-zinc-500 text-sm">Blog</a>
-                            <a href="#" className="text-zinc-500 text-sm">Location</a>
-                        </div>
-                        <p className="text-zinc-500 text-sm">© 2024 habi from Desigasm Technologies Pvt.Ltd</p>
-                    </footer>
                 </div>
             </main>
             <ClientBottomNav />

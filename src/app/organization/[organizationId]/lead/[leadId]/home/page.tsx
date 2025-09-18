@@ -59,18 +59,18 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
             
             <main>
                 <div className="max-w-[1240px] mx-auto py-8 px-4">
-                    <Card className="w-full p-4 md:p-8 bg-white rounded-2xl flex flex-col justify-center items-center">
+                    <Card className="w-full p-4 md:p-8 bg-white rounded-[50px] flex flex-col justify-center items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
-                        <Card className="w-full max-w-3xl rounded-[20px] border border-stone-300 p-6 flex flex-col justify-center items-center">
+                        <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                                <Button className="w-full md:w-64 h-16 rounded-[10px] text-lg">Physically</Button>
-                                <Button className="w-full md:w-64 h-16 rounded-[10px] text-lg">Virtually</Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">Physically</Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">Virtually</Button>
                             </div>
                         </Card>
                     </Card>
 
-                    <Card className="w-full mt-8 p-4 md:p-8 bg-white shadow-lg rounded-2xl">
+                    <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 mb-8 justify-items-center">
@@ -87,7 +87,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                             </div>
 
                             <div className="mt-16 flex flex-col md:flex-row items-center gap-8">
-                                <div className="w-full md:w-80 h-48 bg-black/25 rounded-[10px] border border-stone-300 flex items-center justify-center shrink-0">
+                                <div className="w-full md:w-80 h-48 bg-black/25 rounded-[30px] border border-stone-300 flex items-center justify-center shrink-0">
                                     <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70">
                                         <Youtube className="w-8 h-8 text-white"/>
                                     </Button>
@@ -100,7 +100,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                         </CardContent>
                     </Card>
 
-                    <Card className="w-full mt-8 p-4 md:p-8 bg-white shadow-lg rounded-2xl">
+                    <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
@@ -135,18 +135,6 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                         </CardContent>
                     </Card>
 
-                    <footer className="mt-16 text-center">
-                        <div className="flex flex-wrap justify-center items-center gap-4 mb-2">
-                            <a href="#" className="text-zinc-500 text-sm">Instagram</a>
-                            <a href="#" className="text-zinc-500 text-sm">Facebook</a>
-                            <a href="#" className="text-zinc-500 text-sm">LinkedIn</a>
-                            <a href="#" className="text-zinc-500 text-sm">YouTube</a>
-                            <a href="#" className="text-zinc-500 text-sm">Pinterest</a>
-                            <a href="#" className="text-zinc-500 text-sm">Blog</a>
-                            <a href="#" className="text-zinc-500 text-sm">Location</a>
-                        </div>
-                        <p className="text-zinc-500 text-sm">© 2024 habi from Desigasm Technologies Pvt.Ltd</p>
-                    </footer>
                 </div>
             </main>
             <ClientBottomNav />
