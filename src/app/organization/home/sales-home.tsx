@@ -119,15 +119,6 @@ export default function SalesHome() {
                     <SalesStatCard title="Conversion Rate" value="25%" icon={<TrendingUp className="w-5 h-5"/>} change="+1.5% this month" />
                 </div>
 
-                <div>
-                    <h2 className="text-xl font-medium mb-4">Today's Meetings</h2>
-                    <div className="grid grid-cols-1 gap-4">
-                        {meetings.slice(0, 3).map(meeting => (
-                            <MeetingCard key={meeting.id} meeting={meeting} onClick={handleMeetingClick} />
-                        ))}
-                    </div>
-                </div>
-
                  <div>
                     <h2 className="text-xl font-medium mb-4">New Leads</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
