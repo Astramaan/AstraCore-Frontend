@@ -8,6 +8,7 @@ import ProjectManagerHome from './project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
 import ArchitectHome from './architect-home';
 import SalesHome from './sales-home';
+import SiteSupervisorHome from './site-supervisor-home';
 
 function OrganizationHomePageContent() {
     const { user, loading } = useUser();
@@ -51,6 +52,10 @@ function OrganizationHomePageContent() {
     
     if (user.team === 'Architect') {
         return <ArchitectHome />;
+    }
+
+    if (user.team === 'Site Supervisor') {
+        return <SiteSupervisorHome />;
     }
 
     if (user.team === 'Sales') {
