@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -290,12 +291,12 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     );
 };
 
-export interface Stage {
+export interface Phase {
     name: string;
-    subStages: SubStage[];
+    stages: Stage[];
 }
 
-export interface SubStage {
+export interface Stage {
     name: string;
     tasks: Task[];
 }
@@ -303,67 +304,48 @@ export interface SubStage {
 export interface Task {
     name: string;
     duration: string;
-    status: string;
 }
 
 export interface TimelineTemplate {
     id: string;
     name: string;
-    stages: Stage[];
+    phases: Phase[];
     isCustom?: boolean;
 }
 
-const initialTimelineData: Stage[] = [
+const initialTimelineData: Phase[] = [
     {
-      "name": "Foundation",
-      "subStages": [
-        {
-          "name": "Excavation",
-          "tasks": [
-            { "name": "Digging", "duration": "3 Days", "status": "In Progress" },
-            { "name": "Soil Testing", "duration": "2 Days", "status": "Not Started" }
-          ]
-        },
-        {
-          "name": "Concrete Work",
-          "tasks": [
-            { "name": "Footing", "duration": "4 Days", "status": "Not Started" },
-            { "name": "Column Base", "duration": "2 Days", "status": "Not Started" }
-          ]
-        }
-      ]
+        name: "Design",
+        stages: [
+            {
+                name: "Architectural Design",
+                tasks: [
+                    { name: "Design Presentation", duration: "3 Days" },
+                    { name: "Concept Approval", duration: "2 Days" }
+                ]
+            },
+            {
+                name: "Structural Design",
+                tasks: [
+                    { name: "Analysis Report", duration: "4 Days" },
+                    { name: "Foundation Design", duration: "2 Days" }
+                ]
+            }
+        ]
     },
     {
-      "name": "Electrical",
-      "subStages": [
-        {
-          "name": "Wiring",
-          "tasks": [
-            { "name": "Conduit Laying", "duration": "5 Days", "status": "Not Started" },
-            { "name": "Cable Pulling", "duration": "3 Days", "status": "Not Started" }
-          ]
-        }
-      ]
+        name: "Civil",
+        stages: [
+            {
+                name: "Excavation",
+                tasks: [
+                    { name: "Digging", duration: "5 Days" },
+                    { name: "Soil Testing", duration: "3 Days" }
+                ]
+            }
+        ]
     },
-    {
-      "name": "Finishing",
-      "subStages": [
-        {
-          "name": "Painting",
-          "tasks": [
-            { "name": "Primer Coat", "duration": "2 Days", "status": "Not Started" },
-            { "name": "Final Paint", "duration": "3 Days", "status": "Not Started" }
-          ]
-        },
-        {
-          "name": "Flooring",
-          "tasks": [
-            { "name": "Tile Laying", "duration": "4 Days", "status": "Not Started" }
-          ]
-        }
-      ]
-    }
-  ];
+];
 
 const ProjectTimelineForm = ({
     onFormSuccess,
@@ -384,25 +366,24 @@ const ProjectTimelineForm = ({
         event.preventDefault();
         
         const formData = new FormData(event.currentTarget);
-        const timeline: Stage[] = [];
+        const timeline: Phase[] = [];
 
-        initialTimelineData.forEach((stage, stageIndex) => {
-            const newStage: Stage = { name: stage.name, subStages: [] };
-            stage.subStages.forEach((subStage, subStageIndex) => {
-                const newSubStage: SubStage = { name: subStage.name, tasks: [] };
-                subStage.tasks.forEach((task, taskIndex) => {
-                    newSubStage.tasks.push({
+        initialTimelineData.forEach((phase, phaseIndex) => {
+            const newPhase: Phase = { name: phase.name, stages: [] };
+            phase.stages.forEach((stage, stageIndex) => {
+                const newStage: Stage = { name: stage.name, tasks: [] };
+                stage.tasks.forEach((task, taskIndex) => {
+                    newStage.tasks.push({
                         name: task.name,
-                        duration: formData.get(`duration_${stageIndex}_${subStageIndex}_${taskIndex}`) as string || task.duration,
-                        status: 'Not Started',
+                        duration: formData.get(`duration_${phaseIndex}_${stageIndex}_${taskIndex}`) as string || task.duration,
                     });
                 });
-                newStage.subStages.push(newSubStage);
+                newPhase.stages.push(newStage);
             });
-            timeline.push(newStage);
+            timeline.push(newPhase);
         });
 
-        const fullData = { ...projectData, stages: timeline, startDate: startDate?.toISOString() };
+        const fullData = { ...projectData, phases: timeline, startDate: startDate?.toISOString() };
 
         startTransition(async () => {
             const result = await addProject(fullData);
@@ -458,25 +439,25 @@ const ProjectTimelineForm = ({
                                 </div>
                             </div>
 
-                            <Accordion type="multiple" defaultValue={initialTimelineData.map(s => s.name)} className="w-full space-y-4">
-                                {initialTimelineData.map((stage, stageIndex) => (
-                                    <AccordionItem key={stage.name} value={stage.name} className="bg-background rounded-3xl px-6">
-                                        <input type="hidden" name={`stage_${stageIndex}_name`} value={stage.name} />
-                                        <AccordionTrigger className="text-xl font-semibold hover:no-underline">{stage.name}</AccordionTrigger>
+                            <Accordion type="multiple" defaultValue={initialTimelineData.map(p => p.name)} className="w-full space-y-4">
+                                {initialTimelineData.map((phase, phaseIndex) => (
+                                    <AccordionItem key={phase.name} value={phase.name} className="bg-background rounded-3xl px-6">
+                                        <input type="hidden" name={`phase_${phaseIndex}_name`} value={phase.name} />
+                                        <AccordionTrigger className="text-xl font-semibold hover:no-underline">{phase.name}</AccordionTrigger>
                                         <AccordionContent>
-                                            <Accordion type="multiple" defaultValue={stage.subStages.map(ss => ss.name)} className="w-full space-y-2">
-                                                {stage.subStages.map((subStage, subStageIndex) => (
-                                                    <AccordionItem key={subStage.name} value={subStage.name} className="border-b-0">
-                                                        <input type="hidden" name={`substage_${stageIndex}_${subStageIndex}_name`} value={subStage.name} />
-                                                        <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">{subStage.name}</AccordionTrigger>
+                                            <Accordion type="multiple" defaultValue={phase.stages.map(s => s.name)} className="w-full space-y-2">
+                                                {phase.stages.map((stage, stageIndex) => (
+                                                    <AccordionItem key={stage.name} value={stage.name} className="border-b-0">
+                                                        <input type="hidden" name={`stage_${phaseIndex}_${stageIndex}_name`} value={stage.name} />
+                                                        <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">{stage.name}</AccordionTrigger>
                                                         <AccordionContent className="pl-4">
                                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                                {subStage.tasks.map((task, taskIndex) => (
+                                                                {stage.tasks.map((task, taskIndex) => (
                                                                     <div key={task.name} className="space-y-2">
-                                                                        <input type="hidden" name={`task_${stageIndex}_${subStageIndex}_${taskIndex}_name`} value={task.name} />
+                                                                        <input type="hidden" name={`task_${phaseIndex}_${stageIndex}_${taskIndex}_name`} value={task.name} />
                                                                         <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
                                                                         <Input
-                                                                            name={`duration_${stageIndex}_${subStageIndex}_${taskIndex}`}
+                                                                            name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
                                                                             className="h-12 bg-white rounded-full px-5"
                                                                             placeholder="Enter days"
                                                                             defaultValue={task.duration}
@@ -512,17 +493,17 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     const { toast } = useToast();
     const isMobile = useIsMobile();
     const [templateName, setTemplateName] = useState('');
-    const [stages, setStages] = useState<Stage[]>([{ name: '', subStages: [{ name: '', tasks: [{ name: '', duration: '', status: '' }] }] }]);
+    const [phases, setPhases] = useState<Phase[]>([{ name: '', stages: [{ name: '', tasks: [{ name: '', duration: '' }] }] }]);
 
 
     useEffect(() => {
         if (isOpen) {
             if (templateToEdit) {
                 setTemplateName(templateToEdit.name);
-                setStages(templateToEdit.stages);
+                setPhases(templateToEdit.phases);
             } else {
                 setTemplateName('');
-                setStages([{ name: '', subStages: [{ name: '', tasks: [{ name: '', duration: '', status: '' }] }] }]);
+                setPhases([{ name: '', stages: [{ name: '', tasks: [{ name: '', duration: '' }] }] }]);
             }
         }
     }, [templateToEdit, isOpen]);

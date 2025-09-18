@@ -236,7 +236,7 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
               </div>
             </div>
         </div>
-        <div className="mt-6 flex gap-4 justify-between">
+        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
@@ -469,6 +469,7 @@ export default function ProjectManagerHome() {
     
 
     
+
 
 
 
