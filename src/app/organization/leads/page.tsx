@@ -200,9 +200,6 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                             View Details
                         </DropdownMenuItem>
                         <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onContact(lead)}>
-                            Contact
-                        </DropdownMenuItem>
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem
                             className="text-red-600"
@@ -246,7 +243,6 @@ const LeadCard = ({ lead, onSelectionChange, isSelected, onSingleDelete, onConta
                     <DropdownMenuContent>
                         <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
                         <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onContact(lead)}>Contact</DropdownMenuItem>
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
@@ -551,6 +547,7 @@ export default function LeadsPage({ searchParams }: { searchParams: { [key: stri
     
 
     
+
 
 
 
