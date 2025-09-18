@@ -136,9 +136,9 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                 variant="outline"
                                 role="combobox"
                                 aria-expanded={memberComboboxOpen}
-                                className="w-full justify-between h-auto min-h-14 bg-background rounded-full flex-wrap"
+                                className="w-full justify-between h-auto min-h-14 bg-background rounded-full flex-wrap px-4 py-2"
                             >
-                                <div className="flex gap-1 flex-wrap">
+                                <div className="flex gap-1 flex-wrap items-center">
                                     {members.length > 0
                                         ? members.map(memberId => (
                                             <Badge key={memberId} variant="secondary" className="gap-1" onClick={(e) => { e.stopPropagation(); toggleMember(memberId); }}>
@@ -146,7 +146,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                                 <X className="h-3 w-3"/>
                                             </Badge>
                                         ))
-                                        : "Select team members..."}
+                                        : <span className="text-muted-foreground font-normal">Select team members...</span>
+                                    }
                                 </div>
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
