@@ -64,7 +64,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground">Due Date: {formattedDate}</p>
+                    <p className="text-sm text-muted-foreground">Due: {formattedDate}</p>
                 </div>
             </div>
         </Card>

@@ -114,7 +114,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground">Due Date: {formattedDate}</p>
+                    <p className="text-sm text-muted-foreground">Due: {formattedDate}</p>
                 </div>
             </div>
         </Card>
@@ -163,7 +163,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             </div>
             <div className="flex justify-between items-center mt-auto">
                  <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className="text-sm text-muted-foreground">Due Date: {formattedDate}</p>
+                <p className="text-sm text-muted-foreground">Due: {formattedDate}</p>
             </div>
         </Card>
     );
@@ -353,8 +353,8 @@ export default function ProjectManagerHome() {
                         </DropdownMenu>
                     </div>
                    
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto">
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 gap-4">
+                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
                                     key={filter}
@@ -370,7 +370,7 @@ export default function ProjectManagerHome() {
                                 </Button>
                             ))}
                         </div>
-                        <h2 className="text-xl font-medium text-left mb-4">My Task</h2>
+                        <h2 className="text-xl font-medium text-left">My Task</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
@@ -445,5 +445,6 @@ export default function ProjectManagerHome() {
     
 
     
+
 
 
