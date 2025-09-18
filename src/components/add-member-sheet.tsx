@@ -37,21 +37,15 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, onClose: () => void }) => {
     const { toast } = useToast();
     const { user } = useUser();
-    const isArchitect = user?.team === 'Architect';
-    const isSales = user?.team === 'Sales';
+    
+    const isTeamAdmin = user?.team === 'Architect' || user?.team === 'Sales' || user?.team === 'Site Supervisor';
+    const teamValue = user?.team?.toLowerCase().replace(' ', '');
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [team, setTeam] = useState(() => {
-        if (isArchitect) return 'architect';
-        if (isSales) return 'sales';
-        return '';
-    });
-    const [role, setRole] = useState(() => {
-        if (isArchitect || isSales) return 'member';
-        return '';
-    });
+    const [team, setTeam] = useState(() => (isTeamAdmin ? teamValue : ''));
+    const [role, setRole] = useState(() => (isTeamAdmin ? 'member' : ''));
 
     const [state, formAction] = useActionState(addMember, { success: false, message: '' });
 
@@ -78,9 +72,9 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                 <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
-                {isArchitect || isSales ? (
+                {isTeamAdmin ? (
                     <>
-                        <input type="hidden" name="team" value={isArchitect ? 'architect' : 'sales'} />
+                        <input type="hidden" name="team" value={teamValue} />
                         <input type="hidden" name="role" value="member" />
                     </>
                 ) : (
@@ -93,7 +87,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                                 </SelectTrigger>
                                 <SelectContent>
                                     {teams.map(r => (
-                                        <SelectItem key={r} value={r.toLowerCase()}>{r}</SelectItem>
+                                        <SelectItem key={r} value={r.toLowerCase().replace('&', 'and')}>{r}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
