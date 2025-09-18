@@ -27,7 +27,9 @@ const initialTaskData: Task[] = [
 ];
 const assignedTasksData: Task[] = [
     { id: "TSK005", title: "Database Migration", date: "30 May 2024", description: "Plan and execute the migration of the user database from the legacy system to the new cloud infrastructure. Ensure data integrity and minimal downtime.", priority: "High", status: "In Progress", category: "Backend", project: "Infrastructure Upgrade", clientId: "CL005", attachments: [] },
-    { id: "TSK006", title: "Onboarding Tutorial", date: "01 June 2024", description: "Create an interactive tutorial for new users to guide them through the main features of the application. Include tooltips and guided steps.", priority: "Medium", status: "Pending", category: "UX", project: "AstraCore App", clientId: "CL001", attachments: [] },
+    { id: "TSK006", title: "Onboarding Tutorial", date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), description: "Create an interactive tutorial for new users to guide them through the main features of the application. Include tooltips and guided steps.", priority: "Medium", status: "Pending", category: "UX", project: "AstraCore App", clientId: "CL001", attachments: [] },
+    { id: "TSK007", title: "Finalize Marketing Copy", date: new Date().toISOString(), description: "Final review of all marketing copy for the new campaign before launch.", priority: "High", status: "Pending", category: "Marketing", project: "AstraCore App", clientId: "CL001", attachments: [] },
+
 ];
 
 const meetings: Meeting[] = [
@@ -38,6 +40,25 @@ const meetings: Meeting[] = [
 
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
 
+const getDateColor = (dateString: string) => {
+    const dueDate = new Date(dateString);
+    const today = new Date();
+    
+    dueDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = dueDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+        return 'text-red-500'; // Today
+    } else if (diffDays === 1) {
+        return 'text-orange-500'; // Tomorrow
+    } else {
+        return 'text-muted-foreground'; // Default
+    }
+};
+
 const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
@@ -45,6 +66,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
         "High": "bg-red-500/10 text-red-500",
     }
     const formattedDate = new Date(task.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
+    const dateColor = getDateColor(task.date);
 
     return (
         <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
@@ -64,7 +86,7 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
                      <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground">Due: {formattedDate}</p>
+                    <p className={cn("text-sm", dateColor)}>Due: {formattedDate}</p>
                 </div>
             </div>
         </Card>
