@@ -141,7 +141,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                 <div className="flex gap-1 flex-wrap items-center">
                                     {members.length > 0
                                         ? members.map(memberId => (
-                                            <Badge key={memberId} variant="secondary" className="gap-1" onClick={(e) => { e.stopPropagation(); toggleMember(memberId); }}>
+                                            <Badge key={memberId} variant="secondary" className="gap-1 bg-primary/10 text-primary border-primary/20" onClick={(e) => { e.stopPropagation(); toggleMember(memberId); }}>
                                                 {mockMembers.find((member) => member.id === memberId)?.name}
                                                 <X className="h-3 w-3"/>
                                             </Badge>
