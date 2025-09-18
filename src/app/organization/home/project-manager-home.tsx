@@ -323,7 +323,7 @@ export default function ProjectManagerHome() {
 
                 <Separator className="my-10" />
                 
-                <div className="mt-8">
+                <div className="mt-20">
                     
                     <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
@@ -352,7 +352,7 @@ export default function ProjectManagerHome() {
                     </div>
                    
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
+                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto mt-16">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
                                     key={filter}
@@ -368,8 +368,8 @@ export default function ProjectManagerHome() {
                                 </Button>
                             ))}
                         </div>
-                        <h2 className="text-xl font-medium text-left">My Task</h2>
                     </div>
+                    <h2 className="text-xl font-medium text-left">My Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
@@ -431,6 +431,8 @@ export default function ProjectManagerHome() {
 
 
 
+
+    
 
     
 
