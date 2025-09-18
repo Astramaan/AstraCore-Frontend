@@ -14,7 +14,7 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
     </div>
 )
 
-export default function ClientHomePage({ params }: { params: { organizationId: string, clientId: string } }) {
+export default function LeadHomePage({ params }: { params: { organizationId: string, leadId: string } }) {
     return (
         <div className="bg-zinc-100 min-h-screen -m-4">
             <aside className="w-48 fixed top-0 left-0 h-full bg-slate-50 border-r border-stone-300 flex flex-col">
