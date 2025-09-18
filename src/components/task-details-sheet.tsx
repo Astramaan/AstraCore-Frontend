@@ -150,6 +150,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
 
 
   const isProjectManager = user?.team === 'Project Manager';
+  const isArchitect = user?.team === 'Architect';
   
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A';
@@ -161,6 +162,74 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
         return dateString;
     }
   };
+  
+  const renderCtas = () => {
+    if (isArchitect) {
+        if (task.status !== 'In Progress' && task.status !== 'Completed') {
+            return (
+                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                    Start
+                </Button>
+            )
+        }
+        if (task.status === 'In Progress') {
+             return (
+                 <div className="flex gap-4">
+                    <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
+                        Upload Attachments
+                    </Button>
+                    <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
+                        Mark as Complete
+                    </Button>
+                </div>
+            )
+        }
+    }
+    
+    if (isProjectManager && task.isProjectTask && task.status === 'ongoing') {
+        return (
+            <div className="flex gap-4">
+                <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
+                <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+            </div>
+        )
+    }
+    
+    if (task.isAssigned) {
+        return (
+            <div className="flex gap-4">
+                <Button variant="outline" onClick={() => setIsDeleteDialogOpen(true)} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
+                    <Trash2 className="mr-2 h-4 w-4"/>
+                    Delete
+                </Button>
+                <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+            </div>
+        )
+    }
+    
+     if (!task.isProjectTask && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing') {
+         return (
+            <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
+                Start
+            </Button>
+         )
+     }
+     
+     if (!task.isProjectTask && task.status === 'In Progress') {
+         return (
+             <div className="flex gap-4">
+                <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
+                    Upload Attachments
+                </Button>
+                <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
+                    Mark as Complete
+                </Button>
+            </div>
+         )
+     }
+     
+     return null;
+  }
 
   return (
     <>
@@ -252,33 +321,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
           </div>
         </ScrollArea>
         <div className="p-6 mt-auto border-t md:border-0">
-            {isProjectManager && task.isProjectTask && task.status === 'ongoing' ? (
-                <div className="flex gap-4">
-                    <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
-                    <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                </div>
-            ) : task.isAssigned ? (
-                <div className="flex gap-4">
-                    <Button variant="outline" onClick={() => setIsDeleteDialogOpen(true)} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
-                        <Trash2 className="mr-2 h-4 w-4"/>
-                        Delete
-                    </Button>
-                    <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                </div>
-            ) : !task.isProjectTask && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
-                <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                    Start
-                </Button>
-            ) : !task.isProjectTask && task.status === 'In Progress' ? (
-                 <div className="flex gap-4">
-                    <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
-                        Upload Attachments
-                    </Button>
-                    <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
-                        Mark as Complete
-                    </Button>
-                </div>
-            ) : null}
+            {renderCtas()}
         </div>
       </div>
        <AttachmentViewerDialog 

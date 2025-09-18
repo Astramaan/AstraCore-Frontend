@@ -46,6 +46,10 @@ function OrganizationHomePageContent() {
     if (user.team === 'Project Manager') {
         return <ProjectManagerHome />;
     }
+    
+    if (user.team === 'Architect') {
+        return <DefaultHomePage />;
+    }
 
     return <DefaultHomePage />;
 }
