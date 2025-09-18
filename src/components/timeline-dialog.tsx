@@ -108,7 +108,7 @@ export const TimelineDialog = () => {
         </DialogOrSheetHeader>
          <ScrollArea className="flex-1">
             <div className="p-6 space-y-6">
-                {user?.roleType === 'superAdmin' && (
+                {(user?.roleType === 'superAdmin' || user?.team === 'Project Manager') && (
                     <Card className="border-none shadow-none">
                         <CardHeader className="p-0">
                             <CardTitle>Team</CardTitle>
