@@ -236,17 +236,17 @@ const ProjectSection = ({ project, onStageClick, activeFilter, onOpenCompletedTa
               </div>
             </div>
         </div>
-        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
+        <div className="mt-6 flex gap-4 justify-between">
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary"
+                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
             >
                 View Completed Tasks
             </Button>
             <Button
                 variant="outline"
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary"
+                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                 onClick={onOpenUpcomingTasks}
             >
                 View Upcoming Tasks
@@ -469,6 +469,7 @@ export default function ProjectManagerHome() {
     
 
     
+
 
 
 
