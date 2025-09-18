@@ -24,10 +24,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/app/actions";
-import { ShieldAlert } from 'lucide-react';
+import { ShieldAlert, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { useUser } from '@/context/user-context';
+import Link from 'next/link';
 
 
 const mockProject = {
@@ -109,8 +110,8 @@ const mockProject = {
     }
 };
 
-export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
-    const { id } = use(params);
+export default function ProjectDetailsPage({ params }: { params: { organizationId: string, id: string } }) {
+    const { id, organizationId } = use(params);
     const { user } = useUser();
     const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
@@ -198,6 +199,17 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                            {canViewPayments ? <PaymentsDialog /> : <DesignDocumentsDialog files={project.files} />}
                         </div>
                         {canViewPayments && <DesignDocumentsDialog files={project.files} />}
+                        <Link href={`/organization/${organizationId}/projects/${id}/client`} legacyBehavior>
+                            <a target="_blank" className="w-full">
+                                <Button
+                                    variant="link"
+                                    className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
+                                >
+                                    <Eye className="mr-2 h-5 w-5" />
+                                    View Client Version
+                                </Button>
+                            </a>
+                        </Link>
                     </div>
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
@@ -234,5 +246,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
         </div>
     );
 }
+
+    
 
     
