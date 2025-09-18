@@ -191,9 +191,9 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                      <div className="flex flex-col gap-2 bg-zinc-100 p-1 rounded-full">
                         <div className="flex flex-1 gap-2">
                            <TimelineDialog />
-                           {canViewPayments && <PaymentsDialog />}
+                           {canViewPayments ? <PaymentsDialog /> : <DesignDocumentsDialog files={project.files} />}
                         </div>
-                        <DesignDocumentsDialog files={project.files} />
+                        {canViewPayments && <DesignDocumentsDialog files={project.files} />}
                     </div>
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
