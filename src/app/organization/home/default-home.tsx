@@ -99,6 +99,7 @@ export default function DefaultHomePage() {
     const { user } = useUser();
     
     const [taskData, setTaskData] = useState<Task[]>(initialTaskData);
+    const [assignedTasks, setAssignedTasks] = useState<Task[]>(assignedTasksData);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
@@ -109,60 +110,76 @@ export default function DefaultHomePage() {
     const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
       const fullTask: Task = {
           ...newTask,
-          id: `TSK${String(taskData.length + 1).padStart(3, '0')}`,
+          id: `TSK${String(taskData.length + assignedTasks.length + 1).padStart(3, '0')}`,
           status: 'Pending',
-          attachments: []
+          attachments: [],
+          isAssigned: true,
       };
-      setTaskData(prevTasks => [fullTask, ...prevTasks]);
+      setAssignedTasks(prevTasks => [fullTask, ...prevTasks]);
     };
+
     const myTasksChartData = useMemo(() => {
-      const statusCounts = taskData.reduce((acc, task) => {
-          if(task.status !== 'Completed') {
-              acc[task.status] = (acc[task.status] || 0) + 1;
-          }
-          return acc;
-      }, {} as Record<string, number>);
-      return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-    }, [taskData]);
-  
-    const assignedTasksChartData = useMemo(() => {
-      const statusCounts = assignedTasksData.reduce((acc, task) => {
-          if(task.status !== 'Completed') {
-              acc[task.status] = (acc[task.status] || 0) + 1;
-          }
-          return acc;
-      }, {} as Record<string, number>);
-      return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-    }, []);
+        const statusCounts = taskData.reduce((acc, task) => {
+            if(task.status !== 'Completed') {
+                acc[task.status] = (acc[task.status] || 0) + 1;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+        return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+      }, [taskData]);
+    
+      const assignedTasksChartData = useMemo(() => {
+        const statusCounts = assignedTasks.reduce((acc, task) => {
+            if(task.status !== 'Completed') {
+                acc[task.status] = (acc[task.status] || 0) + 1;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+        return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+      }, [assignedTasks]);
   
     // Handlers for Default Home
     const handleFilterClick = (filter: FilterType) => {
       setActiveFilter(activeFilter === filter ? null : filter);
     };
     const handleTaskUpdate = (updatedTask: Task) => {
-      setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
+      if (updatedTask.isAssigned) {
+          setAssignedTasks(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
+      } else {
+          setTaskData(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
+      }
       setSelectedTask(updatedTask);
     };
-    const projectNames = useMemo(() => [...new Set(taskData.map(task => task.project))], [taskData]);
-    const filteredTasks = useMemo(() => {
-      let tasks = taskData;
-      if (activeFilter) {
-          tasks = tasks.filter(task => {
-              if (activeFilter === 'High Priority') return task.priority === 'High';
-              if (activeFilter === 'In Progress') return task.status === 'In Progress';
-              if (activeFilter === 'Pending') return task.status === 'Pending';
-              if (activeFilter === 'Completed') return task.status === 'Completed';
-              return true;
-          });
-      } else {
-          tasks = tasks.filter(task => task.status !== 'Completed');
-      }
-      if (selectedProject !== 'all') {
-          tasks = tasks.filter(task => task.project === selectedProject);
-      }
-      return tasks;
-    }, [activeFilter, taskData, selectedProject]);
-    const inProgressCount = useMemo(() => taskData.filter(t => t.status === 'In Progress').length, [taskData]);
+
+    const projectNames = useMemo(() => [...new Set(taskData.filter(t => t.isProjectTask).map(task => task.project))], [taskData]);
+    
+    const applyFilters = (tasks: Task[]) => {
+        if (activeFilter) {
+            return tasks.filter(task => {
+                if (activeFilter === 'High Priority') return task.priority === 'High';
+                return task.status === activeFilter;
+            });
+        }
+        return tasks.filter(task => task.status !== 'Completed');
+    };
+
+    const filteredMyTasks = useMemo(() => applyFilters(taskData.filter(t => !t.isProjectTask && !t.isAssigned)), [taskData, activeFilter]);
+    const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasks), [assignedTasks, activeFilter]);
+    
+    const projectTasks = useMemo(() => {
+        let tasks = taskData.filter(t => t.isProjectTask);
+        if (selectedProject !== 'all') {
+            tasks = tasks.filter(task => task.project === selectedProject);
+        }
+        return tasks;
+    }, [taskData, selectedProject]);
+
+    const inProgressCount = useMemo(() => {
+        const myTasksInProgress = taskData.filter(t => !t.isProjectTask && !t.isAssigned && t.status === 'In Progress').length;
+        const assignedTasksInProgress = assignedTasks.filter(t => t.status === 'In Progress').length;
+        return myTasksInProgress + assignedTasksInProgress;
+    }, [taskData, assignedTasks]);
+    
     const canFilterProjects = user?.team === 'Project Manager' || user?.team === 'Architect' || user?.team === 'Site Supervisor';
   
     return (
@@ -240,13 +257,13 @@ export default function DefaultHomePage() {
                         )}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {filteredTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                        {(user?.roleType === 'superAdmin' ? filteredMyTasks : projectTasks).map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
                 <div className="mt-8">
                     <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {assignedTasksData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
             </main>
