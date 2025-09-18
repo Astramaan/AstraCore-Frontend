@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -17,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { addMember } from '@/app/actions';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from './ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ScrollArea } from './ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -39,12 +38,20 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const { toast } = useToast();
     const { user } = useUser();
     const isArchitect = user?.team === 'Architect';
+    const isSales = user?.team === 'Sales';
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [team, setTeam] = useState(isArchitect ? 'architect' : '');
-    const [role, setRole] = useState(isArchitect ? 'member' : '');
+    const [team, setTeam] = useState(() => {
+        if (isArchitect) return 'architect';
+        if (isSales) return 'sales';
+        return '';
+    });
+    const [role, setRole] = useState(() => {
+        if (isArchitect || isSales) return 'member';
+        return '';
+    });
 
     const [state, formAction] = useActionState(addMember, { success: false, message: '' });
 
@@ -71,9 +78,9 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                 <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
-                {isArchitect ? (
+                {isArchitect || isSales ? (
                     <>
-                        <input type="hidden" name="team" value="architect" />
+                        <input type="hidden" name="team" value={isArchitect ? 'architect' : 'sales'} />
                         <input type="hidden" name="role" value="member" />
                     </>
                 ) : (
