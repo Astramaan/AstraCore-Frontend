@@ -320,9 +320,6 @@ export default function ProjectManagerHome() {
                     )}
                 </div>
                 <div className="mt-8">
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-                         <h2 className="text-xl font-medium text-left">My Task</h2>
-                    </div>
                      <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 w-full lg:w-auto">
                         {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                             <Button
@@ -364,6 +361,9 @@ export default function ProjectManagerHome() {
                                 ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
+                    </div>
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+                         <h2 className="text-xl font-medium text-left">My Task</h2>
                     </div>
                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -424,3 +424,4 @@ export default function ProjectManagerHome() {
 
 
     
+
