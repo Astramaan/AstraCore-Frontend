@@ -19,6 +19,7 @@ import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { AssignTaskSheet } from '@/components/assign-task-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
+import { Separator } from '@/components/ui/separator';
 
 // Data for Project Manager Home
 interface Stage {
@@ -319,7 +320,10 @@ export default function ProjectManagerHome() {
                         />
                     )}
                 </div>
-                <div className="mt-20">
+
+                <Separator className="my-10" />
+                
+                <div className="mt-8">
                     
                     <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
@@ -347,9 +351,8 @@ export default function ProjectManagerHome() {
                         </DropdownMenu>
                     </div>
                    
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mt-10 mb-6 gap-4">
-                         <h2 className="text-xl font-medium text-left">My Task</h2>
-                          <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
                             {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
                                 <Button
                                     key={filter}
@@ -365,6 +368,7 @@ export default function ProjectManagerHome() {
                                 </Button>
                             ))}
                         </div>
+                        <h2 className="text-xl font-medium text-left">My Task</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
