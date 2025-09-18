@@ -10,7 +10,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, UploadCloud, Paperclip, Trash2 } from "lucide-react";
+import { X, UploadCloud, Paperclip, Trash2, Edit } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -20,6 +20,18 @@ import Image from 'next/image';
 import { ScrollArea } from './ui/scroll-area';
 import { useUser } from '@/context/user-context';
 import { ReworkTaskSheet } from './rework-task-sheet';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ShieldAlert } from 'lucide-react';
+
 
 export interface Task {
   id: string;
@@ -83,7 +95,7 @@ const AttachmentViewerDialog = ({ attachment, onClose }: { attachment: Task['att
 };
 
 
-const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: (task: Task) => void; }) => {
+const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpdateTask: (task: Task) => void; onClose: () => void; }) => {
   const { user } = useUser();
   const priorityColors: { [key: string]: string } = {
     "Low": "bg-cyan-500/10 text-cyan-500",
@@ -95,6 +107,8 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedAttachment, setSelectedAttachment] = useState<Task['attachments'][0] | null>(null);
   const [isReworkSheetOpen, setIsReworkSheetOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -129,6 +143,8 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
   
   const handleDelete = () => {
       console.log("Deleting task:", task.id);
+      setIsDeleteDialogOpen(false);
+      onClose(); // Close sheet after deletion
   }
 
 
@@ -156,7 +172,7 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                   <DetailRow label="Task" value={task.title} />
                   <DetailRow label="Stage" value={task.subtitle || ''}/>
                   <DetailRow label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-                  <DetailRow label="Project" value={task.project} />
+                  <DetailRow label="Project" value={`${task.project} (${task.clientId})`} />
                 </>
               ) : (
                 <>
@@ -242,7 +258,7 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                 </div>
             ) : task.isAssigned ? (
                 <div className="flex gap-4">
-                    <Button variant="outline" onClick={handleDelete} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
+                    <Button variant="outline" onClick={() => setIsDeleteDialogOpen(true)} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
                         <Trash2 className="mr-2 h-4 w-4"/>
                         Delete
                     </Button>
@@ -254,10 +270,10 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                 </Button>
             ) : !task.isProjectTask && task.status === 'In Progress' ? (
                  <div className="flex gap-4">
-                    <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300">
+                    <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
                         Upload Attachments
                     </Button>
-                    <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary">
+                    <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary h-[54px]">
                         Mark as Complete
                     </Button>
                 </div>
@@ -273,6 +289,25 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
         onClose={() => setIsReworkSheetOpen(false)}
         task={task}
       />
+       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <AlertDialogContent className="max-w-md rounded-[50px]">
+                <AlertDialogHeader className="items-center text-center">
+                    <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                      <div className="w-full h-full bg-red-600/5 rounded-full" />
+                      <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                      <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                    </div>
+                    <AlertDialogTitle className="text-2xl font-semibold">Delete this task?</AlertDialogTitle>
+                    <AlertDialogDescription className="text-lg text-grey-2">
+                        This action cannot be undone. Are you sure you want to permanently delete this task?
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                    <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     </>
   );
 };
@@ -295,7 +330,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
       >
         <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
           <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
-            {task.isProjectTask ? 'Project Task Details' : 'Task Details'}
+            {task.isProjectTask ? 'Project Task Details' : task.isAssigned ? 'Assigned Task Details' : 'Task Details'}
             <div className="flex items-center gap-4 ml-auto">
               <SheetClose asChild>
                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-gray-100 hover:bg-gray-200">
@@ -306,7 +341,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
           </DialogTitle>
         </DialogHeader>
         <div className='font-gilroy-medium text-[18px] flex-1 flex flex-col overflow-hidden'>
-          <TaskDetailsContent task={task} onUpdateTask={onUpdateTask} />
+          <TaskDetailsContent task={task} onUpdateTask={onUpdateTask} onClose={onClose} />
         </div>
       </DialogOrSheetContent>
     </DialogOrSheet>
