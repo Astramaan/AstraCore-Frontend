@@ -27,12 +27,12 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { AvatarWithProgress } from "@/components/avatar-with-progress";
 
-const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean }) => (
+const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string }) => (
     <div className="flex flex-col group">
         {/* Mobile & Tablet View */}
         <div className="lg:hidden p-6 md:p-10 gap-4">
             <div className="flex items-start justify-between gap-4">
-                <Link href={`/organization/projects/${project.id}`} className="flex items-center gap-4 w-full">
+                <Link href={`/organization/${organizationId}/projects/${project.id}`} className="flex items-center gap-4 w-full">
                     <AvatarWithProgress value={project.progress}>
                         <Avatar className="w-14 h-14 shrink-0">
                             <AvatarImage src={project.image} data-ai-hint="abstract building" />
@@ -79,7 +79,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
         </div>
 
         {/* Desktop View */}
-        <Link href={`/organization/projects/${project.id}`} className="hidden lg:block">
+        <Link href={`/organization/${organizationId}/projects/${project.id}`} className="hidden lg:block">
             <div
             className={cn(
                 "grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
@@ -165,7 +165,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
 );
 
 
-export default function ProjectsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function ProjectsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
     const [activeProjects, setActiveProjects] = useState<Project[]>([]);
     const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
@@ -265,6 +265,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                                 onDelete={handleDeleteClick} 
                                 isFirst={index === 0}
                                 isLast={index === activeProjects.length - 1} 
+                                organizationId={organizationId}
                             />
                         ))}
                     </CardContent>
@@ -283,6 +284,7 @@ export default function ProjectsPage({ searchParams }: { searchParams: { [key: s
                                 onDelete={handleDeleteClick} 
                                 isFirst={index === 0}
                                 isLast={index === completedProjects.length - 1} 
+                                organizationId={organizationId}
                             />
                         ))}
                     </CardContent>

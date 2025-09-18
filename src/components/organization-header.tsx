@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import { Users, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,6 +17,8 @@ import { useUser } from '@/context/user-context';
 
 export const OrganizationHeader = () => {
     const pathname = usePathname();
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const { user } = useUser();
     
     const userName = user?.name || 'User';
@@ -24,25 +26,25 @@ export const OrganizationHeader = () => {
 
     let pageTitle = '';
 
-    if (pathname.startsWith('/organization/home')) {
+    if (pathname.includes('/home')) {
         pageTitle = 'Home';
-    } else if (pathname.startsWith('/organization/meetings')) {
+    } else if (pathname.includes('/meetings')) {
         pageTitle = 'Meetings';
-    } else if (pathname.startsWith('/organization/projects')) {
+    } else if (pathname.includes('/projects')) {
         pageTitle = 'Projects';
-    } else if (pathname.startsWith('/organization/leads')) {
+    } else if (pathname.includes('/leads')) {
         pageTitle = 'Leads';
-    } else if (pathname.startsWith('/organization/vendors')) {
+    } else if (pathname.includes('/vendors')) {
         pageTitle = 'Vendors';
-    } else if (pathname.startsWith('/organization/teams')) {
+    } else if (pathname.includes('/teams')) {
         pageTitle = 'Teams Management';
-    } else if (pathname.startsWith('/organization/subscription-management')) {
+    } else if (pathname.includes('/subscription-management')) {
         pageTitle = 'Subscription management'
-    } else if (pathname.startsWith('/organization/profile')) {
+    } else if (pathname.includes('/profile')) {
         pageTitle = 'My Profile'
     }
     
-    const isTeamsActive = pathname.startsWith('/organization/teams');
+    const isTeamsActive = pathname.includes('/teams');
     const teamsButtonText = 'Teams Management';
     
     const userInitials = userName.split(' ').map(n => n[0]).join('');
@@ -62,7 +64,7 @@ export const OrganizationHeader = () => {
         </div>
         <div className="hidden md:flex items-center gap-2 lg:gap-4">
             <NotificationPopover />
-            <Link href="/organization/teams">
+            <Link href={`/organization/${organizationId}/teams`}>
               <Button className={cn(
                   "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
                   isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
@@ -71,7 +73,7 @@ export const OrganizationHeader = () => {
                   <span>{teamsButtonText}</span>
               </Button>
             </Link>
-            <Link href="/organization/profile" className="flex items-center gap-2">
+            <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
                 <Avatar className="h-[54px] w-[54px]">
                     <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                     <AvatarFallback>{userInitials}</AvatarFallback>
@@ -95,7 +97,7 @@ export const OrganizationHeader = () => {
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-col gap-4 pt-8">
-                        <Link href="/organization/profile" className="flex items-center gap-2">
+                        <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
                             <Avatar className="h-[54px] w-[54px]">
                                 <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                                 <AvatarFallback>{userInitials}</AvatarFallback>
@@ -106,7 +108,7 @@ export const OrganizationHeader = () => {
                             </div>
                         </Link>
                         <Separator />
-                        <Link href="/organization/teams">
+                        <Link href={`/organization/${organizationId}/teams`}>
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"

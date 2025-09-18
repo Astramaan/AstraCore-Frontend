@@ -9,7 +9,7 @@ import { Button }from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 
-export default function MemberDetailsPage({ params }: { params: { id: string } }) {
+export default function MemberDetailsPage({ params }: { params: { id: string, organizationId: string } }) {
     // In a real app, you would fetch member data based on params.id
     // For now, we'll pass a mock ID to the component.
     

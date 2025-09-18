@@ -42,7 +42,7 @@ const mockVendor = {
     ]
 };
 
-export default function VendorDetailsPage({ params }: { params: { id: string } }) {
+export default function VendorDetailsPage({ params }: { params: { id: string, organizationId: string } }) {
     // In a real app, you would fetch vendor data based on params.id
     const [vendor, setVendor] = useState(mockVendor);
     const [isEditing, setIsEditing] = useState(false);

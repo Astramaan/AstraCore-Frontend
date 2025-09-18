@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import HomeIcon from './icons/home-icon';
 import MeetingsIcon from './icons/meetings-icon';
@@ -16,13 +16,15 @@ import { useUser } from '@/context/user-context';
 export const OrganizationBottomNav = () => {
     const { user, loading } = useUser();
     const pathname = usePathname();
+    const params = useParams();
+    const organizationId = params.organizationId as string;
 
     const navItems = [
-        { href: "/organization/home", icon: HomeIcon, label: "Home" },
-        { href: "/organization/meetings", icon: MeetingsIcon, label: "Meetings" },
-        { href: "/organization/projects", icon: ProjectsIcon, label: "Projects" },
-        { href: "/organization/leads", icon: LeadsIcon, label: "Leads" },
-        { href: "/organization/vendors", icon: VendorsIcon, label: "Vendors" },
+        { href: `/organization/${organizationId}/home`, icon: HomeIcon, label: "Home" },
+        { href: `/organization/${organizationId}/meetings`, icon: MeetingsIcon, label: "Meetings" },
+        { href: `/organization/${organizationId}/projects`, icon: ProjectsIcon, label: "Projects" },
+        { href: `/organization/${organizationId}/leads`, icon: LeadsIcon, label: "Leads" },
+        { href: `/organization/${organizationId}/vendors`, icon: VendorsIcon, label: "Vendors" },
     ];
     
     if (loading || !user) {

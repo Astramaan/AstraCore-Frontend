@@ -172,7 +172,7 @@ const RoleCardSkeleton = () => (
 );
 
 
-export default function TeamsPage() {
+export default function TeamsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { user } = useUser();

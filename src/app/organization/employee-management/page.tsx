@@ -94,7 +94,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
     </>
 );
 
-export default function EmployeeManagementPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function EmployeeManagementPage({ params: { organizationId } }: { params: { organizationId: string } }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 

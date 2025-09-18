@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { useUser } from '@/context/user-context';
 
-export default function ProfilePage() {
+export default function ProfilePage({ params: { organizationId } }: { params: { organizationId: string } }) {
     const router = useRouter();
     const { user } = useUser();
     

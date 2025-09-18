@@ -23,6 +23,7 @@ import { deactivateUser, requestPasswordReset } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { ScrollArea } from './ui/scroll-area';
 import { useUser } from '@/context/user-context';
+import { useParams } from 'next/navigation';
 
 
 export interface Member {
@@ -49,6 +50,8 @@ export interface Role {
 const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamName: string; onDeactivate: (member: Member) => void; }) => {
     const { toast } = useToast();
     const { user } = useUser();
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     
     const handlePasswordReset = async () => {
         const formData = new FormData();
@@ -74,14 +77,14 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
         <>
             <div className="flex justify-between items-start py-4 gap-4">
                 <div className="flex items-center gap-4 flex-1">
-                     <Link href={`/organization/teams/${member.id}`} className="flex items-center gap-4 cursor-pointer">
+                     <Link href={`/organization/${organizationId}/teams/${member.id}`} className="flex items-center gap-4 cursor-pointer">
                         <Avatar className="w-12 h-12">
                             <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
                             <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                      </Link>
                     <div className="flex-1">
-                        <Link href={`/organization/teams/${member.id}`} className="cursor-pointer">
+                        <Link href={`/organization/${organizationId}/teams/${member.id}`} className="cursor-pointer">
                            <p className="text-lg font-medium">{member.name}</p>
                         </Link>
                         <div className="md:hidden mt-2 space-y-1 text-sm">
@@ -118,7 +121,7 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                         <DropdownMenuItem asChild><Link href={`/organization/teams/${member.id}`}>View Details</Link></DropdownMenuItem>
+                         <DropdownMenuItem asChild><Link href={`/organization/${organizationId}/teams/${member.id}`}>View Details</Link></DropdownMenuItem>
                          {canManage && (
                              <>
                                 <DropdownMenuItem onSelect={handlePasswordReset}>Change Password</DropdownMenuItem>

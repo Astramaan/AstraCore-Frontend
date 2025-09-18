@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -156,7 +157,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
 );
 
 
-export default function MeetingsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function MeetingsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
     const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);

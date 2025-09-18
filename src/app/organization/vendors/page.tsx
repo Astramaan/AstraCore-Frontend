@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -181,7 +182,7 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
 );
 
 
-export default function VendorsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function VendorsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
     const [allVendors, setAllVendors] = useState(vendorsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -292,6 +293,7 @@ export default function VendorsPage({ searchParams }: { searchParams: { [key: st
 }
 
     
+
 
 
 

@@ -10,7 +10,7 @@ import ArchitectHome from './architect-home';
 import SalesHome from './sales-home';
 import SiteSupervisorHome from './site-supervisor-home';
 
-function OrganizationHomePageContent() {
+function OrganizationHomePageContent({ params: { organizationId } }: { params: { organizationId: string } }) {
     const { user, loading } = useUser();
 
     if (loading) {
@@ -65,10 +65,10 @@ function OrganizationHomePageContent() {
     return <DefaultHomePage />;
 }
 
-export default function OrganizationHomePage() {
+export default function OrganizationHomePage({ params }: { params: { organizationId: string } }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <OrganizationHomePageContent />
+            <OrganizationHomePageContent params={params} />
         </Suspense>
     );
 }
