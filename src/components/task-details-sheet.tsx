@@ -153,23 +153,22 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
             <div className="space-y-8">
               {task.isProjectTask ? (
                 <>
-                  <DetailRow label="Task" value={task.subtitle || ''}/>
-                  <DetailRow label="Stage" value={task.title} />
+                  <DetailRow label="Task" value={task.title} />
+                  <DetailRow label="Stage" value={task.subtitle || ''}/>
                   <DetailRow label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-                  <DetailRow label="Project" value={`${task.project} (${task.clientId})`} />
-                  <DetailRow label="Due Date" value={formatDate(task.date)} />
-                  <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
                 </>
               ) : (
                 <>
                   <DetailRow label="Title" value={task.title} />
-                  {!task.isProjectTask && <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />}
+                  <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
                   <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-                   {!task.isProjectTask && <DetailRow label="Project" value={task.project} />}
-                  <DetailRow label="Due Date" value={formatDate(task.date)} />
-                  <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
+                  <DetailRow label="Project" value={`${task.project} (${task.clientId})`} />
                 </>
               )}
+              
+              <DetailRow label="Due Date" value={formatDate(task.date)} />
+              <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
+              
               {task.status === 'Completed' && task.completedDate && (
                 <DetailRow label="Completed Date" value={formatDate(task.completedDate)} />
               )}

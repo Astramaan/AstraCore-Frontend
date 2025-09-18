@@ -258,7 +258,6 @@ export default function DefaultHomePage() {
                 onAddTask={handleAddTask}
             />
             
-            {/* Modals and Sheets */}
             {selectedTask && (
                 <TaskDetailsSheet
                     isOpen={!!selectedTask}
