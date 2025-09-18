@@ -10,7 +10,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, UploadCloud, Paperclip } from "lucide-react";
+import { X, UploadCloud, Paperclip, Trash2 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -35,6 +35,7 @@ export interface Task {
   completedDate?: string;
   isProjectTask?: boolean;
   subtitle?: string;
+  isAssigned?: boolean;
 }
 
 interface TaskDetailsSheetProps {
@@ -45,7 +46,7 @@ interface TaskDetailsSheetProps {
 }
 
 const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) => (
-  <div className="grid grid-cols-2 items-start gap-4">
+  <div>
     <p className="text-lg text-stone-500 font-medium">{label}</p>
     <div className="text-lg text-zinc-900 font-medium">
       {value}
@@ -125,6 +126,10 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
   const handleRework = () => {
     setIsReworkSheetOpen(true);
   };
+  
+  const handleDelete = () => {
+      console.log("Deleting task:", task.id);
+  }
 
 
   const isProjectManager = user?.team === 'Project Manager';
@@ -148,8 +153,8 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
             <div className="space-y-8">
               {task.isProjectTask ? (
                 <>
-                  <DetailRow label="Task" value={task.title} />
-                  <DetailRow label="Stage" value={task.subtitle || ''} />
+                  <DetailRow label="Task" value={task.subtitle || ''}/>
+                  <DetailRow label="Stage" value={task.title} />
                   <DetailRow label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
                   <DetailRow label="Project" value={`${task.project} (${task.clientId})`} />
                   <DetailRow label="Due Date" value={formatDate(task.date)} />
@@ -158,8 +163,9 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
               ) : (
                 <>
                   <DetailRow label="Title" value={task.title} />
-                  <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
+                  {!task.isProjectTask && <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />}
                   <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
+                   {!task.isProjectTask && <DetailRow label="Project" value={task.project} />}
                   <DetailRow label="Due Date" value={formatDate(task.date)} />
                   <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
                 </>
@@ -229,10 +235,18 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
             )}
           </div>
         </ScrollArea>
-        <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
+        <div className="p-6 mt-auto border-t md:border-0">
             {isProjectManager && task.isProjectTask && task.status === 'ongoing' ? (
                 <div className="flex gap-4">
                     <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
+                    <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                </div>
+            ) : task.isAssigned ? (
+                <div className="flex gap-4">
+                    <Button variant="outline" onClick={handleDelete} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">
+                        <Trash2 className="mr-2 h-4 w-4"/>
+                        Delete
+                    </Button>
                     <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
                 </div>
             ) : !task.isProjectTask && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
@@ -240,9 +254,14 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                     Start
                 </Button>
             ) : !task.isProjectTask && task.status === 'In Progress' ? (
-                <Button onClick={handleCompleteTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                    Mark as Complete
-                </Button>
+                 <div className="flex gap-4">
+                    <Button variant="outline" className="flex-1 rounded-full bg-background border-stone-300">
+                        Upload Attachments
+                    </Button>
+                    <Button onClick={handleCompleteTask} className="flex-1 rounded-full bg-primary">
+                        Mark as Complete
+                    </Button>
+                </div>
             ) : null}
         </div>
       </div>
