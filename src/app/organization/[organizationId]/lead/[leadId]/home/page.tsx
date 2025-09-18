@@ -111,25 +111,25 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
                                 <AccordionItem value="item-1" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-2" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-3" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-4" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary">Does habi charge an advance payment?</AccordionTrigger>
                                     <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
