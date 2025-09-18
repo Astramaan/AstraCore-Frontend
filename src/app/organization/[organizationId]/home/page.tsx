@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, use } from 'react';
 import { useUser } from '@/context/user-context';
 import DefaultHomePage from './default-home';
 import ProjectManagerHome from './project-manager-home';
@@ -13,7 +13,8 @@ import NewUserHomePage from '../newuser/[newuserId]/home/page';
 import { useRouter } from 'next/navigation';
 
 
-function OrganizationHomePageContent({ params: { organizationId } }: { params: { organizationId: string } }) {
+function OrganizationHomePageContent({ params }: { params: { organizationId: string } }) {
+    const { organizationId } = use(params);
     const { user, loading } = useUser();
     const router = useRouter();
 
