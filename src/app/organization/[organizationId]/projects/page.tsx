@@ -1,12 +1,11 @@
 
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical, ShieldAlert } from "lucide-react";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -60,19 +59,19 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             </div>
             <div className="space-y-2 mt-4 ml-18 grid grid-cols-2 gap-x-4 gap-y-2">
                 <div>
-                    <span className="text-grey-2 text-base">Contact: </span>
+                    <span className="text-grey-2 text-base">Contact: </span> 
                     <p className="text-black font-medium text-base break-all">{project.contact}</p>
                 </div>
                  <div>
-                    <span className="text-grey-2 text-base">Client ID: </span>
+                    <span className="text-grey-2 text-base">Client ID: </span> 
                     <p className="zinc-900 font-medium text-base">{project.id}</p>
                 </div>
                  <div>
-                    <span className="text-grey-2 text-base">Started Date: </span>
+                    <span className="text-grey-2 text-base">Started Date: </span> 
                     <p className="text-zinc-900 font-medium text-base">{project.startDate}</p>
                 </div>
                  <div>
-                    <span className="text-grey-2 text-base">Status: </span>
+                    <span className="text-grey-2 text-base">Status: </span> 
                     <p className={cn(project.statusColor, 'font-medium text-base')}>{project.status}</p>
                 </div>
             </div>
@@ -98,7 +97,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 <div className="flex-1">
                 <p className="text-xl font-semibold text-black">{project.name}</p>
                 <p className="text-lg">
-                    <span className="text-grey-2">Location: </span>
+                    <span className="text-grey-2">Location: </span> 
                     <span className="text-black">{project.city}</span>
                 </p>
                 </div>
@@ -126,7 +125,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             <div className="flex justify-between items-center">
                 <div className="flex flex-col gap-2">
                 <p className="text-lg">
-                    <span className="text-grey-2">Started Date: </span>
+                    <span className="text-grey-2">Started Date: </span> 
                     <span className="text-zinc-900">{project.startDate}</span>
                 </p>
                 <p className="text-lg">
@@ -165,7 +164,8 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
 );
 
 
-export default function ProjectsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
+export default function ProjectsPage({ params }: { params: { organizationId: string } }) {
+    const { organizationId } = use(params);
     const [activeProjects, setActiveProjects] = useState<Project[]>([]);
     const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
@@ -319,6 +319,8 @@ export default function ProjectsPage({ params: { organizationId } }: { params: {
     
 
 
+
+    
 
     
 
