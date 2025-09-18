@@ -181,19 +181,65 @@ const TaskDetailsContent = ({ task, onUpdateTask }: { task: Task, onUpdateTask: 
                 </div>
               )}
             </div>
+             {!task.isProjectTask && task.status === 'In Progress' && (
+              <div className="space-y-2 mt-6">
+                  <p className="text-lg text-stone-500">Attach Files</p>
+                  <div
+                      className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background cursor-pointer"
+                      onClick={() => fileInputRef.current?.click()}
+                  >
+                      <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                          className="hidden"
+                          multiple
+                      />
+                      <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                          <UploadCloud className="w-6 h-6 text-gray-500" />
+                      </div>
+                      <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
+                      <p className="text-xs text-gray-400">JPG, PNG, PDF • Up to 10Mb</p>
+                  </div>
+                    {attachments.length > 0 && (
+                      <div className="space-y-2 pt-4">
+                          <p className="text-sm font-medium">Attached files:</p>
+                          <div className="space-y-2">
+                              {attachments.map((file, index) => (
+                                  <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
+                                      <div className="flex items-center gap-2">
+                                          <Paperclip className="h-4 w-4" />
+                                          <span className="text-sm truncate">{file.name}</span>
+                                      </div>
+                                      <Button
+                                          type="button"
+                                          variant="ghost"
+                                          size="icon"
+                                          className="h-6 w-6"
+                                          onClick={() => handleRemoveFile(index)}
+                                      >
+                                          <X className="h-4 w-4" />
+                                      </Button>
+                                  </div>
+                              ))}
+                          </div>
+                      </div>
+                  )}
+              </div>
+            )}
           </div>
         </ScrollArea>
         <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
-            {isProjectManager && task.status === 'ongoing' ? (
+            {isProjectManager && task.isProjectTask && task.status === 'ongoing' ? (
                 <div className="flex gap-4">
                     <Button variant="outline" onClick={handleRework} className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Rework</Button>
                     <Button onClick={handleApprove} className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
                 </div>
-            ) : !isProjectManager && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
+            ) : !task.isProjectTask && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' ? (
                 <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
                     Start
                 </Button>
-            ) : !isProjectManager && task.status === 'In Progress' ? (
+            ) : !task.isProjectTask && task.status === 'In Progress' ? (
                 <Button onClick={handleCompleteTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
                     Mark as Complete
                 </Button>
