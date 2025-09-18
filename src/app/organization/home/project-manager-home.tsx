@@ -319,24 +319,8 @@ export default function ProjectManagerHome() {
                         />
                     )}
                 </div>
-                <div className="mt-40">
-                     <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto mt-20">
-                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                            <Button
-                                key={filter}
-                                variant="outline"
-                                className={cn(
-                                    "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                                    activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                                )}
-                                onClick={() => handleFilterClick(filter as FilterType)}
-                            >
-                                {filter}
-                                {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                            </Button>
-                        ))}
-                    </div>
-
+                <div className="mt-20">
+                    
                     <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -365,6 +349,22 @@ export default function ProjectManagerHome() {
                    
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mt-10 mb-6 gap-4">
                          <h2 className="text-xl font-medium text-left">My Task</h2>
+                          <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
+                            {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                                <Button
+                                    key={filter}
+                                    variant="outline"
+                                    className={cn(
+                                        "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                                        activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                                    )}
+                                    onClick={() => handleFilterClick(filter as FilterType)}
+                                >
+                                    {filter}
+                                    {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                                </Button>
+                            ))}
+                        </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                         {initialTaskData.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
@@ -427,6 +427,8 @@ export default function ProjectManagerHome() {
 
 
 
+
+    
 
     
 
