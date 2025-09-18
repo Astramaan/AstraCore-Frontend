@@ -10,11 +10,13 @@ import { Button } from '@/components/ui/button';
 import { LogOut, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
+import { useUser } from '@/context/user-context';
 
 export default function ProfilePage() {
     const router = useRouter();
-    // In a real app, you would get this from your auth context
-    const isSuperAdmin = true;
+    const { user } = useUser();
+    
+    const isSuperAdmin = user?.roleType === 'superAdmin';
 
     return (
         <div className="space-y-6">
@@ -29,7 +31,7 @@ export default function ProfilePage() {
                     Back
                 </Button>
             </div>
-            <PersonalDetails memberId="1" />
+            <PersonalDetails memberId={user?.userId || ''} />
             
             {isSuperAdmin && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
