@@ -41,7 +41,7 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
     }, []);
 
     return (
-        <Card className="w-full rounded-[40px] border flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onClick(stage)}>
+        <Card className="w-full h-44 rounded-[40px] border flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onClick(stage)}>
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
