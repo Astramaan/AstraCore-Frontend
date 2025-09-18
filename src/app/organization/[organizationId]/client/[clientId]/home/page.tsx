@@ -1,137 +1,136 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { HabiLogo } from "@/components/habi-logo";
+import Image from "next/image";
+import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube } from 'lucide-react';
 
-'use client';
-
-import React, { useState, useEffect, use } from 'react';
-import { ProjectDetailsCard } from '@/components/project-details-card';
-import { ProjectFilesCard } from '@/components/project-files-card';
-import { ProjectVisualsCard } from '@/components/project-visuals-card';
-import { ProjectInfoHeader } from '@/components/project-info-header';
-import { ProjectMaterialsCard } from '@/components/project-materials-card';
-import { TimelineDialog } from '@/components/timeline-dialog';
-import { PaymentsDialog } from '@/components/payments-dialog';
-import { getProjectDetails, Project } from '@/lib/data';
-import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
-import { useUser } from '@/context/user-context';
-
-
-const mockProject = {
-    id: "YAS2024",
-    name: "Yash",
-    coverImage: "https://placehold.co/1216x144",
-    profileImage: "https://placehold.co/94x94",
-    progress: 25,
-    contact: "yash69@gmail.com | 1234567890",
-    city: "Bengaluru",
-    startDate: "25 May 2024",
-    status: "On going",
-    statusColor: "text-green-600",
-    image: "https://placehold.co/59x59",
-    createdBy: "pm_user_id", 
-    personalInfo: {
-        name: "Yash",
-        clientId: "YAS2024",
-        phone: "1234567890",
-        email: "yash69@gmail.com",
-        address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-    },
-    projectInfo: {
-        cost: "1.5 cr",
-        duration: {
-            start: "25 May 2024",
-            end: "1 Dec 2024"
-        },
-        dimension: "1200 Sq. ft",
-        floors: "G+1",
-        status: "On going",
-        locationLink: "https://maps.google.com"
-    },
-    visuals: {
-        "3d": [
-            "https://placehold.co/68x68",
-            "https://placehold.co/69x68",
-            "https://placehold.co/69x68",
-            "https://placehold.co/69x68",
-        ],
-        gallery: Array(24).fill("https://placehold.co/68x68"),
-    },
-    materials: Array(6).fill({
-        name: "Tata Steel",
-        image: "https://placehold.co/67x67",
-        description: "Brand: TATA, Diameter: 32 mm & above, Single Piece Length: 12 meter...",
-    }),
-    files: {
-        initial: [{ id: 'init-1', name: "Initial Layout", date: "28 July 2024", version: "V 1", history: [] }],
-        costing: [
-            { id: 'cost-1', name: "Tentative Quotation", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cost-2', name: "Bill of Quantity", date: "28 July 2024", version: "V 1", history: [] },
-        ],
-        architecture: [
-            { id: 'arch-1', name: "Architecture Schematic Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'arch-2', name: "Architecture Concept Design", date: "28 July 2024", version: "V 2", history: [{ name: "Architecture Concept Design", date: "27 July 2024", version: "V 1"}] },
-            { id: 'arch-3', name: "Interior Concept Design", date: "28 July 2024", version: "V 1", history: [] },
-        ],
-        structure: [
-            { id: 'struct-1', name: "Soil Testing Report", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'struct-2', name: "Structure Analysis Report", date: "28 July 2024", version: "V 1", history: [] },
-        ],
-        sanction: [{ id: 'sanc-1', name: "Sanction Drawing", date: "28 July 2024", version: "V 1", history: [] }],
-        construction: [
-            { id: 'cons-1', name: "Tender Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-2', name: "Structure GFC Drawing", date: "28 July 2024", version: "V 1", history: [] },
-        ],
-    },
-    timeline: {
-    }
-};
+const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
+    <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+            {icon}
+        </div>
+        <p className="text-center justify-center text-black text-sm font-normal leading-none">{text}</p>
+    </div>
+)
 
 export default function ClientHomePage({ params }: { params: { organizationId: string, clientId: string } }) {
-    const { clientId } = params;
-    const { user } = useUser();
-    const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
-    
-    useEffect(() => {
-        const fetchProject = async () => {
-            const projectDetails = await getProjectDetails(clientId);
-            if (projectDetails) {
-                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: projectDetails.name || mockProject.personalInfo.name } };
-                setProject(displayProject as any);
-            }
-        };
-        fetchProject();
-    }, [clientId]);
-
-    if (!project) {
-        return (
-            <div className="flex justify-center items-center h-full">
-                <p>Loading project details...</p>
-            </div>
-        );
-    }
-    
     return (
-        <div className="space-y-6">
-            <ProjectInfoHeader project={project} />
+        <div className="bg-zinc-100 min-h-screen -m-4">
+            <aside className="w-48 fixed top-0 left-0 h-full bg-slate-50 border-r border-stone-300 flex flex-col">
+                <div className="p-4 pt-8 flex justify-center">
+                    <HabiLogo />
+                </div>
+                <nav className="flex-grow px-4 mt-8">
+                    <ul className="space-y-2">
+                        <li className="relative">
+                            <a href="#" className="flex items-center gap-3 text-lg p-3 rounded-l-[10px] text-primary bg-primary/10">
+                                <Home className="h-6 w-6 text-primary" />
+                                <span>Home</span>
+                            </a>
+                            <div className="absolute left-0 top-0 h-full w-[5px] bg-primary rounded-tr-[3px] rounded-br-[3px]" />
+                        </li>
+                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><Award className="h-6 w-6"/><span>Packages</span></a></li>
+                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><GanttChartSquare className="h-6 w-6"/><span>Portfolio</span></a></li>
+                        <li><a href="#" className="flex items-center gap-3 text-lg p-3 text-neutral-900"><User className="h-6 w-6"/><span>Profile</span></a></li>
+                    </ul>
+                </nav>
+            </aside>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
-                <div className="space-y-6">
-                    <ProjectDetailsCard 
-                        personalInfo={project.personalInfo} 
-                        projectInfo={project.projectInfo}
-                    />
-                    <ProjectVisualsCard visuals={project.visuals} />
-                </div>
-                
-                <div className="w-full xl:w-[384px] space-y-6">
-                     <div className="flex flex-col gap-2 bg-zinc-100 p-1 rounded-full">
-                        <div className="flex flex-1 gap-2">
-                           <TimelineDialog />
-                           <PaymentsDialog />
+            <main className="ml-48">
+                <div className="max-w-[1240px] mx-auto py-8 px-4">
+                    <Card className="w-full h-72 p-8 bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center items-center">
+                        <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
+                        <Card className="w-full max-w-3xl h-44 rounded-[20px] border border-stone-300 p-6 flex flex-col justify-center items-center">
+                            <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
+                            <div className="flex gap-4">
+                                <Button className="w-64 h-16 rounded-[10px] text-lg">Physically</Button>
+                                <Button className="w-64 h-16 rounded-[10px] text-lg">Virtually</Button>
+                            </div>
+                        </Card>
+                    </Card>
+
+                    <Card className="w-full mt-8 p-8 bg-slate-50 shadow-lg rounded-2xl">
+                        <CardContent className="p-0">
+                             <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
+                             <div className="flex justify-around items-start mb-8 relative">
+                                <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
+                                <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
+                                <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
+                                <FeatureCard icon={<Award className="text-white"/>} text="1 Year Warranty"/>
+                                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-secondary -translate-y-1/2 -z-10" />
+                            </div>
+                             <div className="flex justify-around items-start relative">
+                                <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
+                                <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
+                                <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
+                                <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
+                                 <div className="absolute top-1/2 left-0 w-full h-0.5 bg-secondary -translate-y-1/2 -z-10" />
+                            </div>
+
+                            <div className="mt-16 flex items-center gap-8">
+                                <div className="w-80 h-48 bg-black/25 rounded-[10px] border border-stone-300 flex items-center justify-center">
+                                    <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center">
+                                        <Youtube className="w-8 h-8 text-white"/>
+                                    </Button>
+                                </div>
+                                <div>
+                                    <h3 className="text-black text-lg font-normal leading-none mb-3">habi's Story - Redefines Home Building | habi</h3>
+                                    <p className="text-stone-500 text-sm font-normal leading-normal">“Building Better Homes: Solving Construction Challenges with Tech” Discover how our startup tackles industry pain points head-on using cutting-edge technology. From streamlining processes to enhancing safety, we’re revolutionizing home building.</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="w-full mt-8 p-8 bg-slate-50 shadow-lg rounded-2xl">
+                         <CardContent className="p-0">
+                            <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
+                            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
+                                <AccordionItem value="item-1">
+                                    <AccordionTrigger className="bg-primary/10 rounded-t-md px-4 text-primary">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent className="p-4 border border-t-0 rounded-b-md">
+                                        Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan.
+                                    </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="item-2">
+                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2 rounded-md">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent>
+                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
+                                    </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="item-3">
+                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2 rounded-md">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent>
+                                       Yes. habi collects a booking amount of about 1% of the total home construction cost.
+                                    </AccordionContent>
+                                </AccordionItem>
+                                <AccordionItem value="item-4">
+                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2 rounded-md">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent>
+                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                            <div className="text-center mt-4">
+                                <a href="#" className="text-cyan-500 text-sm font-normal underline leading-none">Still have a questions ?</a>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <footer className="mt-16 text-center">
+                        <div className="flex justify-center items-center gap-4 mb-2">
+                            <a href="#" className="text-zinc-500 text-sm">Instagram</a>
+                            <a href="#" className="text-zinc-500 text-sm">Facebook</a>
+                            <a href="#" className="text-zinc-500 text-sm">LinkedIn</a>
+                            <a href="#" className="text-zinc-500 text-sm">YouTube</a>
+                            <a href="#" className="text-zinc-500 text-sm">Pinterest</a>
+                            <a href="#" className="text-zinc-500 text-sm">Blog</a>
+                            <a href="#" className="text-zinc-500 text-sm">Location</a>
                         </div>
-                        <DesignDocumentsDialog files={project.files} />
-                    </div>
-                     <ProjectMaterialsCard materials={project.materials} />
+                        <p className="text-zinc-500 text-sm">© 2024 habi from Desigasm Technologies Pvt.Ltd</p>
+                    </footer>
                 </div>
-            </div>
+            </main>
         </div>
-    );
+    )
 }
