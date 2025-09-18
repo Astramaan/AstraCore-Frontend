@@ -177,11 +177,6 @@ export default function SalesHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <SalesStatCard title="New Leads" value="32" icon={<Users className="w-5 h-5"/>} change="+5 this week" />
-                    <SalesStatCard title="Meetings Scheduled" value="12" icon={<Calendar className="w-5 h-5"/>} change="+2 this week" />
-                    <SalesStatCard title="Conversion Rate" value="25%" icon={<TrendingUp className="w-5 h-5"/>} change="+1.5% this month" />
-                </div>
                 
                  <div className="flex justify-between items-center">
                     {/* Desktop Filters */}
@@ -241,11 +236,18 @@ export default function SalesHome() {
                         {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
+
                 <div className="mt-8">
                     <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
+                    <SalesStatCard title="New Leads" value="32" icon={<Users className="w-5 h-5"/>} change="+5 this week" />
+                    <SalesStatCard title="Meetings Scheduled" value="12" icon={<Calendar className="w-5 h-5"/>} change="+2 this week" />
+                    <SalesStatCard title="Conversion Rate" value="25%" icon={<TrendingUp className="w-5 h-5"/>} change="+1.5% this month" />
                 </div>
             </main>
 
