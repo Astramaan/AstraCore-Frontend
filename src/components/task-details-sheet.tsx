@@ -165,7 +165,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
   
   const renderCtas = () => {
     if (isArchitect) {
-        if (task.status !== 'In Progress' && task.status !== 'Completed') {
+        if (!task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed') {
             return (
                 <div className="flex justify-end">
                     <Button onClick={handleStartTask} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
