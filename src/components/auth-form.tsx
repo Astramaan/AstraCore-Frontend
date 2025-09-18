@@ -38,10 +38,15 @@ export default function AuthForm() {
     if (state.success && state.user) {
         localStorage.setItem("astramaan_user", JSON.stringify(state.user));
         
-        if (state.user.team === 'Project Manager') {
-            router.push('/organization/home');
+        const organizationId = state.user.organizationId;
+        if (organizationId) {
+            router.push(`/organization/${organizationId}/home`);
         } else {
-            router.push('/organization/home');
+            // Fallback or error handling if organizationId is missing
+            toast({
+                variant: "destructive",
+                description: "Could not determine organization. Please contact support.",
+            });
         }
     } else if (state.message) {
        toast({
