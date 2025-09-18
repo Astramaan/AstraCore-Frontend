@@ -1,8 +1,7 @@
 
-
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, use } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -182,7 +181,8 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
 );
 
 
-export default function VendorsPage({ params: { organizationId } }: { params: { organizationId: string } }) {
+export default function VendorsPage({ params }: { params: { organizationId: string } }) {
+    const { organizationId } = use(params);
     const [allVendors, setAllVendors] = useState(vendorsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -293,6 +293,7 @@ export default function VendorsPage({ params: { organizationId } }: { params: { 
 }
 
     
+
 
 
 
