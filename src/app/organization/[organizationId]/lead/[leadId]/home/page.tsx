@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -6,18 +7,18 @@ import Image from "next/image";
 import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube } from 'lucide-react';
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4 text-center">
         <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
             {icon}
         </div>
-        <p className="text-center justify-center text-black text-sm font-normal leading-none">{text}</p>
+        <p className="text-black text-sm font-normal leading-none max-w-24">{text}</p>
     </div>
 )
 
 export default function LeadHomePage({ params }: { params: { organizationId: string, leadId: string } }) {
     return (
         <div className="bg-zinc-100 min-h-screen -m-4">
-            <aside className="w-48 fixed top-0 left-0 h-full bg-slate-50 border-r border-stone-300 flex flex-col">
+            <aside className="w-48 fixed top-0 left-0 h-full bg-slate-50 border-r border-stone-300 flex-col hidden md:flex">
                 <div className="p-4 pt-8 flex justify-center">
                     <HabiLogo />
                 </div>
@@ -37,40 +38,38 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                 </nav>
             </aside>
 
-            <main className="ml-48">
+            <main className="md:ml-48">
                 <div className="max-w-[1240px] mx-auto py-8 px-4">
-                    <Card className="w-full h-72 p-8 bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center items-center">
+                    <Card className="w-full p-4 md:p-8 bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
-                        <Card className="w-full max-w-3xl h-44 rounded-[20px] border border-stone-300 p-6 flex flex-col justify-center items-center">
+                        <Card className="w-full max-w-3xl rounded-[20px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
-                            <div className="flex gap-4">
-                                <Button className="w-64 h-16 rounded-[10px] text-lg">Physically</Button>
-                                <Button className="w-64 h-16 rounded-[10px] text-lg">Virtually</Button>
+                            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                                <Button className="w-full md:w-64 h-16 rounded-[10px] text-lg">Physically</Button>
+                                <Button className="w-full md:w-64 h-16 rounded-[10px] text-lg">Virtually</Button>
                             </div>
                         </Card>
                     </Card>
 
-                    <Card className="w-full mt-8 p-8 bg-slate-50 shadow-lg rounded-2xl">
+                    <Card className="w-full mt-8 p-4 md:p-8 bg-slate-50 shadow-lg rounded-2xl">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
-                             <div className="flex justify-around items-start mb-8 relative">
+                             <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 mb-8 justify-items-center">
                                 <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                 <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
                                 <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
                                 <FeatureCard icon={<Award className="text-white"/>} text="1 Year Warranty"/>
-                                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-secondary -translate-y-1/2 -z-10" />
                             </div>
-                             <div className="flex justify-around items-start relative">
+                             <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                 <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                 <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
                                 <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
                                 <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
-                                 <div className="absolute top-1/2 left-0 w-full h-0.5 bg-secondary -translate-y-1/2 -z-10" />
                             </div>
 
-                            <div className="mt-16 flex items-center gap-8">
-                                <div className="w-80 h-48 bg-black/25 rounded-[10px] border border-stone-300 flex items-center justify-center">
-                                    <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center">
+                            <div className="mt-16 flex flex-col md:flex-row items-center gap-8">
+                                <div className="w-full md:w-80 h-48 bg-black/25 rounded-[10px] border border-stone-300 flex items-center justify-center shrink-0">
+                                    <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70">
                                         <Youtube className="w-8 h-8 text-white"/>
                                     </Button>
                                 </div>
@@ -82,7 +81,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                         </CardContent>
                     </Card>
 
-                    <Card className="w-full mt-8 p-8 bg-slate-50 shadow-lg rounded-2xl">
+                    <Card className="w-full mt-8 p-4 md:p-8 bg-slate-50 shadow-lg rounded-2xl">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
@@ -93,20 +92,20 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-2">
-                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2 rounded-md">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent>
+                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent className="p-4 border border-t-0">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-3">
-                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2 rounded-md">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent>
+                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent className="p-4 border border-t-0">
                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-4">
-                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2 rounded-md">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent>
+                                    <AccordionTrigger className="bg-primary/10 px-4 mt-2">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent className="p-4 border border-t-0">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost.
                                     </AccordionContent>
                                 </AccordionItem>
@@ -118,7 +117,7 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
                     </Card>
 
                     <footer className="mt-16 text-center">
-                        <div className="flex justify-center items-center gap-4 mb-2">
+                        <div className="flex flex-wrap justify-center items-center gap-4 mb-2">
                             <a href="#" className="text-zinc-500 text-sm">Instagram</a>
                             <a href="#" className="text-zinc-500 text-sm">Facebook</a>
                             <a href="#" className="text-zinc-500 text-sm">LinkedIn</a>
@@ -134,3 +133,5 @@ export default function LeadHomePage({ params }: { params: { organizationId: str
         </div>
     )
 }
+
+    
