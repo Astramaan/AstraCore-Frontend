@@ -45,7 +45,7 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
+                     <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
                 </div>
                 <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
             </div>
