@@ -55,23 +55,23 @@ const EditProfileForm = ({ profile: initialProfile, onSave, onClose }: { profile
                 <div className="p-6 space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input id="name" name="name" value={profile.name} onChange={handleChange} />
+                        <Input id="name" name="name" value={profile.name} onChange={handleChange} className="h-[54px] rounded-full" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input id="phone" name="phone" value={profile.phone} onChange={handleChange} />
+                        <Input id="phone" name="phone" value={profile.phone} onChange={handleChange} className="h-[54px] rounded-full" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="email">Email ID</Label>
-                        <Input id="email" name="email" type="email" value={profile.email} onChange={handleChange} />
+                        <Input id="email" name="email" type="email" value={profile.email} onChange={handleChange} className="h-[54px] rounded-full" />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="pincode">Site location Pin code</Label>
-                        <Input id="pincode" name="pincode" value={profile.pincode} onChange={handleChange} />
+                        <Input id="pincode" name="pincode" value={profile.pincode} onChange={handleChange} className="h-[54px] rounded-full" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="address">Current Address</Label>
-                        <Textarea id="address" name="address" value={profile.address} onChange={handleChange} />
+                        <Textarea id="address" name="address" value={profile.address} onChange={handleChange} className="rounded-3xl" />
                     </div>
                 </div>
             </ScrollArea>
