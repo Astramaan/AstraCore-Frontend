@@ -112,7 +112,7 @@ export default function ClientProfilePage() {
                             </div>
                             <Sheet open={isEditing} onOpenChange={setIsEditing}>
                                 <SheetTrigger asChild>
-                                    <Button variant="outline" className="rounded-full h-12 px-6">
+                                    <Button variant="outline" className="rounded-full h-[54px] px-6">
                                         <Edit className="h-5 w-5 mr-2" />
                                         Edit
                                     </Button>
