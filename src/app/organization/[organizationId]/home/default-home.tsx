@@ -132,13 +132,14 @@ export default function DefaultHomePage() {
     const projectNames = useMemo(() => [...new Set(taskData.filter(t => t.isProjectTask).map(task => task.project))], [taskData]);
     
     const applyFilters = (tasks: Task[]) => {
+        let filteredTasks = tasks;
         if (activeFilter) {
-            return tasks.filter(task => {
+            filteredTasks = filteredTasks.filter(task => {
                 if (activeFilter === 'High Priority') return task.priority === 'High';
                 return task.status === activeFilter;
             });
         }
-        return tasks.filter(task => task.status !== 'Completed');
+        return filteredTasks.filter(task => task.status !== 'Completed');
     };
 
     const allTasks = useMemo(() => [...taskData, ...assignedTasks], [taskData, assignedTasks]);
