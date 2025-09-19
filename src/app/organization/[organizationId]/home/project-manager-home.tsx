@@ -199,32 +199,32 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-[50px] px-6 py-4 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
               </div>
-              <div className="flex gap-2">
-                <Button variant="outline" className="rounded-full"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
-                 <a href={`tel:${project.siteSupervisorPhone}`}>
-                  <Button variant="outline" className="rounded-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
+              <div className="flex gap-2 w-full md:w-auto">
+                <Button variant="outline" className="rounded-full flex-1 md:flex-initial"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
+                 <a href={`tel:${project.siteSupervisorPhone}`} className="flex-1 md:flex-initial">
+                  <Button variant="outline" className="rounded-full w-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-[50px] py-4 px-6 flex justify-between items-center">
+            <div className="bg-white rounded-[50px] py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
               </div>
-               <div className="flex gap-2">
-                 <Button variant="outline" className="rounded-full"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
-                 <a href={`tel:${project.architectPhone}`}>
-                  <Button variant="outline" className="rounded-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
+               <div className="flex gap-2 w-full md:w-auto">
+                 <Button variant="outline" className="rounded-full flex-1 md:flex-initial"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
+                 <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
+                  <Button variant="outline" className="rounded-full w-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
                 </a>
               </div>
             </div>
         </div>
-        <div className="mt-6 flex gap-4 justify-between">
+        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
