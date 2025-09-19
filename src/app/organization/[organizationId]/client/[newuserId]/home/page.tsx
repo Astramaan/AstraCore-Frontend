@@ -34,7 +34,7 @@ const ClientBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-2 md:p-4">
+             <div className="relative w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-6">
                     {navItems.map((item) => {
                         const isActive = item.label === 'Home'; // Simplified for this page
@@ -227,5 +227,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     )
 }
-
-    
