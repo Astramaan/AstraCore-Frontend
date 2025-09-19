@@ -222,8 +222,8 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
         </div>
         
         {/* Mobile View */}
-        <div className="block lg:hidden p-10">
-             <div className="flex items-start justify-between">
+        <div className="block lg:hidden p-6 md:p-10" onClick={() => onViewDetails(lead)}>
+            <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
                     <Checkbox 
                         id={`select-${lead.leadId}-mobile`} 
@@ -234,12 +234,11 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                     />
                     <div>
                         <p className="text-xl font-semibold text-black">{lead.fullName}</p>
-                        <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
                     </div>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="w-6 h-6" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -252,24 +251,31 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 ml-10 space-y-2">
-                 <p className="text-lg break-words"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
-                <p className="text-lg"><span className="text-zinc-900">{lead.leadId}</span></p>
-                <div className="flex items-center gap-4 pt-2 justify-end">
+            <div className="mt-4 ml-10 space-y-2 grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                    <p className="text-base break-words"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
+                </div>
+                <div>
+                     <p className="text-base"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
+                </div>
+                <div>
+                     <p className="text-base"><span className="text-zinc-900">{lead.leadId}</span></p>
+                </div>
+                <div className="col-span-2 flex items-center gap-4 pt-2 justify-end">
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                             <Button variant="outline" className="h-12 px-6 rounded-full text-black text-base font-medium justify-between hover:bg-primary/10 hover:text-primary">
+                             <Button variant="outline" className="h-12 px-6 rounded-full text-black text-base font-medium justify-between hover:bg-primary/10 hover:text-primary" onClick={(e) => e.stopPropagation()}>
                                 {lead.level}
                                 <ChevronDown className="ml-2"/>
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent>
+                        <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
                             <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 1')}>Level 1</DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 2')}>Level 2</DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button onClick={() => onContact(lead)} variant="outline" className="h-12 px-4 rounded-full text-black text-base font-medium hover:bg-primary/10 hover:text-primary">
+                    <Button onClick={(e) => {e.stopPropagation(); onContact(lead);}} variant="outline" className="h-12 px-4 rounded-full text-black text-base font-medium hover:bg-primary/10 hover:text-primary">
                         <Phone className="mr-2 h-4 w-4"/>
                         Contact
                     </Button>
@@ -541,3 +547,4 @@ export default function LeadsPage() {
 }
 
     
+
