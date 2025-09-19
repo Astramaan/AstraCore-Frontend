@@ -83,11 +83,11 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8">
+                <div className="max-w-[1240px] mx-auto space-y-8 p-4">
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
-                        <HabiLogo className="mb-6"/>
-                        <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6 mt-4">Book Your Free Consultation</h1>
-                        <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center">
+                        <HabiLogo className="mb-6" />
+                        <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
+                        <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center border-t pt-6 mt-6">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">
@@ -106,7 +106,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
                             <h2 className="text-center text-black text-xl font-medium leading-tight">Upload Site Images</h2>
                             <p className="text-center text-stone-500 text-xs font-normal leading-none mt-2 mb-6">To provide a better design based on your needs.</p>
-                            <form onSubmit={handleSubmit} className="w-full">
+                            <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
                                 {images.length > 0 ? (
                                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
                                         {images.map((src, index) => (
@@ -155,8 +155,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 md:block"></div>
-                                <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 -z-0 hidden md:block"></div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
                                     <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
@@ -164,8 +164,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </div>
                             </div>
                             <div className="relative mt-16">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 md:block"></div>
-                                <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 -z-0 hidden md:block"></div>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
                                     <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
@@ -190,41 +190,41 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
-                            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
-                                <AccordionItem value="item-1" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
+                            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
+                                <AccordionItem value="item-1" className="border-b-0 bg-primary/10 rounded-full">
+                                    <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Does habi charge an advance payment?</AccordionTrigger>
+                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-2" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
-                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
+                                <AccordionItem value="item-2" className="border-b-0 bg-primary/10 rounded-full">
+                                    <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">What is the cost of building a house with habi?</AccordionTrigger>
+                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                       The cost depends on the package you choose. We have different packages to suit various budgets and requirements.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-3" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
-                                       Yes. habi collects a booking amount of about 1% of the total home construction cost.
+                                <AccordionItem value="item-3" className="border-b-0 bg-primary/10 rounded-full">
+                                    <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">How long does it take to build a house?</AccordionTrigger>
+                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                       The construction timeline varies depending on the project's complexity and size. On average, it takes about 6-9 months.
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="item-4" className="border-b-0">
-                                    <AccordionTrigger className="bg-primary/10 rounded-full px-4 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 border border-t-0 rounded-b-[24px]">
-                                        Yes. habi collects a booking amount of about 1% of the total home construction cost.
+                                <AccordionItem value="item-4" className="border-b-0 bg-primary/10 rounded-full">
+                                    <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Do you provide architectural and structural designs?</AccordionTrigger>
+                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                       Yes, we provide comprehensive design services, including architectural and structural plans, as part of our packages.
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
-                            <div className="text-center mt-4">
+                            <div className="text-center mt-6">
                                 <a href="#" className="text-cyan-500 text-sm font-normal underline leading-none">Still have a questions ?</a>
                             </div>
                         </CardContent>
                     </Card>
-
                 </div>
             </main>
             <ClientBottomNav />
         </div>
     )
-}
+
+    
