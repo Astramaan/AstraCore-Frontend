@@ -104,7 +104,6 @@ export default function DefaultHomePage() {
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
     const [selectedProject, setSelectedProject] = useState<string>('all');
   
-    // Common handlers and memos
     const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
     const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
       const fullTask: Task = {
@@ -116,31 +115,11 @@ export default function DefaultHomePage() {
       };
       setAssignedTasks(prevTasks => [fullTask, ...prevTasks]);
     };
-
-    const myTasksChartData = useMemo(() => {
-        const statusCounts = taskData.reduce((acc, task) => {
-            if(task.status !== 'Completed') {
-                acc[task.status] = (acc[task.status] || 0) + 1;
-            }
-            return acc;
-        }, {} as Record<string, number>);
-        return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-      }, [taskData]);
     
-      const assignedTasksChartData = useMemo(() => {
-        const statusCounts = assignedTasks.reduce((acc, task) => {
-            if(task.status !== 'Completed') {
-                acc[task.status] = (acc[task.status] || 0) + 1;
-            }
-            return acc;
-        }, {} as Record<string, number>);
-        return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-      }, [assignedTasks]);
-  
-    // Handlers for Default Home
     const handleFilterClick = (filter: FilterType) => {
       setActiveFilter(activeFilter === filter ? null : filter);
     };
+
     const handleTaskUpdate = (updatedTask: Task) => {
       if (updatedTask.isAssigned) {
           setAssignedTasks(prevTasks => prevTasks.map(task => task.id === updatedTask.id ? updatedTask : task));
@@ -162,78 +141,102 @@ export default function DefaultHomePage() {
         return tasks.filter(task => task.status !== 'Completed');
     };
 
-    const filteredMyTasks = useMemo(() => applyFilters(taskData.filter(t => !t.isProjectTask && !t.isAssigned)), [taskData, activeFilter]);
-    const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasks), [assignedTasks, activeFilter]);
+    const allTasks = useMemo(() => [...taskData, ...assignedTasks], [taskData, assignedTasks]);
+
+    const myTasks = useMemo(() => applyFilters(allTasks.filter(t => !t.isAssigned && !t.isProjectTask)), [allTasks, activeFilter]);
+    const assignedToMeTasks = useMemo(() => applyFilters(allTasks.filter(t => t.isAssigned)), [allTasks, activeFilter]);
     
     const projectTasks = useMemo(() => {
-        let tasks = taskData.filter(t => t.isProjectTask);
+        let tasks = applyFilters(allTasks.filter(t => t.isProjectTask));
         if (selectedProject !== 'all') {
             tasks = tasks.filter(task => task.project === selectedProject);
         }
-        return applyFilters(tasks);
-    }, [taskData, selectedProject, activeFilter]);
+        return tasks;
+    }, [allTasks, selectedProject, activeFilter]);
 
     const inProgressCount = useMemo(() => {
-        const myTasksInProgress = taskData.filter(t => !t.isProjectTask && !t.isAssigned && t.status === 'In Progress').length;
-        const assignedTasksInProgress = assignedTasks.filter(t => t.status === 'In Progress').length;
-        return myTasksInProgress + assignedTasksInProgress;
-    }, [taskData, assignedTasks]);
+        return allTasks.filter(t => t.status === 'In Progress').length;
+    }, [allTasks]);
     
+    const myTasksChartData = useMemo(() => {
+        const statusCounts = myTasks.reduce((acc, task) => {
+            if(task.status !== 'Completed') {
+                acc[task.status] = (acc[task.status] || 0) + 1;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+        return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+      }, [myTasks]);
+    
+      const assignedTasksChartData = useMemo(() => {
+        const statusCounts = assignedToMeTasks.reduce((acc, task) => {
+            if(task.status !== 'Completed') {
+                acc[task.status] = (acc[task.status] || 0) + 1;
+            }
+            return acc;
+        }, {} as Record<string, number>);
+        return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
+      }, [assignedToMeTasks]);
+
     const canFilterProjects = user?.team === 'Project Manager' || user?.team === 'Architect' || user?.team === 'Site Supervisor';
-  
+
+    const renderFilters = () => (
+        <>
+            <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                    <Button
+                        key={filter}
+                        variant="outline"
+                        className={cn(
+                            "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                            activeFilter === filter ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                        )}
+                        onClick={() => handleFilterClick(filter as FilterType)}
+                    >
+                        {filter}
+                        {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                    </Button>
+                ))}
+            </div>
+
+            <div className="flex lg:hidden justify-between items-center w-full">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                            <SlidersHorizontal className="mr-2 h-4 w-4" />
+                            Filter
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                        <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                            All (exclude completed)
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
+                            <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
+                                <div className="w-4 mr-2">
+                                {activeFilter === option && <Check className="h-4 w-4" />}
+                                </div>
+                                {option}
+                                {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <div className="flex items-center gap-4">
+                    <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                    <AddMemberSheet />
+                </div>
+            </div>
+        </>
+    );
+
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1">
                 <div className="flex justify-between items-center mb-6">
-                    {/* Desktop Filters */}
-                    <div className="hidden lg:flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4">
-                        {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                            <Button
-                                key={filter}
-                                variant="outline"
-                                className={cn(
-                                    "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                                    activeFilter === filter ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                                )}
-                                onClick={() => handleFilterClick(filter as FilterType)}
-                            >
-                                {filter}
-                                {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                            </Button>
-                        ))}
-                    </div>
-
-                    {/* Mobile/Tablet Filter Dropdown & Actions */}
-                    <div className="flex lg:hidden justify-between items-center w-full">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
-                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
-                                    Filter
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
-                                    All (exclude completed)
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
-                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
-                                        <div className="w-4 mr-2">
-                                        {activeFilter === option && <Check className="h-4 w-4" />}
-                                        </div>
-                                        {option}
-                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        <div className="flex items-center gap-4">
-                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                            <AddMemberSheet />
-                        </div>
-                    </div>
+                    {renderFilters()}
                 </div>
 
                 <div className="space-y-8">
@@ -242,13 +245,13 @@ export default function DefaultHomePage() {
                             <div>
                                 <h2 className="text-xl font-medium mb-4">My Task</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                    {myTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                                 </div>
                             </div>
                             <div>
                                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                    {assignedToMeTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                                 </div>
                             </div>
                         </>
@@ -280,7 +283,7 @@ export default function DefaultHomePage() {
                             <div className="mt-8">
                                 <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                    {assignedToMeTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                                 </div>
                             </div>
                         </>
