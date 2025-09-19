@@ -262,10 +262,10 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                 <div>
                      <p className="text-base"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{lead.leadId}</span></p>
                 </div>
-                <div className="col-span-2 flex items-center gap-4 pt-2 justify-end">
+                <div className="col-span-2 flex flex-col sm:flex-row items-center gap-4 pt-2 w-full">
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                             <Button variant="outline" className="h-12 px-6 rounded-full text-black text-base font-medium justify-between hover:bg-primary/10 hover:text-primary" onClick={(e) => e.stopPropagation()}>
+                             <Button variant="outline" className="w-full h-12 px-6 rounded-full text-black text-base font-medium justify-between hover:bg-primary/10 hover:text-primary" onClick={(e) => e.stopPropagation()}>
                                 {lead.level}
                                 <ChevronDown className="ml-2"/>
                             </Button>
@@ -276,7 +276,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                             <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, 'Level 3')}>Level 3</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <Button onClick={(e) => {e.stopPropagation(); onContact(lead);}} variant="outline" className="h-12 px-4 rounded-full text-black text-base font-medium hover:bg-primary/10 hover:text-primary">
+                    <Button onClick={(e) => {e.stopPropagation(); onContact(lead);}} variant="outline" className="w-full h-12 px-4 rounded-full text-black text-base font-medium hover:bg-primary/10 hover:text-primary">
                         <Phone className="mr-2 h-4 w-4"/>
                         Contact
                     </Button>
@@ -548,6 +548,7 @@ export default function LeadsPage() {
 }
 
     
+
 
 
 
