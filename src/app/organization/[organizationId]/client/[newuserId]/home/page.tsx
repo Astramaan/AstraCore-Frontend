@@ -86,8 +86,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 <div className="max-w-[1240px] mx-auto space-y-8">
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <HabiLogo className="mb-6"/>
-                        <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6 mt-4">Book Your Free Consultation</h1>
-                        <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
+                        <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6 mt-4">Book Your Free Consultation</h1>
+                        <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">
@@ -155,7 +155,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 md:block"></div>
                                 <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
@@ -164,7 +164,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </div>
                             </div>
                             <div className="relative mt-16">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 md:block"></div>
                                 <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
