@@ -51,25 +51,21 @@ const packages = [
 ];
 
 const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
-    <Card className={cn(
-        "rounded-[50px] p-8 flex flex-col",
-        pkg.isPopular ? "bg-primary text-primary-foreground" : "bg-white"
-    )}>
-        {pkg.isPopular && <div className="text-center mb-4"><span className="bg-white text-primary rounded-full px-4 py-1 text-sm font-semibold">Most Popular</span></div>}
+    <Card className="rounded-[50px] p-8 flex flex-col bg-white">
         <CardHeader className="p-0 items-center">
             <CardTitle className="text-2xl font-bold">{pkg.name}</CardTitle>
-            <p className={cn("text-sm", pkg.isPopular ? "text-primary-foreground/80" : "text-muted-foreground")}>{pkg.description}</p>
+            <p className="text-sm text-muted-foreground">{pkg.description}</p>
         </CardHeader>
         <CardContent className="p-0 flex-1 flex flex-col">
             <div className="my-8 text-center">
                 <span className="text-5xl font-bold">₹{pkg.price}</span>
-                <span className={cn(pkg.isPopular ? "text-primary-foreground/80" : "text-muted-foreground")}>/sq.ft</span>
+                <span className="text-muted-foreground">/sq.ft</span>
             </div>
             <ul className="space-y-4 flex-1">
                 {pkg.features.map(feature => (
                     <li key={feature} className="flex items-center gap-3">
-                        <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", pkg.isPopular ? "bg-white/20" : "bg-primary/10")}>
-                           <Check className={cn("w-4 h-4", pkg.isPopular ? "text-white" : "text-primary")} />
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center bg-primary/10">
+                           <Check className="w-4 h-4 text-primary" />
                         </div>
                         <span>{feature}</span>
                     </li>
