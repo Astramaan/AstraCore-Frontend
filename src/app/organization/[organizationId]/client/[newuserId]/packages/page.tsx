@@ -75,12 +75,6 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
                     </li>
                 ))}
             </ul>
-            <Button className={cn(
-                "w-full h-14 rounded-full text-lg mt-8",
-                pkg.isPopular ? "bg-white text-primary hover:bg-white/90" : "bg-primary text-primary-foreground hover:bg-primary/90"
-            )}>
-                Choose Plan
-            </Button>
         </CardContent>
     </Card>
 );
