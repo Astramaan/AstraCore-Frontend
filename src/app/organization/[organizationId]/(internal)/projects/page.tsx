@@ -62,7 +62,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             <div className="space-y-2 mt-4 ml-18 grid grid-cols-2 gap-x-4 gap-y-2">
                 <div>
                     <span className="text-grey-2 text-base">Contact: </span> 
-                    <p className="text-black font-medium text-base break-all">{project.contact}</p>
+                    <p className="text-black font-medium text-base break-words">{project.contact.split(' | ')[0]}<br />{project.contact.split(' | ')[1]}</p>
                 </div>
                  <div className="text-right">
                     <span className="text-grey-2 text-base">Client ID: </span> 
@@ -315,3 +315,4 @@ export default function ProjectsPage() {
         </div>
     );
 }
+
