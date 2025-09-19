@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -240,7 +239,7 @@ export default function DefaultHomePage() {
                 <div>
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-medium">{user?.roleType === 'superAdmin' ? 'My Task' : 'Project Task'}</h2>
-                        {canFilterProjects && (
+                        {user?.roleType !== 'superAdmin' && canFilterProjects && (
                         <div className="w-48">
                             <Select value={selectedProject} onValueChange={setSelectedProject}>
                             <SelectTrigger className="rounded-full bg-white">
@@ -292,4 +291,5 @@ export default function DefaultHomePage() {
             )}
         </div>
     )
-}
+
+    
