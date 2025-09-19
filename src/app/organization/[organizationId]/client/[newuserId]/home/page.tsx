@@ -11,7 +11,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import React, { useState, useRef, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
@@ -24,21 +24,24 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
 )
 
 export const ClientBottomNav = () => {
+    const pathname = usePathname();
+    const params = useParams();
+    const organizationId = params.organizationId as string;
+    const newuserId = params.newuserId as string;
+
     const navItems = [
-        { href: `/home`, icon: Home, label: "Home" },
-        { href: `/packages`, icon: Award, label: "Packages" },
+        { href: `/organization/${organizationId}/client/${newuserId}/home`, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/${newuserId}/packages`, icon: Award, label: "Packages" },
         { href: `#`, icon: GanttChartSquare, label: "Projects" },
         { href: `#`, icon: User, label: "Profile" },
     ];
-    const pathname = usePathname();
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
              <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
-                        const baseHref = `/organization/[organizationId]/client/[newuserId]${item.href}`.replace('[organizationId]', 'defaultOrg').replace('[newuserId]', 'defaultUser');
-                        const isActive = pathname.endsWith(item.href) || (item.href === '/home' && pathname.endsWith('/home'));
+                        const isActive = pathname === item.href;
                         return (
                              <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(
