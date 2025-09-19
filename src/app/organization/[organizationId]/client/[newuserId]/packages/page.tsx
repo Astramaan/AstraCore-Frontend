@@ -33,7 +33,7 @@ const packages = [
             "3D Visualizations",
             "Dedicated Project Manager",
         ],
-        isPopular: true,
+        isPopular: false,
     },
     {
         name: "Luxury",
@@ -51,21 +51,31 @@ const packages = [
 ];
 
 const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
-    <Card className="rounded-[50px] p-8 flex flex-col bg-white">
+    <Card className={cn(
+        "rounded-[50px] p-8 flex flex-col relative",
+        pkg.isPopular ? "bg-primary text-primary-foreground" : "bg-white"
+    )}>
+        {pkg.isPopular && (
+            <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground px-4 py-1 rounded-full text-sm font-semibold">
+                Most Popular
+            </div>
+        )}
         <CardHeader className="p-0 items-center">
             <CardTitle className="text-2xl font-bold">{pkg.name}</CardTitle>
-            <p className="text-sm text-muted-foreground">{pkg.description}</p>
+            <p className={cn("text-sm", pkg.isPopular ? "text-primary-foreground/80" : "text-muted-foreground")}>
+                {pkg.description}
+            </p>
         </CardHeader>
         <CardContent className="p-0 flex-1 flex flex-col">
             <div className="my-8 text-center">
                 <span className="text-5xl font-bold">₹{pkg.price}</span>
-                <span className="text-muted-foreground">/sq.ft</span>
+                <span className={cn(pkg.isPopular ? "text-primary-foreground/80" : "text-muted-foreground")}>/sq.ft</span>
             </div>
             <ul className="space-y-4 flex-1">
                 {pkg.features.map(feature => (
                     <li key={feature} className="flex items-center gap-3">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center bg-primary/10">
-                           <Check className="w-4 h-4 text-primary" />
+                        <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", pkg.isPopular ? "bg-white/20 text-white" : "bg-primary/10 text-primary")}>
+                           <Check className="w-4 h-4" />
                         </div>
                         <span>{feature}</span>
                     </li>
@@ -82,7 +92,7 @@ export default function PackagesPage() {
                 <div className="text-center">
                      <HabiLogo className="mb-6 justify-center" />
                     <h1 className="text-3xl md:text-4xl font-bold">Our Packages</h1>
-                    <p className="text-muted-foreground mt-2">Choose the perfect plan for your dream home.</p>
+                    <p className="text-muted-foreground mt-2">Find the perfect plan for your dream home.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
