@@ -25,6 +25,7 @@ import { deleteProject } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { AvatarWithProgress } from "@/components/avatar-with-progress";
+import { useParams } from 'next/navigation';
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string }) => (
     <div className="flex flex-col group">
@@ -164,8 +165,9 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
 );
 
 
-export default function ProjectsPage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function ProjectsPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string || 'habi123';
     const [activeProjects, setActiveProjects] = useState<Project[]>([]);
     const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
@@ -312,20 +314,3 @@ export default function ProjectsPage({ params }: { params: { organizationId: str
         </div>
     );
 }
-    
-
-    
-
-    
-
-
-
-    
-
-    
-
-    
-
-    
-
-    

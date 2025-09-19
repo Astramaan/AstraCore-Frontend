@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { PersonalDetails } from '@/components/personal-details';
@@ -8,17 +9,19 @@ import React from 'react';
 import { Button }from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
-export default function MemberDetailsPage({ params }: { params: { id: string, organizationId: string } }) {
-    // In a real app, you would fetch member data based on params.id
-    // For now, we'll pass a mock ID to the component.
+export default function MemberDetailsPage() {
+    const params = useParams();
+    const memberId = params.id as string;
+    const organizationId = params.organizationId as string;
     
     // In a real app, you would get this from your auth context
     const isSuperAdmin = true;
 
     return (
         <div className="space-y-6">
-            <PersonalDetails memberId={params.id} />
+            <PersonalDetails memberId={memberId} />
             {!isSuperAdmin && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2 flex">

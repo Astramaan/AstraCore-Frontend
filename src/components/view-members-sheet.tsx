@@ -283,7 +283,7 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
                 className={cn(
                     "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]",
                 )}
-                overlayClassName="bg-neutral-900/10 backdrop-blur-sm"
+                overlayClassName={cn("bg-neutral-900/10 backdrop-blur-sm")}
             >
               <ViewMembersContent role={role} onClose={onClose} />
             </SheetContent>

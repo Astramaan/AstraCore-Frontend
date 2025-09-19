@@ -32,6 +32,7 @@ import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 const leadsData: Lead[] = [
     {
@@ -319,8 +320,9 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 }
 
 
-export default function LeadsPage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function LeadsPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const [allLeads, setAllLeads] = useState(leadsData);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
@@ -538,4 +540,3 @@ export default function LeadsPage({ params }: { params: { organizationId: string
         </div>
     );
 }
-
