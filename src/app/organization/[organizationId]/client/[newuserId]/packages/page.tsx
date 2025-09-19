@@ -90,7 +90,7 @@ export default function PackagesPage() {
         <div className="bg-background min-h-screen">
             <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8">
                 <div className="text-center">
-                     <HabiLogo className="mb-6 mx-auto" />
+                     <HabiLogo className="mb-6 justify-center" />
                     <h1 className="text-3xl md:text-4xl font-bold">Our Packages</h1>
                     <p className="text-muted-foreground mt-2">Choose the perfect plan for your dream home.</p>
                 </div>
@@ -105,5 +105,3 @@ export default function PackagesPage() {
         </div>
     )
 }
-
-    
