@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -266,7 +267,7 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
         return (
              <Sheet open={isOpen} onOpenChange={onClose}>
                 <SheetContent 
-                    side={"right"}
+                    side={"bottom"}
                     className="p-0 bg-white border-none shadow-none w-full h-full"
                     overlayClassName="bg-transparent"
                 >
