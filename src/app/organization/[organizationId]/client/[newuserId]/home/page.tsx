@@ -9,7 +9,7 @@ import Image from "next/image";
 import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X, Building, Laptop } from 'lucide-react';
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
 
 
@@ -64,6 +64,11 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     const [images, setImages] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
@@ -226,7 +231,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 </div>
             </main>
             <ClientBottomNav />
-            <InPersonConsultationDialog isOpen={isConsultationDialogOpen} onOpenChange={setIsConsultationDialogOpen} />
+            {isClient && <InPersonConsultationDialog isOpen={isConsultationDialogOpen} onOpenChange={setIsConsultationDialogOpen} />}
         </div>
     );
 }
