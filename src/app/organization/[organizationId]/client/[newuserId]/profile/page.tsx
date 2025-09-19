@@ -41,6 +41,17 @@ export default function ClientProfilePage() {
 
     return (
         <div className="bg-zinc-100 min-h-screen">
+             <header className="bg-slate-50 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.05)] p-4">
+                <div className="max-w-4xl mx-auto flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Image src="https://placehold.co/94x94" alt="Yash" width={56} height={56} className="rounded-full border-2 border-white" data-ai-hint="person portrait"/>
+                        <h1 className="text-2xl font-semibold">Profile</h1>
+                    </div>
+                    <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+                        <Edit className="h-5 w-5" />
+                    </Button>
+                </div>
+            </header>
             <div className="max-w-4xl mx-auto space-y-8">
                 <div className="bg-slate-50 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.05)] p-6 space-y-6">
                     <DetailField label="Name" value={profile.name} />
