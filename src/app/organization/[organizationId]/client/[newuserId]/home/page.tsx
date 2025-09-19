@@ -10,6 +10,7 @@ import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, Us
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import React, { useState, useRef } from "react";
+import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
 
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
@@ -34,8 +35,8 @@ const ClientBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-             <div className="relative w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-4">
-                <div className="flex items-center justify-center gap-4">
+             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-2 md:p-4">
+                <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
                         const isActive = item.label === 'Home'; // Simplified for this page
                         return (
@@ -62,6 +63,7 @@ const ClientBottomNav = () => {
 export default function NewUserHomePage({ params }: { params: { organizationId: string, newuserId: string } }) {
     const [images, setImages] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
@@ -90,7 +92,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center border-t pt-6 mt-6">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => setIsConsultationDialogOpen(true)}>
                                     <User className="mr-2 h-5 w-5" />
                                     In Person
                                 </Button>
@@ -224,6 +226,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 </div>
             </main>
             <ClientBottomNav />
+            <InPersonConsultationDialog isOpen={isConsultationDialogOpen} onOpenChange={setIsConsultationDialogOpen} />
         </div>
     );
 }
+
