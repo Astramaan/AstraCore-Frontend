@@ -245,17 +245,17 @@ export default function VendorsPage() {
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <Button 
                         variant="outline" 
-                        className={cn("h-[54px] md:h-14 justify-center rounded-full text-lg flex-1 md:flex-initial p-0 w-14 md:w-auto md:px-4", showFavorites ? "bg-primary text-white" : "bg-white")}
+                        className={cn("h-[54px] md:h-14 justify-center rounded-full text-lg flex-1 md:flex-initial md:w-auto md:px-4", showFavorites ? "bg-primary text-white" : "bg-white")}
                         onClick={() => setShowFavorites(prev => !prev)}
                     >
-                        <StarIcon className="md:mr-2 h-5 w-5" isFilled={showFavorites} />
-                        <span className="hidden md:inline">Favorites</span>
+                        <StarIcon className="mr-2 h-5 w-5" isFilled={showFavorites} />
+                        <span>Favorites</span>
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="h-[54px] md:h-14 justify-center rounded-full bg-white text-lg flex-1 md:flex-initial p-0 w-14 md:w-auto md:px-4">
-                                <SlidersHorizontal className="md:mr-2 h-5 w-5" />
-                                <span className="hidden md:inline">Filter</span>
+                            <Button variant="outline" className="h-[54px] md:h-14 justify-center rounded-full bg-white text-lg flex-1 md:flex-initial md:w-auto md:px-4">
+                                <SlidersHorizontal className="mr-2 h-5 w-5" />
+                                <span>Filter</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
@@ -294,3 +294,4 @@ export default function VendorsPage() {
         </div>
     );
 }
+
