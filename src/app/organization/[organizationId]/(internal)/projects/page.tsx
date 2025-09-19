@@ -64,7 +64,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                     <span className="text-grey-2 text-base">Contact: </span> 
                     <p className="text-black font-medium text-base break-all">{project.contact}</p>
                 </div>
-                 <div>
+                 <div className="text-right">
                     <span className="text-grey-2 text-base">Client ID: </span> 
                     <p className="zinc-900 font-medium text-base">{project.id}</p>
                 </div>
@@ -72,7 +72,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                     <span className="text-grey-2 text-base">Started Date: </span> 
                     <p className="text-zinc-900 font-medium text-base">{project.startDate}</p>
                 </div>
-                 <div>
+                 <div className="text-right">
                     <span className="text-grey-2 text-base">Status: </span> 
                     <p className={cn(project.statusColor, 'font-medium text-base')}>{project.status}</p>
                 </div>
