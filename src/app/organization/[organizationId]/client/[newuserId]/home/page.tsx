@@ -34,7 +34,7 @@ const ClientBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-             <div className="relative w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-4">
+             <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
                         const isActive = item.label === 'Home'; // Simplified for this page
@@ -85,7 +85,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8">
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
-                        <HabiLogo className="mb-6 md:mx-auto" />
+                        <HabiLogo className="mb-6 mx-auto" />
                         <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
                         <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center border-t pt-6 mt-6">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
