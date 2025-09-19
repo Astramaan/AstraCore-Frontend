@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { UserProvider } from '@/context/user-context';
-
 
 function OrganizationLayoutContent({ children }: { children: React.ReactNode }) {
   return (
@@ -15,8 +13,6 @@ function OrganizationLayoutContent({ children }: { children: React.ReactNode }) 
 
 export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
   return (
-    <UserProvider>
       <OrganizationLayoutContent>{children}</OrganizationLayoutContent>
-    </UserProvider>
   )
 }

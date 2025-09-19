@@ -2,7 +2,6 @@
 'use client';
 
 import React, from 'react';
-import { UserProvider } from '@/context/user-context';
 
 
 function NewUserLayoutContent({ children }: { children: React.ReactNode }) {
@@ -17,9 +16,7 @@ function NewUserLayoutContent({ children }: { children: React.ReactNode }) {
 
 export default function NewUserLayout({ children }: { children: React.ReactNode }) {
   return (
-    <UserProvider>
       <NewUserLayoutContent>{children}</NewUserLayoutContent>
-    </UserProvider>
   )
 }
 
