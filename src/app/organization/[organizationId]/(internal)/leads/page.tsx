@@ -225,8 +225,8 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
         {/* Mobile View */}
         <div className="block lg:hidden p-6 md:p-10" onClick={() => onViewDetails(lead)}>
             <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4">
-                    <Checkbox 
+                <div className="flex flex-col gap-4">
+                     <Checkbox 
                         id={`select-${lead.leadId}-mobile`} 
                         className="w-6 h-6 rounded-full" 
                         checked={isSelected}
@@ -252,7 +252,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="mt-4 ml-10 space-y-2 grid grid-cols-2 gap-4">
+            <div className="mt-4 ml-0 space-y-2 grid grid-cols-2 gap-4">
                 <div className="col-span-2">
                     <p className="text-base break-words"><span className="text-grey-2">Contact: </span><span className="text-black">{lead.contact}</span></p>
                 </div>
@@ -548,5 +548,6 @@ export default function LeadsPage() {
 }
 
     
+
 
 
