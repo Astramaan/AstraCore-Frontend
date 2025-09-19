@@ -16,6 +16,7 @@ import { Calendar } from './ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { cn } from '@/lib/utils';
 import { useToast } from './ui/use-toast';
+import { SuccessPopup } from './success-popup';
 
 interface InPersonConsultationDialogProps {
     isOpen: boolean;
@@ -33,6 +34,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState('');
     const { toast } = useToast();
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleClose = () => {
         onOpenChange(false);
@@ -58,145 +60,98 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
             date,
             time
         });
-        toast({
-            title: 'Booking Confirmed!',
-            description: `Your ${view === 'office' ? 'office visit' : 'home visit'} is scheduled for ${date.toLocaleDateString()} at ${time}.`,
-        });
         handleClose();
+        setShowSuccess(true);
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-md bg-card rounded-[50px] p-10 mx-4">
-                <DialogHeader>
-                    <DialogTitle className="sr-only">In-Person Consultation</DialogTitle>
-                     <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="absolute top-4 right-4 h-6 w-6">
-                           <X className="h-4 w-4" />
-                        </Button>
-                    </DialogClose>
-                </DialogHeader>
-
-                {view === 'initial' && (
-                    <div className="flex flex-col items-center gap-8">
-                        <div className="text-center w-full">
-                            <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight" onClick={() => setView('office')}>
-                                Visit Our Office
+        <>
+            <Dialog open={isOpen} onOpenChange={handleClose}>
+                <DialogContent className="sm:max-w-md bg-card rounded-[50px] p-10 mx-4">
+                    <DialogHeader>
+                        <DialogTitle className="sr-only">In-Person Consultation</DialogTitle>
+                         <DialogClose asChild>
+                            <Button variant="ghost" size="icon" className="absolute top-4 right-4 h-6 w-6">
+                               <X className="h-4 w-4" />
                             </Button>
-                            <p className="text-stone-400 text-sm mt-2">Meet with a Project specialist at our office.</p>
-                        </div>
-                        <div className="text-center w-full">
-                            <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight" onClick={() => setView('home')}>
-                                Home Visit
-                            </Button>
-                            <p className="text-stone-400 text-sm mt-2">A project specialist will visit your location. </p>
-                        </div>
-                    </div>
-                )}
-                
-                {view === 'office' && (
-                    <div className="space-y-6">
-                        <h3 className="text-center text-xl font-medium">Schedule Office Visit</h3>
-                         <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                variant={"outline"}
-                                className={cn(
-                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
-                                    !date && "text-muted-foreground"
-                                )}
-                                >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? date.toLocaleDateString() : <span>Select date</span>}
+                        </DialogClose>
+                    </DialogHeader>
+
+                    {view === 'initial' && (
+                        <div className="flex flex-col items-center gap-8">
+                            <div className="text-center w-full">
+                                <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight" onClick={() => setView('office')}>
+                                    Visit Our Office
                                 </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={setDate}
-                                initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-
-                        <Select onValueChange={setTime}>
-                            <SelectTrigger className="h-14 bg-background rounded-full">
-                                <SelectValue placeholder="Select a time slot" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {timeSlots.map(slot => (
-                                    <SelectItem key={slot} value={slot}>{slot}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-
-                        {date && time && (
-                            <div className="text-center p-4 bg-primary/10 rounded-xl">
-                                <p className="font-semibold">You've selected:</p>
-                                <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
+                                <p className="text-stone-400 text-sm mt-2">Meet with a Project specialist at our office.</p>
                             </div>
-                        )}
-                        
-                        <div className="flex justify-between gap-4">
-                            <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('initial')}>Back</Button>
-                            <Button className="w-full rounded-full h-14" onClick={handleConfirm}>Confirm</Button>
-                        </div>
-                    </div>
-                )}
-                
-                {view === 'home' && (
-                     <div className="space-y-6">
-                        <h3 className="text-center text-xl font-medium">Schedule Home Visit</h3>
-                         <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                variant={"outline"}
-                                className={cn(
-                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
-                                    !date && "text-muted-foreground"
-                                )}
-                                >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? date.toLocaleDateString() : <span>Select date</span>}
+                            <div className="text-center w-full">
+                                <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight" onClick={() => setView('home')}>
+                                    Home Visit
                                 </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={setDate}
-                                initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-
-                        <Select onValueChange={setTime}>
-                            <SelectTrigger className="h-14 bg-background rounded-full">
-                                <SelectValue placeholder="Select a time slot" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {timeSlots.map(slot => (
-                                    <SelectItem key={slot} value={slot}>{slot}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        
-                        {date && time && (
-                            <div className="text-center p-4 bg-primary/10 rounded-xl">
-                                <p className="font-semibold">You've selected:</p>
-                                <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
+                                <p className="text-stone-400 text-sm mt-2">A project specialist will visit your location. </p>
                             </div>
-                        )}
-
-                        <div className="flex justify-between gap-4">
-                            <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('initial')}>Back</Button>
-                            <Button className="w-full rounded-full h-14" onClick={handleConfirm}>Confirm</Button>
                         </div>
-                    </div>
-                )}
+                    )}
+                    
+                    {(view === 'office' || view === 'home') && (
+                        <div className="space-y-6">
+                            <h3 className="text-center text-xl font-medium">{view === 'office' ? 'Schedule Office Visit' : 'Schedule Home Visit'}</h3>
+                             <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal h-14 bg-background rounded-full",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                    >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {date ? date.toLocaleDateString() : <span>Select date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
+                                    initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
 
-            </DialogContent>
-        </Dialog>
+                            <Select onValueChange={setTime}>
+                                <SelectTrigger className="h-14 bg-background rounded-full">
+                                    <SelectValue placeholder="Select a time slot" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {timeSlots.map(slot => (
+                                        <SelectItem key={slot} value={slot}>{slot}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
+                            {date && time && (
+                                <div className="text-center p-4 bg-primary/10 rounded-xl">
+                                    <p className="font-semibold">You've selected:</p>
+                                    <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
+                                </div>
+                            )}
+                            
+                            <div className="flex justify-between gap-4">
+                                <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('initial')}>Back</Button>
+                                <Button className="w-full rounded-full h-14" onClick={handleConfirm}>Confirm</Button>
+                            </div>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
+            <SuccessPopup
+                isOpen={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                title="Booking Confirmed!"
+                message={`Your ${view === 'office' ? 'office visit' : 'home visit'} is scheduled for ${date?.toLocaleDateString()} at ${time}.`}
+            />
+        </>
     )
 }
