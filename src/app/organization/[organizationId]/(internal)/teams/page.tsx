@@ -124,7 +124,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
                 <div>
                     <p className="text-base text-grey-1">Admin: <span className="text-black font-medium block">{role.admin}</span></p>
                 </div>
-                 <div>
+                 <div className="text-right">
                     <p className="text-base text-grey-1">Active Members: <span className="text-black font-medium block">{String(role.active).padStart(2, '0')}</span></p>
                 </div>
                  <div>
