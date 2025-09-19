@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React, { useState, useMemo, use } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -12,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { ViewVendorsSheet, type Material } from '@/components/view-vendors-sheet';
 import StarIcon from '@/components/icons/star-icon';
 import { cn } from '@/lib/utils';
+import { useParams } from 'next/navigation';
 
 const vendorsData = [
     {
@@ -181,8 +183,9 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
 );
 
 
-export default function VendorsPage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function VendorsPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const [allVendors, setAllVendors] = useState(vendorsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -291,11 +294,3 @@ export default function VendorsPage({ params }: { params: { organizationId: stri
         </div>
     );
 }
-
-    
-
-
-
-
-
-

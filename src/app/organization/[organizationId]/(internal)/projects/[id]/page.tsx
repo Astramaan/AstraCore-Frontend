@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
@@ -111,8 +111,8 @@ const mockProject = {
     }
 };
 
-export default function ProjectDetailsPage({ params }: { params: { organizationId: string, id: string } }) {
-    const { id, organizationId } = use(params);
+export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
+    const { id } = params;
     const { user } = useUser();
     const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);

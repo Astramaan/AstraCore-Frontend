@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, use } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -23,6 +23,7 @@ import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -155,8 +156,9 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
 );
 
 
-export default function MeetingsPage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function MeetingsPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const [searchTerm, setSearchTerm] = useState('');
     const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
     const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);

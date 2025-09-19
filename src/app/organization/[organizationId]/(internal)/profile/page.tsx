@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React, { use } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { PersonalDetails } from '@/components/personal-details';
 import { FeatureAccessCard } from '@/components/feature-access-card';
@@ -11,9 +12,11 @@ import { LogOut, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { useUser } from '@/context/user-context';
+import { useParams } from 'next/navigation';
 
-export default function ProfilePage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function ProfilePage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const router = useRouter();
     const { user } = useUser();
     

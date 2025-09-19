@@ -7,8 +7,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Briefcase, Code, Palette, Search, Shield, Users, ChevronLeft } from 'lucide-react';
-import React, { useState, useMemo, useEffect, use } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import { ViewMembersSheet, type Role, type Member } from '@/components/view-members-sheet';
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -172,8 +172,9 @@ const RoleCardSkeleton = () => (
 );
 
 
-export default function TeamsPage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function TeamsPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const router = useRouter();
     const searchParams = useSearchParams();
     const { user } = useUser();

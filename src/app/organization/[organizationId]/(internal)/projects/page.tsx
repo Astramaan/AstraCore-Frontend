@@ -1,11 +1,12 @@
 
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical, ShieldAlert } from "lucide-react";
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
