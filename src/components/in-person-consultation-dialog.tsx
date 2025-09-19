@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import { SuccessPopup } from './success-popup';
 interface InPersonConsultationDialogProps {
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
+    initialView: 'office' | 'home' | 'online' | null;
 }
 
 const timeSlots = [
@@ -29,12 +30,18 @@ const timeSlots = [
     "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM",
 ];
 
-export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonConsultationDialogProps) {
-    const [view, setView] = useState<'initial' | 'office' | 'home'>('initial');
+export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }: InPersonConsultationDialogProps) {
+    const [view, setView] = useState<'initial' | 'office' | 'home' | 'online' | null>(initialView);
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState('');
     const { toast } = useToast();
     const [showSuccess, setShowSuccess] = useState(false);
+    
+    useEffect(() => {
+        if(isOpen) {
+            setView(initialView || 'initial');
+        }
+    }, [isOpen, initialView]);
 
     const handleClose = () => {
         onOpenChange(false);
@@ -62,6 +69,20 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
         });
         handleClose();
         setShowSuccess(true);
+    }
+    
+    const getSuccessMessage = () => {
+        if (view === 'office') return "Your office visit is scheduled for";
+        if (view === 'home') return "Your home visit is scheduled for";
+        if (view === 'online') return "Your online consultation is scheduled for";
+        return "Your appointment is scheduled for";
+    }
+
+    const getTitle = () => {
+        if (view === 'office') return 'Schedule Office Visit';
+        if (view === 'home') return 'Schedule Home Visit';
+        if (view === 'online') return 'Schedule Online Consultation';
+        return 'In-Person Consultation';
     }
 
     return (
@@ -94,9 +115,9 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                         </div>
                     )}
                     
-                    {(view === 'office' || view === 'home') && (
+                    {(view === 'office' || view === 'home' || view === 'online') && (
                         <div className="space-y-6">
-                            <h3 className="text-center text-xl font-medium">{view === 'office' ? 'Schedule Office Visit' : 'Schedule Home Visit'}</h3>
+                            <h3 className="text-center text-xl font-medium">{getTitle()}</h3>
                              <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -150,7 +171,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
                 title="Booking Confirmed!"
-                message={`Your ${view === 'office' ? 'office visit' : 'home visit'} is scheduled for ${date?.toLocaleDateString()} at ${time}.`}
+                message={`${getSuccessMessage()} ${date?.toLocaleDateString()} at ${time}.`}
             />
         </>
     )
