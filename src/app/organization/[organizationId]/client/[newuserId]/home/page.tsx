@@ -79,12 +79,21 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
             <CardContent className="p-0">
                 <h2 className="text-2xl font-semibold mb-2">We're waiting for you!</h2>
                 <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
-                <div className="relative w-full h-40 bg-zinc-100 rounded-3xl flex items-center justify-center mb-6">
-                    <Image src="https://picsum.photos/seed/map/400/200" layout="fill" alt="Map to habi's location" className="rounded-3xl object-cover" data-ai-hint="map location" />
-                    <div className="absolute inset-0 bg-black/10 rounded-3xl"></div>
-                    <div className="relative flex flex-col items-center text-white">
+                <div className="relative w-full h-40 bg-zinc-100 rounded-3xl flex items-center justify-center mb-6 overflow-hidden">
+                    <iframe 
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.026949377452!2d77.6433543147193!3d12.97017999085695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae171a5c68f233%3A0x4642b5853a8767e4!2sHabi.one!5e0!3m2!1sen!2sin"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen={false}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="rounded-3xl"
+                    ></iframe>
+                    <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>
+                    <div className="absolute flex flex-col items-center text-white pointer-events-none">
                         <MapPin className="w-8 h-8" />
-                        <span className="font-semibold mt-1">habi's Location</span>
+                        <span className="font-semibold mt-1">Office's Location</span>
                     </div>
                 </div>
                 <Button variant="outline" className="w-full h-14 rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20" onClick={onReschedule}>
