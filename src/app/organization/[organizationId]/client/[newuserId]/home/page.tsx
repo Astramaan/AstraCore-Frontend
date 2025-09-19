@@ -89,7 +89,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <HabiLogo className="mb-6 mx-auto" />
                         <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
-                        <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center border-t pt-6 mt-6">
+                        <Card className="w-full max-w-3xl rounded-[50px] p-6 flex flex-col justify-center items-center pt-6 mt-6">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => setIsConsultationDialogOpen(true)}>
@@ -230,4 +230,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
