@@ -11,6 +11,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import React, { useState, useRef, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
+import { usePathname } from "next/navigation";
 
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
@@ -244,5 +245,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    
 
     
