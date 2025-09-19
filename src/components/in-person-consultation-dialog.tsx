@@ -20,7 +20,7 @@ interface InPersonConsultationDialogProps {
 export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonConsultationDialogProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-md bg-slate-50 rounded-[50px] p-4">
+            <DialogContent className="sm:max-w-md bg-slate-50 rounded-[50px] p-10 mx-4">
                 <DialogHeader>
                     <DialogTitle className="sr-only">In-Person Consultation</DialogTitle>
                      <DialogClose asChild>
@@ -31,11 +31,11 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                 </DialogHeader>
                 <div className="flex flex-col items-center gap-8">
                     <div className="text-center">
-                        <Button className="w-80 h-[54px] px-10 bg-primary rounded-full text-lg text-primary-foreground leading-tight">Visit Our Office</Button>
+                        <Button className="w-80 h-[54px] px-10 rounded-full text-lg text-primary-foreground leading-tight">Visit Our Office</Button>
                         <p className="text-stone-400 text-sm mt-2">Meet with a Project specialist at our office.</p>
                     </div>
                     <div className="text-center">
-                        <Button className="w-80 h-[54px] px-10 bg-primary rounded-full text-lg text-primary-foreground leading-tight">Home Visit</Button>
+                        <Button className="w-80 h-[54px] px-10 rounded-full text-lg text-primary-foreground leading-tight">Home Visit</Button>
                         <p className="text-stone-400 text-sm mt-2">A project specialist will visit your location. </p>
                     </div>
                 </div>
