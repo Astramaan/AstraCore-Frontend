@@ -82,7 +82,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                     <h2 className="text-2xl font-semibold mb-2">We're coming to meet you.</h2>
                     <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
                      <div className="space-y-4">
-                        <Button className="w-full h-14 rounded-full text-lg text-primary-foreground">
+                        <Button className="w-full h-14 rounded-full text-lg text-black bg-zinc-200" disabled>
                             We're coming
                         </Button>
                         <Button variant="outline" className="w-full h-14 rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20" onClick={onReschedule}>
