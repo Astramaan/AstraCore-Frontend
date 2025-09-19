@@ -36,7 +36,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                     </div>
                     <div className="text-center">
                         <Button className="w-80 h-auto py-5 px-10 bg-primary rounded-2xl text-lg text-primary-foreground leading-tight">Home Visit</Button>
-                        <p className="text-stone-400 text-sm mt-2">An executive from habi will visit your home.</p>
+                        <p className="text-stone-400 text-sm mt-2">A project specialist will visit your location.</p>
                     </div>
                 </div>
             </DialogContent>
