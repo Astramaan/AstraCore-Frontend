@@ -85,7 +85,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                     <h2 className="text-2xl font-semibold mb-2">We're coming to meet you.</h2>
                     <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
                      <div className="space-y-4">
-                        <Button className="w-full h-14 rounded-full text-lg text-black bg-zinc-200 hover:bg-zinc-200" disabled>
+                        <Button className="w-full h-14 rounded-full text-lg bg-zinc-200 hover:bg-zinc-200/90 text-black" disabled>
                             We're coming
                         </Button>
                         <Button variant="outline" className="w-full h-14 rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20" onClick={onReschedule}>
@@ -226,9 +226,11 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     <Label htmlFor="site-address">Site Address</Label>
                                     <Textarea id="site-address" placeholder="Enter the full site address" />
                                 </div>
-                                <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg mt-8">
-                                    Submit Details
-                                </Button>
+                                <div className="flex justify-end pt-4">
+                                  <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg">
+                                      Submit Details
+                                  </Button>
+                                </div>
                             </form>
                         </CardContent>
                     </Card>
@@ -316,5 +318,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
-    
