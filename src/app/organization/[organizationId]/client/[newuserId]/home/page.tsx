@@ -82,13 +82,11 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
     return (
         <div className="bg-zinc-100 min-h-screen">
-             <header className="p-4 bg-white">
-                <HabiLogo />
-            </header>
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8">
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
-                        <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
+                        <HabiLogo />
+                        <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6 mt-4">Book Free Consultation</h1>
                         <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
@@ -147,7 +145,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card className="text-card-foreground w-full mt-8 p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
@@ -183,7 +181,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card className="text-card-foreground w-full mt-8 p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
