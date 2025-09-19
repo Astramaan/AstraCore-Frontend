@@ -27,7 +27,7 @@ interface AppointmentDetails {
 interface InPersonConsultationDialogProps {
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
-    initialView: 'office' | 'home' | 'online' | null;
+    initialView: 'office' | 'home' | 'online' | 'in-person' | null;
     onBookingSuccess: (details: AppointmentDetails) => void;
 }
 
@@ -38,7 +38,7 @@ const timeSlots = [
 ];
 
 export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, onBookingSuccess }: InPersonConsultationDialogProps) {
-    const [view, setView] = useState<'initial' | 'office' | 'home' | 'online' | null>(initialView);
+    const [view, setView] = useState<'initial' | 'office' | 'home' | 'online' | 'in-person' | null>(initialView);
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState('');
     const { toast } = useToast();
@@ -61,7 +61,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
     }
     
     const handleConfirm = () => {
-        if (!date || !time || !view || view === 'initial') {
+        if (!date || !time || !view || view === 'initial' || view === 'in-person') {
             toast({
                 variant: 'destructive',
                 title: 'Missing Information',
@@ -102,7 +102,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
                         </DialogClose>
                     </DialogHeader>
 
-                    {view === 'initial' && (
+                    {view === 'in-person' && (
                         <div className="flex flex-col items-center gap-8">
                             <div className="text-center w-full">
                                 <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight" onClick={() => setView('office')}>
@@ -159,12 +159,12 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
                              {date && time && (
                                 <div className="text-center p-4 bg-primary/10 rounded-xl">
                                     <p className="font-semibold">You've selected:</p>
-                                    <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
+                                    <p>{date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })} at {time}</p>
                                 </div>
                             )}
                             
                             <div className="flex justify-between gap-4">
-                                <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('initial')}>Back</Button>
+                                <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('in-person')}>Back</Button>
                                 <Button className="w-full rounded-full h-14" onClick={handleConfirm}>Confirm</Button>
                             </div>
                         </div>
