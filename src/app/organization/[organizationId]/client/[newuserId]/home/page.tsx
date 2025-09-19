@@ -91,7 +91,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">In Person</Button>
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">Virtually</Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">Online</Button>
                             </div>
                         </Card>
                     </Card>
