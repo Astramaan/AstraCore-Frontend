@@ -116,7 +116,7 @@ export default function ClientProfilePage() {
                                         <Edit className="h-5 w-5" />
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-xl md:mx-auto rounded-t-[50px] border-none">
+                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none">
                                      <EditProfileForm profile={profile} onSave={handleSave} onClose={() => setIsEditing(false)} />
                                 </SheetContent>
                             </Sheet>
