@@ -107,7 +107,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-none md:rounded-[50px]">
+                    <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-2">
