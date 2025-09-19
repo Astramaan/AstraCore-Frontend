@@ -146,7 +146,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         <div className="bg-zinc-100 min-h-screen">
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8 p-4 md:p-8">
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
+                    <Card id="book-consultation-section" className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <HabiLogo className="mb-6 mx-auto" />
 
                          {appointment ? (
@@ -289,7 +289,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </AccordionItem>
                             </Accordion>
                             <div className="text-center mt-6">
-                                <a href="#faq-section" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+                                <a href="#book-consultation-section" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
                             </div>
                         </CardContent>
                     </Card>
