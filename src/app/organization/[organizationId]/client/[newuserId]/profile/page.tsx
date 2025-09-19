@@ -87,19 +87,6 @@ export default function ClientProfilePage() {
                     <LogOut className="w-5 h-5 mr-2" />
                     Logout
                 </Button>
-                
-                 <div className="text-center text-zinc-500 text-sm space-y-2">
-                    <div className="flex justify-center gap-4">
-                        <Link href="#" className="hover:underline">Instagram</Link>
-                        <Link href="#" className="hover:underline">Facebook</Link>
-                        <Link href="#" className="hover:underline">LinkedIn</Link>
-                        <Link href="#" className="hover:underline">YouTube</Link>
-                        <Link href="#" className="hover:underline">Pinterest</Link>
-                        <Link href="#" className="hover:underline">Blog</Link>
-                        <Link href="#" className="hover:underline">Location</Link>
-                    </div>
-                    <p>© 2024 habi from Designasm Technologies Pvt.Ltd</p>
-                </div>
             </div>
              <ClientBottomNav />
         </div>
