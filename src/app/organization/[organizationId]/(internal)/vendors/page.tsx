@@ -173,7 +173,7 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
                 <div>
                     <p className="text-base text-grey-1">Top Supplier: <span className="text-black font-medium block">{material.vendors[0]?.companyName || 'N/A'}</span></p>
                 </div>
-                 <div>
+                 <div className="text-right">
                     <p className="text-base text-grey-1">Total Vendors: <span className="text-black font-medium block">{String(material.vendors.length).padStart(2, '0')}</span></p>
                 </div>
                 <div className="col-span-2">
@@ -251,14 +251,14 @@ export default function VendorsPage() {
                         className={cn("h-[54px] md:h-14 justify-center rounded-full text-lg flex-1 md:flex-initial md:w-auto md:px-4", showFavorites ? "bg-primary text-white" : "bg-white")}
                         onClick={() => setShowFavorites(prev => !prev)}
                     >
-                        <StarIcon className="mr-2 h-5 w-5" isFilled={showFavorites} />
-                        <span>Favorites</span>
+                        <StarIcon className="md:mr-2 h-5 w-5" isFilled={showFavorites} />
+                        <span className="inline">Favorites</span>
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="h-[54px] md:h-14 justify-center rounded-full bg-white text-lg flex-1 md:flex-initial md:w-auto md:px-4">
                                 <SlidersHorizontal className="mr-2 h-5 w-5" />
-                                <span>Filter</span>
+                                <span className="inline">Filter</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
