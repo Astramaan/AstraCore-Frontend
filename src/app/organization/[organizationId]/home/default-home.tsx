@@ -237,10 +237,18 @@ export default function DefaultHomePage() {
                 </div>
 
                 {user?.roleType === 'superAdmin' ? (
-                    <div>
-                        <h2 className="text-xl font-medium">My Task</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                            {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                    <div className="space-y-8">
+                        <div>
+                            <h2 className="text-xl font-medium">My Task</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                            </div>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                            </div>
                         </div>
                     </div>
                 ) : (
@@ -269,12 +277,14 @@ export default function DefaultHomePage() {
                     </div>
                 )}
                 
-                <div className="mt-8">
-                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                {user?.roleType !== 'superAdmin' && (
+                    <div className="mt-8">
+                        <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                        </div>
                     </div>
-                </div>
+                )}
             </main>
             <HomeAside
                 meetings={meetings}
