@@ -9,22 +9,24 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ArchitectHome from './architect-home';
 import SalesHome from './sales-home';
 import SiteSupervisorHome from './site-supervisor-home';
-import NewUserHomePage from '../../newuser/[newuserId]/home/page';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 
-function OrganizationHomePageContent({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+function OrganizationHomePageContent() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const { user, loading } = useUser();
     const router = useRouter();
 
     useEffect(() => {
         if (!loading && !user) {
             router.push('/');
+        } else if (!loading && user && (user.roleType === 'client' || user.team === 'New User')) {
+            router.replace(`/organization/${user.organizationId}/newuser/${user.userId}/home`);
         }
     }, [loading, user, router]);
 
-    if (loading) {
+    if (loading || !user || user.roleType === 'client' || user.team === 'New User') {
         return (
             <div className="space-y-6">
                 <div className="flex justify-between items-center mb-6">
@@ -51,10 +53,6 @@ function OrganizationHomePageContent({ params }: { params: { organizationId: str
         )
     }
 
-    if (!user) {
-        return <div>Redirecting to login...</div>;
-    }
-
     // Use the user's team to determine which component to render
     if (user.team === 'Project Manager') {
         return <ProjectManagerHome />;
@@ -71,19 +69,14 @@ function OrganizationHomePageContent({ params }: { params: { organizationId: str
     if (user.team === 'Sales') {
         return <SalesHome />;
     }
-    
-    if (user.team === 'New User' || user.roleType === 'client') {
-        router.replace(`/organization/${user.organizationId}/newuser/${user.userId}/home`);
-        return <div>Redirecting to your personal dashboard...</div>;
-    }
 
     return <DefaultHomePage />;
 }
 
-export default function OrganizationHomePage({ params }: { params: { organizationId: string } }) {
+export default function OrganizationHomePage() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <OrganizationHomePageContent params={params} />
+            <OrganizationHomePageContent />
         </Suspense>
     );
 }

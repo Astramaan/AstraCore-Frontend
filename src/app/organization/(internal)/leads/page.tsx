@@ -123,7 +123,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                         onClick={(e) => e.stopPropagation()}
                     />
-                    <Link href={`/organization/${organizationId}/lead/${lead.leadId}/home`} className="flex-1" onClick={(e) => e.stopPropagation()}>
+                    <div onClick={(e) => e.stopPropagation()} className="flex-1">
                         <div>
                         <p className="text-xl font-semibold text-black">{lead.fullName}</p>
                         <p className="text-lg">
@@ -133,7 +133,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                             </span>
                         </p>
                         </div>
-                    </Link>
+                    </div>
                 </div>
 
                 {/* Col 2: Contact + ID */}
@@ -231,12 +231,10 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         onCheckedChange={(checked) => onSelectionChange(lead.leadId, !!checked)}
                         onClick={(e) => e.stopPropagation()}
                     />
-                    <Link href={`/organization/${organizationId}/lead/${lead.leadId}/home`}>
-                        <div>
-                            <p className="text-xl font-semibold text-black">{lead.fullName}</p>
-                            <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
-                        </div>
-                    </Link>
+                    <div>
+                        <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+                        <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
+                    </div>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
