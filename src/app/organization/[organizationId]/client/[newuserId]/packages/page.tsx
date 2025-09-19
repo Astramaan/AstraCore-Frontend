@@ -8,6 +8,7 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 import { ClientBottomNav } from "@/app/organization/[organizationId]/client/[newuserId]/home/page";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
 const packages = [
     {
@@ -66,7 +67,7 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
                 {pkg.description}
             </p>
         </CardHeader>
-        <CardContent className="p-0 flex-1 flex flex-col">
+        <CardContent className="p-0 flex-1 flex flex-col mt-4">
             <div className="my-8 text-center">
                 <span className="text-5xl font-bold">₹{pkg.price}</span>
                 <span className={cn(pkg.isPopular ? "text-primary-foreground/80" : "text-muted-foreground")}>/sq.ft</span>
@@ -86,9 +87,13 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
 );
 
 export default function PackagesPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
+    const newuserId = params.newuserId as string;
+
     return (
         <div className="bg-background min-h-screen">
-            <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8">
+            <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8 pb-32">
                 <div className="text-center">
                      <HabiLogo className="mb-6 justify-center" />
                     <h1 className="text-3xl md:text-4xl font-bold">Our Packages</h1>
@@ -99,6 +104,14 @@ export default function PackagesPage() {
                     {packages.map(pkg => (
                         <PackageCard key={pkg.name} pkg={pkg} />
                     ))}
+                </div>
+
+                <div className="text-center pt-8">
+                    <Button asChild className="rounded-full h-[54px] px-8 text-lg">
+                        <Link href={`/organization/${organizationId}/client/${newuserId}/home#book-consultation-section`}>
+                            Contact Team
+                        </Link>
+                    </Button>
                 </div>
             </main>
             <ClientBottomNav />
