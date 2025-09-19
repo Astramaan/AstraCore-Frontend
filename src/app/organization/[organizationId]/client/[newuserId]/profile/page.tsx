@@ -40,27 +40,8 @@ export default function ClientProfilePage() {
     });
 
     return (
-        <div className="bg-zinc-100 min-h-screen pb-32">
-            <div className="bg-slate-50 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.05)] p-4">
-                <div className="max-w-4xl mx-auto">
-                    <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-neutral-900 text-2xl font-medium">Profile</h1>
-                    </div>
-                    <div className="relative mb-[-50px]">
-                        <div className="w-full h-28 bg-gradient-to-b from-black/0 to-black/50 rounded-[10px]" />
-                        <div className="absolute bottom-[-40px] left-8">
-                            <Image src="https://placehold.co/94x94" alt="Yash" width={94} height={94} className="rounded-full border-[3px] border-slate-50" />
-                        </div>
-                        <div className="absolute bottom-4 right-4">
-                             <Button variant="outline" className="rounded-lg bg-cyan-500/10 border border-cyan-500 text-cyan-500">
-                                <Edit className="w-4 h-4 mr-2" />
-                                Edit
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="max-w-4xl mx-auto p-4 pt-20 space-y-8">
+        <div className="bg-zinc-100 min-h-screen">
+            <div className="max-w-4xl mx-auto space-y-8">
                 <div className="bg-slate-50 shadow-[0px_5px_10px_0px_rgba(0,0,0,0.05)] p-6 space-y-6">
                     <DetailField label="Name" value={profile.name} />
                     <DetailField label="Phone Number" value={profile.phone} />
