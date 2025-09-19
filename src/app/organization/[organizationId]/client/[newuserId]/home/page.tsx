@@ -188,7 +188,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         ) : (
                             <>
                                 <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
-                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center mt-6">
+                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center mt-6 p-10">
                                     <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
                                     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                         <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
@@ -212,19 +212,19 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             <form onSubmit={handleSubmit} className="w-full space-y-4">
                                 <div>
                                     <Label htmlFor="project-type">Project Type</Label>
-                                    <Input id="project-type" placeholder="e.g., New Construction, Renovation" />
+                                    <Input id="project-type" placeholder="e.g., New Construction, Renovation" className="h-[54px] rounded-full" />
                                 </div>
                                 <div>
                                     <Label htmlFor="building-type">Building Type</Label>
-                                    <Input id="building-type" placeholder="e.g., Residential, Commercial" />
+                                    <Input id="building-type" placeholder="e.g., Residential, Commercial" className="h-[54px] rounded-full" />
                                 </div>
                                 <div>
                                     <Label htmlFor="floor-count">Number of Floors</Label>
-                                    <Input id="floor-count" type="number" placeholder="e.g., G+2" />
+                                    <Input id="floor-count" type="number" placeholder="e.g., G+2" className="h-[54px] rounded-full" />
                                 </div>
                                 <div>
                                     <Label htmlFor="site-address">Site Address</Label>
-                                    <Textarea id="site-address" placeholder="Enter the full site address" />
+                                    <Textarea id="site-address" placeholder="Enter the full site address" className="min-h-[54px] rounded-3xl" />
                                 </div>
                                 <div className="flex justify-end pt-4">
                                   <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg">
