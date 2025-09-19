@@ -236,55 +236,56 @@ export default function DefaultHomePage() {
                     </div>
                 </div>
 
-                {user?.roleType === 'superAdmin' ? (
-                    <div className="space-y-8">
-                        <div>
-                            <h2 className="text-xl font-medium">My Task</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                                {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                <div className="space-y-8">
+                    {user?.roleType === 'superAdmin' ? (
+                        <>
+                            <div>
+                                <h2 className="text-xl font-medium">My Task</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                    {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                            <div>
+                                <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div>
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-medium">Project Task</h2>
-                            {canFilterProjects && (
-                            <div className="w-48">
-                                <Select value={selectedProject} onValueChange={setSelectedProject}>
-                                <SelectTrigger className="rounded-full bg-white">
-                                    <SelectValue placeholder="All Projects" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Projects</SelectItem>
-                                    {projectNames.map(name => (
-                                    <SelectItem key={name} value={name}>{name}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                                </Select>
+                        </>
+                    ) : (
+                        <>
+                             <div>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-medium">Project Task</h2>
+                                    {canFilterProjects && (
+                                    <div className="w-48">
+                                        <Select value={selectedProject} onValueChange={setSelectedProject}>
+                                        <SelectTrigger className="rounded-full bg-white">
+                                            <SelectValue placeholder="All Projects" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">All Projects</SelectItem>
+                                            {projectNames.map(name => (
+                                            <SelectItem key={name} value={name}>{name}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                        </Select>
+                                    </div>
+                                    )}
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {projectTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                </div>
                             </div>
-                            )}
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {projectTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-                        </div>
-                    </div>
-                )}
-                
-                {user?.roleType !== 'superAdmin' && (
-                    <div className="mt-8">
-                        <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-                        </div>
-                    </div>
-                )}
+                            <div className="mt-8">
+                                <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
             </main>
             <HomeAside
                 meetings={meetings}
