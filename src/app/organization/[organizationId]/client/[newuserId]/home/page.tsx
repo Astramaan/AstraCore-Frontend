@@ -71,7 +71,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </Card>
                     </Card>
 
-                    <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-none md:rounded-[50px]">
+                    <Card className="w-full mt-8 p-4 md:p-8 bg-white rounded-[50px] md:rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
