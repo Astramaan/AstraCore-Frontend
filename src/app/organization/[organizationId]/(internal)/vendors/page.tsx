@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -163,19 +162,23 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
             </div>
         </div>
 
-        <div className="lg:hidden flex flex-col p-10 gap-4">
-             <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
-                {/* Placeholder for material icon */}
+        <div className="lg:hidden flex flex-col p-6 md:p-10 gap-4">
+            <div className="flex items-center gap-4">
+                <div className={'w-14 h-14 rounded-full flex items-center justify-center shrink-0 bg-blue-200/30'}>
+                    {/* Placeholder for material icon */}
+                </div>
+                <p className="text-2xl font-semibold">{material.name}</p>
             </div>
-            <p className="text-2xl font-semibold">{material.name}</p>
-            <div className="grid grid-cols-2 gap-4 mt-2">
+            <div className="grid grid-cols-2 items-center gap-4 mt-2">
                 <div>
                     <p className="text-base text-grey-1">Top Supplier: <span className="text-black font-medium block">{material.vendors[0]?.companyName || 'N/A'}</span></p>
                 </div>
                  <div>
                     <p className="text-base text-grey-1">Total Vendors: <span className="text-black font-medium block">{String(material.vendors.length).padStart(2, '0')}</span></p>
                 </div>
-                <Button className="h-12 px-6 col-span-2 rounded-full bg-background text-black hover:bg-muted text-base font-medium self-end" onClick={() => onViewVendors(material)}>View Vendors</Button>
+                <div className="col-span-2">
+                    <Button className="h-12 px-6 w-full rounded-full bg-background text-black hover:bg-muted text-base font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
+                </div>
             </div>
         </div>
         <Separator className="last:hidden"/>
@@ -295,3 +298,4 @@ export default function VendorsPage() {
     );
 }
 
+    
