@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
-import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X } from 'lucide-react';
+import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X, Building, Laptop } from 'lucide-react';
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import React, { useState, useRef } from "react";
@@ -90,8 +90,14 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
                             <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">In Person</Button>
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">Online</Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">
+                                    <Building className="mr-2 h-5 w-5" />
+                                    In Person
+                                </Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg">
+                                    <Laptop className="mr-2 h-5 w-5" />
+                                    Online
+                                </Button>
                             </div>
                         </Card>
                     </Card>
