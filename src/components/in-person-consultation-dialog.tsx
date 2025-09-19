@@ -20,7 +20,7 @@ interface InPersonConsultationDialogProps {
 export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonConsultationDialogProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-md bg-slate-50 rounded-[50px] p-10 mx-4">
+            <DialogContent className="sm:max-w-md bg-card rounded-[50px] p-10 mx-4">
                 <DialogHeader>
                     <DialogTitle className="sr-only">In-Person Consultation</DialogTitle>
                      <DialogClose asChild>
