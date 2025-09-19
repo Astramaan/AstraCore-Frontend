@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
-import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X, Building, Laptop } from 'lucide-react';
+import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X, Building, Laptop, MapPin } from 'lucide-react';
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import React, { useState, useRef, useEffect } from "react";
@@ -62,12 +62,45 @@ export const ClientBottomNav = () => {
     );
 };
 
+interface AppointmentDetails {
+    type: 'office' | 'home' | 'online';
+    date: Date;
+    time: string;
+}
+
+const AppointmentCard = ({ appointment, onReschedule }: { appointment: AppointmentDetails, onReschedule: () => void }) => {
+    const formattedDate = appointment.date.toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+    });
+
+    return (
+        <Card className="w-full max-w-sm rounded-[50px] p-6 text-center">
+            <CardContent className="p-0">
+                <h2 className="text-2xl font-semibold mb-2">We're waiting for you!</h2>
+                <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
+                <div className="relative w-full h-40 bg-zinc-100 rounded-3xl flex items-center justify-center mb-6">
+                    <Image src="https://picsum.photos/seed/map/400/200" layout="fill" alt="Map to habi's location" className="rounded-3xl object-cover" data-ai-hint="map location" />
+                    <div className="absolute inset-0 bg-black/10 rounded-3xl"></div>
+                    <div className="relative flex flex-col items-center text-white">
+                        <MapPin className="w-8 h-8" />
+                        <span className="font-semibold mt-1">habi's Location</span>
+                    </div>
+                </div>
+                <Button variant="outline" className="w-full h-14 rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20" onClick={onReschedule}>
+                    Reschedule
+                </Button>
+            </CardContent>
+        </Card>
+    );
+}
 
 export default function NewUserHomePage({ params }: { params: { organizationId: string, newuserId: string } }) {
     const [images, setImages] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
     const [consultationType, setConsultationType] = useState<'office' | 'home' | 'online' | null>(null);
+    const [appointment, setAppointment] = useState<AppointmentDetails | null>(null);
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -95,27 +128,41 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         console.log("Submitting images:", images);
         // Here you would typically handle the file upload to a server
     };
+    
+    const handleBookingSuccess = (details: AppointmentDetails) => {
+        setAppointment(details);
+    }
 
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8">
+                <div className="max-w-[1240px] mx-auto space-y-8 p-4 md:p-8">
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <HabiLogo className="mb-6 mx-auto" />
-                        <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
-                        <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center mt-6">
-                            <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
-                            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('office')}>
-                                    <User className="mr-2 h-5 w-5" />
-                                    In Person
-                                </Button>
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
-                                    <Laptop className="mr-2 h-5 w-5" />
-                                    Online
-                                </Button>
-                            </div>
-                        </Card>
+
+                         {appointment ? (
+                            <AppointmentCard appointment={appointment} onReschedule={() => {
+                                setAppointment(null);
+                                openConsultationDialog(appointment.type);
+                            }} />
+                        ) : (
+                            <>
+                                <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
+                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center mt-6">
+                                    <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
+                                    <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                                        <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('office')}>
+                                            <User className="mr-2 h-5 w-5" />
+                                            In Person
+                                        </Button>
+                                        <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
+                                            <Laptop className="mr-2 h-5 w-5" />
+                                            Online
+                                        </Button>
+                                    </div>
+                                </Card>
+                            </>
+                        )}
                     </Card>
 
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
@@ -244,11 +291,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 isOpen={isConsultationDialogOpen} 
                 onOpenChange={setIsConsultationDialogOpen}
                 initialView={consultationType}
+                onBookingSuccess={handleBookingSuccess}
              />}
         </div>
     );
 }
-
-    
-
-    

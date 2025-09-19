@@ -18,10 +18,17 @@ import { cn } from '@/lib/utils';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 
+interface AppointmentDetails {
+    type: 'office' | 'home' | 'online';
+    date: Date;
+    time: string;
+}
+
 interface InPersonConsultationDialogProps {
     isOpen: boolean;
     onOpenChange: (open: boolean) => void;
     initialView: 'office' | 'home' | 'online' | null;
+    onBookingSuccess: (details: AppointmentDetails) => void;
 }
 
 const timeSlots = [
@@ -30,7 +37,7 @@ const timeSlots = [
     "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", "06:00 PM",
 ];
 
-export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }: InPersonConsultationDialogProps) {
+export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, onBookingSuccess }: InPersonConsultationDialogProps) {
     const [view, setView] = useState<'initial' | 'office' | 'home' | 'online' | null>(initialView);
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState('');
@@ -54,7 +61,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }
     }
     
     const handleConfirm = () => {
-        if (!date || !time) {
+        if (!date || !time || !view || view === 'initial') {
             toast({
                 variant: 'destructive',
                 title: 'Missing Information',
@@ -62,11 +69,8 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }
             });
             return;
         }
-        console.log({
-            type: view,
-            date,
-            time
-        });
+
+        onBookingSuccess({ type: view, date, time });
         handleClose();
         setShowSuccess(true);
     }
@@ -128,7 +132,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }
                                     )}
                                     >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? date.toLocaleDateString() : <span>Select date</span>}
+                                    {date ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : <span>Select date</span>}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
@@ -152,7 +156,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }
                                 </SelectContent>
                             </Select>
 
-                            {date && time && (
+                             {date && time && (
                                 <div className="text-center p-4 bg-primary/10 rounded-xl">
                                     <p className="font-semibold">You've selected:</p>
                                     <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
@@ -171,7 +175,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView }
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
                 title="Booking Confirmed!"
-                message={`${getSuccessMessage()} ${date?.toLocaleDateString()} at ${time}.`}
+                message={`${getSuccessMessage()} ${date?.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })} at ${time}.`}
             />
         </>
     )
