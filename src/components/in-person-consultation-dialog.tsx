@@ -130,6 +130,13 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                                 ))}
                             </SelectContent>
                         </Select>
+
+                        {date && time && (
+                            <div className="text-center p-4 bg-primary/10 rounded-xl">
+                                <p className="font-semibold">You've selected:</p>
+                                <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
+                            </div>
+                        )}
                         
                         <div className="flex justify-between gap-4">
                             <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('initial')}>Back</Button>
@@ -175,6 +182,13 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                             </SelectContent>
                         </Select>
                         
+                        {date && time && (
+                            <div className="text-center p-4 bg-primary/10 rounded-xl">
+                                <p className="font-semibold">You've selected:</p>
+                                <p>{date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {time}</p>
+                            </div>
+                        )}
+
                         <div className="flex justify-between gap-4">
                             <Button variant="outline" className="w-full rounded-full h-14" onClick={() => setView('initial')}>Back</Button>
                             <Button className="w-full rounded-full h-14" onClick={handleConfirm}>Confirm</Button>
