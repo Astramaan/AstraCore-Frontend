@@ -144,7 +144,8 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         <span className="text-black">{lead.contact}</span>
                     </p>
                     <p className="text-lg">
-                    <span className="text-zinc-900">{lead.leadId}</span>
+                        <span className="text-grey-2">Lead ID: </span> 
+                        <span className="text-zinc-900">{lead.leadId}</span>
                     </p>
                 </div>
 
@@ -259,7 +260,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                      <p className="text-base"><span className="text-grey-2">Location: </span><span className="text-black">{lead.address.split(',').pop()?.trim().split(' ')[0] || 'N/A'}</span></p>
                 </div>
                 <div>
-                     <p className="text-base"><span className="text-zinc-900">{lead.leadId}</span></p>
+                     <p className="text-base"><span className="text-grey-2">Lead ID: </span><span className="text-zinc-900">{lead.leadId}</span></p>
                 </div>
                 <div className="col-span-2 flex items-center gap-4 pt-2 justify-end">
                      <DropdownMenu>
@@ -547,4 +548,5 @@ export default function LeadsPage() {
 }
 
     
+
 
