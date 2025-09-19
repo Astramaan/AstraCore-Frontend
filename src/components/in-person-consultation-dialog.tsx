@@ -30,12 +30,12 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange }: InPersonCon
                     </DialogClose>
                 </DialogHeader>
                 <div className="flex flex-col items-center gap-8">
-                    <div className="text-center">
-                        <Button className="w-80 h-[54px] px-10 rounded-full text-lg text-primary-foreground leading-tight">Visit Our Office</Button>
+                    <div className="text-center w-full">
+                        <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight">Visit Our Office</Button>
                         <p className="text-stone-400 text-sm mt-2">Meet with a Project specialist at our office.</p>
                     </div>
-                    <div className="text-center">
-                        <Button className="w-80 h-[54px] px-10 rounded-full text-lg text-primary-foreground leading-tight">Home Visit</Button>
+                    <div className="text-center w-full">
+                        <Button className="w-full h-[54px] rounded-full text-lg text-primary-foreground leading-tight">Home Visit</Button>
                         <p className="text-stone-400 text-sm mt-2">A project specialist will visit your location. </p>
                     </div>
                 </div>
