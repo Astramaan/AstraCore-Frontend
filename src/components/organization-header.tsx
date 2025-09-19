@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
 import { Users, Menu } from 'lucide-react';
@@ -20,6 +20,7 @@ export const OrganizationHeader = () => {
     const params = useParams();
     const organizationId = params.organizationId as string;
     const { user } = useUser();
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
     
     const userName = user?.name || 'User';
     const userTeam = user?.team || 'Team';
@@ -86,7 +87,7 @@ export const OrganizationHeader = () => {
         </div>
          <div className="md:hidden flex items-center gap-2">
             <NotificationPopover />
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary">
                         <Menu className="h-6 w-6" />
@@ -97,7 +98,7 @@ export const OrganizationHeader = () => {
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-col gap-4 pt-8">
-                        <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
+                        <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
                             <Avatar className="h-[54px] w-[54px]">
                                 <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                                 <AvatarFallback>{userInitials}</AvatarFallback>
@@ -108,7 +109,7 @@ export const OrganizationHeader = () => {
                             </div>
                         </Link>
                         <Separator />
-                        <Link href={`/organization/${organizationId}/teams`}>
+                        <Link href={`/organization/${organizationId}/teams`} onClick={() => setIsSheetOpen(false)}>
                           <Button className={cn(
                               "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
                               isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
