@@ -27,7 +27,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
              <OrganizationHeader />
            </div>
         </header>
-        <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 px-2 py-4 md:p-4 space-y-6">
+        <main className="max-w-[1440px] mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 py-4 space-y-6">
             {children}
         </main>
         {shouldShowNav && <OrganizationBottomNav />}
