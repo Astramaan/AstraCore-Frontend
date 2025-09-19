@@ -289,7 +289,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </AccordionItem>
                             </Accordion>
                             <div className="text-center mt-6">
-                                <a href="#" className="text-cyan-500 text-sm font-normal underline leading-none">Still have a questions ?</a>
+                                <a href="#" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
                             </div>
                         </CardContent>
                     </Card>
