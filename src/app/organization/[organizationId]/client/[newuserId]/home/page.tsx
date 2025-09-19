@@ -120,7 +120,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     </div>
                                 ) : (
                                     <div 
-                                        className="w-full h-44 rounded-[10px] border-2 border-dashed border-stone-300 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50"
+                                        className="w-full h-44 rounded-[30px] border-2 border-dashed border-stone-300 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50"
                                         onClick={() => fileInputRef.current?.click()}
                                     >
                                         <div className="w-14 h-14 bg-zinc-100 rounded-full flex items-center justify-center">
