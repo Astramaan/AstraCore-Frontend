@@ -83,8 +83,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8 px-0 md:px-4">
-                    <Card className="rounded-lg text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
+                <div className="max-w-[1240px] mx-auto space-y-8">
+                    <Card className="rounded-[50px] text-card-foreground w-full p-10 bg-white flex flex-col justify-start items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
                         <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
                             <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">Connect with Us!</h2>
@@ -144,12 +144,12 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card className="text-card-foreground w-full mt-8 p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
                                 <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 hidden md:block"></div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
+                                <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
                                     <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
@@ -158,7 +158,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             </div>
                             <div className="relative">
                                 <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gray-300 -z-0 hidden md:block"></div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
+                                <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
                                     <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
