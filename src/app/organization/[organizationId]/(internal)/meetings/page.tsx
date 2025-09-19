@@ -60,7 +60,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-base">
                 <div className="col-span-2">
                     <span className="text-grey-2">Contact: </span>
-                    <p className="text-black font-medium break-all">{meeting.email} | {meeting.phone}</p>
+                    <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
                 </div>
                 <div className="text-right col-span-2">
                     <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span>
