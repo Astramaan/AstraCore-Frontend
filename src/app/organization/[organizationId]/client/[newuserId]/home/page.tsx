@@ -12,6 +12,9 @@ import { cn } from "@/lib/utils";
 import React, { useState, useRef, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
 import { usePathname, useParams } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
@@ -82,7 +85,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                     <h2 className="text-2xl font-semibold mb-2">We're coming to meet you.</h2>
                     <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
                      <div className="space-y-4">
-                        <Button className="w-full h-14 rounded-full text-lg text-black bg-zinc-200" disabled>
+                        <Button className="w-full h-14 rounded-full text-lg text-black bg-zinc-200 hover:bg-zinc-200" disabled>
                             We're coming
                         </Button>
                         <Button variant="outline" className="w-full h-14 rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20" onClick={onReschedule}>
@@ -160,21 +163,10 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         setIsConsultationDialogOpen(true);
     }
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files) {
-        const filesArray = Array.from(event.target.files).map((file) => URL.createObjectURL(file));
-        setImages((prevImages) => [...prevImages, ...filesArray]);
-      }
-    };
-  
-    const handleRemoveImage = (index: number) => {
-      setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    };
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Submitting images:", images);
-        // Here you would typically handle the file upload to a server
+        console.log("Submitting homeowner form");
+        // Here you would typically handle the form submission
     };
     
     const handleBookingSuccess = (details: AppointmentDetails) => {
@@ -191,7 +183,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                          {appointment ? (
                             <AppointmentCard appointment={appointment} onReschedule={() => {
                                 setAppointment(null);
-                                openConsultationDialog(appointment.type);
+                                openConsultationDialog(appointment.type === 'office' || appointment.type === 'home' ? 'in-person' : appointment.type);
                             }} />
                         ) : (
                             <>
@@ -213,54 +205,34 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         )}
                     </Card>
 
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
+                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
-                            <h2 className="text-center text-black text-xl font-medium leading-tight">Upload Site Images</h2>
-                            <p className="text-center text-stone-500 text-xs font-normal leading-none mt-2 mb-6">To provide a better design based on your needs.</p>
-                            <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
-                                {images.length > 0 ? (
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
-                                        {images.map((src, index) => (
-                                            <div key={index} className="relative w-full aspect-square">
-                                                <Image src={src} alt={`upload-preview-${index}`} layout="fill" className="rounded-lg object-cover" />
-                                                <Button
-                                                    type="button"
-                                                    size="icon"
-                                                    variant="destructive"
-                                                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
-                                                    onClick={() => handleRemoveImage(index)}
-                                                >
-                                                    <X className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div 
-                                        className="w-full h-44 rounded-[30px] border-2 border-dashed border-stone-300 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50"
-                                        onClick={() => fileInputRef.current?.click()}
-                                    >
-                                        <div className="w-14 h-14 bg-zinc-100 rounded-full flex items-center justify-center">
-                                            <Upload className="w-8 h-8 text-zinc-400" />
-                                        </div>
-                                        <p className="mt-2 text-stone-400 text-xs font-normal">Click to upload or drag and drop</p>
-                                        <p className="text-stone-300 text-xs font-normal">JPG, PNG, PDF • Up to 10Mb</p>
-                                    </div>
-                                )}
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    className="hidden"
-                                    accept="image/*,application/pdf"
-                                    multiple
-                                    onChange={handleImageUpload}
-                                />
-                                <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg mt-8" disabled={images.length === 0}>
-                                    Submit
+                            <h2 className="text-center text-black text-xl font-medium leading-tight">Submit Your Project Details</h2>
+                            <p className="text-center text-stone-500 text-xs font-normal leading-none mt-2 mb-6">Provide us with some basic information about your project.</p>
+                            <form onSubmit={handleSubmit} className="w-full space-y-4">
+                                <div>
+                                    <Label htmlFor="project-type">Project Type</Label>
+                                    <Input id="project-type" placeholder="e.g., New Construction, Renovation" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="building-type">Building Type</Label>
+                                    <Input id="building-type" placeholder="e.g., Residential, Commercial" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="floor-count">Number of Floors</Label>
+                                    <Input id="floor-count" type="number" placeholder="e.g., G+2" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="site-address">Site Address</Label>
+                                    <Textarea id="site-address" placeholder="Enter the full site address" />
+                                </div>
+                                <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg mt-8">
+                                    Submit Details
                                 </Button>
                             </form>
                         </CardContent>
                     </Card>
+
 
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                         <CardContent className="p-0">
