@@ -74,6 +74,25 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
         month: 'long',
     });
 
+    if (appointment.type === 'home') {
+        return (
+             <Card className="w-full max-w-sm rounded-[50px] p-6 text-center">
+                <CardContent className="p-0">
+                    <h2 className="text-2xl font-semibold mb-2">We're coming to meet you.</h2>
+                    <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
+                     <div className="space-y-4">
+                        <Button className="w-full h-14 rounded-full text-lg text-primary-foreground">
+                            We're coming
+                        </Button>
+                        <Button variant="outline" className="w-full h-14 rounded-full text-primary border-primary bg-primary/10 hover:bg-primary/20" onClick={onReschedule}>
+                            Reschedule
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+    
     return (
         <Card className="w-full max-w-sm rounded-[50px] p-6 text-center">
             <CardContent className="p-0">
