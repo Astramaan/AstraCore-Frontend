@@ -66,6 +66,7 @@ interface AppointmentDetails {
     type: 'office' | 'home' | 'online';
     date: Date;
     time: string;
+    address?: string;
 }
 
 const AppointmentCard = ({ appointment, onReschedule }: { appointment: AppointmentDetails, onReschedule: () => void }) => {

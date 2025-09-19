@@ -17,11 +17,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { cn } from '@/lib/utils';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
+import { Textarea } from './ui/textarea';
+import { Label } from './ui/label';
 
 interface AppointmentDetails {
     type: 'office' | 'home' | 'online';
     date: Date;
     time: string;
+    address?: string;
 }
 
 interface InPersonConsultationDialogProps {
@@ -41,6 +44,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
     const [view, setView] = useState<'initial' | 'office' | 'home' | 'online' | 'in-person' | null>(initialView);
     const [date, setDate] = useState<Date>();
     const [time, setTime] = useState('');
+    const [address, setAddress] = useState('');
     const { toast } = useToast();
     const [showSuccess, setShowSuccess] = useState(false);
     
@@ -57,6 +61,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
             setView('initial');
             setDate(undefined);
             setTime('');
+            setAddress('');
         }, 300);
     }
     
@@ -70,7 +75,16 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
             return;
         }
 
-        onBookingSuccess({ type: view, date, time });
+        if (view === 'home' && !address.trim()) {
+            toast({
+                variant: 'destructive',
+                title: 'Missing Information',
+                description: 'Please provide your address for a home visit.',
+            });
+            return;
+        }
+
+        onBookingSuccess({ type: view, date, time, address });
         handleClose();
         setShowSuccess(true);
     }
@@ -122,6 +136,19 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
                     {(view === 'office' || view === 'home' || view === 'online') && (
                         <div className="space-y-6">
                             <h3 className="text-center text-xl font-medium">{getTitle()}</h3>
+
+                            {view === 'home' && (
+                                <div className="space-y-2">
+                                    <Label htmlFor="address" className="text-muted-foreground">Your Address</Label>
+                                    <Textarea 
+                                        id="address"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                        placeholder="Please enter your full address"
+                                        className="bg-background rounded-2xl min-h-[100px]"
+                                    />
+                                </div>
+                            )}
                              <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
