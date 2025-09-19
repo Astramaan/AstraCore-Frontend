@@ -259,7 +259,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card id="faq-section" className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
@@ -289,7 +289,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </AccordionItem>
                             </Accordion>
                             <div className="text-center mt-6">
-                                <a href="#" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+                                <a href="#faq-section" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
                             </div>
                         </CardContent>
                     </Card>
