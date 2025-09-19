@@ -144,7 +144,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full mt-8 p-10 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
