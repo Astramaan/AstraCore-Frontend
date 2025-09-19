@@ -1,12 +1,16 @@
 
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
-import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube } from 'lucide-react';
+import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X } from 'lucide-react';
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import React, { useState, useRef } from "react";
+
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center z-10">
@@ -56,10 +60,30 @@ const ClientBottomNav = () => {
 
 
 export default function NewUserHomePage({ params }: { params: { organizationId: string, newuserId: string } }) {
+    const [images, setImages] = useState<string[]>([]);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files) {
+        const filesArray = Array.from(event.target.files).map((file) => URL.createObjectURL(file));
+        setImages((prevImages) => [...prevImages, ...filesArray]);
+      }
+    };
+  
+    const handleRemoveImage = (index: number) => {
+      setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("Submitting images:", images);
+        // Here you would typically handle the file upload to a server
+    };
+
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8">
+                <div className="max-w-[1240px] mx-auto space-y-8 px-0 md:px-4">
                     <Card className="rounded-lg text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <h1 className="text-center text-neutral-900 text-2xl font-medium leading-none mb-6">Book Free Consultation</h1>
                         <Card className="w-full max-w-3xl rounded-[50px] border border-stone-300 p-6 flex flex-col justify-center items-center">
@@ -75,18 +99,52 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
                             <h2 className="text-center text-black text-xl font-medium leading-tight">Upload Site Images</h2>
                             <p className="text-center text-stone-500 text-xs font-normal leading-none mt-2 mb-6">To provide a better design based on your needs.</p>
-                            <div className="w-full h-44 rounded-[10px] border border-stone-300 flex flex-col items-center justify-center text-center">
-                                <div className="w-14 h-14 bg-zinc-100 rounded-full flex items-center justify-center">
-                                    <Upload className="w-8 h-8 text-zinc-400" />
-                                </div>
-                                <p className="mt-2 text-stone-400 text-xs font-normal">Click to upload or drag and drop</p>
-                                <p className="text-stone-300 text-xs font-normal">JPG, PNG, PDF • Up to 10Mb</p>
-                            </div>
-                            <Button className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg mt-8">Submit</Button>
+                            <form onSubmit={handleSubmit} className="w-full">
+                                {images.length > 0 ? (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+                                        {images.map((src, index) => (
+                                            <div key={index} className="relative w-full aspect-square">
+                                                <Image src={src} alt={`upload-preview-${index}`} layout="fill" className="rounded-lg object-cover" />
+                                                <Button
+                                                    type="button"
+                                                    size="icon"
+                                                    variant="destructive"
+                                                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                                                    onClick={() => handleRemoveImage(index)}
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div 
+                                        className="w-full h-44 rounded-[10px] border-2 border-dashed border-stone-300 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-gray-50"
+                                        onClick={() => fileInputRef.current?.click()}
+                                    >
+                                        <div className="w-14 h-14 bg-zinc-100 rounded-full flex items-center justify-center">
+                                            <Upload className="w-8 h-8 text-zinc-400" />
+                                        </div>
+                                        <p className="mt-2 text-stone-400 text-xs font-normal">Click to upload or drag and drop</p>
+                                        <p className="text-stone-300 text-xs font-normal">JPG, PNG, PDF • Up to 10Mb</p>
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    className="hidden"
+                                    accept="image/*,application/pdf"
+                                    multiple
+                                    onChange={handleImageUpload}
+                                />
+                                <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg mt-8" disabled={images.length === 0}>
+                                    Submit
+                                </Button>
+                            </form>
                         </CardContent>
                     </Card>
 
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full mt-8 p-10 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative mb-8">
