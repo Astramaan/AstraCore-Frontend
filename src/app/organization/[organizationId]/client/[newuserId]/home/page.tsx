@@ -36,7 +36,7 @@ export const ClientBottomNav = () => {
         { href: `/organization/${organizationId}/client/${newuserId}/home`, icon: Home, label: "Home" },
         { href: `/organization/${organizationId}/client/${newuserId}/packages`, icon: Award, label: "Packages" },
         { href: `/organization/${organizationId}/client/${newuserId}/projects`, icon: GanttChartSquare, label: "Projects" },
-        { href: `#`, icon: User, label: "Profile" },
+        { href: `/organization/${organizationId}/client/${newuserId}/profile`, icon: User, label: "Profile" },
     ];
 
     return (
