@@ -83,7 +83,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8 p-4">
+                <div className="max-w-[1240px] mx-auto space-y-8">
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
                         <HabiLogo className="mb-6" />
                         <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-6">Book Your Free Consultation</h1>
@@ -227,4 +227,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
