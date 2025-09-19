@@ -1,0 +1,139 @@
+
+'use client';
+
+import { HabiLogo } from "@/components/habi-logo";
+import { ClientBottomNav } from "@/app/organization/[organizationId]/client/[newuserId]/home/page";
+import Image from "next/image";
+import { Youtube } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+
+const completedProjects = [
+    {
+        name: "Arvind Kumar",
+        location: "Bengaluru",
+        area: "1200 Sq. Feet",
+        type: "3BHK Duplex villa",
+        orientation: "West",
+        videoThumbnail: "https://picsum.photos/seed/project1/600/400",
+        images: [
+            "https://picsum.photos/seed/p1i1/200/200",
+            "https://picsum.photos/seed/p1i2/200/200",
+            "https://picsum.photos/seed/p1i3/200/200",
+            "https://picsum.photos/seed/p1i4/200/200",
+        ],
+        testimonial: "habi has satisfied all my requirements and has done a very beautiful and quality construction. Their architects visited the site and made a convenient plan despite difficulties due to COVID 19. Overall we are very happy with the construction of our house."
+    },
+    {
+        name: "Arvind Kumar",
+        location: "Bengaluru",
+        area: "1200 Sq. Feet",
+        type: "3BHK Duplex villa",
+        orientation: "West",
+        videoThumbnail: "https://picsum.photos/seed/project2/600/400",
+        images: [
+            "https://picsum.photos/seed/p2i1/200/200",
+            "https://picsum.photos/seed/p2i2/200/200",
+            "https://picsum.photos/seed/p2i3/200/200",
+            "https://picsum.photos/seed/p2i4/200/200",
+        ],
+        testimonial: "habi has satisfied all my requirements and has done a very beautiful and quality construction. Their architects visited the site and made a convenient plan despite difficulties due to COVID 19. Overall we are very happy with the construction of our house."
+    }
+];
+
+const ongoingProjects = [
+    {
+        name: "Arvind Kumar",
+        location: "Bengaluru",
+        area: "1200 Sq. Feet",
+        type: "3BHK Duplex villa",
+        orientation: "West",
+        mainImage: "https://picsum.photos/seed/project3/600/400",
+        images: [
+            "https://picsum.photos/seed/p3i1/200/200",
+            "https://picsum.photos/seed/p3i2/200/200",
+            "https://picsum.photos/seed/p3i3/200/200",
+            "https://picsum.photos/seed/p3i4/200/200",
+        ]
+    },
+     {
+        name: "Arvind Kumar",
+        location: "Bengaluru",
+        area: "1200 Sq. Feet",
+        type: "3BHK Duplex villa",
+        orientation: "West",
+        mainImage: "https://picsum.photos/seed/project4/600/400",
+        images: [
+            "https://picsum.photos/seed/p4i1/200/200",
+            "https://picsum.photos/seed/p4i2/200/200",
+            "https://picsum.photos/seed/p4i3/200/200",
+            "https://picsum.photos/seed/p4i4/200/200",
+        ]
+    }
+];
+
+const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: boolean }) => (
+    <div className="bg-white rounded-[25px] p-6 space-y-4">
+        <div className="flex flex-col md:flex-row gap-6">
+            <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[15px] flex items-center justify-center shrink-0">
+                {isCompleted ? (
+                    <>
+                        <Image src={project.videoThumbnail} alt={project.name} layout="fill" className="object-cover rounded-[15px]" data-ai-hint="house exterior"/>
+                        <div className="absolute inset-0 bg-black/30 rounded-[15px]"></div>
+                        <Youtube className="w-12 h-12 text-red-600 relative z-10" />
+                    </>
+                ) : (
+                    <Image src={project.mainImage} alt={project.name} layout="fill" className="object-cover rounded-[15px]" data-ai-hint="modern house"/>
+                )}
+            </div>
+            <div className="space-y-1 text-zinc-600">
+                <h3 className="text-xl font-semibold text-black">{project.name}</h3>
+                <p>{project.location}</p>
+                <p>{project.area}</p>
+                <p>{project.type}</p>
+                <p>Orientation: {project.orientation}</p>
+            </div>
+        </div>
+        <div className="grid grid-cols-4 gap-4">
+            {project.images.map((img: string, i: number) => (
+                <div key={i} className="relative aspect-square">
+                    <Image src={img} alt={`Project image ${i+1}`} layout="fill" className="object-cover rounded-[10px]" data-ai-hint="house interior"/>
+                </div>
+            ))}
+        </div>
+        {isCompleted && (
+            <p className="text-zinc-600 pt-2">{project.testimonial}</p>
+        )}
+    </div>
+)
+
+
+export default function ProjectsPage() {
+    return (
+        <div className="bg-zinc-100 min-h-screen">
+            <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pb-32">
+                 <div className="text-center">
+                     <HabiLogo className="mb-6 justify-center" />
+                    <h1 className="text-3xl md:text-4xl font-bold">Projects</h1>
+                </div>
+
+                <div className="space-y-6">
+                    <h2 className="text-2xl font-semibold">Completed</h2>
+                    <div className="space-y-6">
+                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} />)}
+                    </div>
+                </div>
+
+                <Separator className="my-8"/>
+
+                <div className="space-y-6">
+                    <h2 className="text-2xl font-semibold">Ongoing</h2>
+                    <div className="space-y-6">
+                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} />)}
+                    </div>
+                </div>
+
+            </main>
+            <ClientBottomNav />
+        </div>
+    )
+}
