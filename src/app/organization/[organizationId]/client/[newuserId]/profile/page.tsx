@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ChevronRight, Edit, LogOut } from 'lucide-react';
 import { ClientBottomNav } from '../home/page';
 import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 const DetailField = ({ label, value }: { label: string, value: string }) => (
     <div className="space-y-1">
