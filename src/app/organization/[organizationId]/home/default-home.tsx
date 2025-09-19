@@ -240,8 +240,8 @@ export default function DefaultHomePage() {
                     {user?.roleType === 'superAdmin' ? (
                         <>
                             <div>
-                                <h2 className="text-xl font-medium">My Task</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                <h2 className="text-xl font-medium mb-4">My Task</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                                 </div>
                             </div>
