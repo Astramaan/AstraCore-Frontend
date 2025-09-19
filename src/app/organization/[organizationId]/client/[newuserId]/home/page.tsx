@@ -225,7 +225,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
             </main>
             <ClientBottomNav />
         </div>
-    )
+    );
 }
-    
-
