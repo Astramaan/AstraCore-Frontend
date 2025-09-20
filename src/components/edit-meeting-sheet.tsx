@@ -26,6 +26,7 @@ import { ScrollArea } from './ui/scroll-area';
 export interface Meeting {
     id: string;
     type: 'client' | 'lead';
+    title?: string;
     name: string;
     city: string;
     date: string;
@@ -68,6 +69,7 @@ const mockMembers = [
 ];
 
 const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meeting, onMeetingUpdated: (meeting: Meeting) => void, onClose: () => void }) => {
+    const [title, setTitle] = useState(meeting.title || '');
     const [date, setDate] = useState<Date | undefined>(meeting.date ? new Date(meeting.date.replace(/(\d+)(st|nd|rd|th)/, '$1')) : undefined);
     const [meetingLink, setMeetingLink] = useState(meeting.link);
     const [selectedType, setSelectedType] = useState<'client' | 'lead'>(meeting.type);
@@ -94,10 +96,11 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
 
 
     const handleSubmit = () => {
-        if (name && selectedType && date && time && meeting) {
+        if (title && name && selectedType && date && time && meeting) {
             onMeetingUpdated({
                 ...meeting,
                 id: selectedId,
+                title,
                 name,
                 city,
                 email,
@@ -120,6 +123,11 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
     <div className="flex flex-col h-full">
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+
+                <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Title*</Label>
+                    <Input id="title" placeholder="Enter meeting title" className="bg-background rounded-full h-14" value={title} onChange={(e) => setTitle(e.target.value)} />
+                </div>
             
                 <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>

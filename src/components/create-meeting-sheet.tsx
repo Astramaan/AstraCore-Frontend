@@ -55,6 +55,7 @@ const mockMembers = [
 
 
 const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
+    const [title, setTitle] = useState('');
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
     const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | ''>('');
@@ -98,7 +99,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
-        if (!name || !selectedType || !date || !time) {
+        if (!title || !name || !selectedType || !date || !time) {
             toast({
                 variant: 'destructive',
                 title: 'Missing Information',
@@ -108,6 +109,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         }
 
         const meetingData = {
+            title,
             name,
             city,
             email,
@@ -150,7 +152,11 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
-            
+                <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Title*</Label>
+                    <Input id="title" placeholder="Enter meeting title" className="bg-background rounded-full h-14" value={title} onChange={(e) => setTitle(e.target.value)} />
+                </div>
+
                 <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>
                     <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} />
