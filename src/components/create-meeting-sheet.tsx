@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -333,8 +334,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>City*</Label>
-                            <Input id="city" placeholder="Enter City" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
+                            <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>Location</Label>
+                            <Input id="city" placeholder="Enter Location" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
@@ -354,7 +355,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-sm text-grey-1">City</p>
+                            <p className="text-sm text-grey-1">Location</p>
                             <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
                         </div>
                         <div className="space-y-1">
@@ -370,7 +371,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             
             </div>
         </ScrollArea>
-        
         <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
             <Button type="submit" className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full" disabled={isPending}>
                 {isPending ? 'Creating...' : 'Create'}
