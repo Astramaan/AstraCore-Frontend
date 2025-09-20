@@ -42,7 +42,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white md:rounded-2xl md:p-4">
+    <div className="flex items-center justify-between md:w-64 bg-white md:rounded-2xl md:p-4 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -121,7 +121,7 @@ export default function ExistingClientHomePage() {
             
             <div className="relative mb-8">
                 <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
                 
                 <div className="absolute bottom-8 left-4 md:left-8 flex items-end gap-4 md:gap-6 text-white">
                     <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
@@ -150,7 +150,7 @@ export default function ExistingClientHomePage() {
                 {/* Timeline */}
                 <div className="flex-1">
                     <div className="relative py-4">
-                        <p className="text-lg font-semibold mb-2 ml-10">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        <p className="text-lg font-semibold mb-2">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-grey-2"></div>
                         <div className="space-y-8">
                             {timeline.map((stage, index) => (
