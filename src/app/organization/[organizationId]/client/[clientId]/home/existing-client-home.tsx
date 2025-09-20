@@ -42,7 +42,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 md:border md:border-grey-2 md:rounded-2xl md:p-4">
+    <div className="flex items-center justify-between md:w-64 bg-white md:rounded-2xl md:p-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -170,3 +170,4 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
+
