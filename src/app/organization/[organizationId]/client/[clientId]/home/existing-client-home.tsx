@@ -10,13 +10,13 @@ import { cn } from '@/lib/utils';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
-        {!isFirst && <div className="absolute left-[22px] md:left-[15px] top-0 h-4 border-l-2 border-dashed border-stone-300"></div>}
+        {!isFirst && <div className={cn("absolute left-[15px] md:left-[22px] top-0 h-4 border-l-2 border-dashed", isUpcoming ? "border-green-400" : "border-stone-300")}></div>}
         <div className={cn(
-            "absolute left-[15px] -top-1 w-4 h-4 rounded-full border-2 border-white",
+            "absolute left-[8px] md:left-[15px] -top-1 w-4 h-4 rounded-full border-2 border-white",
             isUpcoming ? "bg-green-400" : "bg-cyan-500"
         )}></div>
         <p className={cn(
-            "text-sm font-normal mb-2",
+            "text-sm font-normal mb-2 ml-2 md:ml-0",
             isUpcoming ? "text-green-400" : "text-neutral-900"
         )}>{isUpcoming ? 'upcoming' : 'ongoing'}</p>
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-stone-300 p-4">
@@ -106,12 +106,12 @@ export default function ExistingClientHomePage() {
   return (
     <div className="bg-slate-50 min-h-screen">
         <main className="md:p-8">
-             {/* Header section */}
+            {/* Header section */}
             <div className="relative mb-8">
-                <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px]" data-ai-hint="house project"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px]"></div>
+                <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
                 
-                <div className="absolute bottom-8 left-8 flex items-end gap-6 text-white">
+                <div className="absolute bottom-8 left-4 md:left-8 flex items-end gap-4 md:gap-6 text-white">
                      <div className="relative w-20 h-20 md:w-24 md:h-24">
                         <svg className="w-full h-full" viewBox="0 0 100 100">
                             <circle className="text-slate-50/20" strokeWidth="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
@@ -120,18 +120,19 @@ export default function ExistingClientHomePage() {
                         </svg>
                     </div>
                     <div>
-                        <p className="text-white text-base">CLIENT ID: {project.id}</p>
-                        <p className="text-white text-sm">Banashankari, Bengaluru - 560109</p>
+                        <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
+                        <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
+                         <p className="md:hidden text-white text-xs mt-1">Project Manager - {project.pm}</p>
                     </div>
                 </div>
             </div>
 
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
-                <div className="px-4 pb-24 flex-1">
+                <div className="flex-1">
                     <div className="relative py-4">
                         <p className="text-neutral-900 text-sm font-normal mb-2 ml-10">25 May 2024</p>
-                        <div className="absolute left-[22px] md:left-[15px] top-12 bottom-0 w-px bg-stone-300"></div>
+                        <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-stone-300"></div>
                         <div className="space-y-8">
                             {timeline.map((stage, index) => (
                                 <StageCard key={index} {...stage} isFirst={index === 0} />
