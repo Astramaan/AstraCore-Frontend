@@ -178,8 +178,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8 p-4 md:p-8">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
-                        <HabiLogo className="mb-6 mx-auto" />
-
+                        
                          {appointment ? (
                             <AppointmentCard appointment={appointment} onReschedule={() => {
                                 setAppointment(null);
