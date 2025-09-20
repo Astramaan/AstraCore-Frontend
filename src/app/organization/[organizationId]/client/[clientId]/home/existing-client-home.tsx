@@ -12,25 +12,27 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
-    <div className="pl-8 relative mt-4">
-        {isFirst && <div className="absolute top-0 -left-0.5 w-4 h-4 rounded-full border-2 border-white bg-primary"></div>}
-
-        <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
-            <div className="flex justify-between items-start">
-                <div>
-                    <h3 className="text-black text-base font-semibold">{title}</h3>
-                    <p className="text-sm">{subtitle}</p>
+    <div className="pl-8 relative">
+        {isFirst && <div className="absolute top-0 -left-[7px] w-4 h-4 rounded-full border-2 border-white bg-primary z-10"></div>}
+        
+        <div className="relative">
+            <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4 mt-4">
+                <div className="flex justify-between items-start">
+                    <div>
+                        <h3 className="text-black text-base font-semibold">{title}</h3>
+                        <p className="text-sm">{subtitle}</p>
+                    </div>
+                    <span className="text-grey-1 text-xs">{status}</span>
                 </div>
-                <span className="text-grey-1 text-xs">{status}</span>
-            </div>
-            <div className="mt-4">
-                <Progress value={progress} className="h-2" />
-                <div className="flex justify-between items-center mt-2">
-                    <p className="text-grey-1 text-xs">{date}</p>
-                    <span className="text-black text-xs font-normal">{progress}%</span>
+                <div className="mt-4">
+                    <Progress value={progress} className="h-2" />
+                    <div className="flex justify-between items-center mt-2">
+                        <p className="text-grey-1 text-xs">{date}</p>
+                        <span className="text-black text-xs font-normal">{progress}%</span>
+                    </div>
                 </div>
-            </div>
-        </Card>
+            </Card>
+        </div>
     </div>
 );
 
@@ -152,7 +154,7 @@ export default function ExistingClientHomePage() {
                 <div className="flex-1">
                     <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
                     <div className="relative pb-4">
-                        
+                        <div className="absolute left-0 top-0 h-full w-[2px] bg-grey-2/30"></div>
                         <div className="relative">
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
