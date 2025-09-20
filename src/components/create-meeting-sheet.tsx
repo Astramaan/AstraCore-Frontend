@@ -72,6 +72,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
     const { toast } = useToast();
+    const [locationType, setLocationType] = useState<'remote' | 'onsite' | ''>('');
 
 
     useEffect(() => {
@@ -82,6 +83,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 setEmail('');
                 setPhone('');
                 setSelectedType('');
+                setLocationType('');
             }
             return;
         };
@@ -93,8 +95,17 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             setEmail(contact.email);
             setPhone(contact.phone);
             setSelectedType(contact.type);
+            setLocationType(contact.city ? 'onsite' : 'remote');
         }
     }, [selectedId, isManual]);
+
+    useEffect(() => {
+        if (locationType === 'remote') {
+            setCity('Remote');
+        } else if (city === 'Remote') {
+            setCity('');
+        }
+    }, [locationType, city]);
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -320,7 +331,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <Label htmlFor="type-select" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
                             <Select value={selectedType} onValueChange={(value: 'client' | 'lead' | 'others') => setSelectedType(value)}>
                                 <SelectTrigger id="type-select" className="h-14 bg-background rounded-full">
-                                    <SelectValue placeholder="Client / Lead" />
+                                    <SelectValue placeholder="Client / Lead / Others" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="client">Client</SelectItem>
@@ -329,15 +340,29 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div />
+                        <div/>
                         <div className="space-y-2">
                             <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
                             <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>City*</Label>
-                            <Input id="city" placeholder="Enter City" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
+                             <Label htmlFor="location-type" className={cn("text-lg font-medium", locationType ? 'text-grey-1' : 'text-zinc-900')}>Location Type*</Label>
+                            <Select value={locationType} onValueChange={(value: 'remote' | 'onsite') => setLocationType(value)}>
+                                <SelectTrigger id="location-type" className="h-14 bg-background rounded-full">
+                                    <SelectValue placeholder="Select Location Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="remote">Remote</SelectItem>
+                                    <SelectItem value="onsite">On-site</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
+                        {locationType === 'onsite' && (
+                             <div className="space-y-2">
+                                <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>City*</Label>
+                                <Input id="city" placeholder="Enter City" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
+                            </div>
+                        )}
                         <div className="space-y-2">
                             <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
                             <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
