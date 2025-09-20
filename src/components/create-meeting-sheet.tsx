@@ -243,7 +243,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 <div className="space-y-2">
                     <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-zinc-900')}>Time*</Label>
                     <Select onValueChange={setTime}>
-                        <SelectTrigger className="h-14 bg-background rounded-full">
+                        <SelectTrigger className="h-14 bg-background rounded-full hover:bg-accent hover:text-accent-foreground">
                             <SelectValue placeholder="Select a time slot" />
                         </SelectTrigger>
                         <SelectContent>
