@@ -345,7 +345,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                              <div className="flex items-center justify-between">
                                 <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>Location</Label>
                                 <div className="flex items-center gap-2">
-                                     <Label htmlFor="location-switch" className="text-sm">{isLocationEnabled ? 'On-site' : 'Online'}</Label>
                                      <Switch id="location-switch" checked={isLocationEnabled} onCheckedChange={setIsLocationEnabled} />
                                 </div>
                             </div>
@@ -360,17 +359,17 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <p className="text-sm text-grey-1">Name</p>
                             <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
                         </div>
-                        <div className="space-y-1">
-                            <p className="text-sm text-grey-1">Location</p>
-                            <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
+                         <div className="space-y-1">
+                            <p className="text-sm text-grey-1">Phone</p>
+                            <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-grey-1">Email</p>
                             <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-sm text-grey-1">Phone</p>
-                            <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
+                            <p className="text-sm text-grey-1">Location</p>
+                            <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
                         </div>
                     </>
                 )}
