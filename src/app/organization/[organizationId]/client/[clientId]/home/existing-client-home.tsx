@@ -13,11 +13,8 @@ import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
-        {!isFirst && <div className={cn("absolute left-[15px] md:left-[22px] top-0 h-4 border-l-2 border-dashed", isUpcoming ? "border-green-400" : "border-grey-2")}></div>}
-        <div className={cn(
-            "absolute left-[8px] md:left-[15px] -top-1 w-4 h-4 rounded-full border-2 border-white",
-            isUpcoming ? "bg-green-400" : "bg-cyan-500"
-        )}></div>
+        {!isFirst && <div className={cn("absolute left-[15px] md:left-[22px] top-0 h-full border-l-2 border-dashed", isUpcoming ? "border-green-400" : "border-grey-2")}></div>}
+        
         <p className={cn(
             "text-sm font-normal mb-2 ml-2 md:ml-0",
             isUpcoming ? 'text-green-400' : 'text-foreground'
