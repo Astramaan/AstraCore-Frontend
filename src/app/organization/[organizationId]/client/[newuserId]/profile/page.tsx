@@ -143,7 +143,7 @@ export default function ClientProfilePage() {
                     </CardContent>
                 </Card>
                 
-                <Button variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive border-destructive/50 hover:bg-destructive/10 hover:text-destructive">
+                <Button variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none">
                     <LogOut className="w-5 h-5 mr-2" />
                     Logout
                 </Button>
