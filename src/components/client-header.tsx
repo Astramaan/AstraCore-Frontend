@@ -61,12 +61,10 @@ export const ClientHeader = () => {
                  <h2 className="text-2xl font-semibold text-zinc-900 md:hidden">
                     {pageTitle}
                 </h2>
-                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
-                    <Avatar className="h-[54px] w-[54px]">
-                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                        <AvatarFallback>{userInitials}</AvatarFallback>
-                    </Avatar>
-                </Link>
+                <Avatar className="h-[54px] w-[54px]">
+                    <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                    <AvatarFallback>{userInitials}</AvatarFallback>
+                </Avatar>
             </div>
         </header>
     );
