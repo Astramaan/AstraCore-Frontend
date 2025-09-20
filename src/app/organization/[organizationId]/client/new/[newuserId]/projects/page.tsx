@@ -1,6 +1,6 @@
 'use client';
 
-import { ClientBottomNav } from "@/components/client-bottom-nav";
+import { NewUserBottomNav } from "@/components/new-user-bottom-nav";
 import Image from "next/image";
 import { Youtube, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -192,7 +192,6 @@ export default function ProjectsPage() {
                 title={previewState.title}
             />
 
-            <ClientBottomNav />
         </div>
     )
 }

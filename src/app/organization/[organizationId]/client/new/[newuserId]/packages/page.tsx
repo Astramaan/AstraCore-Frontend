@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Link from "next/link";
-import { ClientBottomNav } from "@/components/client-bottom-nav";
+import { NewUserBottomNav } from "@/components/new-user-bottom-nav";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 
@@ -105,13 +105,12 @@ export default function PackagesPage() {
 
                 <div className="text-center pt-8">
                     <Button asChild className="rounded-full h-[54px] px-8 text-lg">
-                        <Link href={`/organization/${organizationId}/client/${clientId}/home#book-consultation-section`}>
+                        <Link href={`/organization/${organizationId}/client/new/${clientId}/home#book-consultation-section`}>
                             Contact Team
                         </Link>
                     </Button>
                 </div>
             </main>
-            <ClientBottomNav />
         </div>
     )
 }
