@@ -2,7 +2,6 @@
 'use client';
 
 import { Calendar, HelpCircle, Sparkles } from 'lucide-react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -21,7 +20,7 @@ export const NewUserBottomNav = () => {
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
                         return (
-                             <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
+                             <a href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
                                     "lg:gap-2.5 md:py-3 rounded-full min-w-max",
@@ -31,7 +30,7 @@ export const NewUserBottomNav = () => {
                                     <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
                                     <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
                                 </div>
-                            </Link>
+                            </a>
                         )
                     })}
                 </div>
