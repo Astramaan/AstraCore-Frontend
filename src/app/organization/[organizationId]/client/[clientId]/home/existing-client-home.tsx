@@ -140,7 +140,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
@@ -185,3 +185,4 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
+
