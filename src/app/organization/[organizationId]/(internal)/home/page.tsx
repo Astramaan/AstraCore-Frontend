@@ -23,6 +23,7 @@ function OrganizationHomePageContent() {
         if (!loading && !user) {
             router.push('/');
         } else if (!loading && user) {
+            console.log('User object for routing:', user);
             if (user.team === 'New User') {
                 router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
             } else if (user.roleType === 'client') {
