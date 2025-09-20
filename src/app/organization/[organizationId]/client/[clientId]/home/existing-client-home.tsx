@@ -10,24 +10,34 @@ import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
+import { Badge } from '@/components/ui/badge';
 
-const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
+const StageCard = ({ title, subtitle, date, status, progress, category, image }: { title: string, subtitle: string, date: string, status: string, progress: number, category: string, image: string }) => (
     <div className="relative">
-        
         <div className="relative">
-            <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <h3 className="text-black text-base font-semibold">{title}</h3>
-                        <p className="text-sm">{subtitle}</p>
+            <Card className="rounded-[25px] border p-4 border-grey-2">
+                <div className="flex items-center gap-4">
+                    <div className="relative w-24 h-24 shrink-0">
+                        <Image src={image} width={100} height={100} alt={title} className="rounded-[25px] object-cover w-full h-full" data-ai-hint="construction work" />
+                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
+                            {category}
+                        </div>
                     </div>
-                    <span className="text-grey-1 text-xs">{status}</span>
-                </div>
-                <div className="mt-4">
-                    <Progress value={progress} className="h-2" />
-                    <div className="flex justify-between items-center mt-2">
-                        <p className="text-grey-1 text-xs">{date}</p>
-                        <span className="text-black text-xs font-normal">{progress}%</span>
+                    <div className="flex-1 space-y-1 w-full">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <h3 className="text-black text-base font-semibold">{title}</h3>
+                                <p className="text-sm">{subtitle}</p>
+                            </div>
+                            <span className="text-grey-1 text-xs">{status}</span>
+                        </div>
+                        <div className="pt-2">
+                            <Progress value={progress} className="h-2" />
+                            <div className="flex justify-between items-center mt-2">
+                                <p className="text-grey-1 text-xs">{date}</p>
+                                <span className="text-black text-xs font-normal">{progress}%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Card>
@@ -102,12 +112,12 @@ export default function ExistingClientHomePage() {
   };
 
   const timeline = [
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On going", progress: 70, isFirst: true },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
-    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
-    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
-    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
-    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On going", progress: 70, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
+    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100" },
+    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]
   
 
@@ -156,7 +166,7 @@ export default function ExistingClientHomePage() {
                         <div className="relative">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {timeline.map((stage, index) => (
-                                    <StageCard key={index} {...stage} isFirst={index === 0} />
+                                    <StageCard key={index} {...stage} />
                                 ))}
                             </div>
                         </div>
