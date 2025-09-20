@@ -72,7 +72,7 @@ const ongoingProjects = [
 ];
 
 const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: boolean }) => (
-    <div className="bg-white rounded-[25px] p-6 space-y-4">
+    <div className="bg-white rounded-[50px] p-6 space-y-4">
         <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[15px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
@@ -130,7 +130,7 @@ export default function ProjectsPage() {
                 </div>
 
             </main>
-            <ClientBottomNav />
+            
         </div>
     )
 }
