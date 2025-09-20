@@ -7,21 +7,15 @@ import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
 
-export const ExistingClientBottomNav = () => {
+export const ClientBottomNav = () => {
     const pathname = usePathname();
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string;
     const userId = user?.userId || (params.clientId as string);
 
-    const isNewUser = user?.team === 'New User';
-    
-    const homePath = isNewUser
-        ? `/organization/${organizationId}/client/new/${userId}/home`
-        : `/organization/${organizationId}/client/${userId}/home`;
-
     const navItems = [
-        { href: homePath, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
         { href: `/organization/${organizationId}/client/${userId}/packages`, icon: Award, label: "Packages" },
         { href: `/organization/${organizationId}/client/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
         { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
