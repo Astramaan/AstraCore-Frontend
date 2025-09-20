@@ -7,7 +7,7 @@ import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
 
-export const ClientBottomNav = () => {
+export const ExistingClientBottomNav = () => {
     const pathname = usePathname();
     const params = useParams();
     const { user } = useUser();
