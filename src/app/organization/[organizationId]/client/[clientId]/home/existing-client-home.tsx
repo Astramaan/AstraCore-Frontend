@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -28,7 +29,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst }: { title
     </div>
 );
 
-export default function ExistingClientHomePage({ params }: { params: { organizationId: string, clientId: string } }) {
+export default function ExistingClientHomePage() {
   const project = {
     name: 'Rabeek',
     pm: 'Yaswanth',
