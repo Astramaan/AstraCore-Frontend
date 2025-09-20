@@ -13,7 +13,6 @@ import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
-        {!isFirst && <div className={cn("absolute left-[15px] md:left-[22px] top-0 h-full border-l-2 border-dashed", isUpcoming ? "border-green-400" : "border-grey-2")}></div>}
         
         <p className={cn(
             "text-sm font-normal mb-2 ml-2 md:ml-0",
@@ -148,7 +147,6 @@ export default function ExistingClientHomePage() {
                 <div className="flex-1">
                     <div className="relative pb-4">
                         <p className="text-lg font-semibold mb-2">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                        <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-grey-2"></div>
                         <div className="space-y-8">
                             {timeline.map((stage, index) => (
                                 <StageCard key={index} {...stage} isFirst={index === 0} />
