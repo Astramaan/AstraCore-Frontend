@@ -13,11 +13,6 @@ import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
-        <div className="absolute top-0 left-0 w-8 h-full">
-            <div className="h-full w-px bg-gray-200 mx-auto"></div>
-             {isFirst && <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full", progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>}
-        </div>
-        
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
             <div className="flex justify-between items-start">
                 <div>
@@ -147,10 +142,16 @@ export default function ExistingClientHomePage() {
                 <div className="flex-1">
                     <div className="relative pb-4">
                         <p className="text-lg font-semibold mb-2">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                        <div className="space-y-8">
-                            {timeline.map((stage, index) => (
-                                <StageCard key={index} {...stage} isFirst={index === 0} />
-                            ))}
+                        <div className="relative">
+                             <div className="absolute top-0 left-0 w-8 h-full">
+                                <div className="h-full w-px bg-gray-200 mx-auto"></div>
+                                <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full", timeline[0].progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>
+                            </div>
+                            <div className="space-y-8">
+                                {timeline.map((stage, index) => (
+                                    <StageCard key={index} {...stage} isFirst={index === 0} />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
