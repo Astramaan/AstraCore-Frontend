@@ -44,7 +44,7 @@ export const ClientHeader = () => {
                 )}
             </div>
 
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden">
                  <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-12 w-12">
                         <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
@@ -58,6 +58,9 @@ export const ClientHeader = () => {
             </div>
 
              <div className="md:hidden">
+                 <h2 className="text-2xl font-semibold text-zinc-900 md:hidden">
+                    {pageTitle}
+                </h2>
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-[54px] w-[54px]">
                         <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
