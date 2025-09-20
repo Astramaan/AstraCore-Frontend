@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -58,7 +59,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [title, setTitle] = useState('');
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
-    const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | ''>('');
+    const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | 'others' | ''>('');
     const [members, setMembers] = React.useState<string[]>([]);
     const [time, setTime] = React.useState('');
     const [name, setName] = useState('');
@@ -317,13 +318,14 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     <>
                         <div className="space-y-2">
                             <Label htmlFor="type-select" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
-                            <Select value={selectedType} onValueChange={(value: 'client' | 'lead') => setSelectedType(value)}>
+                            <Select value={selectedType} onValueChange={(value: 'client' | 'lead' | 'others') => setSelectedType(value)}>
                                 <SelectTrigger id="type-select" className="h-14 bg-background rounded-full">
                                     <SelectValue placeholder="Client / Lead" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="client">Client</SelectItem>
                                     <SelectItem value="lead">Lead</SelectItem>
+                                    <SelectItem value="others">Others</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -422,3 +424,4 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </Sheet>
   );
 }
+

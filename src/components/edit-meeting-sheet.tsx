@@ -25,7 +25,7 @@ import { ScrollArea } from './ui/scroll-area';
 
 export interface Meeting {
     id: string;
-    type: 'client' | 'lead';
+    type: 'client' | 'lead' | 'others';
     title?: string;
     name: string;
     city: string;
@@ -72,7 +72,7 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
     const [title, setTitle] = useState(meeting.title || '');
     const [date, setDate] = useState<Date | undefined>(meeting.date ? new Date(meeting.date.replace(/(\d+)(st|nd|rd|th)/, '$1')) : undefined);
     const [meetingLink, setMeetingLink] = useState(meeting.link);
-    const [selectedType, setSelectedType] = useState<'client' | 'lead'>(meeting.type);
+    const [selectedType, setSelectedType] = useState<'client' | 'lead' | 'others'>(meeting.type);
     const [members, setMembers] = useState('member1'); // Mock
     const [time, setTime] = useState(meeting.time);
     const [name, setName] = useState(meeting.name);
@@ -334,4 +334,5 @@ export function EditMeetingSheet({ isOpen, onClose, meeting, onMeetingUpdated }:
     </Sheet>
   );
 }
+
 
