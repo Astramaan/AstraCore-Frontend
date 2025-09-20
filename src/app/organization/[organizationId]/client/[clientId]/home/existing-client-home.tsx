@@ -12,28 +12,38 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 
-const StageCard = ({ title, subtitle, date, status, progress, category, image }: { title: string, subtitle: string, date: string, status: string, progress: number, category: string, image: string }) => (
+interface TimelineStage {
+    title: string;
+    subtitle: string;
+    date: string;
+    status: string;
+    progress: number;
+    category: string;
+    image: string;
+}
+
+const StageCard = ({ stage }: { stage: TimelineStage }) => (
     <Card className="rounded-[24px] p-4">
         <div className="flex items-center gap-4">
             <div className="relative w-24 h-24 shrink-0">
-                <Image src={image} width={100} height={100} alt={title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
                 <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
-                    Phase: {category}
+                    {stage.category}
                 </div>
             </div>
             <div className="flex-1 space-y-1 w-full">
                 <div className="flex justify-between items-start">
                     <div>
-                        <h3 className="text-black text-base font-semibold">{title}</h3>
-                        <p className="text-sm">{subtitle}</p>
+                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                        <p className="text-sm">{stage.subtitle}</p>
                     </div>
-                    <span className="text-grey-1 text-xs">{status}</span>
+                    <span className="text-grey-1 text-xs">{stage.status}</span>
                 </div>
                 <div className="pt-2">
-                    <Progress value={progress} className="h-2" />
+                    <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
-                        <p className="text-grey-1 text-xs">{date}</p>
-                        <span className="text-black text-xs font-normal">{progress}%</span>
+                        <p className="text-grey-1 text-xs">{stage.date}</p>
+                        <span className="text-black text-xs font-normal">{stage.progress}%</span>
                     </div>
                 </div>
             </div>
@@ -107,7 +117,7 @@ export default function ExistingClientHomePage() {
     profileImage: 'https://placehold.co/60x60'
   };
 
-  const timeline = [
+  const timeline: TimelineStage[] = [
     { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On going", progress: 70, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100" },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
@@ -161,7 +171,7 @@ export default function ExistingClientHomePage() {
                     <div className="relative pb-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {timeline.map((stage, index) => (
-                                <StageCard key={index} {...stage} />
+                                <StageCard key={index} stage={stage} />
                             ))}
                         </div>
                     </div>
