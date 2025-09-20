@@ -334,6 +334,14 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div className="space-y-2">
+                            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                            <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-zinc-900')}>Phone*</Label>
+                            <Input id="phone" type="tel" placeholder="Enter Phone" className="bg-background rounded-full h-14" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                        </div>
+                        <div className="space-y-2">
                              <div className="flex items-center justify-between">
                                 <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>Location</Label>
                                 <div className="flex items-center gap-2">
@@ -342,14 +350,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                 </div>
                             </div>
                             <Input id="city" placeholder="Enter Location" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} disabled={!isLocationEnabled} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
-                            <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-zinc-900')}>Phone*</Label>
-                            <Input id="phone" type="tel" placeholder="Enter Phone" className="bg-background rounded-full h-14" value={phone} onChange={(e) => setPhone(e.target.value)} />
                         </div>
                     </>
                 )}
@@ -428,5 +428,3 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </Sheet>
   );
 }
-
-    
