@@ -1,7 +1,6 @@
-
 'use client';
 
-import { Award, GanttChartSquare, Home, User } from 'lucide-react';
+import { Home, GanttChartSquare, Video, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -16,9 +15,9 @@ export const ClientBottomNav = () => {
 
     const navItems = [
         { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/${userId}/packages`, icon: Award, label: "Packages" },
-        { href: `/organization/${organizationId}/client/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
-        { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
+        { href: `/organization/${organizationId}/client/${userId}/home`, icon: GanttChartSquare, label: "Project" },
+        { href: "#", icon: Video, label: "Live" },
+        { href: "#", icon: Users, label: "Meet us" },
     ];
 
     return (
