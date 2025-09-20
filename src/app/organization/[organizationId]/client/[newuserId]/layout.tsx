@@ -20,7 +20,6 @@ function NewUserLayoutContent({ children }: { children: React.ReactNode }) {
         <main className="w-full flex-1 overflow-y-auto bg-background">
             {children}
         </main>
-        {showBottomNav && <ClientBottomNav />}
     </div>
   );
 }
