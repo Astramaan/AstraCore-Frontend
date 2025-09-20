@@ -42,12 +42,14 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
 );
 
 const PaymentStatus = () => (
-    <div className="space-y-2 md:w-64 md:border md:border-grey-2 md:rounded-2xl md:p-4">
-        <p className="text-black text-sm font-normal">Payment</p>
-        <p className="text-grey-1 text-xs">Due on 05 June</p>
-        <div className="flex gap-1 mt-1">
+    <div className="flex items-center justify-between md:w-64 md:border md:border-grey-2 md:rounded-2xl md:p-4">
+        <div className="space-y-1">
+            <p className="text-black text-sm font-normal">Payment</p>
+            <p className="text-grey-1 text-xs">Due on 05 June</p>
+        </div>
+        <div className="flex gap-1">
             {[...Array(7)].map((_, i) => (
-              <div key={i} className={cn("w-2.5 h-5 rounded-sm", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
+                <div key={i} className={cn("w-2.5 h-5 rounded-sm", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
             ))}
         </div>
     </div>
@@ -109,9 +111,6 @@ export default function ExistingClientHomePage() {
 
   return (
     <div className="min-h-screen">
-        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
-            <ClientHeader />
-        </header>
         <main className="md:p-8">
             {/* Header section */}
             
@@ -130,7 +129,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
@@ -140,7 +139,6 @@ export default function ExistingClientHomePage() {
                          <p className="md:hidden text-white text-xs mt-1">Project Manager - {project.pm}</p>
                     </div>
                 </div>
-                 
             </div>
 
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
