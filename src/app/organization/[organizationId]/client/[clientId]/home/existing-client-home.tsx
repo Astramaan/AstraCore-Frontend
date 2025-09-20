@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
@@ -30,7 +31,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
                 <span className="text-stone-300 text-xs">{status}</span>
             </div>
             <div className="mt-4">
-                <Progress value={progress} className="h-2" />
+                <Progress value={progress} className="h-2 bg-background" />
                 <div className="flex justify-between items-center mt-2">
                     <p className="text-stone-300 text-xs">{date}</p>
                     <span className="text-black text-xs font-normal">{progress}%</span>
@@ -109,18 +110,7 @@ export default function ExistingClientHomePage() {
   return (
     <div className="bg-slate-50 min-h-screen">
         <header className="md:hidden sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
-            <div className="flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                    <Avatar className="w-14 h-14">
-                        <AvatarImage src={user?.avatar || "https://placehold.co/55x55"} data-ai-hint="person portrait" />
-                        <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                        <p className="font-semibold text-lg">{user?.name}</p>
-                        <p className="text-sm text-muted-foreground">CLIENT ID: {project.id}</p>
-                    </div>
-                </div>
-            </div>
+            <ClientHeader />
         </header>
         <main className="md:p-8">
             {/* Header section */}
@@ -140,7 +130,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
