@@ -149,7 +149,7 @@ export default function ExistingClientHomePage() {
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="flex-1">
-                    <div className="relative py-4">
+                    <div className="relative pb-4">
                         <p className="text-lg font-semibold mb-2">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-grey-2"></div>
                         <div className="space-y-8">
