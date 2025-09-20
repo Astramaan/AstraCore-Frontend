@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Award, GanttChartSquare, Home, User } from 'lucide-react';
@@ -12,13 +13,18 @@ export const ClientBottomNav = () => {
     const { user } = useUser();
     const organizationId = params.organizationId as string;
     const userId = user?.userId || (params.clientId as string);
-    const basePath = `/organization/${organizationId}/client/${userId}`;
+
+    const isNewUser = user?.team === 'New User';
+    
+    const homePath = isNewUser
+        ? `/organization/${organizationId}/client/new/${userId}/home`
+        : `/organization/${organizationId}/client/${userId}/home`;
 
     const navItems = [
-        { href: `${basePath}/home`, icon: Home, label: "Home" },
-        { href: `${basePath}/packages`, icon: Award, label: "Packages" },
-        { href: `${basePath}/projects`, icon: GanttChartSquare, label: "Projects" },
-        { href: `${basePath}/profile`, icon: User, label: "Profile" },
+        { href: homePath, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/${userId}/packages`, icon: Award, label: "Packages" },
+        { href: `/organization/${organizationId}/client/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
+        { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
     ];
 
     return (
