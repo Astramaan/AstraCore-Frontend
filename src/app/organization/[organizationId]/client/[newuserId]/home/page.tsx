@@ -185,7 +185,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             }} />
                         ) : (
                             <>
-                                <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none">Book Your Free Consultation</h1>
                                 <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-10">
                                     <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
                                     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">

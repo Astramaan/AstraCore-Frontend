@@ -2,11 +2,12 @@
 'use client';
 
 import React from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import { HabiLogo } from '@/components/habi-logo';
 import { useUser } from '@/context/user-context';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 export const ClientHeader = () => {
     const pathname = usePathname();
@@ -16,9 +17,11 @@ export const ClientHeader = () => {
     const userInitials = userName.split(' ').map(n => n[0]).join('');
 
     let pageTitle = '';
+    let showBookingButton = false;
 
     if (pathname.includes('/home')) {
         pageTitle = 'Home';
+        showBookingButton = true;
     } else if (pathname.includes('/packages')) {
         pageTitle = 'Packages';
     } else if (pathname.includes('/projects')) {
@@ -40,6 +43,15 @@ export const ClientHeader = () => {
                     </>
                 )}
             </div>
+
+            {showBookingButton && (
+                 <div className="hidden md:flex items-center gap-4">
+                    <Button asChild className="rounded-full h-[54px] px-8 text-lg">
+                        <Link href="#book-consultation-section">Book Your Free Consultation</Link>
+                    </Button>
+                </div>
+            )}
+
              <div className="md:hidden">
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-[54px] w-[54px]">
