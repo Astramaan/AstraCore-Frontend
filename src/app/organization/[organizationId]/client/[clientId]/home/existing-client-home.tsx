@@ -14,7 +14,7 @@ import { ClientHeader } from '@/components/client-header';
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="relative">
         
-        <div className="relative ml-8">
+        <div className="relative">
             <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4 mt-8">
                 <div className="flex justify-between items-start">
                     <div>
@@ -153,8 +153,6 @@ export default function ExistingClientHomePage() {
                 <div className="flex-1">
                     <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
                     <div className="relative pb-4">
-                        <div className="absolute left-[7px] top-[46px] bottom-0 w-[2px] bg-grey-1"></div>
-                        <div className="absolute top-8 left-0 w-4 h-4 rounded-full border-2 border-white bg-primary z-10"></div>
                         <div className="relative">
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
