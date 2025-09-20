@@ -136,7 +136,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8">
+                <div className="max-w-[1240px] mx-auto space-y-8 p-4 md:p-8">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
@@ -236,25 +236,25 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
                                 <AccordionItem value="item-1" className="border-b-0 bg-primary/10 rounded-full">
                                     <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Does habi charge an advance payment?</AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                    <AccordionContent className="px-6 pb-4 text-base text-muted-foreground">
                                         Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-2" className="border-b-0 bg-primary/10 rounded-full">
                                     <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">What is the cost of building a house with habi?</AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                    <AccordionContent className="px-6 pb-4 text-base text-muted-foreground">
                                        The cost depends on the package you choose. We have different packages to suit various budgets and requirements.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-3" className="border-b-0 bg-primary/10 rounded-full">
                                     <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">How long does it take to build a house?</AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                    <AccordionContent className="px-6 pb-4 text-base text-muted-foreground">
                                        The construction timeline varies depending on the project's complexity and size. On average, it takes about 6-9 months.
                                     </AccordionContent>
                                 </AccordionItem>
                                 <AccordionItem value="item-4" className="border-b-0 bg-primary/10 rounded-full">
                                     <AccordionTrigger className="px-6 text-black hover:text-primary data-[state=open]:text-primary hover:no-underline">Do you provide architectural and structural designs?</AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                    <AccordionContent className="px-6 pb-4 text-base text-muted-foreground">
                                        Yes, we provide comprehensive design services, including architectural and structural plans, as part of our packages.
                                     </AccordionContent>
                                 </AccordionItem>
