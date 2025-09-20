@@ -135,12 +135,6 @@ export default function ExistingClientHomePage() {
            </div>
         </header>
         <main className="md:p-8">
-            <div className="p-4 md:p-0">
-                <h1 className="text-2xl md:text-3xl font-semibold mb-4">
-                    Hi, {user?.name || 'Valued Client'}
-                </h1>
-            </div>
-            
             <div className="relative mb-8">
                 <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
