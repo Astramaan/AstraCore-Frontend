@@ -15,7 +15,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
     <div className="pl-8 relative">
         <div className="absolute top-0 left-0 w-8 h-full">
             <div className="h-full w-px bg-gray-200 mx-auto"></div>
-            <div className={cn("absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full", progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>
+             {isFirst && <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full", progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>}
         </div>
         
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
