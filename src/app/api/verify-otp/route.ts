@@ -7,7 +7,9 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/verify-email`, {
+    // The user wants to use /api/v1/email-verification here.
+    // The previous endpoint was /api/v1/verify-email.
+    const res = await fetch(`${API_BASE_URL}/api/v1/email-verification`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
