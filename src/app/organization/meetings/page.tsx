@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, use } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import GoogleMeetIcon from "@/components/icons/google-meet-icon";
@@ -23,6 +23,7 @@ import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 const initialClientMeetings: Meeting[] = [
     { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
@@ -37,40 +38,44 @@ const initialLeadMeetings: Meeting[] = [
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
-        <div className="lg:hidden p-10" onClick={() => onViewDetails(meeting)}>
-            <div className="space-y-4">
-                 <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                        <p className="text-base"><span className="text-grey-2">Name: </span><span className="text-zinc-900 font-semibold">{meeting.name}</span></p>
-                        <p className="text-base"><span className="text-grey-2">City: </span><span className="text-black">{meeting.city}</span></p>
-                    </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
-                                <MoreVertical className="w-5 h-5" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                            <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-                
+        <div className="lg:hidden p-6 md:p-10 gap-4" onClick={() => onViewDetails(meeting)}>
+            <div className="flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-base"><span className="text-grey-2">Contact: </span><span className="text-black">{meeting.email} | {meeting.phone}</span></p>
-                    <p className="text-base"><span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span><span className="text-zinc-900">{meeting.id}</span></p>
+                    <p className="text-xl font-semibold text-black">{meeting.name}</p>
+                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
-                
-                <div className="space-y-1">
-                     <p className="text-base"><span className="text-grey-2">Date & Time : </span><span className="text-zinc-900">{meeting.date}, {meeting.time}</span></p>
-                    <div className="flex items-center gap-2 text-base">
-                        <span className="text-grey-2">Link: </span> 
-                        <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
-                            <GoogleMeetIcon className="w-6 h-6" />
-                            Google Meet
-                        </a>
-                    </div>
+                 <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+                            <MoreVertical className="w-5 h-5" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenuItem onSelect={(e) => { e.stopPropagation(); onEdit(meeting); }}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(meeting); }} className="text-red-500">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-base">
+                <div>
+                    <span className="text-grey-2">Contact: </span>
+                    <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
+                </div>
+                <div className="text-right">
+                    <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span>
+                    <p className="text-zinc-900 font-medium">{meeting.id}</p>
+                </div>
+                <div>
+                    <span className="text-grey-2">Date & Time : </span>
+                    <p className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</p>
+                </div>
+                <div className="flex items-center justify-end gap-2">
+                    <span className="text-grey-2">Link: </span>
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+                        <GoogleMeetIcon className="w-6 h-6" />
+                        <span className="hidden sm:inline">Google Meet</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -155,8 +160,9 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
 );
 
 
-export default function MeetingsPage({ params }: { params: { organizationId: string } }) {
-    const { organizationId } = use(params);
+export default function MeetingsPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
     const [searchTerm, setSearchTerm] = useState('');
     const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
     const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);
