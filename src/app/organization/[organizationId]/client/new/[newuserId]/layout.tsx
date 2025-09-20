@@ -5,10 +5,8 @@
 import React from 'react';
 import { ClientHeader } from '@/components/client-header';
 import { ClientBottomNav } from '@/components/client-bottom-nav';
-import { usePathname } from 'next/navigation';
 
 function NewUserLayoutContent({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   
   return (
     <div className="min-h-screen bg-background">
@@ -30,3 +28,5 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
       <NewUserLayoutContent>{children}</NewUserLayoutContent>
   )
 }
+
+    

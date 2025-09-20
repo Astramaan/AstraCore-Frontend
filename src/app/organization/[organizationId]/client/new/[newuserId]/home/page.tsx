@@ -1,17 +1,12 @@
-
-
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
-import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X, Building, Laptop, MapPin } from 'lucide-react';
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import React, { useState, useRef, useEffect } from "react";
+import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
-import { usePathname, useParams } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -108,8 +103,6 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
 }
 
 export default function NewUserHomePage({ params }: { params: { organizationId: string, newuserId: string } }) {
-    const [images, setImages] = useState<string[]>([]);
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
     const [consultationType, setConsultationType] = useState<'office' | 'home' | 'online' | 'in-person' | null>(null);
     const [appointment, setAppointment] = useState<AppointmentDetails | null>(null);
@@ -235,18 +228,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
                                 </div>
                             </div>
-
-                            <div className="mt-16 flex flex-col md:flex-row items-center gap-8">
-                                <div className="w-full md:w-80 h-48 bg-black/25 rounded-[30px] border border-stone-300 flex items-center justify-center shrink-0">
-                                    <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70">
-                                        <Youtube className="w-8 h-8 text-white"/>
-                                    </Button>
-                                </div>
-                                <div>
-                                    <h3 className="text-black text-lg font-normal leading-none mb-3">habi's Story - Redefines Home Building | habi</h3>
-                                    <p className="text-stone-500 text-sm font-normal leading-normal">“Building Better Homes: Solving Construction Challenges with Tech” Discover how our startup tackles industry pain points head-on using cutting-edge technology. From streamlining processes to enhancing safety, we’re revolutionizing home building.</p>
-                                </div>
-                            </div>
                         </CardContent>
                     </Card>
 
@@ -256,10 +237,10 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                              <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
                                 {faqs.map((faq, index) => (
                                 <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
-                                    <AccordionTrigger className="px-6 text-black hover:text-primary hover:no-underline">
+                                    <AccordionTrigger className="px-6 text-black hover:text-primary hover:no-underline text-left">
                                     <span>{`${index + 1}. ${faq.question}`}</span>
                                     </AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                    <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
                                     {faq.answer}
                                     </AccordionContent>
                                 </AccordionItem>
@@ -281,3 +262,4 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+    

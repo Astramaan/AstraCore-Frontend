@@ -5,14 +5,19 @@ import React, { Suspense } from 'react';
 import ExistingClientHomePage from './existing-client-home';
 import { useParams } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/context/user-context';
+import NewUserHomePage from '../../new/[newuserId]/home/page';
 
 function ClientHomePage() {
   const params = useParams();
+  const { user } = useUser();
   const organizationId = params.organizationId as string;
   const clientId = params.clientId as string;
 
-  // Since this page is for existing clients, we directly render the existing client view.
-  // The routing logic in the main home page will direct new users to the correct page.
+  if (user?.team === 'New User') {
+      return <NewUserHomePage params={{ organizationId, newuserId: clientId }} />
+  }
+
   return <ExistingClientHomePage params={{ organizationId, clientId }} />;
 }
 
@@ -44,3 +49,5 @@ export default function ClientHomePageWrapper() {
         </Suspense>
     );
 }
+
+    
