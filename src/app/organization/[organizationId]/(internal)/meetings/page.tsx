@@ -59,18 +59,19 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-base">
                 <div>
-                    <span className="text-grey-2">Contact: </span>
+                    <span className="text-grey-2">Contact: </span> 
                     <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
                 </div>
                 <div className="text-right">
-                    <span className="text-grey-2">Location: </span><p className="text-zinc-900 font-medium">{meeting.city}</p>
+                    <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span>
+                    <p className="text-zinc-900 font-medium">{meeting.id}</p>
                 </div>
                 <div>
-                    <span className="text-grey-2">Date & Time : </span>
+                    <span className="text-grey-2">Date & Time : </span> 
                     <p className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</p>
                 </div>
                 <div className="flex items-center justify-end gap-2">
-                    <span className="text-grey-2">Link: </span>
+                    <span className="text-grey-2">Link: </span> 
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         <span className="hidden sm:inline">Google Meet</span>
@@ -95,8 +96,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               <div className="flex flex-col justify-center">
                   <p className="text-xl font-semibold text-black break-words">{meeting.title || meeting.name}</p>
                   <p className="text-lg">
-                  <span className="text-grey-2">Location: </span> 
-                  <span className="text-black">{meeting.city}</span>
+                    <span className="text-zinc-900">{meeting.name} ({meeting.id})</span>
                   </p>
               </div>
 
@@ -110,8 +110,8 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                   <span className="text-black">{meeting.email} | {meeting.phone}</span>
                   </p>
                   <p className="text-lg">
-                  <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span> 
-                  <span className="text-zinc-900">{meeting.id}</span>
+                  <span className="text-grey-2">Location: </span> 
+                  <span className="text-black">{meeting.city}</span>
                   </p>
               </div>
 
@@ -312,3 +312,4 @@ export default function MeetingsPage() {
         </div>
     );
 }
+
