@@ -12,7 +12,7 @@ export const NewUserHeader = () => {
             <div className="flex items-center gap-4">
                 <HabiLogo />
                 <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                <h2 className="text-xl md:text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900">
+                <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
                    {pageTitle}
                 </h2>
             </div>
