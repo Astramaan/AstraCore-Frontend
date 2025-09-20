@@ -40,8 +40,8 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
                 <div className="pt-2">
                     <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
-                        <span className="text-black text-xs font-normal">{stage.progress}%</span>
                          <span className="text-grey-1 text-xs">{stage.date}</span>
+                        <span className="text-black text-xs font-normal">{stage.progress}%</span>
                     </div>
                 </div>
             </div>
