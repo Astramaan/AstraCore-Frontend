@@ -59,7 +59,7 @@ const ChatCard = () => (
             <div className="flex justify-between items-center">
                 <div>
                     <p className="text-black text-base font-normal">Chat with our Executive</p>
-                    <p className="text-stone-300 text-sm">Quick Reply</p>
+                    <p className="text-grey-1 text-sm">Quick Reply</p>
                 </div>
                 <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
             </div>
@@ -109,7 +109,7 @@ export default function ExistingClientHomePage() {
 
   return (
     <div className="min-h-screen">
-        <header className="md:hidden sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
             <ClientHeader />
         </header>
         <main className="md:p-8">
@@ -130,7 +130,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
@@ -167,5 +167,3 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
-
-    
