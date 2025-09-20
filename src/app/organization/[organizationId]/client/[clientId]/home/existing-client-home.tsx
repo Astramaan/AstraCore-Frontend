@@ -144,8 +144,8 @@ export default function ExistingClientHomePage() {
                         <p className="text-lg font-semibold mb-2">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         <div className="relative">
                              <div className="absolute top-0 left-0 w-8 h-full">
-                                <div className="h-full w-px bg-gray-200 mx-auto"></div>
-                                <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full", timeline[0].progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>
+                                <div className="h-full w-[2px] bg-gray-200 mx-auto"></div>
+                                <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border-2 border-white", timeline[0].progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>
                             </div>
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
