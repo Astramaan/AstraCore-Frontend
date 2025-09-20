@@ -25,7 +25,7 @@ export const ClientHeader = () => {
             if (isNewUserHome) {
                 setPageTitle('Book your free consultation');
             } else if (isClientProjectHome) {
-                setPageTitle(''); // No title for existing client's project home
+                setPageTitle('Home');
             } else if (pathname.includes('/packages')) {
                 setPageTitle('Packages');
             } else if (pathname.includes('/projects')) {
