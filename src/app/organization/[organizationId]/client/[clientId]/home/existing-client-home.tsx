@@ -153,9 +153,9 @@ export default function ExistingClientHomePage() {
                 <div className="flex-1">
                     <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
                     <div className="relative pb-4 pl-4">
-                        <div className="absolute left-[7px] top-[14px] h-full w-[2px] bg-grey-2/30"></div>
+                        <div className="absolute left-[7px] top-[14px] h-full w-[2px] bg-grey-1"></div>
                         <div className="absolute top-0 left-0 w-4 h-4 rounded-full border-2 border-white bg-primary z-10"></div>
-                        <div className="relative pl-6">
+                        <div className="relative">
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
                                     <StageCard key={index} {...stage} isFirst={index === 0} />
