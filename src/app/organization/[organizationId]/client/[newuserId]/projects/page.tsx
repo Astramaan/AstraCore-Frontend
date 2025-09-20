@@ -3,9 +3,12 @@
 
 import { ClientBottomNav } from "@/components/client-bottom-nav";
 import Image from "next/image";
-import { Youtube } from "lucide-react";
+import { Youtube, X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
+import { useState } from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const completedProjects = [
     {
@@ -71,7 +74,45 @@ const ongoingProjects = [
     }
 ];
 
-const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: boolean }) => (
+const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
+                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="rounded-full">
+                            <X className="h-4 w-4" />
+                        </Button>
+                    </DialogClose>
+                </DialogHeader>
+                <div className="flex-1 p-6 flex items-center justify-center">
+                    <Carousel
+                        opts={{
+                            startIndex: startIndex,
+                            loop: true,
+                        }}
+                        className="w-full max-w-lg"
+                    >
+                        <CarouselContent>
+                            {images.map((src, index) => (
+                                <CarouselItem key={index}>
+                                    <div className="relative aspect-video">
+                                        <Image src={src} layout="fill" objectFit="contain" alt={`${title} image ${index + 1}`} className="rounded-[10px]" />
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+const ProjectCard = ({ project, isCompleted, onImageClick }: { project: any, isCompleted: boolean, onImageClick: (images: string[], index: number) => void }) => (
     <div className="bg-white rounded-[50px] p-6 space-y-4">
         <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[30px] flex items-center justify-center shrink-0">
@@ -100,7 +141,7 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
         </div>
         <div className="grid grid-cols-4 gap-2">
             {project.images.map((img: string, i: number) => (
-                <div key={i} className="relative w-full h-20">
+                <div key={i} className="relative w-full h-24 cursor-pointer" onClick={() => onImageClick(project.images, i)}>
                     <Image src={img} alt={`Project image ${i+1}`} fill className="object-cover rounded-[10px]" data-ai-hint="house interior"/>
                 </div>
             ))}
@@ -113,15 +154,24 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
 
 
 export default function ProjectsPage() {
+    const [previewState, setPreviewState] = useState<{ open: boolean, images: string[], startIndex: number, title: string }>({ open: false, images: [], startIndex: 0, title: '' });
+    
+    const handleImageClick = (images: string[], index: number, projectName: string) => {
+        setPreviewState({ open: true, images, startIndex: index, title: projectName });
+    };
+
+    const closePreview = () => {
+        setPreviewState({ open: false, images: [], startIndex: 0, title: '' });
+    };
+
+
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pb-32">
-                
-
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-center">Completed</h2>
                     <div className="space-y-6">
-                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} />)}
+                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
                     </div>
                 </div>
 
@@ -130,11 +180,19 @@ export default function ProjectsPage() {
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-center">Ongoing</h2>
                     <div className="space-y-6">
-                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} />)}
+                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
                     </div>
                 </div>
-
             </main>
+
+             <ImagePreviewDialog 
+                open={previewState.open}
+                onOpenChange={(open) => !open && closePreview()}
+                images={previewState.images}
+                startIndex={previewState.startIndex}
+                title={previewState.title}
+            />
+
             <ClientBottomNav />
         </div>
     )
