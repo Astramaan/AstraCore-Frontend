@@ -72,7 +72,7 @@ const ongoingProjects = [
 ];
 
 const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: boolean }) => (
-    <div className="bg-white rounded-[50px] p-6 space-y-4">
+    <div className="bg-white rounded-[30px] p-6 space-y-4">
         <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[30px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
@@ -97,7 +97,7 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
         </div>
         <div className="grid grid-cols-4 gap-2">
             {project.images.map((img: string, i: number) => (
-                <div key={i} className="relative aspect-[4/2]">
+                <div key={i} className="relative aspect-square">
                     <Image src={img} alt={`Project image ${i+1}`} fill className="object-cover rounded-[10px]" data-ai-hint="house interior"/>
                 </div>
             ))}
