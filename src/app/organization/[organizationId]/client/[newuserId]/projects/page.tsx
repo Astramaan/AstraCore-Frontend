@@ -72,17 +72,17 @@ const ongoingProjects = [
 ];
 
 const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: boolean }) => (
-    <div className="bg-white rounded-[30px] p-6 space-y-4">
+    <div className="bg-white rounded-[50px] p-6 space-y-4">
         <div className="flex flex-col md:flex-row gap-6">
-            <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[15px] flex items-center justify-center shrink-0">
+            <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[30px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
                     <>
-                        <Image src={project.videoThumbnail} alt={project.name} width={600} height={400} className="object-cover rounded-[15px] w-full h-full" data-ai-hint="house exterior"/>
-                        <div className="absolute inset-0 bg-black/30 rounded-[15px]"></div>
+                        <Image src={project.videoThumbnail} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house exterior"/>
+                        <div className="absolute inset-0 bg-black/30 rounded-[30px]"></div>
                         <Youtube className="w-12 h-12 text-red-600 relative z-10" />
                     </>
                 ) : (
-                    <Image src={project.mainImage} alt={project.name} width={600} height={400} className="object-cover rounded-[15px] w-full h-full" data-ai-hint="modern house"/>
+                    <Image src={project.mainImage} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="modern house"/>
                 )}
             </div>
             <div className="space-y-1 text-zinc-600">
@@ -96,7 +96,7 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
         <div className="grid grid-cols-4 gap-4">
             {project.images.map((img: string, i: number) => (
                 <div key={i} className="relative aspect-square">
-                    <Image src={img} alt={`Project image ${i+1}`} width={200} height={200} className="object-cover rounded-[10px] w-full h-full" data-ai-hint="house interior"/>
+                    <Image src={img} alt={`Project image ${i+1}`} width={200} height={200} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house interior"/>
                 </div>
             ))}
         </div>
