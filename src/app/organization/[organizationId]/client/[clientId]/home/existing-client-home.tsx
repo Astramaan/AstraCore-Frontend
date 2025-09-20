@@ -13,6 +13,10 @@ import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
+        <div className="absolute top-0 left-0 w-8 h-full">
+            <div className="h-full w-px bg-gray-200 mx-auto"></div>
+            <div className={cn("absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full", progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>
+        </div>
         
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
             <div className="flex justify-between items-start">
@@ -34,7 +38,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white md:rounded-2xl md:p-4 gap-4">
+    <div className="flex items-center justify-between md:w-64 bg-white rounded-2xl p-4 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -102,7 +106,7 @@ export default function ExistingClientHomePage() {
   
 
   return (
-    <div className="min-h-screen">
+    <div>
         <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
            <div className="max-w-[1440px] mx-auto p-4">
              <ClientHeader />
@@ -126,7 +130,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                         <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
