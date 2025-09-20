@@ -162,6 +162,11 @@ export default function ExistingClientHomePage() {
                          <p className="md:hidden text-white text-xs mt-1">Project Manager - {project.pm}</p>
                     </div>
                 </div>
+
+                <div className="hidden md:block absolute bottom-8 right-8 text-right text-white">
+                    <p className="text-base">Project Manager - {project.pm}</p>
+                    <p className="text-lg font-semibold">{currentDate}</p>
+                </div>
             </div>
 
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
