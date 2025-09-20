@@ -30,6 +30,30 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 }
 
+export async function verifyInvite(token: string, orgId: string) {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/v1/invite/${token}/${orgId}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            return { error: data.message || "Invalid or expired invite link." };
+        }
+
+        const inviteDetails = data.data;
+        const params = new URLSearchParams({
+            email: inviteDetails.email,
+            organization: inviteDetails.organizationName,
+            // You might want to pass more details from the invite
+        });
+        
+        redirect(`/signup?${params.toString()}`);
+    } catch (error) {
+        console.error("Invite verification failed:", error);
+        return { error: "An unexpected error occurred." };
+    }
+}
+
+
 export async function login(prevState: any, formData: FormData) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
