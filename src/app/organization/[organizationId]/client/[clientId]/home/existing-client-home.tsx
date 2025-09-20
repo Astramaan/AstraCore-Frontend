@@ -167,7 +167,7 @@ export default function ExistingClientHomePage() {
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="flex-1">
-                    <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
+                    <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{currentDate}</p>
                     <div className="relative pb-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {timeline.map((stage, index) => (
