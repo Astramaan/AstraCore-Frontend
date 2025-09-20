@@ -140,15 +140,7 @@ export default function ExistingClientHomePage() {
                          <p className="md:hidden text-white text-xs mt-1">Project Manager - {project.pm}</p>
                     </div>
                 </div>
-                 <div className="absolute top-8 right-8 md:flex items-center gap-4 hidden">
-                    <div className="bg-slate-50/25 rounded-[20px] border border-slate-50 backdrop-blur-[2px] flex items-center justify-center px-4 py-1">
-                        <p className="text-xs text-white">Soil Testing is Underway...</p>
-                    </div>
-                     <Avatar className="w-14 h-14">
-                          <AvatarImage src={user?.avatar || "https://placehold.co/55x55"} data-ai-hint="person portrait" />
-                          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                </div>
+                 
             </div>
 
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
@@ -175,3 +167,5 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
+
+    
