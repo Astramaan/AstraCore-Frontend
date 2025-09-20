@@ -23,7 +23,6 @@ function OrganizationHomePageContent() {
         if (!loading && !user) {
             router.push('/');
         } else if (!loading && user) {
-            console.log('User object for routing:', user);
             if (user.team === 'New User') {
                 router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
             } else if (user.roleType === 'client') {
@@ -32,7 +31,7 @@ function OrganizationHomePageContent() {
         }
     }, [loading, user, router, organizationId]);
 
-    if (loading || !user || user.roleType === 'client' || user.team === 'New User') {
+    if (loading || !user || user.roleType === 'client') {
         return (
             <div className="space-y-6">
                 <div className="flex justify-between items-center mb-6">
