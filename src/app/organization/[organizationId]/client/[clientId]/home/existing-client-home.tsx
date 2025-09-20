@@ -12,11 +12,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
-    <div className="pl-8 relative">
+    <div className="pl-6 relative">
         {isFirst && <div className="absolute top-0 -left-[7px] w-4 h-4 rounded-full border-2 border-white bg-primary z-10"></div>}
         
         <div className="relative">
-            <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4 mt-4">
+            <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4 mt-8">
                 <div className="flex justify-between items-start">
                     <div>
                         <h3 className="text-black text-base font-semibold">{title}</h3>
