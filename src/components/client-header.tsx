@@ -38,7 +38,7 @@ export const ClientHeader = () => {
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
                         <h2 className="hidden md:block text-xl md:text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900">
-                            {pageTitle}
+                           {pageTitle === 'Home' ? "Book your free consultation" : pageTitle}
                         </h2>
                     </>
                 )}
