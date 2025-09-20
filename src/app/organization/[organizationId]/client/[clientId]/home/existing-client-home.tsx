@@ -150,7 +150,7 @@ export default function ExistingClientHomePage() {
                 {/* Timeline */}
                 <div className="flex-1">
                     <div className="relative py-4">
-                        <p className="text-sm font-normal mb-2 ml-10">25 May 2024</p>
+                        <p className="text-lg font-semibold mb-2 ml-10">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-grey-2"></div>
                         <div className="space-y-8">
                             {timeline.map((stage, index) => (
@@ -170,4 +170,3 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
-
