@@ -14,10 +14,6 @@ import { ClientHeader } from '@/components/client-header';
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
         
-        <p className={cn(
-            "text-sm font-normal mb-2 ml-2 md:ml-0",
-            isUpcoming ? 'text-green-400' : 'text-foreground'
-        )}>{isUpcoming ? 'upcoming' : 'ongoing'}</p>
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
             <div className="flex justify-between items-start">
                 <div>
@@ -130,7 +126,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                         <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
