@@ -6,12 +6,11 @@ import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
-        {!isFirst && <div className="absolute left-[22px] top-0 h-4 border-l-2 border-dashed border-stone-300"></div>}
+        {!isFirst && <div className="absolute left-[22px] md:left-[15px] top-0 h-4 border-l-2 border-dashed border-stone-300"></div>}
         <div className={cn(
             "absolute left-[15px] -top-1 w-4 h-4 rounded-full border-2 border-white",
             isUpcoming ? "bg-green-400" : "bg-cyan-500"
@@ -40,23 +39,19 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
 );
 
 const PaymentStatus = () => (
-    <div className="space-y-2">
+    <div className="space-y-2 md:w-64 md:border md:border-stone-300 md:rounded-2xl md:p-4">
         <p className="text-black text-sm font-normal">Payment</p>
         <p className="text-stone-300 text-xs">Due on 05 June</p>
         <div className="flex gap-1 mt-1">
-            <div className="w-2.5 h-5 bg-cyan-500 rounded-sm"></div>
-            <div className="w-2.5 h-5 bg-stone-300 rounded-sm"></div>
-            <div className="w-2.5 h-5 bg-stone-300 rounded-sm"></div>
-            <div className="w-2.5 h-5 bg-stone-300 rounded-sm"></div>
-            <div className="w-2.5 h-5 bg-stone-300 rounded-sm"></div>
-            <div className="w-2.5 h-5 bg-stone-300 rounded-sm"></div>
-            <div className="w-2.5 h-5 bg-stone-300 rounded-sm"></div>
+            {[...Array(7)].map((_, i) => (
+              <div key={i} className={cn("w-2.5 h-5 rounded-sm", i === 0 ? "bg-cyan-500" : "bg-stone-300")}></div>
+            ))}
         </div>
     </div>
 );
 
 const ChatCard = () => (
-    <Card className="rounded-2xl">
+    <Card className="rounded-2xl md:w-64">
         <CardContent className="p-4">
             <div className="flex justify-between items-center">
                 <div>
@@ -70,7 +65,7 @@ const ChatCard = () => (
 );
 
 const SitePhotos = () => (
-     <Card className="rounded-[20px]">
+     <Card className="rounded-[20px] md:w-60">
         <CardContent className="p-4 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
             <div className="grid grid-cols-2 gap-2">
@@ -110,33 +105,33 @@ export default function ExistingClientHomePage() {
 
   return (
     <div className="bg-slate-50 min-h-screen">
-        <div className="flex">
-            <main className="flex-1 p-4 md:p-8">
-                 {/* Header section */}
-                <div className="relative mb-8">
-                    <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px]" data-ai-hint="house project"/>
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px]"></div>
-                    
-                    <div className="absolute bottom-8 left-8 flex items-end gap-6 text-white">
-                        <div className="relative w-24 h-24">
-                            <svg className="w-full h-full" viewBox="0 0 100 100">
-                                <circle className="text-slate-50/20" strokeWidth="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
-                                <circle className="text-cyan-500" strokeWidth="10" strokeDasharray="282.6" strokeDashoffset={282.6 - (project.progress / 100) * 282.6} strokeLinecap="round" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" transform="rotate(-90 50 50)" />
-                                <text x="50" y="50" textAnchor="middle" dy=".3em" fill="white" className="text-cyan-500 text-2xl font-semibold">{project.daysLeft}</text>
-                            </svg>
-                        </div>
-                        <div>
-                            <p className="text-white text-base">CLIENT ID: {project.id}</p>
-                            <p className="text-white text-sm">Banashankari, Bengaluru - 560109</p>
-                        </div>
+        <main className="p-4 md:p-8">
+             {/* Header section */}
+            <div className="relative mb-8">
+                <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px]" data-ai-hint="house project"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px]"></div>
+                
+                <div className="absolute bottom-8 left-8 flex items-end gap-6 text-white">
+                    <div className="relative w-24 h-24">
+                        <svg className="w-full h-full" viewBox="0 0 100 100">
+                            <circle className="text-slate-50/20" strokeWidth="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
+                            <circle className="text-cyan-500" strokeWidth="10" strokeDasharray="282.6" strokeDashoffset={282.6 - (project.progress / 100) * 282.6} strokeLinecap="round" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" transform="rotate(-90 50 50)" />
+                            <text x="50" y="50" textAnchor="middle" dy=".3em" fill="white" className="text-cyan-500 text-2xl font-semibold">{project.daysLeft}</text>
+                        </svg>
+                    </div>
+                    <div>
+                        <p className="text-white text-base">CLIENT ID: {project.id}</p>
+                        <p className="text-white text-sm">Banashankari, Bengaluru - 560109</p>
                     </div>
                 </div>
+            </div>
 
+            <div className="flex flex-col-reverse md:flex-row gap-8">
                 {/* Timeline */}
-                <div className="px-4 pb-24">
+                <div className="px-4 pb-24 flex-1">
                     <div className="relative py-4">
                         <p className="text-neutral-900 text-sm font-normal mb-2 ml-10">25 May 2024</p>
-                        <div className="absolute left-[22px] top-12 bottom-0 w-px bg-stone-300"></div>
+                        <div className="absolute left-[22px] md:left-[15px] top-12 bottom-0 w-px bg-stone-300"></div>
                         <div className="space-y-8">
                             {timeline.map((stage, index) => (
                                 <StageCard key={index} {...stage} isFirst={index === 0} />
@@ -144,13 +139,14 @@ export default function ExistingClientHomePage() {
                         </div>
                     </div>
                 </div>
-            </main>
-            <aside className="w-[300px] p-8 space-y-8 hidden lg:block">
-                <PaymentStatus />
-                <ChatCard />
-                <SitePhotos />
-            </aside>
-        </div>
+
+                <aside className="w-full md:w-auto space-y-8 flex flex-col items-center">
+                    <PaymentStatus />
+                    <ChatCard />
+                    <SitePhotos />
+                </aside>
+            </div>
+        </main>
     </div>
   );
 }
