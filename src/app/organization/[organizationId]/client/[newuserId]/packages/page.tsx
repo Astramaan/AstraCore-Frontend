@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Link from "next/link";
-import { ClientBottomNav } from "@/app/organization/[organizationId]/client/[newuserId]/home/page";
+import { ClientBottomNav } from "@/components/client-bottom-nav";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 

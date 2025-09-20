@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { ChevronRight, Edit, LogOut, Save, X } from 'lucide-react';
-import { ClientBottomNav } from '../home/page';
+import { ClientBottomNav } from '@/components/client-bottom-nav';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';

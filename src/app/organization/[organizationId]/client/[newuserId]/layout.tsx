@@ -3,13 +3,12 @@
 
 import React from 'react';
 import { ClientHeader } from '@/components/client-header';
-import { ClientBottomNav } from './home/page';
+import { ClientBottomNav } from '@/components/client-bottom-nav';
 import { usePathname } from 'next/navigation';
 
 function NewUserLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const showBottomNav = !pathname.includes('/packages');
-
+  
   return (
     <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
@@ -20,6 +19,7 @@ function NewUserLayoutContent({ children }: { children: React.ReactNode }) {
         <main className="w-full flex-1 overflow-y-auto bg-background">
             {children}
         </main>
+        <ClientBottomNav />
     </div>
   );
 }
