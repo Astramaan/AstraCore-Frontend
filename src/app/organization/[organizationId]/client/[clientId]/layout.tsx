@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { ClientHeader } from '@/components/client-header';
-import { ClientBottomNav } from '@/components/client-bottom-nav';
+import { NewUserBottomNav } from '@/components/new-user-bottom-nav';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   
@@ -17,7 +17,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
         <main className="w-full flex-1 overflow-y-auto bg-background">
             {children}
         </main>
-        <ClientBottomNav />
+        <NewUserBottomNav />
     </div>
   );
 }
