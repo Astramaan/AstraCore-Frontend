@@ -12,8 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
-    <div className="pl-6 relative">
-        {isFirst && <div className="absolute top-0 -left-[7px] w-4 h-4 rounded-full border-2 border-white bg-primary z-10"></div>}
+    <div className="relative">
         
         <div className="relative">
             <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4 mt-8">
@@ -153,9 +152,10 @@ export default function ExistingClientHomePage() {
                 {/* Timeline */}
                 <div className="flex-1">
                     <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
-                    <div className="relative pb-4">
-                        <div className="absolute left-0 top-0 h-full w-[2px] bg-grey-2/30"></div>
-                        <div className="relative">
+                    <div className="relative pb-4 pl-4">
+                        <div className="absolute left-[7px] top-[14px] h-full w-[2px] bg-grey-2/30"></div>
+                        <div className="absolute top-0 left-0 w-4 h-4 rounded-full border-2 border-white bg-primary z-10"></div>
+                        <div className="relative pl-6">
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
                                     <StageCard key={index} {...stage} isFirst={index === 0} />
