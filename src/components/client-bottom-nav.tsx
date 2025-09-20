@@ -1,22 +1,28 @@
 
+
 'use client';
 
 import { Award, GanttChartSquare, Home, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/context/user-context';
 
 export const ClientBottomNav = () => {
     const pathname = usePathname();
     const params = useParams();
+    const { user } = useUser();
     const organizationId = params.organizationId as string;
-    const newuserId = params.newuserId as string;
+    const userId = user?.userId || (params.newuserId as string) || (params.clientId as string);
+    const basePath = user?.team === 'New User' 
+        ? `/organization/${organizationId}/client/new/${userId}`
+        : `/organization/${organizationId}/client/${userId}`;
 
     const navItems = [
-        { href: `/organization/${organizationId}/client/${newuserId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/${newuserId}/packages`, icon: Award, label: "Packages" },
-        { href: `/organization/${organizationId}/client/${newuserId}/projects`, icon: GanttChartSquare, label: "Projects" },
-        { href: `/organization/${organizationId}/client/${newuserId}/profile`, icon: User, label: "Profile" },
+        { href: `${basePath}/home`, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/packages`, icon: Award, label: "Packages" },
+        { href: `/organization/${organizationId}/client/projects`, icon: GanttChartSquare, label: "Projects" },
+        { href: `/organization/${organizationId}/client/profile`, icon: User, label: "Profile" },
     ];
 
     return (

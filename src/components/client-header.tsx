@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -17,11 +18,14 @@ export const ClientHeader = () => {
     const userInitials = userName.split(' ').map(n => n[0]).join('');
 
     let pageTitle = '';
-    let showBookingButton = false;
+    
+    const isNewUserHome = user?.team === 'New User' && pathname.includes('/home');
+    const isClientProjectHome = user?.team !== 'New User' && pathname.includes('/home');
 
-    if (pathname.includes('/home')) {
+    if (isNewUserHome) {
         pageTitle = 'Book your free consultation';
-        showBookingButton = true;
+    } else if (isClientProjectHome) {
+        pageTitle = ''; // No title for existing client's project home
     } else if (pathname.includes('/packages')) {
         pageTitle = 'Packages';
     } else if (pathname.includes('/projects')) {
@@ -29,6 +33,7 @@ export const ClientHeader = () => {
     } else if (pathname.includes('/profile')) {
         pageTitle = 'Profile';
     }
+
 
     return (
         <header className="flex flex-row justify-between items-center w-full gap-4">
@@ -45,7 +50,7 @@ export const ClientHeader = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-2">
-                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
+                 <Link href={`/organization/${user?.organizationId}/client/profile`}>
                     <Avatar className="h-12 w-12">
                         <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                         <AvatarFallback>{userInitials}</AvatarFallback>

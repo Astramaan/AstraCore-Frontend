@@ -22,8 +22,12 @@ function OrganizationHomePageContent() {
     useEffect(() => {
         if (!loading && !user) {
             router.push('/');
-        } else if (!loading && user && (user.roleType === 'client' || user.team === 'New User')) {
-            router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
+        } else if (!loading && user) {
+            if (user.team === 'New User') {
+                router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
+            } else if (user.roleType === 'client') {
+                router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
+            }
         }
     }, [loading, user, router, organizationId]);
 
