@@ -14,10 +14,10 @@ import { Badge } from '@/components/ui/badge';
 
 const StageCard = ({ title, subtitle, date, status, progress, category, image }: { title: string, subtitle: string, date: string, status: string, progress: number, category: string, image: string }) => (
     <div className="relative">
-        <Card className="rounded-[25px] p-4">
+        <Card className="rounded-[24px] p-4">
             <div className="flex items-center gap-4">
                 <div className="relative w-24 h-24 shrink-0">
-                    <Image src={image} width={100} height={100} alt={title} className="rounded-[25px] object-cover w-full h-full" data-ai-hint="construction work" />
+                    <Image src={image} width={100} height={100} alt={title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
                     <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
                         {category}
                     </div>
