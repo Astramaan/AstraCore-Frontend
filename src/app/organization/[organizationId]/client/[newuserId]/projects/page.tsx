@@ -79,8 +79,8 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
                     <>
                         <Image src={project.videoThumbnail} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house exterior"/>
                         <div className="absolute inset-0 bg-black/30 rounded-[30px]"></div>
-                         <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70 absolute z-10">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70 absolute z-10">
+                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 4V20L20 12L7 4Z" fill="white"/>
                             </svg>
                         </Button>
