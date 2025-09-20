@@ -23,9 +23,7 @@ function OrganizationHomePageContent() {
         if (!loading && !user) {
             router.push('/');
         } else if (!loading && user) {
-            if (user.team === 'New User') {
-                router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
-            } else if (user.roleType === 'client') {
+            if (user.roleType === 'client') {
                 router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
             }
         }
@@ -85,7 +83,5 @@ export default function OrganizationHomePage() {
         </Suspense>
     );
 }
-
-    
 
     
