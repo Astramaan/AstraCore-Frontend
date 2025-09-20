@@ -12,7 +12,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
-    <div className="pl-8 relative">
+    <div className="pl-8 relative mt-4">
+        <div className={cn("absolute top-0 -left-1.5 w-3 h-3 rounded-full border-2 border-white", status === 'completed' ? 'bg-primary' : 'bg-gray-300')}></div>
+
+        {!isFirst && <p className={cn(
+            "text-sm font-normal mb-2 ml-10",
+            isUpcoming ? 'text-green-400' : 'text-cyan-500'
+        )}>{isUpcoming ? 'upcoming' : 'ongoing'}</p>}
+
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
             <div className="flex justify-between items-start">
                 <div>
@@ -140,12 +147,14 @@ export default function ExistingClientHomePage() {
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="flex-1">
-                    <p className="text-lg font-semibold mb-2">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                    <div className="relative pb-4">
+                    <p className="text-lg font-semibold mb-2 ml-10">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                    <div className="relative py-4">
+                        <div className="absolute top-0 left-0 w-8 h-full">
+                             <div className="h-full w-0.5 bg-dashed-line absolute left-1/2 top-0 -translate-x-1/2" style={{backgroundImage: 'linear-gradient(to bottom, #A8A29E 50%, transparent 50%)', backgroundSize: '1px 8px'}}></div>
+                        </div>
                         <div className="relative">
                              <div className="absolute top-0 left-0 w-8 h-full">
-                                <div className="h-full w-[2px] bg-gray-200 mx-auto"></div>
-                                <div className={cn("absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-white", timeline[0].progress > 0 ? 'bg-primary' : 'bg-gray-300' )}></div>
+                                <div className="h-full w-px bg-gray-200 mx-auto"></div>
                             </div>
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
