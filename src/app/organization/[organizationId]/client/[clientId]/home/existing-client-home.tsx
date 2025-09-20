@@ -102,7 +102,7 @@ export default function ExistingClientHomePage() {
   };
 
   const timeline = [
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Started", progress: 70, isFirst: true },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On going", progress: 70, isFirst: true },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, isUpcoming: true },
