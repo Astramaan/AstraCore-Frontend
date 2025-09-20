@@ -1,4 +1,3 @@
-
 'use client';
 
 import { HabiLogo } from "@/components/habi-logo";
@@ -6,6 +5,7 @@ import { ClientBottomNav } from "@/components/client-bottom-nav";
 import Image from "next/image";
 import { Youtube } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 const completedProjects = [
     {
@@ -79,7 +79,9 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
                     <>
                         <Image src={project.videoThumbnail} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house exterior"/>
                         <div className="absolute inset-0 bg-black/30 rounded-[30px]"></div>
-                        <Youtube className="w-12 h-12 text-red-600 relative z-10" />
+                        <Button variant="ghost" className="w-16 h-16 bg-red-600/50 rounded-full flex items-center justify-center hover:bg-red-600/70 absolute z-10">
+                            <Youtube className="w-8 h-8 text-white"/>
+                        </Button>
                     </>
                 ) : (
                     <Image src={project.mainImage} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="modern house"/>
