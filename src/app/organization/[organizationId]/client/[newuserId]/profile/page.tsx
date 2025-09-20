@@ -106,9 +106,7 @@ export default function ClientProfilePage() {
                         <div className="flex items-center justify-between gap-4 mb-6">
                             <div className="flex items-center gap-4">
                                 <Image src="https://placehold.co/94x94" alt="Yash" width={72} height={72} className="rounded-full border-2 border-white" data-ai-hint="person portrait"/>
-                                <div>
-                                    <h1 className="text-2xl font-semibold">Profile</h1>
-                                </div>
+                                
                             </div>
                             <Sheet open={isEditing} onOpenChange={setIsEditing}>
                                 <SheetTrigger asChild>
