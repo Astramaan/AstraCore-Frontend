@@ -2,7 +2,7 @@
 'use client';
 
 import { HabiLogo } from "@/components/habi-logo";
-import { ClientBottomNav } from "@/app/organization/[organizationId]/client/[newuserId]/home/page";
+import { ClientBottomNav } from "@/components/client-bottom-nav";
 import Image from "next/image";
 import { Youtube } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -72,7 +72,7 @@ const ongoingProjects = [
 ];
 
 const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: boolean }) => (
-    <div className="bg-white rounded-[50px] p-6 space-y-4">
+    <div className="bg-white rounded-[30px] p-6 space-y-4">
         <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[15px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
@@ -114,7 +114,7 @@ export default function ProjectsPage() {
                 
 
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-semibold">Completed</h2>
+                    <h2 className="text-2xl font-semibold text-center">Completed</h2>
                     <div className="space-y-6">
                         {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} />)}
                     </div>
@@ -123,7 +123,7 @@ export default function ProjectsPage() {
                 <Separator className="my-8"/>
 
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-semibold">Ongoing</h2>
+                    <h2 className="text-2xl font-semibold text-center">Ongoing</h2>
                     <div className="space-y-6">
                         {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} />)}
                     </div>
