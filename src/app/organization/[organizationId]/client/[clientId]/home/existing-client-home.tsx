@@ -31,7 +31,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
                 <span className="text-stone-300 text-xs">{status}</span>
             </div>
             <div className="mt-4">
-                <Progress value={progress} className="h-2 bg-background" />
+                <Progress value={progress} className="h-2" />
                 <div className="flex justify-between items-center mt-2">
                     <p className="text-stone-300 text-xs">{date}</p>
                     <span className="text-black text-xs font-normal">{progress}%</span>
@@ -130,7 +130,7 @@ export default function ExistingClientHomePage() {
                                 }}
                             />
                         </svg>
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
                             {project.progress}%
                         </div>
                     </div>
@@ -175,4 +175,3 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
-
