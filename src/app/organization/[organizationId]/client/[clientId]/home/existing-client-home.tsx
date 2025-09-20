@@ -49,7 +49,7 @@ const PaymentStatus = () => (
         </div>
         <div className="flex gap-1">
             {[...Array(7)].map((_, i) => (
-                <div key={i} className={cn("w-2.5 h-5 rounded-sm", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
+                <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
             ))}
         </div>
     </div>
@@ -111,6 +111,11 @@ export default function ExistingClientHomePage() {
 
   return (
     <div className="min-h-screen">
+        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
+           <div className="max-w-[1440px] mx-auto p-4">
+             <ClientHeader />
+           </div>
+        </header>
         <main className="md:p-8">
             {/* Header section */}
             
