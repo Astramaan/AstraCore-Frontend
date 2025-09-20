@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Home, GanttChartSquare, Video, Users } from 'lucide-react';
@@ -15,7 +16,7 @@ export const ClientBottomNav = () => {
 
     const navItems = [
         { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/${userId}/home`, icon: GanttChartSquare, label: "Project" },
+        { href: `/organization/${organizationId}/client/${userId}/project`, icon: GanttChartSquare, label: "Project" },
         { href: "#", icon: Video, label: "Live" },
         { href: "#", icon: Users, label: "Meet us" },
     ];
