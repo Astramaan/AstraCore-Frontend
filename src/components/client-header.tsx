@@ -44,7 +44,18 @@ export const ClientHeader = () => {
                 )}
             </div>
 
-            
+            <div className="hidden md:flex items-center gap-2">
+                <div className="text-right">
+                    <p className="font-semibold">{user?.name}</p>
+                    <p className="text-sm text-muted-foreground">{user?.email}</p>
+                </div>
+                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
+                    <Avatar className="h-12 w-12">
+                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                        <AvatarFallback>{userInitials}</AvatarFallback>
+                    </Avatar>
+                </Link>
+            </div>
 
              <div className="md:hidden">
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
