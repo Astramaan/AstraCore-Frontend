@@ -89,7 +89,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                       style={{ border: 0 }}
                       allowFullScreen={false}
                       loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
+                      referrerPolicy="no-referrer-downgrade"
                       className="rounded-3xl"
                     ></iframe>
                     <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>
@@ -252,13 +252,13 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     <Card id="faq-section" className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
-                            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
+                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
                                 {faqs.map((faq, index) => (
-                                <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-xl">
-                                    <AccordionTrigger className="px-6 text-primary hover:no-underline">
-                                    <span className="text-primary">{`${index + 1}. ${faq.question}`}</span>
+                                <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
+                                    <AccordionTrigger className="px-6 text-black hover:text-primary hover:no-underline">
+                                    <span>{`${index + 1}. ${faq.question}`}</span>
                                     </AccordionTrigger>
-                                    <AccordionContent>
+                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
                                     {faq.answer}
                                     </AccordionContent>
                                 </AccordionItem>
@@ -280,5 +280,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
-    
