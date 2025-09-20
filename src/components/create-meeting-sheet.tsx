@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -67,6 +66,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [isManual, setIsManual] = useState(false);
+    const [isLocationEnabled, setIsLocationEnabled] = useState(true);
     const [selectedId, setSelectedId] = useState('');
     const [comboboxOpen, setComboboxOpen] = useState(false);
     const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
@@ -112,7 +112,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         const meetingData = {
             title,
             name,
-            city,
+            city: isLocationEnabled ? city : 'Online',
             email,
             phone,
             type: selectedType,
@@ -256,7 +256,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 </div>
                 
                 <div className="space-y-2">
-                    <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead ID*</Label>
+                    <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
                     <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -334,8 +334,14 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>Location</Label>
-                            <Input id="city" placeholder="Enter Location" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} />
+                             <div className="flex items-center justify-between">
+                                <Label htmlFor="city" className={cn("text-lg font-medium", city ? 'text-grey-1' : 'text-zinc-900')}>Location</Label>
+                                <div className="flex items-center gap-2">
+                                     <Label htmlFor="location-switch" className="text-sm">{isLocationEnabled ? 'On-site' : 'Online'}</Label>
+                                     <Switch id="location-switch" checked={isLocationEnabled} onCheckedChange={setIsLocationEnabled} />
+                                </div>
+                            </div>
+                            <Input id="city" placeholder="Enter Location" className="bg-background rounded-full h-14" value={city} onChange={(e) => setCity(e.target.value)} disabled={!isLocationEnabled} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
@@ -422,3 +428,5 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </Sheet>
   );
 }
+
+    
