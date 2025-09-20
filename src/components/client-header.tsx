@@ -20,7 +20,7 @@ export const ClientHeader = () => {
     let showBookingButton = false;
 
     if (pathname.includes('/home')) {
-        pageTitle = 'Home';
+        pageTitle = 'Book your free consultation';
         showBookingButton = true;
     } else if (pathname.includes('/packages')) {
         pageTitle = 'Packages';
@@ -38,19 +38,13 @@ export const ClientHeader = () => {
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
                         <h2 className="hidden md:block text-xl md:text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900">
-                           {pageTitle === 'Home' ? "Book your free consultation" : pageTitle}
+                           {pageTitle}
                         </h2>
                     </>
                 )}
             </div>
 
-            {showBookingButton && (
-                 <div className="hidden md:flex items-center gap-4">
-                    <Button asChild className="rounded-full h-[54px] px-8 text-lg">
-                        <Link href="#book-consultation-section">Book Your Free Consultation</Link>
-                    </Button>
-                </div>
-            )}
+            
 
              <div className="md:hidden">
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
