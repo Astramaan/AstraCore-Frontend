@@ -1,20 +1,27 @@
 
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import ExistingClientHomePage from './existing-client-home';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/context/user-context';
-import NewUserHomePage from '../../../client/new/[newuserId]/home/page';
+import NewUserHomePage from '../../new/[newuserId]/home/page';
 
 function ClientHomePage() {
   const params = useParams();
   const { user, loading } = useUser();
+  const router = useRouter();
   const organizationId = params.organizationId as string;
   const clientId = params.clientId as string;
 
-  if (loading) {
+  useEffect(() => {
+    if (!loading && user && user.team === 'New User') {
+      router.replace(`/organization/${organizationId}/client/new/${user.userId}/home`);
+    }
+  }, [user, loading, router, organizationId]);
+
+  if (loading || !user || user.team === 'New User') {
     return (
         <div className="space-y-6 p-4">
             <Skeleton className="h-80 w-full rounded-b-[50px]" />
@@ -39,6 +46,7 @@ function ClientHomePage() {
     );
   }
 
+  // If the user is an existing client, show their project home page.
   return <ExistingClientHomePage params={{ organizationId, clientId }} />;
 }
 
