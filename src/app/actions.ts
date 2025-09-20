@@ -307,3 +307,21 @@ export async function deactivateUser(userId: string) {
         return { success: false, message: "An unexpected error occurred." };
     }
 }
+
+export async function createMeeting(meetingData: any) {
+    const authHeaders = getAuthHeadersFromCookie();
+    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+      return { success: false, message: "Unauthorized: Missing user data" };
+    }
+
+    const res = await fetch(`${API_BASE_URL}/api/v1/meetings`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            ...authHeaders,
+        },
+        body: JSON.stringify(meetingData),
+    });
+
+    return res.json();
+}

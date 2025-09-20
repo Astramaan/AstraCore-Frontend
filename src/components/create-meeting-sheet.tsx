@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -25,6 +25,8 @@ import { Switch } from './ui/switch';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { ScrollArea } from './ui/scroll-area';
 import { Badge } from './ui/badge';
+import { createMeeting } from '@/app/actions';
+import { useToast } from './ui/use-toast';
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -66,6 +68,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [selectedId, setSelectedId] = useState('');
     const [comboboxOpen, setComboboxOpen] = useState(false);
     const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
+    const [isPending, startTransition] = useTransition();
+    const { toast } = useToast();
 
 
     useEffect(() => {
@@ -91,22 +95,46 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     }, [selectedId, isManual]);
 
 
-    const handleSubmit = () => {
-        if (name && selectedType && date && time) {
-            onMeetingCreated({
-                name,
-                city,
-                email,
-                phone,
-                type: selectedType,
-                date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-                time,
-                link: meetingLink,
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        
+        if (!name || !selectedType || !date || !time) {
+            toast({
+                variant: 'destructive',
+                title: 'Missing Information',
+                description: 'Please fill all required fields.',
             });
-            onClose();
-        } else {
-            alert("Please fill all required fields.");
+            return;
         }
+
+        const meetingData = {
+            name,
+            city,
+            email,
+            phone,
+            type: selectedType,
+            date: date.toISOString(),
+            time,
+            link: meetingLink,
+            members,
+        };
+
+        startTransition(async () => {
+            const result = await createMeeting(meetingData);
+            if (result.success) {
+                onMeetingCreated({
+                    ...meetingData,
+                    date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+                });
+                onClose();
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: result.message || 'Failed to create meeting.',
+                });
+            }
+        });
     }
     
     const toggleMember = (memberId: string) => {
@@ -119,7 +147,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
 
     return (
-    <div className="flex flex-col h-full">
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
             
@@ -338,11 +366,11 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         </ScrollArea>
         
         <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
-            <Button onClick={handleSubmit} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                Create
+            <Button type="submit" className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full" disabled={isPending}>
+                {isPending ? 'Creating...' : 'Create'}
             </Button>
         </div>
-    </div>
+    </form>
     );
 };
 
