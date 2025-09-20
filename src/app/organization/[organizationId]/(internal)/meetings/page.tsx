@@ -36,6 +36,11 @@ const initialLeadMeetings: Meeting[] = [
     { type: 'lead', name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
+const initialOtherMeetings: Meeting[] = [
+    { type: 'others', name: "Internal Team Sync", title: "Weekly Sync", city: "Remote", id: "INT2024", date: "7th Sept 2024", time: "04:00 pm", link: "meet.google.com/uvw-xyz", email: "team@astramaan.com", phone: "N/A" },
+    { type: 'others', name: "Vendor Discussion", title: "Steel Prices", city: "Remote", id: "VEN2024", date: "8th Sept 2024", time: "11:30 am", link: "meet.google.com/rst-uvw", email: "vendor@supplier.com", phone: "+91 5544332211" },
+];
+
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
         <div className="lg:hidden p-6 md:p-10 gap-4" onClick={() => onViewDetails(meeting)}>
@@ -165,6 +170,7 @@ export default function MeetingsPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
     const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);
+    const [otherMeetings, setOtherMeetings] = useState(initialOtherMeetings);
     const [meetingToDelete, setMeetingToDelete] = useState<Meeting | null>(null);
     const [meetingToEdit, setMeetingToEdit] = useState<Meeting | null>(null);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -174,16 +180,20 @@ export default function MeetingsPage() {
         const meetingWithId = { ...newMeeting, id: `NEW${Date.now()}`};
         if (meetingWithId.type === 'client') {
             setClientMeetings(prev => [meetingWithId, ...prev]);
-        } else {
+        } else if (meetingWithId.type === 'lead') {
             setLeadMeetings(prev => [meetingWithId, ...prev]);
+        } else {
+            setOtherMeetings(prev => [meetingWithId, ...prev]);
         }
     };
     
     const handleUpdateMeeting = (updatedMeeting: Meeting) => {
         if(updatedMeeting.type === 'client') {
             setClientMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
-        } else {
+        } else if (updatedMeeting.type === 'lead') {
             setLeadMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
+        } else {
+            setOtherMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
         }
         setMeetingToEdit(null);
     }
@@ -196,8 +206,10 @@ export default function MeetingsPage() {
         if (meetingToDelete) {
             if (meetingToDelete.type === 'client') {
                 setClientMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-            } else {
+            } else if (meetingToDelete.type === 'lead') {
                 setLeadMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+            } else {
+                setOtherMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
             }
             setMeetingToDelete(null);
         }
@@ -215,6 +227,8 @@ export default function MeetingsPage() {
 
     const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm, clientMeetings]);
     const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm, leadMeetings]);
+    const filteredOtherMeetings = useMemo(() => filterMeetings(otherMeetings), [searchTerm, otherMeetings]);
+
     const handleViewDetails = (meeting: Meeting) => {
         setSelectedMeeting(meeting);
     }
@@ -269,6 +283,27 @@ export default function MeetingsPage() {
                                 onViewDetails={handleViewDetails}
                                 isFirst={index === 0}
                                 isLast={index === filteredLeadMeetings.length - 1}
+                            />
+                        ))}
+                    </CardContent>
+                </Card>
+            </div>
+
+             <div className="flex justify-between items-center">
+                <h2 className="text-xl text-black font-medium">Other Meetings</h2>
+            </div>
+            <div>
+                <Card className="rounded-[50px] bg-white">
+                    <CardContent className="p-0 lg:p-6">
+                         {filteredOtherMeetings.map((meeting, index) => (
+                            <MeetingListItem 
+                                key={meeting.id} 
+                                meeting={meeting}
+                                onEdit={setMeetingToEdit}
+                                onDelete={handleDeleteClick}
+                                onViewDetails={handleViewDetails}
+                                isFirst={index === 0}
+                                isLast={index === filteredOtherMeetings.length - 1}
                             />
                         ))}
                     </CardContent>
