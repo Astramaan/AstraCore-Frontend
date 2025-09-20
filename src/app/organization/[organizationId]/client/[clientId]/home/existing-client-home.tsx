@@ -15,7 +15,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
     <div className="relative">
         
         <div className="relative">
-            <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4 mt-8">
+            <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
                 <div className="flex justify-between items-start">
                     <div>
                         <h3 className="text-black text-base font-semibold">{title}</h3>
