@@ -29,6 +29,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
 export default function SignupForm() {
   const [state, action] = useActionState(signup, undefined);
   const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [organization, setOrganization] = useState('');
@@ -91,6 +92,23 @@ export default function SignupForm() {
   return (
     <form action={action} className="flex flex-col flex-grow">
       <div className="space-y-4 flex-grow">
+         <div className="space-y-2">
+          <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-black')}>Full Name</Label>
+          <div className="relative flex items-center">
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="Your full name"
+              className={`pl-6 rounded-full bg-background h-[54px]`}
+              disabled={pending}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>Email ID</Label>
           <div className="relative flex items-center">
@@ -197,3 +215,5 @@ export default function SignupForm() {
     </form>
   );
 }
+
+    

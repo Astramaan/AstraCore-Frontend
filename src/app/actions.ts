@@ -263,11 +263,14 @@ export async function createPassword(prevState: any, formData: FormData) {
     }
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/create-password`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+                name: formData.get('name'),
                 email: formData.get('email'),
+                mobileNumber: formData.get('phone'),
+                organizationName: formData.get('organization'),
                 password: password
             }),
         });
@@ -275,7 +278,7 @@ export async function createPassword(prevState: any, formData: FormData) {
         const data = await res.json();
 
         if (!res.ok || !data.success) {
-            return { error: data.message || "Failed to create password." };
+            return { error: data.message || "Failed to create account." };
         }
         
         const { redirect } = await import('next/navigation');
@@ -349,3 +352,5 @@ export async function createMeeting(meetingData: any) {
 
     return res.json();
 }
+
+    

@@ -41,6 +41,7 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
 
   return (
     <form action={dispatch} className="flex-grow flex flex-col">
+       <input type="hidden" name="name" value={searchParams.name || ''} />
        <input type="hidden" name="email" value={searchParams.email || ''} />
        <input type="hidden" name="phone" value={searchParams.phone || ''} />
        <input type="hidden" name="organization" value={searchParams.organization || ''} />
@@ -97,3 +98,5 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
     </form>
   );
 }
+
+    
