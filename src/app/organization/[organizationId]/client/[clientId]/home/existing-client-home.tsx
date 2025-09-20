@@ -154,7 +154,7 @@ export default function ExistingClientHomePage() {
                     <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
                     <div className="relative pb-4">
                         <div className="relative">
-                            <div className="space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {timeline.map((stage, index) => (
                                     <StageCard key={index} {...stage} isFirst={index === 0} />
                                 ))}
