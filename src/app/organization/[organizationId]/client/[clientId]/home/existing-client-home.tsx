@@ -13,27 +13,27 @@ import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
-        {!isFirst && <div className={cn("absolute left-[15px] md:left-[22px] top-0 h-4 border-l-2 border-dashed", isUpcoming ? "border-green-400" : "border-stone-300")}></div>}
+        {!isFirst && <div className={cn("absolute left-[15px] md:left-[22px] top-0 h-4 border-l-2 border-dashed", isUpcoming ? "border-green-400" : "border-grey-2")}></div>}
         <div className={cn(
             "absolute left-[8px] md:left-[15px] -top-1 w-4 h-4 rounded-full border-2 border-white",
             isUpcoming ? "bg-green-400" : "bg-cyan-500"
         )}></div>
         <p className={cn(
             "text-sm font-normal mb-2 ml-2 md:ml-0",
-            isUpcoming ? 'text-green-400' : 'text-neutral-900'
+            isUpcoming ? 'text-green-400' : 'text-foreground'
         )}>{isUpcoming ? 'upcoming' : 'ongoing'}</p>
-        <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-stone-300 p-4">
+        <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
             <div className="flex justify-between items-start">
                 <div>
                     <h3 className="text-black text-base font-semibold">{title}</h3>
-                    <p className="text-neutral-900 text-sm">{subtitle}</p>
+                    <p className="text-sm">{subtitle}</p>
                 </div>
-                <span className="text-stone-300 text-xs">{status}</span>
+                <span className="text-grey-1 text-xs">{status}</span>
             </div>
             <div className="mt-4">
                 <Progress value={progress} className="h-2" />
                 <div className="flex justify-between items-center mt-2">
-                    <p className="text-stone-300 text-xs">{date}</p>
+                    <p className="text-grey-1 text-xs">{date}</p>
                     <span className="text-black text-xs font-normal">{progress}%</span>
                 </div>
             </div>
@@ -42,12 +42,12 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
 );
 
 const PaymentStatus = () => (
-    <div className="space-y-2 md:w-64 md:border md:border-stone-300 md:rounded-2xl md:p-4">
+    <div className="space-y-2 md:w-64 md:border md:border-grey-2 md:rounded-2xl md:p-4">
         <p className="text-black text-sm font-normal">Payment</p>
-        <p className="text-stone-300 text-xs">Due on 05 June</p>
+        <p className="text-grey-1 text-xs">Due on 05 June</p>
         <div className="flex gap-1 mt-1">
             {[...Array(7)].map((_, i) => (
-              <div key={i} className={cn("w-2.5 h-5 rounded-sm", i === 0 ? "bg-cyan-500" : "bg-stone-300")}></div>
+              <div key={i} className={cn("w-2.5 h-5 rounded-sm", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
             ))}
         </div>
     </div>
@@ -147,8 +147,8 @@ export default function ExistingClientHomePage() {
                 {/* Timeline */}
                 <div className="flex-1">
                     <div className="relative py-4">
-                        <p className="text-neutral-900 text-sm font-normal mb-2 ml-10">25 May 2024</p>
-                        <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-stone-300"></div>
+                        <p className="text-sm font-normal mb-2 ml-10">25 May 2024</p>
+                        <div className="absolute left-4 md:left-5 top-12 bottom-0 w-px bg-grey-2"></div>
                         <div className="space-y-8">
                             {timeline.map((stage, index) => (
                                 <StageCard key={index} {...stage} isFirst={index === 0} />
