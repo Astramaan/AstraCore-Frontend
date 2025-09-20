@@ -19,7 +19,7 @@ const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcomin
         )}></div>
         <p className={cn(
             "text-sm font-normal mb-2 ml-2 md:ml-0",
-            isUpcoming ? "text-green-400" : "text-neutral-900"
+            isUpcoming ? 'text-green-400' : 'text-neutral-900'
         )}>{isUpcoming ? 'upcoming' : 'ongoing'}</p>
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-stone-300 p-4">
             <div className="flex justify-between items-start">
@@ -108,25 +108,22 @@ export default function ExistingClientHomePage() {
 
   return (
     <div className="bg-slate-50 min-h-screen">
+        <header className="md:hidden sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+            <div className="flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                    <Avatar className="w-14 h-14">
+                        <AvatarImage src={user?.avatar || "https://placehold.co/55x55"} data-ai-hint="person portrait" />
+                        <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <p className="font-semibold text-lg">{user?.name}</p>
+                        <p className="text-sm text-muted-foreground">CLIENT ID: {project.id}</p>
+                    </div>
+                </div>
+            </div>
+        </header>
         <main className="md:p-8">
             {/* Header section */}
-            <header className="p-4 md:hidden">
-              <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-4">
-                      <Avatar className="w-14 h-14">
-                          <AvatarImage src={user?.avatar || "https://placehold.co/55x55"} data-ai-hint="person portrait" />
-                          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                          <p className="font-semibold text-lg">{user?.name}</p>
-                          <p className="text-sm text-muted-foreground">CLIENT ID: {project.id}</p>
-                      </div>
-                  </div>
-                  <div className="w-44 h-6 bg-slate-50/25 rounded-[20px] border border-slate-50 backdrop-blur-[2px] flex items-center justify-center">
-                       <p className="text-xs text-white">Soil Testing is Underway...</p>
-                  </div>
-              </div>
-            </header>
             
             <div className="relative mb-8">
                 <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
@@ -144,7 +141,7 @@ export default function ExistingClientHomePage() {
                             />
                         </svg>
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
-                            {project.daysLeft}
+                            {project.progress}%
                         </div>
                     </div>
                     <div>
@@ -152,6 +149,15 @@ export default function ExistingClientHomePage() {
                         <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
                          <p className="md:hidden text-white text-xs mt-1">Project Manager - {project.pm}</p>
                     </div>
+                </div>
+                 <div className="absolute top-8 right-8 md:flex items-center gap-4 hidden">
+                    <div className="bg-slate-50/25 rounded-[20px] border border-slate-50 backdrop-blur-[2px] flex items-center justify-center px-4 py-1">
+                        <p className="text-xs text-white">Soil Testing is Underway...</p>
+                    </div>
+                     <Avatar className="w-14 h-14">
+                          <AvatarImage src={user?.avatar || "https://placehold.co/55x55"} data-ai-hint="person portrait" />
+                          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
                 </div>
             </div>
 
