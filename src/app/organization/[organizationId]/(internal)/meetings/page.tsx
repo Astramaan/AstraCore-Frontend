@@ -41,7 +41,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
         <div className="lg:hidden p-6 md:p-10 gap-4" onClick={() => onViewDetails(meeting)}>
             <div className="flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-xl font-semibold text-black">{meeting.name}</p>
+                    <p className="text-xl font-semibold text-black">{meeting.title || meeting.name}</p>
                     <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
                  <DropdownMenu>
@@ -63,8 +63,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                     <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
                 </div>
                 <div className="text-right">
-                    <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span>
-                    <p className="text-zinc-900 font-medium">{meeting.id}</p>
+                    <span className="text-grey-2">Location: </span><p className="text-zinc-900 font-medium">{meeting.city}</p>
                 </div>
                 <div>
                     <span className="text-grey-2">Date & Time : </span>
@@ -94,7 +93,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               >
               {/* Company Name & City */}
               <div className="flex flex-col justify-center">
-                  <p className="text-xl font-semibold text-black break-words">{meeting.name}</p>
+                  <p className="text-xl font-semibold text-black break-words">{meeting.title || meeting.name}</p>
                   <p className="text-lg">
                   <span className="text-grey-2">Location: </span> 
                   <span className="text-black">{meeting.city}</span>
@@ -207,6 +206,7 @@ export default function MeetingsPage() {
     const filterMeetings = (meetings: Meeting[]) => {
         if (!searchTerm) return meetings;
         return meetings.filter(meeting =>
+            (meeting.title && meeting.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
             meeting.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             meeting.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
             meeting.id.toLowerCase().includes(searchTerm.toLowerCase())
