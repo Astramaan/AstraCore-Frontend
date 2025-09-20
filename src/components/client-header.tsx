@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -57,7 +56,7 @@ export const ClientHeader = () => {
                 </div>
             </div>
 
-             <div className="md:hidden">
+             <div className="md:hidden flex items-center gap-4">
                  <h2 className="text-2xl font-semibold text-zinc-900 md:hidden">
                     {pageTitle}
                 </h2>
