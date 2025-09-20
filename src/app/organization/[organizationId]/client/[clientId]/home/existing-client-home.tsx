@@ -108,7 +108,7 @@ export default function ExistingClientHomePage() {
   
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="min-h-screen">
         <header className="md:hidden sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
             <ClientHeader />
         </header>
