@@ -97,7 +97,7 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
         </div>
         <div className="grid grid-cols-4 gap-2">
             {project.images.map((img: string, i: number) => (
-                <div key={i} className="relative aspect-[4/3]">
+                <div key={i} className="relative aspect-[4/2]">
                     <Image src={img} alt={`Project image ${i+1}`} fill className="object-cover rounded-[10px]" data-ai-hint="house interior"/>
                 </div>
             ))}
