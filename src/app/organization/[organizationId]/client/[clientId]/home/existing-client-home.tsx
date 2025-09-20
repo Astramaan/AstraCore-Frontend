@@ -27,22 +27,20 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
         <div className="flex items-center gap-4">
             <div className="relative w-24 h-24 shrink-0">
                 <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
-                    {stage.category}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                    <span className="text-white text-sm font-semibold">{stage.category}</span>
                 </div>
             </div>
             <div className="flex-1 space-y-1 w-full">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <p className="text-sm">{stage.subtitle}</p>
-                    </div>
+                <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                <p className="text-sm">{stage.subtitle}</p>
+                <div className="flex justify-between items-start pt-2">
                     <span className="text-grey-1 text-xs">{stage.status}</span>
+                    <span className="text-grey-1 text-xs">{stage.date}</span>
                 </div>
                 <div className="pt-2">
                     <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
-                        <p className="text-grey-1 text-xs">{stage.date}</p>
                         <span className="text-black text-xs font-normal">{stage.progress}%</span>
                     </div>
                 </div>
