@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import { ClientBottomNav } from "@/components/client-bottom-nav";

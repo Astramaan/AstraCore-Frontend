@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -258,7 +257,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     <AccordionTrigger className="px-6 text-black hover:text-primary hover:no-underline">
                                     <span>{`${index + 1}. ${faq.question}`}</span>
                                     </AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0 text-base text-muted-foreground">
+                                    <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
                                     {faq.answer}
                                     </AccordionContent>
                                 </AccordionItem>
