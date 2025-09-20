@@ -70,26 +70,28 @@ export const OrganizationHeader = () => {
         <div className="hidden md:flex items-center gap-2 lg:gap-4">
             <NotificationPopover />
             {user?.roleType !== 'client' && (
-                <Link href={`/organization/${organizationId}/teams`}>
-                    <Button className={cn(
-                        "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
-                        isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
-                    )}>
-                        <TeamIcon className="mr-2 h-6 w-6"/>
-                        <span>{teamsButtonText}</span>
-                    </Button>
-                </Link>
+                <>
+                    <Link href={`/organization/${organizationId}/teams`}>
+                        <Button className={cn(
+                            "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
+                            isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                        )}>
+                            <TeamIcon className="mr-2 h-6 w-6"/>
+                            <span>{teamsButtonText}</span>
+                        </Button>
+                    </Link>
+                    <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
+                        <Avatar className="h-[54px] w-[54px]">
+                            <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                            <AvatarFallback>{userInitials}</AvatarFallback>
+                        </Avatar>
+                        <div className="hidden lg:block">
+                            <p className="text-base lg:text-lg font-medium">{userName}</p>
+                            <p className="text-sm lg:text-base text-grey-2">{userTeam}</p>
+                        </div>
+                    </Link>
+                </>
             )}
-            <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
-                <Avatar className="h-[54px] w-[54px]">
-                    <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                    <AvatarFallback>{userInitials}</AvatarFallback>
-                </Avatar>
-                <div className="hidden lg:block">
-                    <p className="text-base lg:text-lg font-medium">{userName}</p>
-                    <p className="text-sm lg:text-base text-grey-2">{userTeam}</p>
-                </div>
-            </Link>
         </div>
          <div className="md:hidden flex items-center gap-2">
             <NotificationPopover />
@@ -104,27 +106,29 @@ export const OrganizationHeader = () => {
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-col gap-4 pt-8">
-                        <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
-                            <Avatar className="h-[54px] w-[54px]">
-                                <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                                <AvatarFallback>{userInitials}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <p className="text-base font-medium">{userName}</p>
-                                <p className="text-sm text-grey-2">{userTeam}</p>
-                            </div>
-                        </Link>
-                        <Separator />
                         {user?.roleType !== 'client' && (
-                            <Link href={`/organization/${organizationId}/teams`} onClick={() => setIsSheetOpen(false)}>
-                            <Button className={cn(
-                                "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                                isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
-                            )}>
-                                <TeamIcon className="mr-2 h-6 w-6"/>
-                                <span>{teamsButtonText}</span>
-                            </Button>
-                            </Link>
+                            <>
+                                <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
+                                    <Avatar className="h-[54px] w-[54px]">
+                                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                                        <AvatarFallback>{userInitials}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <p className="text-base font-medium">{userName}</p>
+                                        <p className="text-sm text-grey-2">{userTeam}</p>
+                                    </div>
+                                </Link>
+                                <Separator />
+                                <Link href={`/organization/${organizationId}/teams`} onClick={() => setIsSheetOpen(false)}>
+                                <Button className={cn(
+                                    "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
+                                    isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                                )}>
+                                    <TeamIcon className="mr-2 h-6 w-6"/>
+                                    <span>{teamsButtonText}</span>
+                                </Button>
+                                </Link>
+                            </>
                         )}
                     </div>
                 </SheetContent>
