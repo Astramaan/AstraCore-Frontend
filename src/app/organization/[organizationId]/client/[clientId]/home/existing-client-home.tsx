@@ -180,7 +180,7 @@ export default function ExistingClientHomePage() {
                     </div>
                 </div>
 
-                <aside className="w-full md:w-auto space-y-8 flex flex-col items-center">
+                <aside className="w-full md:w-auto space-y-6 flex flex-col items-center">
                     <PaymentStatus />
                     <ChatCard />
                     <SitePhotos />
@@ -190,5 +190,3 @@ export default function ExistingClientHomePage() {
     </div>
   );
 }
-
-    
