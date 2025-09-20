@@ -105,18 +105,18 @@ export default function ExistingClientHomePage() {
 
   return (
     <div className="bg-slate-50 min-h-screen">
-        <main className="p-4 md:p-8">
+        <main className="md:p-8">
              {/* Header section */}
             <div className="relative mb-8">
                 <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px]" data-ai-hint="house project"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px]"></div>
                 
                 <div className="absolute bottom-8 left-8 flex items-end gap-6 text-white">
-                    <div className="relative w-24 h-24">
+                     <div className="relative w-20 h-20 md:w-24 md:h-24">
                         <svg className="w-full h-full" viewBox="0 0 100 100">
                             <circle className="text-slate-50/20" strokeWidth="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
                             <circle className="text-cyan-500" strokeWidth="10" strokeDasharray="282.6" strokeDashoffset={282.6 - (project.progress / 100) * 282.6} strokeLinecap="round" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" transform="rotate(-90 50 50)" />
-                            <text x="50" y="50" textAnchor="middle" dy=".3em" fill="white" className="text-cyan-500 text-2xl font-semibold">{project.daysLeft}</text>
+                            <text x="50" y="50" textAnchor="middle" dy=".3em" fill="white" className="text-xl md:text-2xl font-semibold">{project.daysLeft}</text>
                         </svg>
                     </div>
                     <div>
@@ -126,7 +126,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <div className="flex flex-col-reverse md:flex-row gap-8">
+            <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="px-4 pb-24 flex-1">
                     <div className="relative py-4">
