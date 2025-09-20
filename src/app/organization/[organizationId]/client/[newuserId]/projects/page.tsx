@@ -1,6 +1,6 @@
+
 'use client';
 
-import { HabiLogo } from "@/components/habi-logo";
 import { ClientBottomNav } from "@/components/client-bottom-nav";
 import Image from "next/image";
 import { Youtube } from "lucide-react";
@@ -16,10 +16,10 @@ const completedProjects = [
         orientation: "West",
         videoThumbnail: "https://picsum.photos/seed/project1/600/400",
         images: [
-            "https://picsum.photos/seed/p1i1/200/200",
-            "https://picsum.photos/seed/p1i2/200/200",
-            "https://picsum.photos/seed/p1i3/200/200",
-            "https://picsum.photos/seed/p1i4/200/200",
+            "https://picsum.photos/seed/p1i1/100/100",
+            "https://picsum.photos/seed/p1i2/100/100",
+            "https://picsum.photos/seed/p1i3/100/100",
+            "https://picsum.photos/seed/p1i4/100/100",
         ],
         testimonial: "habi has satisfied all my requirements and has done a very beautiful and quality construction. Their architects visited the site and made a convenient plan despite difficulties due to COVID 19. Overall we are very happy with the construction of our house."
     },
@@ -31,10 +31,10 @@ const completedProjects = [
         orientation: "West",
         videoThumbnail: "https://picsum.photos/seed/project2/600/400",
         images: [
-            "https://picsum.photos/seed/p2i1/200/200",
-            "https://picsum.photos/seed/p2i2/200/200",
-            "https://picsum.photos/seed/p2i3/200/200",
-            "https://picsum.photos/seed/p2i4/200/200",
+            "https://picsum.photos/seed/p2i1/100/100",
+            "https://picsum.photos/seed/p2i2/100/100",
+            "https://picsum.photos/seed/p2i3/100/100",
+            "https://picsum.photos/seed/p2i4/100/100",
         ],
         testimonial: "habi has satisfied all my requirements and has done a very beautiful and quality construction. Their architects visited the site and made a convenient plan despite difficulties due to COVID 19. Overall we are very happy with the construction of our house."
     }
@@ -49,10 +49,10 @@ const ongoingProjects = [
         orientation: "West",
         mainImage: "https://picsum.photos/seed/project3/600/400",
         images: [
-            "https://picsum.photos/seed/p3i1/200/200",
-            "https://picsum.photos/seed/p3i2/200/200",
-            "https://picsum.photos/seed/p3i3/200/200",
-            "https://picsum.photos/seed/p3i4/200/200",
+            "https://picsum.photos/seed/p3i1/100/100",
+            "https://picsum.photos/seed/p3i2/100/100",
+            "https://picsum.photos/seed/p3i3/100/100",
+            "https://picsum.photos/seed/p3i4/100/100",
         ]
     },
      {
@@ -63,10 +63,10 @@ const ongoingProjects = [
         orientation: "West",
         mainImage: "https://picsum.photos/seed/project4/600/400",
         images: [
-            "https://picsum.photos/seed/p4i1/200/200",
-            "https://picsum.photos/seed/p4i2/200/200",
-            "https://picsum.photos/seed/p4i3/200/200",
-            "https://picsum.photos/seed/p4i4/200/200",
+            "https://picsum.photos/seed/p4i1/100/100",
+            "https://picsum.photos/seed/p4i2/100/100",
+            "https://picsum.photos/seed/p4i3/100/100",
+            "https://picsum.photos/seed/p4i4/100/100",
         ]
     }
 ];
@@ -98,7 +98,7 @@ const ProjectCard = ({ project, isCompleted }: { project: any, isCompleted: bool
         <div className="grid grid-cols-4 gap-4">
             {project.images.map((img: string, i: number) => (
                 <div key={i} className="relative aspect-square">
-                    <Image src={img} alt={`Project image ${i+1}`} width={200} height={200} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house interior"/>
+                    <Image src={img} alt={`Project image ${i+1}`} width={100} height={100} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house interior"/>
                 </div>
             ))}
         </div>
@@ -132,7 +132,7 @@ export default function ProjectsPage() {
                 </div>
 
             </main>
-            
+            <ClientBottomNav />
         </div>
     )
 }
