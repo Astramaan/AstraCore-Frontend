@@ -7,6 +7,8 @@ import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/context/user-context';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative">
@@ -83,6 +85,7 @@ const SitePhotos = () => (
 
 
 export default function ExistingClientHomePage() {
+  const { user } = useUser();
   const project = {
     name: 'Rabeek',
     pm: 'Yaswanth',
@@ -107,17 +110,42 @@ export default function ExistingClientHomePage() {
     <div className="bg-slate-50 min-h-screen">
         <main className="md:p-8">
             {/* Header section */}
+            <header className="p-4 md:hidden">
+              <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                      <Avatar className="w-14 h-14">
+                          <AvatarImage src={user?.avatar || "https://placehold.co/55x55"} data-ai-hint="person portrait" />
+                          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                          <p className="font-semibold text-lg">{user?.name}</p>
+                          <p className="text-sm text-muted-foreground">CLIENT ID: {project.id}</p>
+                      </div>
+                  </div>
+                  <div className="w-44 h-6 bg-slate-50/25 rounded-[20px] border border-slate-50 backdrop-blur-[2px] flex items-center justify-center">
+                       <p className="text-xs text-white">Soil Testing is Underway...</p>
+                  </div>
+              </div>
+            </header>
+            
             <div className="relative mb-8">
                 <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
                 
                 <div className="absolute bottom-8 left-4 md:left-8 flex items-end gap-4 md:gap-6 text-white">
-                     <div className="relative w-20 h-20 md:w-24 md:h-24">
-                        <svg className="w-full h-full" viewBox="0 0 100 100">
-                            <circle className="text-slate-50/20" strokeWidth="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" />
-                            <circle className="text-cyan-500" strokeWidth="10" strokeDasharray="282.6" strokeDashoffset={282.6 - (project.progress / 100) * 282.6} strokeLinecap="round" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" transform="rotate(-90 50 50)" />
-                            <text x="50" y="50" textAnchor="middle" dy=".3em" fill="white" className="text-xl md:text-2xl font-semibold">{project.daysLeft}</text>
+                    <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
+                        <svg className="w-full h-full" viewBox="0 0 100 50">
+                            <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
+                            <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
+                                style={{
+                                    strokeDasharray: 141.3,
+                                    strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
+                                }}
+                            />
                         </svg>
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                            {project.daysLeft}
+                        </div>
                     </div>
                     <div>
                         <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>

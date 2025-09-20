@@ -11,6 +11,8 @@ import { InPersonConsultationDialog } from "@/components/in-person-consultation-
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { NewUserHeader } from "@/components/new-user-header";
+import { NewUserBottomNav } from "@/components/new-user-bottom-nav";
 
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
@@ -149,6 +151,11 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
     return (
         <div className="bg-zinc-100 min-h-screen">
+             <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
+               <div className="max-w-[1440px] mx-auto p-4">
+                 <NewUserHeader />
+               </div>
+            </header>
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8 md:p-8">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">
@@ -254,6 +261,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     </Card>
                 </div>
             </main>
+             <NewUserBottomNav />
             {isClient && <InPersonConsultationDialog 
                 isOpen={isConsultationDialogOpen} 
                 onOpenChange={setIsConsultationDialogOpen}
@@ -263,3 +271,4 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
