@@ -24,7 +24,9 @@ function OrganizationHomePageContent() {
             router.push('/');
         } else if (!loading && user) {
             console.log('User object for routing:', user);
-            if (user.roleType === 'client') {
+            if (user.team === 'New User') {
+                router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
+            } else if (user.roleType === 'client') {
                 router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
             }
         }
