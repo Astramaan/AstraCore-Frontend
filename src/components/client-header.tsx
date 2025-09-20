@@ -1,8 +1,7 @@
 
-
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname, useParams } from 'next/navigation';
 import { HabiLogo } from '@/components/habi-logo';
 import { useUser } from '@/context/user-context';
@@ -13,26 +12,29 @@ import { Button } from './ui/button';
 export const ClientHeader = () => {
     const pathname = usePathname();
     const { user } = useUser();
+    const [pageTitle, setPageTitle] = useState('');
     
     const userName = user?.name || 'User';
     const userInitials = userName.split(' ').map(n => n[0]).join('');
 
-    let pageTitle = '';
-    
-    const isNewUserHome = user?.team === 'New User' && pathname.includes('/home');
-    const isClientProjectHome = user?.team !== 'New User' && pathname.includes('/home');
+    useEffect(() => {
+        if (user) {
+            const isNewUserHome = user.team === 'New User' && pathname.includes('/home');
+            const isClientProjectHome = user.team !== 'New User' && pathname.includes('/home');
 
-    if (isNewUserHome) {
-        pageTitle = 'Book your free consultation';
-    } else if (isClientProjectHome) {
-        pageTitle = ''; // No title for existing client's project home
-    } else if (pathname.includes('/packages')) {
-        pageTitle = 'Packages';
-    } else if (pathname.includes('/projects')) {
-        pageTitle = 'Projects';
-    } else if (pathname.includes('/profile')) {
-        pageTitle = 'Profile';
-    }
+            if (isNewUserHome) {
+                setPageTitle('Book your free consultation');
+            } else if (isClientProjectHome) {
+                setPageTitle(''); // No title for existing client's project home
+            } else if (pathname.includes('/packages')) {
+                setPageTitle('Packages');
+            } else if (pathname.includes('/projects')) {
+                setPageTitle('Projects');
+            } else if (pathname.includes('/profile')) {
+                setPageTitle('Profile');
+            }
+        }
+    }, [user, pathname]);
 
 
     return (
@@ -42,7 +44,7 @@ export const ClientHeader = () => {
                 {pageTitle && (
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                        <h2 className="text-xl md:text-2xl lg:text-[40px] lg:leading-[48px] font-semibold text-zinc-900">
+                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
                            {pageTitle}
                         </h2>
                     </>
