@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
@@ -13,12 +13,7 @@ import { ClientHeader } from '@/components/client-header';
 
 const StageCard = ({ title, subtitle, date, status, progress, isFirst, isUpcoming }: { title: string, subtitle: string, date: string, status: string, progress: number, isFirst?: boolean, isUpcoming?: boolean }) => (
     <div className="pl-8 relative mt-4">
-        <div className={cn("absolute top-0 -left-1.5 w-3 h-3 rounded-full border-2 border-white", status === 'completed' ? 'bg-primary' : 'bg-gray-300')}></div>
-
-        {!isFirst && <p className={cn(
-            "text-sm font-normal mb-2 ml-10",
-            isUpcoming ? 'text-green-400' : 'text-cyan-500'
-        )}>{isUpcoming ? 'upcoming' : 'ongoing'}</p>}
+        {!isFirst && <div className="absolute top-0 -left-1.5 w-3 h-3 rounded-full border-2 border-white bg-primary"></div>}
 
         <Card className="rounded-tr-[20px] rounded-bl-[20px] rounded-br-[20px] border-grey-2 p-4">
             <div className="flex justify-between items-start">
@@ -87,6 +82,14 @@ const SitePhotos = () => (
 
 export default function ExistingClientHomePage() {
   const { user } = useUser();
+  const [currentDate, setCurrentDate] = useState('');
+  
+  useEffect(() => {
+      const today = new Date();
+      const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+      setCurrentDate(today.toLocaleDateString('en-GB', options));
+  }, []);
+
   const project = {
     name: 'Rabeek',
     pm: 'Yaswanth',
@@ -147,15 +150,12 @@ export default function ExistingClientHomePage() {
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="flex-1">
-                    <p className="text-lg font-semibold mb-2 ml-10">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                    <div className="relative py-4">
-                        <div className="absolute top-0 left-0 w-8 h-full">
-                             <div className="h-full w-0.5 bg-dashed-line absolute left-1/2 top-0 -translate-x-1/2" style={{backgroundImage: 'linear-gradient(to bottom, #A8A29E 50%, transparent 50%)', backgroundSize: '1px 8px'}}></div>
+                    <p className="text-lg font-semibold mb-2 ml-2 md:ml-0">{currentDate}</p>
+                    <div className="relative pb-4">
+                        <div className="absolute top-4 left-0 w-8 h-full">
+                             <div className="h-full w-0.5 bg-grey-1/50 absolute left-[-2px] top-0" ></div>
                         </div>
                         <div className="relative">
-                             <div className="absolute top-0 left-0 w-8 h-full">
-                                <div className="h-full w-px bg-gray-200 mx-auto"></div>
-                            </div>
                             <div className="space-y-8">
                                 {timeline.map((stage, index) => (
                                     <StageCard key={index} {...stage} isFirst={index === 0} />
