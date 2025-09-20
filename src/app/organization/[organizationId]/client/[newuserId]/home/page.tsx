@@ -4,7 +4,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 import { ChevronRight, GanttChartSquare, Award, Shield, DollarSign, Tv, Home, User, Settings, LogOut, ChevronLeft, Upload, Youtube, Trash2, X, Building, Laptop, MapPin } from 'lucide-react';
 import Link from "next/link";
@@ -186,8 +185,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             }} />
                         ) : (
                             <>
-                                <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none mb-4">Book Your Free Consultation</h1>
-                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center mt-2 p-10">
+                                <h1 className="text-center text-neutral-900 text-2xl font-semibold leading-none">Book Your Free Consultation</h1>
+                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-10">
                                     <h2 className="text-center text-black text-lg font-medium leading-tight mb-6">How would you like to connect?</h2>
                                     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                         <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
