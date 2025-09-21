@@ -8,10 +8,6 @@ import Image from "next/image";
 import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin } from 'lucide-react';
 import React, { useState, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center z-10">
@@ -117,12 +113,6 @@ export default function MeetUsPage({ params }: { params: { organizationId: strin
         setConsultationType(type);
         setIsConsultationDialogOpen(true);
     }
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("Submitting homeowner form");
-        // Here you would typically handle the form submission
-    };
     
     const handleBookingSuccess = (details: AppointmentDetails) => {
         setAppointment(details);
