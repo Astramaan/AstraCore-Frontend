@@ -26,7 +26,7 @@ export const ClientHeader = () => {
             } else if (pathname.includes('/packages')) {
                 setPageTitle('Packages');
             } else if (pathname.includes('/project')) {
-                setPageTitle('My-Project');
+                setPageTitle('My Project');
             } else if (pathname.includes('/profile')) {
                 setPageTitle('Profile');
             }
