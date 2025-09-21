@@ -41,8 +41,8 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
                 <div className="pt-2">
                     <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
-                        <span className="text-grey-1 text-xs">{stage.date}</span>
                         <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                        <span className="text-grey-1 text-xs">{stage.date}</span>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@ const ChatCard = () => (
 
 const SitePhotos = () => (
      <Card className="rounded-[50px] md:w-64">
-        <CardContent className="p-10 space-y-2">
+        <CardContent className="p-6 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
             <div className="grid grid-cols-2 gap-2">
                 <Image className="rounded-[10px]" src="https://picsum.photos/seed/site1/99/69" width={99} height={69} alt="Site photo 1" data-ai-hint="construction building" />
