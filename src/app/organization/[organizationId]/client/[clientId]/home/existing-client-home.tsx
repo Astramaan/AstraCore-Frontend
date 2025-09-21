@@ -160,7 +160,7 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="flex flex-col-reverse md:flex-row gap-8 p-10 pt-0">
+        <div className="flex flex-col md:flex-row gap-8 p-10">
             {/* Timeline */}
             <div className="flex-1">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
