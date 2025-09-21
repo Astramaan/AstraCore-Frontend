@@ -75,7 +75,7 @@ const ChatCard = () => (
 );
 
 const SitePhotos = () => (
-     <Card className="rounded-[50px] md:w-64">
+     <Card className="rounded-[50px] md:w-64 hidden md:block">
         <CardContent className="p-6 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
             <div className="grid grid-cols-2 gap-2">
