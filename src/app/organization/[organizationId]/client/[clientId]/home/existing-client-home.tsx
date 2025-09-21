@@ -149,8 +149,8 @@ export default function ExistingClientHomePage() {
                 </div>
 
                 <div className="hidden md:flex flex-col justify-end items-end absolute bottom-8 right-8 text-right text-white">
-                    <p className="text-base">Project Manager - {project.pm}</p>
-                    <p className="text-lg font-semibold">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                    <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
+                    <p className="text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 </div>
             </div>
 
