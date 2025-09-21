@@ -160,12 +160,12 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8 p-10">
+        <div className="md:grid md:grid-cols-3 gap-8 px-10">
             {/* Timeline */}
-            <div className="flex-1">
+            <div className="md:col-span-2">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} />
                         ))}
@@ -173,7 +173,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="w-full md:w-64 flex flex-col gap-4 shrink-0">
+            <aside className="space-y-4 shrink-0">
                 <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentCard />
                     <ChatCard />
