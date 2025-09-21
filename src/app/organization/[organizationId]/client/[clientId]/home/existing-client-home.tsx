@@ -159,7 +159,7 @@ export default function ExistingClientHomePage() {
                 <div className="flex-1">
                     <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                     <div className="relative pb-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {timeline.map((stage, index) => (
                                 <StageCard key={index} stage={stage} />
                             ))}
