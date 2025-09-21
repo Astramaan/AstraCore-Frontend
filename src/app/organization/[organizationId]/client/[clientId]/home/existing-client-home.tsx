@@ -161,10 +161,6 @@ export default function ExistingClientHomePage() {
                             <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
                         </div>
                     </div>
-                    <div className="text-right hidden md:block">
-                        <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
-                        <p className="text-base">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                    </div>
                 </div>
             </div>
         </div>
