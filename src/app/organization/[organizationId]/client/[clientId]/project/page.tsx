@@ -171,10 +171,10 @@ export default function ClientProjectDetailsPage() {
                                 <h3 className="text-base text-muted-foreground mb-2">{section.title}</h3>
                                 <div className="space-y-2">
                                     {section.files.map((file, fileIndex) => (
-                                        <>
-                                            <FileItem key={fileIndex} index={fileIndex} {...file} />
+                                        <React.Fragment key={`${file.name}-${fileIndex}`}>
+                                            <FileItem index={fileIndex} {...file} />
                                             {fileIndex < section.files.length - 1 && <Separator />}
-                                        </>
+                                        </React.Fragment>
                                     ))}
                                 </div>
                             </div>
