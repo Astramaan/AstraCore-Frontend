@@ -130,32 +130,33 @@ export default function ExistingClientHomePage() {
             <div className="relative h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
                 <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            </div>
-            
-            <div className="absolute bottom-8 left-4 md:left-16 flex items-end gap-4 md:gap-6 text-white">
-                <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
-                    <svg className="w-full h-full" viewBox="0 0 100 50">
-                        <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
-                        <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
-                            style={{
-                                strokeDasharray: 141.3,
-                                strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
-                            }}
-                        />
-                    </svg>
-                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
-                        {project.progress}%
+
+                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end text-white">
+                    <div className="flex items-end gap-4">
+                        <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
+                            <svg className="w-full h-full" viewBox="0 0 100 50">
+                                <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
+                                <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
+                                    style={{
+                                        strokeDasharray: 141.3,
+                                        strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
+                                    }}
+                                />
+                            </svg>
+                             <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                                {project.progress}%
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
+                            <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
+                        </div>
+                    </div>
+                    <div className="text-right hidden md:block">
+                        <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
+                        <p className="text-base">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                     </div>
                 </div>
-                <div>
-                    <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
-                    <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
-                </div>
-            </div>
-
-            <div className="absolute bottom-8 right-16 text-right text-white hidden md:block">
-                <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
-                <p className="text-base">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
             </div>
         </div>
 
