@@ -68,7 +68,10 @@ const ChatCard = () => (
 const SitePhotos = () => (
      <Card className="rounded-[50px] w-full">
         <CardContent className="p-6 space-y-4">
-            <p className="text-black text-base font-normal">Recent Site Photos</p>
+            <div className="flex justify-between items-center">
+                <p className="text-black text-base font-normal">Recent Site Photos</p>
+                <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto">view more</Button>
+            </div>
              <div className="grid grid-cols-4 gap-2">
                 <div className="relative w-full aspect-video">
                     <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site1/99/69" fill alt="Site photo 1" data-ai-hint="construction building" />
@@ -82,9 +85,6 @@ const SitePhotos = () => (
                 <div className="relative w-full aspect-video">
                     <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site4/99/69" fill alt="Site photo 4" data-ai-hint="architect blueprint" />
                 </div>
-            </div>
-            <div className="text-right">
-                <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto">view more</Button>
             </div>
         </CardContent>
     </Card>
@@ -183,7 +183,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 space-y-4 order-1 md:order-2">
+            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentCard />
                     <ChatCard />
