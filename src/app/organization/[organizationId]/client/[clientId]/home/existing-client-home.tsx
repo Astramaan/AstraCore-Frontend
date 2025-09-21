@@ -160,9 +160,9 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
+        <div className="md:grid md:grid-cols-5 gap-8 px-4 md:px-10">
             {/* Timeline */}
-            <div className="lg:col-span-2">
+            <div className="md:col-span-3">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -173,8 +173,8 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="space-y-4 shrink-0 mt-8 md:mt-0">
-                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
+            <aside className="md:col-span-2 space-y-4 mt-8 md:mt-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentCard />
                     <ChatCard />
                 </div>
@@ -184,3 +184,4 @@ export default function ExistingClientHomePage() {
     </main>
   );
 }
+
