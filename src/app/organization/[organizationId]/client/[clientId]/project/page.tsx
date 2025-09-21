@@ -11,6 +11,28 @@ import PdfIcon from '@/components/icons/pdf-icon';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { ProjectDetailsCard } from '@/components/project-details-card';
+
+const projectData = {
+    personalInfo: {
+        name: "Yash",
+        clientId: "YAS2024",
+        phone: "1234567890",
+        email: "yash69@gmail.com",
+        address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
+    },
+    projectInfo: {
+        cost: "1.5 cr",
+        duration: {
+            start: "25 May 2024",
+            end: "1 Dec 2024"
+        },
+        dimension: "1200 Sq. ft",
+        floors: "G+1",
+        status: "On going",
+        locationLink: "https://maps.google.com"
+    }
+};
 
 const fileSections = [
     {
@@ -118,13 +140,17 @@ export default function ClientProjectDetailsPage() {
     return (
         <div className="bg-background">
             <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8">
+                 <ProjectDetailsCard 
+                    personalInfo={projectData.personalInfo} 
+                    projectInfo={projectData.projectInfo}
+                />
                 <Card className="rounded-[50px] p-6 md:p-10">
                     <CardHeader className="p-0 mb-6">
-                        <CardTitle className="text-xl font-medium">My Project</CardTitle>
+                        <CardTitle className="text-xl font-medium">Design & Documents</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
-                         {fileSections.map((section, sectionIndex) => (
-                            <div key={section.title + sectionIndex} className="mb-6">
+                         {fileSections.map((section) => (
+                            <div key={section.title} className="mb-6">
                                 <h3 className="text-base text-muted-foreground mb-2">{section.title}</h3>
                                 <div className="space-y-2">
                                     {section.files.map((file, fileIndex) => (
