@@ -51,7 +51,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 px-4 gap-4">
+    <div className="flex items-center justify-between flex-1 bg-white rounded-full p-4 px-6 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -65,7 +65,7 @@ const PaymentStatus = () => (
 );
 
 const ChatCard = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
+    <div className="flex items-center justify-between flex-1 bg-white rounded-full p-4 gap-4">
         <div>
             <p className="text-black text-sm font-normal">Chat with our Executive</p>
             <p className="text-grey-1 text-xs">Quick Reply</p>
@@ -117,11 +117,6 @@ export default function ExistingClientHomePage() {
 
   return (
     <div>
-        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
-           <div className="max-w-[1440px] mx-auto p-4">
-             <ClientHeader />
-           </div>
-        </header>
         <main className="md:p-8">
             <div className="relative mb-8">
                 <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
@@ -168,7 +163,7 @@ export default function ExistingClientHomePage() {
                 </div>
 
                 <aside className="w-full md:w-auto space-y-6 flex flex-col items-center">
-                    <div className="flex flex-row md:flex-col gap-2 md:space-y-2">
+                    <div className="flex flex-row md:flex-col gap-2 w-full">
                         <PaymentStatus />
                         <ChatCard />
                     </div>
