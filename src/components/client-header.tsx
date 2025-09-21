@@ -29,6 +29,8 @@ export const ClientHeader = () => {
                 setPageTitle('My Project');
             } else if (pathname.includes('/profile')) {
                 setPageTitle('Profile');
+            } else if (pathname.includes('/meet-us')) {
+                setPageTitle('Meet Us');
             }
         }
     }, [user, pathname]);
