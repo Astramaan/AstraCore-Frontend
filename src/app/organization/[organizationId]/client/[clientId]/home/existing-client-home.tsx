@@ -16,7 +16,7 @@ interface TimelineStage {
     title: string;
     subtitle: string;
     date: string;
-    status: string;
+    status: 'On Going' | 'Yet To Begin';
     progress: number;
     category: string;
     image: string;
@@ -36,7 +36,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
             <div className="flex-1 space-y-1 w-full">
                  <div className="flex justify-between items-start">
                     <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                    <Badge className={cn('capitalize', stage.status === 'On going' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600')}>{stage.status}</Badge>
+                    <Badge className={cn('capitalize', stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600')}>{stage.status}</Badge>
                 </div>
                 <p className="text-sm">{stage.subtitle}</p>
                 <div className="pt-2">
@@ -52,17 +52,21 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
 );
 
 const ChatCard = () => (
-    <div className="flex items-center justify-between flex-1 bg-white rounded-full p-4 gap-4">
-        <div>
-            <p className="text-black text-sm font-normal">Chat with our Executive</p>
-            <p className="text-grey-1 text-xs">Quick Reply</p>
-        </div>
-        <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
-    </div>
+    <Card className="rounded-full">
+        <CardContent className="p-4">
+            <div className="flex items-center justify-between gap-4">
+                <div>
+                    <p className="text-black text-sm font-normal">Chat with our Executive</p>
+                    <p className="text-grey-1 text-xs">Quick Reply</p>
+                </div>
+                <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
+            </div>
+        </CardContent>
+    </Card>
 );
 
 const SitePhotos = () => (
-     <Card className="rounded-[50px] md:w-64 hidden md:block">
+     <Card className="rounded-[50px] w-full">
         <CardContent className="p-6 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
             <div className="grid grid-cols-2 gap-2">
@@ -78,6 +82,24 @@ const SitePhotos = () => (
     </Card>
 );
 
+const PaymentCard = () => (
+    <Card className="rounded-full">
+        <CardContent className="p-4">
+            <div className="flex items-center justify-between gap-4">
+                <div className="space-y-1">
+                    <p className="text-black text-sm font-normal">Payment</p>
+                    <p className="text-grey-1 text-xs">Due on 05 June</p>
+                </div>
+                <div className="flex gap-1">
+                    {[...Array(7)].map((_, i) => (
+                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
+                    ))}
+                </div>
+            </div>
+        </CardContent>
+    </Card>
+)
+
 
 export default function ExistingClientHomePage() {
   const { user } = useUser();
@@ -88,24 +110,24 @@ export default function ExistingClientHomePage() {
     id: 'RABE0001',
     progress: 70,
     daysLeft: 180,
-    coverImage: 'https://picsum.photos/seed/p-cover/753/504',
+    coverImage: 'https://picsum.photos/seed/p-cover/1440/320',
     profileImage: 'https://placehold.co/60x60'
   };
 
   const timeline: TimelineStage[] = [
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On going", progress: 70, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100" },
-    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
-    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
-    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
-    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet to begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
+    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100" },
+    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]
   
 
   return (
     <main>
         <div className="relative mb-8 md:p-8">
-            <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
+            <Image src={project.coverImage} width={1440} height={320} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="narrow street old buildings"/>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
             
             <div className="absolute bottom-8 left-4 md:left-16 flex items-end gap-4 md:gap-6 text-white">
@@ -129,16 +151,16 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <div className="hidden md:flex flex-col justify-end items-end absolute bottom-8 right-16 text-right text-white">
+            <div className="absolute bottom-8 right-16 text-right text-white hidden md:block">
                 <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
-                <p className="text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="text-base">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
             </div>
         </div>
 
-        <div className="flex flex-col-reverse md:flex-row gap-8">
+        <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-8 pt-0">
             {/* Timeline */}
-            <div className="flex-1 md:p-0">
-                <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            <div className="flex-1">
+                <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
@@ -148,9 +170,9 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="w-full md:w-auto flex flex-col items-center md:p-0">
-                <div className="flex flex-col md:flex-row gap-2 w-full">
-                    <PaymentsDialog />
+            <aside className="w-full md:w-64 flex flex-col gap-4 shrink-0">
+                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
+                    <PaymentCard />
                     <ChatCard />
                 </div>
                 <SitePhotos />
