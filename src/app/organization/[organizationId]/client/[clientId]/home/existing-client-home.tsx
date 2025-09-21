@@ -169,7 +169,6 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:p-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
-                <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
