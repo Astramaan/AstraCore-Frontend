@@ -155,7 +155,7 @@ export async function addProject(projectData: any) {
       return { success: false, message: "Unauthorized: Missing user data" };
     }
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -386,7 +386,7 @@ export async function createMeeting(meetingData: any) {
       return { success: false, message: "Unauthorized: Missing user data" };
     }
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/meetings`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
