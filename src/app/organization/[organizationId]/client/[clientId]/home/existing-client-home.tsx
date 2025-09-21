@@ -86,10 +86,7 @@ const PaymentCard = () => (
     <Card className="rounded-full">
         <CardContent className="p-4">
             <div className="flex items-center justify-between gap-4">
-                <div className="space-y-1">
-                    <p className="text-black text-sm font-normal">Payment</p>
-                    <p className="text-grey-1 text-xs">Due on 05 June</p>
-                </div>
+                <p className="text-black text-sm font-normal">Payment - <span className="text-grey-1 text-xs">Due on 05 June</span></p>
                 <div className="flex gap-1">
                     {[...Array(7)].map((_, i) => (
                         <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
@@ -126,8 +123,8 @@ export default function ExistingClientHomePage() {
 
   return (
     <main>
-        <div className="relative mb-8">
-            <div className="relative h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
+        <div className="relative mb-8 md:p-8">
+            <div className="relative h-[300px] md:h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
                 <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
@@ -160,9 +157,9 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="md:grid md:grid-cols-5 lg:grid-cols-5 gap-8 px-4 md:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4">
+            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -173,7 +170,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-1 flex flex-col gap-4 mt-8 md:mt-0">
+            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentCard />
                     <ChatCard />
