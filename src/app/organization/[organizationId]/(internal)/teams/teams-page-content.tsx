@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -172,7 +171,7 @@ const RoleCardSkeleton = () => (
 );
 
 
-export default function TeamsPage() {
+export default function TeamsPageContent() {
     const params = useParams();
     const organizationId = params.organizationId as string;
     const router = useRouter();
@@ -268,3 +267,4 @@ export default function TeamsPage() {
         </div>
     );
 }
+
