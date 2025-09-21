@@ -102,7 +102,7 @@ const projectData = {
 export default function ClientProjectDetailsPage() {
     return (
         <div className="bg-background">
-            <main className="max-w-[1240px] mx-auto px-4 md:p-8 space-y-8">
+            <main className="max-w-[1240px] mx-auto md:p-8 space-y-8">
                 <ProjectDetailsCard 
                     projectInfo={projectData.projectInfo}
                 />
