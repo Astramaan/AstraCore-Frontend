@@ -94,7 +94,7 @@ const PaymentCard = () => (
     <Card className="rounded-full">
         <CardContent className="p-4">
             <div className="flex items-center justify-between gap-4">
-                <div>
+                 <div>
                     <p className="text-black text-sm font-normal">Payment</p>
                     <p className="text-grey-1 text-xs">Due on 05 June</p>
                 </div>
@@ -157,7 +157,7 @@ export default function ExistingClientHomePage() {
                             </div>
                         </div>
                         <div>
-                            <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
+                            <p className="text-white text-base md:text-lg">Project Manager: {project.pm}</p>
                             <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
                         </div>
                     </div>
