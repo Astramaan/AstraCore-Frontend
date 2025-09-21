@@ -12,15 +12,6 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-const projectData = {
-    name: 'Yash',
-    cost: '1.5 Crores',
-    duration: '25 May - 17 Nov 2024',
-    dimension: '1200 Sq. ft',
-    floors: 'G+2',
-    pincode: '560109',
-};
-
 const fileSections = [
     {
         title: 'Initial',
@@ -127,47 +118,13 @@ export default function ClientProjectDetailsPage() {
     return (
         <div className="bg-background">
             <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8">
-                <Card className="rounded-[50px] overflow-hidden">
-                    <CardContent className="p-6 md:p-10">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-center">
-                            <div className="flex items-center gap-4 lg:col-span-1">
-                                <p className="text-base font-medium text-muted-foreground">Name</p>
-                                <p className="text-lg font-semibold">{projectData.name}</p>
-                            </div>
-                            <div className="flex items-center gap-4 lg:col-span-1">
-                                <p className="text-base font-medium text-muted-foreground">Project Cost</p>
-                                <p className="text-lg font-semibold">{projectData.cost}</p>
-                            </div>
-                            <div className="flex items-center gap-4 lg:col-span-2">
-                                <p className="text-base font-medium text-muted-foreground">Duration</p>
-                                <p className="text-lg font-semibold">{projectData.duration}</p>
-                            </div>
-                        </div>
-                        <Separator className="my-6" />
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center">
-                             <div className="flex items-center gap-4">
-                                <p className="text-base font-medium text-muted-foreground">Pin code</p>
-                                <p className="text-lg font-semibold">{projectData.pincode}</p>
-                            </div>
-                             <div className="flex items-center gap-4">
-                                <p className="text-base font-medium text-muted-foreground">Site Dimension</p>
-                                <p className="text-lg font-semibold">{projectData.dimension}</p>
-                            </div>
-                             <div className="flex items-center gap-4">
-                                <p className="text-base font-medium text-muted-foreground">Floors</p>
-                                <p className="text-lg font-semibold">{projectData.floors}</p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
                 <Card className="rounded-[50px] p-6 md:p-10">
                     <CardHeader className="p-0 mb-6">
-                        <CardTitle className="text-xl font-medium">Design & Documents</CardTitle>
+                        <CardTitle className="text-xl font-medium">My Project</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                          {fileSections.map((section, sectionIndex) => (
-                            <div key={sectionIndex} className="mb-6">
+                            <div key={section.title + sectionIndex} className="mb-6">
                                 <h3 className="text-base text-muted-foreground mb-2">{section.title}</h3>
                                 <div className="space-y-2">
                                     {section.files.map((file, fileIndex) => (
@@ -213,4 +170,3 @@ export default function ClientProjectDetailsPage() {
         </div>
     );
 }
-
