@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -55,9 +56,8 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
     const isPaymentDue = stage.type === 'payment' && stage.status === 'pending';
 
     return (
-        <div className={cn(
-            "rounded-[25px] border p-4",
-            stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200',
+        <Card className={cn(
+            "rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow",
             isPaymentDue && 'bg-yellow-50'
         )}>
             <div className="flex items-center gap-4">
@@ -97,7 +97,7 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                     </div>
                 </div>
             )}
-        </div>
+        </Card>
     );
 };
 
