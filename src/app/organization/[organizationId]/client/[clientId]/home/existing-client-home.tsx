@@ -67,7 +67,7 @@ const ChatCard = () => (
 
 const SitePhotos = () => (
      <Card className="rounded-[50px] w-full">
-        <CardContent className="p-6 space-y-4">
+        <CardContent className="p-6 md:pb-10 space-y-4">
             <div className="flex justify-between items-center">
                 <p className="text-black text-base font-normal">Recent Site Photos</p>
                 <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto">view more</Button>
@@ -194,3 +194,5 @@ export default function ExistingClientHomePage() {
     </main>
   );
 }
+
+    
