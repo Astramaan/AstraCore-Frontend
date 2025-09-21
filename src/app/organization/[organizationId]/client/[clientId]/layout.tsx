@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -8,7 +9,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm md:hidden">
+        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
            <div className="max-w-[1440px] mx-auto p-4">
              <ClientHeader />
            </div>
