@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
 import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
+import { PaymentsDialog } from '@/components/payments-dialog';
 
 interface TimelineStage {
     title: string;
@@ -48,20 +49,6 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
             </div>
         </div>
     </Card>
-);
-
-const PaymentStatus = () => (
-    <div className="flex items-center justify-between flex-1 bg-white rounded-full p-4 px-6 gap-4">
-        <div className="space-y-1">
-            <p className="text-black text-sm font-normal">Payment</p>
-            <p className="text-grey-1 text-xs">Due on 05 June</p>
-        </div>
-        <div className="flex gap-1">
-            {[...Array(7)].map((_, i) => (
-                <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
-            ))}
-        </div>
-    </div>
 );
 
 const ChatCard = () => (
@@ -116,12 +103,12 @@ export default function ExistingClientHomePage() {
   
 
   return (
-    <main className="md:p-8">
-        <div className="relative mb-8">
+    <main>
+        <div className="relative mb-8 md:p-8">
             <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
             
-            <div className="absolute bottom-8 left-4 md:left-8 flex items-end gap-4 md:gap-6 text-white">
+            <div className="absolute bottom-8 left-4 md:left-16 flex items-end gap-4 md:gap-6 text-white">
                 <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
                     <svg className="w-full h-full" viewBox="0 0 100 50">
                         <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
@@ -142,18 +129,18 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <div className="hidden md:flex flex-col justify-end items-end absolute bottom-8 right-8 text-right text-white">
+            <div className="hidden md:flex flex-col justify-end items-end absolute bottom-8 right-16 text-right text-white">
                 <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
                 <p className="text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
             </div>
         </div>
 
-        <div className="flex flex-col-reverse md:flex-row gap-8 md:p-0">
+        <div className="flex flex-col-reverse md:flex-row gap-8">
             {/* Timeline */}
             <div className="flex-1 p-4 md:p-0">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} />
                         ))}
@@ -162,8 +149,8 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="w-full md:w-auto flex flex-col items-center p-4 md:p-0">
-                <div className="flex flex-col md:flex-col gap-2 w-full">
-                    <PaymentStatus />
+                <div className="flex flex-col md:flex-row gap-2 w-full">
+                    <PaymentsDialog />
                     <ChatCard />
                 </div>
                 <SitePhotos />
