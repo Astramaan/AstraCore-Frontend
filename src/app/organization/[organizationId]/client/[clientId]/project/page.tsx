@@ -7,19 +7,6 @@ import { ProjectFilesCard } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectMaterialsCard } from '@/components/project-materials-card';
 
-const projectData = {
-    projectInfo: {
-        cost: "1.5 cr",
-        duration: {
-            start: "25 May 2024",
-            end: "1 Dec 2024"
-        },
-        dimension: "1200 Sq. ft",
-        floors: "G+1",
-        status: "On going",
-        locationLink: "https://maps.google.com"
-    }
-};
 
 const fileSections = [
     {
@@ -91,12 +78,31 @@ const materials = [
     }
 ];
 
+const projectData = {
+    personalInfo: {
+        name: "Yash",
+        clientId: "YAS2024",
+        phone: "1234567890",
+        email: "yash69@gmail.com",
+        address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
+    },
+    projectInfo: {
+        cost: "1.5 cr",
+        duration: {
+            start: "25 May 2024",
+            end: "1 Dec 2024"
+        },
+        dimension: "1200 Sq. ft",
+        floors: "G+1",
+        status: "On going",
+        locationLink: "https://maps.google.com"
+    }
+};
 
 export default function ClientProjectDetailsPage() {
     return (
         <div className="bg-background">
-            <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8">
-                <h1 className="text-2xl font-bold hidden">My Project</h1>
+            <main className="max-w-[1240px] mx-auto px-4 md:p-8 space-y-8">
                 <ProjectDetailsCard 
                     projectInfo={projectData.projectInfo}
                 />
