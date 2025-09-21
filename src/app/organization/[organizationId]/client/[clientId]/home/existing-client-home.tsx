@@ -180,7 +180,7 @@ export default function ExistingClientHomePage() {
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
-                    <PaymentCard />
+                    <PaymentsDialog />
                     <ChatCard />
                 </div>
                 <SitePhotos />

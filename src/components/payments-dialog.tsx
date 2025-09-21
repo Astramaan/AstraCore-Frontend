@@ -25,7 +25,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import { useUser } from '@/context/user-context';
 
 const allStages: CustomStage[] = [
@@ -57,6 +57,23 @@ const PaymentsTimeline = () => {
     return <ProjectTimelineStages stages={paymentStages} />;
 }
 
+const PaymentCard = () => (
+    <Card className="rounded-full">
+        <CardContent className="p-4">
+            <div className="flex items-center justify-between gap-4">
+                 <div>
+                    <p className="text-black text-sm font-normal">Payment</p>
+                    <p className="text-grey-1 text-xs">Due on 05 June</p>
+                </div>
+                <div className="flex gap-1">
+                    {[...Array(7)].map((_, i) => (
+                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
+                    ))}
+                </div>
+            </div>
+        </CardContent>
+    </Card>
+);
 
 export const PaymentsDialog = () => {
     const isMobile = useIsMobile();
@@ -72,16 +89,8 @@ export const PaymentsDialog = () => {
     return (
         <DialogOrSheet>
           <DialogOrSheetTrigger asChild>
-            <div className="flex items-center justify-between flex-1 bg-white rounded-full p-4 px-6 gap-4 cursor-pointer">
-                <div className="space-y-1">
-                    <p className="text-black text-sm font-normal">Payment</p>
-                    <p className="text-grey-1 text-xs">Due on 05 June</p>
-                </div>
-                <div className="flex gap-1">
-                    {[...Array(7)].map((_, i) => (
-                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-grey-2")}></div>
-                    ))}
-                </div>
+            <div className="cursor-pointer">
+              <PaymentCard />
             </div>
           </DialogOrSheetTrigger>
           <DialogOrSheetContent className={cn(
