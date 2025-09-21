@@ -25,7 +25,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Separator } from './ui/separator';
-import { useIsMobile } from '@/hooks/use-is-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useUser } from '@/context/user-context';
 
 const allStages: CustomStage[] = [
@@ -75,7 +75,7 @@ const PaymentCard = () => (
     </Card>
 );
 
-export const PaymentsDialog = () => {
+export const PaymentsDialog = ({ children }: { children?: React.ReactNode }) => {
     const isMobile = useIsMobile();
     const { user } = useUser();
 
@@ -89,9 +89,11 @@ export const PaymentsDialog = () => {
     return (
         <DialogOrSheet>
           <DialogOrSheetTrigger asChild>
-            <div className="cursor-pointer">
-              <PaymentCard />
-            </div>
+            {children || (
+              <div className="cursor-pointer">
+                <PaymentCard />
+              </div>
+            )}
           </DialogOrSheetTrigger>
           <DialogOrSheetContent className={cn(
               "p-0 flex flex-col bg-white",
