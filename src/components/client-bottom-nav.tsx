@@ -17,7 +17,7 @@ export const ClientBottomNav = () => {
     const navItems = [
         { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
         { href: `/organization/${organizationId}/client/${userId}/project`, icon: GanttChartSquare, label: "My Project" },
-        { href: "#", icon: Video, label: "Live" },
+        { href: `/organization/${organizationId}/client/${userId}/live`, icon: Video, label: "Live" },
         { href: `/organization/${organizationId}/client/${userId}/meet-us`, icon: Users, label: "Meet us" },
     ];
 

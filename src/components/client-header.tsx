@@ -31,6 +31,8 @@ export const ClientHeader = () => {
                 setPageTitle('Profile');
             } else if (pathname.includes('/meet-us')) {
                 setPageTitle('Meet Us');
+            } else if (pathname.includes('/live')) {
+                setPageTitle('Live');
             }
         }
     }, [user, pathname]);
@@ -42,7 +44,7 @@ export const ClientHeader = () => {
                 <HabiLogo />
                 {pageTitle && (
                     <>
-                        <div className="w-px h-8 bg-stone-300" />
+                        <div className="w-px h-8 bg-stone-300 md:block" />
                         <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
                            {pageTitle}
                         </h2>
