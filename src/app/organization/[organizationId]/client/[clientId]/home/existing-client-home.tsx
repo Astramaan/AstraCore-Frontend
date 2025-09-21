@@ -168,7 +168,7 @@ export default function ExistingClientHomePage() {
                 </div>
 
                 <aside className="w-full md:w-auto space-y-6 flex flex-col items-center">
-                    <div className="space-y-2">
+                    <div className="flex flex-row md:flex-col gap-2 md:space-y-2">
                         <PaymentStatus />
                         <ChatCard />
                     </div>
