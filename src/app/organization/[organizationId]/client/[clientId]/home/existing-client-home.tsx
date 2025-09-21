@@ -41,8 +41,8 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
                 <div className="pt-2">
                     <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
+                        <span className="text-grey-1 text-xs">{stage.date}</span>
                         <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                         <span className="text-grey-1 text-xs">{stage.date}</span>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white rounded-2xl p-4 gap-4">
+    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
