@@ -72,7 +72,7 @@ const SitePhotos = () => (
                 <p className="text-black text-base font-normal">Recent Site Photos</p>
                 <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto">view more</Button>
             </div>
-             <div className="grid grid-cols-4 gap-2">
+             <div className="grid grid-cols-2 gap-2">
                 <div className="relative w-full aspect-video">
                     <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site1/99/69" fill alt="Site photo 1" data-ai-hint="construction building" />
                 </div>
@@ -194,5 +194,3 @@ export default function ExistingClientHomePage() {
     </main>
   );
 }
-
-    
