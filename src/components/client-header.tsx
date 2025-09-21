@@ -19,13 +19,10 @@ export const ClientHeader = () => {
 
     useEffect(() => {
         if (user) {
-            const isNewUserHome = user.team === 'New User' && pathname.includes('/home');
-            const isClientProjectHome = user.team !== 'New User' && pathname.includes('/home');
-
-            if (isNewUserHome) {
-                setPageTitle('Book your free consultation');
-            } else if (isClientProjectHome) {
-                setPageTitle('Home');
+            const isNewUser = user.team === 'New User';
+            
+            if (pathname.includes('/home')) {
+                setPageTitle(isNewUser ? 'Book your free consultation' : 'Home');
             } else if (pathname.includes('/packages')) {
                 setPageTitle('Packages');
             } else if (pathname.includes('/projects')) {
