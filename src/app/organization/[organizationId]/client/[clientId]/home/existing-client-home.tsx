@@ -86,7 +86,10 @@ const PaymentCard = () => (
     <Card className="rounded-full">
         <CardContent className="p-4">
             <div className="flex items-center justify-between gap-4">
-                <p className="text-black text-sm font-normal">Payment - <span className="text-grey-1 text-xs">Due on 05 June</span></p>
+                <div>
+                    <p className="text-black text-sm font-normal">Payment</p>
+                    <p className="text-grey-1 text-xs">Due on 05 June</p>
+                </div>
                 <div className="flex gap-1">
                     {[...Array(7)].map((_, i) => (
                         <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
@@ -123,39 +126,39 @@ export default function ExistingClientHomePage() {
 
   return (
     <main>
-        <div className="relative mb-8 md:p-8">
-            <div className="relative h-[300px] md:h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
-                <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      <div className="relative mb-8">
+        <div className="relative h-[300px] md:h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
+            <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
-                 <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 flex justify-between items-end text-white">
-                    <div className="flex items-end gap-4">
-                        <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
-                            <svg className="w-full h-full" viewBox="0 0 100 50">
-                                <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
-                                <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
-                                    style={{
-                                        strokeDasharray: 141.3,
-                                        strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
-                                    }}
-                                />
-                            </svg>
-                             <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
-                                {project.progress}%
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
-                            <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
+            <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 flex justify-between items-end text-white">
+                <div className="flex items-end gap-4">
+                    <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
+                        <svg className="w-full h-full" viewBox="0 0 100 50">
+                            <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
+                            <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
+                                style={{
+                                    strokeDasharray: 141.3,
+                                    strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
+                                }}
+                            />
+                        </svg>
+                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                            {project.progress}%
                         </div>
                     </div>
-                    <div className="text-right hidden md:block">
-                        <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
-                        <p className="text-base">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                    <div>
+                        <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
+                        <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
                     </div>
+                </div>
+                <div className="text-right hidden md:block">
+                    <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
+                    <p className="text-base">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 </div>
             </div>
         </div>
+    </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
