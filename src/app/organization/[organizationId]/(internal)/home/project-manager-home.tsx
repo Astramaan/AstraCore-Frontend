@@ -350,7 +350,7 @@ export default function ProjectManagerHome() {
                 
                 <div className="mt-8 space-y-4">
                     
-                    <div className="flex justify-between items-center w-full mb-4">
+                     <div className="flex justify-between items-center w-full mb-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="lg:hidden rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
