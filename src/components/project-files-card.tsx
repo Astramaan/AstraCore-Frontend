@@ -270,7 +270,7 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     return (
         <>
             <Card className="rounded-[50px] border-0">
-                <CardContent className="p-0 space-y-6">
+                <CardContent className="p-4 space-y-6">
                     <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
                     <Separator />
                     <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
