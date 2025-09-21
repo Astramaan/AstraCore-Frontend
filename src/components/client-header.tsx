@@ -40,7 +40,7 @@ export const ClientHeader = () => {
                 <HabiLogo />
                 {pageTitle && (
                     <>
-                        <div className="w-px h-8 bg-stone-300 hidden md:block" />
+                        <div className="w-px h-8 bg-stone-300" />
                         <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
                            {pageTitle}
                         </h2>
