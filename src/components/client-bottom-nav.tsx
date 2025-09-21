@@ -23,7 +23,7 @@ export const ClientBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-             <div className="relative w-full md:w-auto bg-black/10 rounded-full backdrop-blur-[5px] p-4">
+             <div className="relative md:w-auto bg-black/10 rounded-full backdrop-blur-[5px] p-4">
                 <div className="flex items-center justify-center gap-4">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
