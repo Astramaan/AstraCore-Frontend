@@ -24,6 +24,8 @@ function getAuthHeadersFromCookie(): Record<string, string> {
                 headers[headerKey] = String(userData[headerKey]);
             }
         });
+        headers['x-user-id'] = userData.userId;
+        headers['x-login-id'] = userData.email;
         return headers;
     } catch (e) {
         console.error("Failed to parse user data cookie", e);
@@ -93,7 +95,10 @@ export async function signup(prevState: any, formData: FormData) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+            ...getAuthHeadersFromCookie()
+        },
         body: JSON.stringify({ email }),
     });
 
@@ -118,7 +123,10 @@ export async function addMember(prevState: any, formData: FormData) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                ...getAuthHeadersFromCookie()
+            },
             body: JSON.stringify(Object.fromEntries(formData.entries())),
         });
 
@@ -179,7 +187,10 @@ export async function inviteUser(prevState: any, formData: FormData) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/invite`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                ...getAuthHeadersFromCookie()
+            },
             body: JSON.stringify({ email, role }),
         });
 
@@ -203,7 +214,10 @@ export async function requestPasswordReset(prevState: any, formData: FormData) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                ...getAuthHeadersFromCookie()
+            },
             body: JSON.stringify({ email }),
         });
 
@@ -230,7 +244,10 @@ export async function verifyOtp(prevState: any, formData: FormData) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/verify-otp`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                ...getAuthHeadersFromCookie()
+            },
             body: JSON.stringify({ email, otp }),
         });
 
@@ -266,7 +283,10 @@ export async function createPassword(prevState: any, formData: FormData) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/signup`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                ...getAuthHeadersFromCookie()
+            },
             body: JSON.stringify({
                 name: formData.get('name'),
                 email: formData.get('email'),
@@ -292,16 +312,37 @@ export async function createPassword(prevState: any, formData: FormData) {
 }
 
 export async function changePassword(prevState: any, formData: FormData) {
-  console.log("Changing password for:", formData.get('email'));
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { success: true, message: 'Password changed successfully' };
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/update-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeadersFromCookie(),
+            },
+            body: JSON.stringify(Object.fromEntries(formData)),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { success: false, message: data.message || 'Failed to change password' };
+        }
+
+        return { success: true, message: 'Password changed successfully' };
+    } catch (error) {
+        console.error('Change password action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
 }
 
 export async function updateUser(prevState: any, formData: FormData) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/update-profile`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+          "Content-Type": "application/json",
+          ...getAuthHeadersFromCookie()
+        },
       body: JSON.stringify(Object.fromEntries(formData)),
     });
     const data = await res.json();
@@ -319,7 +360,10 @@ export async function deactivateUser(userId: string) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                ...getAuthHeadersFromCookie()
+            },
             body: JSON.stringify({ userId }),
         });
 
@@ -353,6 +397,3 @@ export async function createMeeting(meetingData: any) {
 
     return res.json();
 }
-
-    
-
