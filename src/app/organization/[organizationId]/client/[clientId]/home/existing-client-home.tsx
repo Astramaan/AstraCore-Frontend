@@ -51,7 +51,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
+    <div className="flex items-center justify-between md:w-64 bg-white rounded-full py-4 px-4 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -150,14 +150,14 @@ export default function ExistingClientHomePage() {
 
                 <div className="hidden md:flex justify-end items-center gap-4 absolute bottom-8 right-8 text-right text-white">
                     <p className="text-base">Project Manager - {project.pm}</p>
-                    <p className="text-lg font-semibold">20 September 2025</p>
+                    <p className="text-lg font-semibold">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 </div>
             </div>
 
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="flex-1">
-                    <p className="text-lg font-semibold mb-2 ml-2 md:hidden">20 September 2025</p>
+                    <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                     <div className="relative pb-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {timeline.map((stage, index) => (
