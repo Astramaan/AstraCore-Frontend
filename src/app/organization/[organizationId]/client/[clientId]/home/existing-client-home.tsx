@@ -76,7 +76,7 @@ const ChatCard = () => (
 
 const SitePhotos = () => (
      <Card className="rounded-[50px] md:w-64">
-        <CardContent className="p-4 space-y-2">
+        <CardContent className="p-10 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
             <div className="grid grid-cols-2 gap-2">
                 <Image className="rounded-[10px]" src="https://picsum.photos/seed/site1/99/69" width={99} height={69} alt="Site photo 1" data-ai-hint="construction building" />
