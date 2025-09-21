@@ -140,7 +140,7 @@ export default function ExistingClientHomePage() {
                 <Image src={project.coverImage} fill alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
-                <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 flex justify-between items-end text-white">
+                <div className="absolute bottom-8 left-4 right-4 md:bottom-8 md:left-8 md:right-8 flex justify-between items-end text-white">
                     <div className="flex items-end gap-4">
                         <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
                             <svg className="w-full h-full" viewBox="0 0 100 50">
