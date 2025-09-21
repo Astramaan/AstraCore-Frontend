@@ -1,15 +1,14 @@
 
-
 'use client';
 
 import React, { Suspense, useEffect } from 'react';
 import { useUser } from '@/context/user-context';
-import DefaultHomePage from './default-home';
-import ProjectManagerHome from './project-manager-home';
+import DefaultHomePage from '@/app/organization/[organizationId]/(internal)/home/default-home';
+import ProjectManagerHome from '@/app/organization/[organizationId]/(internal)/home/project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
-import ArchitectHome from './architect-home';
-import SalesHome from './sales-home';
-import SiteSupervisorHome from './site-supervisor-home';
+import ArchitectHome from '@/app/organization/[organizationId]/(internal)/home/architect-home';
+import SalesHome from '@/app/organization/[organizationId]/(internal)/home/sales-home';
+import SiteSupervisorHome from '@/app/organization/[organizationId]/(internal)/home/site-supervisor-home';
 import { useRouter, useParams } from 'next/navigation';
 
 
@@ -23,7 +22,9 @@ function OrganizationHomePageContent() {
         if (!loading && !user) {
             router.push('/');
         } else if (!loading && user) {
-            if (user.roleType === 'client') {
+            if (user.team === 'New User') {
+                router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
+            } else if (user.roleType === 'client') {
                 router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
             }
         }
@@ -83,5 +84,3 @@ export default function OrganizationHomePage() {
         </Suspense>
     );
 }
-
-    
