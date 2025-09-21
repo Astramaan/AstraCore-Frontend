@@ -127,8 +127,10 @@ export default function ExistingClientHomePage() {
   return (
     <main>
         <div className="relative mb-8 md:p-8">
-            <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-96 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="narrow street old buildings"/>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
+            <div className="relative h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
+                <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
             
             <div className="absolute bottom-8 left-4 md:left-16 flex items-end gap-4 md:gap-6 text-white">
                 <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
