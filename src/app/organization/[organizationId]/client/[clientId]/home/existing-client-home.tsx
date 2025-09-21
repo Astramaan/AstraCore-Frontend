@@ -158,7 +158,7 @@ export default function ExistingClientHomePage() {
                         </div>
                         <div>
                             <p className="text-white text-base md:text-lg">Project Manager: {project.pm}</p>
-                            <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
+                            <p className="text-white text-sm md:text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         </div>
                     </div>
                 </div>
