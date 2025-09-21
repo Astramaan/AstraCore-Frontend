@@ -110,7 +110,7 @@ export default function ExistingClientHomePage() {
     id: 'RABE0001',
     progress: 70,
     daysLeft: 180,
-    coverImage: 'https://picsum.photos/seed/p-cover/1440/320',
+    coverImage: 'https://picsum.photos/seed/p-cover/1440/480',
     profileImage: 'https://placehold.co/60x60'
   };
 
@@ -127,7 +127,7 @@ export default function ExistingClientHomePage() {
   return (
     <main>
         <div className="relative mb-8 md:p-8">
-            <Image src={project.coverImage} width={1440} height={320} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="narrow street old buildings"/>
+            <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-96 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="narrow street old buildings"/>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
             
             <div className="absolute bottom-8 left-4 md:left-16 flex items-end gap-4 md:gap-6 text-white">
