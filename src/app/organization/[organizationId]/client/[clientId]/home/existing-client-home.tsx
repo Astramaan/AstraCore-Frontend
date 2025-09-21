@@ -69,7 +69,7 @@ const SitePhotos = () => (
      <Card className="rounded-[50px] w-full">
         <CardContent className="p-6 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
-            <div className="grid grid-cols-2 gap-2">
+             <div className="flex flex-wrap gap-2">
                 <Image className="rounded-[10px]" src="https://picsum.photos/seed/site1/99/69" width={99} height={69} alt="Site photo 1" data-ai-hint="construction building" />
                 <Image className="rounded-[10px]" src="https://picsum.photos/seed/site2/99/69" width={99} height={69} alt="Site photo 2" data-ai-hint="building interior" />
                 <Image className="rounded-[10px]" src="https://picsum.photos/seed/site3/99/69" width={99} height={69} alt="Site photo 3" data-ai-hint="construction worker" />
