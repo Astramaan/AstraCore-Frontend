@@ -138,7 +138,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate, onFileDelete }: 
                     onChange={handleFileChange}
                     accept=".pdf"
                 />
-                <p className="text-sm text-stone-400">{title}</p>
+                
                 {files.map((file, index) => (
                     <React.Fragment key={file.id}>
                         <div className="flex items-center gap-4">
