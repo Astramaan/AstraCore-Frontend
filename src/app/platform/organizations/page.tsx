@@ -1,3 +1,6 @@
+
+'use client';
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +16,7 @@ const organizations = [
     { id: 5, name: "GreenScape Solutions", plan: "Starter", status: "Inactive", users: 5, projects: 1 },
 ];
 
-export default function OrganizationsPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function OrganizationsPage() {
     return (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">

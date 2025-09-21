@@ -2,7 +2,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -75,7 +75,7 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
 );
 
 
-export default function DashboardPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+function DashboardPageContent() {
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8">
       <div className="flex flex-col md:flex-row items-start justify-between gap-6">
@@ -244,4 +244,12 @@ export default function DashboardPage({ searchParams }: { searchParams: { [key: 
         </Card>
     </div>
   );
+}
+
+export default function DashboardPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <DashboardPageContent />
+        </Suspense>
+    )
 }
