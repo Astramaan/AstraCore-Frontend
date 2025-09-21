@@ -177,37 +177,6 @@ export default function MeetUsPage({ params }: { params: { organizationId: strin
                         )}
                     </Card>
 
-                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
-                        <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
-                            <h2 className="text-center text-black text-xl font-medium leading-tight">Submit Your Project Details</h2>
-                            <p className="text-center text-stone-500 text-xs font-normal leading-none mt-2 mb-6">Provide us with some basic information about your project.</p>
-                            <form onSubmit={handleSubmit} className="w-full space-y-4">
-                                <div>
-                                    <Label htmlFor="project-type">Project Type</Label>
-                                    <Input id="project-type" placeholder="e.g., New Construction, Renovation" className="h-[54px] rounded-full" />
-                                </div>
-                                <div>
-                                    <Label htmlFor="building-type">Building Type</Label>
-                                    <Input id="building-type" placeholder="e.g., Residential, Commercial" className="h-[54px] rounded-full" />
-                                </div>
-                                <div>
-                                    <Label htmlFor="floor-count">Number of Floors</Label>
-                                    <Input id="floor-count" type="number" placeholder="e.g., G+2" className="h-[54px] rounded-full" />
-                                </div>
-                                <div>
-                                    <Label htmlFor="site-address">Site Address</Label>
-                                    <Textarea id="site-address" placeholder="Enter the full site address" className="min-h-[54px] rounded-3xl" />
-                                </div>
-                                <div className="flex justify-end pt-4">
-                                  <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg">
-                                      Submit Details
-                                  </Button>
-                                </div>
-                            </form>
-                        </CardContent>
-                    </Card>
-
-
                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
                         <CardContent className="p-0">
                              <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
