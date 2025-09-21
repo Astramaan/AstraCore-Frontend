@@ -51,7 +51,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white rounded-full py-4 px-4 gap-4">
+    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -67,7 +67,7 @@ const PaymentStatus = () => (
 const ChatCard = () => (
     <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
         <div>
-            <p className="text-black text-base font-normal">Chat with our Executive</p>
+            <p className="text-black text-sm font-normal">Chat with our Executive</p>
             <p className="text-grey-1 text-sm">Quick Reply</p>
         </div>
         <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
