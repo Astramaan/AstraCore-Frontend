@@ -51,35 +51,14 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
         pending: "text-yellow-600 border-yellow-600"
     };
     
-    if (stage.type === 'payment') {
-        return (
-             <div className={cn(
-                "rounded-[25px] border p-4 flex items-center gap-4",
-                stage.status === 'completed' ? 'bg-green-50' : 'bg-yellow-50'
-            )}>
-                <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[25px] object-cover w-full h-full" data-ai-hint="payment invoice" />
-                     <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full whitespace-nowrap">
-                        {stage.category}
-                    </div>
-                </div>
-                <div className="flex-1 space-y-1">
-                    <p className="font-semibold text-lg">{stage.title}</p>
-                    <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
-                </div>
-                <div className="text-right">
-                    <p className={cn("text-base font-medium", statusStyles[stage.status])}>{stage.status === 'completed' ? 'Paid' : 'Due'}</p>
-                </div>
-            </div>
-        );
-    }
-
     const showApprovalUI = stage.status === 'ongoing' && stage.siteImages && stage.siteImages.length > 0;
+    const isPaymentDue = stage.type === 'payment' && stage.status === 'pending';
 
     return (
         <div className={cn(
             "rounded-[25px] border p-4",
-            stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200'
+            stage.status === 'ongoing' ? 'border-cyan-500' : 'border-stone-200',
+            isPaymentDue && 'bg-yellow-50'
         )}>
             <div className="flex items-center gap-4">
                 <div className="relative w-24 h-24 shrink-0">
@@ -94,14 +73,22 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-muted-foreground">{stage.duration}</p>
-                    <p className={cn("text-base font-medium capitalize", statusStyles[stage.status])}>{stage.status}</p>
+                    <p className={cn(
+                        "text-base font-medium capitalize", 
+                        statusStyles[stage.status]
+                    )}>
+                        {stage.type === 'payment' 
+                            ? (stage.status === 'completed' ? 'Paid' : 'Due')
+                            : stage.status
+                        }
+                    </p>
                 </div>
             </div>
             {showApprovalUI && (
                 <div className="mt-4 space-y-4">
                     <div className="grid grid-cols-4 gap-2">
                         {stage.siteImages?.map((img, index) => (
-                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
                         ))}
                     </div>
                     <div className="flex gap-4">
