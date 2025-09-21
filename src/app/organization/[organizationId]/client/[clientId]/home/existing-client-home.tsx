@@ -51,7 +51,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
 );
 
 const PaymentStatus = () => (
-    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4 px-4">
+    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
         <div className="space-y-1">
             <p className="text-black text-sm font-normal">Payment</p>
             <p className="text-grey-1 text-xs">Due on 05 June</p>
@@ -168,8 +168,10 @@ export default function ExistingClientHomePage() {
                 </div>
 
                 <aside className="w-full md:w-auto space-y-6 flex flex-col items-center">
-                    <PaymentStatus />
-                    <ChatCard />
+                    <div className="space-y-4">
+                        <PaymentStatus />
+                        <ChatCard />
+                    </div>
                     <SitePhotos />
                 </aside>
             </div>
