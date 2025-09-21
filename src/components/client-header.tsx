@@ -41,7 +41,7 @@ export const ClientHeader = () => {
                 {pageTitle && (
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
+                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900 hidden md:block">
                            {pageTitle}
                         </h2>
                     </>
@@ -65,10 +65,12 @@ export const ClientHeader = () => {
                 <h2 className="text-xl font-semibold text-zinc-900 md:hidden">
                    {pageTitle}
                 </h2>
-                <Avatar className="h-[54px] w-[54px] hidden">
-                    <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                    <AvatarFallback>{userInitials}</AvatarFallback>
-                </Avatar>
+                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
+                    <Avatar className="h-[54px] w-[54px]">
+                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                        <AvatarFallback>{userInitials}</AvatarFallback>
+                    </Avatar>
+                </Link>
             </div>
         </header>
     );

@@ -116,61 +116,59 @@ export default function ExistingClientHomePage() {
   
 
   return (
-    <div>
-        <main className="md:p-8">
-            <div className="relative mb-8">
-                <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
-                
-                <div className="absolute bottom-8 left-4 md:left-8 flex items-end gap-4 md:gap-6 text-white">
-                    <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
-                        <svg className="w-full h-full" viewBox="0 0 100 50">
-                            <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
-                            <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
-                                style={{
-                                    strokeDasharray: 141.3,
-                                    strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
-                                }}
-                            />
-                        </svg>
-                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
-                            {project.progress}%
-                        </div>
-                    </div>
-                    <div>
-                        <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
-                        <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
+    <main className="md:p-8">
+        <div className="relative mb-8">
+            <Image src={project.coverImage} width={753} height={350} alt="Project cover" className="w-full h-80 object-cover rounded-b-[50px] md:rounded-[50px]" data-ai-hint="house project"/>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-[50px] md:rounded-[50px]"></div>
+            
+            <div className="absolute bottom-8 left-4 md:left-8 flex items-end gap-4 md:gap-6 text-white">
+                <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
+                    <svg className="w-full h-full" viewBox="0 0 100 50">
+                        <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
+                        <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
+                            style={{
+                                strokeDasharray: 141.3,
+                                strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
+                            }}
+                        />
+                    </svg>
+                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
+                        {project.progress}%
                     </div>
                 </div>
-
-                <div className="hidden md:flex flex-col justify-end items-end absolute bottom-8 right-8 text-right text-white">
-                    <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
-                    <p className="text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <div>
+                    <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
+                    <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
                 </div>
             </div>
 
-            <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
-                {/* Timeline */}
-                <div className="flex-1">
-                    <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                    <div className="relative pb-4">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {timeline.map((stage, index) => (
-                                <StageCard key={index} stage={stage} />
-                            ))}
-                        </div>
+            <div className="hidden md:flex flex-col justify-end items-end absolute bottom-8 right-8 text-right text-white">
+                <p className="text-lg font-semibold">Project Manager - {project.pm}</p>
+                <p className="text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            </div>
+        </div>
+
+        <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
+            {/* Timeline */}
+            <div className="flex-1">
+                <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <div className="relative pb-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {timeline.map((stage, index) => (
+                            <StageCard key={index} stage={stage} />
+                        ))}
                     </div>
                 </div>
-
-                <aside className="w-full md:w-auto space-y-6 flex flex-col items-center">
-                    <div className="flex flex-row md:flex-col gap-2 w-full">
-                        <PaymentStatus />
-                        <ChatCard />
-                    </div>
-                    <SitePhotos />
-                </aside>
             </div>
-        </main>
-    </div>
+
+            <aside className="w-full md:w-auto flex flex-col items-center">
+                <div className="flex flex-col md:flex-col gap-2 w-full">
+                    <PaymentStatus />
+                    <ChatCard />
+                </div>
+                <SitePhotos />
+            </aside>
+        </div>
+    </main>
   );
 }
