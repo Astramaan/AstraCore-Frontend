@@ -23,7 +23,7 @@ interface TimelineStage {
 }
 
 const StageCard = ({ stage }: { stage: TimelineStage }) => (
-    <Card className="rounded-[24px] p-4">
+    <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
         <div className="flex items-center gap-4">
             <div className="relative w-24 h-24 shrink-0">
                 <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -137,7 +137,7 @@ export default function ExistingClientHomePage() {
 
         <div className="flex flex-col-reverse md:flex-row gap-8">
             {/* Timeline */}
-            <div className="flex-1 p-4 md:p-0">
+            <div className="flex-1 md:p-0">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -148,7 +148,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="w-full md:w-auto flex flex-col items-center p-4 md:p-0">
+            <aside className="w-full md:w-auto flex flex-col items-center md:p-0">
                 <div className="flex flex-col md:flex-row gap-2 w-full">
                     <PaymentsDialog />
                     <ChatCard />
