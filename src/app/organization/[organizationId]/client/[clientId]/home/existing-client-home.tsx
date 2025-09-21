@@ -41,8 +41,8 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
                 <div className="pt-2">
                     <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
-                        <span className="text-grey-1 text-xs">{stage.date}</span>
                         <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                        <span className="text-grey-1 text-xs">{stage.date}</span>
                     </div>
                 </div>
             </div>
@@ -65,17 +65,13 @@ const PaymentStatus = () => (
 );
 
 const ChatCard = () => (
-    <Card className="rounded-2xl md:w-64">
-        <CardContent className="p-4">
-            <div className="flex justify-between items-center">
-                <div>
-                    <p className="text-black text-base font-normal">Chat with our Executive</p>
-                    <p className="text-grey-1 text-sm">Quick Reply</p>
-                </div>
-                <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
-            </div>
-        </CardContent>
-    </Card>
+    <div className="flex items-center justify-between md:w-64 bg-white rounded-full p-4 gap-4">
+        <div>
+            <p className="text-black text-base font-normal">Chat with our Executive</p>
+            <p className="text-grey-1 text-sm">Quick Reply</p>
+        </div>
+        <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
+    </div>
 );
 
 const SitePhotos = () => (
