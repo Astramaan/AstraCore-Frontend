@@ -148,9 +148,9 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
+        <div className="flex flex-col-reverse md:flex-row gap-8 md:p-0">
             {/* Timeline */}
-            <div className="flex-1">
+            <div className="flex-1 p-4 md:p-0">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -161,7 +161,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="w-full md:w-auto flex flex-col items-center">
+            <aside className="w-full md:w-auto flex flex-col items-center p-4 md:p-0">
                 <div className="flex flex-col md:flex-col gap-2 w-full">
                     <PaymentStatus />
                     <ChatCard />
