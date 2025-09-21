@@ -127,11 +127,11 @@ export default function ExistingClientHomePage() {
   return (
     <main>
         <div className="relative mb-8 md:p-8">
-            <div className="relative h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
+            <div className="relative h-[280px] md:h-[480px] w-full rounded-b-[50px] md:rounded-[50px] overflow-hidden">
                 <Image src={project.coverImage} width={1440} height={480} alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
-                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end text-white">
+                 <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 flex justify-between items-end text-white">
                     <div className="flex items-end gap-4">
                         <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
                             <svg className="w-full h-full" viewBox="0 0 100 50">
@@ -160,9 +160,9 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="md:grid md:grid-cols-3 gap-8 px-10">
+        <div className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-10">
             {/* Timeline */}
-            <div className="md:col-span-2">
+            <div className="lg:col-span-2">
                 <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{new Date('2025-09-21').toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -173,7 +173,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="space-y-4 shrink-0">
+            <aside className="space-y-4 shrink-0 mt-8 md:mt-0">
                 <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentCard />
                     <ChatCard />
