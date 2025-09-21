@@ -135,7 +135,7 @@ export default function ExistingClientHomePage() {
   return (
     <main>
       <div className="relative mb-8">
-        <div className="rounded-b-[50px] md:rounded-[50px] overflow-hidden">
+        <div className="rounded-[50px] overflow-hidden">
             <div className="relative h-[300px] md:h-[480px] w-full">
                 <Image src={project.coverImage} fill alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
