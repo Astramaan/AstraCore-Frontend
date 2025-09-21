@@ -54,11 +54,13 @@ const StageCard = ({ stage }: { stage: CustomStage }) => {
     
     const showApprovalUI = stage.status === 'ongoing' && stage.siteImages && stage.siteImages.length > 0;
     const isPaymentDue = stage.type === 'payment' && stage.status === 'pending';
+    const isPaymentCompleted = stage.type === 'payment' && stage.status === 'completed';
 
     return (
         <Card className={cn(
             "rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow",
-            isPaymentDue && 'bg-yellow-50'
+            isPaymentDue && 'bg-yellow-50',
+            isPaymentCompleted && 'border border-green-600'
         )}>
             <div className="flex items-center gap-4">
                 <div className="relative w-24 h-24 shrink-0">
