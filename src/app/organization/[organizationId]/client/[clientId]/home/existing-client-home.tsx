@@ -1,14 +1,13 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 
@@ -27,7 +26,7 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
         <div className="flex items-center gap-4">
             <div className="relative w-24 h-24 shrink-0">
                 <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
                     <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
                        <span className="text-white text-sm font-semibold">{stage.category}</span>
                     </div>
@@ -36,14 +35,14 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
             <div className="flex-1 space-y-1 w-full">
                  <div className="flex justify-between items-start">
                     <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                    <span className="text-grey-1 text-xs">{stage.status}</span>
+                    <Badge className={cn('capitalize', stage.status === 'On going' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600')}>{stage.status}</Badge>
                 </div>
                 <p className="text-sm">{stage.subtitle}</p>
                 <div className="pt-2">
                     <Progress value={stage.progress} className="h-2" />
                     <div className="flex justify-between items-center mt-2">
-                         <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                        <span className="text-grey-1 text-xs">{stage.date}</span>
+                        <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                         <span className="text-grey-1 text-xs">{stage.date}</span>
                     </div>
                 </div>
             </div>
@@ -80,7 +79,7 @@ const ChatCard = () => (
 );
 
 const SitePhotos = () => (
-     <Card className="rounded-[20px] md:w-60">
+     <Card className="rounded-[20px] md:w-64">
         <CardContent className="p-4 space-y-2">
             <p className="text-black text-base font-normal">Recent Site Photos</p>
             <div className="grid grid-cols-2 gap-2">
@@ -99,13 +98,6 @@ const SitePhotos = () => (
 
 export default function ExistingClientHomePage() {
   const { user } = useUser();
-  const [currentDate, setCurrentDate] = useState('');
-  
-  useEffect(() => {
-      const today = new Date();
-      const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-      setCurrentDate(today.toLocaleDateString('en-GB', options));
-  }, []);
 
   const project = {
     name: 'Rabeek',
@@ -157,20 +149,19 @@ export default function ExistingClientHomePage() {
                     <div>
                         <p className="text-white text-base md:text-lg">CLIENT ID: {project.id}</p>
                         <p className="text-white text-sm md:text-base">Banashankari, Bengaluru - 560109</p>
-                         <p className="md:hidden text-white text-xs mt-1">Project Manager - {project.pm}</p>
                     </div>
                 </div>
 
-                <div className="hidden md:block absolute bottom-8 right-8 text-right text-white">
+                <div className="hidden md:flex justify-end items-center gap-4 absolute bottom-8 right-8 text-right text-white">
                     <p className="text-base">Project Manager - {project.pm}</p>
-                    <p className="text-lg font-semibold">{currentDate}</p>
+                    <p className="text-lg font-semibold">20 September 2025</p>
                 </div>
             </div>
 
             <div className="flex flex-col-reverse md:flex-row gap-8 p-4 md:p-0">
                 {/* Timeline */}
                 <div className="flex-1">
-                    <p className="text-lg font-semibold mb-2 ml-2 md:hidden">{currentDate}</p>
+                    <p className="text-lg font-semibold mb-2 ml-2 md:hidden">20 September 2025</p>
                     <div className="relative pb-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {timeline.map((stage, index) => (
