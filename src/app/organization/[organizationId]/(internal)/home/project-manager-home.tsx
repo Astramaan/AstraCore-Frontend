@@ -19,7 +19,6 @@ import { AssignTaskSheet } from '@/components/assign-task-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
-import { DailyUpdatesSheet, type DailyUpdate } from '@/components/daily-updates-sheet';
 
 // Data for Project Manager Home
 interface Stage {
@@ -46,11 +45,6 @@ const allStages: Stage[] = [
     { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium' },
 ];
 
-const dailyUpdatesData: DailyUpdate[] = [
-    { id: 'upd1', date: new Date().toISOString(), uploadedBy: 'Yaswanth', photos: ['https://picsum.photos/seed/upd1-1/200/200', 'https://picsum.photos/seed/upd1-2/200/200'], taskName: 'Excavation', status: 'pending' },
-    { id: 'upd2', date: new Date(new Date().setDate(new Date().getDate() -1)).toISOString(), uploadedBy: 'Yaswanth', photos: ['https://picsum.photos/seed/upd2-1/200/200'], taskName: 'Excavation', status: 'approved' },
-];
-
 const projectsData = [
   {
     id: "CHA2024",
@@ -59,8 +53,7 @@ const projectsData = [
     siteSupervisorPhone: "9876543210",
     architect: "Darshan",
     architectPhone: "1234567890",
-    tasks: allStages,
-    dailyUpdates: dailyUpdatesData,
+    tasks: allStages
   },
   {
     id: "SAT2025",
@@ -69,8 +62,7 @@ const projectsData = [
     siteSupervisorPhone: "9876543210",
     architect: "Anil",
     architectPhone: "1234567890",
-    tasks: allStages.slice(0, 2),
-    dailyUpdates: [],
+    tasks: allStages.slice(0, 2)
   }
 ];
 
@@ -258,13 +250,13 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
 export default function ProjectManagerHome() {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
     const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
-    const [isDailyUpdatesSheetOpen, setIsDailyUpdatesSheetOpen] = useState(false);
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -287,9 +279,11 @@ export default function ProjectManagerHome() {
             isProjectTask: true,
         };
         setSelectedTask(task);
+        setIsSheetOpen(true);
     };
 
     const handleSheetClose = () => {
+        setIsSheetOpen(false);
         setSelectedTask(null);
     };
 
@@ -320,18 +314,6 @@ export default function ProjectManagerHome() {
 
     const filteredMyTasks = useMemo(() => applyFilters(initialTaskData), [activeFilter]);
     const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasksData), [activeFilter]);
-    
-    const [currentDailyUpdates, setCurrentDailyUpdates] = useState(selectedProject?.dailyUpdates || []);
-
-    const handleUpdateDailyUpdate = (updatedUpdate: DailyUpdate) => {
-        const newUpdates = currentDailyUpdates.map(u => u.id === updatedUpdate.id ? updatedUpdate : u);
-        setCurrentDailyUpdates(newUpdates);
-        // Also update the main projectsData if needed
-    };
-
-    useEffect(() => {
-        setCurrentDailyUpdates(selectedProject?.dailyUpdates || []);
-    }, [selectedProjectId, selectedProject]);
 
     return (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -367,7 +349,7 @@ export default function ProjectManagerHome() {
                 
                 <div className="mt-8 space-y-4">
                     
-                     <div className="flex justify-between items-center w-full mb-4 lg:hidden">
+                    <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
@@ -436,7 +418,7 @@ export default function ProjectManagerHome() {
             />
             {selectedTask && (
                 <TaskDetailsSheet
-                    isOpen={!!selectedTask}
+                    isOpen={isSheetOpen || !!selectedTask}
                     onClose={handleSheetClose}
                     task={selectedTask}
                     onUpdateTask={handleUpdateTask}
@@ -460,12 +442,6 @@ export default function ProjectManagerHome() {
                 onClose={() => setIsCompletedTasksSheetOpen(false)}
                 tasks={completedTasks}
                 onTaskClick={handleStageClick}
-            />
-             <DailyUpdatesSheet
-                isOpen={isDailyUpdatesSheetOpen}
-                onClose={() => setIsDailyUpdatesSheetOpen(false)}
-                dailyUpdates={currentDailyUpdates}
-                onUpdate={handleUpdateDailyUpdate}
             />
         </div>
     );
