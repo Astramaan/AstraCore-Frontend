@@ -103,7 +103,7 @@ const VersionHistoryDialog = ({ open, onOpenChange, file, onFileClick }: { open:
     )
 }
 
-const FileSection = ({ title, files, onFileClick, onFileUpdate, onFileDelete }: { title: string, files: File[], onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void, onFileDelete: (fileId: string) => void }) => {
+const FileSection = ({ files, startIndex, onFileClick, onFileUpdate, onFileDelete }: { files: File[], startIndex: number, onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void, onFileDelete: (fileId: string) => void }) => {
     const [selectedHistoryFile, setSelectedHistoryFile] = useState<File | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const [currentFileId, setCurrentFileId] = useState<string | null>(null);
@@ -143,7 +143,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate, onFileDelete }: 
                     <React.Fragment key={file.id}>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
-                                <p className="text-sm">{index + 1}.</p>
+                                <p className="text-sm">{startIndex + index + 1}.</p>
                                 <PdfIcon className="w-6 h-6 shrink-0" />
                                 <div className="flex-1">
                                     <p className="text-base text-black font-medium">{file.name}</p>
@@ -262,10 +262,16 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         setFiles(updatedFiles);
     }
 
-
     const handleCloseDialog = () => {
         setSelectedFile(null);
     };
+    
+    const firstColumnFiles = [
+        ...files.initial, 
+        ...files.costing, 
+        ...files.architecture, 
+        ...files.structure
+    ];
 
     return (
         <>
@@ -273,14 +279,11 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
                 <CardContent className="p-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                         <div className="space-y-6">
-                            <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
-                            <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                            <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                            <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                            <FileSection files={firstColumnFiles} startIndex={0} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
                         </div>
                          <div className="space-y-6">
-                            <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                            <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                            <FileSection files={files.sanction} startIndex={firstColumnFiles.length} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                            <FileSection files={files.construction} startIndex={firstColumnFiles.length + files.sanction.length} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                         </div>
                     </div>
                 </CardContent>
