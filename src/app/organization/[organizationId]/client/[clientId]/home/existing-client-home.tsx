@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import PdfIcon from '@/components/icons/pdf-icon';
 
 interface TimelineStage {
     title: string;
@@ -112,9 +113,11 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                              <div className="pt-4 space-y-2">
                                 <h4 className="text-sm font-medium">Documents for Approval</h4>
                                 {stage.documents.map((doc, index) => (
-                                    <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
-                                        <p className="text-sm font-medium">{doc.name}</p>
-                                          <Download className="h-4 w-4"/>
+                                    <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
+                                        <PdfIcon className="w-6 h-6 shrink-0"/>
+                                        <div className="flex-1">
+                                            <p className="text-base text-black font-medium">{doc.name}</p>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -138,11 +141,14 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                                 </div>
                             )}
                              {stage.documents && stage.documents.length > 0 && (
-                                <div className="pt-4 space-y-2">
+                                 <div className="pt-4 space-y-2">
+                                    {isProjectManager && <h4 className="text-sm font-medium">Documents for Approval</h4>}
                                     {stage.documents.map((doc, index) => (
-                                        <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
-                                            <p className="text-sm font-medium">{doc.name}</p>
-                                            <Download className="h-4 w-4"/>
+                                         <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
+                                            <PdfIcon className="w-6 h-6 shrink-0"/>
+                                            <div className="flex-1">
+                                                <p className="text-base text-black font-medium">{doc.name}</p>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -158,11 +164,13 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                  {!isProjectManager && stage.status === 'On Going' && stage.documents && stage.documents.length > 0 && (
                      <div className="mt-4 space-y-2">
                         <Separator />
-                        <div className="pt-4 space-y-2">
+                         <div className="pt-4 space-y-2">
                             {stage.documents.map((doc, index) => (
-                                <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
-                                    <p className="text-sm font-medium">{doc.name}</p>
-                                    <Download className="h-4 w-4"/>
+                                 <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
+                                    <PdfIcon className="w-6 h-6 shrink-0"/>
+                                    <div className="flex-1">
+                                        <p className="text-base text-black font-medium">{doc.name}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
