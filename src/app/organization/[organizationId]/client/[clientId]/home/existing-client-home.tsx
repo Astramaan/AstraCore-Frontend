@@ -15,6 +15,7 @@ import { ImageGallerySheet } from '@/components/image-gallery-sheet';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 interface TimelineStage {
     title: string;
@@ -66,7 +67,8 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
             </div>
              {showApprovalUI && isProjectManager && (
                 <div className="mt-4 space-y-4">
-                    <div className="grid grid-cols-4 gap-2">
+                    <Separator />
+                    <div className="grid grid-cols-4 gap-2 pt-4">
                         {stage.siteImages?.map((img, index) => (
                             <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
                         ))}
@@ -80,11 +82,14 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
              {stage.status === 'completed' && (
                 <div className="mt-4 space-y-4">
                     {showCompletedImages && (
-                         <div className="grid grid-cols-4 gap-2">
-                            {stage.siteImages?.map((img, index) => (
-                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                            ))}
-                        </div>
+                        <>
+                            <Separator />
+                            <div className="grid grid-cols-4 gap-2 pt-4">
+                                {stage.siteImages?.map((img, index) => (
+                                    <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                ))}
+                            </div>
+                        </>
                     )}
                     {isProjectManager && (
                         <div className="flex justify-end">
@@ -319,4 +324,3 @@ export default function ExistingClientHomePage() {
   );
 }
 
-    
