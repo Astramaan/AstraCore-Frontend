@@ -60,8 +60,6 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
 
-
-    const showApprovalUI = isProjectManager && stage.status === 'On Going' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
     const showCompletedVisuals = stage.status === 'completed' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
     
     const handlePdfClick = (doc: { name: string, url: string }) => {
@@ -99,40 +97,33 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                         </div>
                     </div>
                 </div>
-                 {showApprovalUI && (
+                
+                 {isProjectManager && stage.status === 'On Going' && (stage.documents && stage.documents.length > 0) && (
                     <div className="mt-4 space-y-4">
                         <Separator />
-                        {stage.siteImages && stage.siteImages.length > 0 && (
-                            <div className="grid grid-cols-4 gap-2 pt-4">
-                                {stage.siteImages?.map((img, index) => (
-                                    <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                                ))}
-                            </div>
-                        )}
-                        {stage.documents && stage.documents.length > 0 && (
-                             <div className="pt-4 space-y-2">
-                                <h4 className="text-sm font-medium">Documents for Approval</h4>
-                                {stage.documents.map((doc, index) => (
-                                    <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
-                                        <PdfIcon className="w-6 h-6 shrink-0"/>
-                                        <div className="flex-1">
-                                            <p className="text-base text-black font-medium">{doc.name}</p>
-                                        </div>
+                        <div className="pt-4 space-y-2">
+                            <h4 className="text-sm font-medium">Documents for Approval</h4>
+                            {stage.documents.map((doc, index) => (
+                                <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
+                                    <PdfIcon className="w-6 h-6 shrink-0"/>
+                                    <div className="flex-1">
+                                        <p className="text-base text-black font-medium">{doc.name}</p>
                                     </div>
-                                ))}
-                            </div>
-                        )}
+                                </div>
+                            ))}
+                        </div>
                         <div className="flex gap-4">
                             <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
                             <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
                         </div>
                     </div>
                 )}
+                
                  {showCompletedVisuals && (
                     <div className="mt-4 space-y-4">
                         <Separator />
                         <div className="pt-4">
-                             {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>}
+                            {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>}
                             {stage.siteImages && stage.siteImages.length > 0 && (
                                 <div className="grid grid-cols-4 gap-2">
                                     {stage.siteImages?.map((img, index) => (
@@ -140,12 +131,10 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                                     ))}
                                 </div>
                             )}
-                             {stage.documents && stage.documents.length > 0 && (
-                                 <div className="pt-4 space-y-2">
-                                    {stage.approvalDate && !isProjectManager && <p className="text-sm text-muted-foreground mb-2">Approved on {stage.approvalDate}</p>}
-                                    {isProjectManager && <h4 className="text-sm font-medium">Documents for Approval</h4>}
+                            {stage.documents && stage.documents.length > 0 && (
+                                <div className="pt-4 space-y-2">
                                     {stage.documents.map((doc, index) => (
-                                         <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
+                                        <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
                                             <PdfIcon className="w-6 h-6 shrink-0"/>
                                             <div className="flex-1">
                                                 <p className="text-base text-black font-medium">{doc.name}</p>
@@ -162,6 +151,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                         )}
                     </div>
                 )}
+
                  {!isProjectManager && stage.status === 'On Going' && stage.documents && stage.documents.length > 0 && (
                      <div className="mt-4 space-y-2">
                         <Separator />
