@@ -116,7 +116,7 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
                     </div>
                 </div>
                 
-                 <div className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                 <div className="overflow-hidden transition-all duration-300 ease-in-out data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                     {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                         <div className="mt-4 space-y-4">
                             <Separator />
