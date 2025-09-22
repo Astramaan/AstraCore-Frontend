@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -13,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser } from '@/context/user-context';
+import { AddMemberSheet } from '@/components/add-member-sheet';
 
 const DetailField = ({ label, value }: { label: string, value: string }) => (
     <div className="space-y-1">
@@ -80,6 +82,8 @@ const EditProfileForm = ({ profile: initialProfile, onSave, onClose }: { profile
 export default function ClientProfilePage() {
     const { user, loading } = useUser();
     const [isEditing, setIsEditing] = useState(false);
+    const [isAddMemberSheetOpen, setIsAddMemberSheetOpen] = useState(false);
+
     const [profile, setProfile] = useState({
         name: 'Yash',
         phone: '+91 9380000839',
@@ -145,11 +149,32 @@ export default function ClientProfilePage() {
                     </CardContent>
                 </Card>
 
+                {isExistingClient && (
+                     <Card className="rounded-[50px] p-6 md:p-8">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <p className="text-lg font-semibold">Add Family Member</p>
+                                <p className="text-sm text-muted-foreground">Give project access to your family members.</p>
+                            </div>
+                             <Button 
+                                onClick={() => setIsAddMemberSheetOpen(true)}
+                                className="rounded-full h-[54px] px-6"
+                            >
+                                <UserPlus className="mr-2 h-5 w-5" />
+                                Add
+                            </Button>
+                        </div>
+                    </Card>
+                )}
+
+
                 <Button variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none">
                     <LogOut className="w-5 w-5 mr-2" />
                     Logout
                 </Button>
             </div>
+             <AddMemberSheet isOpen={isAddMemberSheetOpen} onOpenChange={setIsAddMemberSheetOpen}/>
         </div>
     );
 }
+
