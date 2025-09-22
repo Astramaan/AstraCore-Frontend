@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -150,13 +149,13 @@ export default function ClientProfilePage() {
                 </Card>
 
                 {isExistingClient && (
-                     <Card className="rounded-[50px] p-6 md:p-8">
+                    <Card className="rounded-[50px] p-6 md:p-8">
                         <div className="flex justify-between items-center">
                             <div>
                                 <p className="text-lg font-semibold">Add Family Member</p>
                                 <p className="text-sm text-muted-foreground">Give project access to your family members.</p>
                             </div>
-                             <Button 
+                            <Button
                                 onClick={() => setIsAddMemberSheetOpen(true)}
                                 className="rounded-full h-[54px] px-6"
                             >
@@ -173,8 +172,7 @@ export default function ClientProfilePage() {
                     Logout
                 </Button>
             </div>
-             <AddMemberSheet isOpen={isAddMemberSheetOpen} onOpenChange={setIsAddMemberSheetOpen}/>
+            {isExistingClient && <AddMemberSheet isOpen={isAddMemberSheetOpen} onOpenChange={setIsAddMemberSheetOpen}/>}
         </div>
     );
 }
-
