@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -31,6 +32,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
     const isProjectManager = user?.team === 'Project Manager';
 
     const showApprovalUI = stage.status === 'On Going' && stage.siteImages && stage.siteImages.length > 0;
+    const showCompletedImages = stage.status === 'completed' && stage.siteImages && stage.siteImages.length > 0;
 
     return (
         <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
@@ -75,9 +77,18 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                     </div>
                 </div>
             )}
-             {isProjectManager && stage.status === 'completed' && !showApprovalUI && (
-                <div className="flex justify-end mt-4">
-                    <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
+             {isProjectManager && stage.status === 'completed' && (
+                <div className="mt-4 space-y-4">
+                    {showCompletedImages && (
+                         <div className="grid grid-cols-4 gap-2">
+                            {stage.siteImages?.map((img, index) => (
+                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                            ))}
+                        </div>
+                    )}
+                    <div className="flex justify-end">
+                        <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
+                    </div>
                 </div>
             )}
         </Card>
@@ -204,7 +215,7 @@ export default function ExistingClientHomePage() {
   };
 
   const [timeline, setTimeline] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"] },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", siteImages: ["https://picsum.photos/seed/slab1/150/150", "https://picsum.photos/seed/slab2/150/150"] },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
