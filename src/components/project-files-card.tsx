@@ -271,13 +271,15 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     return (
         <>
             <Card className="rounded-[50px] border-0">
-                <CardContent className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                    <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
-                    <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                <CardContent className="p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
+                        <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                    </div>
                 </CardContent>
             </Card>
             <PdfViewerDialog open={!!selectedFile} onOpenChange={(open) => !open && handleCloseDialog()} file={selectedFile} />
