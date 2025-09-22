@@ -61,15 +61,8 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
-    const [isExpanded, setIsExpanded] = useState(false); // New state for expansion
-
-    const showCompletedVisuals = stage.status === 'completed' && ((stage.siteImages && stage.siteImages.length > 0) || (stage.documents && stage.documents.length > 0));
-    const showOngoingDocs = stage.status === 'On Going' && stage.documents && stage.documents.length > 0;
-    const hasAttachments = showCompletedVisuals || showOngoingDocs;
-
-    const handlePdfClick = (doc: { name: string, url: string }) => {
-        setSelectedPdf(doc);
-    };
+    const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const handleCardClick = () => {
         if (hasAttachments) {
@@ -79,6 +72,10 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
         }
     }
 
+    const handlePdfClick = (doc: { name: string, url: string }) => {
+        setSelectedPdf(doc);
+    };
+
     return (
         <>
             <Card 
@@ -87,7 +84,7 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
                     hasAttachments && "cursor-pointer hover:shadow-md",
                     className
                 )} 
-                onClick={hasAttachments ? handleCardClick : undefined} 
+                onClick={handleCardClick} 
                 data-state={isExpanded ? 'open' : 'closed'}
             >
                 <div className="flex items-center gap-4">
@@ -142,7 +139,7 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
                         </div>
                     )}
                     
-                    {showCompletedVisuals && (
+                    {(stage.status === 'completed' && hasAttachments) && (
                         <div className="mt-4 space-y-4">
                             <Separator />
                             <div className="pt-4">
@@ -307,7 +304,7 @@ export default function ExistingClientHomePage() {
   };
 
   const [allStages, setAllStages] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: '27 May 2024', documents: [{name: "Soil Test Report.pdf", url: "#"}] },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
@@ -316,7 +313,26 @@ export default function ExistingClientHomePage() {
   ]);
   
   const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
-  const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), [allStages]);
+
+  const recentlyCompletedTasks = useMemo(() => {
+    const now = new Date();
+    const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+
+    return allStages.filter(stage => {
+        if (stage.status === 'completed' && stage.approvalDate) {
+            const approvalDate = new Date(stage.approvalDate);
+            return approvalDate > twentyFourHoursAgo;
+        }
+        return false;
+    });
+  }, [allStages]);
+
+  const completedTasks = useMemo(() => {
+    const now = new Date();
+    const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+    return allStages.filter(stage => stage.status === 'completed' && (!stage.approvalDate || new Date(stage.approvalDate) <= twentyFourHoursAgo))
+  }, [allStages]);
+  
   const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin'), [allStages]);
 
   
@@ -392,6 +408,17 @@ export default function ExistingClientHomePage() {
                     </Button>
                 </div>
                 <div className="relative pb-4">
+                    {recentlyCompletedTasks.length > 0 && (
+                        <div className="mb-8">
+                            <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                {recentlyCompletedTasks.map((stage, index) => (
+                                    <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                                ))}
+                            </div>
+                            <Separator className="my-8" />
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
@@ -441,6 +468,8 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
 
     
 
