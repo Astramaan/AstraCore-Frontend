@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -268,38 +267,71 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     
     let fileCount = 0;
 
-    const allFiles = [
-        ...files.initial,
-        ...files.costing,
-        ...files.architecture,
-        ...files.structure,
-        ...files.sanction,
-        ...files.construction
+    const fileSections = [
+        { files: files.initial },
+        { files: files.costing },
+        { files: files.architecture },
+        { files: files.structure },
+        { files: files.sanction },
+        { files: files.construction },
     ];
+    
+    const halfwayPoint = Math.ceil(fileSections.reduce((sum, section) => sum + section.files.length, 0) / 2);
 
-    const halfwayPoint = Math.ceil(allFiles.length / 2);
-    const firstColumnFiles = allFiles.slice(0, halfwayPoint);
-    const secondColumnFiles = allFiles.slice(halfwayPoint);
+    let firstColumnCount = 0;
+    const firstColumnSections = [];
+    const secondColumnSections = [];
+    
+    for (const section of fileSections) {
+        if (firstColumnCount + section.files.length <= halfwayPoint || secondColumnSections.length === 0) {
+            firstColumnSections.push(section);
+            firstColumnCount += section.files.length;
+        } else {
+            secondColumnSections.push(section);
+        }
+    }
+    
+    let firstColumnStartIndex = 0;
+    let secondColumnStartIndex = firstColumnCount;
+
 
     return (
         <>
             <Card className="rounded-[50px] border-0">
-                <CardContent className="p-4">
+                <CardContent className="p-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <FileSection 
-                            files={firstColumnFiles} 
-                            startIndex={0} 
-                            onFileClick={handleFileClick}
-                            onFileUpdate={handleFileUpdate}
-                            onFileDelete={handleFileDelete}
-                        />
-                         <FileSection 
-                            files={secondColumnFiles} 
-                            startIndex={firstColumnFiles.length} 
-                            onFileClick={handleFileClick}
-                            onFileUpdate={handleFileUpdate}
-                            onFileDelete={handleFileDelete}
-                        />
+                        <div className="space-y-6">
+                            {firstColumnSections.map((section, index) => {
+                                const startIndex = firstColumnStartIndex;
+                                firstColumnStartIndex += section.files.length;
+                                return (
+                                    <FileSection 
+                                        key={index}
+                                        files={section.files} 
+                                        startIndex={startIndex}
+                                        onFileClick={handleFileClick}
+                                        onFileUpdate={handleFileUpdate}
+                                        onFileDelete={handleFileDelete}
+                                    />
+                                );
+                            })}
+                        </div>
+                        <div className="space-y-6">
+                             {secondColumnSections.map((section, index) => {
+                                const startIndex = secondColumnStartIndex;
+                                secondColumnStartIndex += section.files.length;
+                                return (
+                                    <FileSection 
+                                        key={index}
+                                        files={section.files} 
+                                        startIndex={startIndex}
+                                        onFileClick={handleFileClick}
+                                        onFileUpdate={handleFileUpdate}
+                                        onFileDelete={handleFileDelete}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
                 </CardContent>
             </Card>
