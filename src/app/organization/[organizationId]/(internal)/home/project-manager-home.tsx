@@ -153,7 +153,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             case 'upcoming':
             case 'pending':
             default:
-                return { text: 'Yet To Begin', color: 'bg-gray-100 text-gray-600' };
+                return { text: 'Yet to Begin', color: 'bg-gray-100 text-gray-600' };
         }
     }, [stage.status]);
 
@@ -173,7 +173,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                 <div className="flex-1 space-y-1 w-full text-left">
                     <div className="flex justify-between items-start">
                         <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <Badge className={cn('capitalize', statusColor)}>{statusText}</Badge>
+                        <Badge className={cn('capitalize whitespace-nowrap', statusColor)}>{statusText}</Badge>
                     </div>
                     <p className="text-sm">{stage.subtitle}</p>
                     <div className="pt-2">
