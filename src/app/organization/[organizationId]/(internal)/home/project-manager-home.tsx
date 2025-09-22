@@ -19,6 +19,7 @@ import { AssignTaskSheet } from '@/components/assign-task-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
+import { Progress } from '@/components/ui/progress';
 
 // Data for Project Manager Home
 interface Stage {
@@ -36,13 +37,14 @@ interface Stage {
     createdAt: string;
     description: string;
     priority: 'Low' | 'Medium' | 'High';
+    progress?: number;
 }
 const allStages: Stage[] = [
-    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low' },
-    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: new Date().toISOString(), description: 'Begin excavation as per the approved site plan.', priority: 'High' },
-    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), description: 'Mark the grid lines for foundation work.', priority: 'Low' },
-    { id: 6, title: 'Foundation Work', subtitle: 'Sub-structure', category: 'Civil', image: 'https://picsum.photos/seed/foundation/100/100', duration: '5 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '30 May 2024', description: 'Lay the foundation for the structure.', priority: 'High' },
-    { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium' },
+    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low', progress: 100 },
+    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: new Date().toISOString(), description: 'Begin excavation as per the approved site plan.', priority: 'High', progress: 70 },
+    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), description: 'Mark the grid lines for foundation work.', priority: 'Low', progress: 0 },
+    { id: 6, title: 'Foundation Work', subtitle: 'Sub-structure', category: 'Civil', image: 'https://picsum.photos/seed/foundation/100/100', duration: '5 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '30 May 2024', description: 'Lay the foundation for the structure.', priority: 'High', progress: 0 },
+    { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium', progress: 0 },
 ];
 
 const projectsData = [
@@ -142,48 +144,46 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priority = stage.priority;
-    const priorityColors: { [key: string]: string } = {
-        "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-500/10 text-red-500",
-    };
-    
     const { text: statusText, color: statusColor } = useMemo(() => {
         switch (stage.status) {
             case 'completed':
                 return { text: 'Completed', color: 'bg-green-100 text-green-700' };
             case 'ongoing':
-                return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
+                return { text: 'On Going', color: 'bg-blue-100 text-blue-700' };
             case 'upcoming':
             case 'pending':
             default:
-                return { text: 'Upcoming', color: 'bg-yellow-100 text-yellow-600' };
+                return { text: 'Yet To Begin', color: 'bg-gray-100 text-gray-600' };
         }
     }, [stage.status]);
 
-    const needsApproval = stage.status === 'ongoing';
-    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
-    const dateColor = getDateColor(stage.createdAt);
+    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
     return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    {needsApproval && (
-                         <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
-                    )}
+        <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => onStageClick(stage)}>
+            <div className="flex items-center gap-4">
+                <div className="relative w-24 h-24 shrink-0">
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                            <span className="text-white text-sm font-semibold">{stage.category}</span>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                 <div className="flex justify-between items-center mt-2">
-                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                    {needsApproval && <Badge className="bg-orange-100 text-orange-600 ml-auto">Awaiting Approval</Badge>}
+                <div className="flex-1 space-y-1 w-full text-left">
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                        <Badge className={cn('capitalize', statusColor)}>{statusText}</Badge>
+                    </div>
+                    <p className="text-sm">{stage.subtitle}</p>
+                    <div className="pt-2">
+                        <Progress value={stage.progress || 0} className="h-2" />
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
+                            <span className="text-grey-1 text-xs">{formattedDate}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="flex justify-between items-center mt-auto">
-                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
             </div>
         </Card>
     );
@@ -446,5 +446,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-    
