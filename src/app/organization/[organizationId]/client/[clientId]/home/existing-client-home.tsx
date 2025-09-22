@@ -180,10 +180,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer">
+    <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="md:w-full">
         <Card className="rounded-full">
             <CardContent className="p-4">
-                <div className="flex items-center justify-between md:justify-center gap-4">
+                <div className="flex items-center justify-center gap-4">
                     <div className="hidden md:block">
                         <p className="text-black text-sm font-normal">Chat with our Executive</p>
                         <p className="text-grey-1 text-xs">Quick Reply</p>
@@ -425,7 +425,7 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                     <PaymentsDialog />
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                 </div>
@@ -465,4 +465,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
