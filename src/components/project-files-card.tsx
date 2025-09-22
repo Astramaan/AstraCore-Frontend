@@ -1,26 +1,13 @@
 
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { MoreVertical, X, Trash2, Replace, ShieldAlert } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Separator } from './ui/separator';
 import PdfIcon from './icons/pdf-icon';
-import { Badge } from './ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from './ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
 import Image from 'next/image';
 
 interface FileVersion {
@@ -74,17 +61,17 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
 };
 
 const FileItem = ({ file, index, onFileClick }: { file: File, index: number, onFileClick: (file: File) => void }) => (
-    <>
-        <div className="flex items-center gap-4 py-4" onClick={() => onFileClick(file)}>
+    <div className="break-inside-avoid">
+        <div className="flex items-center gap-4 py-4 cursor-pointer" onClick={() => onFileClick(file)}>
             <p className="text-sm">{index + 1}.</p>
             <PdfIcon className="w-6 h-6 shrink-0" />
-            <div className="flex-1 cursor-pointer">
+            <div className="flex-1">
                 <p className="text-base text-black font-medium">{file.name}</p>
                 <p className="text-xs text-stone-400">{file.date}</p>
             </div>
         </div>
         <Separator />
-    </>
+    </div>
 );
 
 
@@ -100,20 +87,13 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         setSelectedFile(null);
     };
     
-    const allFiles = [
-        ...files.initial,
-        ...files.costing,
-        ...files.architecture,
-        ...files.structure,
-        ...files.sanction,
-        ...files.construction,
-    ];
+    const allFiles = Object.values(files).flat();
 
     return (
         <>
             <Card className="rounded-[50px] border-0">
                 <CardContent className="p-10">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                    <div className="md:columns-2 md:gap-x-8">
                         {allFiles.map((file, index) => (
                              <FileItem key={file.id} file={file} index={index} onFileClick={handleFileClick} />
                         ))}
