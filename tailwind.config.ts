@@ -76,6 +76,8 @@ export default {
         'accent-color-05': 'hsl(var(--accent-color-05))',
         'green-light': 'hsl(var(--green-light))',
         'green': 'hsl(var(--green))',
+        'green-100': 'hsl(var(--green-100))',
+        'green-700': 'hsl(var(--green-700))',
       },
       borderRadius: {
         lg: 'var(--radius)',

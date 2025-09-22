@@ -100,11 +100,11 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
                     </div>
                 </div>
                 
-                 {isProjectManager && stage.status === 'On Going' && (stage.documents && stage.documents.length > 0) && (
+                 {stage.status === 'On Going' && (stage.documents && stage.documents.length > 0) && (
                     <div className="mt-4 space-y-4">
                         <Separator />
-                        <h4 className="text-sm font-medium pt-2">Documents for Approval</h4>
-                        <div className="pt-2 space-y-2">
+                        {isProjectManager && <h4 className="text-sm font-medium pt-2">Documents for Approval</h4> }
+                         <div className="pt-2 space-y-2">
                             {stage.documents.map((doc, index) => (
                                 <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
                                     <PdfIcon className="w-6 h-6 shrink-0"/>
@@ -114,10 +114,12 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
                                 </div>
                             ))}
                         </div>
-                        <div className="flex gap-4">
-                            <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                            <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                        </div>
+                        {isProjectManager && (
+                            <div className="flex gap-4">
+                                <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
+                                <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                            </div>
+                        )}
                     </div>
                 )}
                 
@@ -153,22 +155,6 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
                         )}
                     </div>
                 )}
-
-                {user?.team !== 'Project Manager' && stage.status === 'On Going' && stage.documents && stage.documents.length > 0 && (
-                     <div className="mt-4 space-y-2">
-                        <Separator />
-                         <div className="pt-4 space-y-2">
-                            {stage.documents.map((doc, index) => (
-                                 <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
-                                    <PdfIcon className="w-6 h-6 shrink-0"/>
-                                    <div className="flex-1">
-                                        <p className="text-base text-black font-medium">{doc.name}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                 )}
             </Card>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
