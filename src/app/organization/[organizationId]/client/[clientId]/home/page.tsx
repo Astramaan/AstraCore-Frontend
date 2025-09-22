@@ -24,17 +24,15 @@ export default function ClientHomePageWrapper() {
     const params = useParams();
 
     React.useEffect(() => {
-        if (!loading && user) {
-            const currentPathClientId = params.clientId;
-            if (user.userId !== currentPathClientId) {
-                if (user.team === 'New User') {
-                     router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
-                } else if (user.roleType === 'client') {
+        if (!loading) {
+            if (user) {
+                const currentPathClientId = params.clientId;
+                if (user.userId !== currentPathClientId && user.roleType === 'client') {
                     router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
                 }
+            } else {
+                router.push('/');
             }
-        } else if (!loading && !user) {
-            router.push('/');
         }
     }, [user, loading, router, params]);
 
