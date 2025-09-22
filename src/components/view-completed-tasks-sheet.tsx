@@ -40,6 +40,8 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
         return { text: 'Completed', color: 'bg-green-100 text-green-700' };
     }, []);
 
+    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
     return (
         <Card className="w-full h-44 rounded-[40px] border flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onClick(stage)}>
             <div>
@@ -51,7 +53,7 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
             </div>
             <div className="flex justify-between items-center mt-auto pt-4">
                  <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
+                <p className="text-sm text-muted-foreground">{formattedDate}</p>
             </div>
         </Card>
     )
@@ -109,8 +111,8 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
         <ScrollArea className="flex-1">
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
-                 filteredTasks.map(task => (
-                    <CompletedTaskCard key={task.id} stage={task} onClick={handleTaskClickAndClose} />
+                 filteredTasks.map((task, index) => (
+                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} />
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
