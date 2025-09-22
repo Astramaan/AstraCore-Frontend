@@ -53,7 +53,7 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
             case 'upcoming':
             case 'pending':
             default:
-                return { text: 'Upcoming', color: 'bg-yellow-100 text-yellow-600' };
+                return { text: 'Yet To Begin', color: 'bg-yellow-100 text-yellow-600' };
         }
     }, [stage.status]);
 
@@ -110,7 +110,6 @@ export function ViewUpcomingTasksSheet({ isOpen, onClose, tasks, onTaskClick }: 
   
   const handleTaskClickAndClose = (task: Stage) => {
     onTaskClick(task);
-    onClose();
   }
 
   return (
