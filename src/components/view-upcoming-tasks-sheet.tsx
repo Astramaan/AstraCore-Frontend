@@ -60,7 +60,7 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
     const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
 
     return (
-       <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => onClick(stage)}>
+       <Card className="rounded-[24px] p-4 bg-background hover:shadow-md transition-shadow cursor-pointer" onClick={() => onClick(stage)}>
             <div className="flex items-center gap-4">
                 <div className="relative w-24 h-24 shrink-0">
                     <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
