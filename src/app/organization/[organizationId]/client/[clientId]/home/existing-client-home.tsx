@@ -20,40 +20,54 @@ interface TimelineStage {
     title: string;
     subtitle: string;
     date: string;
-    status: 'On Going' | 'Yet To Begin';
+    status: 'On Going' | 'Yet To Begin' | 'completed';
     progress: number;
     category: string;
     image: string;
 }
 
-const StageCard = ({ stage }: { stage: TimelineStage }) => (
-    <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
-        <div className="flex items-center gap-4">
-            <div className="relative w-24 h-24 shrink-0">
-                <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                    <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                       <span className="text-white text-sm font-semibold">{stage.category}</span>
+const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void }) => {
+    const { user } = useUser();
+    const isProjectManager = user?.team === 'Project Manager';
+
+    return (
+        <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-4">
+                <div className="relative w-24 h-24 shrink-0">
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                        <span className="text-white text-sm font-semibold">{stage.category}</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-1 space-y-1 w-full">
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                        <Badge className={cn('capitalize', 
+                            stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
+                            stage.status === 'completed' ? 'bg-green-100 text-green-700' :
+                            'bg-gray-100 text-gray-600'
+                        )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
+                    </div>
+                    <p className="text-sm">{stage.subtitle}</p>
+                    <div className="pt-2">
+                        <Progress value={stage.progress} className="h-2" />
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                            <span className="text-grey-1 text-xs">{stage.date}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="flex-1 space-y-1 w-full">
-                 <div className="flex justify-between items-start">
-                    <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                    <Badge className={cn('capitalize', stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600')}>{stage.status}</Badge>
+             {isProjectManager && stage.status === 'completed' && (
+                <div className="flex justify-end mt-4">
+                    <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
                 </div>
-                <p className="text-sm">{stage.subtitle}</p>
-                <div className="pt-2">
-                    <Progress value={stage.progress} className="h-2" />
-                    <div className="flex justify-between items-center mt-2">
-                        <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                        <span className="text-grey-1 text-xs">{stage.date}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </Card>
-);
+            )}
+        </Card>
+    )
+};
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer">
@@ -174,14 +188,22 @@ export default function ExistingClientHomePage() {
     ]
   };
 
-  const timeline: TimelineStage[] = [
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100" },
+  const [timeline, setTimeline] = useState<TimelineStage[]>([
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100" },
+    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100" },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
     { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
     { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
-  ]
+  ]);
+  
+  const handleReopenTask = (stageToReopen: TimelineStage) => {
+    setTimeline(currentTimeline => 
+        currentTimeline.map(stage => 
+            stage.title === stageToReopen.title ? { ...stage, status: 'On Going', progress: 50 } : stage
+        )
+    );
+  };
   
   const openImagePreview = (index: number) => {
     setPreviewState({ open: true, startIndex: index });
@@ -233,7 +255,7 @@ export default function ExistingClientHomePage() {
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
-                            <StageCard key={index} stage={stage} />
+                            <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                         ))}
                     </div>
                 </div>
