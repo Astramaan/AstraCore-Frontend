@@ -131,6 +131,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate, onFileDelete }: 
     return (
         <AlertDialog>
             <div className="space-y-4">
+                 <h3 className="text-xl font-semibold">{title}</h3>
                 <input
                     type="file"
                     ref={fileInputRef}
@@ -270,17 +271,12 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     return (
         <>
             <Card className="rounded-[50px] border-0">
-                <CardContent className="p-4 space-y-6">
+                <CardContent className="p-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
-                    <Separator />
                     <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <Separator />
                     <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <Separator />
                     <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <Separator />
                     <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                    <Separator />
                     <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
                 </CardContent>
             </Card>
