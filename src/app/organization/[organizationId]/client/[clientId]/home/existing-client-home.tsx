@@ -12,7 +12,7 @@ import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
-import { Dialog, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -465,3 +465,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
