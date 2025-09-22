@@ -181,7 +181,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="md:w-full">
-        <Card className="rounded-full">
+        <Card className="rounded-full h-24 flex items-center justify-center">
             <CardContent className="p-4">
                 <div className="flex items-center justify-center gap-4">
                     <div className="hidden md:block">
@@ -217,8 +217,8 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full">
-        <CardContent className="p-6">
+    <Card className="rounded-full h-24 flex items-center">
+        <CardContent className="p-6 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div>
                     <p className="text-black text-sm font-normal">Payment</p>
