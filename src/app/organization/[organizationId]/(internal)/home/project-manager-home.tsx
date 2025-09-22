@@ -197,11 +197,10 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks, onOpenDailyUpdates }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void, onOpenDailyUpdates: () => void }) => {
+const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
     }, [project.tasks]);
-     const pendingUpdatesCount = useMemo(() => project.dailyUpdates.filter(u => u.status === 'pending').length, [project.dailyUpdates]);
 
     return (
       <div className="space-y-4">
@@ -245,14 +244,6 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 onClick={onOpenUpcomingTasks}
             >
                 View Upcoming Tasks
-            </Button>
-            <Button
-                variant="outline"
-                onClick={onOpenDailyUpdates}
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
-            >
-                Daily Updates
-                {pendingUpdatesCount > 0 && <Badge className="ml-2 bg-primary text-white">{pendingUpdatesCount}</Badge>}
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -368,7 +359,6 @@ export default function ProjectManagerHome() {
                             onStageClick={handleStageClick} 
                             onOpenCompletedTasks={() => setIsCompletedTasksSheetOpen(true)}
                             onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
-                            onOpenDailyUpdates={() => setIsDailyUpdatesSheetOpen(true)}
                         />
                     )}
                 </div>
