@@ -77,7 +77,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                     </div>
                 </div>
             )}
-             {isProjectManager && stage.status === 'completed' && (
+             {stage.status === 'completed' && (
                 <div className="mt-4 space-y-4">
                     {showCompletedImages && (
                          <div className="grid grid-cols-4 gap-2">
@@ -86,9 +86,11 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                             ))}
                         </div>
                     )}
-                    <div className="flex justify-end">
-                        <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
-                    </div>
+                    {isProjectManager && (
+                        <div className="flex justify-end">
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
+                        </div>
+                    )}
                 </div>
             )}
         </Card>
@@ -316,3 +318,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
