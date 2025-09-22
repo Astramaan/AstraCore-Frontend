@@ -30,12 +30,42 @@ interface TimelineStage {
     documents?: { name: string, url: string }[];
 }
 
+const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenChange: (open: boolean) => void; file: { name: string, url: string } | null }) => {
+    if (!file) return null;
+    // In a real app, file.url would be used. For this dummy data, we use a placeholder PDF.
+    const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
+                    <DialogTitle>{file.name}</DialogTitle>
+                    <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
+                            <X className="h-5 w-5" />
+                        </Button>
+                    </DialogClose>
+                </DialogHeader>
+                <div className="flex-1">
+                    <iframe src={dummyPdfUrl} className="w-full h-full" title={file.name} />
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
+    const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
 
-    const showApprovalUI = stage.status === 'On Going' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
-    const showCompletedImages = stage.status === 'completed' && stage.siteImages && stage.siteImages.length > 0;
+
+    const showApprovalUI = isProjectManager && stage.status === 'On Going' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
+    const showCompletedVisuals = stage.status === 'completed' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
+    
+    const handlePdfClick = (doc: { name: string, url: string }) => {
+        setSelectedPdf(doc);
+    };
 
     return (
         <>
@@ -82,44 +112,55 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                              <div className="pt-4 space-y-2">
                                 <h4 className="text-sm font-medium">Documents for Approval</h4>
                                 {stage.documents.map((doc, index) => (
-                                    <div key={index} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
+                                    <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
                                         <p className="text-sm font-medium">{doc.name}</p>
                                           <Download className="h-4 w-4"/>
                                     </div>
                                 ))}
                             </div>
                         )}
-                        {isProjectManager && (
-                            <div className="flex gap-4">
-                                <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                                <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                            </div>
-                        )}
+                        <div className="flex gap-4">
+                            <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
+                            <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                        </div>
                     </div>
                 )}
-                 {stage.status === 'completed' && (
+                 {showCompletedVisuals && (
                     <div className="mt-4 space-y-4">
-                        {showCompletedImages && (
-                            <>
-                                <Separator />
-                                <div className="pt-4">
-                                    <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>
-                                    <div className="grid grid-cols-4 gap-2">
-                                        {stage.siteImages?.map((img, index) => (
-                                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                                        ))}
-                                    </div>
+                        <Separator />
+                        <div className="pt-4">
+                             {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>}
+                            {stage.siteImages && stage.siteImages.length > 0 && (
+                                <div className="grid grid-cols-4 gap-2">
+                                    {stage.siteImages?.map((img, index) => (
+                                        <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                    ))}
                                 </div>
-                            </>
-                        )}
+                            )}
+                             {stage.documents && stage.documents.length > 0 && (
+                                <div className="pt-4 space-y-2">
+                                    {stage.documents.map((doc, index) => (
+                                        <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
+                                            <p className="text-sm font-medium">{doc.name}</p>
+                                            <Download className="h-4 w-4"/>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                         {isProjectManager && (
-                            <div className="flex justify-end">
+                            <div className="flex justify-end pt-2">
                                 <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
                             </div>
                         )}
                     </div>
                 )}
             </Card>
+             <PdfPreviewDialog 
+                open={!!selectedPdf} 
+                onOpenChange={(open) => !open && setSelectedPdf(null)} 
+                file={selectedPdf} 
+            />
         </>
     )
 };
