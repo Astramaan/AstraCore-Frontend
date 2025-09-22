@@ -131,7 +131,7 @@ const FileSection = ({ title, files, onFileClick, onFileUpdate, onFileDelete }: 
     return (
         <AlertDialog>
             <div className="space-y-4">
-                 <h3 className="text-xl font-semibold">{title}</h3>
+                 {title !== 'Costing' && <h3 className="text-xl font-semibold">{title}</h3>}
                 <input
                     type="file"
                     ref={fileInputRef}
