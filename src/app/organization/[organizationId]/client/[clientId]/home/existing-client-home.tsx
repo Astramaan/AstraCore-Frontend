@@ -65,13 +65,14 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
 
     const showCompletedVisuals = stage.status === 'completed' && ((stage.siteImages && stage.siteImages.length > 0) || (stage.documents && stage.documents.length > 0));
     const showOngoingDocs = stage.status === 'On Going' && stage.documents && stage.documents.length > 0;
+    const hasAttachments = showCompletedVisuals || showOngoingDocs;
 
     const handlePdfClick = (doc: { name: string, url: string }) => {
         setSelectedPdf(doc);
     };
 
     const handleCardClick = () => {
-        if (showCompletedVisuals || showOngoingDocs) {
+        if (hasAttachments) {
             setIsExpanded(!isExpanded);
         } else if (onClick) {
             onClick(stage);
@@ -80,7 +81,15 @@ const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineSta
 
     return (
         <>
-            <Card className={cn("rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow", className)} onClick={handleCardClick} data-state={isExpanded ? 'open' : 'closed'}>
+            <Card 
+                className={cn(
+                    "rounded-[24px] p-4 bg-white transition-shadow", 
+                    hasAttachments && "cursor-pointer hover:shadow-md",
+                    className
+                )} 
+                onClick={hasAttachments ? handleCardClick : undefined} 
+                data-state={isExpanded ? 'open' : 'closed'}
+            >
                 <div className="flex items-center gap-4">
                     <div className="relative w-24 h-24 shrink-0">
                         <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -432,5 +441,7 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
 
     
