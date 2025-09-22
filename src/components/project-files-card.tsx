@@ -131,7 +131,6 @@ const FileSection = ({ files, onFileClick, onFileUpdate, onFileDelete, startInde
     return (
         <AlertDialog>
             <div className="space-y-4">
-                
                 <input
                     type="file"
                     ref={fileInputRef}
@@ -151,38 +150,8 @@ const FileSection = ({ files, onFileClick, onFileUpdate, onFileDelete, startInde
                                     <p className="text-xs text-stone-400">{file.date}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                {file.version && (
-                                    <Badge
-                                        variant="outline"
-                                        className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm"
-                                        onClick={() => setSelectedHistoryFile(file)}
-                                    >
-                                        {file.version.replace('V ', 'Version ')}
-                                    </Badge>
-                                )}
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="w-6 h-6">
-                                            <MoreVertical className="w-5 h-5" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem onSelect={() => openFilePicker(file.id)}>
-                                            <Replace className="mr-2 h-4 w-4" />
-                                            Change
-                                        </DropdownMenuItem>
-                                        <AlertDialogTrigger asChild>
-                                            <DropdownMenuItem className="text-red-600" onSelect={(e) => {e.preventDefault(); setFileToDelete(file)}}>
-                                                <Trash2 className="mr-2 h-4 w-4" />
-                                                Remove
-                                            </DropdownMenuItem>
-                                        </AlertDialogTrigger>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
                         </div>
-                        {index < files.length - 1 && <Separator />}
+                        <Separator />
                     </React.Fragment>
                 ))}
                 <VersionHistoryDialog 
@@ -267,7 +236,7 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         setSelectedFile(null);
     };
     
-    const allFileSections = [
+    const allFiles = [
         ...files.initial,
         ...files.costing,
         ...files.architecture,
@@ -280,39 +249,14 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         <>
             <Card className="rounded-[50px] border-0">
                 <CardContent className="p-10">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        {allFileSections.map((file, index) => (
-                           <React.Fragment key={file.id}>
-                               <div className="flex items-center gap-4">
-                                   <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => handleFileClick(file)}>
-                                       <p className="text-sm">{index + 1}.</p>
-                                       <PdfIcon className="w-6 h-6 shrink-0" />
-                                       <div className="flex-1">
-                                           <p className="text-base text-black font-medium">{file.name}</p>
-                                           <p className="text-xs text-stone-400">{file.date}</p>
-                                       </div>
-                                   </div>
-                                   <div className="flex items-center gap-2">
-                                       {file.version && (
-                                           <Badge
-                                               variant="outline"
-                                               className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm"
-                                               onClick={() => {
-                                                   const originalFile = Object.values(files).flat().find(f => f.id === file.id);
-                                                   if (originalFile) {
-                                                       // This part would need a way to open the version history dialog
-                                                   }
-                                               }}
-                                           >
-                                               {file.version.replace('V ', 'Version ')}
-                                           </Badge>
-                                       )}
-                                       {/* More actions can be added here if needed */}
-                                   </div>
-                               </div>
-                               <Separator className="md:hidden last:hidden" />
-                           </React.Fragment>
-                        ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0">
+                       <FileSection 
+                            files={allFiles} 
+                            onFileClick={handleFileClick} 
+                            onFileUpdate={handleFileUpdate} 
+                            onFileDelete={handleFileDelete}
+                            startIndex={0}
+                        />
                     </div>
                 </CardContent>
             </Card>
