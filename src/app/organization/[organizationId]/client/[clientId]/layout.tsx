@@ -14,7 +14,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
              <ClientHeader />
            </div>
         </header>
-        <main className="w-full flex-1 overflow-y-auto bg-background pb-32">
+        <main className="w-full flex-1 overflow-y-auto bg-background">
             {children}
         </main>
         <ClientBottomNav />
