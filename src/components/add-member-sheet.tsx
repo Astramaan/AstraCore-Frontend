@@ -40,7 +40,6 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const { user } = useUser();
     
     const isTeamAdmin = user?.team === 'Architect' || user?.team === 'Sales' || user?.team === 'Site Supervisor';
-    const isClient = user?.roleType === 'client';
     const teamValue = user?.team?.toLowerCase().replace(' ', '');
 
     const [name, setName] = useState('');
@@ -65,27 +64,6 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     
     const teams = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
     const roles = ["Admin", "Member"];
-
-    if (isClient) {
-        return (
-            <form action={formAction} className="flex flex-col h-full">
-                 <input type="hidden" name="role" value="client" />
-                 <input type="hidden" name="team" value="New User" />
-                <ScrollArea className="flex-1 p-6 no-scrollbar">
-                    <div className="space-y-6">
-                        <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
-                        <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
-                    </div>
-                </ScrollArea>
-                <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
-                    <Button type="submit" className="w-full h-[54px] text-lg rounded-full md:w-auto md:px-14">
-                        Add
-                    </Button>
-                </div>
-            </form>
-        )
-    }
 
     return (
     <form action={formAction} className="flex flex-col h-full">
@@ -185,7 +163,7 @@ export function AddMemberSheet({ isOpen: controlledIsOpen, onOpenChange: control
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
                         <Plus className="h-6 w-6"/>
                     </div>
-                    {user?.roleType === 'client' ? 'Add Family Member' : 'Add New Member'}
+                    Add New Member
                 </SheetTitle>
                 <SheetClose asChild>
                   <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
@@ -202,10 +180,9 @@ export function AddMemberSheet({ isOpen: controlledIsOpen, onOpenChange: control
     <SuccessPopup 
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
-        title={user?.roleType === 'client' ? "Family Member Added" : "Employee Added Successfully"}
-        message={user?.roleType === 'client' ? "The new family member can now access the project." : "The new employee has been added. A password creation link has been sent to their email, allowing them to access AstraCore."}
+        title="Employee Added Successfully"
+        message="The new employee has been added. A password creation link has been sent to their email, allowing them to access AstraCore."
     />
     </>
   );
 }
-

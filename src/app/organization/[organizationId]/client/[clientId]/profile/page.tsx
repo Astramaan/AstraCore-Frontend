@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser } from '@/context/user-context';
-import { AddMemberSheet } from '@/components/add-member-sheet';
+import { AddFamilyMemberSheet } from '@/components/add-family-member-sheet';
 
 const DetailField = ({ label, value }: { label: string, value: string }) => (
     <div className="space-y-1">
@@ -168,11 +168,11 @@ export default function ClientProfilePage() {
 
 
                 <Button variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none">
-                    <LogOut className="w-5 w-5 mr-2" />
+                    <LogOut className="w-5 h-5 mr-2" />
                     Logout
                 </Button>
             </div>
-            {isExistingClient && <AddMemberSheet isOpen={isAddMemberSheetOpen} onOpenChange={setIsAddMemberSheetOpen}/>}
+            {isExistingClient && <AddFamilyMemberSheet isOpen={isAddMemberSheetOpen} onOpenChange={setIsAddMemberSheetOpen}/>}
         </div>
     );
 }
