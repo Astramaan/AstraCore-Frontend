@@ -26,6 +26,7 @@ interface TimelineStage {
     category: string;
     image: string;
     siteImages?: string[];
+    approvalDate?: string;
 }
 
 const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void }) => {
@@ -84,10 +85,13 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                     {showCompletedImages && (
                         <>
                             <Separator />
-                            <div className="grid grid-cols-4 gap-2 pt-4">
-                                {stage.siteImages?.map((img, index) => (
-                                    <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                                ))}
+                            <div className="pt-4">
+                                <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {stage.siteImages?.map((img, index) => (
+                                        <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                    ))}
+                                </div>
                             </div>
                         </>
                     )}
@@ -222,7 +226,7 @@ export default function ExistingClientHomePage() {
   };
 
   const [timeline, setTimeline] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"] },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: '27 May 2024' },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", siteImages: ["https://picsum.photos/seed/slab1/150/150", "https://picsum.photos/seed/slab2/150/150"] },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
