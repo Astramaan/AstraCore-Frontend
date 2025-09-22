@@ -57,55 +57,36 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
     );
 };
 
-const ImageGallerySheet = ({ open, onOpenChange, images, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], title: string }) => {
-    const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
-
-    const openPreview = (index: number) => {
-        setPreviewState({ open: true, startIndex: index });
-    };
-
-    const closePreview = () => {
-        setPreviewState({ open: false, startIndex: 0 });
-    };
-
+const ImageGallerySheet = ({ open, onOpenChange, images, title, onImageClick }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], title: string, onImageClick: (index: number) => void }) => {
     return (
-        <>
-            <Sheet open={open} onOpenChange={onOpenChange}>
-                <SheetContent 
-                    side="bottom"
-                    className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
-                >
-                    <SheetHeader className="p-4 border-b flex-row items-center justify-between">
-                        <SheetTitle>{title}</SheetTitle>
-                        <SheetClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full bg-background w-[54px] h-[54px]">
-                                <X className="h-5 w-5" />
-                            </Button>
-                        </SheetClose>
-                    </SheetHeader>
-                    <ScrollArea className="flex-1">
-                        <div className="p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            {images.map((src, index) => (
-                                <div key={index} className="relative aspect-square cursor-pointer group" onClick={() => openPreview(index)}>
-                                    <Image src={src} layout="fill" objectFit="cover" alt={`${title} image ${index + 1}`} className="rounded-[10px]" />
-                                </div>
-                            ))}
-                        </div>
-                    </ScrollArea>
-                </SheetContent>
-            </Sheet>
-            <ImagePreviewDialog 
-                open={previewState.open}
-                onOpenChange={(open) => !open && closePreview()}
-                images={images}
-                startIndex={previewState.startIndex}
-                title={title}
-            />
-        </>
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <SheetContent 
+                side="bottom"
+                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
+            >
+                <SheetHeader className="p-4 border-b flex-row items-center justify-between">
+                    <SheetTitle>{title}</SheetTitle>
+                    <SheetClose asChild>
+                        <Button variant="ghost" size="icon" className="rounded-full bg-background w-[54px] h-[54px]">
+                            <X className="h-5 w-5" />
+                        </Button>
+                    </SheetClose>
+                </SheetHeader>
+                <ScrollArea className="flex-1">
+                    <div className="p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {images.map((src, index) => (
+                            <div key={index} className="relative aspect-square cursor-pointer group" onClick={() => onImageClick(index)}>
+                                <Image src={src} layout="fill" objectFit="cover" alt={`${title} image ${index + 1}`} className="rounded-[10px]" />
+                            </div>
+                        ))}
+                    </div>
+                </ScrollArea>
+            </SheetContent>
+        </Sheet>
     )
 }
 
-const ImageGrid = ({ images, title, onViewMoreClick }: { images: string[], title: string, onViewMoreClick: () => void }) => {
+const ImageGrid = ({ images, title, onViewMoreClick, onImageClick }: { images: string[], title: string, onViewMoreClick: () => void, onImageClick: (index: number) => void }) => {
     return (
         <div>
             <div className="flex justify-between items-center mb-4">
@@ -116,10 +97,10 @@ const ImageGrid = ({ images, title, onViewMoreClick }: { images: string[], title
             </div>
             <div className="grid grid-cols-4 gap-3.5">
                 {images.slice(0, 4).map((src, index) => (
-                    <div key={index} className="relative aspect-square cursor-pointer" onClick={onViewMoreClick}>
+                    <div key={index} className="relative aspect-square cursor-pointer" onClick={() => onImageClick(index)}>
                         <Image src={src} layout="fill" objectFit="cover" alt={`${title} ${index + 1}`} className="rounded-[10px]" data-ai-hint="architectural render" />
                         {index === 3 && images.length > 4 && (
-                            <div className="absolute inset-0 bg-black/50 rounded-[10px] flex items-center justify-center">
+                             <div className="absolute inset-0 bg-black/50 rounded-[10px] flex items-center justify-center cursor-pointer" onClick={(e) => { e.stopPropagation(); onViewMoreClick(); }}>
                                 <p className="text-white text-lg font-bold">+{images.length - 4}</p>
                             </div>
                         )}
@@ -133,6 +114,7 @@ const ImageGrid = ({ images, title, onViewMoreClick }: { images: string[], title
 
 export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
     const [sheetState, setSheetState] = useState<{ open: boolean, images: string[], title: string }>({ open: false, images: [], title: '' });
+     const [previewState, setPreviewState] = useState<{ open: boolean, images: string[], startIndex: number, title: string }>({ open: false, images: [], startIndex: 0, title: '' });
 
     const openSheet = (images: string[], title: string) => {
         setSheetState({ open: true, images, title });
@@ -142,6 +124,14 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
         setSheetState({ open: false, images: [], title: '' });
     }
 
+    const openPreview = (images: string[], title: string, index: number) => {
+        setPreviewState({ open: true, images, startIndex: index, title });
+    };
+
+    const closePreview = () => {
+        setPreviewState({ open: false, images: [], startIndex: 0, title: '' });
+    };
+
     return (
         <>
             <Card className="rounded-[50px]">
@@ -150,6 +140,7 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
                         images={visuals['3d']}
                         title="3D Visualize"
                         onViewMoreClick={() => openSheet(visuals['3d'], '3D Visualize')}
+                        onImageClick={(index) => openPreview(visuals['3d'], '3D Visualize', index)}
                     />
 
                     <Separator orientation="vertical" className="h-full" />
@@ -158,6 +149,7 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
                         images={visuals.gallery}
                         title="Gallery"
                         onViewMoreClick={() => openSheet(visuals.gallery, 'Gallery')}
+                        onImageClick={(index) => openPreview(visuals.gallery, 'Gallery', index)}
                     />
                 </CardContent>
             </Card>
@@ -167,6 +159,14 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
                 onOpenChange={(open) => !open && closeSheet()}
                 images={sheetState.images}
                 title={sheetState.title}
+                onImageClick={(index) => openPreview(sheetState.images, sheetState.title, index)}
+            />
+             <ImagePreviewDialog
+                open={previewState.open}
+                onOpenChange={(open) => !open && closePreview()}
+                images={previewState.images}
+                startIndex={previewState.startIndex}
+                title={previewState.title}
             />
         </>
     );
