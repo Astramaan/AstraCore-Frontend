@@ -218,7 +218,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 const PaymentCard = () => (
     <Card className="rounded-full">
-        <CardContent className="p-4">
+        <CardContent className="p-6">
             <div className="flex items-center justify-between gap-4">
                  <div>
                     <p className="text-black text-sm font-normal">Payment</p>
@@ -465,5 +465,7 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
 
     
