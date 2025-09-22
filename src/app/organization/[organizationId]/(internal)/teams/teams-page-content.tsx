@@ -12,6 +12,7 @@ import { ViewMembersSheet, type Role, type Member } from '@/components/view-memb
 import { CreateDepartmentSheet } from '@/components/create-department-sheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/context/user-context';
+import { AddMemberSheet } from '@/components/add-member-sheet';
 
 const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: string } } = {
     "Super Admin": { icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
@@ -233,7 +234,7 @@ export default function TeamsPageContent() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                     {user?.roleType === 'superAdmin' && <CreateDepartmentSheet />}
+                     {user?.roleType === 'superAdmin' ? <CreateDepartmentSheet /> : <AddMemberSheet />}
                      <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
                         <ChevronLeft className="mr-2 h-4 w-4" />
                         Back
@@ -267,5 +268,6 @@ export default function TeamsPageContent() {
         </div>
     );
 }
+
 
 
