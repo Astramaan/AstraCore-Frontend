@@ -140,7 +140,7 @@ export default function MeetUsPage({ params }: { params: { organizationId: strin
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8 md:p-8">
+                <div className="max-w-[1240px] mx-auto space-y-8 md:p-8 pb-32">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
