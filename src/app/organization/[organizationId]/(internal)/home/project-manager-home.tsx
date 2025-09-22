@@ -20,6 +20,7 @@ import { AssignTaskSheet } from '@/components/assign-task-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
+import { DailyUpdatesSheet, type DailyUpdate } from '@/components/daily-updates-sheet';
 
 // Data for Project Manager Home
 interface Stage {
@@ -46,6 +47,11 @@ const allStages: Stage[] = [
     { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium' },
 ];
 
+const dailyUpdatesData: DailyUpdate[] = [
+    { id: 'upd1', date: new Date().toISOString(), uploadedBy: 'Yaswanth', photos: ['https://picsum.photos/seed/upd1-1/200/200', 'https://picsum.photos/seed/upd1-2/200/200'], taskName: 'Excavation', status: 'pending' },
+    { id: 'upd2', date: new Date(new Date().setDate(new Date().getDate() -1)).toISOString(), uploadedBy: 'Yaswanth', photos: ['https://picsum.photos/seed/upd2-1/200/200'], taskName: 'Excavation', status: 'approved' },
+];
+
 const projectsData = [
   {
     id: "CHA2024",
@@ -54,7 +60,8 @@ const projectsData = [
     siteSupervisorPhone: "9876543210",
     architect: "Darshan",
     architectPhone: "1234567890",
-    tasks: allStages
+    tasks: allStages,
+    dailyUpdates: dailyUpdatesData,
   },
   {
     id: "SAT2025",
@@ -63,7 +70,8 @@ const projectsData = [
     siteSupervisorPhone: "9876543210",
     architect: "Anil",
     architectPhone: "1234567890",
-    tasks: allStages.slice(0, 2)
+    tasks: allStages.slice(0, 2),
+    dailyUpdates: [],
   }
 ];
 
@@ -190,10 +198,11 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     );
 };
 
-const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
+const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks, onOpenDailyUpdates }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void, onOpenDailyUpdates: () => void }) => {
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
     }, [project.tasks]);
+     const pendingUpdatesCount = useMemo(() => project.dailyUpdates.filter(u => u.status === 'pending').length, [project.dailyUpdates]);
 
     return (
       <div className="space-y-4">
@@ -238,6 +247,14 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
             >
                 View Upcoming Tasks
             </Button>
+            <Button
+                variant="outline"
+                onClick={onOpenDailyUpdates}
+                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+            >
+                Daily Updates
+                {pendingUpdatesCount > 0 && <Badge className="ml-2 bg-primary text-white">{pendingUpdatesCount}</Badge>}
+            </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {projectTasks.map((stage) => (
@@ -258,6 +275,7 @@ export default function ProjectManagerHome() {
     const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
+    const [isDailyUpdatesSheetOpen, setIsDailyUpdatesSheetOpen] = useState(false);
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -315,6 +333,18 @@ export default function ProjectManagerHome() {
 
     const filteredMyTasks = useMemo(() => applyFilters(initialTaskData), [activeFilter]);
     const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasksData), [activeFilter]);
+    
+    const [currentDailyUpdates, setCurrentDailyUpdates] = useState(selectedProject?.dailyUpdates || []);
+
+    const handleUpdateDailyUpdate = (updatedUpdate: DailyUpdate) => {
+        const newUpdates = currentDailyUpdates.map(u => u.id === updatedUpdate.id ? updatedUpdate : u);
+        setCurrentDailyUpdates(newUpdates);
+        // Also update the main projectsData if needed
+    };
+
+    useEffect(() => {
+        setCurrentDailyUpdates(selectedProject?.dailyUpdates || []);
+    }, [selectedProjectId, selectedProject]);
 
     return (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -342,6 +372,7 @@ export default function ProjectManagerHome() {
                             onStageClick={handleStageClick} 
                             onOpenCompletedTasks={() => setIsCompletedTasksSheetOpen(true)}
                             onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
+                            onOpenDailyUpdates={() => setIsDailyUpdatesSheetOpen(true)}
                         />
                     )}
                 </div>
@@ -444,8 +475,13 @@ export default function ProjectManagerHome() {
                 tasks={completedTasks}
                 onTaskClick={handleStageClick}
             />
+             <DailyUpdatesSheet
+                isOpen={isDailyUpdatesSheetOpen}
+                onClose={() => setIsDailyUpdatesSheetOpen(false)}
+                dailyUpdates={currentDailyUpdates}
+                onUpdate={handleUpdateDailyUpdate}
+            />
         </div>
     );
 }
 
-    
