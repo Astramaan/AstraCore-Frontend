@@ -75,10 +75,11 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
             <Collapsible>
                  <Card className={cn(
                     "rounded-[24px] p-4 bg-white transition-shadow", 
-                    className
+                    className,
+                    hasAttachments ? "cursor-pointer hover:shadow-md" : ""
                 )}>
-                    <CollapsibleTrigger className="w-full" disabled={!hasAttachments}>
-                         <div className={cn("w-full", hasAttachments ? "cursor-pointer hover:shadow-md" : "")}>
+                    <CollapsibleTrigger className="w-full text-left" disabled={!hasAttachments}>
+                         <div className={cn("w-full")}>
                             <div className="flex items-center gap-4">
                                 <div className="relative w-24 h-24 shrink-0">
                                     <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
