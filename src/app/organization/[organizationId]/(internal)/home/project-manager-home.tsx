@@ -153,7 +153,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             case 'upcoming':
             case 'pending':
             default:
-                return { text: 'Yet to Begin', color: 'bg-gray-100 text-gray-600' };
+                return { text: 'Yet To Begin', color: 'bg-gray-100 text-gray-600' };
         }
     }, [stage.status]);
 
