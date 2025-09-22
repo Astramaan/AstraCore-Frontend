@@ -86,24 +86,12 @@ export default {
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            maxHeight: '0',
-            opacity: '0'
-          },
-          to: {
-            maxHeight: 'var(--radix-accordion-content-height)',
-            opacity: '1'
-          },
+          from: { height: '0', opacity: '0' },
+          to: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
         },
         'accordion-up': {
-          from: {
-            maxHeight: 'var(--radix-accordion-content-height)',
-            opacity: '1'
-          },
-          to: {
-            maxHeight: '0',
-            opacity: '0'
-          },
+          from: { height: 'var(--radix-accordion-content-height)', opacity: '1' },
+          to: { height: '0', opacity: '0' },
         },
       },
       animation: {
