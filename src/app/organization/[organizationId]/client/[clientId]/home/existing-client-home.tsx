@@ -14,7 +14,7 @@ import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { X } from 'lucide-react';
+import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 interface TimelineStage {
@@ -27,13 +27,14 @@ interface TimelineStage {
     image: string;
     siteImages?: string[];
     approvalDate?: string;
+    documents?: { name: string, url: string }[];
 }
 
 const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
 
-    const showApprovalUI = stage.status === 'On Going' && stage.siteImages && stage.siteImages.length > 0;
+    const showApprovalUI = stage.status === 'On Going' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
     const showCompletedImages = stage.status === 'completed' && stage.siteImages && stage.siteImages.length > 0;
 
     return (
@@ -69,11 +70,28 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
              {showApprovalUI && isProjectManager && (
                 <div className="mt-4 space-y-4">
                     <Separator />
-                    <div className="grid grid-cols-4 gap-2 pt-4">
-                        {stage.siteImages?.map((img, index) => (
-                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                        ))}
-                    </div>
+                    {stage.siteImages && stage.siteImages.length > 0 && (
+                        <div className="grid grid-cols-4 gap-2 pt-4">
+                            {stage.siteImages?.map((img, index) => (
+                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                            ))}
+                        </div>
+                    )}
+                    {stage.documents && stage.documents.length > 0 && (
+                         <div className="pt-4 space-y-2">
+                            <h4 className="text-sm font-medium">Documents for Approval</h4>
+                            {stage.documents.map((doc, index) => (
+                                <div key={index} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg">
+                                    <p className="text-sm font-medium">{doc.name}</p>
+                                    <a href={doc.url} download>
+                                      <Button variant="ghost" size="icon">
+                                          <Download className="h-4 w-4"/>
+                                      </Button>
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     <div className="flex gap-4">
                         <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
                         <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
@@ -227,7 +245,7 @@ export default function ExistingClientHomePage() {
 
   const [timeline, setTimeline] = useState<TimelineStage[]>([
     { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: '27 May 2024' },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", siteImages: ["https://picsum.photos/seed/slab1/150/150", "https://picsum.photos/seed/slab2/150/150"] },
+    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
     { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
@@ -327,4 +345,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
