@@ -239,7 +239,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
   };
   
   const renderCtas = () => {
-    const canStartTask = !task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing';
+    const canStartTask = !task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' && !isProjectManager;
     
     if (canStartTask) {
         return (
@@ -251,7 +251,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
         )
     }
 
-     if (task.status === 'In Progress' || task.status === 'ongoing') {
+     if ((task.status === 'In Progress' || task.status === 'ongoing') && !isProjectManager) {
          return (
              <div className="flex gap-4">
                 <Button onClick={() => setIsUploadDialogOpen(true)} variant="outline" className="flex-1 rounded-full bg-background border-stone-300 h-[54px]">
@@ -411,3 +411,5 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
     </DialogOrSheet>
   );
 }
+
+    
