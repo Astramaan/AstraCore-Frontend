@@ -114,10 +114,12 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                                 ))}
                             </div>
                         )}
-                        <div className="flex gap-4">
-                            <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                            <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                        </div>
+                        {isProjectManager && (
+                            <div className="flex gap-4">
+                                <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
+                                <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                            </div>
+                        )}
                     </div>
                 )}
                  {stage.status === 'completed' && (
