@@ -23,6 +23,13 @@ const DetailField = ({ label, value, fullWidth = false }: DetailFieldProps) => (
 );
 
 interface ProjectDetailsCardProps {
+    personalInfo?: {
+        name: string;
+        clientId: string;
+        phone: string;
+        email: string;
+        address: string;
+    };
     projectInfo: {
         cost: string;
         duration: {
@@ -38,11 +45,11 @@ interface ProjectDetailsCardProps {
     onDelete?: () => void;
 }
 
-export const ProjectDetailsCard = ({ projectInfo, onEdit, onDelete }: ProjectDetailsCardProps) => {
+export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete }: ProjectDetailsCardProps) => {
     const canManage = onEdit && onDelete;
 
     return (
-        <Card className="rounded-[50px] p-6 md:p-10">
+        <Card className="rounded-[50px] p-10">
             <CardHeader className="p-0 flex flex-row items-center justify-between mb-6">
                  <CardTitle className="text-xl font-medium">Project Information</CardTitle>
                 {canManage && (
