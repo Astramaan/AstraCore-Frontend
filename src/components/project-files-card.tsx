@@ -266,25 +266,40 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         setSelectedFile(null);
     };
     
-    const firstColumnFiles = [
-        ...files.initial, 
-        ...files.costing, 
-        ...files.architecture, 
-        ...files.structure
+    let fileCount = 0;
+
+    const allFiles = [
+        ...files.initial,
+        ...files.costing,
+        ...files.architecture,
+        ...files.structure,
+        ...files.sanction,
+        ...files.construction
     ];
+
+    const halfwayPoint = Math.ceil(allFiles.length / 2);
+    const firstColumnFiles = allFiles.slice(0, halfwayPoint);
+    const secondColumnFiles = allFiles.slice(halfwayPoint);
 
     return (
         <>
             <Card className="rounded-[50px] border-0">
                 <CardContent className="p-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <div className="space-y-6">
-                            <FileSection files={firstColumnFiles} startIndex={0} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
-                        </div>
-                         <div className="space-y-6">
-                            <FileSection files={files.sanction} startIndex={firstColumnFiles.length} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                            <FileSection files={files.construction} startIndex={firstColumnFiles.length + files.sanction.length} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                        </div>
+                        <FileSection 
+                            files={firstColumnFiles} 
+                            startIndex={0} 
+                            onFileClick={handleFileClick}
+                            onFileUpdate={handleFileUpdate}
+                            onFileDelete={handleFileDelete}
+                        />
+                         <FileSection 
+                            files={secondColumnFiles} 
+                            startIndex={firstColumnFiles.length} 
+                            onFileClick={handleFileClick}
+                            onFileUpdate={handleFileUpdate}
+                            onFileDelete={handleFileDelete}
+                        />
                     </div>
                 </CardContent>
             </Card>
