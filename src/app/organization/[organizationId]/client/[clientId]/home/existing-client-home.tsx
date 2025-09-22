@@ -12,7 +12,8 @@ import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { DialogContent } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -20,7 +21,7 @@ import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
+import WhatsappIcon from '@/components/icons/whatsapp-icon';
 
 
 interface TimelineStage {
@@ -219,7 +220,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full h-24 flex items-center">
+    <Card className="rounded-full h-[54px] flex items-center">
         <CardContent className="p-4 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div>
