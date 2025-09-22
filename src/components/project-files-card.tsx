@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -20,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import Image from 'next/image';
 
 interface FileVersion {
     name: string;
@@ -102,7 +104,7 @@ const VersionHistoryDialog = ({ open, onOpenChange, file, onFileClick }: { open:
     )
 }
 
-const FileSection = ({ files, startIndex, onFileClick, onFileUpdate, onFileDelete }: { files: File[], startIndex: number, onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void, onFileDelete: (fileId: string) => void }) => {
+const FileSection = ({ files, onFileClick, onFileUpdate, onFileDelete, startIndex }: { files: File[], onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void, onFileDelete: (fileId: string) => void, startIndex: number }) => {
     const [selectedHistoryFile, setSelectedHistoryFile] = useState<File | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const [currentFileId, setCurrentFileId] = useState<string | null>(null);
@@ -265,73 +267,52 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         setSelectedFile(null);
     };
     
-    let fileCount = 0;
-
-    const fileSections = [
-        { files: files.initial },
-        { files: files.costing },
-        { files: files.architecture },
-        { files: files.structure },
-        { files: files.sanction },
-        { files: files.construction },
+    const allFileSections = [
+        ...files.initial,
+        ...files.costing,
+        ...files.architecture,
+        ...files.structure,
+        ...files.sanction,
+        ...files.construction,
     ];
-    
-    const halfwayPoint = Math.ceil(fileSections.reduce((sum, section) => sum + section.files.length, 0) / 2);
-
-    let firstColumnCount = 0;
-    const firstColumnSections = [];
-    const secondColumnSections = [];
-    
-    for (const section of fileSections) {
-        if (firstColumnCount + section.files.length <= halfwayPoint || secondColumnSections.length === 0) {
-            firstColumnSections.push(section);
-            firstColumnCount += section.files.length;
-        } else {
-            secondColumnSections.push(section);
-        }
-    }
-    
-    let firstColumnStartIndex = 0;
-    let secondColumnStartIndex = firstColumnCount;
-
 
     return (
         <>
             <Card className="rounded-[50px] border-0">
                 <CardContent className="p-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <div className="space-y-6">
-                            {firstColumnSections.map((section, index) => {
-                                const startIndex = firstColumnStartIndex;
-                                firstColumnStartIndex += section.files.length;
-                                return (
-                                    <FileSection 
-                                        key={index}
-                                        files={section.files} 
-                                        startIndex={startIndex}
-                                        onFileClick={handleFileClick}
-                                        onFileUpdate={handleFileUpdate}
-                                        onFileDelete={handleFileDelete}
-                                    />
-                                );
-                            })}
-                        </div>
-                        <div className="space-y-6">
-                             {secondColumnSections.map((section, index) => {
-                                const startIndex = secondColumnStartIndex;
-                                secondColumnStartIndex += section.files.length;
-                                return (
-                                    <FileSection 
-                                        key={index}
-                                        files={section.files} 
-                                        startIndex={startIndex}
-                                        onFileClick={handleFileClick}
-                                        onFileUpdate={handleFileUpdate}
-                                        onFileDelete={handleFileDelete}
-                                    />
-                                );
-                            })}
-                        </div>
+                        {allFileSections.map((file, index) => (
+                           <React.Fragment key={file.id}>
+                               <div className="flex items-center gap-4">
+                                   <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => handleFileClick(file)}>
+                                       <p className="text-sm">{index + 1}.</p>
+                                       <PdfIcon className="w-6 h-6 shrink-0" />
+                                       <div className="flex-1">
+                                           <p className="text-base text-black font-medium">{file.name}</p>
+                                           <p className="text-xs text-stone-400">{file.date}</p>
+                                       </div>
+                                   </div>
+                                   <div className="flex items-center gap-2">
+                                       {file.version && (
+                                           <Badge
+                                               variant="outline"
+                                               className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm"
+                                               onClick={() => {
+                                                   const originalFile = Object.values(files).flat().find(f => f.id === file.id);
+                                                   if (originalFile) {
+                                                       // This part would need a way to open the version history dialog
+                                                   }
+                                               }}
+                                           >
+                                               {file.version.replace('V ', 'Version ')}
+                                           </Badge>
+                                       )}
+                                       {/* More actions can be added here if needed */}
+                                   </div>
+                               </div>
+                               <Separator className="md:hidden last:hidden" />
+                           </React.Fragment>
+                        ))}
                     </div>
                 </CardContent>
             </Card>
