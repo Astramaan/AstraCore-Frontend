@@ -12,8 +12,7 @@ import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
-import { Dialog, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
-import { DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -183,7 +182,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <div className="flex justify-end">
         <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="md:w-full">
-            <Card className="rounded-full h-[54px] w-[54px] md:h-24 md:w-full flex items-center justify-center">
+            <Card className="rounded-full h-14 w-14 md:h-24 md:w-full flex items-center justify-center">
                 <CardContent className="p-4">
                     <div className="flex items-center justify-center gap-4">
                         <div className="hidden md:block">
@@ -220,7 +219,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full h-[54px] flex items-center">
+    <Card className="rounded-full h-[54px] flex items-center w-full">
         <CardContent className="p-4 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div>
@@ -391,7 +390,7 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 md:p-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
-                 <div className="mb-6 flex flex-row gap-4 justify-between">
+                 <div className="mb-6 flex gap-4">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
