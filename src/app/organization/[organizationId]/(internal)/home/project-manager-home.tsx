@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -268,7 +267,6 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
 export default function ProjectManagerHome() {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-    const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
@@ -298,11 +296,9 @@ export default function ProjectManagerHome() {
             isProjectTask: true,
         };
         setSelectedTask(task);
-        setIsSheetOpen(true);
     };
 
     const handleSheetClose = () => {
-        setIsSheetOpen(false);
         setSelectedTask(null);
     };
 
@@ -450,7 +446,7 @@ export default function ProjectManagerHome() {
             />
             {selectedTask && (
                 <TaskDetailsSheet
-                    isOpen={isSheetOpen || !!selectedTask}
+                    isOpen={!!selectedTask}
                     onClose={handleSheetClose}
                     task={selectedTask}
                     onUpdateTask={handleUpdateTask}
