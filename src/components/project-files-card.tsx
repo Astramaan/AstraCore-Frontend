@@ -73,116 +73,20 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
     );
 };
 
-const VersionHistoryDialog = ({ open, onOpenChange, file, onFileClick }: { open: boolean, onOpenChange: (open: boolean) => void, file: File | null, onFileClick: (file: FileVersion) => void }) => {
-    if (!file) return null;
-    return (
-         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-md p-0 rounded-[20px]">
-                <DialogHeader className="p-4 border-b">
-                     <DialogTitle className="flex justify-between items-center">
-                        Version History
-                        <DialogClose asChild>
-                             <Button variant="ghost" size="icon" className="rounded-full w-9 h-9">
-                                <X className="h-4 w-4" />
-                            </Button>
-                        </DialogClose>
-                    </DialogTitle>
-                </DialogHeader>
-                <div className="p-4 space-y-2">
-                     {[file, ...file.history].map((version, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 cursor-pointer" onClick={() => { onFileClick(version); onOpenChange(false); }}>
-                            <div>
-                                <p className="font-semibold">{version.name}</p>
-                                <p className="text-sm text-muted-foreground">{version.date}</p>
-                            </div>
-                            <Badge variant="outline" className="bg-background cursor-pointer h-[26px] border-transparent text-foreground text-sm">{version.version?.replace('V ', 'Version ')}</Badge>
-                        </div>
-                    ))}
-                </div>
-            </DialogContent>
-        </Dialog>
-    )
-}
-
-const FileSection = ({ files, onFileClick, onFileUpdate, onFileDelete, startIndex }: { files: File[], onFileClick: (file: File | FileVersion) => void, onFileUpdate: (fileId: string, newFile: globalThis.File) => void, onFileDelete: (fileId: string) => void, startIndex: number }) => {
-    const [selectedHistoryFile, setSelectedHistoryFile] = useState<File | null>(null);
-    const fileInputRef = React.useRef<HTMLInputElement>(null);
-    const [currentFileId, setCurrentFileId] = useState<string | null>(null);
-    const [fileToDelete, setFileToDelete] = useState<File | null>(null);
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0] && currentFileId) {
-            onFileUpdate(currentFileId, e.target.files[0]);
-        }
-    };
-    
-    const openFilePicker = (fileId: string) => {
-        setCurrentFileId(fileId);
-        fileInputRef.current?.click();
-    };
-
-    const confirmDelete = () => {
-        if (fileToDelete) {
-            onFileDelete(fileToDelete.id);
-            setFileToDelete(null);
-        }
-    }
-
-    return (
-        <AlertDialog>
-            <div className="space-y-4">
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    className="hidden"
-                    onChange={handleFileChange}
-                    accept=".pdf"
-                />
-                
-                {files.map((file, index) => (
-                    <React.Fragment key={file.id}>
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
-                                <p className="text-sm">{startIndex + index + 1}.</p>
-                                <PdfIcon className="w-6 h-6 shrink-0" />
-                                <div className="flex-1">
-                                    <p className="text-base text-black font-medium">{file.name}</p>
-                                    <p className="text-xs text-stone-400">{file.date}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <Separator />
-                    </React.Fragment>
-                ))}
-                <VersionHistoryDialog 
-                    open={!!selectedHistoryFile}
-                    onOpenChange={(open) => !open && setSelectedHistoryFile(null)}
-                    file={selectedHistoryFile}
-                    onFileClick={onFileClick}
-                />
-                 <AlertDialogContent className="max-w-md rounded-[50px]">
-                    <AlertDialogHeader className="items-center text-center">
-                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                          <div className="w-full h-full bg-red-600/5 rounded-full" />
-                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-                        </div>
-                        <AlertDialogTitle className="text-2xl font-semibold">
-                            Confirm File Deletion?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
-                           Deleting this file will permanently remove it. This action cannot be undone.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={confirmDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
+const FileItem = ({ file, index, onFileClick }: { file: File, index: number, onFileClick: (file: File) => void }) => (
+    <>
+        <div className="flex items-center gap-4 py-4" onClick={() => onFileClick(file)}>
+            <p className="text-sm">{index + 1}.</p>
+            <PdfIcon className="w-6 h-6 shrink-0" />
+            <div className="flex-1 cursor-pointer">
+                <p className="text-base text-black font-medium">{file.name}</p>
+                <p className="text-xs text-stone-400">{file.date}</p>
             </div>
-        </AlertDialog>
-    );
-}
+        </div>
+        <Separator />
+    </>
+);
+
 
 export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps) => {
     const [files, setFiles] = useState(initialFiles);
@@ -191,46 +95,6 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     const handleFileClick = (file: File | FileVersion) => {
         setSelectedFile(file);
     };
-
-    const handleFileUpdate = (fileId: string, newFile: globalThis.File) => {
-        const today = new Date();
-        const newVersionNumber = (file: File) => (parseInt(file.version?.replace('V ', '') || '1', 10) + 1);
-
-        const updatedFiles = JSON.parse(JSON.stringify(files)); // Deep copy
-
-        for (const category in updatedFiles) {
-            const fileIndex = updatedFiles[category].findIndex((f: File) => f.id === fileId);
-            if (fileIndex > -1) {
-                const oldFile = updatedFiles[category][fileIndex];
-                const newVersion = `V ${newVersionNumber(oldFile)}`;
-                
-                const oldVersionRecord = {
-                    name: oldFile.name,
-                    date: oldFile.date,
-                    version: oldFile.version,
-                    url: oldFile.url
-                };
-
-                updatedFiles[category][fileIndex] = {
-                    ...oldFile,
-                    name: newFile.name.replace(/\.[^/.]+$/, ""), // remove extension
-                    date: today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-                    version: newVersion,
-                    history: [oldVersionRecord, ...oldFile.history]
-                };
-                break;
-            }
-        }
-        setFiles(updatedFiles);
-    };
-    
-    const handleFileDelete = (fileId: string) => {
-        const updatedFiles = JSON.parse(JSON.stringify(files));
-        for (const category in updatedFiles) {
-            updatedFiles[category] = updatedFiles[category].filter((f: File) => f.id !== fileId);
-        }
-        setFiles(updatedFiles);
-    }
 
     const handleCloseDialog = () => {
         setSelectedFile(null);
@@ -249,14 +113,10 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         <>
             <Card className="rounded-[50px] border-0">
                 <CardContent className="p-10">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0">
-                       <FileSection 
-                            files={allFiles} 
-                            onFileClick={handleFileClick} 
-                            onFileUpdate={handleFileUpdate} 
-                            onFileDelete={handleFileDelete}
-                            startIndex={0}
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                        {allFiles.map((file, index) => (
+                             <FileItem key={file.id} file={file} index={index} onFileClick={handleFileClick} />
+                        ))}
                     </div>
                 </CardContent>
             </Card>
