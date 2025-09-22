@@ -142,6 +142,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                             )}
                              {stage.documents && stage.documents.length > 0 && (
                                  <div className="pt-4 space-y-2">
+                                    {stage.approvalDate && !isProjectManager && <p className="text-sm text-muted-foreground mb-2">Approved on {stage.approvalDate}</p>}
                                     {isProjectManager && <h4 className="text-sm font-medium">Documents for Approval</h4>}
                                     {stage.documents.map((doc, index) => (
                                          <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
