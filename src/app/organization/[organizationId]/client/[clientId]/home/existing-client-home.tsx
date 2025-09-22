@@ -57,7 +57,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     );
 };
 
-const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void, className?: string }) => {
+const StageCard = ({ stage, onReopen, className, onClick }: { stage: TimelineStage, onReopen?: (stage: TimelineStage) => void, className?: string, onClick?: (stage: TimelineStage) => void }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
@@ -70,7 +70,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
     return (
         <>
-            <Card className={cn("rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow", className)}>
+            <Card className={cn("rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow", className)} onClick={() => onClick?.(stage)}>
                 <div className="flex items-center gap-4">
                     <div className="relative w-24 h-24 shrink-0">
                         <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -103,8 +103,8 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                  {isProjectManager && stage.status === 'On Going' && (stage.documents && stage.documents.length > 0) && (
                     <div className="mt-4 space-y-4">
                         <Separator />
-                        <div className="pt-4 space-y-2">
-                            <h4 className="text-sm font-medium">Documents for Approval</h4>
+                        <h4 className="text-sm font-medium pt-2">Documents for Approval</h4>
+                        <div className="pt-2 space-y-2">
                             {stage.documents.map((doc, index) => (
                                 <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
                                     <PdfIcon className="w-6 h-6 shrink-0"/>
@@ -148,7 +148,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         </div>
                         {isProjectManager && (
                             <div className="flex justify-end pt-2">
-                                <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
+                                <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen?.(stage)}>Reopen</Button>
                             </div>
                         )}
                     </div>
@@ -435,3 +435,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
