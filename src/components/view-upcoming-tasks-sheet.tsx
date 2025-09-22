@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -128,8 +127,8 @@ export function ViewUpcomingTasksSheet({ isOpen, onClose, tasks, onTaskClick }: 
         <ScrollArea className="flex-1">
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
-                 filteredTasks.map(task => (
-                    <UpcomingTaskCard key={task.id} stage={task} onClick={handleTaskClickAndClose} />
+                 filteredTasks.map((task, index) => (
+                    <UpcomingTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} />
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No upcoming tasks match your search.</p>
