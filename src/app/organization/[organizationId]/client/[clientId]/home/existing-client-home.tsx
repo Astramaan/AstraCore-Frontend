@@ -180,13 +180,23 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="shrink-0">
-        <Card className="rounded-full h-14 w-14 flex items-center justify-center">
-            <CardContent className="p-0">
-                <WhatsappIcon />
-            </CardContent>
-        </Card>
-    </a>
+    <Card className="rounded-full h-24 w-24 md:w-full flex items-center justify-center">
+        <CardContent className="p-0">
+            <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 text-center">
+                <div className="w-14 h-14 rounded-full bg-green-light flex items-center justify-center">
+                     <div className="grid place-items-center h-14 w-14 rounded-full bg-green-light">
+                        <div className="grid place-items-center h-10 w-10 rounded-full bg-green">
+                            <WhatsappIcon />
+                        </div>
+                    </div>
+                </div>
+                 <div className="hidden md:block">
+                    <p className="text-black text-sm font-normal">Chat with our Executive</p>
+                    <p className="text-grey-1 text-xs">Quick Reply</p>
+                </div>
+            </a>
+        </CardContent>
+    </Card>
 );
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
@@ -212,7 +222,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 const PaymentCard = () => (
     <Card className="rounded-full h-14 flex-1 flex items-center">
-        <CardContent className="p-4 w-full">
+        <CardContent className="px-6 py-4 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div className="flex-1">
                     <p className="text-black text-sm font-normal">Payment</p>
@@ -348,7 +358,7 @@ export default function ExistingClientHomePage() {
     <>
     <main>
       <div className="relative mb-8">
-        <div className="rounded-[50px] overflow-hidden">
+        <div className="rounded-b-[50px] md:rounded-[50px] overflow-hidden">
             <div className="relative h-[300px] md:h-[480px] w-full">
                 <Image src={project.coverImage} fill alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
