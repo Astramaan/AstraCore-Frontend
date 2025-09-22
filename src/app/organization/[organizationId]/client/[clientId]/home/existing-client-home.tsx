@@ -189,7 +189,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
                             <p className="text-black text-sm font-normal">Chat with our Executive</p>
                             <p className="text-grey-1 text-xs">Quick Reply</p>
                         </div>
-                        <WhatsappIcon className="w-6 h-6" />
+                        <WhatsappIcon />
                     </div>
                 </CardContent>
             </Card>
@@ -427,7 +427,7 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <PaymentsDialog>
                         <PaymentCard />
                     </PaymentsDialog>
