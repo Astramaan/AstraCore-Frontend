@@ -51,18 +51,20 @@ const StageCard = ({ stage }: { stage: TimelineStage }) => (
     </Card>
 );
 
-const ChatCard = () => (
-    <Card className="rounded-full">
-        <CardContent className="p-4">
-            <div className="flex items-center justify-between gap-4">
-                <div>
-                    <p className="text-black text-sm font-normal">Chat with our Executive</p>
-                    <p className="text-grey-1 text-xs">Quick Reply</p>
+const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
+    <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer">
+        <Card className="rounded-full">
+            <CardContent className="p-4">
+                <div className="flex items-center justify-between gap-4">
+                    <div>
+                        <p className="text-black text-sm font-normal">Chat with our Executive</p>
+                        <p className="text-grey-1 text-xs">Quick Reply</p>
+                    </div>
+                    <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
                 </div>
-                <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
-            </div>
-        </CardContent>
-    </Card>
+            </CardContent>
+        </Card>
+    </a>
 );
 
 const SitePhotos = () => (
@@ -106,7 +108,7 @@ const PaymentCard = () => (
             </div>
         </CardContent>
     </Card>
-)
+);
 
 
 export default function ExistingClientHomePage() {
@@ -119,7 +121,8 @@ export default function ExistingClientHomePage() {
     progress: 70,
     daysLeft: 180,
     coverImage: 'https://picsum.photos/seed/p-cover/1440/480',
-    profileImage: 'https://placehold.co/60x60'
+    profileImage: 'https://placehold.co/60x60',
+    pmPhoneNumber: '9876543210',
   };
 
   const timeline: TimelineStage[] = [
@@ -181,7 +184,7 @@ export default function ExistingClientHomePage() {
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentsDialog />
-                    <ChatCard />
+                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                 </div>
                 <SitePhotos />
             </aside>
