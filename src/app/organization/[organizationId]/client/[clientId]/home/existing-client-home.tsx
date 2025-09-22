@@ -211,7 +211,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full h-14 flex items-center w-full">
+    <Card className="rounded-full h-14 flex-1 flex items-center">
         <CardContent className="p-4 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div className="flex-1">
@@ -382,7 +382,7 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 md:p-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
-                 <div className="mb-6 flex flex-col md:flex-row gap-4">
+                 <div className="mb-6 flex gap-4">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
@@ -419,15 +419,13 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center gap-4">
                     <div className="flex-1">
                         <PaymentsDialog>
                             <PaymentCard />
                         </PaymentsDialog>
                     </div>
-                    <div className="flex justify-end">
-                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                    </div>
+                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                 </div>
                 <SitePhotos 
                     onViewMore={() => setIsGalleryOpen(true)}
