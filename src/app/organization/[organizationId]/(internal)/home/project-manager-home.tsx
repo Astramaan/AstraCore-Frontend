@@ -153,11 +153,12 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             case 'upcoming':
             case 'pending':
             default:
-                return { text: 'Yet To Begin', color: 'bg-gray-100 text-gray-600' };
+                return { text: 'Yet to Begin', color: 'bg-gray-100 text-gray-600' };
         }
     }, [stage.status]);
 
-    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
+    const dateColor = getDateColor(stage.createdAt);
 
     return (
         <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => onStageClick(stage)}>
@@ -180,7 +181,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                         <Progress value={stage.progress || 0} className="h-2" />
                         <div className="flex justify-between items-center mt-2">
                             <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
-                            <span className="text-grey-1 text-xs">{formattedDate}</span>
+                            <span className={cn("text-xs font-medium", dateColor)}>{formattedDate}</span>
                         </div>
                     </div>
                 </div>
