@@ -121,26 +121,36 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 };
 
 
-export function AddMemberSheet() {
-  const [isOpen, setIsOpen] = useState(false);
+interface AddMemberSheetProps {
+    isOpen?: boolean;
+    onOpenChange?: (isOpen: boolean) => void;
+}
+
+export function AddMemberSheet({ isOpen: controlledIsOpen, onOpenChange: controlledOnOpenChange }: AddMemberSheetProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+  const onOpenChange = controlledOnOpenChange || setInternalIsOpen;
+
   const handleSuccess = () => {
-    setIsOpen(false);
+    onOpenChange(false);
     setShowSuccess(true);
   };
   
-  const handleClose = () => setIsOpen(false);
+  const handleClose = () => onOpenChange(false);
 
   return (
     <>
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button className="md:h-14 md:px-12 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-4 md:p-2.5">
-            <UserPlusIcon className="md:mr-2 h-6 w-6"/>
-            <span className="hidden md:inline">Add New Member</span>
-        </Button>
-      </SheetTrigger>
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      {!controlledIsOpen && (
+        <SheetTrigger asChild>
+            <Button className="md:h-14 md:px-12 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-4 md:p-2.5">
+                <UserPlusIcon className="md:mr-2 h-6 w-6"/>
+                <span className="hidden md:inline">Add New Member</span>
+            </Button>
+        </SheetTrigger>
+      )}
       <SheetContent 
           side="bottom"
           className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
