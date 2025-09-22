@@ -115,7 +115,6 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                             <div className="mt-4 space-y-4">
                                 <Separator />
-                                {stage.approvalDate && <p className="text-sm text-muted-foreground pt-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
                                 <div className="pt-2 space-y-2">
                                     {stage.documents.map((doc, index) => (
                                         <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
@@ -425,7 +424,7 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
                     <PaymentsDialog />
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                 </div>
