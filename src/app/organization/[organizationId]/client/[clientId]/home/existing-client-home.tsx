@@ -155,6 +155,19 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                         )}
                     </div>
                 )}
+                 {!isProjectManager && stage.status === 'On Going' && stage.documents && stage.documents.length > 0 && (
+                     <div className="mt-4 space-y-2">
+                        <Separator />
+                        <div className="pt-4 space-y-2">
+                            {stage.documents.map((doc, index) => (
+                                <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer">
+                                    <p className="text-sm font-medium">{doc.name}</p>
+                                    <Download className="h-4 w-4"/>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                 )}
             </Card>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
