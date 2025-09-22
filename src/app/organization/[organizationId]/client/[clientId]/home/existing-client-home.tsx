@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { useUser } from '@/context/user-context';
 import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
+import { ImageGallerySheet } from '@/components/image-gallery-sheet';
 
 interface TimelineStage {
     title: string;
@@ -67,30 +68,35 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     </a>
 );
 
-const SitePhotos = () => (
-     <Card className="rounded-[50px] w-full hidden md:block">
-        <CardContent className="p-6 md:pb-10 space-y-4">
-            <div className="flex justify-between items-center">
-                <p className="text-black text-base font-normal">Recent Site Photos</p>
-                <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto">view more</Button>
-            </div>
-             <div className="grid grid-cols-2 gap-2">
-                <div className="relative w-full aspect-video">
-                    <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site1/99/69" fill alt="Site photo 1" data-ai-hint="construction building" />
+const SitePhotos = ({ onViewMore }: { onViewMore: () => void }) => {
+    const siteImages = [
+        "https://picsum.photos/seed/site1/99/69",
+        "https://picsum.photos/seed/site2/99/69",
+        "https://picsum.photos/seed/site3/99/69",
+        "https://picsum.photos/seed/site4/99/69",
+        "https://picsum.photos/seed/site5/600/400",
+        "https://picsum.photos/seed/site6/600/400",
+    ];
+
+    return (
+        <Card className="rounded-[50px] w-full hidden md:block">
+            <CardContent className="p-6 md:pb-10 space-y-4">
+                <div className="flex justify-between items-center">
+                    <p className="text-black text-base font-normal">Recent Site Photos</p>
+                    <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto" onClick={onViewMore}>view more</Button>
                 </div>
-                <div className="relative w-full aspect-video">
-                    <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site2/99/69" fill alt="Site photo 2" data-ai-hint="building interior" />
+                <div className="grid grid-cols-2 gap-2">
+                    {siteImages.slice(0, 4).map((src, index) => (
+                        <div key={index} className="relative w-full aspect-video">
+                            <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
+                        </div>
+                    ))}
                 </div>
-                <div className="relative w-full aspect-video">
-                    <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site3/99/69" fill alt="Site photo 3" data-ai-hint="construction worker" />
-                </div>
-                <div className="relative w-full aspect-video">
-                    <Image className="rounded-[10px] object-cover" src="https://picsum.photos/seed/site4/99/69" fill alt="Site photo 4" data-ai-hint="architect blueprint" />
-                </div>
-            </div>
-        </CardContent>
-    </Card>
-);
+            </CardContent>
+        </Card>
+    );
+};
+
 
 const PaymentCard = () => (
     <Card className="rounded-full">
@@ -113,6 +119,7 @@ const PaymentCard = () => (
 
 export default function ExistingClientHomePage() {
   const { user } = useUser();
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   const project = {
     name: 'Rabeek',
@@ -123,6 +130,14 @@ export default function ExistingClientHomePage() {
     coverImage: 'https://picsum.photos/seed/p-cover/1440/480',
     profileImage: 'https://placehold.co/60x60',
     pmPhoneNumber: '9876543210',
+    siteImages: [
+        "https://picsum.photos/seed/site1/99/69",
+        "https://picsum.photos/seed/site2/99/69",
+        "https://picsum.photos/seed/site3/99/69",
+        "https://picsum.photos/seed/site4/99/69",
+        "https://picsum.photos/seed/site5/600/400",
+        "https://picsum.photos/seed/site6/600/400",
+    ]
   };
 
   const timeline: TimelineStage[] = [
@@ -136,6 +151,7 @@ export default function ExistingClientHomePage() {
   
 
   return (
+    <>
     <main>
       <div className="relative mb-8">
         <div className="rounded-[50px] overflow-hidden">
@@ -186,9 +202,16 @@ export default function ExistingClientHomePage() {
                     <PaymentsDialog />
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                 </div>
-                <SitePhotos />
+                <SitePhotos onViewMore={() => setIsGalleryOpen(true)} />
             </aside>
         </div>
     </main>
+    <ImageGallerySheet
+        open={isGalleryOpen}
+        onOpenChange={setIsGalleryOpen}
+        images={project.siteImages}
+        title="Recent Site Photos"
+    />
+    </>
   );
 }
