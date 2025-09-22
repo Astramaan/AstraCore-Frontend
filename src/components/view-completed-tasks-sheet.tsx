@@ -17,6 +17,10 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
+import { Progress } from './ui/progress';
+import PdfIcon from './icons/pdf-icon';
+import { useUser } from '@/context/user-context';
+import { Separator } from './ui/separator';
 
 interface Stage {
     id: number;
@@ -33,31 +37,91 @@ interface Stage {
     createdAt: string;
     description: string;
     priority: 'Low' | 'Medium' | 'High';
+    progress: number;
+    documents?: { name: string, url: string }[];
+    approvalDate?: string;
 }
 
-const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
-    const { text: statusText, color: statusColor } = useMemo(() => {
-        return { text: 'Completed', color: 'bg-green-100 text-green-700' };
-    }, []);
+const StageCard = ({ stage, onClick, onReopen }: { stage: Stage, onClick: (stage: Stage) => void, onReopen: (stage: Stage) => void }) => {
+    const { user } = useUser();
+    const isProjectManager = user?.team === 'Project Manager';
+    const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
 
-    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const showCompletedVisuals = stage.status === 'completed' && ((stage.siteImages && stage.siteImages.length > 0) || (stage.documents && stage.documents.length > 0));
+    
+    const handlePdfClick = (doc: { name: string, url: string }) => {
+        setSelectedPdf(doc);
+    };
 
     return (
-        <Card className="w-full h-44 rounded-[40px] border flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                     <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
+        <>
+            <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow" onClick={() => onClick(stage)}>
+                <div className="flex items-center gap-4">
+                    <div className="relative w-24 h-24 shrink-0">
+                        <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                            <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                            <span className="text-white text-sm font-semibold">{stage.category}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex-1 space-y-1 w-full">
+                        <div className="flex justify-between items-start">
+                            <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                            <Badge className={cn('capitalize', 
+                                stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
+                                stage.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                'bg-gray-100 text-gray-600'
+                            )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
+                        </div>
+                        <p className="text-sm">{stage.subtitle}</p>
+                        <div className="pt-2">
+                            <Progress value={stage.progress} className="h-2" />
+                            <div className="flex justify-between items-center mt-2">
+                                <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                                <span className="text-grey-1 text-xs">{stage.createdAt}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-            </div>
-            <div className="flex justify-between items-center mt-auto pt-4">
-                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className="text-sm text-muted-foreground">{formattedDate}</p>
-            </div>
-        </Card>
+                
+                 {showCompletedVisuals && (
+                    <div className="mt-4 space-y-4">
+                        <Separator />
+                        <div className="pt-4">
+                           {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>}
+                            {stage.siteImages && stage.siteImages.length > 0 && (
+                                <div className="grid grid-cols-4 gap-2">
+                                    {stage.siteImages?.map((img, index) => (
+                                        <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                    ))}
+                                </div>
+                            )}
+                             {stage.documents && stage.documents.length > 0 && (
+                                <div className="pt-4 space-y-2">
+                                    {stage.documents.map((doc, index) => (
+                                         <div key={index} onClick={() => handlePdfClick(doc)} className="flex items-center gap-4 py-2 cursor-pointer">
+                                            <PdfIcon className="w-6 h-6 shrink-0"/>
+                                            <div className="flex-1">
+                                                <p className="text-base text-black font-medium">{doc.name}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        {isProjectManager && (
+                            <div className="flex justify-end pt-2">
+                                <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </Card>
+        </>
     )
-}
+};
+
 
 interface ViewCompletedTasksSheetProps {
   isOpen: boolean;
@@ -112,7 +176,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
                  filteredTasks.map((task, index) => (
-                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} />
+                    <StageCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} onReopen={() => {}}/>
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
