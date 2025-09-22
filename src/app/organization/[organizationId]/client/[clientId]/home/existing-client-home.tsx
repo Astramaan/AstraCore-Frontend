@@ -12,7 +12,7 @@ import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -183,8 +183,8 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer">
         <Card className="rounded-full">
             <CardContent className="p-4">
-                <div className="flex items-center justify-between gap-4">
-                    <div>
+                <div className="flex items-center justify-between md:justify-center gap-4">
+                    <div className="hidden md:block">
                         <p className="text-black text-sm font-normal">Chat with our Executive</p>
                         <p className="text-grey-1 text-xs">Quick Reply</p>
                     </div>
