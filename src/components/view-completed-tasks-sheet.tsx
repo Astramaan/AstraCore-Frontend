@@ -37,37 +37,36 @@ interface Stage {
     progress: number;
 }
 
-const StageCard = ({ stage, onClick, className }: { stage: Stage, onClick: (stage: Stage) => void, className?: string }) => {
-     const priority = stage.priority;
-    const priorityColors: { [key: string]: string } = {
-        "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-500/10 text-red-500",
-    };
-    
+const CompletedTaskCard = ({ stage, onClick, className }: { stage: Stage, onClick: (stage: Stage) => void, className?: string }) => {
     return (
-        <Card className={cn("w-full h-44 rounded-[40px] border flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow", className)} onClick={() => onClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    <Badge className={cn('capitalize', 
-                        stage.status === 'ongoing' ? 'bg-blue-100 text-blue-600' : 
-                        stage.status === 'completed' ? 'bg-green-100 text-green-700' :
-                        'bg-gray-100 text-gray-600'
-                    )}>{stage.status}</Badge>
+        <Card className={cn("rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow", className)} onClick={() => onClick(stage)}>
+            <div className="flex items-center gap-4">
+                <div className="relative w-24 h-24 shrink-0">
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                        <span className="text-white text-sm font-semibold">{stage.category}</span>
+                        </div>
+                    </div>
                 </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                 <div className="flex justify-between items-center mt-2">
-                    <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                <div className="flex-1 space-y-1 w-full">
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                        <Badge className="capitalize bg-green-100 text-green-700">Completed</Badge>
+                    </div>
+                    <p className="text-sm">{stage.subtitle}</p>
+                    <div className="pt-2">
+                        <Progress value={100} className="h-2" />
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-black text-xs font-normal">100%</span>
+                            <span className="text-grey-1 text-xs">{new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="flex justify-between items-center mt-auto pt-4">
-                 
-                <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
             </div>
         </Card>
-    )
-}
+    );
+};
 
 interface ViewCompletedTasksSheetProps {
   isOpen: boolean;
@@ -122,7 +121,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
                  filteredTasks.map((task, index) => (
-                    <StageCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} className="bg-background" />
+                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} className="bg-background" />
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
