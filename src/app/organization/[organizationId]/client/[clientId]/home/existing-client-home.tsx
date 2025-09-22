@@ -30,97 +30,121 @@ interface TimelineStage {
     documents?: { name: string, url: string }[];
 }
 
+const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenChange: (open: boolean) => void; file: { name: string, url: string } | null }) => {
+    if (!file) return null;
+    const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
+                    <DialogTitle>{file.name}</DialogTitle>
+                    <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
+                            <X className="h-5 w-5" />
+                        </Button>
+                    </DialogClose>
+                </DialogHeader>
+                <div className="flex-1">
+                    <iframe src={dummyPdfUrl} className="w-full h-full" title={file.name} />
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
+
 const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
+    const [selectedDoc, setSelectedDoc] = useState<{ name: string, url: string } | null>(null);
 
     const showApprovalUI = stage.status === 'On Going' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
     const showCompletedImages = stage.status === 'completed' && stage.siteImages && stage.siteImages.length > 0;
 
     return (
-        <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-4">
-                <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                        <span className="text-white text-sm font-semibold">{stage.category}</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex-1 space-y-1 w-full">
-                    <div className="flex justify-between items-start">
-                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <Badge className={cn('capitalize', 
-                            stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
-                            stage.status === 'completed' ? 'bg-green-100 text-green-700' :
-                            'bg-gray-100 text-gray-600'
-                        )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
-                    </div>
-                    <p className="text-sm">{stage.subtitle}</p>
-                    <div className="pt-2">
-                        <Progress value={stage.progress} className="h-2" />
-                        <div className="flex justify-between items-center mt-2">
-                            <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                            <span className="text-grey-1 text-xs">{stage.date}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             {showApprovalUI && isProjectManager && (
-                <div className="mt-4 space-y-4">
-                    <Separator />
-                    {stage.siteImages && stage.siteImages.length > 0 && (
-                        <div className="grid grid-cols-4 gap-2 pt-4">
-                            {stage.siteImages?.map((img, index) => (
-                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                            ))}
-                        </div>
-                    )}
-                    {stage.documents && stage.documents.length > 0 && (
-                         <div className="pt-4 space-y-2">
-                            <h4 className="text-sm font-medium">Documents for Approval</h4>
-                            {stage.documents.map((doc, index) => (
-                                <div key={index} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg">
-                                    <p className="text-sm font-medium">{doc.name}</p>
-                                    <a href={doc.url} download>
-                                      <Button variant="ghost" size="icon">
-                                          <Download className="h-4 w-4"/>
-                                      </Button>
-                                    </a>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                    <div className="flex gap-4">
-                        <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                    </div>
-                </div>
-            )}
-             {stage.status === 'completed' && (
-                <div className="mt-4 space-y-4">
-                    {showCompletedImages && (
-                        <>
-                            <Separator />
-                            <div className="pt-4">
-                                <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {stage.siteImages?.map((img, index) => (
-                                        <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                                    ))}
-                                </div>
+        <>
+            <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-4">
+                    <div className="relative w-24 h-24 shrink-0">
+                        <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                            <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                            <span className="text-white text-sm font-semibold">{stage.category}</span>
                             </div>
-                        </>
-                    )}
-                    {isProjectManager && (
-                        <div className="flex justify-end">
-                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
                         </div>
-                    )}
+                    </div>
+                    <div className="flex-1 space-y-1 w-full">
+                        <div className="flex justify-between items-start">
+                            <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                            <Badge className={cn('capitalize', 
+                                stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
+                                stage.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                'bg-gray-100 text-gray-600'
+                            )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
+                        </div>
+                        <p className="text-sm">{stage.subtitle}</p>
+                        <div className="pt-2">
+                            <Progress value={stage.progress} className="h-2" />
+                            <div className="flex justify-between items-center mt-2">
+                                <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                                <span className="text-grey-1 text-xs">{stage.date}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            )}
-        </Card>
+                 {showApprovalUI && (
+                    <div className="mt-4 space-y-4">
+                        <Separator />
+                        {stage.siteImages && stage.siteImages.length > 0 && (
+                            <div className="grid grid-cols-4 gap-2 pt-4">
+                                {stage.siteImages?.map((img, index) => (
+                                    <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                ))}
+                            </div>
+                        )}
+                        {stage.documents && stage.documents.length > 0 && (
+                             <div className="pt-4 space-y-2">
+                                <h4 className="text-sm font-medium">Documents for Approval</h4>
+                                {stage.documents.map((doc, index) => (
+                                    <div key={index} className="flex items-center justify-between bg-zinc-100 p-2 rounded-lg cursor-pointer" onClick={() => setSelectedDoc(doc)}>
+                                        <p className="text-sm font-medium">{doc.name}</p>
+                                          <Download className="h-4 w-4"/>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <div className="flex gap-4">
+                            <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
+                            <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
+                        </div>
+                    </div>
+                )}
+                 {stage.status === 'completed' && (
+                    <div className="mt-4 space-y-4">
+                        {showCompletedImages && (
+                            <>
+                                <Separator />
+                                <div className="pt-4">
+                                    <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>
+                                    <div className="grid grid-cols-4 gap-2">
+                                        {stage.siteImages?.map((img, index) => (
+                                            <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        {isProjectManager && (
+                            <div className="flex justify-end">
+                                <Button variant="outline" size="sm" className="rounded-full" onClick={() => onReopen(stage)}>Reopen</Button>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </Card>
+            <PdfPreviewDialog open={!!selectedDoc} onOpenChange={(open) => !open && setSelectedDoc(null)} file={selectedDoc} />
+        </>
     )
 };
 
