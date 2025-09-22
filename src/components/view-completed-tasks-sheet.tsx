@@ -125,7 +125,7 @@ const CompletedTaskCard = ({ stage, onClick, className }: { stage: Stage, onClic
     
     return (
         <>
-            <Card className={cn("rounded-[24px] p-4 hover:shadow-md transition-shadow cursor-pointer bg-background", className, isExpanded && "h-auto")} onClick={handleCardClick}>
+            <Card className={cn("rounded-[24px] p-4 hover:shadow-md transition-shadow cursor-pointer", className)} onClick={handleCardClick} data-state={isExpanded ? 'open' : 'closed'}>
                 <div className="flex items-center gap-4">
                     <div className="relative w-24 h-24 shrink-0">
                         <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -151,8 +151,8 @@ const CompletedTaskCard = ({ stage, onClick, className }: { stage: Stage, onClic
                     </div>
                 </div>
 
-                {isExpanded && (
-                    <div className="mt-4 space-y-2">
+                <div className="overflow-hidden transition-all duration-300 ease-in-out" style={{ maxHeight: isExpanded ? '1000px' : '0px' }}>
+                    <div className="mt-4 space-y-2 animate-accordion-down">
                         <Separator />
                         {stage.approvalDate && <p className="text-sm text-muted-foreground pt-2">Approved by Project Manager on {stage.approvalDate}</p>}
                         
@@ -179,7 +179,7 @@ const CompletedTaskCard = ({ stage, onClick, className }: { stage: Stage, onClic
                             </div>
                         )}
                     </div>
-                )}
+                </div>
             </Card>
             <PdfPreviewDialog open={pdfPreview.open} onOpenChange={(open) => setPdfPreview({ ...pdfPreview, open })} file={pdfPreview.file} />
             <ImagePreviewDialog open={imagePreview.open} onOpenChange={(open) => setImagePreview({ ...imagePreview, open })} {...imagePreview} />
@@ -240,7 +240,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
                  filteredTasks.map((task, index) => (
-                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={() => {}} />
+                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={() => {}} className="bg-background"/>
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
