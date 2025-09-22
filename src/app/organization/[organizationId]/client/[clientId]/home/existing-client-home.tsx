@@ -20,7 +20,7 @@ import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import WhatsappIcon from '@/components/icons/whatsapp-icon';
+import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 
 
 interface TimelineStage {
@@ -182,7 +182,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <div className="flex justify-end">
         <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="md:w-full">
-            <Card className="rounded-full h-24 w-24 md:w-full flex items-center justify-center">
+            <Card className="rounded-full h-[54px] w-[54px] md:h-24 md:w-full flex items-center justify-center">
                 <CardContent className="p-4">
                     <div className="flex items-center justify-center gap-4">
                         <div className="hidden md:block">
