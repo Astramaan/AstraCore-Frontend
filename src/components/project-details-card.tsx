@@ -66,14 +66,6 @@ export const ProjectDetailsCard = ({ projectInfo, onEdit, onDelete }: ProjectDet
                   <DetailField label="Site Dimension" value={projectInfo.dimension} />
                   <DetailField label="Floors" value={projectInfo.floors} />
                   <DetailField label="Status" value={projectInfo.status} />
-                  <div className="space-y-1">
-                    <Label className="text-sm md:text-base font-medium text-grey-1">Site location</Label>
-                    <div>
-                        <a href={projectInfo.locationLink} target="_blank" rel="noopener noreferrer">
-                            <Button variant="outline" className="w-full md:w-auto h-12 md:h-14 rounded-full bg-sky-500/10 text-sky-500 border-sky-500 hover:bg-sky-500/20 px-6">View Location</Button>
-                        </a>
-                    </div>
-                  </div>
                 </div>
             </CardContent>
         </Card>
