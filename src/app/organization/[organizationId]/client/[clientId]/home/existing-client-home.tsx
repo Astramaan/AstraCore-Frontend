@@ -57,7 +57,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     );
 };
 
-const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void }) => {
+const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReopen: (stage: TimelineStage) => void, className?: string }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
@@ -70,7 +70,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
 
     return (
         <>
-            <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow">
+            <Card className={cn("rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow", className)}>
                 <div className="flex items-center gap-4">
                     <div className="relative w-24 h-24 shrink-0">
                         <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -301,7 +301,7 @@ export default function ExistingClientHomePage() {
   };
 
   const [allStages, setAllStages] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: '27 May 2024' },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: '27 May 2024', documents: [{name: "Soil Test Report.pdf", url: "#"}] },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
     { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
