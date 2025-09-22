@@ -17,6 +17,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
+import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
+import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 
 interface TimelineStage {
     title: string;
@@ -60,7 +62,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
 
-    const showCompletedVisuals = stage.status === 'completed' && (stage.siteImages && stage.siteImages.length > 0 || stage.documents && stage.documents.length > 0);
+    const showCompletedVisuals = stage.status === 'completed' && ((stage.siteImages && stage.siteImages.length > 0) || (stage.documents && stage.documents.length > 0));
     
     const handlePdfClick = (doc: { name: string, url: string }) => {
         setSelectedPdf(doc);
@@ -123,7 +125,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                     <div className="mt-4 space-y-4">
                         <Separator />
                         <div className="pt-4">
-                            {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>}
+                           {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {stage.approvalDate}</p>}
                             {stage.siteImages && stage.siteImages.length > 0 && (
                                 <div className="grid grid-cols-4 gap-2">
                                     {stage.siteImages?.map((img, index) => (
@@ -152,7 +154,7 @@ const StageCard = ({ stage, onReopen }: { stage: TimelineStage, onReopen: (stage
                     </div>
                 )}
 
-                 {!isProjectManager && stage.status === 'On Going' && stage.documents && stage.documents.length > 0 && (
+                {user?.team !== 'Project Manager' && stage.status === 'On Going' && stage.documents && stage.documents.length > 0 && (
                      <div className="mt-4 space-y-2">
                         <Separator />
                          <div className="pt-4 space-y-2">
@@ -275,6 +277,8 @@ export default function ExistingClientHomePage() {
   const { user } = useUser();
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
+  const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
+  const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
 
 
   const project = {
@@ -296,7 +300,7 @@ export default function ExistingClientHomePage() {
     ]
   };
 
-  const [timeline, setTimeline] = useState<TimelineStage[]>([
+  const [allStages, setAllStages] = useState<TimelineStage[]>([
     { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: '27 May 2024' },
     { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
     { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
@@ -305,8 +309,13 @@ export default function ExistingClientHomePage() {
     { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
   
+  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
+  const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), [allStages]);
+  const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin'), [allStages]);
+
+  
   const handleReopenTask = (stageToReopen: TimelineStage) => {
-    setTimeline(currentTimeline => 
+    setAllStages(currentTimeline => 
         currentTimeline.map(stage => 
             stage.title === stageToReopen.title ? { ...stage, status: 'On Going', progress: 50 } : stage
         )
@@ -360,6 +369,22 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 md:p-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
+                 <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+                    <Button
+                        variant="outline"
+                        onClick={() => setIsCompletedTasksSheetOpen(true)}
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                    >
+                        View Completed Tasks
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
+                    >
+                        View Upcoming Tasks
+                    </Button>
+                </div>
                 <div className="relative pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
@@ -394,6 +419,18 @@ export default function ExistingClientHomePage() {
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"
+    />
+    <ViewUpcomingTasksSheet 
+        isOpen={isUpcomingTasksSheetOpen}
+        onClose={() => setIsUpcomingTasksSheetOpen(false)}
+        tasks={upcomingTasks as any}
+        onTaskClick={(task) => console.log('task clicked', task)}
+    />
+    <ViewCompletedTasksSheet
+        isOpen={isCompletedTasksSheetOpen}
+        onClose={() => setIsCompletedTasksSheetOpen(false)}
+        tasks={completedTasks as any}
+        onTaskClick={(task) => console.log('task clicked', task)}
     />
     </>
   );

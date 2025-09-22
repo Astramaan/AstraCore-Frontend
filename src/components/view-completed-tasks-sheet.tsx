@@ -37,7 +37,7 @@ interface Stage {
 
 const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
     const { text: statusText, color: statusColor } = useMemo(() => {
-        return { text: 'Completed', color: 'bg-green-600 text-white' };
+        return { text: 'Completed', color: 'bg-green-100 text-green-700' };
     }, []);
 
     return (
