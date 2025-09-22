@@ -180,15 +180,15 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <Card className="rounded-full md:w-full h-24 w-24 flex items-center justify-center">
+    <Card className="rounded-[50px] md:w-full flex items-center justify-center p-4">
         <CardContent className="p-0">
-            <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 text-center p-4">
+            <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex flex-col md:flex-row items-center gap-2 text-center">
                 <div className="w-14 h-14 rounded-full bg-green-light flex items-center justify-center">
                      <div className="grid place-items-center h-10 w-10 rounded-full bg-green">
                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="w-6 h-6 text-white"><rect width="256" height="256" fill="none"/><path d="M45.4,177A95.9,95.9,0,1,1,79,210.6h0L45.8,220a7.9,7.9,0,0,1-9.8-9.8L45.4,177Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12"/><path d="M152.1,184A79.9,79.9,0,0,1,72,103.9,28,28,0,0,1,100,76h0a6.8,6.8,0,0,1,6,3.5l11.7,20.4a8.1,8.1,0,0,1-.1,8.1l-9.4,15.7h0a48,48,0,0,0,24.1,24.1h0l15.7-9.4a8.1,8.1,0,0,1,8.1-.1L176.5,150a6.8,6.8,0,0,1,3.5,6h0A28.1,28.1,0,0,1,152.1,184Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12"/></svg>
                         </div>
                     </div>
-                <div className="hidden md:block">
+                <div className="hidden md:block text-left">
                     <p className="text-black text-sm font-normal">Chat with our Executive</p>
                     <p className="text-grey-1 text-xs">Quick Reply</p>
                 </div>
@@ -219,8 +219,8 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full h-24 flex-1">
-        <CardContent className="p-4 w-full">
+    <Card className="rounded-[50px] flex-1">
+        <CardContent className="p-6 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div className="flex-1">
                     <p className="text-black text-sm font-normal">Payment</p>
@@ -427,7 +427,7 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-center">
+                 <div className="flex md:flex-col gap-4 items-center">
                     <PaymentsDialog>
                         <PaymentCard />
                     </PaymentsDialog>
@@ -469,7 +469,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-    
-
-    
