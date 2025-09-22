@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -273,12 +272,16 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
             <Card className="rounded-[50px] border-0">
                 <CardContent className="p-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                        <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
-                        <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                        <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                        <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                        <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
-                        <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        <div className="space-y-6">
+                            <FileSection title="Initial" files={files.initial} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete} />
+                            <FileSection title="Costing" files={files.costing} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                            <FileSection title="Architecture Design" files={files.architecture} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                            <FileSection title="Structure Design" files={files.structure} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        </div>
+                         <div className="space-y-6">
+                            <FileSection title="Sanction Drawings" files={files.sanction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                            <FileSection title="Construction Drawings" files={files.construction} onFileClick={handleFileClick} onFileUpdate={handleFileUpdate} onFileDelete={handleFileDelete}/>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
