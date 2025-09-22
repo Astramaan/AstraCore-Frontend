@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -16,6 +17,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
+import { Progress } from './ui/progress';
 
 interface Stage {
     id: number;
@@ -35,44 +37,46 @@ interface Stage {
 }
 
 const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
-     const priority = stage.priority;
-    const priorityColors: { [key: string]: string } = {
-        "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-500/10 text-red-500",
-    };
-    
-    const { text: statusText, color: statusColor } = useMemo(() => {
-        switch (stage.status) {
-            case 'completed':
-                return { text: 'Completed', color: 'bg-green-100 text-green-700' };
-            case 'ongoing':
-                return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
-            case 'upcoming':
-            case 'pending':
-            default:
-                return { text: 'Not Yet', color: 'bg-yellow-100 text-yellow-600' };
-        }
-    }, [stage.status]);
+    const priority = stage.priority;
+   const priorityColors: { [key: string]: string } = {
+       "Low": "bg-cyan-500/10 text-cyan-500",
+       "Medium": "bg-yellow-500/10 text-yellow-500",
+       "High": "bg-red-500/10 text-red-500",
+   };
+   
+   const { text: statusText, color: statusColor } = useMemo(() => {
+       switch (stage.status) {
+           case 'completed':
+               return { text: 'Completed', color: 'bg-green-100 text-green-700' };
+           case 'ongoing':
+               return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
+           case 'upcoming':
+           case 'pending':
+           default:
+               return { text: 'Upcoming', color: 'bg-yellow-100 text-yellow-600' };
+       }
+   }, [stage.status]);
 
-    return (
-        <Card className="w-full rounded-[40px] border flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
-                </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                 <div className="flex justify-between items-center mt-2">
-                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                </div>
-            </div>
-            <div className="flex justify-between items-center mt-auto pt-4">
-                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className="text-sm text-muted-foreground">{stage.createdAt}</p>
-            </div>
-        </Card>
-    )
+   const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
+
+   return (
+       <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-background" onClick={() => onClick(stage)}>
+           <div>
+               <div className="flex justify-between items-start">
+                   <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                   <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
+               </div>
+               <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
+                <div className="flex justify-between items-center mt-2">
+                   <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
+               </div>
+           </div>
+           <div className="flex justify-between items-center mt-auto">
+                <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+               <p className="text-sm text-muted-foreground">Due: {formattedDate}</p>
+           </div>
+       </Card>
+   )
 }
 
 interface ViewUpcomingTasksSheetProps {
