@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
@@ -20,6 +20,7 @@ import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import WhatsappIcon from '@/components/icons/whatsapp-icon';
 
 
 interface TimelineStage {
@@ -187,7 +188,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
                         <p className="text-black text-sm font-normal">Chat with our Executive</p>
                         <p className="text-grey-1 text-xs">Quick Reply</p>
                     </div>
-                    <Image src="https://placehold.co/24x24" width={24} height={24} alt="Chat icon" data-ai-hint="chat bubble" />
+                    <WhatsappIcon className="w-6 h-6" />
                 </div>
             </CardContent>
         </Card>
@@ -387,7 +388,7 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 md:p-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
-                 <div className="mb-6 flex flex-row gap-4 justify-between">
+                 <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
@@ -464,7 +465,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-    
-
-    
