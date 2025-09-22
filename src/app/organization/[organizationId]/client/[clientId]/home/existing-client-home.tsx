@@ -20,7 +20,7 @@ import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import WhatsappIcon from '@/components/icons/whatsapp-icon';
+import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 
 
 interface TimelineStage {
@@ -180,21 +180,13 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <div className="flex justify-end">
-        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="md:w-full">
-            <Card className="rounded-full h-14 w-14 md:h-24 md:w-full flex items-center justify-center">
-                <CardContent className="p-4">
-                    <div className="flex items-center justify-center gap-4">
-                        <div className="hidden md:block">
-                            <p className="text-black text-sm font-normal">Chat with our Executive</p>
-                            <p className="text-grey-1 text-xs">Quick Reply</p>
-                        </div>
-                        <WhatsappIcon />
-                    </div>
-                </CardContent>
-            </Card>
-        </a>
-    </div>
+    <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="shrink-0">
+        <Card className="rounded-full h-14 w-14 flex items-center justify-center">
+            <CardContent className="p-0">
+                <WhatsappIcon />
+            </CardContent>
+        </Card>
+    </a>
 );
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
@@ -219,10 +211,10 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full h-[54px] flex items-center w-full">
+    <Card className="rounded-full h-14 flex items-center w-full">
         <CardContent className="p-4 w-full">
             <div className="flex items-center justify-between gap-4">
-                 <div>
+                 <div className="flex-1">
                     <p className="text-black text-sm font-normal">Payment</p>
                     <p className="text-grey-1 text-xs">Due on 05 June</p>
                 </div>
@@ -390,7 +382,7 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 md:p-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
-                 <div className="mb-6 flex gap-4">
+                 <div className="mb-6 flex flex-col md:flex-row gap-4">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
@@ -427,11 +419,15 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                <div className="grid grid-cols-2 gap-4">
-                    <PaymentsDialog>
-                        <PaymentCard />
-                    </PaymentsDialog>
-                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex-1">
+                        <PaymentsDialog>
+                            <PaymentCard />
+                        </PaymentsDialog>
+                    </div>
+                    <div className="flex justify-end">
+                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                    </div>
                 </div>
                 <SitePhotos 
                     onViewMore={() => setIsGalleryOpen(true)}
