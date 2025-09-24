@@ -76,9 +76,9 @@ export const ActiveSessionsCard = () => {
                                         You will be logged out from this device and will need to sign in again.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
-                                <AlertDialogFooter className="flex-row justify-center gap-4 pt-4">
-                                    <AlertDialogCancel className="flex-1 h-14 px-10 rounded-full text-lg font-medium text-black border-none bg-zinc-100 hover:bg-zinc-200 hover:text-black">Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => handleRemove(session.device)} className="flex-1 h-14 px-10 bg-red-600 rounded-full text-lg font-medium text-white hover:bg-red-700">Remove</AlertDialogAction>
+                                <AlertDialogFooter className="flex-row justify-center items-center gap-4 pt-4">
+                                    <AlertDialogCancel className="flex-1 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none bg-zinc-100 hover:bg-zinc-200 hover:text-black">Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => handleRemove(session.device)} className="flex-1 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Remove</AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>
