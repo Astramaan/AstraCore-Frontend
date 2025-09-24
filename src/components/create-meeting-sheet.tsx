@@ -101,7 +101,11 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const handleMeetingLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const link = e.target.value;
         setMeetingLink(link);
-        if (link && !/^(https?:\/\/)?(meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}|([a-z]+\.)?zoom\.us\/(j|my)\/[a-zA-Z0-9?=&-.]+)$/.test(link)) {
+        
+        const isGoogleMeet = link.includes('meet.google.com');
+        const isZoom = /^(https?:\/\/)?([a-z]+\.)?zoom\.us\/(j|my)\/[a-zA-Z0-9?=&-.]+$/.test(link);
+
+        if (link && !isGoogleMeet && !isZoom) {
             setMeetingLinkError('Please enter a valid Google Meet or Zoom link.');
         } else {
             setMeetingLinkError('');
