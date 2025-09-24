@@ -41,7 +41,7 @@ export default function AuthForm() {
     setIsSubmitting(true);
     
     try {
-        const res = await fetch(`https://astramaan-be-1.onrender.com/api/v1/login`, {
+        const res = await fetch(`/api/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -49,7 +49,7 @@ export default function AuthForm() {
 
         const data = await res.json();
 
-        if (data.success && data.user) {
+        if (res.ok && data.success && data.user) {
             localStorage.setItem("astramaan_user", JSON.stringify(data.user));
             const organizationId = data.user.organizationId;
             if (organizationId) {
@@ -58,7 +58,8 @@ export default function AuthForm() {
                   : data.user.roleType === 'client'
                   ? `/organization/${organizationId}/client/${data.user.userId}/home`
                   : `/organization/${organizationId}/home`;
-                router.push(targetPath);
+                // We use window.location.href for a full page reload to re-initialize context
+                window.location.href = targetPath;
             } else {
                  toast({
                     variant: "destructive",

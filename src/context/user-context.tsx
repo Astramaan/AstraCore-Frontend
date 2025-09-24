@@ -18,6 +18,7 @@ interface User {
 interface UserContextType {
   user: User | null;
   loading: boolean;
+  logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -41,9 +42,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   }, []);
+  
+  const logout = () => {
+    localStorage.removeItem("astramaan_user");
+    setUser(null);
+    window.location.href = '/';
+  }
 
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ user, loading, logout }}>
       {children}
     </UserContext.Provider>
   );
