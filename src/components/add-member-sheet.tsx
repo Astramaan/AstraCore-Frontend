@@ -95,12 +95,12 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     <form action={formAction} className="flex flex-col h-full">
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="space-y-6">
-                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} />
+                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} required />
                 <div>
-                    <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={handleEmailChange} />
+                    <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={handleEmailChange} required />
                     {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
                 </div>
-                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} />
+                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} required />
 
                 {isTeamAdmin ? (
                     <>
@@ -111,7 +111,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                     <>
                         <div className="space-y-2">
                             <Label htmlFor="team" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
-                            <Select name="team" onValueChange={setTeam} value={team}>
+                            <Select name="team" onValueChange={setTeam} value={team} required>
                                 <SelectTrigger id="team" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a team" />
                                 </SelectTrigger>
@@ -125,7 +125,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
                         <div className="space-y-2">
                             <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
-                            <Select name="role" onValueChange={setRole} value={role}>
+                            <Select name="role" onValueChange={setRole} value={role} required>
                                 <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
