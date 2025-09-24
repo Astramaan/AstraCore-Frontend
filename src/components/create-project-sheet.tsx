@@ -428,7 +428,7 @@ const ProjectTimelineForm = ({
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
-                            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                             <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                                 <div className="space-y-2">
                                     <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
                                     <Popover>
@@ -489,7 +489,7 @@ const ProjectTimelineForm = ({
                                                                     <Input
                                                                         name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
                                                                         className="h-12 bg-background rounded-full px-5"
-                                                                        placeholder="Enter days"
+                                                                        placeholder="Duration (optional)"
                                                                         defaultValue={task.duration}
                                                                     />
                                                                 </div>
@@ -613,67 +613,65 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="flex-1 flex flex-col overflow-hidden">
-                    <ScrollArea className="flex-1 p-6 space-y-4 no-scrollbar">
-                        <div className="space-y-6">
-                            <Input
-                                placeholder="Template Name"
-                                value={templateName}
-                                onChange={(e) => setTemplateName(e.target.value)}
-                                className="h-14 rounded-full bg-background text-lg mb-4"
-                            />
-                            {phases.map((phase, phaseIndex) => (
-                                <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background">
-                                    <CardContent className="p-0 space-y-4">
-                                        <div className="flex items-center gap-2">
-                                            <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                            <Input value={phase.name} onChange={e => handleInputChange(e.target.value, 'phase', {phase: phaseIndex})} className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
-                                            <Button size="icon" variant="ghost" onClick={() => removePhase(phaseIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                        </div>
-                                        <div className="pl-6 space-y-4">
-                                            {phase.stages.map((stage, stageIndex) => (
-                                                <Card key={stageIndex} className="p-4 rounded-2xl border bg-white space-y-4">
-                                                    <CardContent className="p-0 space-y-4">
-                                                        <div className="flex items-center gap-2">
-                                                            <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                                            <Input value={stage.name} onChange={e => handleInputChange(e.target.value, 'stage', {phase: phaseIndex, stage: stageIndex})} className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
-                                                            <Button size="icon" variant="ghost" onClick={() => removeStage(phaseIndex, stageIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                                        </div>
-                                                        <div className="pl-6 space-y-4">
-                                                            {stage.tasks.map((task, taskIndex) => (
-                                                                <div key={taskIndex} className="grid grid-cols-[1fr_auto] items-center gap-2">
-                                                                    <div className="flex items-center gap-2">
-                                                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                                                        <Input placeholder="Task Name" value={task.name} onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 bg-background rounded-full px-5"/>
-                                                                    </div>
-                                                                    <div className="flex items-center gap-2">
-                                                                        <Input placeholder="Duration (optional)" value={task.duration} onChange={e => handleInputChange(e.target.value, 'duration', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 w-40 bg-background rounded-full px-5"/>
-                                                                        <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                                                    </div>
+                <ScrollArea className="flex-1">
+                    <div className="p-6 space-y-4">
+                        <Input
+                            placeholder="Template Name"
+                            value={templateName}
+                            onChange={(e) => setTemplateName(e.target.value)}
+                            className="h-14 rounded-full bg-background text-lg mb-4"
+                        />
+                        {phases.map((phase, phaseIndex) => (
+                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background">
+                                <CardContent className="p-0 space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                        <Input value={phase.name} onChange={e => handleInputChange(e.target.value, 'phase', {phase: phaseIndex})} className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
+                                        <Button size="icon" variant="ghost" onClick={() => removePhase(phaseIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                    </div>
+                                    <div className="pl-6 space-y-4">
+                                        {phase.stages.map((stage, stageIndex) => (
+                                            <Card key={stageIndex} className="p-4 rounded-2xl border bg-white space-y-4">
+                                                <CardContent className="p-0 space-y-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                                        <Input value={stage.name} onChange={e => handleInputChange(e.target.value, 'stage', {phase: phaseIndex, stage: stageIndex})} className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
+                                                        <Button size="icon" variant="ghost" onClick={() => removeStage(phaseIndex, stageIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                    </div>
+                                                    <div className="pl-6 space-y-4">
+                                                        {stage.tasks.map((task, taskIndex) => (
+                                                            <div key={taskIndex} className="grid grid-cols-[1fr_auto] items-center gap-2">
+                                                                <div className="flex items-center gap-2">
+                                                                    <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                                                    <Input placeholder="Task Name" value={task.name} onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 bg-background rounded-full px-5"/>
                                                                 </div>
-                                                            ))}
-                                                            <Button variant="outline" className="rounded-full" onClick={() => addTask(phaseIndex, stageIndex)}>
-                                                                <Plus className="mr-2 h-4 w-4" /> Add Task
-                                                            </Button>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            ))}
-                                            <Button variant="outline" className="rounded-full" onClick={() => addStage(phaseIndex)}>
-                                                <Plus className="mr-2 h-4 w-4" /> Add Stage
-                                            </Button>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                        <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
-                            <Plus className="mr-2 h-4 w-4" /> Add Phase
-                        </Button>
-                    </ScrollArea>
-                    <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
-                         <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
+                                                                <div className="flex items-center gap-2">
+                                                                    <Input placeholder="Duration (optional)" value={task.duration} onChange={e => handleInputChange(e.target.value, 'duration', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 w-40 bg-background rounded-full px-5"/>
+                                                                    <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                        <Button variant="outline" className="rounded-full" onClick={() => addTask(phaseIndex, stageIndex)}>
+                                                            <Plus className="mr-2 h-4 w-4" /> Add Task
+                                                        </Button>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        ))}
+                                        <Button variant="outline" className="rounded-full" onClick={() => addStage(phaseIndex)}>
+                                            <Plus className="mr-2 h-4 w-4" /> Add Stage
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
+                    <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
+                        <Plus className="mr-2 h-4 w-4" /> Add Phase
+                    </Button>
+                </ScrollArea>
+                <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
+                     <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
                 </div>
             </DialogContentComponent>
         </DialogComponent>
