@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
 
-    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
