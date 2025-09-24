@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function ForgotPasswordPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background">
-      {/* Combined Layout */}
+      {/* Combined Layout for mobile and desktop */}
       <div className="md:flex md:items-center md:justify-center md:h-screen md:p-4">
         <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-auto">
 
