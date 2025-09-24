@@ -11,7 +11,7 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { [
         <div className="flex flex-col min-h-screen md:h-auto md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-auto">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px]">
             <div className="md:pt-4 md:pl-4 md:pb-4 h-full relative">
               <Image 
                   src="/images/logoimage.png"
