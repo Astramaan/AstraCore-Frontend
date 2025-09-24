@@ -89,6 +89,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
     const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
     const [projectName, setProjectName] = useState(projectData?.projectDetails?.projectName || '');
+    const [projectType, setProjectType] = useState(projectData?.projectDetails?.projectType || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
@@ -136,6 +137,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             },
             projectDetails: {
                 projectName: projectName,
+                projectType: projectType,
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
@@ -217,6 +219,11 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                             <div className="sm:col-span-2">
                                 <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
                             </div>
+                            <FloatingLabelSelect id="project-type" name="project_type" label="Project Type*" value={projectType} onValueChange={setProjectType}>
+                                <SelectItem value="new-construction">New Construction</SelectItem>
+                                <SelectItem value="renovation">Renovation</SelectItem>
+                                <SelectItem value="interior-design">Interior Design</SelectItem>
+                            </FloatingLabelSelect>
                             <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
                             <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
                             <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
