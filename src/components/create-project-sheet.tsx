@@ -224,7 +224,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
-                             <FloatingLabelInput id="site-address-link" name="site_address_link" label="Site Address link*" type="url" value={siteAddressLink} onChange={e => setSiteAddressLink(e.target.value)} />
+                             <FloatingLabelInput id="site-address-link" name="site_address_link" label="Site Location link*" type="url" value={siteAddressLink} onChange={e => setSiteAddressLink(e.target.value)} />
                             <div className="sm:col-span-2">
                                 <FloatingLabelTextarea id="site-address" name="site_address" label="Site Address" value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} />
                             </div>
