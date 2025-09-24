@@ -93,11 +93,10 @@ export async function signup(prevState: any, formData: FormData) {
   const email = formData.get('email');
   
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/send-otp-email`, {
         method: "POST",
         headers: { 
-            "Content-Type": "application/json",
-            ...getAuthHeadersFromCookie()
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({ email }),
     });
