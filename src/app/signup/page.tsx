@@ -17,7 +17,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
                   alt="Astramaan construction site"
                   fill
                   priority
-                  className="object-cover rounded-[40px]"
+                  className="object-cover rounded-[40px] md:rounded-l-[40px] md:rounded-r-none"
                   data-ai-hint="construction site company building"
               />
             </div>
