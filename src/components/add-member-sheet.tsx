@@ -85,7 +85,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        if (/^[0-9]*$/.test(value)) {
+        if (/^[0-9]*$/.test(value) && value.length <= 10) {
             setPhone(value);
         }
     }
