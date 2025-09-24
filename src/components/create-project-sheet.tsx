@@ -537,7 +537,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 setPhases(templateToEdit.phases);
             } else {
                 setTemplateName('');
-                setPhases([{ name: 'Phase 1', stages: [{ name: 'Stage 1', tasks: [{ name: 'Task 1', duration: '' }] }] }]);
+                setPhases([{ name: 'Phase 1', stages: [{ name: 'Stage 1', tasks: [{ name: 'New Task', duration: '' }] }] }]);
             }
         }
     }, [templateToEdit, isOpen]);
@@ -600,7 +600,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
         <DialogComponent open={isOpen} onOpenChange={onClose}>
             <DialogContentComponent className={cn(
                 "p-0 flex flex-col bg-white transition-all m-0",
-                "sm:max-w-4xl rounded-[50px] h-auto max-h-[90vh] md:bottom-auto bottom-0"
+                "sm:max-w-4xl rounded-t-[50px] md:rounded-[50px] h-full md:h-auto md:max-h-[90vh] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
             )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
@@ -613,7 +613,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                     </DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col flex-1 overflow-hidden">
-                    <div className="p-6 space-y-4">
+                    <div className="p-6 space-y-6">
                         <Input
                             placeholder="Template Name"
                             value={templateName}
@@ -621,9 +621,10 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                             className="h-14 rounded-full bg-background text-lg"
                         />
                     </div>
-                    <ScrollArea className="flex-1 px-6 space-y-4">
+                    <ScrollArea className="flex-1 px-6">
+                        <div className="space-y-4">
                         {phases.map((phase, phaseIndex) => (
-                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background mb-4">
+                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background">
                                 <CardContent className="p-0 space-y-4">
                                     <div className="flex items-center gap-2">
                                         <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
@@ -640,17 +641,22 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                                         <Button size="icon" variant="ghost" onClick={() => removeStage(phaseIndex, stageIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                                                     </div>
                                                     <div className="pl-6 space-y-4">
-                                                        {stage.tasks.map((task, taskIndex) => (
-                                                            <div key={taskIndex} className="grid grid-cols-[1fr_auto] items-center gap-2">
-                                                                <div className="flex items-center gap-2">
-                                                                    <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                                                    <Input placeholder="Task Name" value={task.name} onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 bg-background rounded-full px-5"/>
-                                                                </div>
-                                                                <div className="flex items-center gap-2">
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                            {stage.tasks.map((task, taskIndex) => (
+                                                                <div key={taskIndex} className="grid grid-cols-[1fr_auto] items-center gap-2">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                                                        <Input
+                                                                            placeholder="Task Name"
+                                                                            value={task.name}
+                                                                            onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})}
+                                                                            className="h-12 bg-background rounded-full px-5"
+                                                                        />
+                                                                    </div>
                                                                     <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                                                                 </div>
-                                                            </div>
-                                                        ))}
+                                                            ))}
+                                                        </div>
                                                         <Button variant="outline" className="rounded-full" onClick={() => addTask(phaseIndex, stageIndex)}>
                                                             <Plus className="mr-2 h-4 w-4" /> Add Task
                                                         </Button>
@@ -668,6 +674,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                          <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
                             <Plus className="mr-2 h-4 w-4" /> Add Phase
                         </Button>
+                        </div>
                     </ScrollArea>
                     <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
                         <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
@@ -801,5 +808,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
+
+    
 
     
