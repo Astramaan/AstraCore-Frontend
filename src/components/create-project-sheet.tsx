@@ -467,7 +467,7 @@ const ProjectTimelineForm = ({
                                         </DropdownMenu>
                                         <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)} className="h-14 rounded-full px-4">
                                             <Plus className="mr-2 h-4 w-4" />
-                                            Create new Project Timeline (Stages)
+                                            Create new Timeline
                                         </Button>
                                     </div>
                                 </div>
