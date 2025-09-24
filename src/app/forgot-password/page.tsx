@@ -8,7 +8,7 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { [
     <div className="min-h-screen bg-background">
       {/* Combined Layout */}
       <div className="md:flex md:items-center md:justify-center md:h-screen md:p-4">
-        <div className="flex flex-col min-h-screen md:h-auto md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-auto">
+        <div className="flex flex-col md:h-auto md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-auto">
 
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px]">
