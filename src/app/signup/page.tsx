@@ -10,8 +10,8 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
        <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-auto">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[682px] self-center">
-            <div className="h-full relative pl-4">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto self-stretch">
+            <div className="h-full relative p-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
