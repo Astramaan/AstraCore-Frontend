@@ -47,6 +47,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const [phone, setPhone] = useState('');
     const [team, setTeam] = useState(() => (isTeamAdmin ? teamValue : ''));
     const [role, setRole] = useState(() => (isTeamAdmin ? 'member' : ''));
+    const [emailError, setEmailError] = useState('');
 
     const [state, formAction] = useActionState(addMember, { success: false, message: '' });
 
@@ -71,6 +72,16 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             setName(value);
         }
     };
+    
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setEmail(value);
+        if (value && !/^\S+@\S+\.\S+$/.test(value)) {
+            setEmailError('Please enter a valid email address.');
+        } else {
+            setEmailError('');
+        }
+    };
 
 
     return (
@@ -78,7 +89,10 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="space-y-6">
                 <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} />
-                <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <div>
+                    <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={handleEmailChange} />
+                    {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
+                </div>
                 <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 
                 {isTeamAdmin ? (
