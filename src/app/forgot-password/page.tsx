@@ -6,10 +6,10 @@ import Image from "next/image";
 export default function ForgotPasswordPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background md:flex md:items-center md:justify-center md:p-4">
-      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:max-w-4xl w-full">
+      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-[844px] md:h-[539px]">
           
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-full">
             <div className="h-full relative md:p-4">
               <Image 
                   src="/images/logoimage.png"
