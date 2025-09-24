@@ -91,8 +91,8 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
-    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.projectDetails?.siteLocation || '');
-    const [siteLocationLink, setSiteLocationLink] = useState(projectData?.projectDetails?.siteLink || '');
+    const [sitePincode, setSitePincode] = useState(projectToEdit?.city || projectData?.projectDetails?.sitePincode || '');
+    const [siteAddress, setSiteAddress] = useState(projectData?.projectDetails?.siteAddress || '');
     const [architect, setArchitect] = useState(projectData?.projectAssign?.architect || '');
     const [siteSupervisor, setSiteSupervisor] = useState(projectData?.projectAssign?.siteSupervisor || '');
     const [architectOpen, setArchitectOpen] = useState(false);
@@ -119,7 +119,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setPhone(contact.phone);
             setEmail(contact.email);
             setCurrentAddress(contact.address);
-            setSiteLocation(contact.city);
+            setSitePincode(contact.city);
         }
         setEmailComboboxOpen(false);
     };
@@ -138,8 +138,8 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
-                siteLocation: siteLocation,
-                siteLink: siteLocationLink
+                sitePincode: sitePincode,
+                siteAddress: siteAddress
             },
             projectAssign: {
                 architect: architect,
@@ -156,7 +156,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                     <div className="space-y-6">
                         <h3 className="text-lg text-stone-500">Personal details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                             <div className="space-y-2 sm:col-span-2">
+                            <div className="space-y-2 sm:col-span-2">
                                 <div className="flex items-baseline gap-2">
                                     <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
                                     <span className="text-xs text-muted-foreground">(enter to fetch the details.)</span>
@@ -223,9 +223,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
-                             <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
+                             <FloatingLabelInput id="site-pincode" name="site_pincode" label="Site pincode*" value={sitePincode} onChange={e => setSitePincode(e.target.value)} />
                             <div className="sm:col-span-2">
-                                <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site location link" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
+                                <FloatingLabelInput id="site-address" name="site_address" label="Site Address" value={siteAddress} onChange={e => setSiteAddress(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -683,3 +683,4 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
+
