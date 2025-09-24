@@ -10,7 +10,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
 
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px] self-center">
-            <div className="p-4 h-full relative">
+            <div className="h-full relative p-4 md:p-0 md:pl-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
