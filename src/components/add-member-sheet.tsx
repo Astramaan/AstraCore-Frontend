@@ -100,7 +100,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                     <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={handleEmailChange} required />
                     {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
                 </div>
-                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} required />
+                <FloatingLabelInput id="member-phone" name="mobileNumber" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} required />
 
                 {isTeamAdmin ? (
                     <>

@@ -123,7 +123,7 @@ export async function addMember(prevState: any, formData: FormData) {
         const rawFormData = Object.fromEntries(formData.entries());
         const requestBody = {
             ...rawFormData,
-            mobileNumber: rawFormData.phone
+            mobileNumber: rawFormData.mobileNumber
         };
         delete (requestBody as any).phone;
 
