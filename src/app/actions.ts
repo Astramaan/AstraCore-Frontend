@@ -125,7 +125,6 @@ export async function addMember(prevState: any, formData: FormData) {
             ...rawFormData,
             mobileNumber: rawFormData.mobileNumber
         };
-        delete (requestBody as any).phone;
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "POST",
