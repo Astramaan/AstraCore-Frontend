@@ -59,6 +59,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const [title, setTitle] = useState('');
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
+    const [meetingLinkError, setMeetingLinkError] = useState('');
     const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | 'others' | ''>('');
     const [members, setMembers] = React.useState<string[]>([]);
     const [time, setTime] = React.useState('');
@@ -97,9 +98,28 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         }
     }, [selectedId, isManual]);
 
+    const handleMeetingLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const link = e.target.value;
+        setMeetingLink(link);
+        if (link && !/^(https?:\/\/)?(meet\.google\.com\/[a-z-]{10,}|([a-z]+\.)?zoom\.us\/(j|my)\/[a-zA-Z0-9?=&-.]+)$/.test(link)) {
+            setMeetingLinkError('Please enter a valid Google Meet or Zoom link.');
+        } else {
+            setMeetingLinkError('');
+        }
+    };
+
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if (meetingLinkError) {
+             toast({
+                variant: 'destructive',
+                title: 'Invalid Meeting Link',
+                description: 'Please enter a valid Google Meet or Zoom link.',
+            });
+            return;
+        }
         
         if (!title || !name || !selectedType || !date || !time) {
             toast({
@@ -161,7 +181,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
                 <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>
-                    <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={(e) => setMeetingLink(e.target.value)} />
+                    <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={handleMeetingLinkChange} />
+                    {meetingLinkError && <p className="text-destructive text-sm mt-1 px-4">{meetingLinkError}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -428,3 +449,4 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </Sheet>
   );
 }
+
