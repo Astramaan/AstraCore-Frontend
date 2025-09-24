@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -91,7 +92,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
-    const [sitePincode, setSitePincode] = useState(projectToEdit?.city || projectData?.projectDetails?.sitePincode || '');
+    const [siteAddressLink, setSiteAddressLink] = useState(projectToEdit?.city || projectData?.projectDetails?.siteAddressLink || '');
     const [siteAddress, setSiteAddress] = useState(projectData?.projectDetails?.siteAddress || '');
     const [architect, setArchitect] = useState(projectData?.projectAssign?.architect || '');
     const [siteSupervisor, setSiteSupervisor] = useState(projectData?.projectAssign?.siteSupervisor || '');
@@ -119,7 +120,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setPhone(contact.phone);
             setEmail(contact.email);
             setCurrentAddress(contact.address);
-            setSitePincode(contact.city);
+            setSiteAddressLink(contact.city);
         }
         setEmailComboboxOpen(false);
     };
@@ -138,7 +139,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
-                sitePincode: sitePincode,
+                siteAddressLink: siteAddressLink,
                 siteAddress: siteAddress
             },
             projectAssign: {
@@ -223,7 +224,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
-                             <FloatingLabelInput id="site-pincode" name="site_pincode" label="Site pincode*" value={sitePincode} onChange={e => setSitePincode(e.target.value)} />
+                             <FloatingLabelInput id="site-address-link" name="site_address_link" label="Site Address link*" type="url" value={siteAddressLink} onChange={e => setSiteAddressLink(e.target.value)} />
                             <div className="sm:col-span-2">
                                 <FloatingLabelTextarea id="site-address" name="site_address" label="Site Address" value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} />
                             </div>
