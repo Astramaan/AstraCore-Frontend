@@ -82,6 +82,13 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             setEmailError('');
         }
     };
+    
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (/^[0-9]*$/.test(value)) {
+            setPhone(value);
+        }
+    }
 
 
     return (
@@ -93,7 +100,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                     <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={handleEmailChange} />
                     {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
                 </div>
-                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={handlePhoneChange} />
 
                 {isTeamAdmin ? (
                     <>
