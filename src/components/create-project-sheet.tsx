@@ -88,11 +88,11 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
     const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
-    const [projectTitle, setProjectTitle] = useState(projectData?.projectDetails?.projectTitle || '');
+    const [projectName, setProjectName] = useState(projectData?.projectDetails?.projectName || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
-    const [siteAddressLink, setSiteAddressLink] = useState(projectToEdit?.city || projectData?.projectDetails?.siteAddressLink || '');
+    const [siteLocationLink, setSiteLocationLink] = useState(projectToEdit?.city || projectData?.projectDetails?.siteLocationLink || '');
     const [siteAddress, setSiteAddress] = useState(projectData?.projectDetails?.siteAddress || '');
     const [architect, setArchitect] = useState(projectData?.projectAssign?.architect || '');
     const [siteSupervisor, setSiteSupervisor] = useState(projectData?.projectAssign?.siteSupervisor || '');
@@ -120,7 +120,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setPhone(contact.phone);
             setEmail(contact.email);
             setCurrentAddress(contact.address);
-            setSiteAddressLink(contact.city);
+            setSiteLocationLink(contact.city);
         }
         setEmailComboboxOpen(false);
     };
@@ -135,11 +135,11 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 currentAddress: currentAddress,
             },
             projectDetails: {
-                projectTitle: projectTitle,
+                projectName: projectName,
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
-                siteAddressLink: siteAddressLink,
+                siteLocationLink: siteLocationLink,
                 siteAddress: siteAddress
             },
             projectAssign: {
@@ -215,7 +215,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                         <h3 className="text-lg text-stone-500">Project details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="sm:col-span-2">
-                                <FloatingLabelInput id="project-title" name="project_title" label="Project Title*" value={projectTitle} onChange={e => setProjectTitle(e.target.value)} />
+                                <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
                             </div>
                             <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
                             <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
@@ -224,7 +224,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
-                             <FloatingLabelInput id="site-address-link" name="site_address_link" label="Site Location link*" type="url" value={siteAddressLink} onChange={e => setSiteAddressLink(e.target.value)} />
+                             <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site Location link*" type="url" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
                             <div className="sm:col-span-2">
                                 <FloatingLabelTextarea id="site-address" name="site_address" label="Site Address" value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} />
                             </div>
