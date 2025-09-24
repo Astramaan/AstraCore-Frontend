@@ -29,6 +29,7 @@ import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { addProject } from '@/app/actions';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 
 const mockArchitects = [
     { value: "554cee57f2f634d9", label: "Darshan" },
@@ -120,7 +121,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setPhone(contact.phone);
             setEmail(contact.email);
             setCurrentAddress(contact.address);
-            setSiteLocationLink(contact.city);
         }
         setEmailComboboxOpen(false);
     };
@@ -158,7 +158,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                     <div className="space-y-6">
                         <h3 className="text-lg text-stone-500">Personal details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="space-y-2 sm:col-span-2">
+                             <div className="space-y-2 sm:col-span-2">
                                 <div className="flex items-baseline gap-2">
                                     <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
                                     <span className="text-xs text-muted-foreground">(enter to fetch the personal details.)</span>
@@ -376,6 +376,7 @@ const ProjectTimelineForm = ({
     const { toast } = useToast();
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [isPending, startTransition] = useTransition();
+    const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -451,6 +452,24 @@ const ProjectTimelineForm = ({
                                         </Popover>
                                         <input type="hidden" name="startDate" value={startDate?.toISOString() || ''} />
                                     </div>
+                                    <div className="flex items-center gap-2 justify-self-end lg:justify-self-start">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline" className="h-14 rounded-full px-4">
+                                                    Template
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem>Residential Template</DropdownMenuItem>
+                                                <DropdownMenuItem>Commercial Template</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                        <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)} className="h-14 rounded-full px-4">
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            Create new Project Timeline (Stages)
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -500,6 +519,12 @@ const ProjectTimelineForm = ({
                     </Button>
                 </div>
             </form>
+            <CustomTimelineDialog
+                isOpen={isCustomTimelineDialogOpen}
+                onClose={() => setIsCustomTimelineDialogOpen(false)}
+                onSave={(template) => console.log('save template', template)}
+                templateToEdit={null}
+            />
         </>
     );
 };
