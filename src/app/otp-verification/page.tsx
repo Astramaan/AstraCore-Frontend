@@ -3,15 +3,14 @@ import OtpForm from "@/components/otp-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
-export default function OtpVerificationPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function OtpVerificationPage({ searchParams }: { searchParams: { [key:string]: string | string[] | undefined } }) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Combined Layout */}
-      <div className="md:flex md:items-center md:justify-center md:h-screen md:p-4">
-        <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-auto">
+      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-[539px]">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-full">
             <div className="p-4 h-full relative">
               <Image 
                   src="/images/logoimage.png"
@@ -36,6 +35,5 @@ export default function OtpVerificationPage({ searchParams }: { searchParams: { 
 
         </div>
       </div>
-    </div>
   );
 }

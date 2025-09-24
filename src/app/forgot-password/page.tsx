@@ -3,17 +3,17 @@ import SetPasswordForm from "@/components/set-password-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
-export default function ForgotPasswordPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+export default function ForgotPasswordPage({ searchParams }: { searchParams: { [key:string]: string | string[] | undefined } }) {
   return (
-    <div className="min-h-screen bg-background md:flex md:items-center md:justify-center md:p-4">
-      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground md:w-[844px] md:h-[539px]">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-[539px]">
           
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-full">
             <div className="h-full relative p-4">
               <Image 
                   src="/images/logoimage.png"
-                  alt="Astramaan construction site"
+                  alt-="Astramaan construction site"
                   fill
                   priority
                   className="object-cover rounded-[40px]"
