@@ -28,7 +28,7 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { [
           <div className="flex-grow bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:px-10 md:w-[448px]">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo className="md:mx-auto"/>
-              <div className="mt-8 flex-grow flex flex-col">
+              <div className="mt-8 flex flex-col">
                 <SetPasswordForm flow="forgot-password" />
               </div>
             </div>
