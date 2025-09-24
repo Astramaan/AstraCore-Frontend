@@ -545,7 +545,6 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
 
 
     const handleSave = () => {
-        // This functionality needs to be implemented based on the new structure
         toast({ title: "Custom timelines not yet implemented" });
         onClose();
     };
@@ -614,13 +613,18 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                     </DialogTitle>
                 </DialogHeader>
                 <div className="flex-1 flex flex-col overflow-hidden">
-                    <div className="p-6 space-y-6">
+                    <div className="p-6 space-y-4">
                         <Input
                             placeholder="Template Name"
                             value={templateName}
                             onChange={(e) => setTemplateName(e.target.value)}
                             className="h-14 rounded-full bg-background text-lg"
                         />
+                         <div className="text-xs text-muted-foreground p-4 bg-background rounded-lg space-y-1">
+                            <p><strong>Phase:</strong> A major section of the project (e.g., Design, Construction).</p>
+                            <p><strong>Stage:</strong> A sub-section within a phase (e.g., Foundation, Framing).</p>
+                            <p><strong>Task:</strong> An individual action item within a stage (e.g., Pour concrete, Install windows).</p>
+                        </div>
                     </div>
                     <ScrollArea className="flex-1 px-6">
                         <div className="space-y-4">
@@ -645,15 +649,12 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                             {stage.tasks.map((task, taskIndex) => (
                                                                 <div key={taskIndex} className="grid grid-cols-[1fr_auto] items-center gap-2">
-                                                                    <div className="flex items-center gap-2">
-                                                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
                                                                         <Input
                                                                             placeholder="Task Name"
                                                                             value={task.name}
                                                                             onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})}
                                                                             className="h-12 bg-background rounded-full px-5"
                                                                         />
-                                                                    </div>
                                                                     <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                                                                 </div>
                                                             ))}
