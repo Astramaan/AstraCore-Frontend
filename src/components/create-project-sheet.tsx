@@ -425,52 +425,48 @@ const ProjectTimelineForm = ({
                     <div className="space-y-8">
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
-                                <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] gap-4 items-end">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                                                        !startDate && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                                    {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0">
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={startDate}
-                                                    onSelect={setStartDate}
-                                                    initialFocus
-                                                />
-                                            </PopoverContent>
-                                        </Popover>
-                                        <input type="hidden" name="startDate" value={startDate?.toISOString() || ''} />
-                                    </div>
-                                    <div className="flex items-center gap-2 justify-self-end lg:justify-self-start">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="outline" className="h-14 rounded-full px-4">
-                                                    Template
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent>
-                                                <DropdownMenuItem>Residential Template</DropdownMenuItem>
-                                                <DropdownMenuItem>Commercial Template</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                        <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)} className="h-14 rounded-full px-4">
-                                            <Plus className="mr-2 h-4 w-4" />
-                                            Create new Timeline
-                                        </Button>
-                                    </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                                    !startDate && "text-muted-foreground"
+                                                )}
+                                            >
+                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                {startDate ? startDate.toLocaleDateString() : <span>Pick a date</span>}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0">
+                                            <Calendar
+                                                mode="single"
+                                                selected={startDate}
+                                                onSelect={setStartDate}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <input type="hidden" name="startDate" value={startDate?.toISOString() || ''} />
                                 </div>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="outline" className="h-14 rounded-full px-4 w-full">
+                                            Template
+                                            <ChevronsUpDown className="ml-2 h-4 w-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem>Residential Template</DropdownMenuItem>
+                                        <DropdownMenuItem>Commercial Template</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                                <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)} className="h-14 rounded-full px-4 w-full">
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create new Timeline
+                                </Button>
                             </div>
 
                             <Accordion type="multiple" defaultValue={initialTimelineData.map(p => p.name)} className="w-full space-y-4">
