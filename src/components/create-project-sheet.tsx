@@ -44,13 +44,13 @@ const mockSupervisors = [
 ];
 
 const mockClients = [
-    { id: 'CHA2024', name: "Charan Project", city: "Mysuru", email: "admin@abc.com", phone: "+91 1234567890", type: 'client' as const },
-    { id: 'DEL2024', name: "Delta Project", city: "Bengaluru", email: "contact@delta.com", phone: "+91 9876543210", type: 'client' as const },
-    { id: 'GAM2024', name: "Gamma Project", city: "Chennai", email: "support@gamma.co", phone: "+91 8765432109", type: 'client' as const },
+    { id: 'CHA2024', name: "Charan Project", city: "Mysuru", address: "123, Mysore Palace Road, Mysore, Karnataka 570001", email: "admin@abc.com", phone: "+91 1234567890", type: 'client' as const },
+    { id: 'DEL2024', name: "Delta Project", city: "Bengaluru", address: "456, MG Road, Bengaluru, Karnataka 560001", email: "contact@delta.com", phone: "+91 9876543210", type: 'client' as const },
+    { id: 'GAM2024', name: "Gamma Project", city: "Chennai", address: "789, T Nagar, Chennai, Tamil Nadu 600017", email: "support@gamma.co", phone: "+91 8765432109", type: 'client' as const },
 ];
 const mockLeads = [
-    { id: 'LEAD2024', name: "Alpha Lead", city: "Hyderabad", email: "sales@alpha.io", phone: "+91 7654321098", type: 'lead' as const },
-    { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", email: "info@betaleads.com", phone: "+91 6543210987", type: 'lead' as const },
+    { id: 'LEAD2024', name: "Alpha Lead", city: "Hyderabad", address: "101, Hitech City, Hyderabad, Telangana 500081", email: "sales@alpha.io", phone: "+91 7654321098", type: 'lead' as const },
+    { id: 'LEAD2024-2', name: "Beta Lead", city: "Mumbai", address: "202, Bandra West, Mumbai, Maharashtra 400050", email: "info@betaleads.com", phone: "+91 6543210987", type: 'lead' as const },
 ];
 const allContacts = [...mockClients.map(c => ({...c, type: 'client' as const})), ...mockLeads.map(l => ({...l, type: 'lead' as const}))];
 
@@ -59,6 +59,13 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
     <div className="space-y-2">
         <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
+    </div>
+);
+
+const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string, value: string }) => (
+    <div className="space-y-2">
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Textarea id={id} className="h-28 bg-background rounded-3xl p-5" value={value} {...props} />
     </div>
 );
 
@@ -81,7 +88,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [clientId, setClientId] = useState(projectToEdit?.id || projectData?.customerDetails?.clientId || '');
     const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
-    const [currentLocation, setCurrentLocation] = useState(projectData?.customerDetails?.currentLocation || '');
+    const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
@@ -113,7 +120,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setClientId(contact.id);
             setPhone(contact.phone);
             setEmail(contact.email);
-            setCurrentLocation(contact.city);
+            setCurrentAddress(contact.address);
         }
         setEmailComboboxOpen(false);
     };
@@ -122,10 +129,10 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
         e.preventDefault();
         const formData = {
             customerDetails: {
-                name: name.split(' (')[0],
+                name: name,
                 email: email,
                 phoneNumber: phone,
-                currentLocation: currentLocation,
+                currentAddress: currentAddress,
                 clientId: clientId
             },
             projectDetails: {
@@ -154,7 +161,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                             <input type="hidden" name="client_id" value={clientId} />
                             <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
                             
-                             <div className="space-y-2">
+                            <div className="space-y-2">
                                 <div className="flex items-baseline gap-2">
                                     <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
                                     <span className="text-xs text-muted-foreground">(enter to fetch the details.)</span>
@@ -199,7 +206,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     </PopoverContent>
                                 </Popover>
                             </div>
-                            <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
+                            <div className="sm:col-span-2">
+                                <FloatingLabelTextarea id="current-address" name="current_address" label="Current Address*" value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} />
+                            </div>
                         </div>
                     </div>
 
