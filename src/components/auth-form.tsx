@@ -80,7 +80,7 @@ export default function AuthForm() {
             <div className="space-y-2">
                 <div className="flex justify-between items-center">
                     <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Password</Label>
-                    <Link href="/forgot-password" className="text-sm text-grey-1 underline hover:text-primary">
+                    <Link href="/forgot-password" className="text-sm text-grey-1 hover:text-primary hover:underline">
                         Forgot Password?
                     </Link>
                 </div>
