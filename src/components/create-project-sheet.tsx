@@ -109,7 +109,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const handleEmailSelect = (contactEmail: string) => {
         const contact = allContacts.find(c => c.email === contactEmail);
         if (contact) {
-            setName(contact.name);
+            setName(`${contact.name} (${contact.id})`);
             setClientId(contact.id);
             setPhone(contact.phone);
             setEmail(contact.email);
@@ -121,7 +121,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
         e.preventDefault();
         const formData = {
             customerDetails: {
-                name: name,
+                name: name.split(' (')[0],
                 email: email,
                 phoneNumber: phone,
                 currentLocation: currentLocation,
@@ -150,7 +150,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                         <h3 className="text-lg text-stone-500">Personal details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
-                            <FloatingLabelInput id="client-id" name="client_id" label="Client ID*" value={clientId} onChange={e => setClientId(e.target.value)} />
+                            <input type="hidden" name="client_id" value={clientId} />
                             <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
                             
                             <div className="space-y-2">
