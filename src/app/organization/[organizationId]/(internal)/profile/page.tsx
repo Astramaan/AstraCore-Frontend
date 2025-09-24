@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -10,7 +9,6 @@ import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import { Button } from '@/components/ui/button';
 import { LogOut, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
-import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { useUser } from '@/context/user-context';
 import { useParams } from 'next/navigation';
 
@@ -36,14 +34,6 @@ export default function ProfilePage() {
                 </Button>
             </div>
             <PersonalDetails memberId={user?.userId || ''} />
-            
-            {isSuperAdmin && (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-3">
-                        <BrandingWorkflowCard />
-                    </div>
-                </div>
-            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 flex">

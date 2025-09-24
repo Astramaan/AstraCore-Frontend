@@ -5,7 +5,7 @@ import React, { useState, useActionState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
-import { Edit, Save, ShieldAlert } from 'lucide-react';
+import { Edit, Save, ShieldAlert, Palette } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/sheet";
 import { ScrollArea } from './ui/scroll-area';
 import { useUser } from '@/context/user-context';
+import { BrandingSheet } from './branding-sheet';
 
 
 const initialMemberData = {
@@ -205,6 +206,7 @@ EditProfileForm.displayName = 'EditProfileForm';
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const { user, loading } = useUser();
     const [isEditing, setIsEditing] = useState(false);
+    const [isBrandingSheetOpen, setIsBrandingSheetOpen] = useState(false);
     
     // This will hold the member data to display/edit.
     // If we're viewing another member's profile, we'd fetch their data.
@@ -212,6 +214,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const member = user; // Simplified for now.
 
     const isOwner = user?.userId === memberId;
+    const isSuperAdmin = user?.roleType === 'superAdmin';
 
     const handleSave = (updatedMember: any) => {
         // Here you would refresh the user context or refetch data if needed
@@ -258,6 +261,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                             </Button>
                                         }
                                     />
+                                     {isSuperAdmin && (
+                                        <Button className="md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20" onClick={() => setIsBrandingSheetOpen(true)}>
+                                            <Palette className="mr-2 h-4 w-4"/>
+                                            Branding
+                                        </Button>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -310,6 +319,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                     </Button>
                                 </DialogOrSheetTrigger>
                                 <ChangePasswordDialog email={member.email} />
+                                {isSuperAdmin && (
+                                     <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20" onClick={() => setIsBrandingSheetOpen(true)}>
+                                        <Palette className="mr-2 h-5 w-5"/>
+                                        Branding
+                                    </Button>
+                                )}
                             </div>
                         )}
                     </div>
@@ -327,6 +342,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                     onCancel={() => setIsEditing(false)}
                 />
             </DialogOrSheetContent>
+            <BrandingSheet isOpen={isBrandingSheetOpen} onOpenChange={setIsBrandingSheetOpen} />
         </DialogOrSheet>
     );
 }
