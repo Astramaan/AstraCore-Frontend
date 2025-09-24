@@ -23,7 +23,7 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { [
           </div>
 
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px]">
+          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] h-full">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo />
               <div className="mt-8 flex-grow flex flex-col">
