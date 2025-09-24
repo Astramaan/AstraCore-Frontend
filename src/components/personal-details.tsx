@@ -5,7 +5,7 @@ import React, { useState, useActionState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
-import { Edit, Save, ShieldAlert, Palette } from 'lucide-react';
+import { Edit, Save, ShieldAlert, Palette, LogOut } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -204,7 +204,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
 EditProfileForm.displayName = 'EditProfileForm';
 
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
-    const { user, loading } = useUser();
+    const { user, loading, logout } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [isBrandingSheetOpen, setIsBrandingSheetOpen] = useState(false);
     
@@ -343,6 +343,14 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                 />
             </DialogOrSheetContent>
             <BrandingSheet isOpen={isBrandingSheetOpen} onOpenChange={setIsBrandingSheetOpen} />
+             {isOwner && (
+                <div className="flex justify-end mt-6">
+                    <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive">
+                        <LogOut className="mr-2 h-5 w-5" />
+                        Logout
+                    </Button>
+                </div>
+            )}
         </DialogOrSheet>
     );
 }

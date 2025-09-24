@@ -79,7 +79,7 @@ const EditProfileForm = ({ profile: initialProfile, onSave, onClose }: { profile
 
 
 export default function ClientProfilePage() {
-    const { user, loading } = useUser();
+    const { user, loading, logout } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [isAddMemberSheetOpen, setIsAddMemberSheetOpen] = useState(false);
 
@@ -167,7 +167,7 @@ export default function ClientProfilePage() {
                 )}
 
 
-                <Button variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none">
+                <Button onClick={logout} variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none">
                     <LogOut className="w-5 h-5 mr-2" />
                     Logout
                 </Button>

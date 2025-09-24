@@ -8,13 +8,13 @@ import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import React from 'react';
 import { Button }from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useUser } from '@/context/user-context';
 
 export default function MemberDetailsPage() {
     const params = useParams();
     const memberId = params.id as string;
-    const organizationId = params.organizationId as string;
+    const { user, logout } = useUser();
     
     // In a real app, you would get this from your auth context
     const isSuperAdmin = true;
@@ -30,11 +30,9 @@ export default function MemberDetailsPage() {
                     <div className="flex flex-col gap-6">
                         <ActiveSessionsCard />
                          <div className="flex justify-end">
-                            <Button variant="outline" asChild className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-primary/10 hover:text-primary w-full">
-                               <Link href="/">
+                            <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-primary/10 hover:text-primary w-full">
                                  <LogOut className="mr-2 h-5 w-5" />
                                  Logout
-                               </Link>
                             </Button>
                         </div>
                     </div>
