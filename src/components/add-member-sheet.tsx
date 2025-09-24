@@ -64,12 +64,20 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     
     const teams = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
     const roles = ["Admin", "Member"];
+    
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setName(value);
+        }
+    };
+
 
     return (
     <form action={formAction} className="flex flex-col h-full">
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="space-y-6">
-                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
+                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} />
                 <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
 

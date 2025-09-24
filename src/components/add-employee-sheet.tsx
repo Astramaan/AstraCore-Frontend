@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -50,12 +51,19 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     }, [state, onFormSuccess, toast]);
     
     const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR", "Admin"];
+    
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setName(value);
+        }
+    };
 
     return (
     <form action={formAction}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={e => setName(e.target.value)} />
+                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} />
                 <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} />
 
