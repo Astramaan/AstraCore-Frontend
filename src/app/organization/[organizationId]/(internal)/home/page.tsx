@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { useUser } from '@/context/user-context';
 import DefaultHomePage from '@/app/organization/[organizationId]/(internal)/home/default-home';
 import ProjectManagerHome from '@/app/organization/[organizationId]/(internal)/home/project-manager-home';
@@ -9,28 +9,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ArchitectHome from '@/app/organization/[organizationId]/(internal)/home/architect-home';
 import SalesHome from '@/app/organization/[organizationId]/(internal)/home/sales-home';
 import SiteSupervisorHome from '@/app/organization/[organizationId]/(internal)/home/site-supervisor-home';
-import { useRouter, useParams } from 'next/navigation';
 
 
 function OrganizationHomePageContent() {
-    const params = useParams();
-    const organizationId = params.organizationId as string;
     const { user, loading } = useUser();
-    const router = useRouter();
 
-    useEffect(() => {
-        if (!loading && !user) {
-            router.push('/');
-        } else if (!loading && user) {
-            if (user.team === 'New User') {
-                router.replace(`/organization/${user.organizationId}/client/new/${user.userId}/home`);
-            } else if (user.roleType === 'client') {
-                router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
-            }
-        }
-    }, [loading, user, router, organizationId]);
-
-    if (loading || !user || user.roleType === 'client') {
+    if (loading || !user) {
         return (
             <div className="space-y-6">
                 <div className="flex justify-between items-center mb-6">

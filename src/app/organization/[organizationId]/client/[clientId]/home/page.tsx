@@ -11,31 +11,14 @@ import { useParams, useRouter } from 'next/navigation';
 function ClientHomePage() {
   const { user } = useUser();
   
-  if (user?.team === 'New User') {
-      return <NewUserHomePage />;
-  }
-
+  // This page is for existing clients, so we render that component.
+  // The layout will handle redirection for new users.
   return <ExistingClientHomePage />;
 }
 
 export default function ClientHomePageWrapper() {
     const { user, loading } = useUser();
-    const router = useRouter();
-    const params = useParams();
-
-    React.useEffect(() => {
-        if (!loading) {
-            if (user) {
-                const currentPathClientId = params.clientId;
-                if (user.userId !== currentPathClientId && user.roleType === 'client') {
-                    router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
-                }
-            } else {
-                router.push('/');
-            }
-        }
-    }, [user, loading, router, params]);
-
+    
     if (loading || !user) {
         return (
             <div className="space-y-6 p-4">
@@ -59,12 +42,9 @@ export default function ClientHomePageWrapper() {
         );
     }
     
-    // Based on user role, render the correct home page
-    const ComponentToRender = user.team === 'New User' ? NewUserHomePage : ExistingClientHomePage;
-    
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ComponentToRender />
+            <ClientHomePage />
         </Suspense>
     );
 }

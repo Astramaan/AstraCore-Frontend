@@ -1,11 +1,42 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ClientHeader } from '@/components/client-header';
 import { ClientBottomNav } from '@/components/client-bottom-nav';
+import { useUser } from '@/context/user-context';
+import { useParams, useRouter } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useUser();
+  const router = useRouter();
+  const params = useParams();
+  const organizationId = params.organizationId as string;
+  const clientId = params.clientId as string;
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.replace('/');
+      } else if (user.roleType !== 'client' || user.userId !== clientId) {
+        router.replace(`/organization/${organizationId}/home`);
+      }
+    }
+  }, [user, loading, router, organizationId, clientId]);
+
+  if (loading || !user) {
+    return (
+        <div className="min-h-screen bg-background p-4">
+            <header className="max-w-[1440px] mx-auto mb-6">
+                <Skeleton className="h-16 w-full" />
+            </header>
+            <main className="max-w-[1440px] mx-auto">
+                <Skeleton className="h-96 w-full" />
+            </main>
+        </div>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-background">

@@ -1,10 +1,22 @@
 
 import { Suspense } from 'react';
 import TeamsPageContent from './teams-page-content';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function TeamsPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div className="space-y-8">
+        <div className="flex justify-between items-center">
+            <Skeleton className="h-8 w-40" />
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-14 w-64 rounded-full" />
+              <Skeleton className="h-14 w-40 rounded-full" />
+            </div>
+        </div>
+        <Skeleton className="h-96 w-full rounded-[50px]" />
+      </div>
+    }>
       <TeamsPageContent />
     </Suspense>
   );
