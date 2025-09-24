@@ -7,10 +7,10 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
        {/* Combined Layout */}
-       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto self-center items-center">
+       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto items-center">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] self-stretch">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
             <div className="h-full relative pl-4">
               <Image 
                   src="/images/logoimage.png"
