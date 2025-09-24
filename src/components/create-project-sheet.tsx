@@ -84,10 +84,10 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
 
 const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (data: any) => void, projectToEdit: Project | null, projectData: any }) => {
     const [name, setName] = useState(projectToEdit?.name || projectData?.customerDetails?.name || '');
-    const [clientId, setClientId] = useState(projectToEdit?.id || projectData?.customerDetails?.clientId || '');
     const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
     const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
+    const [projectTitle, setProjectTitle] = useState(projectData?.projectDetails?.projectTitle || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
@@ -116,7 +116,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
         const contact = allContacts.find(c => c.email === contactEmail);
         if (contact) {
             setName(`${contact.name}`);
-            setClientId(contact.id);
             setPhone(contact.phone);
             setEmail(contact.email);
             setCurrentAddress(contact.address);
@@ -133,9 +132,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 email: email,
                 phoneNumber: phone,
                 currentAddress: currentAddress,
-                clientId: clientId
             },
             projectDetails: {
+                projectTitle: projectTitle,
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
@@ -203,7 +202,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                 </Popover>
                             </div>
                             <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
-                            <input type="hidden" name="client_id" value={clientId} />
                             <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
                             
                             <div className="sm:col-span-2">
@@ -215,6 +213,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                     <div className="space-y-6">
                         <h3 className="text-lg text-stone-500">Project details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="sm:col-span-2">
+                                <FloatingLabelInput id="project-title" name="project_title" label="Project Title*" value={projectTitle} onChange={e => setProjectTitle(e.target.value)} />
+                            </div>
                             <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
                             <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
                             <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
