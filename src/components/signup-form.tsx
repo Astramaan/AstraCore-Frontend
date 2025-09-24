@@ -202,7 +202,7 @@ export default function SignupForm() {
 
       <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
         <div className="mb-4">
-          <SubmitButton disabled={!!emailError || isCheckingEmail} />
+          <SubmitButton disabled={isCheckingEmail} />
         </div>
 
         <div className="text-center text-sm">
