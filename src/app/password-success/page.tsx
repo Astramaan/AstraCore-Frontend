@@ -30,7 +30,7 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
       {/* Desktop view */}
       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-[539px]">
         <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px] self-center">
-            <div className="h-full relative p-4 md:p-0 md:pl-4">
+            <div className="h-full relative pl-4">
                 <Image 
                     src="/images/logoimage.png"
                     alt="Astramaan Company Logo"
@@ -42,7 +42,7 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
             </div>
         </div>
 
-        <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:px-10 md:w-[448px]">
+        <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px]">
             <div className="mx-auto w-full max-w-md flex flex-col h-full text-center">
                 <HabiLogo className="md:mx-auto" />
                 <div className="flex-grow flex flex-col justify-center items-center">

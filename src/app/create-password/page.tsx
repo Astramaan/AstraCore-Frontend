@@ -10,7 +10,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
 
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px] self-center">
-            <div className="h-full relative p-4 md:p-0 md:pl-4">
+            <div className="h-full relative pl-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
@@ -23,7 +23,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
           </div>
           
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:px-10 md:w-[448px]">
+          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px]">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo className="md:mx-auto"/>
               <div className="mt-8 flex-grow flex flex-col">
