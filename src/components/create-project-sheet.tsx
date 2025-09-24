@@ -428,7 +428,7 @@ const ProjectTimelineForm = ({
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
-                            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                                 <div className="space-y-2">
                                     <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
                                     <Popover>
@@ -560,7 +560,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 "p-0 flex flex-col bg-white",
                  isMobile 
                   ? "w-full h-full rounded-none border-none"
-                  : "sm:max-w-4xl rounded-[20px] h-auto max-h-[90vh]"
+                  : "sm:max-w-4xl rounded-[50px] h-auto max-h-[90vh] bottom-auto"
             )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
@@ -580,7 +580,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                             onChange={(e) => setTemplateName(e.target.value)}
                             className="h-14 rounded-full bg-background text-lg"
                         />
-                         <Card className="rounded-[30px] bg-background">
+                         <Card className="rounded-[30px] bg-background mt-4">
                             <CardContent className="p-6">
                                 <h3 className="text-xl font-semibold mb-4">Phase 1</h3>
                                 <div className="p-4 rounded-2xl border bg-white">
