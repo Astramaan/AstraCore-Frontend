@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -88,7 +89,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
     const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
-    const [projectName, setProjectName] = useState(projectData?.projectDetails?.projectName || '');
+    const [projectName, setProjectName] = useState(projectToEdit?.name || projectData?.projectDetails?.projectName || '');
     const [projectType, setProjectType] = useState(projectData?.projectDetails?.projectType || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
@@ -424,7 +425,7 @@ const ProjectTimelineForm = ({
                 <ScrollArea className="flex-1 p-6 no-scrollbar">
                     <div className="space-y-8">
                         <div className="space-y-6">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+                            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
                                 <div className="space-y-2">
                                     <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
                                     <Popover>
@@ -561,7 +562,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 "p-0 flex flex-col bg-white",
                  isMobile 
                   ? "w-full h-full rounded-none border-none"
-                  : "sm:max-w-xl rounded-[20px] h-[90vh]"
+                  : "sm:max-w-4xl rounded-[20px] h-[90vh]"
             )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
@@ -575,7 +576,36 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 </DialogHeader>
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <ScrollArea className="flex-1 p-6 space-y-4 no-scrollbar">
-                        <p>Custom timeline creation UI will go here.</p>
+                        <Input
+                            placeholder="Template Name"
+                            value={templateName}
+                            onChange={(e) => setTemplateName(e.target.value)}
+                            className="h-14 rounded-full bg-background text-lg"
+                        />
+                         <Accordion type="multiple" defaultValue={['Phase 1']} className="w-full space-y-4">
+                            <AccordionItem value="Phase 1" className="bg-background rounded-3xl px-6">
+                                <AccordionTrigger className="text-xl font-semibold hover:no-underline">Phase 1</AccordionTrigger>
+                                <AccordionContent>
+                                    <Accordion type="multiple" defaultValue={['Stage 1']} className="w-full space-y-2">
+                                        <AccordionItem value="Stage 1" className="border-b-0">
+                                            <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">Stage 1</AccordionTrigger>
+                                            <AccordionContent className="pl-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                     <div className="space-y-2">
+                                                        <Label className="text-base font-normal px-2 text-zinc-900">Task Name</Label>
+                                                        <Input className="h-12 bg-white rounded-full px-5" placeholder="Enter task name" />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label className="text-base font-normal px-2 text-zinc-900">Duration</Label>
+                                                        <Input className="h-12 bg-white rounded-full px-5" placeholder="Enter days" />
+                                                    </div>
+                                                </div>
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Accordion>
+                                </AccordionContent>
+                            </AccordionItem>
+                         </Accordion>
                     </ScrollArea>
                     <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
                          <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
