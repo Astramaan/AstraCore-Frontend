@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -613,16 +612,18 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <ScrollArea className="flex-1">
+                <div className="flex flex-col flex-1 overflow-hidden">
                     <div className="p-6 space-y-4">
                         <Input
                             placeholder="Template Name"
                             value={templateName}
                             onChange={(e) => setTemplateName(e.target.value)}
-                            className="h-14 rounded-full bg-background text-lg mb-4"
+                            className="h-14 rounded-full bg-background text-lg"
                         />
+                    </div>
+                    <ScrollArea className="flex-1 px-6 space-y-4">
                         {phases.map((phase, phaseIndex) => (
-                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background">
+                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background mb-4">
                                 <CardContent className="p-0 space-y-4">
                                     <div className="flex items-center gap-2">
                                         <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
@@ -646,7 +647,6 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                                                     <Input placeholder="Task Name" value={task.name} onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 bg-background rounded-full px-5"/>
                                                                 </div>
                                                                 <div className="flex items-center gap-2">
-                                                                    <Input placeholder="Duration (optional)" value={task.duration} onChange={e => handleInputChange(e.target.value, 'duration', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 w-40 bg-background rounded-full px-5"/>
                                                                     <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                                                                 </div>
                                                             </div>
@@ -665,13 +665,13 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                 </CardContent>
                             </Card>
                         ))}
+                         <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
+                            <Plus className="mr-2 h-4 w-4" /> Add Phase
+                        </Button>
+                    </ScrollArea>
+                    <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
+                        <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
                     </div>
-                    <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
-                        <Plus className="mr-2 h-4 w-4" /> Add Phase
-                    </Button>
-                </ScrollArea>
-                <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
-                     <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
                 </div>
             </DialogContentComponent>
         </DialogComponent>
@@ -801,3 +801,5 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
+
+    
