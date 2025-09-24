@@ -115,7 +115,7 @@ export default function AuthForm() {
             
             <div className="text-center text-sm">
                 <span className="text-muted-foreground">{"Don't have an account? "}</span>
-                <Link href="/signup" className="font-semibold text-black hover:text-primary underline">
+                <Link href="/signup" className="font-semibold text-black hover:text-primary hover:underline">
                     Sign up
                 </Link>
             </div>
