@@ -113,6 +113,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setClientId(contact.id);
             setPhone(contact.phone);
             setEmail(contact.email);
+            setCurrentLocation(contact.city);
         }
         setEmailComboboxOpen(false);
     };
@@ -153,7 +154,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                             <input type="hidden" name="client_id" value={clientId} />
                             <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
                             
-                            <div className="space-y-2">
+                             <div className="space-y-2">
                                 <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
                                 <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
                                     <PopoverTrigger asChild>
@@ -195,9 +196,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     </PopoverContent>
                                 </Popover>
                             </div>
-                            <div className="sm:col-span-2">
-                                <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
-                            </div>
+                            <FloatingLabelInput id="current-location" name="current_location" label="Current location*" value={currentLocation} onChange={e => setCurrentLocation(e.target.value)} />
                         </div>
                     </div>
 
