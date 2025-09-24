@@ -95,19 +95,20 @@ export default function SetPasswordForm({ flow, onEmailSubmitted }: { flow: 'set
         </div>
 
         <div className="mt-auto pt-6">
-          <div className="space-y-4">
-             {flow === 'forgot-password' && (
-                <>
+            {flow === 'forgot-password' && !onEmailSubmitted ? (
+                <div className="flex flex-col md:flex-row gap-4">
+                    <Button variant="ghost" className="w-full md:w-auto flex-1 rounded-full h-[54px] text-foreground bg-background hover:bg-muted" asChild>
+                        <Link href="/">Back</Link>
+                    </Button>
+                    <div className="flex-1">
+                        <SubmitButton />
+                    </div>
+                </div>
+            ) : (
+                 <div className="space-y-4">
                     <SubmitButton />
-                    { !onEmailSubmitted && (
-                        <Button variant="ghost" className="w-full rounded-full h-[54px] text-foreground bg-background hover:bg-muted" asChild>
-                            <Link href="/">Back</Link>
-                        </Button>
-                    )}
-                </>
+                 </div>
             )}
-            {flow !== 'forgot-password' && <SubmitButton />}
-          </div>
         </div>
       </form>
     </>
