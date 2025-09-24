@@ -550,8 +550,8 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
         onClose();
     };
 
-    const DialogComponent = isMobile ? Dialog : Dialog;
-    const DialogContentComponent = isMobile ? DialogContent : DialogContent;
+    const DialogComponent = Dialog;
+    const DialogContentComponent = DialogContent;
 
 
     return (
@@ -560,7 +560,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 "p-0 flex flex-col bg-white",
                  isMobile 
                   ? "w-full h-full rounded-none border-none"
-                  : "sm:max-w-4xl rounded-[20px] h-[90vh]"
+                  : "sm:max-w-4xl rounded-[20px] h-auto max-h-[90vh]"
             )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
@@ -580,30 +580,24 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                             onChange={(e) => setTemplateName(e.target.value)}
                             className="h-14 rounded-full bg-background text-lg"
                         />
-                         <Accordion type="multiple" defaultValue={['Phase 1']} className="w-full space-y-4">
-                            <AccordionItem value="Phase 1" className="bg-background rounded-3xl px-6">
-                                <AccordionTrigger className="text-xl font-semibold hover:no-underline">Phase 1</AccordionTrigger>
-                                <AccordionContent>
-                                    <Accordion type="multiple" defaultValue={['Stage 1']} className="w-full space-y-2">
-                                        <AccordionItem value="Stage 1" className="border-b-0">
-                                            <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">Stage 1</AccordionTrigger>
-                                            <AccordionContent className="pl-4">
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                     <div className="space-y-2">
-                                                        <Label className="text-base font-normal px-2 text-zinc-900">Task Name</Label>
-                                                        <Input className="h-12 bg-white rounded-full px-5" placeholder="Enter task name" />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label className="text-base font-normal px-2 text-zinc-900">Duration</Label>
-                                                        <Input className="h-12 bg-white rounded-full px-5" placeholder="Enter days" />
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-                                </AccordionContent>
-                            </AccordionItem>
-                         </Accordion>
+                         <Card className="rounded-[30px] bg-background">
+                            <CardContent className="p-6">
+                                <h3 className="text-xl font-semibold mb-4">Phase 1</h3>
+                                <div className="p-4 rounded-2xl border bg-white">
+                                    <p className="font-medium text-lg mb-4">Stage 1</p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                         <div className="space-y-2">
+                                            <Label className="text-base font-normal px-2 text-zinc-900">Task Name</Label>
+                                            <Input className="h-12 bg-background rounded-full px-5" placeholder="Enter task name" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label className="text-base font-normal px-2 text-zinc-900">Duration</Label>
+                                            <Input className="h-12 bg-background rounded-full px-5" placeholder="Enter days" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </ScrollArea>
                     <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
                          <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
