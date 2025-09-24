@@ -423,11 +423,15 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                 <div className="grid grid-cols-[1fr_auto] md:grid-cols-1 gap-4 items-center md:flex md:flex-col">
-                    <PaymentsDialog>
-                        <PaymentCard />
-                    </PaymentsDialog>
-                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                 <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1">
+                        <PaymentsDialog>
+                           <PaymentCard />
+                        </PaymentsDialog>
+                    </div>
+                    <div className="flex-1 md:flex-initial">
+                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                    </div>
                 </div>
                 <SitePhotos 
                     onViewMore={() => setIsGalleryOpen(true)}
