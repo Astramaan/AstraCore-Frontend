@@ -66,7 +66,7 @@ const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTM
         <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         <Textarea id={id} className="h-28 bg-background rounded-3xl p-5" value={value} {...props} />
     </div>
-);
+)
 
 const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }: { id: string, label: string, value: string, onValueChange: (value: string) => void, children: React.ReactNode, name?: string }) => (
      <div className="space-y-2">
@@ -225,7 +225,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                             </FloatingLabelSelect>
                              <FloatingLabelInput id="site-pincode" name="site_pincode" label="Site pincode*" value={sitePincode} onChange={e => setSitePincode(e.target.value)} />
                             <div className="sm:col-span-2">
-                                <FloatingLabelInput id="site-address" name="site_address" label="Site Address" value={siteAddress} onChange={e => setSiteAddress(e.target.value)} />
+                                <FloatingLabelInput id="site-address" name="site_address" label="Site address link" value={siteAddress} onChange={e => setSiteAddress(e.target.value)} />
                             </div>
                         </div>
                     </div>
@@ -533,7 +533,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
         <DialogComponent open={isOpen} onOpenChange={onClose}>
             <DialogContentComponent className={cn(
                 "p-0 flex flex-col bg-white",
-                 isMobile
+                 isMobile 
                   ? "w-full h-full rounded-none border-none"
                   : "sm:max-w-xl rounded-[20px] h-[90vh]"
             )}>
@@ -683,4 +683,3 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-
