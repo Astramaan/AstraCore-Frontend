@@ -25,7 +25,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/app/actions";
 import { ShieldAlert, Eye } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { useUser } from '@/context/user-context';
 import Link from 'next/link';
@@ -111,8 +111,9 @@ const mockProject = {
     }
 };
 
-export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
-    const { id } = params;
+export default function ProjectDetailsPage() {
+    const params = useParams();
+    const id = params.id as string;
     const { user } = useUser();
     const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
