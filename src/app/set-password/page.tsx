@@ -7,17 +7,17 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
        {/* Combined Layout */}
-       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-[539px]">
+       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-auto">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px] self-center">
-            <div className="h-full relative pl-4">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto self-stretch">
+            <div className="h-full relative p-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
                   fill
                   priority
-                  className="object-cover rounded-[40px]"
+                  className="object-cover rounded-t-[40px] md:rounded-l-[40px] md:rounded-r-none"
                   data-ai-hint="construction site company building"
               />
             </div>
