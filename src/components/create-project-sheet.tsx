@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -216,9 +215,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                     <div className="space-y-6">
                         <h3 className="text-lg text-stone-500">Project details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="sm:col-span-2">
-                                <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
-                            </div>
+                            <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
                             <FloatingLabelSelect id="project-type" name="project_type" label="Project Type*" value={projectType} onValueChange={setProjectType}>
                                 <SelectItem value="new-construction">New Construction</SelectItem>
                                 <SelectItem value="renovation">Renovation</SelectItem>
