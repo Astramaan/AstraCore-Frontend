@@ -105,7 +105,7 @@ export async function signup(prevState: any, formData: FormData) {
     const data = await res.json();
 
     if (!res.ok || !data.success) {
-        return { error: data.message || "Failed to send OTP. Please try again." };
+        return { error: data.error || data.message || "Failed to send OTP. Please try again." };
     }
     
     const params = new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>);
