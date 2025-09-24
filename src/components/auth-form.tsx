@@ -1,8 +1,7 @@
 
 "use client";
 
-import React, { useState, useActionState, useEffect } from "react";
-import { useFormStatus } from 'react-dom';
+import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,50 +13,77 @@ import LockIcon from "./icons/lock";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
-import { login } from "@/app/actions";
-
-function SubmitButton() {
-    const { pending } = useFormStatus();
-    return (
-        <Button type="submit" className="w-full h-[54px] rounded-full" disabled={pending}>
-            {pending ? "Logging in..." : "Login"}
-        </Button>
-    )
-}
-
+import { useUser } from "@/context/user-context";
 
 export default function AuthForm() {
   const router = useRouter();
-  const [state, formAction] = useActionState(login, { success: false, message: '', user: null });
+  const { user, loading } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-   useEffect(() => {
-    if (state.success && state.user) {
-        localStorage.setItem("astramaan_user", JSON.stringify(state.user));
-        
-        const organizationId = state.user.organizationId;
-        if (organizationId) {
-            router.push(`/organization/${organizationId}/home`);
-        } else {
-            // Fallback or error handling if organizationId is missing
-            toast({
-                variant: "destructive",
-                description: "Could not determine organization. Please contact support.",
-            });
-        }
-    } else if (state.message) {
-       toast({
-        variant: "destructive",
-        description: state.message || "An unknown error occurred.",
-      });
+  useEffect(() => {
+    if (!loading && user) {
+        const targetPath = user.team === 'New User'
+          ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
+          : user.roleType === 'client'
+          ? `/organization/${user.organizationId}/client/${user.userId}/home`
+          : `/organization/${user.organizationId}/home`;
+        router.push(targetPath);
     }
-  }, [state, router, toast]);
+  }, [user, loading, router]);
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+        const res = await fetch(`https://astramaan-be-1.onrender.com/api/v1/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (data.success && data.user) {
+            localStorage.setItem("astramaan_user", JSON.stringify(data.user));
+            const organizationId = data.user.organizationId;
+            if (organizationId) {
+                const targetPath = data.user.team === 'New User' 
+                  ? `/organization/${organizationId}/client/new/${data.user.userId}/home`
+                  : data.user.roleType === 'client'
+                  ? `/organization/${organizationId}/client/${data.user.userId}/home`
+                  : `/organization/${organizationId}/home`;
+                router.push(targetPath);
+            } else {
+                 toast({
+                    variant: "destructive",
+                    description: "Could not determine organization. Please contact support.",
+                });
+            }
+        } else {
+           toast({
+            variant: "destructive",
+            description: data.message || "An unknown error occurred.",
+          });
+        }
+    } catch (error) {
+        console.error("Login action failed:", error);
+         toast({
+            variant: "destructive",
+            description: "An unexpected network error occurred.",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
+  }
 
   return (
-    <form action={formAction} className="flex-grow flex flex-col">
+    <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
         <div className="space-y-4 flex-grow">
             <div className="space-y-2">
                 <Label htmlFor="email" className={cn("text-lg font-medium", "text-black")}>Email ID</Label>
@@ -74,6 +100,7 @@ export default function AuthForm() {
                         className={`pl-20 rounded-full bg-background h-[54px]`}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        disabled={isSubmitting}
                     />
                 </div>
             </div>
@@ -96,6 +123,7 @@ export default function AuthForm() {
                         className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={isSubmitting}
                     />
                     <button
                         type="button"
@@ -110,7 +138,9 @@ export default function AuthForm() {
         </div>
         <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
             <div className="mb-4">
-                 <SubmitButton />
+                 <Button type="submit" className="w-full h-[54px] rounded-full" disabled={isSubmitting}>
+                    {isSubmitting ? "Logging in..." : "Login"}
+                </Button>
             </div>
             
             <div className="text-center text-sm">

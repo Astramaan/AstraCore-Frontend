@@ -58,34 +58,11 @@ export async function verifyInvite(token: string, orgId: string) {
 
 
 export async function login(prevState: any, formData: FormData) {
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(formData)),
-    });
-
-    const data = await res.json();
-
-    if (data.success && data.user) {
-        const user = data.user;
-        cookies().set('user-data', JSON.stringify(user), {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== 'development',
-            sameSite: 'strict',
-            path: '/',
-            maxAge: 60 * 60 * 24 * 7 // 1 week
-        });
-        
-        // The component will handle the redirect and localStorage saving
-        return { success: true, user: user };
-    }
-
-    return { success: false, message: data.message || "Login failed." };
-  } catch (error) {
-      console.error("Login action failed:", error);
-      return { success: false, message: "An unexpected error occurred." };
-  }
+  // This server action is no longer used by the login form, 
+  // but is kept for potential other uses or as a reference.
+  // The login form now uses a direct client-side fetch.
+  console.log("Login server action was called, but the form should be using client-side fetch.");
+  return { success: false, message: "This action is deprecated." };
 }
 
 
