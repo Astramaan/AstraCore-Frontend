@@ -11,7 +11,7 @@ export default function OtpVerificationPage({ searchParams }: { searchParams: { 
 
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px] self-center">
-            <div className="h-full relative pr-4">
+            <div className="h-full relative pl-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
