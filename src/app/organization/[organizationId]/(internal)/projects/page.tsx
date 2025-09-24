@@ -41,7 +41,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                         </Avatar>
                     </AvatarWithProgress>
                     <div className="flex-1">
-                        <p className="text-xl font-semibold text-black">{project.name}</p>
+                        <p className="text-xl font-semibold text-black">Project Name</p>
                         <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{project.city}</span></p>
                     </div>
                 </Link>
@@ -97,7 +97,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                     </Avatar>
                 </AvatarWithProgress>
                 <div className="flex-1">
-                <p className="text-xl font-semibold text-black">{project.name}</p>
+                <p className="text-xl font-semibold text-black">Project Name</p>
                 <p className="text-lg">
                     <span className="text-grey-2">Location: </span> 
                     <span className="text-black">{project.city}</span>
