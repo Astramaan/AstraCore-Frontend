@@ -28,9 +28,9 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Desktop view */}
-      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-auto">
-        <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto self-stretch">
-            <div className="h-full relative p-4">
+      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto items-center">
+        <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
+            <div className="h-full relative pl-4">
                 <Image 
                     src="/images/logoimage.png"
                     alt="Astramaan Company Logo"
@@ -42,21 +42,23 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
             </div>
         </div>
 
-        <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-6 md:pr-10 md:w-[448px]">
+        <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px]">
             <div className="mx-auto w-full max-w-md flex flex-col h-full text-center">
-                <HabiLogo className="md:mx-auto" />
-                <div className="flex-grow flex flex-col justify-center items-center">
-                  <div className="relative mb-6 flex items-center justify-center">
-                    <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
-                    <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-                    <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
-                      <Check className="w-8 h-8 text-primary" />
+              <div className="flex-1 flex flex-col justify-start">
+                  <HabiLogo />
+                  <div className="flex-grow flex flex-col justify-center items-center">
+                    <div className="relative mb-6 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
+                      <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
+                      <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
+                        <Check className="w-8 h-8 text-primary" />
+                      </div>
                     </div>
-                  </div>
 
-                  <h1 className="text-2xl font-semibold text-black mb-2">Password Created Successfully</h1>
-                  <p className="text-lg text-grey-2">You're all set! You can now Login<br/>with your new password.</p>
-                </div>
+                    <h1 className="text-2xl font-semibold text-black mb-2">Password Created Successfully</h1>
+                    <p className="text-lg text-grey-2">You're all set! You can now Login<br/>with your new password.</p>
+                  </div>
+              </div>
                 <div className="text-grey-1 text-sm pb-[env(safe-area-inset-bottom)]">
                   <p>Redirecting you to the login page in {countdown} seconds. If it doesn't happen automatically, <Link href="/" className="underline text-primary">click here</Link>.</p>
                 </div>

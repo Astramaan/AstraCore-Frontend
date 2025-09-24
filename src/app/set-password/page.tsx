@@ -7,11 +7,11 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
        {/* Combined Layout */}
-       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-auto">
+       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto items-center">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto self-stretch">
-            <div className="h-full relative p-4">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
+            <div className="h-full relative pl-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
@@ -24,9 +24,9 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
           </div>
           
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-6 md:pr-10 md:w-[448px]">
+          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px]">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
-              <HabiLogo className="md:mx-auto"/>
+              <HabiLogo />
               <div className="mt-8 flex-grow flex flex-col">
                 <SetPasswordForm flow="set-password" />
               </div>
