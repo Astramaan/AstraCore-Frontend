@@ -7,11 +7,11 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
        {/* Combined Layout */}
-       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto items-center">
+       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
-            <div className="h-full relative pl-4">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
+            <div className="h-full relative pl-4 md:pl-0">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
@@ -24,7 +24,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
           </div>
           
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px]">
+          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo />
               <p className="text-lg text-grey-1 mt-6 md:mt-8 mb-6 md:mb-0">Sign up to manage and grow<br className="md:hidden"/> your projects.</p>
