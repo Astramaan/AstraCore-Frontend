@@ -10,7 +10,7 @@ export default function SetPasswordPage({ searchParams }: { searchParams: { [key
        <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-[844px] md:h-[539px]">
 
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-full">
+          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px] self-center">
             <div className="p-4 h-full relative">
               <Image 
                   src="/images/logoimage.png"
