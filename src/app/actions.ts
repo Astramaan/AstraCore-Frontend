@@ -120,13 +120,20 @@ export async function signup(prevState: any, formData: FormData) {
 
 export async function addMember(prevState: any, formData: FormData) {
     try {
+        const rawFormData = Object.fromEntries(formData.entries());
+        const requestBody = {
+            ...rawFormData,
+            mobileNumber: rawFormData.phone
+        };
+        delete (requestBody as any).phone;
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
                 ...getAuthHeadersFromCookie()
             },
-            body: JSON.stringify(Object.fromEntries(formData.entries())),
+            body: JSON.stringify(requestBody),
         });
 
         const data = await res.json();
