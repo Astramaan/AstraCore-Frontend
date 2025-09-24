@@ -31,6 +31,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { addProject } from '@/app/actions';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
+import { Card, CardContent } from './ui/card';
 
 const mockArchitects = [
     { value: "554cee57f2f634d9", label: "Darshan" },
@@ -216,12 +217,14 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                     <div className="space-y-6">
                         <h3 className="text-lg text-stone-500">Project details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
-                            <FloatingLabelSelect id="project-type" name="project_type" label="Project Type*" value={projectType} onValueChange={setProjectType}>
-                                <SelectItem value="new-construction">New Construction</SelectItem>
-                                <SelectItem value="renovation">Renovation</SelectItem>
-                                <SelectItem value="interior-design">Interior Design</SelectItem>
-                            </FloatingLabelSelect>
+                           <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
+                                <FloatingLabelSelect id="project-type" name="project_type" label="Project Type*" value={projectType} onValueChange={setProjectType}>
+                                    <SelectItem value="new-construction">New Construction</SelectItem>
+                                    <SelectItem value="renovation">Renovation</SelectItem>
+                                    <SelectItem value="interior-design">Interior Design</SelectItem>
+                                </FloatingLabelSelect>
+                            </div>
                             <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
                             <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
                             <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
@@ -470,40 +473,35 @@ const ProjectTimelineForm = ({
                                 </Button>
                             </div>
 
-                            <Accordion type="multiple" defaultValue={initialTimelineData.map(p => p.name)} className="w-full space-y-4">
+                            <div className="space-y-4">
                                 {initialTimelineData.map((phase, phaseIndex) => (
-                                    <AccordionItem key={phase.name} value={phase.name} className="bg-background rounded-3xl px-6">
-                                        <input type="hidden" name={`phase_${phaseIndex}_name`} value={phase.name} />
-                                        <AccordionTrigger className="text-xl font-semibold hover:no-underline">{phase.name}</AccordionTrigger>
-                                        <AccordionContent>
-                                            <Accordion type="multiple" defaultValue={phase.stages.map(s => s.name)} className="w-full space-y-2">
+                                    <Card key={phase.name} className="rounded-[30px] bg-background">
+                                        <CardContent className="p-6">
+                                            <h3 className="text-xl font-semibold mb-4">{phase.name}</h3>
+                                            <div className="space-y-4">
                                                 {phase.stages.map((stage, stageIndex) => (
-                                                    <AccordionItem key={stage.name} value={stage.name} className="border-b-0">
-                                                        <input type="hidden" name={`stage_${phaseIndex}_${stageIndex}_name`} value={stage.name} />
-                                                        <AccordionTrigger className="text-lg font-medium text-zinc-900/80 hover:no-underline">{stage.name}</AccordionTrigger>
-                                                        <AccordionContent className="pl-4">
-                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                                {stage.tasks.map((task, taskIndex) => (
-                                                                    <div key={task.name} className="space-y-2">
-                                                                        <input type="hidden" name={`task_${phaseIndex}_${stageIndex}_${taskIndex}_name`} value={task.name} />
-                                                                        <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
-                                                                        <Input
-                                                                            name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
-                                                                            className="h-12 bg-white rounded-full px-5"
-                                                                            placeholder="Enter days"
-                                                                            defaultValue={task.duration}
-                                                                        />
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        </AccordionContent>
-                                                    </AccordionItem>
+                                                    <div key={stage.name} className="p-4 rounded-2xl border bg-white">
+                                                        <p className="font-medium text-lg mb-4">{stage.name}</p>
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                            {stage.tasks.map((task, taskIndex) => (
+                                                                <div key={task.name} className="space-y-2">
+                                                                    <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
+                                                                    <Input
+                                                                        name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
+                                                                        className="h-12 bg-background rounded-full px-5"
+                                                                        placeholder="Enter days"
+                                                                        defaultValue={task.duration}
+                                                                    />
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
                                                 ))}
-                                            </Accordion>
-                                        </AccordionContent>
-                                    </AccordionItem>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                 ))}
-                            </Accordion>
+                            </div>
                         </div>
                     </div>
                 </ScrollArea>
