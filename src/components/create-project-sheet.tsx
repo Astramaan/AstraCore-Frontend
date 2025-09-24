@@ -1,4 +1,5 @@
 
+      
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -612,7 +613,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </DialogClose>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="flex flex-col flex-1 overflow-hidden">
+                <div className="flex-1 flex flex-col overflow-hidden">
                     <div className="p-6 space-y-6">
                         <Input
                             placeholder="Template Name"
@@ -808,7 +809,5 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-
-    
 
     
