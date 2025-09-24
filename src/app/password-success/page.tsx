@@ -65,14 +65,13 @@ export default function PasswordSuccessPage({ searchParams }: { searchParams: { 
         <div className="overflow-hidden rounded-[50px] bg-card text-card-foreground">
           <div className="grid grid-cols-2 h-full">
             <div className="relative h-full w-full overflow-hidden">
-                <div className="pt-4 pl-4 pb-4 h-full relative">
+                <div className="p-4 h-full relative">
                     <Image 
                         src="/images/logoimage.png"
                         alt="Astramaan Company Logo"
-                        width={396}
-                        height={507}
+                        fill
                         priority
-                        className="object-cover rounded-tl-[40px] rounded-bl-[40px]"
+                        className="object-cover rounded-[40px]"
                         data-ai-hint="company building"
                     />
                 </div>

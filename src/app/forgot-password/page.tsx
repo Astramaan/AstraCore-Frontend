@@ -10,13 +10,13 @@ export default function ForgotPasswordPage({ searchParams }: { searchParams: { [
           
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-full">
-            <div className="h-full relative md:p-4">
+            <div className="h-full relative p-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
                   fill
                   priority
-                  className="object-cover md:rounded-[40px]"
+                  className="object-cover rounded-[40px]"
                   data-ai-hint="construction site company building"
               />
             </div>

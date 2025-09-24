@@ -12,13 +12,13 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
 
           {/* Image Section */}
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px]">
-            <div className="md:p-4 h-full relative">
+            <div className="p-4 h-full relative">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
                   fill
                   priority
-                  className="object-cover md:rounded-[40px]"
+                  className="object-cover rounded-[40px]"
                   data-ai-hint="construction site company building"
               />
             </div>
