@@ -109,7 +109,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const handleEmailSelect = (contactEmail: string) => {
         const contact = allContacts.find(c => c.email === contactEmail);
         if (contact) {
-            setName(`${contact.name} (${contact.id})`);
+            setName(`${contact.name}`);
             setClientId(contact.id);
             setPhone(contact.phone);
             setEmail(contact.email);
@@ -155,7 +155,10 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                             <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
                             
                              <div className="space-y-2">
-                                <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                                <div className="flex items-baseline gap-2">
+                                    <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                                    <span className="text-xs text-muted-foreground">(enter to fetch the details.)</span>
+                                </div>
                                 <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
                                     <PopoverTrigger asChild>
                                         <Input
@@ -672,3 +675,4 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
+
