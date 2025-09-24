@@ -57,15 +57,6 @@ export async function verifyInvite(token: string, orgId: string) {
 }
 
 
-export async function login(prevState: any, formData: FormData) {
-  // This server action is no longer used by the login form, 
-  // but is kept for potential other uses or as a reference.
-  // The login form now uses a direct client-side fetch.
-  console.log("Login server action was called, but the form should be using client-side fetch.");
-  return { success: false, message: "This action is deprecated." };
-}
-
-
 export async function signup(prevState: any, formData: FormData) {
   const email = formData.get('email');
   

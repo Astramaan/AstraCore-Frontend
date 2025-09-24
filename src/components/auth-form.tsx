@@ -17,7 +17,7 @@ import { useUser } from "@/context/user-context";
 
 export default function AuthForm() {
   const router = useRouter();
-  const { user, loading } = useUser();
+  const { user, loading, setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -50,16 +50,15 @@ export default function AuthForm() {
         const data = await res.json();
 
         if (res.ok && data.success && data.user) {
-            localStorage.setItem("astramaan_user", JSON.stringify(data.user));
+            setUser(data.user);
             const organizationId = data.user.organizationId;
             if (organizationId) {
                 const targetPath = data.user.team === 'New User' 
                   ? `/organization/${organizationId}/client/new/${data.user.userId}/home`
                   : data.user.roleType === 'client'
-                  ? `/organization/${organizationId}/client/${data.user.userId}/home`
+                  ? `/organization/${organizationId}/client/${user.userId}/home`
                   : `/organization/${organizationId}/home`;
-                // We use window.location.href for a full page reload to re-initialize context
-                window.location.href = targetPath;
+                router.push(targetPath);
             } else {
                  toast({
                     variant: "destructive",

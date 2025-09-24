@@ -18,39 +18,47 @@ interface User {
 interface UserContextType {
   user: User | null;
   loading: boolean;
+  setUser: (user: User | null) => void;
   logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUserState] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("astramaan_user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      } else {
-        setUser(null);
+        setUserState(JSON.parse(storedUser));
       }
     } catch (error) {
       console.error("Failed to parse user data from localStorage", error);
-      setUser(null);
+      setUserState(null);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const setUser = (user: User | null) => {
+    setUserState(user);
+    if (user) {
+      localStorage.setItem("astramaan_user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("astramaan_user");
+    }
+  };
   
   const logout = () => {
     localStorage.removeItem("astramaan_user");
-    setUser(null);
+    setUserState(null);
     window.location.href = '/';
   }
 
   return (
-    <UserContext.Provider value={{ user, loading, logout }}>
+    <UserContext.Provider value={{ user, loading, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );
