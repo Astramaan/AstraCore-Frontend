@@ -538,7 +538,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 setPhases(templateToEdit.phases);
             } else {
                 setTemplateName('');
-                setPhases([{ name: '', stages: [{ name: '', tasks: [{ name: '', duration: '' }] }] }]);
+                setPhases([{ name: 'Phase 1', stages: [{ name: 'Stage 1', tasks: [{ name: 'Task 1', duration: '' }] }] }]);
             }
         }
     }, [templateToEdit, isOpen]);
@@ -550,6 +550,18 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
         onClose();
     };
 
+    const addPhase = () => setPhases(p => [...p, { name: `Phase ${p.length + 1}`, stages: [{ name: 'New Stage', tasks: [{ name: 'New Task', duration: '' }] }] }]);
+    const addStage = (phaseIndex: number) => {
+        const newPhases = [...phases];
+        newPhases[phaseIndex].stages.push({ name: `New Stage`, tasks: [{ name: 'New Task', duration: '' }] });
+        setPhases(newPhases);
+    };
+    const addTask = (phaseIndex: number, stageIndex: number) => {
+        const newPhases = [...phases];
+        newPhases[phaseIndex].stages[stageIndex].tasks.push({ name: `New Task`, duration: '' });
+        setPhases(newPhases);
+    };
+
     const DialogComponent = Dialog;
     const DialogContentComponent = DialogContent;
 
@@ -558,9 +570,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
         <DialogComponent open={isOpen} onOpenChange={onClose}>
             <DialogContentComponent className={cn(
                 "p-0 flex flex-col bg-white",
-                 isMobile 
-                  ? "w-full h-full rounded-none border-none"
-                  : "sm:max-w-4xl rounded-[50px] h-auto max-h-[90vh] bottom-auto"
+                "sm:max-w-4xl rounded-[50px] h-auto max-h-[90vh]"
             )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
@@ -574,30 +584,82 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 </DialogHeader>
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <ScrollArea className="flex-1 p-6 space-y-4 no-scrollbar">
-                        <Input
-                            placeholder="Template Name"
-                            value={templateName}
-                            onChange={(e) => setTemplateName(e.target.value)}
-                            className="h-14 rounded-full bg-background text-lg"
-                        />
-                         <Card className="rounded-[30px] bg-background mt-4">
-                            <CardContent className="p-6">
-                                <h3 className="text-xl font-semibold mb-4">Phase 1</h3>
-                                <div className="p-4 rounded-2xl border bg-white">
-                                    <p className="font-medium text-lg mb-4">Stage 1</p>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                         <div className="space-y-2">
-                                            <Label className="text-base font-normal px-2 text-zinc-900">Task Name</Label>
-                                            <Input className="h-12 bg-background rounded-full px-5" placeholder="Enter task name" />
+                        <div className="space-y-4">
+                            <Input
+                                placeholder="Template Name"
+                                value={templateName}
+                                onChange={(e) => setTemplateName(e.target.value)}
+                                className="h-14 rounded-full bg-background text-lg mb-4"
+                            />
+                            {phases.map((phase, phaseIndex) => (
+                                <Card key={phaseIndex} className="rounded-[30px] bg-background">
+                                    <CardContent className="p-6">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <Input value={phase.name} onChange={(e) => {
+                                                const newPhases = [...phases];
+                                                newPhases[phaseIndex].name = e.target.value;
+                                                setPhases(newPhases);
+                                            }} className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
+                                            <Button size="icon" variant="ghost" onClick={() => {
+                                                const newPhases = phases.filter((_, i) => i !== phaseIndex);
+                                                setPhases(newPhases);
+                                            }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label className="text-base font-normal px-2 text-zinc-900">Duration</Label>
-                                            <Input className="h-12 bg-background rounded-full px-5" placeholder="Enter days" />
+                                        <div className="space-y-4">
+                                            {phase.stages.map((stage, stageIndex) => (
+                                                <div key={stageIndex} className="p-4 rounded-2xl border bg-white">
+                                                    <div className="flex justify-between items-center mb-4">
+                                                        <Input value={stage.name} onChange={(e) => {
+                                                            const newPhases = [...phases];
+                                                            newPhases[phaseIndex].stages[stageIndex].name = e.target.value;
+                                                            setPhases(newPhases);
+                                                        }} className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
+                                                        <Button size="icon" variant="ghost" onClick={() => {
+                                                             const newPhases = [...phases];
+                                                             newPhases[phaseIndex].stages = newPhases[phaseIndex].stages.filter((_, i) => i !== stageIndex);
+                                                             setPhases(newPhases);
+                                                        }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                    </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        {stage.tasks.map((task, taskIndex) => (
+                                                            <div key={taskIndex} className="space-y-2">
+                                                                <Label className="text-base font-normal px-2 text-zinc-900">Task Name</Label>
+                                                                <div className="flex items-center gap-2">
+                                                                    <Input
+                                                                        className="h-12 bg-background rounded-full px-5"
+                                                                        placeholder="Enter task name"
+                                                                        value={task.name}
+                                                                        onChange={(e) => {
+                                                                            const newPhases = [...phases];
+                                                                            newPhases[phaseIndex].stages[stageIndex].tasks[taskIndex].name = e.target.value;
+                                                                            setPhases(newPhases);
+                                                                        }}
+                                                                    />
+                                                                    <Button size="icon" variant="ghost" onClick={() => {
+                                                                        const newPhases = [...phases];
+                                                                        newPhases[phaseIndex].stages[stageIndex].tasks = newPhases[phaseIndex].stages[stageIndex].tasks.filter((_, i) => i !== taskIndex);
+                                                                        setPhases(newPhases);
+                                                                    }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <Button variant="outline" className="mt-4 rounded-full" onClick={() => addTask(phaseIndex, stageIndex)}>
+                                                        <Plus className="mr-2 h-4 w-4" /> Add Task
+                                                    </Button>
+                                                </div>
+                                            ))}
                                         </div>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                         <Button variant="outline" className="mt-4 rounded-full" onClick={() => addStage(phaseIndex)}>
+                                            <Plus className="mr-2 h-4 w-4" /> Add Stage
+                                        </Button>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                        <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
+                            <Plus className="mr-2 h-4 w-4" /> Add Phase
+                        </Button>
                     </ScrollArea>
                     <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
                          <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
