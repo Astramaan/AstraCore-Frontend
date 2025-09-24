@@ -69,7 +69,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 </div>
                  <div className="text-right">
                     <span className="text-grey-2 text-base">Project Type: </span> 
-                    <p className="zinc-900 font-medium text-base">{project.id}</p>
+                    <p className="zinc-900 font-medium text-base">{project.projectType}</p>
                 </div>
                  <div>
                     <span className="text-grey-2 text-base">Started Date: </span> 
@@ -119,7 +119,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 </p>
                 <p className="text-lg">
                 <span className="text-grey-2">Project Type: </span>
-                <span className="zinc-900">{project.id}</span>
+                <span className="zinc-900">{project.projectType}</span>
                 </p>
             </div>
 

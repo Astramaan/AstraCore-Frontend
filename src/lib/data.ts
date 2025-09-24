@@ -17,6 +17,7 @@ export interface Project {
     statusColor: string;
     image: string;
     progress: number;
+    projectType: 'New Construction' | 'Renovation' | 'Interior Design';
 }
 
 const mockProjects: Project[] = [
@@ -30,6 +31,7 @@ const mockProjects: Project[] = [
         statusColor: "text-green-600",
         image: "https://placehold.co/59x59",
         progress: 75,
+        projectType: "New Construction",
     },
     {
         id: "YAS2024",
@@ -41,6 +43,7 @@ const mockProjects: Project[] = [
         statusColor: "text-red-600",
         image: "https://placehold.co/59x59",
         progress: 25,
+        projectType: "Renovation",
     },
     {
         id: "CHA2024-2",
@@ -52,6 +55,7 @@ const mockProjects: Project[] = [
         statusColor: "text-green-600",
         image: "https://placehold.co/59x59",
         progress: 50,
+        projectType: "Interior Design",
     },
     {
         id: "CHA2024-3",
@@ -63,6 +67,7 @@ const mockProjects: Project[] = [
         statusColor: "text-cyan-500",
         image: "https://placehold.co/59x59",
         progress: 100,
+        projectType: "New Construction",
     },
 ];
 
