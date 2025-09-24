@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -121,6 +120,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
             setPhone(contact.phone);
             setEmail(contact.email);
             setCurrentAddress(contact.address);
+            setSiteLocation(contact.city);
         }
         setEmailComboboxOpen(false);
     };
@@ -157,11 +157,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                     <div className="space-y-6">
                         <h3 className="text-lg text-stone-500">Personal details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
-                            <input type="hidden" name="client_id" value={clientId} />
-                            <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
-                            
-                            <div className="space-y-2">
+                             <div className="space-y-2 sm:col-span-2">
                                 <div className="flex items-baseline gap-2">
                                     <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
                                     <span className="text-xs text-muted-foreground">(enter to fetch the details.)</span>
@@ -206,6 +202,10 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     </PopoverContent>
                                 </Popover>
                             </div>
+                            <FloatingLabelInput id="name" name="name" label="Name*" value={name} onChange={handleTextOnlyChange(setName)} />
+                            <input type="hidden" name="client_id" value={clientId} />
+                            <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number*" type="tel" value={phone} onChange={handleNumberOnlyChange(setPhone)} />
+                            
                             <div className="sm:col-span-2">
                                 <FloatingLabelTextarea id="current-address" name="current_address" label="Current Address*" value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} />
                             </div>
@@ -222,9 +222,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                                     <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
-                            <div className="sm:col-span-2">
-                                <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
-                            </div>
+                             <FloatingLabelInput id="site-location" name="site_location" label="Site location*" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
                             <div className="sm:col-span-2">
                                 <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site location link" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
                             </div>
@@ -684,4 +682,3 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-
