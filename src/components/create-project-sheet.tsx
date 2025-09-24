@@ -528,7 +528,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     const { toast } = useToast();
     const isMobile = useIsMobile();
     const [templateName, setTemplateName] = useState('');
-    const [phases, setPhases] = useState<Phase[]>([{ name: '', stages: [{ name: '', tasks: [{ name: '', duration: '' }] }] }]);
+    const [phases, setPhases] = useState<Phase[]>([{ name: 'Phase 1', stages: [{ name: 'Stage 1', tasks: [{ name: 'Task 1', duration: '' }] }] }]);
 
 
     useEffect(() => {
@@ -551,16 +551,47 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     };
 
     const addPhase = () => setPhases(p => [...p, { name: `Phase ${p.length + 1}`, stages: [{ name: 'New Stage', tasks: [{ name: 'New Task', duration: '' }] }] }]);
+    
     const addStage = (phaseIndex: number) => {
         const newPhases = [...phases];
         newPhases[phaseIndex].stages.push({ name: `New Stage`, tasks: [{ name: 'New Task', duration: '' }] });
         setPhases(newPhases);
     };
+
     const addTask = (phaseIndex: number, stageIndex: number) => {
         const newPhases = [...phases];
         newPhases[phaseIndex].stages[stageIndex].tasks.push({ name: `New Task`, duration: '' });
         setPhases(newPhases);
     };
+    
+    const removePhase = (phaseIndex: number) => {
+        const newPhases = phases.filter((_, i) => i !== phaseIndex);
+        setPhases(newPhases);
+    }
+    const removeStage = (phaseIndex: number, stageIndex: number) => {
+        const newPhases = [...phases];
+        newPhases[phaseIndex].stages = newPhases[phaseIndex].stages.filter((_, i) => i !== stageIndex);
+        setPhases(newPhases);
+    }
+    const removeTask = (phaseIndex: number, stageIndex: number, taskIndex: number) => {
+        const newPhases = [...phases];
+        newPhases[phaseIndex].stages[stageIndex].tasks = newPhases[phaseIndex].stages[stageIndex].tasks.filter((_, i) => i !== taskIndex);
+        setPhases(newPhases);
+    }
+    
+    const handleInputChange = (value: string, type: 'phase' | 'stage' | 'task' | 'duration', indices: {phase: number, stage?: number, task?: number}) => {
+        const newPhases = [...phases];
+        if(type === 'phase' && indices.stage === undefined) {
+             newPhases[indices.phase].name = value;
+        } else if (type === 'stage' && indices.stage !== undefined) {
+            newPhases[indices.phase].stages[indices.stage].name = value;
+        } else if (type === 'task' && indices.stage !== undefined && indices.task !== undefined) {
+            newPhases[indices.phase].stages[indices.stage].tasks[indices.task].name = value;
+        } else if (type === 'duration' && indices.stage !== undefined && indices.task !== undefined) {
+            newPhases[indices.phase].stages[indices.stage].tasks[indices.task].duration = value;
+        }
+        setPhases(newPhases);
+    }
 
     const DialogComponent = Dialog;
     const DialogContentComponent = DialogContent;
@@ -584,7 +615,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                 </DialogHeader>
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <ScrollArea className="flex-1 p-6 space-y-4 no-scrollbar">
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             <Input
                                 placeholder="Template Name"
                                 value={templateName}
@@ -592,69 +623,44 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                 className="h-14 rounded-full bg-background text-lg mb-4"
                             />
                             {phases.map((phase, phaseIndex) => (
-                                <Card key={phaseIndex} className="rounded-[30px] bg-background">
-                                    <CardContent className="p-6">
-                                        <div className="flex justify-between items-center mb-4">
-                                            <Input value={phase.name} onChange={(e) => {
-                                                const newPhases = [...phases];
-                                                newPhases[phaseIndex].name = e.target.value;
-                                                setPhases(newPhases);
-                                            }} className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
-                                            <Button size="icon" variant="ghost" onClick={() => {
-                                                const newPhases = phases.filter((_, i) => i !== phaseIndex);
-                                                setPhases(newPhases);
-                                            }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                        </div>
-                                        <div className="space-y-4">
-                                            {phase.stages.map((stage, stageIndex) => (
-                                                <div key={stageIndex} className="p-4 rounded-2xl border bg-white">
-                                                    <div className="flex justify-between items-center mb-4">
-                                                        <Input value={stage.name} onChange={(e) => {
-                                                            const newPhases = [...phases];
-                                                            newPhases[phaseIndex].stages[stageIndex].name = e.target.value;
-                                                            setPhases(newPhases);
-                                                        }} className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
-                                                        <Button size="icon" variant="ghost" onClick={() => {
-                                                             const newPhases = [...phases];
-                                                             newPhases[phaseIndex].stages = newPhases[phaseIndex].stages.filter((_, i) => i !== stageIndex);
-                                                             setPhases(newPhases);
-                                                        }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                        {stage.tasks.map((task, taskIndex) => (
-                                                            <div key={taskIndex} className="space-y-2">
-                                                                <Label className="text-base font-normal px-2 text-zinc-900">Task Name</Label>
-                                                                <div className="flex items-center gap-2">
-                                                                    <Input
-                                                                        className="h-12 bg-background rounded-full px-5"
-                                                                        placeholder="Enter task name"
-                                                                        value={task.name}
-                                                                        onChange={(e) => {
-                                                                            const newPhases = [...phases];
-                                                                            newPhases[phaseIndex].stages[stageIndex].tasks[taskIndex].name = e.target.value;
-                                                                            setPhases(newPhases);
-                                                                        }}
-                                                                    />
-                                                                    <Button size="icon" variant="ghost" onClick={() => {
-                                                                        const newPhases = [...phases];
-                                                                        newPhases[phaseIndex].stages[stageIndex].tasks = newPhases[phaseIndex].stages[stageIndex].tasks.filter((_, i) => i !== taskIndex);
-                                                                        setPhases(newPhases);
-                                                                    }}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-                                                                </div>
+                                <div key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background">
+                                    <div className="flex items-center gap-2">
+                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                        <Input value={phase.name} onChange={e => handleInputChange(e.target.value, 'phase', {phase: phaseIndex})} className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
+                                        <Button size="icon" variant="ghost" onClick={() => removePhase(phaseIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                    </div>
+                                    <div className="pl-6 space-y-4">
+                                        {phase.stages.map((stage, stageIndex) => (
+                                            <div key={stageIndex} className="p-4 rounded-2xl border bg-white space-y-4">
+                                                <div className="flex items-center gap-2">
+                                                     <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                                    <Input value={stage.name} onChange={e => handleInputChange(e.target.value, 'stage', {phase: phaseIndex, stage: stageIndex})} className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0" />
+                                                    <Button size="icon" variant="ghost" onClick={() => removeStage(phaseIndex, stageIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                </div>
+                                                <div className="pl-6 space-y-4">
+                                                    {stage.tasks.map((task, taskIndex) => (
+                                                        <div key={taskIndex} className="grid grid-cols-[1fr_auto] items-center gap-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                                                <Input placeholder="Task Name" value={task.name} onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 bg-background rounded-full px-5"/>
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                    <Button variant="outline" className="mt-4 rounded-full" onClick={() => addTask(phaseIndex, stageIndex)}>
+                                                            <div className="flex items-center gap-2">
+                                                                <Input placeholder="Duration" value={task.duration} onChange={e => handleInputChange(e.target.value, 'duration', {phase: phaseIndex, stage: stageIndex, task: taskIndex})} className="h-12 w-32 bg-background rounded-full px-5"/>
+                                                                <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    <Button variant="outline" className="rounded-full" onClick={() => addTask(phaseIndex, stageIndex)}>
                                                         <Plus className="mr-2 h-4 w-4" /> Add Task
                                                     </Button>
                                                 </div>
-                                            ))}
-                                        </div>
-                                         <Button variant="outline" className="mt-4 rounded-full" onClick={() => addStage(phaseIndex)}>
+                                            </div>
+                                        ))}
+                                         <Button variant="outline" className="rounded-full" onClick={() => addStage(phaseIndex)}>
                                             <Plus className="mr-2 h-4 w-4" /> Add Stage
                                         </Button>
-                                    </CardContent>
-                                </Card>
+                                    </div>
+                                </div>
                             ))}
                         </div>
                         <Button variant="outline" onClick={addPhase} className="w-full mt-4 h-14 rounded-full text-lg">
