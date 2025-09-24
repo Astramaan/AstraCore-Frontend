@@ -101,7 +101,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     const handleMeetingLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const link = e.target.value;
         setMeetingLink(link);
-        if (link && !/^(https?:\/\/)?(meet\.google\.com\/[a-z-]{10,}|([a-z]+\.)?zoom\.us\/(j|my)\/[a-zA-Z0-9?=&-.]+)$/.test(link)) {
+        if (link && !/^(https?:\/\/)?(meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}|([a-z]+\.)?zoom\.us\/(j|my)\/[a-zA-Z0-9?=&-.]+)$/.test(link)) {
             setMeetingLinkError('Please enter a valid Google Meet or Zoom link.');
         } else {
             setMeetingLinkError('');
@@ -449,4 +449,3 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     </Sheet>
   );
 }
-
