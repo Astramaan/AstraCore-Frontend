@@ -332,39 +332,44 @@ export interface TimelineTemplate {
     isCustom?: boolean;
 }
 
-const initialTimelineData: Phase[] = [
+const residentialTemplate: Phase[] = [
     {
         name: "Design",
         stages: [
-            {
-                name: "Architectural Design",
-                tasks: [
-                    { name: "Design Presentation", duration: "3 Days" },
-                    { name: "Concept Approval", duration: "2 Days" }
-                ]
-            },
-            {
-                name: "Structural Design",
-                tasks: [
-                    { name: "Analysis Report", duration: "4 Days" },
-                    { name: "Foundation Design", duration: "2 Days" }
-                ]
-            }
+            { name: "Architectural Design", tasks: [{ name: "Design Presentation", duration: "3 Days" }, { name: "Concept Approval", duration: "2 Days" }] },
+            { name: "Structural Design", tasks: [{ name: "Analysis Report", duration: "4 Days" }, { name: "Foundation Design", duration: "2 Days" }] }
         ]
     },
     {
-        name: "Civil",
+        name: "Construction",
         stages: [
-            {
-                name: "Excavation",
-                tasks: [
-                    { name: "Digging", duration: "5 Days" },
-                    { name: "Soil Testing", duration: "3 Days" }
-                ]
-            }
+            { name: "Foundation", tasks: [{ name: "Excavation", duration: "5 Days" }, { name: "PCC", duration: "2 Days" }] },
+            { name: "Superstructure", tasks: [{ name: "Framing", duration: "10 Days" }, { name: "Roofing", duration: "7 Days" }] }
+        ]
+    }
+];
+
+const commercialTemplate: Phase[] = [
+    {
+        name: "Pre-construction",
+        stages: [
+            { name: "Site Analysis", tasks: [{ name: "Surveying", duration: "5 Days" }, { name: "Geotechnical Investigation", duration: "7 Days" }] },
+            { name: "Permitting", tasks: [{ name: "Submit plans", duration: "2 Days" }, { name: "Await approval", duration: "30 Days" }] }
+        ]
+    },
+    {
+        name: "Construction",
+        stages: [
+            { name: "Foundation", tasks: [{ name: "Heavy Excavation", duration: "10 Days" }, { name: "Reinforcement", duration: "10 Days" }] },
+            { name: "Structure", tasks: [{ name: "Steel Erection", duration: "20 Days" }, { name: "Cladding", duration: "15 Days" }] }
         ]
     },
 ];
+
+const templates = [
+    { id: 'residential', name: 'Residential Template', phases: residentialTemplate },
+    { id: 'commercial', name: 'Commercial Template', phases: commercialTemplate }
+]
 
 const ProjectTimelineForm = ({
     onFormSuccess,
@@ -381,14 +386,22 @@ const ProjectTimelineForm = ({
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [isPending, startTransition] = useTransition();
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
+    const [timeline, setTimeline] = useState<Phase[]>([]);
+    
+    const handleTemplateSelect = (templateId: string) => {
+        const template = templates.find(t => t.id === templateId);
+        if (template) {
+            setTimeline(template.phases);
+        }
+    };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
         const formData = new FormData(event.currentTarget);
-        const timeline: Phase[] = [];
+        const timelineData: Phase[] = [];
 
-        initialTimelineData.forEach((phase, phaseIndex) => {
+        timeline.forEach((phase, phaseIndex) => {
             const newPhase: Phase = { name: phase.name, stages: [] };
             phase.stages.forEach((stage, stageIndex) => {
                 const newStage: Stage = { name: stage.name, tasks: [] };
@@ -400,10 +413,10 @@ const ProjectTimelineForm = ({
                 });
                 newPhase.stages.push(newStage);
             });
-            timeline.push(newPhase);
+            timelineData.push(newPhase);
         });
 
-        const fullData = { ...projectData, phases: timeline, startDate: startDate?.toISOString() };
+        const fullData = { ...projectData, phases: timelineData, startDate: startDate?.toISOString() };
 
         startTransition(async () => {
             const result = await addProject(fullData);
@@ -463,8 +476,8 @@ const ProjectTimelineForm = ({
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem>Residential Template</DropdownMenuItem>
-                                        <DropdownMenuItem>Commercial Template</DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => handleTemplateSelect('residential')}>Residential Template</DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => handleTemplateSelect('commercial')}>Commercial Template</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)} className="h-14 rounded-full px-4 w-full">
@@ -474,7 +487,7 @@ const ProjectTimelineForm = ({
                             </div>
 
                             <div className="space-y-4">
-                                {initialTimelineData.map((phase, phaseIndex) => (
+                                {timeline.map((phase, phaseIndex) => (
                                     <Card key={phase.name} className="rounded-[30px] bg-background">
                                         <CardContent className="p-6">
                                             <h3 className="text-xl font-semibold mb-4">{phase.name}</h3>
@@ -812,3 +825,4 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 }
 
     
+
