@@ -27,6 +27,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { AvatarWithProgress } from "@/components/avatar-with-progress";
 import { useParams } from 'next/navigation';
+import { useUser } from "@/context/user-context";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string }) => (
     <div className="flex flex-col group">
@@ -171,6 +172,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
 
 export default function ProjectsPage() {
     const params = useParams();
+    const { user } = useUser();
     const organizationId = params.organizationId as string || 'habi123';
     const [activeProjects, setActiveProjects] = useState<Project[]>([]);
     const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
@@ -247,6 +249,8 @@ export default function ProjectsPage() {
             setCompletedProjects(updateList);
         }
     };
+
+    const canCreateProject = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
     
     return (
         <div className="space-y-8">
@@ -254,12 +258,14 @@ export default function ProjectsPage() {
             <div>
                  <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl text-black font-medium">Active Projects</h2>
-                    <CreateProjectSheet 
-                        onProjectAdded={handleProjectAdded} 
-                        projectToEdit={projectToEdit}
-                        onProjectUpdated={handleProjectUpdated}
-                        onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
-                    />
+                    {canCreateProject && (
+                        <CreateProjectSheet 
+                            onProjectAdded={handleProjectAdded} 
+                            projectToEdit={projectToEdit}
+                            onProjectUpdated={handleProjectUpdated}
+                            onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
+                        />
+                    )}
                 </div>
                 <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 lg:p-6">
