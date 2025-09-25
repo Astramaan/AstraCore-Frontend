@@ -40,6 +40,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [pincode, setPincode] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     useEffect(() => {
         if (state.success) {
@@ -59,14 +60,40 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             setPhone(value);
         }
     };
+    
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setEmail(value);
+        if (value && !/^\S+@\S+\.\S+$/.test(value)) {
+            setEmailError('Please enter a valid email address.');
+        } else {
+            setEmailError('');
+        }
+    };
+    
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (emailError) {
+            toast({
+                variant: 'destructive',
+                title: 'Invalid Email',
+                description: 'Please enter a valid email address.',
+            });
+            return;
+        }
+        formAction(new FormData(e.currentTarget));
+    }
 
     return (
-        <form action={formAction} className="flex flex-col h-full">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
             <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-4">
                     <FloatingLabelInput id="full-name" name="fullName" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                     <FloatingLabelInput id="phone-number" name="phone" label="Phone Number" type="tel" value={phone} onChange={handlePhoneChange} required />
-                    <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <div>
+                        <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={handleEmailChange} required />
+                        {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
+                    </div>
                     <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={(e) => setPincode(e.target.value)} required />
                 </div>
             </ScrollArea>
