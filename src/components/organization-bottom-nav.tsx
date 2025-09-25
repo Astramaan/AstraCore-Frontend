@@ -11,6 +11,7 @@ import ProjectsIcon from './icons/projects-icon';
 import VendorsIcon from './icons/vendors-icon';
 import LeadsIcon from './icons/leads-icon';
 import { useUser } from '@/context/user-context';
+import TeamIcon from './icons/team-icon';
 
 const allNavItems = [
     { href: `/home`, icon: HomeIcon, label: "Home", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'Sales', 'superAdmin'] },
@@ -18,6 +19,7 @@ const allNavItems = [
     { href: `/projects`, icon: ProjectsIcon, label: "Projects", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'superAdmin'] },
     { href: `/leads`, icon: LeadsIcon, label: "Leads", teams: ['Sales', 'superAdmin'] },
     { href: `/vendors`, icon: VendorsIcon, label: "Vendors", teams: ['Project Manager', 'superAdmin', 'Site Supervisor'] },
+    { href: `/teams`, icon: TeamIcon, label: "Teams", teams: ['superAdmin'] },
 ];
 
 export const OrganizationBottomNav = () => {
@@ -29,8 +31,10 @@ export const OrganizationBottomNav = () => {
     const navItems = React.useMemo(() => {
         if (!user) return [];
         if (user.roleType === 'superAdmin') {
-            return allNavItems;
+            // Super admin gets all nav items.
+            return allNavItems.filter(item => item.teams.includes('superAdmin'));
         }
+        // Other users get items based on their team.
         return allNavItems.filter(item => item.teams.includes(user.team));
     }, [user]);
     
