@@ -36,7 +36,6 @@ interface Stage {
     createdAt: string;
     description: string;
     priority: 'Low' | 'Medium' | 'High';
-    progress?: number;
 }
 
 const getDateColor = (dateString: string) => {
@@ -125,7 +124,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
-            <span className="text-2xl font-semibold">Completed Tasks</span>
+            <span className="text-2xl font-semibold">Project Completed Tasks</span>
             <SheetClose asChild>
               <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                 <X className="h-6 w-6" />
