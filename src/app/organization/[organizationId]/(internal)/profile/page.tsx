@@ -4,7 +4,6 @@
 import React from 'react';
 import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import SuperAdminProfile from './super-admin-profile';
 import UserProfile from './user-profile';
 
 export default function ProfilePage() {
@@ -26,10 +25,6 @@ export default function ProfilePage() {
                 </div>
             </div>
         );
-    }
-    
-    if (user.roleType === 'superAdmin') {
-        return <SuperAdminProfile />;
     }
     
     return <UserProfile />;
