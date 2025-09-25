@@ -76,7 +76,7 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
                     <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
                 </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.description}</p>
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
             </div>
             <div className="flex justify-between items-center">
                 <div className="flex items-center">
