@@ -42,7 +42,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const noNavPaths = ['/profile', '/teams/'];
+  const noNavPaths = ['/profile', '/teams', '/projects/'];
   const shouldShowNav = !noNavPaths.some(path => pathname.includes(path));
 
   return (
