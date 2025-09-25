@@ -8,8 +8,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
-} from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import {
   X,
   UploadCloud,
@@ -545,6 +545,9 @@ const TaskDetailsContent = ({
           <div className="p-6">
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">{task.title}</h3>
+              <p className="text-muted-foreground">{task.description}</p>
+              
+              <Separator />
 
               {task.isProjectTask ? (
                 <ProjectTaskDetails task={task} />
