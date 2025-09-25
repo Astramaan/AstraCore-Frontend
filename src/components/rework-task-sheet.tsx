@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -15,15 +16,16 @@ import { ScrollArea } from './ui/scroll-area';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
 import { useToast } from './ui/use-toast';
-import { Task } from './task-details-sheet';
+import { Task, ReworkInfo } from './task-details-sheet';
 
 interface ReworkTaskSheetProps {
     isOpen: boolean;
     onClose: () => void;
     task: Task;
+    onSubmit: (reworkInfo: ReworkInfo) => void;
 }
 
-const ReworkTaskForm = ({ task, onClose }: { task: Task, onClose: () => void }) => {
+const ReworkTaskForm = ({ task, onClose, onSubmit }: { task: Task, onClose: () => void, onSubmit: (reworkInfo: ReworkInfo) => void }) => {
     const { toast } = useToast();
     const [comments, setComments] = useState('');
     const [attachments, setAttachments] = useState<File[]>([]);
@@ -41,12 +43,7 @@ const ReworkTaskForm = ({ task, onClose }: { task: Task, onClose: () => void }) 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Submitting rework for task:", task.id, { comments, attachments });
-        toast({
-            title: "Rework Submitted",
-            description: `Rework request for "${task.title}" has been sent.`,
-        });
-        onClose();
+        onSubmit({ comments, attachments });
     };
 
     return (
@@ -120,7 +117,7 @@ const ReworkTaskForm = ({ task, onClose }: { task: Task, onClose: () => void }) 
 };
 
 
-export function ReworkTaskSheet({ isOpen, onClose, task }: ReworkTaskSheetProps) {
+export function ReworkTaskSheet({ isOpen, onClose, task, onSubmit }: ReworkTaskSheetProps) {
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent
@@ -138,7 +135,7 @@ export function ReworkTaskSheet({ isOpen, onClose, task }: ReworkTaskSheetProps)
                     </SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 flex flex-col overflow-hidden">
-                    <ReworkTaskForm task={task} onClose={onClose} />
+                    <ReworkTaskForm task={task} onClose={onClose} onSubmit={onSubmit} />
                 </div>
             </SheetContent>
         </Sheet>
