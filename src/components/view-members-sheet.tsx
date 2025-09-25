@@ -66,6 +66,11 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
                 title: "Error",
                 description: result.error,
             });
+        } else {
+             toast({
+                title: "Success",
+                description: "Password reset link sent successfully.",
+            });
         }
     };
     
@@ -125,7 +130,7 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
                              <>
                                 <DropdownMenuItem onSelect={handlePasswordReset}>Change Password</DropdownMenuItem>
                                 <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
+                                    <DropdownMenuItem className="text-destructive" onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
                                 </AlertDialogTrigger>
                              </>
                          )}

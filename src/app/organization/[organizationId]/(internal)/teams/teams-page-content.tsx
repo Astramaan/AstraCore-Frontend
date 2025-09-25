@@ -226,13 +226,14 @@ export default function TeamsPageContent() {
             let rolesToShow = allRoles;
             if (user?.roleType !== 'superAdmin') {
                 // If not super admin, filter roles based on team.
-                rolesToShow = rolesToShow.filter(role => role.name !== "Super Admin");
+                rolesToShow = allRoles.filter(role => role.name !== "Super Admin");
 
                 if (user?.team === 'Project Manager') {
                     rolesToShow = rolesToShow.filter(role => 
                         ["Software Development", "Design", "Support & Feedback", "Site Supervisor", "Architect"].includes(role.name)
                     );
                 }
+                 // Add other team-based filtering here if needed
             }
             setRoles(rolesToShow);
             setIsLoading(false);
