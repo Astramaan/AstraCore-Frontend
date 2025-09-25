@@ -31,12 +31,12 @@ interface DesignDocumentsDialogProps {
 
 export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => {
     const isMobile = useIsMobile();
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetTrigger = SheetTrigger;
+    const DialogOrSheetContent = SheetContent;
+    const DialogOrSheetHeader = SheetHeader;
+    const DialogOrSheetTitle = SheetTitle;
+    const DialogOrSheetClose = SheetClose;
 
   return (
     <DialogOrSheet>
@@ -48,10 +48,14 @@ export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => 
             Design & Documents
         </Button>
       </DialogOrSheetTrigger>
-      <DialogOrSheetContent className={cn(
-          "p-0 flex flex-col bg-white",
-          isMobile ? "w-full h-full" : "max-w-xl h-[90vh] rounded-[50px]"
-      )}>
+      <DialogOrSheetContent
+        side="bottom"
+        className={cn(
+          "p-0 flex flex-col bg-white transition-all m-0 border-none",
+          "w-full h-full md:h-[90vh] md:w-full md:max-w-xl md:mx-auto md:bottom-0 rounded-t-[50px]"
+        )}
+        overlayClassName="bg-black/20 backdrop-blur-sm"
+      >
         <DialogOrSheetHeader className="p-4 border-b flex-row items-center">
             <DialogOrSheetTitle className="text-2xl font-semibold">Design & Documents</DialogOrSheetTitle>
              <DialogOrSheetClose asChild>
