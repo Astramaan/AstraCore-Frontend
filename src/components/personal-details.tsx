@@ -158,7 +158,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                         <div className="space-y-6">
                             <FloatingLabelInput id="phone" name="mobileNumber" label="Phone Number" value={formData.mobileNumber} onChange={handleInputChange} />
                             <div className="space-y-2">
-                                <Label className={cn("text-lg font-medium", 'text-grey-1')}>Role</Label>
+                                <Label className={cn("text-lg font-medium", 'text-grey-1')}>Team</Label>
                                 <Select name="team" value={formData.team} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
@@ -290,7 +290,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                 <p className="text-black text-base md:text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Role</Label>
+                                <Label className="text-sm md:text-base font-medium text-grey-1">Team</Label>
                                 <p className="text-primary text-base md:text-lg leading-tight truncate">{member.team}</p>
                             </div>
                              <div className="space-y-1">
