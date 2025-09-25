@@ -69,7 +69,7 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
         }
     };
     
-    const canManage = user?.roleType === 'superAdmin' || user?.team === teamName;
+    const canManage = user?.roleType === 'superAdmin';
 
 
     return (

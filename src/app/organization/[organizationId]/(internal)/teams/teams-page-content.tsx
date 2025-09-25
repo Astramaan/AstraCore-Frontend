@@ -219,26 +219,25 @@ export default function TeamsPageContent() {
     const [roles, setRoles] = useState<Role[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     
-    const userRole = searchParams.get('role');
-
     useEffect(() => {
         setIsLoading(true);
         // Simulate fetching data
         setTimeout(() => {
             let rolesToShow = allRoles;
             if (user?.roleType !== 'superAdmin') {
+                // If not super admin, filter roles based on team.
                 rolesToShow = rolesToShow.filter(role => role.name !== "Super Admin");
-            }
 
-            if (user?.team === 'Project Manager') {
-                rolesToShow = rolesToShow.filter(role => 
-                    ["Software Development", "Design", "Support & Feedback", "Site Supervisor", "Architect"].includes(role.name)
-                );
+                if (user?.team === 'Project Manager') {
+                    rolesToShow = rolesToShow.filter(role => 
+                        ["Software Development", "Design", "Support & Feedback", "Site Supervisor", "Architect"].includes(role.name)
+                    );
+                }
             }
             setRoles(rolesToShow);
             setIsLoading(false);
-        }, 100); // reduced delay
-    }, [user, userRole]);
+        }, 100);
+    }, [user]);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
