@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -56,7 +57,7 @@ export default function ProfilePage() {
                     </>
                 ) : (
                     <div className="lg:col-span-2 flex">
-                        {/* Placeholder or other content for non-super-admins can go here */}
+                        {/* This space is intentionally left blank for non-super-admins */}
                     </div>
                 )}
                 <div className="flex flex-col gap-6">

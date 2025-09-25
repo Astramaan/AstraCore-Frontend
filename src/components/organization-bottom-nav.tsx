@@ -31,10 +31,8 @@ export const OrganizationBottomNav = () => {
     const navItems = React.useMemo(() => {
         if (!user) return [];
         if (user.roleType === 'superAdmin') {
-            // Super admin gets all nav items that have superAdmin in their teams array.
             return allNavItems.filter(item => item.teams.includes('superAdmin'));
         }
-        // Other users get items based on their team.
         return allNavItems.filter(item => item.teams.includes(user.team));
     }, [user]);
     
@@ -47,7 +45,6 @@ export const OrganizationBottomNav = () => {
              <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
-                        // Match base path for active state, e.g., /.../projects should match /.../projects/[id]
                         const baseHref = `/organization/${organizationId}${item.href}`;
                         const isActive = pathname.startsWith(baseHref);
                         return (
