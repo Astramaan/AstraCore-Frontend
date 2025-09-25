@@ -8,6 +8,7 @@ import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { Label } from './ui/label';
+import { Separator } from './ui/separator';
 
 interface DetailFieldProps {
     label: string;
@@ -67,6 +68,20 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                 )}
             </CardHeader>
             <CardContent className="p-0">
+                {personalInfo && (
+                    <>
+                        <h4 className="text-lg font-medium text-stone-500 mb-4">Personal details</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-6">
+                            <DetailField label="Name" value={personalInfo.name} />
+                            <DetailField label="Client ID" value={personalInfo.clientId} />
+                            <DetailField label="Phone" value={personalInfo.phone} />
+                            <DetailField label="Email" value={personalInfo.email} />
+                            <DetailField label="Address" value={personalInfo.address} fullWidth />
+                        </div>
+                        <Separator className="my-6" />
+                    </>
+                )}
+                <h4 className="text-lg font-medium text-stone-500 mb-4">Project details</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                   <DetailField label="Project cost" value={projectInfo.cost} />
                   <DetailField label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
