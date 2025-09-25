@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -84,27 +83,27 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-white rounded-full px-6 py-4 flex justify-between items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Project Manager</p>
                 <p className="font-semibold">{project.projectManager}</p>
               </div>
-              <div className="flex gap-2 w-full md:w-auto">
+              <div className="flex gap-2">
                 <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
-                 <a href={`tel:${project.projectManagerPhone}`} className="flex-1 md:flex-initial">
+                 <a href={`tel:${project.projectManagerPhone}`}>
                   <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-white rounded-full py-4 px-6 flex justify-between items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
               </div>
-               <div className="flex gap-2 w-full md:w-auto">
+               <div className="flex gap-2">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
-                 <a href={`tel:${project.siteSupervisorPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                 <a href={`tel:${project.siteSupervisorPhone}`}>
+                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
