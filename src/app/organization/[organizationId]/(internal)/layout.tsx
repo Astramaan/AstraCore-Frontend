@@ -42,13 +42,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const noNavPaths = [
-      `/organization/${user.organizationId}/projects/`, 
-      `/organization/${user.organizationId}/teams/`, 
-      `/organization/${user.organizationId}/profile`
-  ];
-
-  const shouldShowNav = isSuperAdmin || !noNavPaths.some(path => pathname.includes(path.replace(user.organizationId, '[organizationId]')));
+  const shouldShowNav = isSuperAdmin || !pathname.startsWith(`/organization/${user.organizationId}/profile`);
 
   return (
     <div className="min-h-screen bg-background">
