@@ -21,26 +21,10 @@ import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ProjectTaskCard, Stage } from '@/components/project-task-card';
+import { TaskCard } from '@/components/task-card';
 
-// Data for Project Manager Home
-interface Stage {
-    id: number;
-    title: string;
-    subtitle: string;
-    category: string;
-    image: string;
-    duration: string;
-    status: 'ongoing' | 'upcoming' | 'completed' | 'pending' | 'Rework';
-    type: 'stage' | 'payment';
-    siteImages?: string[];
-    snagCount?: number;
-    createdBy: string;
-    createdAt: string;
-    description: string;
-    priority: 'Low' | 'Medium' | 'High';
-    progress?: number;
-    rework?: ReworkInfo;
-}
+
 const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low', progress: 100 },
     { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: new Date().toISOString(), description: 'Begin excavation as per the approved site plan.', priority: 'High', progress: 70 },
@@ -91,93 +75,6 @@ const assignedTasksData: Task[] = [
 
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
 
-const getDateColor = (dateString: string) => {
-    const dueDate = new Date(dateString);
-    const today = new Date();
-    
-    dueDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    const diffTime = dueDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) {
-        return 'text-red-500'; // Today
-    } else if (diffDays === 1) {
-        return 'text-orange-500'; // Tomorrow
-    } else {
-        return 'text-muted-foreground'; // Default
-    }
-};
-
-const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
-    const priorityColors: { [key: string]: string } = {
-        "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-500/10 text-red-500",
-    }
-    const formattedDate = new Date(task.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
-    const dateColor = getDateColor(task.date);
-
-    return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
-                    <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
-                </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
-            </div>
-            <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                    <div className="flex -space-x-2">
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                    </div>
-                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
-                </div>
-                <div className="text-right flex items-center gap-2">
-                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
-                </div>
-            </div>
-        </Card>
-    )
-};
-
-
-const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priorityColors: { [key: string]: string } = {
-        "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-500/10 text-red-500",
-    }
-    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
-    const dateColor = getDateColor(stage.createdAt);
-
-    return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onStageClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
-                </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.description}</p>
-            </div>
-            <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                    <div className="flex -space-x-2">
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                    </div>
-                     <Badge variant="outline" className="ml-4 bg-white text-zinc-900">Civil</Badge>
-                </div>
-                <div className="text-right flex items-center gap-2">
-                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
-                </div>
-            </div>
-        </Card>
-    )
-};
 
 const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const projectTasks = useMemo(() => {
