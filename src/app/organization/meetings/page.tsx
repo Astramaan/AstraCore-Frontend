@@ -36,13 +36,16 @@ const initialLeadMeetings: Meeting[] = [
     { type: 'lead', name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
 ];
 
+const initialOtherMeetings: Meeting[] = [
+    { type: 'others', name: "Internal Team Sync", title: "Weekly Sync", city: "Remote", id: "INT2024", date: "7th Sept 2024", time: "04:00 pm", link: "meet.google.com/uvw-xyz", email: "team@astramaan.com", phone: "N/A" },
+];
+
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
         <div className="lg:hidden p-6 md:p-10 gap-4" onClick={() => onViewDetails(meeting)}>
             <div className="flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-xl font-semibold text-black">{meeting.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
+                    <p className="text-xl font-semibold text-black">{meeting.title || meeting.name}</p>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -59,7 +62,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-base">
                 <div>
-                    <span className="text-grey-2">Contact: </span>
+                    <span className="text-grey-2">Contact: </span> 
                     <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
                 </div>
                 <div className="text-right">
@@ -67,11 +70,11 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                     <p className="text-zinc-900 font-medium">{meeting.id}</p>
                 </div>
                 <div>
-                    <span className="text-grey-2">Date & Time : </span>
+                    <span className="text-grey-2">Date & Time : </span> 
                     <p className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</p>
                 </div>
                 <div className="flex items-center justify-end gap-2">
-                    <span className="text-grey-2">Link: </span>
+                    <span className="text-grey-2">Link: </span> 
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         <span className="hidden sm:inline">Google Meet</span>
@@ -94,10 +97,9 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               >
               {/* Company Name & City */}
               <div className="flex flex-col justify-center">
-                  <p className="text-xl font-semibold text-black break-words">{meeting.name}</p>
+                  <p className="text-xl font-semibold text-black break-words">{meeting.title || meeting.name}</p>
                   <p className="text-lg">
-                  <span className="text-grey-2">Location: </span> 
-                  <span className="text-black">{meeting.city}</span>
+                    <span className="text-black">{meeting.name} ({meeting.id})</span>
                   </p>
               </div>
 
@@ -109,10 +111,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                   <p className="text-lg break-all">
                   <span className="text-grey-2">Contact: </span> 
                   <span className="text-black">{meeting.email} | {meeting.phone}</span>
-                  </p>
-                  <p className="text-lg">
-                  <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID' : 'Client ID'}: </span> 
-                  <span className="text-zinc-900">{meeting.id}</span>
                   </p>
               </div>
 
@@ -166,6 +164,7 @@ export default function MeetingsPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
     const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);
+    const [otherMeetings, setOtherMeetings] = useState(initialOtherMeetings);
     const [meetingToDelete, setMeetingToDelete] = useState<Meeting | null>(null);
     const [meetingToEdit, setMeetingToEdit] = useState<Meeting | null>(null);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -175,16 +174,20 @@ export default function MeetingsPage() {
         const meetingWithId = { ...newMeeting, id: `NEW${Date.now()}`};
         if (meetingWithId.type === 'client') {
             setClientMeetings(prev => [meetingWithId, ...prev]);
-        } else {
+        } else if (meetingWithId.type === 'lead') {
             setLeadMeetings(prev => [meetingWithId, ...prev]);
+        } else {
+            setOtherMeetings(prev => [meetingWithId, ...prev]);
         }
     };
     
     const handleUpdateMeeting = (updatedMeeting: Meeting) => {
         if(updatedMeeting.type === 'client') {
             setClientMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
-        } else {
+        } else if (updatedMeeting.type === 'lead') {
             setLeadMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
+        } else {
+            setOtherMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
         }
         setMeetingToEdit(null);
     }
@@ -197,8 +200,10 @@ export default function MeetingsPage() {
         if (meetingToDelete) {
             if (meetingToDelete.type === 'client') {
                 setClientMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-            } else {
+            } else if (meetingToDelete.type === 'lead') {
                 setLeadMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+            } else {
+                setOtherMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
             }
             setMeetingToDelete(null);
         }
@@ -207,6 +212,7 @@ export default function MeetingsPage() {
     const filterMeetings = (meetings: Meeting[]) => {
         if (!searchTerm) return meetings;
         return meetings.filter(meeting =>
+            (meeting.title && meeting.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
             meeting.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             meeting.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
             meeting.id.toLowerCase().includes(searchTerm.toLowerCase())
@@ -215,6 +221,8 @@ export default function MeetingsPage() {
 
     const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm, clientMeetings]);
     const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm, leadMeetings]);
+    const filteredOtherMeetings = useMemo(() => filterMeetings(otherMeetings), [searchTerm, otherMeetings]);
+
     const handleViewDetails = (meeting: Meeting) => {
         setSelectedMeeting(meeting);
     }
@@ -274,6 +282,27 @@ export default function MeetingsPage() {
                     </CardContent>
                 </Card>
             </div>
+
+             <div className="flex justify-between items-center">
+                <h2 className="text-xl text-black font-medium">Other Meetings</h2>
+            </div>
+            <div>
+                <Card className="rounded-[50px] bg-white">
+                    <CardContent className="p-0 lg:p-6">
+                         {filteredOtherMeetings.map((meeting, index) => (
+                            <MeetingListItem 
+                                key={meeting.id} 
+                                meeting={meeting}
+                                onEdit={setMeetingToEdit}
+                                onDelete={handleDeleteClick}
+                                onViewDetails={handleViewDetails}
+                                isFirst={index === 0}
+                                isLast={index === filteredOtherMeetings.length - 1}
+                            />
+                        ))}
+                    </CardContent>
+                </Card>
+            </div>
             
             <AlertDialog open={!!meetingToDelete} onOpenChange={(isOpen) => !isOpen && setMeetingToDelete(null)}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
@@ -312,3 +341,5 @@ export default function MeetingsPage() {
         </div>
     );
 }
+
+    
