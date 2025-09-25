@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -126,7 +125,7 @@ export function ReworkTaskSheet({ isOpen, onClose, task }: ReworkTaskSheetProps)
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent
                 side="bottom"
-                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
+                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none"
             >
                 <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
                     <SheetTitle className="flex items-center justify-between text-2xl font-semibold">
@@ -145,4 +144,3 @@ export function ReworkTaskSheet({ isOpen, onClose, task }: ReworkTaskSheetProps)
         </Sheet>
     );
 }
-
