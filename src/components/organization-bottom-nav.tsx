@@ -12,6 +12,13 @@ import VendorsIcon from './icons/vendors-icon';
 import LeadsIcon from './icons/leads-icon';
 import { useUser } from '@/context/user-context';
 
+const allNavItems = [
+    { href: `/home`, icon: HomeIcon, label: "Home", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'Sales', 'superAdmin'] },
+    { href: `/meetings`, icon: MeetingsIcon, label: "Meetings", teams: ['Project Manager', 'Architect', 'Sales', 'superAdmin'] },
+    { href: `/projects`, icon: ProjectsIcon, label: "Projects", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'superAdmin'] },
+    { href: `/leads`, icon: LeadsIcon, label: "Leads", teams: ['Sales', 'superAdmin'] },
+    { href: `/vendors`, icon: VendorsIcon, label: "Vendors", teams: ['Project Manager', 'superAdmin'] },
+];
 
 export const OrganizationBottomNav = () => {
     const { user, loading } = useUser();
@@ -19,15 +26,13 @@ export const OrganizationBottomNav = () => {
     const params = useParams();
     const organizationId = params.organizationId as string;
 
-    const navItems = [
-        { href: `/organization/${organizationId}/home`, icon: HomeIcon, label: "Home" },
-        { href: `/organization/${organizationId}/meetings`, icon: MeetingsIcon, label: "Meetings" },
-        { href: `/organization/${organizationId}/projects`, icon: ProjectsIcon, label: "Projects" },
-        { href: `/organization/${organizationId}/leads`, icon: LeadsIcon, label: "Leads" },
-        { href: `/organization/${organizationId}/vendors`, icon: VendorsIcon, label: "Vendors" },
-    ];
+    const navItems = React.useMemo(() => {
+        if (!user) return [];
+        const userTeam = user.roleType === 'superAdmin' ? 'superAdmin' : user.team;
+        return allNavItems.filter(item => item.teams.includes(userTeam));
+    }, [user]);
     
-    if (loading || !user) {
+    if (loading || !user || navItems.length === 0) {
         return null;
     }
 
@@ -36,9 +41,10 @@ export const OrganizationBottomNav = () => {
              <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full border border-grey-1 backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
-                        const isActive = pathname === item.href;
+                        const fullHref = `/organization/${organizationId}${item.href}`;
+                        const isActive = pathname === fullHref;
                         return (
-                             <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
+                             <Link href={fullHref} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
                                     "lg:gap-2.5 md:py-3 rounded-full min-w-max",
