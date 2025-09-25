@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -8,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { HomeAside } from '@/components/home-aside';
-import { TaskDetailsSheet, Task } from '@/components/task-details-sheet';
+import { TaskDetailsSheet, Task, ReworkInfo } from '@/components/task-details-sheet';
 import { ChevronsUpDown, User, MessageCircle, Phone, SlidersHorizontal, Check } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import type { Meeting } from '@/components/meeting-details-sheet';
@@ -31,7 +30,7 @@ interface Stage {
     category: string;
     image: string;
     duration: string;
-    status: 'ongoing' | 'upcoming' | 'completed' | 'pending';
+    status: 'ongoing' | 'upcoming' | 'completed' | 'pending' | 'Rework';
     type: 'stage' | 'payment';
     siteImages?: string[];
     snagCount?: number;
@@ -40,6 +39,7 @@ interface Stage {
     description: string;
     priority: 'Low' | 'Medium' | 'High';
     progress?: number;
+    rework?: ReworkInfo;
 }
 const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low', progress: 100 },
@@ -169,7 +169,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
                         <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                         <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                     </div>
-                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                     <Badge variant="outline" className="ml-4 bg-white text-zinc-900">Civil</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
                      <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
@@ -207,7 +207,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                <div className="flex gap-2 w-full md:w-auto">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded w-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
@@ -268,6 +268,7 @@ export default function ProjectManagerHome() {
             clientId: selectedProject?.id || 'Unknown',
             attachments: stage.siteImages?.map(img => ({type: 'image', name: 'site-image.png', url: img})) || [],
             isProjectTask: true,
+            rework: stage.rework,
         };
         setSelectedTask(task);
         setIsSheetOpen(true);
@@ -305,6 +306,13 @@ export default function ProjectManagerHome() {
     const handleUpdateTask = (updatedTask: Task) => {
       setSelectedTask(updatedTask);
       // Here you would typically update the actual data source
+       const stageToUpdate = allStages.find(s => s.id.toString() === updatedTask.id);
+        if (stageToUpdate) {
+            stageToUpdate.status = updatedTask.status as Stage['status'];
+            if(updatedTask.rework) {
+                stageToUpdate.rework = updatedTask.rework;
+            }
+        }
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
@@ -455,3 +463,5 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
+    
