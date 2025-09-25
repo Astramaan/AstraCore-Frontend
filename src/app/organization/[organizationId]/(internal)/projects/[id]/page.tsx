@@ -181,14 +181,14 @@ export default function ProjectDetailsPage() {
 
     return (
         <div className="space-y-6">
-             <div className="flex justify-between items-center">
-                 <ProjectInfoHeader project={project} />
-            </div>
-            
             <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back
             </Button>
+            
+             <div className="flex justify-between items-center">
+                 <ProjectInfoHeader project={project} />
+            </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">
@@ -207,12 +207,6 @@ export default function ProjectDetailsPage() {
                            <TimelineDialog />
                             {canViewPayments && (
                                 <PaymentsDialog>
-                                    <Button
-                                        variant="link"
-                                        className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
-                                    >
-                                        Payments
-                                    </Button>
                                 </PaymentsDialog>
                             )}
                         </div>
@@ -253,5 +247,3 @@ export default function ProjectDetailsPage() {
         </div>
     );
 }
-
-    
