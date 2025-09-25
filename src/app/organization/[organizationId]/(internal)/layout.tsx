@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -42,10 +41,11 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const noNavPaths = ['/profile', '/teams', '/projects/'];
+  const noNavPaths = ['/profile', '/teams/', '/projects/'];
+  const isSuperAdmin = user?.roleType === 'superAdmin';
   // Super Admins should always see the nav.
   // For other users, hide it on specific paths.
-  const shouldShowNav = user?.roleType === 'superAdmin' || !noNavPaths.some(path => pathname.includes(path));
+  const shouldShowNav = isSuperAdmin || !noNavPaths.some(path => pathname.includes(path));
 
   return (
     <div className="min-h-screen bg-background">

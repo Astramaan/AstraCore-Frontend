@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -6,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { PersonalDetails } from '@/components/personal-details';
 import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import { Button } from '@/components/ui/button';
-import { LogOut, ChevronLeft, Palette } from 'lucide-react';
+import { LogOut, ChevronLeft } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { FeatureAccessCard } from '@/components/feature-access-card';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
