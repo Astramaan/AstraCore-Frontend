@@ -57,10 +57,10 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         <form action={formAction} className="flex flex-col h-full">
             <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-4">
-                    <FloatingLabelInput id="full-name" name="name" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                    <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
-                    <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={(e) => setPincode(e.target.value)} />
+                    <FloatingLabelInput id="full-name" name="name" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                    <FloatingLabelInput id="phone-number" name="phone_number" label="Phone Number" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                    <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={(e) => setPincode(e.target.value)} required />
                 </div>
             </ScrollArea>
             
