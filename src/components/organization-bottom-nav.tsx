@@ -28,8 +28,10 @@ export const OrganizationBottomNav = () => {
 
     const navItems = React.useMemo(() => {
         if (!user) return [];
-        const userTeam = user.roleType === 'superAdmin' ? 'superAdmin' : user.team;
-        return allNavItems.filter(item => item.teams.includes(userTeam));
+        if (user.roleType === 'superAdmin') {
+            return allNavItems;
+        }
+        return allNavItems.filter(item => item.teams.includes(user.team));
     }, [user]);
     
     if (loading || !user || navItems.length === 0) {
