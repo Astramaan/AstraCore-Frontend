@@ -10,7 +10,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, UploadCloud, Paperclip, Trash2, Edit } from "lucide-react";
+import { X, UploadCloud, Paperclip, Trash2, Edit, Calendar, Star, GanttChartSquare, Layers, FolderKanban } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -58,13 +58,18 @@ interface TaskDetailsSheetProps {
   onUpdateTask: (task: Task) => void;
 }
 
-const DetailRow = ({ label, value }: { label: string, value: React.ReactNode }) => (
-  <div>
-    <p className="text-lg text-stone-500 font-medium">{label}</p>
-    <div className="text-lg text-zinc-900 font-medium">
-      {value}
+const DetailRow = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: React.ReactNode }) => (
+    <div className="flex items-start gap-4">
+        <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center text-muted-foreground mt-1">
+            {icon}
+        </div>
+        <div>
+            <p className="text-base text-stone-500 font-medium">{label}</p>
+            <div className="text-base text-zinc-900 font-semibold mt-1">
+              {value}
+            </div>
+        </div>
     </div>
-  </div>
 );
 
 const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenChange: (open: boolean) => void; file: { name: string, url: string } | null }) => {
@@ -296,27 +301,20 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
       <div className="flex flex-col h-full">
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6 space-y-6">
-            <div className="space-y-8">
-              {task.isProjectTask ? (
-                <>
-                  <DetailRow label="Task" value={task.title} />
-                  <DetailRow label="Stage" value={task.subtitle || ''}/>
-                  <DetailRow label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-                  <DetailRow label="Project" value={`${task.project} (${task.clientId})`} />
-                </>
-              ) : (
-                <>
-                  <DetailRow label="Title" value={task.title} />
-                  <DetailRow label="Description" value={<p className="text-lg font-medium">{task.description}</p>} />
-                  <DetailRow label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
-                </>
-              )}
+            <h3 className="text-2xl font-semibold">{task.title}</h3>
+            <p className="text-muted-foreground">{task.description}</p>
+            <div className="space-y-6">
+              {task.isProjectTask && task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
+              {task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
               
-              <DetailRow label="Due Date" value={formatDate(task.date)} />
-              <DetailRow label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-lg py-1")}>{task.priority}</Badge>} />
+              {!task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
+              
+              <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />
+              <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
+              <DetailRow icon={<Star className="w-5 h-5"/>} label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-base py-1 px-4")}>{task.priority}</Badge>} />
               
               {task.status === 'Completed' && task.completedDate && (
-                <DetailRow label="Completed Date" value={formatDate(task.completedDate)} />
+                <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
               )}
 
               {task.attachments.length > 0 && (
@@ -389,7 +387,7 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
       <DialogOrSheetContent 
         side="bottom"
         className={cn(
-          "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+          "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none"
         )}
       >
         <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
@@ -411,5 +409,3 @@ export function TaskDetailsSheet({ isOpen, onClose, task, onUpdateTask }: TaskDe
     </DialogOrSheet>
   );
 }
-
-    
