@@ -216,6 +216,17 @@ export default function ProjectManagerHome() {
     const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'upcoming' || stage.status === 'pending'), []);
     const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
+    const projectTasksChartData = useMemo(() => {
+        if (!selectedProject) return [];
+        const ongoing = selectedProject.tasks.filter(t => t.status === 'ongoing').length;
+        const upcoming = selectedProject.tasks.filter(t => t.status === 'upcoming').length;
+        return [
+            { name: 'Ongoing', value: ongoing },
+            { name: 'Upcoming', value: upcoming },
+        ];
+    }, [selectedProject]);
+
+
     const applyFilters = (tasks: Task[]) => {
         if (activeFilter) {
             return tasks.filter(task => {
@@ -327,6 +338,7 @@ export default function ProjectManagerHome() {
               meetings={meetings}
               myTasksChartData={[]}
               assignedTasksChartData={[]}
+              projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
             />
@@ -361,4 +373,3 @@ export default function ProjectManagerHome() {
     );
 }
 
-    

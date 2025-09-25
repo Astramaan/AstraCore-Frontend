@@ -35,11 +35,12 @@ interface HomeAsideProps {
     meetings: Meeting[];
     myTasksChartData: { name: string; value: number }[];
     assignedTasksChartData: { name: string; value: number }[];
+    projectTasksChartData?: { name: string; value: number }[];
     onMeetingClick: (meeting: Meeting) => void;
     onAddTask: (task: Omit<Task, 'id' | 'attachments'>) => void;
 }
 
-export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
+export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, projectTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
     const params = useParams();
     const organizationId = params.organizationId as string;
     
@@ -83,6 +84,15 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                                 </div>
                             </CardContent>
                         </Card>
+                        {projectTasksChartData && (
+                            <Card className="rounded-[50px] relative">
+                                <CardContent className="pt-10">
+                                    <div className="relative">
+                                        <TaskOverviewChart data={projectTasksChartData} title="Project Tasks" />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )}
                     </div>
                 </div>
             </div>
