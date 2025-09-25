@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PersonalDetails } from '@/components/personal-details';
 import { ActiveSessionsCard } from '@/components/active-sessions-card';
@@ -47,14 +47,18 @@ export default function ProfilePage() {
             <PersonalDetails memberId={user?.userId || ''} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 flex flex-col gap-6">
-                   {isSuperAdmin && (
-                       <>
-                           <FeatureAccessCard />
-                           <BrandingWorkflowCard />
-                       </>
-                   )}
-                </div>
+                {isSuperAdmin ? (
+                    <>
+                        <div className="lg:col-span-2 flex flex-col gap-6">
+                            <FeatureAccessCard />
+                            <BrandingWorkflowCard />
+                        </div>
+                    </>
+                ) : (
+                    <div className="lg:col-span-2 flex">
+                        {/* Placeholder or other content for non-super-admins can go here */}
+                    </div>
+                )}
                 <div className="flex flex-col gap-6">
                     <ActiveSessionsCard />
                     <div className="flex justify-end">

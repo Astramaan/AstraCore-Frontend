@@ -41,10 +41,11 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const noNavPaths = ['/profile', '/teams/', '/projects/'];
+  const noNavPaths = ['/projects/'];
   const isSuperAdmin = user?.roleType === 'superAdmin';
   // Super Admins should always see the nav.
   // For other users, hide it on specific paths.
+  // We remove /profile and /teams from here because they should be visible for SuperAdmins
   const shouldShowNav = isSuperAdmin || !noNavPaths.some(path => pathname.includes(path));
 
   return (
