@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -41,6 +40,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [email, setEmail] = useState('');
     const [pincode, setPincode] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [pincodeError, setPincodeError] = useState('');
 
     useEffect(() => {
         if (state.success) {
@@ -70,6 +70,20 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             setEmailError('');
         }
     };
+
+    const handlePincodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Allow only numbers and limit to 6 digits
+        if (/^[0-9]*$/.test(value) && value.length <= 6) {
+            setPincode(value);
+            // Indian pincode validation (must be 6 digits)
+            if (value.length > 0 && value.length !== 6) {
+                setPincodeError('Pincode must be 6 digits.');
+            } else {
+                setPincodeError('');
+            }
+        }
+    };
     
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -78,6 +92,14 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                 variant: 'destructive',
                 title: 'Invalid Email',
                 description: 'Please enter a valid email address.',
+            });
+            return;
+        }
+        if (pincodeError) {
+            toast({
+                variant: 'destructive',
+                title: 'Invalid Pincode',
+                description: 'Pincode must be 6 digits.',
             });
             return;
         }
@@ -94,7 +116,10 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                         <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={handleEmailChange} required />
                         {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
                     </div>
-                    <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={(e) => setPincode(e.target.value)} required />
+                    <div>
+                        <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={handlePincodeChange} required />
+                        {pincodeError && <p className="text-destructive text-sm mt-1 px-4">{pincodeError}</p>}
+                    </div>
                 </div>
             </ScrollArea>
             
