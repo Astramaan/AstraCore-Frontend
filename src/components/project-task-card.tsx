@@ -70,7 +70,7 @@ export const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStage
                         <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                         <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                     </div>
-                     <Badge variant="outline" className="ml-4 bg-white text-zinc-900">Civil</Badge>
+                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
                      <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
