@@ -7,7 +7,6 @@ import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import { Button } from '@/components/ui/button';
 import { LogOut, ChevronLeft } from 'lucide-react';
 import { useUser } from '@/context/user-context';
-import { FeatureAccessCard } from '@/components/feature-access-card';
 
 export default function UserProfile() {
     const router = useRouter();
@@ -26,7 +25,7 @@ export default function UserProfile() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 flex">
-                    <FeatureAccessCard />
+                   {/* FeatureAccessCard removed from here */}
                 </div>
                 <div className="flex flex-col gap-6">
                     <ActiveSessionsCard />
