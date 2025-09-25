@@ -317,7 +317,7 @@ export default function ProjectManagerHome() {
                     </div>
                 </div>
                 <div className="mt-8">
-                    <h2 className="text-xl font-medium">Assigned Task</h2>
+                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>

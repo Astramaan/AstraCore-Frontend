@@ -131,12 +131,12 @@ export default function DefaultHomePage() {
 
                 <div className="mt-8">
                     <h2 className="text-xl font-medium">My Task</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                         {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => handleTaskClick(task)} />)}
                     </div>
                 </div>
                 <div className="mt-8">
-                    <h2 className="text-xl font-medium">Assigned Task</h2>
+                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => handleTaskClick(task)} />)}
                     </div>
