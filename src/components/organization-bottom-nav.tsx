@@ -33,7 +33,7 @@ export const OrganizationBottomNav = () => {
         if (user.roleType === 'superAdmin') {
             return allNavItems.filter(item => item.teams.includes('superAdmin'));
         }
-        return allNavItems.filter(item => item.teams.includes(user.team));
+        return allNavItems.filter(item => user.team && item.teams.includes(user.team));
     }, [user]);
     
     if (loading || !user || navItems.length === 0) {
