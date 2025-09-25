@@ -385,10 +385,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             <p className="text-sm text-grey-1">Email</p>
                             <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
                         </div>
-                        <div className="space-y-1">
-                            <p className="text-sm text-grey-1">Location</p>
-                            <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
-                        </div>
                     </>
                 )}
             
