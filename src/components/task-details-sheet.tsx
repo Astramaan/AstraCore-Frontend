@@ -293,11 +293,6 @@ const StandardTaskDetails = ({ task }: { task: Task }) => {
         }
       />
       <DetailRow
-        icon={<FolderKanban className="w-5 h-5" />}
-        label="Project"
-        value={`${task.project} (${task.clientId})`}
-      />
-      <DetailRow
         icon={<Calendar className="w-5 h-5" />}
         label="Due Date"
         value={formatDate(task.date)}
@@ -489,7 +484,7 @@ const TaskDetailsContent = ({
           <div className="p-6">
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">{task.title}</h3>
-              {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
+              <p className="text-muted-foreground">{task.description}</p>
               
               <Separator />
 
