@@ -213,15 +213,6 @@ export default function SiteSupervisorHome() {
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center w-full mb-4">
-                    <Button variant="outline" className="rounded-full bg-white h-[54px] flex-1 text-lg font-medium" onClick={() => setIsSnagListSheetOpen(true)}>
-                        Snag List
-                    </Button>
-                    <div className="w-4"></div>
-                    <AddSnagSheet isOpen={isAddSnagSheetOpen} onOpenChange={setIsAddSnagSheetOpen} selectedProjectId={selectedProjectId} />
-                </div>
-
-
                 <div className="space-y-4">
                     {selectedProject && (
                         <ProjectSection 
