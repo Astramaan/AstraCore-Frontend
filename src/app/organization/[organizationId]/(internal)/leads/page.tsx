@@ -448,7 +448,7 @@ export default function LeadsPage() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                         <Input 
                             placeholder="Search Lead" 
-                            className="pl-12 h-14 rounded-full bg-white text-lg" 
+                            className="pl-12 h-14 rounded-full bg-white text-lg text-left" 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -548,6 +548,7 @@ export default function LeadsPage() {
 }
 
     
+
 
 
 
