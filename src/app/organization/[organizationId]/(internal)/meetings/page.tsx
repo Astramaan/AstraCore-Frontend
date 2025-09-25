@@ -47,7 +47,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             <div className="flex items-start justify-between gap-4">
                 <div>
                     <p className="text-xl font-semibold text-black">{meeting.title || meeting.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -113,10 +112,6 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                   <p className="text-lg break-all">
                   <span className="text-grey-2">Contact: </span> 
                   <span className="text-black">{meeting.email} | {meeting.phone}</span>
-                  </p>
-                  <p className="text-lg">
-                    <span className="text-grey-2">Location: </span>
-                    <span className="text-black">{meeting.city}</span>
                   </p>
               </div>
 
