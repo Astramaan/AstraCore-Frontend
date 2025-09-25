@@ -66,7 +66,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                     </div>
                 )}
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent className="p-0 flex justify-center">
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-x-8">
                     {personalInfo && (
                         <>
