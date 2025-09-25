@@ -16,6 +16,9 @@ import { AddMemberSheet } from '@/components/add-member-sheet';
 
 const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: string } } = {
     "Super Admin": { icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
+    "Project Manager": { icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
+    "Site Supervisor": { icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-green-300/30" },
+    "Architect": { icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
     "Sales": { icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-yellow-400/30" },
     "Software Development": { icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
     "Design": { icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
@@ -35,6 +38,39 @@ const allRoles: Role[] = [
         members: [
             { id: '1', name: 'Balaji Naik', avatar: 'https://placehold.co/100x100', contact: 'balaji@habi.one | +91 9380032186', role: 'Super Admin', status: 'Active', lastActive: '6 hrs ago', email: 'balaji@habi.one'},
             { id: '2', name: 'Anil Kumar', avatar: 'https://placehold.co/100x100', contact: 'anil@habi.one | +91 9876543210', role: 'Super Admin', status: 'Active', lastActive: '2 hrs ago', email: 'anil@habi.one' },
+        ]
+    },
+    { 
+        name: "Project Manager", 
+        icon: <Briefcase className="w-6 h-6 text-black" />, 
+        bgColor: "bg-blue-300/30",
+        admin: "Priya", 
+        active: 1, 
+        total: 1,
+        members: [
+             { id: 'priya', name: 'Priya', avatar: 'https://placehold.co/100x100', contact: 'priya@example.com | +91 9876543210', role: 'Project Manager', status: 'Active', lastActive: '1 hr ago', email: 'priya@example.com' },
+        ]
+    },
+    { 
+        name: "Site Supervisor", 
+        icon: <Users className="w-6 h-6 text-black" />, 
+        bgColor: "bg-green-300/30",
+        admin: "Yaswanth", 
+        active: 1, 
+        total: 1,
+        members: [
+            { id: 'yaswanth', name: 'Yaswanth', avatar: 'https://placehold.co/100x100', contact: 'yaswanth@example.com | +91 9876543211', role: 'Site Supervisor', status: 'Active', lastActive: '30 mins ago', email: 'yaswanth@example.com' },
+        ]
+    },
+    { 
+        name: "Architect", 
+        icon: <Palette className="w-6 h-6 text-black" />, 
+        bgColor: "bg-purple-300/30",
+        admin: "Darshan", 
+        active: 1, 
+        total: 1,
+        members: [
+            { id: 'darshan', name: 'Darshan', avatar: 'https://placehold.co/100x100', contact: 'darshan@example.com | +91 9876543212', role: 'Architect', status: 'Active', lastActive: '2 hrs ago', email: 'darshan@example.com' },
         ]
     },
     { 
@@ -194,15 +230,15 @@ export default function TeamsPageContent() {
                 rolesToShow = rolesToShow.filter(role => role.name !== "Super Admin");
             }
 
-            if (userRole === 'Project Manager') {
+            if (user?.team === 'Project Manager') {
                 rolesToShow = rolesToShow.filter(role => 
-                    ["Software Development", "Design", "Support & Feedback"].includes(role.name)
+                    ["Software Development", "Design", "Support & Feedback", "Site Supervisor", "Architect"].includes(role.name)
                 );
             }
             setRoles(rolesToShow);
             setIsLoading(false);
         }, 100); // reduced delay
-    }, [userRole, user]);
+    }, [user, userRole]);
 
     const filteredRoles = useMemo(() => {
         if (!searchTerm) return roles;
@@ -268,6 +304,3 @@ export default function TeamsPageContent() {
         </div>
     );
 }
-
-
-
