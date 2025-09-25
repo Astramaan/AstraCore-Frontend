@@ -42,7 +42,12 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const shouldShowNav = isSuperAdmin || !pathname.startsWith(`/organization/${user.organizationId}/profile`);
+  const shouldShowNav = isSuperAdmin || (
+    !pathname.includes('/projects/') && // Hides on specific project detail pages
+    !pathname.includes('/teams/') && // Hides on specific team member detail pages
+    !pathname.includes('/profile') // Hides on the profile page
+  );
+
 
   return (
     <div className="min-h-screen bg-background">

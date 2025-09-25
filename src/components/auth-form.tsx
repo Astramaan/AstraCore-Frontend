@@ -25,12 +25,18 @@ export default function AuthForm() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // This effect handles redirection after the user state has been updated.
     if (!loading && user) {
-        const targetPath = user.team === 'New User'
-          ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
-          : user.roleType === 'client'
-          ? `/organization/${user.organizationId}/client/${user.userId}/home`
-          : `/organization/${user.organizationId}/home`;
+        let targetPath;
+        if (user.roleType === 'superAdmin') {
+            targetPath = '/platform/dashboard';
+        } else if (user.team === 'New User') {
+            targetPath = `/organization/${user.organizationId}/client/new/${user.userId}/home`;
+        } else if (user.roleType === 'client') {
+            targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
+        } else {
+            targetPath = `/organization/${user.organizationId}/home`;
+        }
         router.push(targetPath);
     }
   }, [user, loading, router]);
@@ -50,21 +56,8 @@ export default function AuthForm() {
         const data = await res.json();
 
         if (res.ok && data.success && data.user) {
+            // Set user, which will trigger the useEffect for redirection
             setUser(data.user);
-            const organizationId = data.user.organizationId;
-            if (organizationId) {
-                const targetPath = data.user.team === 'New User' 
-                  ? `/organization/${organizationId}/client/new/${data.user.userId}/home`
-                  : data.user.roleType === 'client'
-                  ? `/organization/${organizationId}/client/${user.userId}/home`
-                  : `/organization/${organizationId}/home`;
-                router.push(targetPath);
-            } else {
-                 toast({
-                    variant: "destructive",
-                    description: "Could not determine organization. Please contact support.",
-                });
-            }
         } else {
            toast({
             variant: "destructive",
@@ -138,8 +131,8 @@ export default function AuthForm() {
         </div>
         <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
             <div className="mb-4">
-                 <Button type="submit" className="w-full h-[54px] rounded-full" disabled={isSubmitting}>
-                    {isSubmitting ? "Logging in..." : "Login"}
+                 <Button type="submit" className="w-full h-[54px] rounded-full" disabled={isSubmitting || loading}>
+                    {isSubmitting || loading ? "Logging in..." : "Login"}
                 </Button>
             </div>
             
