@@ -545,7 +545,7 @@ const TaskDetailsContent = ({
           <div className="p-6">
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">{task.title}</h3>
-              <p className="text-muted-foreground">{task.description}</p>
+              {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
               
               <Separator />
 
