@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -145,50 +146,37 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const { text: statusText, color: statusColor } = useMemo(() => {
-        switch (stage.status) {
-            case 'completed':
-                return { text: 'Completed', color: 'bg-green-100 text-green-700' };
-            case 'ongoing':
-                return { text: 'On Going', color: 'bg-blue-100 text-blue-700' };
-            case 'upcoming':
-            case 'pending':
-            default:
-                return { text: 'Yet to Begin', color: 'bg-gray-100 text-gray-600' };
-        }
-    }, [stage.status]);
-
+    const priorityColors: { [key: string]: string } = {
+        "Low": "bg-cyan-500/10 text-cyan-500",
+        "Medium": "bg-yellow-500/10 text-yellow-500",
+        "High": "bg-red-500/10 text-red-500",
+    }
     const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
     const dateColor = getDateColor(stage.createdAt);
 
     return (
-        <Card className="rounded-[24px] p-4 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => onStageClick(stage)}>
-            <div className="flex items-center gap-4">
-                <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                            <span className="text-white text-sm font-semibold">{stage.category}</span>
-                        </div>
-                    </div>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
+            <div>
+                <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                    <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
                 </div>
-                <div className="flex-1 space-y-1 w-full text-left">
-                    <div className="flex justify-between items-start">
-                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <Badge className={cn('capitalize whitespace-nowrap', statusColor)}>{statusText}</Badge>
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.description}</p>
+            </div>
+            <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                    <div className="flex -space-x-2">
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                     </div>
-                    <p className="text-sm">{stage.subtitle}</p>
-                    <div className="pt-2">
-                        <Progress value={stage.progress || 0} className="h-2" />
-                        <div className="flex justify-between items-center mt-2">
-                            <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
-                            <span className={cn("text-xs font-medium", dateColor)}>{formattedDate}</span>
-                        </div>
-                    </div>
+                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                </div>
+                <div className="text-right flex items-center gap-2">
+                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
                 </div>
             </div>
         </Card>
-    );
+    )
 };
 
 const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
@@ -205,7 +193,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 <p className="font-semibold">{project.siteSupervisor}</p>
               </div>
               <div className="flex gap-2 w-full md:w-auto">
-                <Button variant="outline" className="rounded-full flex-1 md:flex-initial" size="icon"><MessageCircle className="h-4 w-4"/></Button>
+                <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.siteSupervisorPhone}`} className="flex-1 md:flex-initial">
                   <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
@@ -217,9 +205,9 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 <p className="font-semibold">{project.architect}</p>
               </div>
                <div className="flex gap-2 w-full md:w-auto">
-                 <Button variant="outline" className="rounded-full flex-1 md:flex-initial" size="icon"><MessageCircle className="h-4 w-4"/></Button>
+                 <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
@@ -449,3 +437,5 @@ export default function ProjectManagerHome() {
     );
 }
 
+
+    
