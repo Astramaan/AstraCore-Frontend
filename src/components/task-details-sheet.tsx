@@ -10,7 +10,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, UploadCloud, Paperclip, Trash2, Edit, Calendar, Star, GanttChartSquare, Layers, FolderKanban } from "lucide-react";
+import { X, UploadCloud, Paperclip, Trash2, Edit, Calendar, Star, GanttChartSquare, Layers, FolderKanban, CheckCircle2 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -302,7 +302,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6 space-y-6">
             <h3 className="text-2xl font-semibold">{task.title}</h3>
-            <p className="text-muted-foreground">{task.description}</p>
+            {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
             <div className="space-y-6">
               {task.isProjectTask && task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
               {task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
