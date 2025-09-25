@@ -15,8 +15,10 @@ const Sheet = ({ onOpenChange, ...props }: SheetPrimitive.DialogProps) => {
             document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
             document.body.setAttribute('data-scroll-locked', 'true');
         } else {
-            document.body.removeAttribute('data-scroll-locked');
-            document.body.style.removeProperty('--scrollbar-width');
+            setTimeout(() => {
+                document.body.removeAttribute('data-scroll-locked');
+                document.body.style.removeProperty('--scrollbar-width');
+            }, 300);
         }
         onOpenChange?.(open);
     };

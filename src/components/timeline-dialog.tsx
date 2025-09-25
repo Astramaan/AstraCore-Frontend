@@ -67,15 +67,7 @@ const TeamMemberCard = ({ member }: { member: typeof projectTeam[0] }) => (
 
 
 export const TimelineDialog = () => {
-    const isMobile = useIsMobile();
     const { user } = useUser();
-
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
 
     const visibleTeamMembers = projectTeam.filter(member => {
         if (user?.team === 'Project Manager') {
@@ -85,27 +77,31 @@ export const TimelineDialog = () => {
     });
 
   return (
-    <DialogOrSheet>
-      <DialogOrSheetTrigger asChild>
+    <Sheet>
+      <SheetTrigger asChild>
         <Button
             variant="link"
             className={cn("text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white", "hover:no-underline")}
         >
             Timeline
         </Button>
-      </DialogOrSheetTrigger>
-      <DialogOrSheetContent className={cn(
-          "p-0 flex flex-col bg-white",
-          isMobile ? "w-full h-full" : "max-w-xl h-[90vh] rounded-[50px]"
-      )}>
-        <DialogOrSheetHeader className="p-4 border-b flex-row items-center">
-            <DialogOrSheetTitle className="text-2xl font-semibold">Project Timeline</DialogOrSheetTitle>
-             <DialogOrSheetClose asChild>
+      </SheetTrigger>
+      <SheetContent 
+        side="bottom"
+        className={cn(
+            "p-0 flex flex-col bg-white transition-all m-0 border-none",
+            "w-full h-full md:h-[90vh] md:w-full md:max-w-xl md:mx-auto md:bottom-0 rounded-t-[50px]"
+        )}
+        overlayClassName="bg-black/20 backdrop-blur-sm"
+      >
+        <SheetHeader className="p-4 border-b flex-row items-center">
+            <SheetTitle className="text-2xl font-semibold">Project Timeline</SheetTitle>
+             <SheetClose asChild>
                 <Button variant="ghost" size="icon" className="ml-auto rounded-full bg-background w-[54px] h-[54px]">
                     <X className="h-5 w-5" />
                 </Button>
-            </DialogOrSheetClose>
-        </DialogOrSheetHeader>
+            </SheetClose>
+        </SheetHeader>
          <ScrollArea className="flex-1">
             <div className="p-6 space-y-6">
                 {(user?.roleType === 'superAdmin' || user?.team === 'Project Manager') && (
@@ -121,7 +117,7 @@ export const TimelineDialog = () => {
                 <ProjectTimelineStages />
             </div>
         </ScrollArea>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 };
