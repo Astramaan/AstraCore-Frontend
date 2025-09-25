@@ -10,7 +10,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, UploadCloud, Paperclip, Trash2, Edit, Calendar, Star, GanttChartSquare, Layers, FolderKanban, CheckCircle2 } from "lucide-react";
+import { X, UploadCloud, Paperclip, Trash2, Edit, Calendar, Star, GanttChartSquare, Layers, FolderKanban, CheckCircle2, Send } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ShieldAlert } from 'lucide-react';
 import { useToast } from './ui/use-toast';
+import { Textarea } from './ui/textarea';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Separator } from './ui/separator';
 
 
 export interface Task {
@@ -50,6 +53,19 @@ export interface Task {
   subtitle?: string;
   isAssigned?: boolean;
 }
+
+interface Comment {
+    id: string;
+    author: string;
+    avatar: string;
+    text: string;
+    timestamp: string;
+}
+
+const mockComments: Comment[] = [
+    { id: '1', author: 'Anil Kumar', avatar: 'https://placehold.co/40x40', text: 'This looks great, but can we change the color scheme?', timestamp: '2 hours ago' },
+    { id: '2', author: 'Yaswanth', avatar: 'https://placehold.co/40x40', text: 'Sure, I will provide new options by EOD.', timestamp: '1 hour ago' },
+];
 
 interface TaskDetailsSheetProps {
   isOpen: boolean;
@@ -197,7 +213,7 @@ const ProjectTaskDetails = ({ task }: { task: Task }) => {
     };
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
+            <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle || ''} />
             <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
             <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />
             <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
@@ -223,6 +239,67 @@ const StandardTaskDetails = ({ task }: { task: Task }) => {
             {task.status === 'Completed' && task.completedDate && (
               <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
             )}
+        </div>
+    )
+}
+
+const CommentSection = ({ task }: { task: Task }) => {
+    const { user } = useUser();
+    const [newComment, setNewComment] = useState('');
+    const [comments, setComments] = useState<Comment[]>(mockComments);
+
+    const handleCommentSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newComment.trim() && user) {
+            const comment: Comment = {
+                id: Date.now().toString(),
+                author: user.name,
+                avatar: 'https://placehold.co/40x40',
+                text: newComment,
+                timestamp: 'Just now'
+            };
+            setComments(prev => [...prev, comment]);
+            setNewComment('');
+        }
+    };
+
+    return (
+        <div className="pt-6">
+            <h4 className="text-lg font-medium mb-4">Comments</h4>
+            <div className="space-y-4">
+                {comments.map(comment => (
+                    <div key={comment.id} className="flex items-start gap-3">
+                        <Avatar>
+                            <AvatarImage src={comment.avatar} alt={comment.author} />
+                            <AvatarFallback>{comment.author.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 bg-background p-3 rounded-lg">
+                            <div className="flex justify-between items-center">
+                                <p className="font-semibold text-sm">{comment.author}</p>
+                                <p className="text-xs text-muted-foreground">{comment.timestamp}</p>
+                            </div>
+                            <p className="text-sm mt-1">{comment.text}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <form onSubmit={handleCommentSubmit} className="mt-6 flex items-start gap-3">
+                <Avatar>
+                    <AvatarImage src="https://placehold.co/40x40" alt={user?.name} />
+                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="relative flex-1">
+                    <Textarea 
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Add a comment..."
+                        className="pr-12 rounded-lg"
+                    />
+                    <Button type="submit" size="icon" className="absolute right-2 bottom-2 h-8 w-8 rounded-full" disabled={!newComment.trim()}>
+                        <Send className="h-4 w-4" />
+                    </Button>
+                </div>
+            </form>
         </div>
     )
 }
@@ -334,27 +411,31 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
     <>
       <div className="flex flex-col h-full">
         <ScrollArea className="flex-1 no-scrollbar">
-          <div className="p-6 space-y-6">
-            <h3 className="text-2xl font-semibold">{task.title}</h3>
-            {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
-            
-            {task.isProjectTask ? <ProjectTaskDetails task={task} /> : <StandardTaskDetails task={task} />}
+          <div className="p-6">
+            <div className="space-y-6">
+              <h3 className="text-2xl font-semibold">{task.title}</h3>
+              {task.description && !task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
+              
+              {task.isProjectTask ? <ProjectTaskDetails task={task} /> : <StandardTaskDetails task={task} />}
 
-              {task.attachments.length > 0 && (
-                <div className="pt-6">
-                  <p className="text-lg text-stone-500 mb-4">Attachment</p>
-                  <div className="flex gap-4 flex-wrap">
-                    {task.attachments.map((file, index) => (
-                      <button onClick={() => setSelectedAttachment(file)} key={index} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
-                        {file.type === 'pdf' ? <PdfIcon className="w-10 h-10" /> : <Image src={file.url} alt={file.name} width={65} height={65} className="rounded" />}
-                      </button>
-                    ))}
+                {task.attachments.length > 0 && (
+                  <div className="pt-6">
+                    <p className="text-lg text-stone-500 mb-4">Attachment</p>
+                    <div className="flex gap-4 flex-wrap">
+                      {task.attachments.map((file, index) => (
+                        <button onClick={() => setSelectedAttachment(file)} key={index} className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center">
+                          {file.type === 'pdf' ? <PdfIcon className="w-10 h-10" /> : <Image src={file.url} alt={file.name} width={65} height={65} className="rounded" />}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+            </div>
+            <Separator className="my-6"/>
+            <CommentSection task={task} />
           </div>
         </ScrollArea>
-        <div className="p-6 mt-auto border-t md:border-0">
+        <div className="p-6 mt-auto border-t md:border-0 shrink-0">
             {renderCtas()}
         </div>
       </div>
