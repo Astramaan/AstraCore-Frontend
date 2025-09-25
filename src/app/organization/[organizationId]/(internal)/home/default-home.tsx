@@ -143,8 +143,8 @@ export default function DefaultHomePage() {
             </main>
             <HomeAside
               meetings={meetings}
-              myTasksChartData={[{ name: 'In-Progress', value: 3 }, { name: 'To-do', value: 1 }]}
-              assignedTasksChartData={[{ name: 'In-Progress', value: 1 }, { name: 'To-do', value: 1 }]}
+              myTasksChartData={[{ name: 'In-Progress', value: 3 }, { name: 'Pending', value: 1 }]}
+              assignedTasksChartData={[{ name: 'In-Progress', value: 1 }, { name: 'Pending', value: 1 }]}
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
             />
