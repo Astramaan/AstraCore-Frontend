@@ -126,7 +126,7 @@ export default function ProjectDetailsPage() {
         const fetchProject = async () => {
             const projectDetails = await getProjectDetails(id);
             if (projectDetails) {
-                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProjectDetails.personalInfo, name: projectDetails.name || mockProjectDetails.personalInfo.name } };
+                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: projectDetails.name || mockProject.personalInfo.name } };
                 setProject(displayProject as any);
             }
         };
@@ -204,21 +204,18 @@ export default function ProjectDetailsPage() {
                      <div className="flex flex-col gap-2 bg-zinc-100 p-1 rounded-full">
                         <div className="flex flex-1 gap-2">
                            <TimelineDialog />
-                            <PaymentsDialog>
-                               {canViewPayments ? (
+                            {canViewPayments && (
+                                <PaymentsDialog>
                                     <Button
                                         variant="link"
                                         className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
                                     >
                                         Payments
                                     </Button>
-                                ) : (
-                                    <DesignDocumentsDialog files={project.files} />
-                                )}
-                            </PaymentsDialog>
+                                </PaymentsDialog>
+                            )}
                         </div>
-                        {canViewPayments && <DesignDocumentsDialog files={project.files} />}
-                        
+                        <DesignDocumentsDialog files={project.files} />
                     </div>
                      <ProjectMaterialsCard materials={project.materials} />
                 </div>
