@@ -17,7 +17,7 @@ interface DetailFieldProps {
 }
 
 const DetailField = ({ label, value, fullWidth = false }: DetailFieldProps) => (
-    <div className={cn("space-y-1", fullWidth ? 'md:col-span-2' : '')}>
+    <div className={cn("space-y-1", fullWidth ? 'col-span-2' : '')}>
         <Label className="text-sm md:text-base font-medium text-grey-1">{label}</Label>
         <div className="text-black text-base md:text-lg leading-tight truncate">{value}</div>
     </div>
@@ -68,26 +68,32 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                 )}
             </CardHeader>
             <CardContent className="p-0">
-                {personalInfo && (
-                    <>
-                        <h4 className="text-lg font-medium text-stone-500 mb-4">Personal details</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-6">
-                            <DetailField label="Name" value={personalInfo.name} />
-                            <DetailField label="Client ID" value={personalInfo.clientId} />
-                            <DetailField label="Phone" value={personalInfo.phone} />
-                            <DetailField label="Email" value={personalInfo.email} />
-                            <DetailField label="Address" value={personalInfo.address} fullWidth />
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-x-8">
+                    {personalInfo && (
+                        <>
+                            <div className="space-y-6">
+                                <h4 className="text-lg font-medium text-stone-500 mb-4">Personal details</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                                    <DetailField label="Name" value={personalInfo.name} />
+                                    <DetailField label="Client ID" value={personalInfo.clientId} />
+                                    <DetailField label="Phone" value={personalInfo.phone} />
+                                    <DetailField label="Email" value={personalInfo.email} />
+                                    <DetailField label="Address" value={personalInfo.address} fullWidth />
+                                </div>
+                            </div>
+                            <Separator orientation="vertical" className="hidden lg:block"/>
+                        </>
+                    )}
+                     <div className="space-y-6">
+                        <h4 className="text-lg font-medium text-stone-500 mb-4">Project details</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                          <DetailField label="Project cost" value={projectInfo.cost} />
+                          <DetailField label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
+                          <DetailField label="Site Dimension" value={projectInfo.dimension} />
+                          <DetailField label="Floors" value={projectInfo.floors} />
+                          <DetailField label="Status" value={projectInfo.status} />
                         </div>
-                        <Separator className="my-6" />
-                    </>
-                )}
-                <h4 className="text-lg font-medium text-stone-500 mb-4">Project details</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                  <DetailField label="Project cost" value={projectInfo.cost} />
-                  <DetailField label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
-                  <DetailField label="Site Dimension" value={projectInfo.dimension} />
-                  <DetailField label="Floors" value={projectInfo.floors} />
-                  <DetailField label="Status" value={projectInfo.status} />
+                    </div>
                 </div>
             </CardContent>
         </Card>
