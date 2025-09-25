@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -243,9 +242,9 @@ export default function ArchitectHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                 <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
+                 <div className="flex flex-row justify-between items-center gap-4">
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
-                     <div className="w-full md:w-64">
+                     <div className="w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
                                 <SelectValue placeholder="Select a Project" />
