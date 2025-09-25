@@ -343,14 +343,6 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                 />
             </DialogOrSheetContent>
             <BrandingSheet isOpen={isBrandingSheetOpen} onOpenChange={setIsBrandingSheetOpen} />
-             {isOwner && (
-                <div className="flex justify-end mt-6">
-                    <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive">
-                        <LogOut className="mr-2 h-5 w-5" />
-                        Logout
-                    </Button>
-                </div>
-            )}
         </DialogOrSheet>
     );
 }
