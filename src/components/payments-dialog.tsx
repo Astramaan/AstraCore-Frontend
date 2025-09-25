@@ -57,24 +57,6 @@ const PaymentsTimeline = () => {
     return <ProjectTimelineStages stages={paymentStages} />;
 }
 
-const PaymentCard = () => (
-    <Card className="rounded-full">
-        <CardContent className="p-4">
-            <div className="flex items-center justify-between gap-4">
-                 <div>
-                    <p className="text-black text-sm font-normal">Payment</p>
-                    <p className="text-grey-1 text-xs">Due on 05 June</p>
-                </div>
-                <div className="flex gap-1">
-                    {[...Array(7)].map((_, i) => (
-                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
-                    ))}
-                </div>
-            </div>
-        </CardContent>
-    </Card>
-);
-
 export const PaymentsDialog = ({ children }: { children?: React.ReactNode }) => {
     const isMobile = useIsMobile();
     const { user } = useUser();
@@ -90,9 +72,12 @@ export const PaymentsDialog = ({ children }: { children?: React.ReactNode }) => 
         <DialogOrSheet>
           <DialogOrSheetTrigger asChild>
             {children || (
-              <div className="cursor-pointer">
-                <PaymentCard />
-              </div>
+              <Button
+                  variant="link"
+                  className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
+              >
+                  Payments
+              </Button>
             )}
           </DialogOrSheetTrigger>
           <DialogOrSheetContent className={cn(
