@@ -303,7 +303,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
           <div className="p-6 space-y-6">
             <h3 className="text-2xl font-semibold">{task.title}</h3>
             {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {task.isProjectTask && task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
               {task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
               
@@ -316,9 +316,10 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
               {task.status === 'Completed' && task.completedDate && (
                 <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
               )}
+            </div>
 
               {task.attachments.length > 0 && (
-                <div>
+                <div className="pt-6">
                   <p className="text-lg text-stone-500 mb-4">Attachment</p>
                   <div className="flex gap-4 flex-wrap">
                     {task.attachments.map((file, index) => (
@@ -329,7 +330,6 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
                   </div>
                 </div>
               )}
-            </div>
           </div>
         </ScrollArea>
         <div className="p-6 mt-auto border-t md:border-0">
