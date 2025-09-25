@@ -24,6 +24,7 @@ export const OrganizationHeader = () => {
     
     const userName = user?.name || 'User';
     const userTeam = user?.team || 'Team';
+    const userRoleType = user?.roleType ? ` - ${user.roleType.charAt(0).toUpperCase() + user.roleType.slice(1)}` : '';
 
     let pageTitle = '';
 
@@ -87,7 +88,7 @@ export const OrganizationHeader = () => {
                         </Avatar>
                         <div className="hidden lg:block">
                             <p className="text-base lg:text-lg font-medium">{userName}</p>
-                            <p className="text-sm lg:text-base text-grey-2">{userTeam}</p>
+                            <p className="text-sm lg:text-base text-grey-2">{userTeam}{userRoleType}</p>
                         </div>
                     </Link>
                 </>
@@ -115,7 +116,7 @@ export const OrganizationHeader = () => {
                                     </Avatar>
                                     <div>
                                         <p className="text-base font-medium">{userName}</p>
-                                        <p className="text-sm text-grey-2">{userTeam}</p>
+                                        <p className="text-sm text-grey-2">{userTeam}{userRoleType}</p>
                                     </div>
                                 </Link>
                                 <Separator />
