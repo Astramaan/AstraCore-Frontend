@@ -19,7 +19,6 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
       if (!user) {
         router.replace('/');
       } else if (user.roleType === 'client' || user.team === 'New User') {
-        // Redirect non-internal users away from this layout
         const targetPath = user.team === 'New User' 
           ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
           : `/organization/${user.organizationId}/client/${user.userId}/home`;
@@ -29,7 +28,6 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   }, [user, loading, router]);
   
   if (loading || !user || user.roleType === 'client' || user.team === 'New User') {
-     // This can be a loading spinner or null while redirecting
     return (
        <div className="min-h-screen bg-background p-4 md:p-8">
             <header className="max-w-[1440px] mx-auto mb-6">
@@ -42,11 +40,10 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const shouldShowNav = isSuperAdmin || (
-    !pathname.includes('/projects/') && // Hides on specific project detail pages
-    !pathname.includes('/teams/') && // Hides on specific team member detail pages
-    !pathname.includes('/profile') // Hides on the profile page
-  );
+  const isDetailPage = pathname.includes('/projects/') || pathname.includes('/teams/');
+  const isProfilePage = pathname.includes('/profile');
+  
+  const shouldShowNav = isSuperAdmin ? true : !isDetailPage && !isProfilePage;
 
 
   return (
