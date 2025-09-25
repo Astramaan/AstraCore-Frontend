@@ -5,7 +5,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { PlusCircle, MoreVertical, ShieldAlert } from "lucide-react";
+import { PlusCircle, MoreVertical, ShieldAlert, Search } from "lucide-react";
 import React, { useState, useEffect } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { AvatarWithProgress } from "@/components/avatar-with-progress";
 import { useParams } from 'next/navigation';
 import { useUser } from "@/context/user-context";
+import { Input } from "@/components/ui/input";
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string }) => (
     <div className="flex flex-col group">
@@ -174,21 +175,25 @@ export default function ProjectsPage() {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string || 'habi123';
-    const [activeProjects, setActiveProjects] = useState<Project[]>([]);
-    const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
+    const [allProjects, setAllProjects] = useState<Project[]>([]);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const { toast } = useToast();
 
     useEffect(() => {
         const fetchProjects = async () => {
             const projects = await getProjects();
-            setActiveProjects(projects.filter(p => p.status !== 'Completed'));
-            setCompletedProjects(projects.filter(p => p.status === 'Completed'));
+            setAllProjects(projects);
         };
         fetchProjects();
     }, []);
+
+    const filteredProjects = allProjects.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const activeProjects = filteredProjects.filter(p => p.status !== 'Completed');
+    const completedProjects = filteredProjects.filter(p => p.status === 'Completed');
 
     const handleEdit = (project: Project) => {
         setProjectToEdit(project);
@@ -203,8 +208,7 @@ export default function ProjectsPage() {
         if (projectToDelete) {
             const result = await deleteProject(projectToDelete.id);
             if (result.success) {
-                setActiveProjects(prev => prev.filter(p => p.id !== projectToDelete.id));
-                setCompletedProjects(prev => prev.filter(p => p.id !== projectToDelete.id));
+                setAllProjects(prev => prev.filter(p => p.id !== projectToDelete.id));
                 toast({
                     title: 'Success',
                     description: result.message,
@@ -224,30 +228,11 @@ export default function ProjectsPage() {
 
     const handleProjectAdded = (newProject: Project) => {
         // This is a simplified handler. You might want to refetch or update state more intelligently
-        if (newProject.status === 'Completed') {
-            setCompletedProjects(prev => [...prev, newProject]);
-        } else {
-            setActiveProjects(prev => [...prev, newProject]);
-        }
+        setAllProjects(prev => [...prev, newProject]);
     };
 
     const handleProjectUpdated = (updatedProject: Project) => {
-        const updateList = (list: Project[]) => list.map(p => p.id === updatedProject.id ? updatedProject : p);
-        
-        const wasActive = activeProjects.some(p => p.id === updatedProject.id);
-        const isCompleted = updatedProject.status === 'Completed';
-
-        if (wasActive && isCompleted) {
-            setActiveProjects(prev => prev.filter(p => p.id !== updatedProject.id));
-            setCompletedProjects(prev => [...prev, updatedProject].sort((a,b) => a.name.localeCompare(b.name)));
-        } else if (!wasActive && !isCompleted) {
-            setCompletedProjects(prev => prev.filter(p => p.id !== updatedProject.id));
-            setActiveProjects(prev => [...prev, updatedProject].sort((a,b) => a.name.localeCompare(b.name)));
-        } else if (wasActive && !isCompleted) {
-            setActiveProjects(updateList);
-        } else { // !wasActive && isCompleted
-            setCompletedProjects(updateList);
-        }
+        setAllProjects(prev => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
     };
 
     const canCreateProject = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
@@ -256,16 +241,27 @@ export default function ProjectsPage() {
         <div className="space-y-8">
             
             <div>
-                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl text-black font-medium">Active Projects</h2>
-                    {canCreateProject && (
-                        <CreateProjectSheet 
-                            onProjectAdded={handleProjectAdded} 
-                            projectToEdit={projectToEdit}
-                            onProjectUpdated={handleProjectUpdated}
-                            onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
-                        />
-                    )}
+                 <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                    <h2 className="text-xl text-black font-medium self-start md:self-center">Active Projects</h2>
+                    <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="relative flex-1">
+                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                            <Input 
+                                placeholder="Search Projects"
+                                className="pl-12 h-14 rounded-full bg-white text-lg"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        {canCreateProject && (
+                            <CreateProjectSheet 
+                                onProjectAdded={handleProjectAdded} 
+                                projectToEdit={projectToEdit}
+                                onProjectUpdated={handleProjectUpdated}
+                                onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
+                            />
+                        )}
+                    </div>
                 </div>
                 <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 lg:p-6">
