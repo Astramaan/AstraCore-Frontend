@@ -234,72 +234,12 @@ const StandardTaskDetails = ({ task }: { task: Task }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
              <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
+             <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />
              <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
              <DetailRow icon={<Star className="w-5 h-5"/>} label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-base py-1 px-4")}>{task.priority}</Badge>} />
             {task.status === 'Completed' && task.completedDate && (
               <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
             )}
-        </div>
-    )
-}
-
-const CommentSection = ({ task }: { task: Task }) => {
-    const { user } = useUser();
-    const [newComment, setNewComment] = useState('');
-    const [comments, setComments] = useState<Comment[]>(mockComments);
-
-    const handleCommentSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (newComment.trim() && user) {
-            const comment: Comment = {
-                id: Date.now().toString(),
-                author: user.name,
-                avatar: 'https://placehold.co/40x40',
-                text: newComment,
-                timestamp: 'Just now'
-            };
-            setComments(prev => [...prev, comment]);
-            setNewComment('');
-        }
-    };
-
-    return (
-        <div className="pt-6">
-            <h4 className="text-lg font-medium mb-4">Comments</h4>
-            <div className="space-y-4">
-                {comments.map(comment => (
-                    <div key={comment.id} className="flex items-start gap-3">
-                        <Avatar>
-                            <AvatarImage src={comment.avatar} alt={comment.author} />
-                            <AvatarFallback>{comment.author.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 bg-background p-3 rounded-lg">
-                            <div className="flex justify-between items-center">
-                                <p className="font-semibold text-sm">{comment.author}</p>
-                                <p className="text-xs text-muted-foreground">{comment.timestamp}</p>
-                            </div>
-                            <p className="text-sm mt-1">{comment.text}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <form onSubmit={handleCommentSubmit} className="mt-6 flex items-start gap-3">
-                <Avatar>
-                    <AvatarImage src="https://placehold.co/40x40" alt={user?.name} />
-                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="relative flex-1">
-                    <Textarea 
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Add a comment..."
-                        className="pr-12 rounded-lg"
-                    />
-                    <Button type="submit" size="icon" className="absolute right-2 bottom-2 h-8 w-8 rounded-full" disabled={!newComment.trim()}>
-                        <Send className="h-4 w-4" />
-                    </Button>
-                </div>
-            </form>
         </div>
     )
 }
@@ -414,7 +354,6 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
           <div className="p-6">
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">{task.title}</h3>
-              {task.description && !task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
               
               {task.isProjectTask ? <ProjectTaskDetails task={task} /> : <StandardTaskDetails task={task} />}
 
@@ -431,8 +370,6 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
                   </div>
                 )}
             </div>
-            <Separator className="my-6"/>
-            <CommentSection task={task} />
           </div>
         </ScrollArea>
         <div className="p-6 mt-auto border-t md:border-0 shrink-0">
