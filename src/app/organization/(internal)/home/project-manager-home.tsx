@@ -143,27 +143,11 @@ const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void }) => {
 
 
 const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
-    const priority = stage.priority;
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
         "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
-    };
-    
-    const { text: statusText, color: statusColor } = useMemo(() => {
-        switch (stage.status) {
-            case 'completed':
-                return { text: 'Completed', color: 'bg-green-100 text-green-700' };
-            case 'ongoing':
-                return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
-            case 'upcoming':
-            case 'pending':
-            default:
-                return { text: 'Upcoming', color: 'bg-yellow-100 text-yellow-600' };
-        }
-    }, [stage.status]);
-
-    const needsApproval = stage.status === 'ongoing';
+    }
     const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
     const dateColor = getDateColor(stage.createdAt);
 
@@ -172,22 +156,24 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    {needsApproval && (
-                         <Badge className={cn("capitalize", priorityColors[priority])}>{priority}</Badge>
-                    )}
+                    <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
                 </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
-                 <div className="flex justify-between items-center mt-2">
-                    <Badge className={cn("capitalize", statusColor)}>{statusText}</Badge>
-                    {needsApproval && <Badge className="bg-orange-100 text-orange-600 ml-auto">Awaiting Approval</Badge>}
-                </div>
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.description}</p>
             </div>
-            <div className="flex justify-between items-center mt-auto">
-                 <Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
-                <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
+            <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                    <div className="flex -space-x-2">
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                    </div>
+                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                </div>
+                <div className="text-right flex items-center gap-2">
+                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
+                </div>
             </div>
         </Card>
-    );
+    )
 };
 
 const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
@@ -204,9 +190,9 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 <p className="font-semibold">{project.siteSupervisor}</p>
               </div>
               <div className="flex gap-2 w-full md:w-auto">
-                <Button variant="outline" className="rounded-full flex-1 md:flex-initial"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
+                <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.siteSupervisorPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
+                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
@@ -216,9 +202,9 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 <p className="font-semibold">{project.architect}</p>
               </div>
                <div className="flex gap-2 w-full md:w-auto">
-                 <Button variant="outline" className="rounded-full flex-1 md:flex-initial"><MessageCircle className="h-4 w-4 mr-2"/>Chat</Button>
+                 <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full"><Phone className="h-4 w-4 mr-2"/>Call</Button>
+                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
