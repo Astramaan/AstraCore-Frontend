@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -92,9 +91,6 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     return (
         <>
             <Card className="rounded-[50px] border-0">
-                 <CardHeader className="p-10 pb-4">
-                    <CardTitle className="text-xl font-medium">Design & Documents</CardTitle>
-                </CardHeader>
                 <CardContent className="p-10 pt-0">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                         {allFiles.map((file, index) => (
