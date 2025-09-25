@@ -71,7 +71,7 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
     const dateColor = getDateColor(stage.createdAt);
 
     return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onClick(stage)}>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-background" onClick={() => onClick(stage)}>
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
