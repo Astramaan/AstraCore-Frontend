@@ -181,14 +181,14 @@ export default function ProjectDetailsPage() {
 
     return (
         <div className="space-y-6">
-            <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                Back
-            </Button>
-            
-             <div className="flex justify-between items-center">
-                 <ProjectInfoHeader project={project} />
+            <div className="flex justify-between items-center">
+                 <h2 className="text-2xl font-medium">Project Details</h2>
+                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
+                    <ChevronLeft className="mr-2 h-4 w-4" />
+                    Back
+                </Button>
             </div>
+             <ProjectInfoHeader project={project} />
 
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">
