@@ -302,8 +302,9 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6 space-y-6">
             <h3 className="text-2xl font-semibold">{task.title}</h3>
-            {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
+            { !task.isProjectTask && <p className="text-muted-foreground">{task.description}</p> }
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
               {task.isProjectTask && task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
               {task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
               
