@@ -55,6 +55,7 @@ import { useToast } from './ui/use-toast';
 import { Textarea } from './ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Separator } from './ui/separator';
+import { ProjectTaskDetails } from './project-task-details';
 
 export interface ReworkInfo {
     comments: string;
@@ -269,63 +270,6 @@ const formatDate = (dateString: string) => {
   } catch (e) {
     return dateString;
   }
-};
-
-const ProjectTaskDetails = ({ task }: { task: Task }) => {
-  const priorityColors: { [key: string]: string } = {
-    Low: 'bg-cyan-500/10 text-cyan-500',
-    Medium: 'bg-yellow-500/10 text-yellow-500',
-    High: 'bg-red-500/10 text-red-500',
-  };
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <DetailRow
-        icon={<Layers className="w-5 h-5" />}
-        label="Stage"
-        value={task.subtitle || ''}
-      />
-      <DetailRow
-        icon={<GanttChartSquare className="w-5 h-5" />}
-        label="Phase"
-        value={
-          <Badge
-            variant="outline"
-            className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base"
-          >
-            {task.category}
-          </Badge>
-        }
-      />
-      <DetailRow
-        icon={<FolderKanban className="w-5 h-5" />}
-        label="Project"
-        value={`${task.project} (${task.clientId})`}
-      />
-      <DetailRow
-        icon={<Calendar className="w-5 h-5" />}
-        label="Due Date"
-        value={formatDate(task.date)}
-      />
-      <DetailRow
-        icon={<Star className="w-5 h-5" />}
-        label="Priority"
-        value={
-          <Badge
-            className={cn(priorityColors[task.priority], 'text-base py-1 px-4')}
-          >
-            {task.priority}
-          </Badge>
-        }
-      />
-      {task.status === 'Completed' && task.completedDate && (
-        <DetailRow
-          icon={<CheckCircle2 className="w-5 h-5" />}
-          label="Completed Date"
-          value={formatDate(task.completedDate)}
-        />
-      )}
-    </div>
-  );
 };
 
 const StandardTaskDetails = ({ task }: { task: Task }) => {
@@ -545,7 +489,6 @@ const TaskDetailsContent = ({
           <div className="p-6">
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">{task.title}</h3>
-              {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
               
               <Separator />
 
