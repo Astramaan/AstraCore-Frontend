@@ -91,8 +91,8 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
     return (
         <>
             <Card className="rounded-[50px] border-0">
-                <CardContent className="p-10 pt-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                <CardContent className="p-0">
+                    <div className="grid grid-cols-1 gap-x-8">
                         {allFiles.map((file, index) => (
                              <FileItem key={file.id} file={file} index={index} onFileClick={handleFileClick} />
                         ))}
