@@ -155,7 +155,7 @@ const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: 
     const dateColor = getDateColor(stage.createdAt);
 
     return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onStageClick(stage)}>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onStageClick(stage)}>
             <div>
                 <div className="flex justify-between items-start">
                     <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
@@ -187,7 +187,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-[50px] px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-white rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -199,7 +199,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-[50px] py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-white rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -247,6 +247,7 @@ export default function ProjectManagerHome() {
     const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
+    const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -275,7 +276,25 @@ export default function ProjectManagerHome() {
     const handleSheetClose = () => {
         setIsSheetOpen(false);
         setSelectedTask(null);
+        if (sourceSheet === 'upcoming') {
+            setIsUpcomingTasksSheetOpen(true);
+        } else if (sourceSheet === 'completed') {
+            setIsCompletedTasksSheetOpen(true);
+        }
+        setSourceSheet(null);
     };
+
+    const handleUpcomingTaskClick = (stage: Stage) => {
+        setIsUpcomingTasksSheetOpen(false);
+        setSourceSheet('upcoming');
+        handleStageClick(stage);
+    }
+    
+    const handleCompletedTaskClick = (stage: Stage) => {
+        setIsCompletedTasksSheetOpen(false);
+        setSourceSheet('completed');
+        handleStageClick(stage);
+    }
 
     const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
@@ -425,17 +444,14 @@ export default function ProjectManagerHome() {
                 isOpen={isUpcomingTasksSheetOpen}
                 onClose={() => setIsUpcomingTasksSheetOpen(false)}
                 tasks={upcomingTasks}
-                onTaskClick={handleStageClick}
+                onTaskClick={handleUpcomingTaskClick}
             />
             <ViewCompletedTasksSheet
                 isOpen={isCompletedTasksSheetOpen}
                 onClose={() => setIsCompletedTasksSheetOpen(false)}
                 tasks={completedTasks}
-                onTaskClick={handleStageClick}
+                onTaskClick={handleCompletedTaskClick}
             />
         </div>
     );
 }
-
-
-    
