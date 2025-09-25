@@ -414,13 +414,15 @@ export default function ProjectManagerHome() {
                             ))}
                         </div>
                         <h2 className="text-xl font-medium text-left pt-4">My Task</h2>
+                        <p className="text-muted-foreground mb-4">Tasks that are assigned to you.</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                         {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
                 <div className="mt-8">
-                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                    <h2 className="text-xl font-medium">Assigned Task</h2>
+                    <p className="text-muted-foreground mb-4">Tasks that you have assigned to others.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
@@ -463,5 +465,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-    
