@@ -13,6 +13,7 @@ import { ViewVendorsSheet, type Material } from '@/components/view-vendors-sheet
 import StarIcon from '@/components/icons/star-icon';
 import { cn } from '@/lib/utils';
 import { useParams } from 'next/navigation';
+import { useUser } from '@/context/user-context';
 
 const vendorsData = [
     {
@@ -189,11 +190,14 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
 export default function VendorsPage() {
     const params = useParams();
     const organizationId = params.organizationId as string;
+    const { user } = useUser();
     const [allVendors, setAllVendors] = useState(vendorsData);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
     const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
     const [showFavorites, setShowFavorites] = useState(false);
+
+    const canAddVendor = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
 
     const materialsWithVendors = useMemo(() => {
         const filteredVendors = allVendors.filter(vendor => {
@@ -275,7 +279,7 @@ export default function VendorsPage() {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <AddVendorSheet />
+                    {canAddVendor && <AddVendorSheet />}
                 </div>
             </div>
             
@@ -297,5 +301,7 @@ export default function VendorsPage() {
         </div>
     );
 }
+
+    
 
     
