@@ -1,10 +1,10 @@
-
 'use client';
 
 import React from 'react';
 import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import UserProfile from './user-profile';
+import SuperAdminProfile from './super-admin-profile';
 
 export default function ProfilePage() {
     const { user, loading } = useUser();
@@ -27,5 +27,9 @@ export default function ProfilePage() {
         );
     }
     
+    if (user.roleType === 'superAdmin') {
+        return <SuperAdminProfile />;
+    }
+
     return <UserProfile />;
 }
