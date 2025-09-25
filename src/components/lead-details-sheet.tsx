@@ -160,7 +160,7 @@ const LeadDetailsContent = ({ lead: initialLead, onClose, onDelete, startInEditM
                     <div className="space-y-6">
                         <h4 className="text-lg font-medium">Personal Information</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <DetailField label="Name" name="fullName" value={lead.fullName} isEditing={isEditing} onChange={handleInputChange} />
+                            <DetailField label="Full Name" name="fullName" value={lead.fullName} isEditing={isEditing} onChange={handleInputChange} />
 
                             <div className="space-y-2">
                                  <Label className="text-lg font-medium px-2 text-grey-1">Lead ID</Label>
