@@ -19,7 +19,7 @@ interface DetailFieldProps {
 const DetailField = ({ label, value, fullWidth = false }: DetailFieldProps) => (
     <div className={cn("space-y-1", fullWidth ? 'col-span-2' : '')}>
         <Label className="text-sm md:text-base font-medium text-grey-1">{label}</Label>
-        <div className="text-black text-base md:text-lg leading-tight truncate">{value}</div>
+        <div className={cn("text-black text-base md:text-lg leading-tight", !fullWidth && "truncate")}>{value}</div>
     </div>
 );
 
