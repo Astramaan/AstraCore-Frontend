@@ -18,6 +18,8 @@ import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 
 interface Stage {
     id: number;
@@ -36,6 +38,27 @@ interface Stage {
     priority: 'Low' | 'Medium' | 'High';
 }
 
+const getDateColor = (dateString: string) => {
+    const dueDate = new Date(dateString);
+    const today = new Date();
+    
+    dueDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = dueDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) { // Past due
+        return 'text-red-500';
+    } else if (diffDays === 0) {
+        return 'text-red-500'; // Today
+    } else if (diffDays === 1) {
+        return 'text-orange-500'; // Tomorrow
+    } else {
+        return 'text-muted-foreground'; // Default
+    }
+};
+
 const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
     const priority = stage.priority;
     const priorityColors: { [key: string]: string } = {
@@ -43,51 +66,34 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
         "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
     };
-    
-    const { text: statusText, color: statusColor } = useMemo(() => {
-        switch (stage.status) {
-            case 'completed':
-                return { text: 'Completed', color: 'bg-green-100 text-green-700' };
-            case 'ongoing':
-                return { text: 'In Progress', color: 'bg-blue-100 text-blue-600' };
-            case 'upcoming':
-            case 'pending':
-            default:
-                return { text: 'Yet To Begin', color: 'bg-yellow-100 text-yellow-600' };
-        }
-    }, [stage.status]);
 
     const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
+    const dateColor = getDateColor(stage.createdAt);
 
     return (
-       <Card className="rounded-[24px] p-4 bg-background hover:shadow-md transition-shadow cursor-pointer" onClick={() => onClick(stage)}>
-            <div className="flex items-center gap-4">
-                <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                        <span className="text-white text-sm font-semibold">{stage.category}</span>
-                        </div>
-                    </div>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onClick(stage)}>
+            <div>
+                <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                    <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
                 </div>
-                <div className="flex-1 space-y-1 w-full">
-                    <div className="flex justify-between items-start">
-                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <Badge className={cn('capitalize', statusColor)}>{statusText}</Badge>
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.description}</p>
+            </div>
+            <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                    <div className="flex -space-x-2">
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                     </div>
-                    <p className="text-sm">{stage.subtitle}</p>
-                    <div className="pt-2">
-                        <Progress value={0} className="h-2" />
-                        <div className="flex justify-between items-center mt-2">
-                            <span className="text-black text-xs font-normal">0%</span>
-                            <span className="text-grey-1 text-xs">{formattedDate}</span>
-                        </div>
-                    </div>
+                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                </div>
+                <div className="text-right flex items-center gap-2">
+                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
                 </div>
             </div>
         </Card>
-    )
-}
+    );
+};
 
 interface ViewUpcomingTasksSheetProps {
   isOpen: boolean;
