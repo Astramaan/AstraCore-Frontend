@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -62,7 +63,6 @@ const PaymentsTimeline = () => {
 }
 
 export const PaymentsDialog = ({ children }: { children?: React.ReactNode }) => {
-    const isMobile = useIsMobile();
     const { user } = useUser();
 
     const DialogOrSheet = Sheet;
