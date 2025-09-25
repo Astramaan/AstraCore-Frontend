@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/app/actions";
-import { ShieldAlert, Eye } from 'lucide-react';
+import { ShieldAlert, Eye, ChevronLeft } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { useUser } from '@/context/user-context';
@@ -126,7 +126,7 @@ export default function ProjectDetailsPage() {
         const fetchProject = async () => {
             const projectDetails = await getProjectDetails(id);
             if (projectDetails) {
-                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: projectDetails.name || mockProject.personalInfo.name } };
+                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProjectDetails.personalInfo, name: projectDetails.name || mockProjectDetails.personalInfo.name } };
                 setProject(displayProject as any);
             }
         };
@@ -181,7 +181,13 @@ export default function ProjectDetailsPage() {
 
     return (
         <div className="space-y-6">
-            <ProjectInfoHeader project={project} />
+             <div className="flex justify-between items-center">
+                 <ProjectInfoHeader project={project} />
+                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
+                    <ChevronLeft className="mr-2 h-4 w-4" />
+                    Back
+                </Button>
+            </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">

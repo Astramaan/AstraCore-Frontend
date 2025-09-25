@@ -16,7 +16,7 @@ interface ProjectInfoHeaderProps {
 
 export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
     return (
-        <div className="relative h-36 rounded-[50px] overflow-hidden p-10 flex items-center justify-between">
+        <div className="relative h-36 rounded-[50px] overflow-hidden p-10 flex items-center justify-between flex-1">
             <Image src={project.coverImage} layout="fill" objectFit="cover" alt={`${project.name} cover`} data-ai-hint="abstract background" className="z-0"/>
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10"></div>
             <div className="relative z-20 flex items-center gap-4">
