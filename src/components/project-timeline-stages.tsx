@@ -90,7 +90,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
         <>
             <Collapsible>
                  <Card className={cn(
-                    "rounded-[24px] p-4 bg-white transition-shadow", 
+                    "rounded-[24px] p-4 bg-background transition-shadow", 
                     className,
                     hasAttachments ? "cursor-pointer hover:shadow-md" : ""
                 )}>
@@ -116,7 +116,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
                                     </div>
                                     <p className="text-sm">{stage.subtitle}</p>
                                     <div className="pt-2">
-                                        <Progress value={stage.progress || 0} className="h-2" />
+                                        <Progress value={stage.progress || 0} className="h-2 [&>div]:bg-white" />
                                         <div className="flex justify-between items-center mt-2">
                                             <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
                                             <span className="text-grey-1 text-xs">{new Date(stage.createdAt).toLocaleDateString()}</span>
