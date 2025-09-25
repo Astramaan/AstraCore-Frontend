@@ -69,6 +69,15 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                         <h2 className="text-xl font-medium">Overview</h2>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
+                        {projectTasksChartData && (
+                            <Card className="rounded-[50px] relative">
+                                <CardContent className="pt-10">
+                                    <div className="relative">
+                                        <TaskOverviewChart data={projectTasksChartData} title="Project Tasks" />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )}
                         <Card className="rounded-[50px] relative">
                             <CardContent className="pt-10">
                                 <div className="relative">
@@ -84,15 +93,6 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                                 </div>
                             </CardContent>
                         </Card>
-                        {projectTasksChartData && (
-                            <Card className="rounded-[50px] relative">
-                                <CardContent className="pt-10">
-                                    <div className="relative">
-                                        <TaskOverviewChart data={projectTasksChartData} title="Project Tasks" />
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        )}
                     </div>
                 </div>
             </div>
