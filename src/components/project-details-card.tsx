@@ -51,8 +51,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
 
     return (
         <Card className="rounded-[50px] p-10">
-            <CardHeader className="p-0 flex flex-row items-center justify-between mb-6">
-                 <CardTitle className="text-xl font-medium">Project Information</CardTitle>
+            <CardHeader className="p-0 flex flex-row items-center justify-end mb-6">
                 {canManage && (
                     <div onClick={(e) => e.stopPropagation()}>
                         <DropdownMenu>
