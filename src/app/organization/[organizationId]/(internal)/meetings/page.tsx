@@ -47,7 +47,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             <div className="flex items-start justify-between gap-4">
                 <div>
                     <p className="text-xl font-semibold text-black">{meeting.title || meeting.name}</p>
-                    <p className="text-lg"><span className="text-grey-2">Location: </span><span className="text-black">{meeting.city}</span></p>
+                    <p className="text-lg"><span className="text-grey-2">Type or mode: </span><span className="text-black">{meeting.city === 'Remote' ? 'Online' : 'Office Visit'}</span></p>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -101,7 +101,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               <div className="flex flex-col justify-center">
                   <p className="text-xl font-semibold text-black break-words">{meeting.title || meeting.name}</p>
                   <p className="text-lg">
-                    <span className="text-zinc-900">{meeting.name} ({meeting.id})</span>
+                    <span className="text-black">{meeting.name} ({meeting.id})</span>
                   </p>
               </div>
 
@@ -115,8 +115,8 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                   <span className="text-black">{meeting.email} | {meeting.phone}</span>
                   </p>
                   <p className="text-lg">
-                  <span className="text-grey-2">Location: </span> 
-                  <span className="text-black">{meeting.city}</span>
+                    <span className="text-grey-2">Type or mode: </span>
+                    <span className="text-black">{meeting.city === 'Remote' ? 'Online' : 'Office Visit'}</span>
                   </p>
               </div>
 

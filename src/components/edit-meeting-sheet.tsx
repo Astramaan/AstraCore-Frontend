@@ -275,16 +275,12 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                             <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-sm text-grey-1">City</p>
-                            <p className="text-lg font-medium text-zinc-900">{city || '-'}</p>
+                            <p className="text-sm text-grey-1">Phone</p>
+                            <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-grey-1">Email</p>
                             <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm text-grey-1">Phone</p>
-                            <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
                         </div>
                     </>
                 )}
@@ -334,5 +330,3 @@ export function EditMeetingSheet({ isOpen, onClose, meeting, onMeetingUpdated }:
     </Sheet>
   );
 }
-
-
