@@ -310,7 +310,7 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
               
               {!task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
               
-              <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />
+              {!task.isProjectTask && <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />}
               <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
               <DetailRow icon={<Star className="w-5 h-5"/>} label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-base py-1 px-4")}>{task.priority}</Badge>} />
               
