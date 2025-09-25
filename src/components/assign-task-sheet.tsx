@@ -127,10 +127,10 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                     </Popover>
                 </div>
                  <div className="space-y-2">
-                    <Label htmlFor="type" className={cn("text-lg font-medium", category ? 'text-grey-1' : 'text-zinc-900')}>Type</Label>
+                    <Label htmlFor="category" className={cn("text-lg font-medium", category ? 'text-grey-1' : 'text-zinc-900')}>Category</Label>
                     <Select onValueChange={setCategory}>
-                        <SelectTrigger id="type" className="h-14 bg-background rounded-full">
-                            <SelectValue placeholder="Select type" />
+                        <SelectTrigger id="category" className="h-14 bg-background rounded-full">
+                            <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Meetings">Meetings</SelectItem>
