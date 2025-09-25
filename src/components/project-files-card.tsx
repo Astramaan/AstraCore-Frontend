@@ -61,9 +61,9 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
 };
 
 const FileItem = ({ file, index, onFileClick }: { file: File, index: number, onFileClick: (file: File) => void }) => (
-    <div className="break-inside-avoid">
+    <div>
         <div className="flex items-center gap-4 py-4 cursor-pointer" onClick={() => onFileClick(file)}>
-            <p className="text-sm">{index + 1}.</p>
+            <p className="text-sm min-w-[24px]">{index + 1}.</p>
             <PdfIcon className="w-6 h-6 shrink-0" />
             <div className="flex-1">
                 <p className="text-base text-black font-medium">{file.name}</p>
@@ -96,7 +96,7 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
                     <CardTitle className="text-xl font-medium">Design & Documents</CardTitle>
                 </CardHeader>
                 <CardContent className="p-10 pt-0">
-                    <div className="md:columns-2 md:gap-x-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                         {allFiles.map((file, index) => (
                              <FileItem key={file.id} file={file} index={index} onFileClick={handleFileClick} />
                         ))}
