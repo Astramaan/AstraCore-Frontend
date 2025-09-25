@@ -14,10 +14,10 @@ import { useUser } from '@/context/user-context';
 
 const allNavItems = [
     { href: `/home`, icon: HomeIcon, label: "Home", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'Sales', 'superAdmin'] },
-    { href: `/meetings`, icon: MeetingsIcon, label: "Meetings", teams: ['Project Manager', 'Architect', 'Sales', 'superAdmin'] },
+    { href: `/meetings`, icon: MeetingsIcon, label: "Meetings", teams: ['Project Manager', 'Architect', 'Sales', 'superAdmin', 'Site Supervisor'] },
     { href: `/projects`, icon: ProjectsIcon, label: "Projects", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'superAdmin'] },
     { href: `/leads`, icon: LeadsIcon, label: "Leads", teams: ['Sales', 'superAdmin'] },
-    { href: `/vendors`, icon: VendorsIcon, label: "Vendors", teams: ['Project Manager', 'superAdmin'] },
+    { href: `/vendors`, icon: VendorsIcon, label: "Vendors", teams: ['Project Manager', 'superAdmin', 'Site Supervisor'] },
 ];
 
 export const OrganizationBottomNav = () => {
