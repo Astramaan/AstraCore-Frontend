@@ -18,7 +18,7 @@ import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
-import { Avatar, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 
 interface Stage {
@@ -84,7 +84,7 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
                         <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                         <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                     </div>
-                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                     <Badge variant="outline" className="ml-4 bg-white border-transparent text-zinc-900">{stage.category}</Badge>
                 </div>
                 <div className="text-right flex items-center gap-2">
                      <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
@@ -115,7 +115,6 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
   
   const handleTaskClickAndClose = (task: Stage) => {
     onTaskClick(task);
-    onClose();
   }
 
   return (
@@ -146,8 +145,8 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
         <ScrollArea className="flex-1">
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
-                 filteredTasks.map((task) => (
-                    <CompletedTaskCard key={task.id} stage={task} onClick={handleTaskClickAndClose} />
+                 filteredTasks.map((task, index) => (
+                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} />
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
