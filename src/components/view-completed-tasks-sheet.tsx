@@ -11,18 +11,14 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X, ImageIcon } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from './ui/dialog';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
-import PdfIcon from './icons/pdf-icon';
-import { Separator } from './ui/separator';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Avatar, AvatarImage } from './ui/avatar';
 
 
 interface Stage {
@@ -41,155 +37,61 @@ interface Stage {
     description: string;
     priority: 'Low' | 'Medium' | 'High';
     progress?: number;
-    approvalDate?: string;
-    documents?: { name: string; url: string }[];
 }
 
-const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenChange: (open: boolean) => void; file: { name: string, url: string } | null }) => {
-    if (!file) return null;
-    const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
-
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
-                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
-                    <DialogTitle>{file.name}</DialogTitle>
-                    <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
-                            <X className="h-5 w-5" />
-                        </Button>
-                    </DialogClose>
-                </DialogHeader>
-                <div className="flex-1">
-                    <iframe src={dummyPdfUrl} className="w-full h-full" title={file.name} />
-                </div>
-            </DialogContent>
-        </Dialog>
-    );
-};
-
-const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
-                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
-                    <DialogTitle>{title}</DialogTitle>
-                    <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="rounded-full">
-                            <X className="h-4 w-4" />
-                        </Button>
-                    </DialogClose>
-                </DialogHeader>
-                <div className="flex-1 p-6 flex items-center justify-center">
-                    <Carousel
-                        opts={{
-                            startIndex: startIndex,
-                            loop: true,
-                        }}
-                        className="w-full max-w-lg"
-                    >
-                        <CarouselContent>
-                            {images.map((src, index) => (
-                                <CarouselItem key={index}>
-                                    <div className="relative aspect-video">
-                                        <Image src={src} layout="fill" objectFit="contain" alt={`${title} image ${index + 1}`} className="rounded-[10px]" />
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
-                </div>
-            </DialogContent>
-        </Dialog>
-    );
-};
-
-const CompletedTaskCard = ({ stage, className }: { stage: Stage, className?: string }) => {
-    const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
-    const [pdfPreview, setPdfPreview] = useState<{ open: boolean; file: { name: string; url: string; } | null; }>({ open: false, file: null });
-    const [imagePreview, setImagePreview] = useState<{ open: boolean; images: string[], startIndex: number, title: string }>({ open: false, images: [], startIndex: 0, title: '' });
-
-    const handleImageClick = (e: React.MouseEvent, images: string[] | undefined, index: number, title: string) => {
-        e.stopPropagation();
-        if (!images) return;
-        setImagePreview({ open: true, images: images, startIndex: index, title });
-    }
+const getDateColor = (dateString: string) => {
+    const dueDate = new Date(dateString);
+    const today = new Date();
     
-     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
-        e.stopPropagation();
-        setPdfPreview({ open: true, file: doc });
-    };
+    dueDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = dueDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) { // Past due
+        return 'text-red-500';
+    } else if (diffDays === 0) {
+        return 'text-red-500'; // Today
+    } else if (diffDays === 1) {
+        return 'text-orange-500'; // Tomorrow
+    } else {
+        return 'text-muted-foreground'; // Default
+    }
+};
+
+const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
+    const priorityColors: { [key: string]: string } = {
+        "Low": "bg-cyan-500/10 text-cyan-500",
+        "Medium": "bg-yellow-500/10 text-yellow-500",
+        "High": "bg-red-500/10 text-red-500",
+    }
+    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
+    const dateColor = getDateColor(stage.createdAt);
 
     return (
-        <>
-        <Collapsible>
-            <Card className={cn("rounded-[24px] p-4 hover:shadow-md transition-shadow bg-background", className)}>
-                <CollapsibleTrigger className="w-full" disabled={!hasAttachments}>
-                    <div className={cn("w-full", hasAttachments && "cursor-pointer")}>
-                        <div className="flex items-center gap-4">
-                            <div className="relative w-24 h-24 shrink-0">
-                                <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                                    <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                                    <span className="text-white text-sm font-semibold">{stage.category}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex-1 space-y-1 w-full text-left">
-                                <div className="flex justify-between items-start">
-                                    <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                                    <Badge className="capitalize bg-green-100 text-green-700">Completed</Badge>
-                                </div>
-                                <p className="text-sm">{stage.subtitle}</p>
-                                <div className="pt-2">
-                                    <Progress value={stage.progress || 100} className="h-2" />
-                                    <div className="flex justify-between items-center mt-2">
-                                        <span className="text-black text-xs font-normal">{stage.progress || 100}%</span>
-                                        <span className="text-grey-1 text-xs">{new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onClick(stage)}>
+            <div>
+                <div className="flex justify-between items-start">
+                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
+                    <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
+                </div>
+                <p className="text-base text-zinc-900 mt-2 truncate">{stage.description}</p>
+            </div>
+            <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                    <div className="flex -space-x-2">
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
                     </div>
-                </CollapsibleTrigger>
-                
-                <CollapsibleContent>
-                    <div className="mt-4 space-y-2">
-                        <Separator />
-                        {stage.approvalDate && <p className="text-sm text-muted-foreground pt-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
-                        
-                        {stage.siteImages && stage.siteImages.length > 0 && (
-                            <div className="grid grid-cols-4 gap-2 pt-2">
-                                {stage.siteImages.map((img, index) => (
-                                     <div key={index} className="relative w-full aspect-square cursor-pointer" onClick={(e) => handleImageClick(e, stage.siteImages, index, stage.title)}>
-                                        <Image src={img} layout="fill" objectFit="cover" alt={`Site image ${index + 1}`} className="rounded-[10px]" data-ai-hint="construction site photo" />
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {stage.documents && stage.documents.length > 0 && (
-                            <div className="pt-2 space-y-2">
-                                {stage.documents.map((doc, index) => (
-                                    <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted">
-                                        <PdfIcon className="w-6 h-6 shrink-0"/>
-                                        <div className="flex-1">
-                                            <p className="text-base text-black font-medium">{doc.name}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </CollapsibleContent>
-            </Card>
-        </Collapsible>
-            <PdfPreviewDialog open={pdfPreview.open} onOpenChange={(open) => setPdfPreview({ ...pdfPreview, open })} file={pdfPreview.file} />
-            <ImagePreviewDialog open={imagePreview.open} onOpenChange={(open) => setImagePreview({ ...imagePreview, open })} {...imagePreview} />
-        </>
-    );
+                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{stage.category}</Badge>
+                </div>
+                <div className="text-right flex items-center gap-2">
+                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
+                </div>
+            </div>
+        </Card>
+    )
 };
 
 interface ViewCompletedTasksSheetProps {
@@ -244,8 +146,8 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
         <ScrollArea className="flex-1">
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
              {filteredTasks.length > 0 ? (
-                 filteredTasks.map((task, index) => (
-                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} />
+                 filteredTasks.map((task) => (
+                    <CompletedTaskCard key={task.id} stage={task} onClick={handleTaskClickAndClose} />
                 ))
              ) : (
                 <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
@@ -256,5 +158,3 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
     </Sheet>
   );
 }
-
-    
