@@ -178,14 +178,58 @@ const UploadAttachmentsDialog = ({ isOpen, onClose, onUpload }: { isOpen: boolea
     )
 }
 
+const formatDate = (dateString: string) => {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    } catch (e) {
+        return dateString;
+    }
+};
+
+const ProjectTaskDetails = ({ task }: { task: Task }) => {
+    const priorityColors: { [key: string]: string } = {
+        "Low": "bg-cyan-500/10 text-cyan-500",
+        "Medium": "bg-yellow-500/10 text-yellow-500",
+        "High": "bg-red-500/10 text-red-500",
+    };
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
+            <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
+            <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />
+            <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
+            <DetailRow icon={<Star className="w-5 h-5"/>} label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-base py-1 px-4")}>{task.priority}</Badge>} />
+            {task.status === 'Completed' && task.completedDate && (
+              <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
+            )}
+        </div>
+    )
+}
+
+const StandardTaskDetails = ({ task }: { task: Task }) => {
+     const priorityColors: { [key: string]: string } = {
+        "Low": "bg-cyan-500/10 text-cyan-500",
+        "Medium": "bg-yellow-500/10 text-yellow-500",
+        "High": "bg-red-500/10 text-red-500",
+    };
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />
+             <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
+             <DetailRow icon={<Star className="w-5 h-5"/>} label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-base py-1 px-4")}>{task.priority}</Badge>} />
+            {task.status === 'Completed' && task.completedDate && (
+              <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
+            )}
+        </div>
+    )
+}
+
 const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpdateTask: (task: Task) => void; onClose: () => void; }) => {
   const { user } = useUser();
   const { toast } = useToast();
-  const priorityColors: { [key: string]: string } = {
-    "Low": "bg-cyan-500/10 text-cyan-500",
-    "Medium": "bg-yellow-500/10 text-yellow-500",
-    "High": "bg-red-500/10 text-red-500",
-  };
   
   const [selectedAttachment, setSelectedAttachment] = useState<Task['attachments'][0] | null>(null);
   const [isReworkSheetOpen, setIsReworkSheetOpen] = useState(false);
@@ -232,16 +276,6 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
   const isProjectManager = user?.team === 'Project Manager';
   const isArchitect = user?.team === 'Architect';
   
-  const formatDate = (dateString: string) => {
-    if (!dateString) return 'N/A';
-    try {
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) return dateString;
-        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-    } catch (e) {
-        return dateString;
-    }
-  };
   
   const renderCtas = () => {
     const canStartTask = !task.isAssigned && task.status !== 'In Progress' && task.status !== 'Completed' && task.status !== 'ongoing' && !isProjectManager;
@@ -302,23 +336,9 @@ const TaskDetailsContent = ({ task, onUpdateTask, onClose }: { task: Task, onUpd
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6 space-y-6">
             <h3 className="text-2xl font-semibold">{task.title}</h3>
-            { !task.isProjectTask && <p className="text-muted-foreground">{task.description}</p> }
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {task.isProjectTask && task.subtitle && <DetailRow icon={<Layers className="w-5 h-5"/>} label="Stage" value={task.subtitle} />}
-              {task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Phase" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
-              
-              {!task.isProjectTask && <DetailRow icon={<GanttChartSquare className="w-5 h-5"/>} label="Category" value={<Badge variant="outline" className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base">{task.category}</Badge>} />}
-              
-              {task.isProjectTask && <DetailRow icon={<FolderKanban className="w-5 h-5"/>} label="Project" value={`${task.project} (${task.clientId})`} />}
-
-              <DetailRow icon={<Calendar className="w-5 h-5"/>} label="Due Date" value={formatDate(task.date)} />
-              <DetailRow icon={<Star className="w-5 h-5"/>} label="Priority" value={<Badge className={cn(priorityColors[task.priority], "text-base py-1 px-4")}>{task.priority}</Badge>} />
-              
-              {task.status === 'Completed' && task.completedDate && (
-                <DetailRow icon={<CheckCircle2 className="w-5 h-5"/>} label="Completed Date" value={formatDate(task.completedDate)} />
-              )}
-            </div>
+            {!task.isProjectTask && <p className="text-muted-foreground">{task.description}</p>}
+            
+            {task.isProjectTask ? <ProjectTaskDetails task={task} /> : <StandardTaskDetails task={task} />}
 
               {task.attachments.length > 0 && (
                 <div className="pt-6">
