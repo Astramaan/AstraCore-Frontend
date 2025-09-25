@@ -158,7 +158,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
                                     {stage.siteImages && stage.siteImages.length > 0 && (
                                         <div className="grid grid-cols-4 gap-2">
                                             {stage.siteImages?.map((img, index) => (
-                                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
                                             ))}
                                         </div>
                                     )}
