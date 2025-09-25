@@ -29,8 +29,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useUser } from '@/context/user-context';
 
 const allStages: CustomStage[] = [
-    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'completed', type: 'stage' },
-    { id: 2, title: "1% Of Over all Quote", subtitle: 'Payment Due', category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'completed', type: 'payment' },
+    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: new Date().toISOString(), description: 'Design presentation details', priority: 'Low' },
+    { id: 2, title: "1% Of Over all Quote", subtitle: 'Payment Due', category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'completed', type: 'payment', createdBy: 'Anil Kumar', createdAt: new Date().toISOString(), description: 'Payment details', priority: 'High' },
     { 
         id: 4, 
         title: 'Excavation', 
@@ -45,10 +45,14 @@ const allStages: CustomStage[] = [
             "https://placehold.co/150x150.png",
             "https://placehold.co/150x150.png",
             "https://placehold.co/150x150.png",
-        ]
+        ],
+        createdBy: 'Yaswanth',
+        createdAt: new Date().toISOString(),
+        description: 'Excavation details',
+        priority: 'High'
     },
-    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage' },
-    { id: 6, title: "20% Payment", subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment' },
+    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://placehold.co/100x100.png', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: new Date().toISOString(), description: 'Grid marking details', priority: 'Medium' },
+    { id: 6, title: "20% Payment", subtitle: "Milestone Payment", category: 'Finance', image: 'https://placehold.co/100x100.png', duration: '-', status: 'pending', type: 'payment', createdBy: 'System', createdAt: new Date().toISOString(), description: '20% milestone payment', priority: 'High' },
 ];
 
 const PaymentsTimeline = () => {
@@ -61,29 +65,26 @@ export const PaymentsDialog = ({ children }: { children?: React.ReactNode }) => 
     const isMobile = useIsMobile();
     const { user } = useUser();
 
-    const DialogOrSheet = isMobile ? Sheet : Dialog;
-    const DialogOrSheetTrigger = isMobile ? SheetTrigger : DialogTrigger;
-    const DialogOrSheetContent = isMobile ? SheetContent : DialogContent;
-    const DialogOrSheetHeader = isMobile ? SheetHeader : DialogHeader;
-    const DialogOrSheetTitle = isMobile ? SheetTitle : DialogTitle;
-    const DialogOrSheetClose = isMobile ? SheetClose : DialogClose;
+    const DialogOrSheet = Sheet;
+    const DialogOrSheetTrigger = SheetTrigger;
+    const DialogOrSheetContent = SheetContent;
+    const DialogOrSheetHeader = SheetHeader;
+    const DialogOrSheetTitle = SheetTitle;
+    const DialogOrSheetClose = SheetClose;
 
     return (
         <DialogOrSheet>
           <DialogOrSheetTrigger asChild>
-            {children || (
-              <Button
-                  variant="link"
-                  className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
-              >
-                  Payments
-              </Button>
-            )}
+            {children}
           </DialogOrSheetTrigger>
-          <DialogOrSheetContent className={cn(
-              "p-0 flex flex-col bg-white",
-              isMobile ? "w-full h-full" : "max-w-xl h-[90vh] rounded-[50px]"
-          )}>
+          <DialogOrSheetContent
+            side="bottom"
+            className={cn(
+                "p-0 flex flex-col bg-white transition-all m-0 border-none",
+                "w-full h-full md:h-[90vh] md:w-full md:max-w-xl md:mx-auto md:bottom-0 rounded-t-[50px]"
+            )}
+            overlayClassName="bg-black/20 backdrop-blur-sm"
+          >
             <DialogOrSheetHeader className="p-4 border-b flex-row items-center">
                 <DialogOrSheetTitle className="text-2xl font-semibold">Payments</DialogOrSheetTitle>
                  <DialogOrSheetClose asChild>
