@@ -30,7 +30,7 @@ import { useParams } from 'next/navigation';
 import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
 
-const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string }) => (
+const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId, canManage }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string, canManage: boolean }) => (
     <div className="flex flex-col group">
         {/* Mobile & Tablet View */}
         <div className="lg:hidden p-6 md:p-10 gap-4">
@@ -50,19 +50,21 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                         </p>
                     </div>
                 </Link>
-                <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreVertical className="w-6 h-6" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">Delete</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
+                {canManage && (
+                    <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                    <MoreVertical className="w-6 h-6" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">Delete</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                )}
             </div>
             <div className="space-y-2 mt-4 ml-18 grid grid-cols-2 gap-x-4 gap-y-2">
                 <div>
@@ -142,27 +144,29 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                 </div>
 
                 {/* Actions Menu */}
-                <div
-                className="self-center"
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }}
-                >
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                        <MoreVertical className="w-6 h-6" />
-                    </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                    <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">
-                        Delete
-                    </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-                </div>
+                {canManage && (
+                    <div
+                    className="self-center"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }}
+                    >
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <MoreVertical className="w-6 h-6" />
+                        </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onEdit(project)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onDelete(project)} className="text-red-500">
+                            Delete
+                        </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    </div>
+                )}
             </div>
             </div>
         </Link>
@@ -236,6 +240,7 @@ export default function ProjectsPage() {
     };
 
     const canCreateProject = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
+    const canManageProjects = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
     
     return (
         <div className="space-y-8">
@@ -274,6 +279,7 @@ export default function ProjectsPage() {
                                 isFirst={index === 0}
                                 isLast={index === activeProjects.length - 1} 
                                 organizationId={organizationId}
+                                canManage={canManageProjects}
                             />
                         ))}
                     </CardContent>
@@ -293,6 +299,7 @@ export default function ProjectsPage() {
                                 isFirst={index === 0}
                                 isLast={index === completedProjects.length - 1} 
                                 organizationId={organizationId}
+                                canManage={canManageProjects}
                             />
                         ))}
                     </CardContent>
