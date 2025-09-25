@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, loading } = useUser();
+  const { user, loading, isSuperAdmin } = useUser();
   
   useEffect(() => {
     if (!loading) {
@@ -42,10 +42,13 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     );
   }
   
-  const noNavPaths = ['/projects/'];
-  const isSuperAdmin = user?.roleType === 'superAdmin';
+  const noNavPaths = [
+      `/organization/${user.organizationId}/projects/`, 
+      `/organization/${user.organizationId}/teams/`, 
+      `/organization/${user.organizationId}/profile`
+  ];
 
-  const shouldShowNav = isSuperAdmin || !noNavPaths.some(path => pathname.includes(path));
+  const shouldShowNav = isSuperAdmin || !noNavPaths.some(path => pathname.includes(path.replace(user.organizationId, '[organizationId]')));
 
   return (
     <div className="min-h-screen bg-background">

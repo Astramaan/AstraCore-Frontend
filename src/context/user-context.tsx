@@ -18,6 +18,7 @@ interface User {
 interface UserContextType {
   user: User | null;
   loading: boolean;
+  isSuperAdmin: boolean;
   setUser: (user: User | null) => void;
   logout: () => void;
 }
@@ -57,8 +58,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     window.location.href = '/';
   }
 
+  const isSuperAdmin = user?.roleType === 'superAdmin';
+
   return (
-    <UserContext.Provider value={{ user, loading, setUser, logout }}>
+    <UserContext.Provider value={{ user, loading, isSuperAdmin, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );

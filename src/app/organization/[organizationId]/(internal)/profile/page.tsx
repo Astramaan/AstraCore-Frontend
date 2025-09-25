@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProfilePage() {
     const router = useRouter();
-    const { user, loading, logout } = useUser();
+    const { user, loading, logout, isSuperAdmin } = useUser();
 
     if (loading || !user) {
         return (
@@ -33,8 +33,6 @@ export default function ProfilePage() {
             </div>
         );
     }
-
-    const isSuperAdmin = user.roleType === 'superAdmin';
 
     return (
         <div className="space-y-6">
