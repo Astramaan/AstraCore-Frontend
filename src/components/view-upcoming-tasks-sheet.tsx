@@ -126,7 +126,7 @@ export function ViewUpcomingTasksSheet({ isOpen, onClose, tasks, onTaskClick }: 
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
-            <span className="text-2xl font-semibold">Upcoming Tasks</span>
+            <span className="text-2xl font-semibold">Project Upcoming Tasks</span>
             <SheetClose asChild>
               <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                 <X className="h-6 w-6" />
