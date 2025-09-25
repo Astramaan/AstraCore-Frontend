@@ -5,7 +5,7 @@ import React, { useState, useActionState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
-import { Edit, Save, ShieldAlert, Palette, LogOut } from 'lucide-react';
+import { Edit, Save, ShieldAlert, Palette } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -204,7 +204,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
 EditProfileForm.displayName = 'EditProfileForm';
 
 export function PersonalDetails({ memberId }: PersonalDetailsProps) {
-    const { user, loading, logout } = useUser();
+    const { user, loading } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [isBrandingSheetOpen, setIsBrandingSheetOpen] = useState(false);
     
