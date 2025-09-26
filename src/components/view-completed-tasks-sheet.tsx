@@ -46,35 +46,52 @@ const formatDate = (dateString: string) => {
 };
 
 const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
-
-    return (
-        <Card className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onClick(stage)}>
-             <div className="flex items-center gap-4">
-                <div className="relative w-24 h-24 shrink-0">
-                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                        <span className="text-white text-sm font-semibold">{stage.category}</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex-1 space-y-1 w-full text-left">
-                    <div className="flex justify-between items-start">
-                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <Badge className="bg-green-100 text-green-700 capitalize">Completed</Badge>
-                    </div>
-                    <p className="text-sm">{stage.subtitle}</p>
-                    <div className="pt-2">
-                        <Progress value={100} className="h-2" />
-                        <div className="flex justify-between items-center mt-2">
-                            <span className="text-black text-xs font-normal">100%</span>
-                            <span className="text-grey-1 text-xs">{formatDate(stage.createdAt)}</span>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <Card
+      className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-white"
+      onClick={() => onClick(stage)}
+    >
+      <div className="flex items-center gap-4">
+        <div className="relative w-24 h-24 shrink-0">
+          <Image
+            src={stage.image}
+            width={100}
+            height={100}
+            alt={stage.title}
+            className="rounded-[24px] object-cover w-full h-full"
+            data-ai-hint="construction work"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+            <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+              <span className="text-white text-sm font-semibold">
+                {stage.category}
+              </span>
             </div>
-        </Card>
-    );
+          </div>
+        </div>
+        <div className="flex-1 space-y-1 w-full text-left">
+          <div className="flex justify-between items-start">
+            <h3 className="text-black text-base font-semibold">
+              {stage.title}
+            </h3>
+            <Badge className="bg-green-100 text-green-700 capitalize">
+              Completed
+            </Badge>
+          </div>
+          <p className="text-sm">{stage.subtitle}</p>
+          <div className="pt-2">
+            <Progress value={100} className="h-2" />
+            <div className="flex justify-between items-center mt-2">
+              <span className="text-black text-xs font-normal">100%</span>
+              <span className="text-grey-1 text-xs">
+                {formatDate(stage.createdAt)}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
 };
 
 interface ViewCompletedTasksSheetProps {
@@ -104,7 +121,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side="bottom"
-        className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
+        className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
