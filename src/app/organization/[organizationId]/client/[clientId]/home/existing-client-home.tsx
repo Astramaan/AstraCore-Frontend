@@ -281,7 +281,7 @@ export default function ExistingClientHomePage() {
 
 
   const project = {
-    name: 'Rabeek\'s Project',
+    name: 'Gokula',
     pm: 'Yaswanth',
     id: 'RABE0001',
     progress: 70,
@@ -442,3 +442,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
