@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState } from 'react';
@@ -16,6 +15,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '.
 import { X } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { Stage as TaskStage } from './project-task-card'; // Renaming to avoid conflict
+import { motion } from 'framer-motion';
 
 export interface CustomStage extends TaskStage {
     type: 'stage' | 'payment';
@@ -88,6 +88,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
 
     return (
         <>
+        <motion.div
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+        >
             <Collapsible>
                  <Card className={cn(
                     "rounded-[24px] p-4 bg-background transition-shadow", 
@@ -190,6 +194,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
                 onOpenChange={(open) => !open && setSelectedPdf(null)} 
                 file={selectedPdf} 
             />
+        </motion.div>
         </>
     )
 };
