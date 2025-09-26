@@ -369,8 +369,8 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
-    <main>
-        <div className="relative mb-8 md:rounded-b-[50px] overflow-hidden">
+      <main>
+        <div className="relative">
             <ProjectInfoHeader project={project} />
         </div>
 
@@ -452,3 +452,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
