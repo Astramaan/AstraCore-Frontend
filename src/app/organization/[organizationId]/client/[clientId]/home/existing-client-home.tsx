@@ -19,7 +19,7 @@ import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { motion } from 'framer-motion';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 
@@ -66,6 +66,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
     const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
         e.stopPropagation();
@@ -74,46 +75,49 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
     return (
         <>
-            <Collapsible>
-                 <Card className={cn(
-                    "rounded-[24px] p-4 bg-white transition-shadow", 
-                    className,
-                    hasAttachments ? "cursor-pointer hover:shadow-md" : ""
-                )}>
-                    <CollapsibleTrigger className="w-full text-left" disabled={!hasAttachments}>
-                         <div className={cn("w-full")}>
-                            <div className="flex items-center gap-4">
-                                <div className="relative w-24 h-24 shrink-0">
-                                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                                        <span className="text-white text-sm font-semibold">{stage.category}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex-1 space-y-1 w-full text-left">
-                                    <div className="flex justify-between items-start">
-                                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                                        <Badge className={cn('capitalize', 
-                                            stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
-                                            stage.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                            'bg-gray-100 text-gray-600'
-                                        )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
-                                    </div>
-                                    <p className="text-sm">{stage.subtitle}</p>
-                                    <div className="pt-2">
-                                        <Progress value={stage.progress} className="h-2" />
-                                        <div className="flex justify-between items-center mt-2">
-                                            <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                                            <span className="text-grey-1 text-xs">{stage.date}</span>
-                                        </div>
-                                    </div>
+            <motion.div
+                layout
+                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
+                className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer hover:shadow-md" : "")}
+                onClick={() => hasAttachments && setIsOpen(!isOpen)}
+            >
+                 <div className={cn("w-full")}>
+                    <div className="flex items-center gap-4">
+                        <div className="relative w-24 h-24 shrink-0">
+                            <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                                <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                                <span className="text-white text-sm font-semibold">{stage.category}</span>
                                 </div>
                             </div>
                         </div>
-                    </CollapsibleTrigger>
+                        <div className="flex-1 space-y-1 w-full text-left">
+                            <div className="flex justify-between items-start">
+                                <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                                <Badge className={cn('capitalize', 
+                                    stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
+                                    stage.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                    'bg-gray-100 text-gray-600'
+                                )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
+                            </div>
+                            <p className="text-sm">{stage.subtitle}</p>
+                            <div className="pt-2">
+                                <Progress value={stage.progress} className="h-2" />
+                                <div className="flex justify-between items-center mt-2">
+                                    <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                                    <span className="text-grey-1 text-xs">{stage.date}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     
-                    <CollapsibleContent>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                             <div className="mt-4 space-y-4">
                                 <Separator />
@@ -168,9 +172,9 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                 )}
                             </div>
                         )}
-                    </CollapsibleContent>
-                </Card>
-            </Collapsible>
+                    </motion.div>
+                )}
+            </motion.div>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
                 onOpenChange={(open) => !open && setSelectedPdf(null)} 
