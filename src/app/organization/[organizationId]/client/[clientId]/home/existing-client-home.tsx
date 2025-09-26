@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -77,7 +76,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         <>
             <motion.div
                 className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}
-                onClick={() => hasAttachments && setIsOpen(!isOpen)}
+                onClick={hasAttachments ? () => setIsOpen(!isOpen) : undefined}
             >
                  <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
@@ -358,11 +357,7 @@ export default function ExistingClientHomePage() {
     <>
     <main>
        <div className="relative mb-8 md:mx-8">
-            <ProjectInfoHeader project={project}>
-                 <div className="bg-white py-4 px-6 md:px-10 m-6 rounded-[50px] z-30">
-                    <ClientHeader />
-                 </div>
-            </ProjectInfoHeader>
+            <ProjectInfoHeader project={project} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
