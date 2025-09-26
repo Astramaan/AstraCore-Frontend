@@ -19,7 +19,6 @@ const navItems = [
     { href: `/projects`, icon: ProjectsIcon, label: "Projects" },
     { href: `/leads`, icon: LeadsIcon, label: "Leads" },
     { href: `/vendors`, icon: VendorsIcon, label: "Vendors" },
-    { href: `/teams`, icon: TeamIcon, label: "Teams" },
 ];
 
 export const OrganizationBottomNav = () => {
