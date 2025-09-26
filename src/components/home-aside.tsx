@@ -13,22 +13,30 @@ import type { Meeting } from '@/components/meeting-details-sheet';
 import type { Task } from '@/components/task-details-sheet';
 import GoogleMeetIcon from './icons/google-meet-icon';
 import { useParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
-    <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between cursor-pointer hover:bg-muted/50" onClick={() => onClick(meeting)}>
-        <div className="flex-1">
-            <p className="text-base font-medium">{meeting.name}</p>
-            <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
-        </div>
-        <div className="text-right">
-            <p className="text-sm font-medium">{meeting.time}</p>
-            <p className="text-sm text-muted-foreground">{meeting.date}</p>
-        </div>
-        <div className="flex flex-col items-center gap-1 pl-4">
-            <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
-            <GoogleMeetIcon className="w-5 h-5" />
-        </div>
-    </Card>
+    <motion.div
+        whileHover={{ scale: 1.03 }}
+        transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+        onClick={() => onClick(meeting)}
+        className="cursor-pointer"
+    >
+        <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between hover:bg-muted/50">
+            <div className="flex-1">
+                <p className="text-base font-medium">{meeting.name}</p>
+                <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
+            </div>
+            <div className="text-right">
+                <p className="text-sm font-medium">{meeting.time}</p>
+                <p className="text-sm text-muted-foreground">{meeting.date}</p>
+            </div>
+            <div className="flex flex-col items-center gap-1 pl-4">
+                <RedirectionArrowIcon className="w-5 h-5 text-muted-foreground" />
+                <GoogleMeetIcon className="w-5 h-5" />
+            </div>
+        </Card>
+    </motion.div>
 )
 
 interface HomeAsideProps {
