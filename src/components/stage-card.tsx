@@ -15,6 +15,7 @@ import { X } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 
 export interface TimelineStage {
+    id: number;
     title: string;
     subtitle: string;
     date: string;
@@ -51,12 +52,11 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     );
 };
 
-export const StageCard = ({ stage, onReopen, onRaiseIssue, className }: { stage: TimelineStage, onReopen?: (stage: TimelineStage) => void, onRaiseIssue: (stage: TimelineStage) => void, className?: string }) => {
+export const StageCard = ({ stage, onReopen, onRaiseIssue, className, isOpen, onToggle }: { stage: TimelineStage, onReopen?: (stage: TimelineStage) => void, onRaiseIssue: (stage: TimelineStage) => void, className?: string, isOpen: boolean, onToggle: () => void }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
     const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
-    const [isOpen, setIsOpen] = useState(stage.status === 'On Going' && hasAttachments);
 
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
         e.stopPropagation();
@@ -73,7 +73,7 @@ export const StageCard = ({ stage, onReopen, onRaiseIssue, className }: { stage:
                     className,
                     hasAttachments ? "cursor-pointer hover:shadow-lg" : "cursor-default"
                 )}
-                onClick={hasAttachments ? () => setIsOpen(!isOpen) : undefined}
+                onClick={hasAttachments ? onToggle : undefined}
             >
                  <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">

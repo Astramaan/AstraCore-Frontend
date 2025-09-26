@@ -128,6 +128,7 @@ export default function ExistingClientHomePage() {
   const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
   const [isRaiseIssueSheetOpen, setIsRaiseIssueSheetOpen] = useState(false);
   const [stageForIssue, setStageForIssue] = useState<TimelineStage | null>(null);
+  const [openCardId, setOpenCardId] = useState<string | null>(null);
 
 
   const project = {
@@ -150,13 +151,17 @@ export default function ExistingClientHomePage() {
   };
 
   const [allStages, setAllStages] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", approvalDate: new Date("2025-05-26").toISOString(), documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
-    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
-    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
-    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
-    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
+    { id: 1, title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
+    { id: 2, title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", approvalDate: new Date("2025-05-26").toISOString(), documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
+    { id: 3, title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { id: 4, title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { id: 5, title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { id: 6, title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
+  
+  const handleCardToggle = (cardId: string) => {
+    setOpenCardId(prevId => (prevId === cardId ? null : cardId));
+  };
   
   const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
 
@@ -246,7 +251,14 @@ export default function ExistingClientHomePage() {
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
                             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
-                                    <StageCard key={`${stage.title}-${index}-recent`} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
+                                    <StageCard
+                                        key={`recent-${stage.id}`}
+                                        stage={stage}
+                                        onReopen={handleReopenTask}
+                                        onRaiseIssue={handleRaiseIssue}
+                                        isOpen={openCardId === `recent-${stage.id}`}
+                                        onToggle={() => handleCardToggle(`recent-${stage.id}`)}
+                                    />
                                 ))}
                             </div>
                             <Separator className="my-8" />
@@ -254,7 +266,14 @@ export default function ExistingClientHomePage() {
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
-                            <StageCard key={`${stage.title}-${index}`} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
+                            <StageCard
+                                key={`timeline-${stage.id}`}
+                                stage={stage}
+                                onReopen={handleReopenTask}
+                                onRaiseIssue={handleRaiseIssue}
+                                isOpen={openCardId === `timeline-${stage.id}`}
+                                onToggle={() => handleCardToggle(`timeline-${stage.id}`)}
+                            />
                         ))}
                     </div>
                 </div>
