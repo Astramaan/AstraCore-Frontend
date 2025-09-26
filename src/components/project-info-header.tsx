@@ -5,6 +5,7 @@ import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { ClientHeader } from './client-header';
+import { Progress } from './ui/progress';
 
 interface ProjectInfoHeaderProps {
     project: {
@@ -36,9 +37,15 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
                     {children}
                 </div>
                 
-                <div className="p-6 md:p-10">
-                    <h3 className="text-lg font-semibold text-white text-shadow">Project Manager</h3>
-                    <p className="text-white text-shadow">{project.pm}</p>
+                <div className="p-6 md:p-10 flex justify-between items-end">
+                    <div>
+                        <h3 className="text-lg font-semibold text-white text-shadow">Project Manager</h3>
+                        <p className="text-white text-shadow">{project.pm}</p>
+                    </div>
+                    <div className="w-1/3">
+                        <p className="text-white text-right mb-1">{project.progress}%</p>
+                        <Progress value={project.progress} className="w-full" />
+                    </div>
                 </div>
             </div>
         </div>
