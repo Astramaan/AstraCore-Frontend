@@ -370,7 +370,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 md:mx-8 2xl:mx-10">
+       <div className="relative mb-8">
             <ProjectInfoHeader project={project} />
         </div>
 
@@ -454,5 +454,7 @@ export default function ExistingClientHomePage() {
 }
 
 
+
+    
 
     
