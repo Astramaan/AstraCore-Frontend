@@ -77,10 +77,9 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         <>
             <motion.div
                 layout
-                transition={{ layout: { duration: 1, type: "spring", stiffness: 50, damping: 30 } }}
+                transition={{ layout: { duration: 0.5, type: "spring" } }}
                 className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
-                animate={{ rotate: isOpen ? 3 : 0 }}
             >
                  <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
@@ -115,10 +114,11 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.5, y: -50, rotate: -45 }}
-                            animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-                            exit={{ opacity: 0, scale: 0.5, y: 50, rotate: 45 }}
-                            transition={{ duration: 0.5, type: 'spring' }}
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3, type: 'spring' }}
+                            style={{ overflow: 'hidden' }}
                         >
                             {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                                 <div className="mt-4 space-y-4">
@@ -359,9 +359,9 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8">
+       <div className="relative mb-8 md:mx-8">
             <ProjectInfoHeader project={project} >
-                <div className="bg-white py-4 px-6 md:px-10 m-6 rounded-[50px] z-30">
+                 <div className="bg-white py-4 px-6 md:px-10 m-6 rounded-[50px] z-30">
                     <ClientHeader />
                 </div>
             </ProjectInfoHeader>
@@ -449,5 +449,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-
