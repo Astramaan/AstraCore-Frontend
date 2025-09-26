@@ -77,27 +77,27 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         <>
             <motion.div
                 layout
-                transition={{ layout: { duration: 0.3, type: "tween", ease: "easeInOut" } }}
+                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
                 className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer hover:shadow-md" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
             >
-                 <div className={cn("w-full")}>
+                <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
                         <div className="relative w-24 h-24 shrink-0">
                             <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
                                 <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                                <span className="text-white text-sm font-semibold">{stage.category}</span>
+                                    <span className="text-white text-sm font-semibold">{stage.category}</span>
                                 </div>
                             </div>
                         </div>
                         <div className="flex-1 space-y-1 w-full text-left">
                             <div className="flex justify-between items-start">
                                 <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                                <Badge className={cn('capitalize', 
-                                    stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
-                                    stage.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                    'bg-gray-100 text-gray-600'
+                                <Badge className={cn('capitalize',
+                                    stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' :
+                                        stage.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                            'bg-gray-100 text-gray-600'
                                 )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
                             </div>
                             <p className="text-sm">{stage.subtitle}</p>
@@ -126,7 +126,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                     <div className="pt-2 space-y-2">
                                         {stage.documents.map((doc, index) => (
                                             <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
-                                                <PdfIcon className="w-6 h-6 shrink-0"/>
+                                                <PdfIcon className="w-6 h-6 shrink-0" />
                                                 <div className="flex-1">
                                                     <p className="text-base text-black font-medium">{doc.name}</p>
                                                 </div>
@@ -141,12 +141,12 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                     )}
                                 </div>
                             )}
-                            
+
                             {(stage.status === 'completed' && hasAttachments) && (
                                 <div className="mt-4 space-y-4">
                                     <Separator />
                                     <div className="pt-4">
-                                    {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
+                                        {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
                                         {stage.siteImages && stage.siteImages.length > 0 && (
                                             <div className="grid grid-cols-4 gap-2">
                                                 {stage.siteImages?.map((img, index) => (
@@ -158,7 +158,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                             <div className="pt-4 space-y-2">
                                                 {stage.documents.map((doc, index) => (
                                                     <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted">
-                                                        <PdfIcon className="w-6 h-6 shrink-0"/>
+                                                        <PdfIcon className="w-6 h-6 shrink-0" />
                                                         <div className="flex-1">
                                                             <p className="text-base text-black font-medium">{doc.name}</p>
                                                         </div>
@@ -169,7 +169,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                     </div>
                                     {isProjectManager && (
                                         <div className="flex justify-end pt-2">
-                                            <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => {e.stopPropagation(); onReopen?.(stage);}}>Reopen</Button>
+                                            <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => { e.stopPropagation(); onReopen?.(stage); }}>Reopen</Button>
                                         </div>
                                     )}
                                 </div>
@@ -445,5 +445,6 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
 
 
