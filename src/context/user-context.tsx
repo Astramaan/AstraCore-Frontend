@@ -2,7 +2,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface User {
     userId: string;
@@ -27,10 +27,13 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+const publicPaths = ['/', '/signup', '/forgot-password', '/otp-verification', '/create-password', '/set-password', '/password-success'];
+
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUserState] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     try {
@@ -48,23 +51,28 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   
   useEffect(() => {
     if (!loading && user) {
-        let targetPath;
-        const isClientRole = user.role === 'CLIENT';
+        const isPublicPath = publicPaths.some(path => pathname.startsWith(path) && (path === '/' || pathname.length > path.length));
+        const isInvitePath = /^\/invite\/.*$/.test(pathname);
 
-        if (user.roleType === 'superAdmin') {
-            targetPath = '/platform/dashboard';
-        } else if (isClientRole) {
-            if (user.team === 'New User') {
-                targetPath = `/organization/${user.organizationId}/client/new/${user.userId}/home`;
+        if (pathname === '/' || isPublicPath || isInvitePath) {
+             let targetPath;
+            const isClientRole = user.role === 'CLIENT';
+
+            if (user.roleType === 'superAdmin') {
+                targetPath = '/platform/dashboard';
+            } else if (isClientRole) {
+                if (user.team === 'New User') {
+                    targetPath = `/organization/${user.organizationId}/client/new/${user.userId}/home`;
+                } else {
+                    targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
+                }
             } else {
-                targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
+                targetPath = `/organization/${user.organizationId}/home`;
             }
-        } else {
-            targetPath = `/organization/${user.organizationId}/home`;
+            router.push(targetPath);
         }
-        router.push(targetPath);
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, pathname]);
 
   const setUser = (user: User | null) => {
     setUserState(user);
