@@ -65,12 +65,15 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
-    const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
     const [isOpen, setIsOpen] = useState(false);
+    
+    const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
 
     useEffect(() => {
         if (stage.status === 'On Going' && hasAttachments) {
             setIsOpen(true);
+        } else {
+            setIsOpen(false);
         }
     }, [stage.status, hasAttachments]);
 
@@ -390,17 +393,17 @@ export default function ExistingClientHomePage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-5 gap-8 px-4 md:px-8 2xl:px-10">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 2xl:col-span-4 order-2 md:order-1">
-                 <div className="mb-6 flex flex-row gap-4 justify-between">
+                 <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-[calc(33.33%-0.75rem)]"
                     >
                         View Completed Stages
                     </Button>
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-[calc(33.33%-0.75rem)] 2xl:ml-auto"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
                         View Upcoming Stages
