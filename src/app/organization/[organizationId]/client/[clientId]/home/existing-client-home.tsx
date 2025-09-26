@@ -72,8 +72,6 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     useEffect(() => {
         if (stage.status === 'On Going' && hasAttachments) {
             setIsOpen(true);
-        } else {
-            setIsOpen(false);
         }
     }, [stage.status, hasAttachments]);
 
@@ -218,27 +216,33 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     </motion.div>
 );
 
-const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
-    return (
-        <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-            <Card className="rounded-[50px] w-full">
-                <CardContent className="p-10 space-y-4">
-                    <div className="flex justify-between items-center">
-                        <p className="text-black text-base font-normal">Recent Site Photos</p>
-                        <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto" onClick={onViewMore}>view more</Button>
+const ProjectMetricsCard = () => (
+    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
+        <Card className="rounded-[50px] w-full">
+            <CardContent className="p-6 space-y-4">
+                <p className="text-black text-base font-semibold">Project Metrics</p>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-background rounded-2xl p-4 text-center">
+                        <p className="text-2xl font-bold">12</p>
+                        <p className="text-sm text-muted-foreground">Total Snags</p>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                        {siteImages.slice(0, 4).map((src, index) => (
-                            <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={() => onImageClick(index)}>
-                                <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
-                            </div>
-                        ))}
+                    <div className="bg-background rounded-2xl p-4 text-center">
+                        <p className="text-2xl font-bold">2</p>
+                        <p className="text-sm text-muted-foreground">Pending Payments</p>
                     </div>
-                </CardContent>
-            </Card>
-        </motion.div>
-    );
-};
+                    <div className="bg-background rounded-2xl p-4 text-center">
+                        <p className="text-2xl font-bold">3</p>
+                        <p className="text-sm text-muted-foreground">Delayed Tasks</p>
+                    </div>
+                    <div className="bg-background rounded-2xl p-4 text-center">
+                        <p className="text-2xl font-bold">25</p>
+                        <p className="text-sm text-muted-foreground">Completed Tasks</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    </motion.div>
+);
 
 
 const PaymentCard = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<'button'>>((props, ref) => (
@@ -432,11 +436,7 @@ export default function ExistingClientHomePage() {
                        <PaymentCard />
                     </PaymentsDialog>
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                     <SitePhotos 
-                        onViewMore={() => setIsGalleryOpen(true)}
-                        onImageClick={openImagePreview}
-                        siteImages={project.siteImages}
-                    />
+                     <ProjectMetricsCard />
                 </div>
             </aside>
         </div>
