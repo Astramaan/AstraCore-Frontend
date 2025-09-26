@@ -70,17 +70,13 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
                      <NotificationBellIcon />
                      <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white" />
                 </Button>
-                <Avatar>
-                    <AvatarImage src={project.profileImage} />
-                    <AvatarFallback>{project.pm?.[0]}</AvatarFallback>
-                </Avatar>
             </div>
             
             <div className="relative z-20 flex items-center gap-4 px-10 pb-4">
                 <CircularProgress value={project.daysLeft} maxValue={365} text={String(project.daysLeft)} />
                 <div>
-                    <h2 className="text-lg font-bold text-white">CLIENT ID: {project.id}</h2>
-                    <p className="text-sm text-white/80">Banashankari, Bengaluru - 560109</p>
+                    <h2 className="text-lg font-bold text-white">Project Manager</h2>
+                    <p className="text-sm text-white/80">{project.pm}</p>
                 </div>
             </div>
             <div className="absolute bottom-0 left-0 w-full h-10 z-20">
