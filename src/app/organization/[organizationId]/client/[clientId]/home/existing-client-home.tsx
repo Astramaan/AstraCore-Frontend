@@ -361,7 +361,7 @@ export default function ExistingClientHomePage() {
     <main>
        <div className="relative mb-8">
             <ProjectInfoHeader project={project} >
-                <div className="bg-white py-4 px-10 m-6 rounded-[50px] z-30">
+                <div className="bg-white py-4 px-6 md:px-10 m-6 rounded-[50px] z-30">
                     <ClientHeader />
                 </div>
             </ProjectInfoHeader>
@@ -450,4 +450,4 @@ export default function ExistingClientHomePage() {
   );
 }
 
-    
+
