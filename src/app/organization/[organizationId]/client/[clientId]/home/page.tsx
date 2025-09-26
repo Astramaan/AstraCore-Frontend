@@ -42,9 +42,18 @@ export default function ClientHomePageWrapper() {
         );
     }
     
+    // This logic seems more appropriate for a layout or middleware,
+    // but placing it here as per the current structure.
+    if (user.team === 'New User') {
+        const { organizationId, clientId } = useParams();
+        // Assuming clientId is the new userId for the new user.
+        return <NewUserHomePage params={{ organizationId: organizationId as string, clientId: clientId as string }} />;
+    }
+    
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <ClientHomePage />
         </Suspense>
     );
 }
+

@@ -27,7 +27,7 @@ import { StageCard, TimelineStage } from '@/components/stage-card';
 
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full px-6">
+    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full">
         <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 px-6 gap-2 bg-white rounded-full">
             <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
@@ -221,9 +221,9 @@ export default function ExistingClientHomePage() {
             </ProjectInfoHeader>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-4 gap-8 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-4 gap-8 px-0 md:px-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-5 2xl:col-span-3 order-2 md:order-1">
+            <div className="md:col-span-3 lg:col-span-5 2xl:col-span-3 order-2 md:order-1 px-4 md:px-0">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
@@ -260,7 +260,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 2xl:col-span-1 flex flex-col gap-4 order-1 md:order-2">
+            <aside className="md:col-span-2 lg:col-span-2 2xl:col-span-1 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                  <div className="flex flex-col gap-4">
                     <PaymentsDialog>
                        <PaymentCard />
@@ -309,3 +309,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
