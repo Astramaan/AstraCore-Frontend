@@ -22,7 +22,7 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
         onClick={() => onClick(meeting)}
         className="cursor-pointer"
     >
-        <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between hover:bg-muted/50">
+        <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between">
             <div className="flex-1">
                 <p className="text-base font-medium">{meeting.name}</p>
                 <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
