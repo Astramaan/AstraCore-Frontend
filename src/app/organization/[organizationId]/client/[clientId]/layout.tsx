@@ -21,7 +21,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="min-h-screen bg-background relative">
-        <main className="w-full flex-1 bg-background pb-28">
+        <main className="w-full flex-1 bg-background">
             {children}
         </main>
         <ClientBottomNav />
