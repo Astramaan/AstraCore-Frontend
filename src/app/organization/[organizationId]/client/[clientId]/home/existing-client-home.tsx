@@ -66,10 +66,12 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
     const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
-    const [isOpen, setIsOpen] = useState(stage.status === 'On Going' && hasAttachments);
-    
+    const [isOpen, setIsOpen] = useState(false);
+
     useEffect(() => {
-        setIsOpen(stage.status === 'On Going' && hasAttachments);
+        if (stage.status === 'On Going' && hasAttachments) {
+            setIsOpen(true);
+        }
     }, [stage.status, hasAttachments]);
 
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
@@ -85,6 +87,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
     return (
         <>
+             <motion.div
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+            >
             <div
                 className={cn("rounded-[24px] bg-white transition-shadow p-4 shadow-sm", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
@@ -105,7 +111,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                 <Badge className={cn('capitalize whitespace-nowrap',
                                     stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' :
                                         stage.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                            'bg-gray-100 text-gray-600'
+                                            'bg-gray-100 text-gray-700'
                                 )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
                             </div>
                             <p className="text-sm">{stage.subtitle}</p>
@@ -186,6 +192,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                     )}
                 </AnimatePresence>
             </div>
+            </motion.div>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
                 onOpenChange={(open) => !open && setSelectedPdf(null)} 
