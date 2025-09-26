@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -62,15 +63,38 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
     );
 };
 
-const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File) => void }) => (
-    <div className="flex items-center gap-4 py-3 cursor-pointer group" onClick={() => onFileClick(file)}>
-        <PdfIcon className="w-6 h-6 shrink-0" />
-        <div className="flex-1">
-            <p className="text-base text-black font-medium group-hover:text-primary">{file.name}</p>
-            <p className="text-xs text-stone-400">{file.date} {file.version && `• ${file.version}`}</p>
-        </div>
-        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
-    </div>
+const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File | FileVersion) => void }) => (
+    <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value={file.id} className="border-b-0">
+             <div className="flex items-center gap-4 py-3 cursor-pointer group" onClick={() => onFileClick(file)}>
+                <PdfIcon className="w-6 h-6 shrink-0" />
+                <div className="flex-1">
+                    <p className="text-base text-black font-medium group-hover:text-primary">{file.name}</p>
+                    <p className="text-xs text-stone-400">{file.date} {file.version && `• ${file.version}`}</p>
+                </div>
+                {file.history && file.history.length > 0 ? (
+                    <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:text-primary" />
+                ) : (
+                    <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
+                )}
+            </div>
+            {file.history && file.history.length > 0 && (
+                <AccordionContent>
+                    <div className="pl-10 space-y-2 border-l ml-3">
+                        {file.history.map((version, index) => (
+                            <div key={index} className="flex items-center gap-4 py-2 cursor-pointer group pl-4" onClick={() => onFileClick(version)}>
+                                <div className="flex-1">
+                                    <p className="text-sm text-black font-medium group-hover:text-primary">{version.name}</p>
+                                    <p className="text-xs text-stone-400">{version.date} • {version.version}</p>
+                                </div>
+                                <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
+                            </div>
+                        ))}
+                    </div>
+                </AccordionContent>
+            )}
+        </AccordionItem>
+    </Accordion>
 );
 
 export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
