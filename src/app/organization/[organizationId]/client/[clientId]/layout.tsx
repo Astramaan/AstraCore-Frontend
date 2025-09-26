@@ -22,8 +22,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
         return;
       }
       
-      // If the user is not the correct client or is a new user, redirect them.
-      if (user.roleType !== 'client' || user.userId !== clientId || user.team === 'New User') {
+      // If the user is not the correct client for this page, or not a client at all, redirect them.
+      if (user.roleType !== 'client' || user.userId !== clientId) {
          const targetPath = user.team === 'New User'
           ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
           : user.roleType === 'client'
@@ -34,7 +34,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     }
   }, [user, loading, router, organizationId, clientId]);
 
-  if (loading || !user || user.roleType !== 'client' || user.userId !== clientId || user.team === 'New User') {
+  if (loading || !user || user.roleType !== 'client' || user.userId !== clientId) {
     return (
         <div className="min-h-screen bg-background p-4">
             <header className="max-w-[1440px] mx-auto mb-6">
