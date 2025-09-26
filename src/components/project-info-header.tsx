@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 interface ProjectInfoHeaderProps {
     project: {
@@ -25,9 +26,9 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
                 objectPosition="center"
                 alt={`${project.name} cover`} 
                 data-ai-hint="abstract background" 
-                className="z-0"
+                className="z-0 rounded-b-[50px]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10 rounded-b-[50px]"></div>
             
             <div className="relative z-20 h-full flex flex-col justify-between">
                 <div>
