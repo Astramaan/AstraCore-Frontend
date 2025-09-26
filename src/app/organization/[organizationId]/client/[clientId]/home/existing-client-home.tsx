@@ -68,6 +68,12 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
     const [isOpen, setIsOpen] = useState(false);
 
+    useEffect(() => {
+        if (stage.status === 'On Going' && hasAttachments) {
+            setIsOpen(true);
+        }
+    }, [stage.status, hasAttachments]);
+
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
         e.stopPropagation();
         setSelectedPdf(doc);
@@ -461,3 +467,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
