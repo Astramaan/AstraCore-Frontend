@@ -18,8 +18,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   if (loading) {
     return (
         <div className="min-h-screen bg-background">
-            <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
-                <div className="max-w-[1440px] 2xl:max-w-none mx-auto p-4 2xl:px-10">
+            <header className="sticky top-0 z-30 bg-white p-4">
+                <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-6 rounded-full bg-white">
                     <Skeleton className="h-16 w-full" />
                 </div>
             </header>
@@ -32,8 +32,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="min-h-screen bg-background relative">
-        <header className="sticky top-0 z-30 bg-white">
-           <div className="max-w-[1440px] 2xl:max-w-none mx-auto p-4 2xl:px-10">
+        <header className="sticky top-0 z-30 bg-white p-4">
+           <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-6 rounded-full bg-white">
              <ClientHeader />
            </div>
         </header>
