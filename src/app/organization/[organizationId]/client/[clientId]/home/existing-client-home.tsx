@@ -14,7 +14,7 @@ import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
 import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { X, Download, HardHat, LandPlot, Bot, UserCog } from 'lucide-react';
+import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
@@ -22,7 +22,6 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { motion, AnimatePresence } from 'framer-motion';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
-import { ProjectTimelineChart } from '@/components/charts/project-timeline-chart';
 
 
 interface TimelineStage {
@@ -45,7 +44,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-6xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
                 <DialogHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogTitle>{file.name}</DialogTitle>
                     <DialogClose asChild>
@@ -66,51 +65,40 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
-    const [isOpen, setIsOpen] = useState(false);
-    
     const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
-
-    useEffect(() => {
-        if (stage.status === 'On Going' && hasAttachments) {
-            setIsOpen(true);
-        }
-    }, [stage.status, hasAttachments]);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
         e.stopPropagation();
         setSelectedPdf(doc);
     };
-    
-    const formatDate = (dateString: string) => {
-        if (!dateString || isNaN(new Date(dateString).getTime())) return "Invalid Date";
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    };
 
     return (
         <>
-            <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-            <div
-                className={cn("rounded-[24px] bg-white transition-shadow p-4 shadow-sm", className, hasAttachments ? "cursor-pointer" : "")}
+            <motion.div
+                layout
+                transition={{ layout: { duration: 1, type: "spring", stiffness: 50, damping: 30 } }}
+                className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
+                animate={{ rotate: isOpen ? 3 : 0 }}
             >
-                <div className={cn("w-full")}>
+                 <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
                         <div className="relative w-24 h-24 shrink-0">
                             <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
                                 <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-                                    <span className="text-white text-sm font-semibold">{stage.category}</span>
+                                <span className="text-white text-sm font-semibold">{stage.category}</span>
                                 </div>
                             </div>
                         </div>
                         <div className="flex-1 space-y-1 w-full text-left">
                             <div className="flex justify-between items-start">
                                 <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                                <Badge className={cn('capitalize whitespace-nowrap',
-                                    stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' :
-                                        stage.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                            'bg-gray-100 text-gray-700'
+                                <Badge className={cn('capitalize', 
+                                    stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
+                                    stage.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                    'bg-gray-100 text-gray-600'
                                 )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
                             </div>
                             <p className="text-sm">{stage.subtitle}</p>
@@ -118,7 +106,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                 <Progress value={stage.progress} className="h-2" />
                                 <div className="flex justify-between items-center mt-2">
                                     <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                                    <span className="text-grey-1 text-xs">{formatDate(stage.date)}</span>
+                                    <span className="text-grey-1 text-xs">{stage.date}</span>
                                 </div>
                             </div>
                         </div>
@@ -127,11 +115,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-                            className="overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.5, y: -50, rotate: -45 }}
+                            animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                            exit={{ opacity: 0, scale: 0.5, y: 50, rotate: 45 }}
+                            transition={{ duration: 0.5, type: 'spring' }}
                         >
                             {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                                 <div className="mt-4 space-y-4">
@@ -139,7 +126,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                     <div className="pt-2 space-y-2">
                                         {stage.documents.map((doc, index) => (
                                             <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
-                                                <PdfIcon className="w-6 h-6 shrink-0" />
+                                                <PdfIcon className="w-6 h-6 shrink-0"/>
                                                 <div className="flex-1">
                                                     <p className="text-base text-black font-medium">{doc.name}</p>
                                                 </div>
@@ -154,12 +141,12 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                     )}
                                 </div>
                             )}
-
+                            
                             {(stage.status === 'completed' && hasAttachments) && (
                                 <div className="mt-4 space-y-4">
                                     <Separator />
                                     <div className="pt-4">
-                                        {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
+                                    {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
                                         {stage.siteImages && stage.siteImages.length > 0 && (
                                             <div className="grid grid-cols-4 gap-2">
                                                 {stage.siteImages?.map((img, index) => (
@@ -171,7 +158,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                             <div className="pt-4 space-y-2">
                                                 {stage.documents.map((doc, index) => (
                                                     <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted">
-                                                        <PdfIcon className="w-6 h-6 shrink-0" />
+                                                        <PdfIcon className="w-6 h-6 shrink-0"/>
                                                         <div className="flex-1">
                                                             <p className="text-base text-black font-medium">{doc.name}</p>
                                                         </div>
@@ -182,7 +169,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                     </div>
                                     {isProjectManager && (
                                         <div className="flex justify-end pt-2">
-                                            <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => { e.stopPropagation(); onReopen?.(stage); }}>Reopen</Button>
+                                            <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => {e.stopPropagation(); onReopen?.(stage);}}>Reopen</Button>
                                         </div>
                                     )}
                                 </div>
@@ -190,7 +177,6 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
             </motion.div>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
@@ -202,48 +188,62 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-        <Card className="rounded-full">
-            <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2">
-                <div className="text-left">
-                    <p className="text-black text-sm font-normal">Chat with our Executive</p>
-                    <p className="text-grey-1 text-xs">Quick Reply</p>
-                </div>
-                <div className="grid place-items-center h-10 w-10 rounded-full bg-white">
-                    <WhatsappIcon className="w-6 h-6" />
-                </div>
-            </a>
-        </Card>
-    </motion.div>
+    <Card className="rounded-full">
+        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2">
+            <div className="text-left">
+                <p className="text-black text-sm font-normal">Chat with our Executive</p>
+                <p className="text-grey-1 text-xs">Quick Reply</p>
+            </div>
+            <div className="grid place-items-center h-10 w-10 rounded-full bg-white">
+                <WhatsappIcon className="w-6 h-6" />
+            </div>
+        </a>
+    </Card>
 );
 
-const PaymentCard = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<'button'>>((props, ref) => (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-        <button ref={ref} {...props} className="w-full">
-            <Card className="rounded-full w-full">
-                <CardContent className="p-4 px-6 w-full">
-                    <div className="flex items-center justify-between gap-4">
-                         <div className="flex-1 text-left">
-                            <p className="text-black text-sm font-normal">Payment</p>
-                            <p className="text-grey-1 text-xs">Due on 05 June</p>
+const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
+    return (
+        <Card className="rounded-[50px] w-full">
+            <CardContent className="p-6 md:pb-10 space-y-4">
+                <div className="flex justify-between items-center">
+                    <p className="text-black text-base font-normal">Recent Site Photos</p>
+                    <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto" onClick={onViewMore}>view more</Button>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                    {siteImages.slice(0, 4).map((src, index) => (
+                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={() => onImageClick(index)}>
+                            <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
                         </div>
-                        <div className="flex gap-1">
-                            {[...Array(7)].map((_, i) => (
-                                <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
-                            ))}
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </button>
-    </motion.div>
-));
-PaymentCard.displayName = 'PaymentCard';
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
+
+const PaymentCard = () => (
+    <Card className="rounded-full">
+        <CardContent className="p-4 px-6 w-full">
+            <div className="flex items-center justify-between gap-4">
+                 <div className="flex-1">
+                    <p className="text-black text-sm font-normal">Payment</p>
+                    <p className="text-grey-1 text-xs">Due on 05 June</p>
+                </div>
+                <div className="flex gap-1">
+                    {[...Array(7)].map((_, i) => (
+                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
+                    ))}
+                </div>
+            </div>
+        </CardContent>
+    </Card>
+);
 
 const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-6xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
                 <DialogHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogTitle>{title}</DialogTitle>
                     <DialogClose asChild>
@@ -258,7 +258,7 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
                             startIndex: startIndex,
                             loop: true,
                         }}
-                        className="w-full max-w-4xl"
+                        className="w-full max-w-lg"
                     >
                         <CarouselContent>
                             {images.map((src, index) => (
@@ -307,12 +307,12 @@ export default function ExistingClientHomePage() {
   };
 
   const [allStages, setAllStages] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "2024-05-25", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
-    { title: "Slabs", subtitle: "initial stage", date: "2024-05-26", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
-    { title: "Foundation", subtitle: "initial stage", date: "2024-05-27", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
-    { title: "IDK", subtitle: "initial stage", date: "2024-05-28", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
-    { title: "Stage 06", subtitle: "initial stage", date: "2024-05-29", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
-    { title: "Stage IDK", subtitle: "initial stage", date: "2024-05-30", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
+    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
+    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
   
   const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
@@ -354,23 +354,12 @@ export default function ExistingClientHomePage() {
   const closeImagePreview = () => {
       setPreviewState({ open: false, startIndex: 0 });
   };
-  
-  const timelineChartData = useMemo(() => {
-    const completed = allStages.filter(s => s.status === 'completed').length;
-    const onGoing = allStages.filter(s => s.status === 'On Going').length;
-    const upcoming = allStages.filter(s => s.status === 'Yet To Begin').length;
-    return [
-        {name: 'Upcoming', value: upcoming, fill: 'hsl(var(--muted))'},
-        {name: 'On Going', value: onGoing, fill: 'hsl(var(--chart-1))'},
-        {name: 'Completed', value: completed, fill: 'hsl(var(--chart-2))'},
-    ]
-  }, [allStages]);
 
 
   return (
     <>
-      <main>
-        <div className="relative">
+    <main>
+       <div className="relative mb-8">
             <ProjectInfoHeader project={project} >
                 <div className="bg-white py-4 px-10 m-6 rounded-[50px] z-30">
                     <ClientHeader />
@@ -378,30 +367,30 @@ export default function ExistingClientHomePage() {
             </ProjectInfoHeader>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-5 gap-8 px-4 md:px-8 2xl:px-10 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 2xl:col-span-4 order-2 md:order-1">
-                 <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
+                 <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-auto"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                     >
-                        View Completed Stages
+                        View Completed Tasks
                     </Button>
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-auto 2xl:ml-auto"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Stages
+                        View Upcoming Tasks
                     </Button>
                 </div>
                 <div className="relative pb-4">
                     {recentlyCompletedTasks.length > 0 && (
                         <div className="mb-8">
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
                                     <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                                 ))}
@@ -409,7 +398,7 @@ export default function ExistingClientHomePage() {
                             <Separator className="my-8" />
                         </div>
                     )}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                         ))}
@@ -417,13 +406,17 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 2xl:col-span-1 flex flex-col gap-4 order-1 md:order-2">
+            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                  <div className="flex flex-col gap-4">
                     <PaymentsDialog>
                        <PaymentCard />
                     </PaymentsDialog>
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                     <ProjectTimelineChart data={timelineChartData} />
+                     <SitePhotos 
+                        onViewMore={() => setIsGalleryOpen(true)}
+                        onImageClick={openImagePreview}
+                        siteImages={project.siteImages}
+                    />
                 </div>
             </aside>
         </div>
@@ -456,3 +449,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
