@@ -372,7 +372,7 @@ export default function ExistingClientHomePage() {
       <main>
         <div className="relative">
             <ProjectInfoHeader project={project} >
-                <div className="bg-white p-4 m-6 rounded-[50px] z-30">
+                <div className="bg-white py-4 px-10 m-6 rounded-[50px] z-30">
                     <ClientHeader />
                 </div>
             </ProjectInfoHeader>
