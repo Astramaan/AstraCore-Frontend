@@ -8,6 +8,7 @@ import Image from "next/image";
 import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin } from 'lucide-react';
 import React, { useState, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
+import { ClientHeader } from "@/components/client-header";
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center z-10">
@@ -139,6 +140,9 @@ export default function MeetUsPage({ params }: { params: { organizationId: strin
 
     return (
         <div className="bg-zinc-100 min-h-screen">
+            <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+                <ClientHeader />
+            </header>
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8 md:p-8 pb-32">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">

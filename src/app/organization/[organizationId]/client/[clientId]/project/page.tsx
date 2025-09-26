@@ -6,6 +6,7 @@ import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectMaterialsCard } from '@/components/project-materials-card';
+import { ClientHeader } from '@/components/client-header';
 
 
 const fileSections = [
@@ -102,6 +103,9 @@ const projectData = {
 export default function ClientProjectDetailsPage() {
     return (
         <div className="bg-background">
+            <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+                <ClientHeader />
+            </header>
             <main className="max-w-[1240px] mx-auto md:p-8 space-y-8">
                 <ProjectDetailsCard 
                     projectInfo={projectData.projectInfo}
