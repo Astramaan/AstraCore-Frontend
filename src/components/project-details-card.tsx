@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, DollarSign, Calendar, Ruler, Layers, Activity, MapPin } from 'lucide-react';
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { cn } from '@/lib/utils';
@@ -14,12 +14,16 @@ interface DetailFieldProps {
     label: string;
     value: React.ReactNode;
     fullWidth?: boolean;
+    icon?: React.ReactNode;
 }
 
-const DetailField = ({ label, value, fullWidth = false }: DetailFieldProps) => (
-    <div className={cn("space-y-1", fullWidth ? 'col-span-2' : '')}>
-        <Label className="text-sm md:text-base font-medium text-grey-1">{label}</Label>
-        <div className={cn("text-black text-base md:text-lg leading-tight", !fullWidth && "truncate")}>{value}</div>
+const DetailField = ({ label, value, fullWidth = false, icon }: DetailFieldProps) => (
+    <div className={cn("flex items-center gap-4", fullWidth ? 'col-span-2' : '')}>
+        {icon && <div className="w-12 h-12 rounded-full bg-background flex items-center justify-center text-primary">{icon}</div>}
+        <div className="space-y-1">
+            <Label className="text-sm md:text-base font-medium text-grey-1">{label}</Label>
+            <div className={cn("text-black text-base md:text-lg leading-tight", !fullWidth && "truncate")}>{value}</div>
+        </div>
     </div>
 );
 
@@ -50,8 +54,9 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
     const canManage = onEdit && onDelete;
 
     return (
-        <Card className="rounded-[50px] p-10">
-            <CardHeader className="p-0 flex flex-row items-center justify-end mb-6">
+        <Card className="rounded-[50px] p-6 md:p-10">
+            <CardHeader className="p-0 flex flex-row items-center justify-between mb-6">
+                 <h4 className="text-xl font-medium">Project details</h4>
                 {canManage && (
                     <div onClick={(e) => e.stopPropagation()}>
                         <DropdownMenu>
@@ -67,7 +72,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                 )}
             </CardHeader>
             <CardContent className="p-0 flex justify-center">
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-x-8">
+                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-x-8 w-full">
                     {personalInfo && (
                         <>
                             <div className="space-y-6">
@@ -83,14 +88,17 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                             <Separator orientation="vertical" className="hidden lg:block"/>
                         </>
                     )}
-                     <div className="space-y-6">
-                        <h4 className="text-lg font-medium text-stone-500 mb-4">Project details</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                          <DetailField label="Project cost" value={projectInfo.cost} />
-                          <DetailField label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
-                          <DetailField label="Site Dimension" value={projectInfo.dimension} />
-                          <DetailField label="Floors" value={projectInfo.floors} />
-                          <DetailField label="Status" value={projectInfo.status} />
+                     <div className={cn("space-y-6", personalInfo ? '' : 'col-span-full')}>
+                        <div className={cn(
+                            "grid grid-cols-1 gap-y-4 gap-x-8",
+                             personalInfo ? 'md:grid-cols-2' : 'md:grid-cols-3'
+                        )}>
+                          <DetailField icon={<DollarSign />} label="Project cost" value={projectInfo.cost} />
+                          <DetailField icon={<Calendar />} label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
+                          <DetailField icon={<Ruler />} label="Site Dimension" value={projectInfo.dimension} />
+                          <DetailField icon={<Layers />} label="Floors" value={projectInfo.floors} />
+                          <DetailField icon={<Activity />} label="Status" value={projectInfo.status} />
+                           <DetailField icon={<MapPin />} label="Location" value={<a href={projectInfo.locationLink} target="_blank" rel="noopener noreferrer" className="text-primary underline">View on Map</a>} />
                         </div>
                     </div>
                 </div>
