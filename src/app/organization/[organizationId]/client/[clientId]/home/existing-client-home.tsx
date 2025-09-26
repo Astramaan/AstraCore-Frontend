@@ -76,10 +76,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     return (
         <>
             <motion.div
-                className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}
+                className={cn("rounded-[24px] bg-white transition-shadow p-4", className)}
                 onClick={hasAttachments ? () => setIsOpen(!isOpen) : undefined}
             >
-                 <div className={cn("w-full")}>
+                 <div className={cn("w-full", hasAttachments ? 'cursor-pointer' : 'cursor-default')}>
                     <div className="flex items-center gap-4">
                         <div className="relative w-24 h-24 shrink-0">
                             <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -357,7 +357,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8">
+        <div className="relative mb-8">
             <ProjectInfoHeader project={project}>
                 <div className="bg-white py-4 px-6 md:px-10 m-6 rounded-[50px] z-30">
                     <ClientHeader />
@@ -448,4 +448,4 @@ export default function ExistingClientHomePage() {
   );
 }
 
-
+    
