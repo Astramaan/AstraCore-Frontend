@@ -46,24 +46,31 @@ const formatDate = (dateString: string) => {
 };
 
 const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
+
     return (
-        <Card className="w-full rounded-[24px] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onClick(stage)}>
-            <div className="relative w-full h-32">
-                <Image src={stage.image} layout="fill" objectFit="cover" alt={stage.title} data-ai-hint="construction site" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-2 left-4 text-white">
-                    <h3 className="font-semibold text-base">{stage.title}</h3>
-                    <p className="text-xs opacity-80">{stage.subtitle}</p>
+        <Card className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onClick(stage)}>
+             <div className="flex items-center gap-4">
+                <div className="relative w-24 h-24 shrink-0">
+                    <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                        <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                        <span className="text-white text-sm font-semibold">{stage.category}</span>
+                        </div>
+                    </div>
                 </div>
-                <Badge className="absolute top-2 right-2 bg-background/80 text-foreground hover:bg-background">
-                    {stage.category}
-                </Badge>
-            </div>
-            <div className="p-4 space-y-2">
-                 <Progress value={0} className="h-2" />
-                <div className="flex justify-between items-center text-xs">
-                    <span className="font-medium">0%</span>
-                    <span className="text-muted-foreground">{formatDate(stage.createdAt)}</span>
+                <div className="flex-1 space-y-1 w-full text-left">
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                        <Badge className="bg-gray-100 text-gray-700 capitalize">{stage.status}</Badge>
+                    </div>
+                    <p className="text-sm">{stage.subtitle}</p>
+                    <div className="pt-2">
+                        <Progress value={stage.progress || 0} className="h-2" />
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
+                            <span className="text-grey-1 text-xs">{formatDate(stage.createdAt)}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Card>
