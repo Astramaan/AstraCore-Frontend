@@ -90,10 +90,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
     return (
         <>
-            <motion.div
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
-            >
+            <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
             <div
                 className={cn("rounded-[24px] bg-white transition-shadow p-4 shadow-sm", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
@@ -270,7 +267,7 @@ PaymentCard.displayName = 'PaymentCard';
 const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
+            <DialogContent className="max-w-6xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
                 <DialogHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogTitle>{title}</DialogTitle>
                     <DialogClose asChild>
@@ -285,7 +282,7 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
                             startIndex: startIndex,
                             loop: true,
                         }}
-                        className="w-full max-w-lg"
+                        className="w-full max-w-4xl"
                     >
                         <CarouselContent>
                             {images.map((src, index) => (
@@ -473,3 +470,6 @@ export default function ExistingClientHomePage() {
   );
 }
 
+
+
+    
