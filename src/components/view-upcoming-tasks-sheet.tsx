@@ -19,6 +19,7 @@ import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { motion } from 'framer-motion';
 
 
 interface Stage {
@@ -47,50 +48,55 @@ const formatDate = (dateString: string) => {
 
 const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
   return (
-    <Card
-      className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-background"
-      onClick={() => onClick(stage)}
+    <motion.div
+        whileHover={{ scale: 1.03 }}
+        transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
     >
-      <div className="flex items-center gap-4">
-        <div className="relative w-24 h-24 shrink-0">
-          <Image
-            src={stage.image}
-            width={100}
-            height={100}
-            alt={stage.title}
-            className="rounded-[24px] object-cover w-full h-full"
-            data-ai-hint="construction work"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-            <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-              <span className="text-white text-sm font-semibold">
-                {stage.category}
-              </span>
+        <Card
+        className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-background"
+        onClick={() => onClick(stage)}
+        >
+        <div className="flex items-center gap-4">
+            <div className="relative w-24 h-24 shrink-0">
+            <Image
+                src={stage.image}
+                width={100}
+                height={100}
+                alt={stage.title}
+                className="rounded-[24px] object-cover w-full h-full"
+                data-ai-hint="construction work"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+                <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                <span className="text-white text-sm font-semibold">
+                    {stage.category}
+                </span>
+                </div>
             </div>
-          </div>
-        </div>
-        <div className="flex-1 space-y-1 w-full text-left">
-          <div className="flex justify-between items-start">
-            <h3 className="text-black text-base font-semibold">
-              {stage.title}
-            </h3>
-            <Badge className="bg-gray-100 text-gray-700 capitalize whitespace-nowrap">
-              {stage.status}
-            </Badge>
-          </div>
-          <p className="text-sm">{stage.subtitle}</p>
-          <div className="pt-2">
-            <Progress value={stage.progress || 0} className="h-2 [&>div]:bg-white" />
-            <div className="flex justify-between items-center mt-2">
-              <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
-              <span className="text-grey-1 text-xs">
-                {formatDate(stage.createdAt)}
-              </span>
             </div>
-          </div>
+            <div className="flex-1 space-y-1 w-full text-left">
+            <div className="flex justify-between items-start">
+                <h3 className="text-black text-base font-semibold">
+                {stage.title}
+                </h3>
+                <Badge className="bg-gray-100 text-gray-700 capitalize whitespace-nowrap">
+                  {stage.status}
+                </Badge>
+            </div>
+            <p className="text-sm">{stage.subtitle}</p>
+            <div className="pt-2">
+                <Progress value={stage.progress || 0} className="h-2 [&>div]:bg-white" />
+                <div className="flex justify-between items-center mt-2">
+                <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
+                <span className="text-grey-1 text-xs">
+                    {formatDate(stage.createdAt)}
+                </span>
+                </div>
+            </div>
+            </div>
         </div>
-      </div>
-    </Card>
+        </Card>
+    </motion.div>
   );
 };
 
