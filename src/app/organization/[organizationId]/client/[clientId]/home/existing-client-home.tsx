@@ -370,7 +370,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-        <div className="relative">
+        <div className="relative mb-8 md:rounded-b-[50px] overflow-hidden">
             <ProjectInfoHeader project={project} />
         </div>
 
