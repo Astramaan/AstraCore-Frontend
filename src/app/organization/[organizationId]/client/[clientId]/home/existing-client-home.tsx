@@ -371,10 +371,11 @@ export default function ExistingClientHomePage() {
     <>
       <main>
         <div className="relative">
-            <div className="Profileinfoheader z-30 bg-white p-4 m-6 rounded-3xl">
-                <ClientHeader />
-            </div>
-            <ProjectInfoHeader project={project} />
+            <ProjectInfoHeader project={project} >
+                <div className="bg-white p-4 m-6 rounded-3xl z-30">
+                    <ClientHeader />
+                </div>
+            </ProjectInfoHeader>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-5 gap-8 px-4 md:px-8 2xl:px-10 mt-8">
@@ -435,7 +436,7 @@ export default function ExistingClientHomePage() {
     />
      <ImagePreviewDialog 
         open={previewState.open}
-        onOpenChange={(open) => !open && closeImagePreview()}
+        onOpenChange={(open) => !open && closePreview()}
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"

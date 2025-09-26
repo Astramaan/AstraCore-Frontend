@@ -16,17 +16,18 @@ interface ProjectInfoHeaderProps {
         progress: number;
         pm?: string;
         id: string;
-    }
+    },
+    children?: React.ReactNode;
 }
 
-export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
+export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps) => {
     return (
         <div className="relative h-96 overflow-hidden flex flex-col justify-between">
             <Image src={project.coverImage} layout="fill" objectFit="cover" alt={`${project.name} cover`} data-ai-hint="abstract background" className="z-0"/>
             <div className="absolute inset-0 bg-black/40 z-10"></div>
             
-            <div className="relative z-20 flex items-center justify-end p-4 gap-4">
-                
+            <div className="relative z-20">
+                {children}
             </div>
             
             <div className="relative z-20 flex items-center gap-4 px-10 pb-4">
