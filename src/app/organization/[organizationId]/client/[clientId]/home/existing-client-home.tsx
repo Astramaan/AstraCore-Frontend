@@ -193,7 +193,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full">
-        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2 bg-white rounded-full">
+        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2 bg-white rounded-full transition-colors">
             <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
                 <p className="text-grey-1 text-xs">Quick Reply</p>
@@ -207,7 +207,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
     return (
-        <Card className="rounded-[50px] w-full">
+        <Card className="rounded-[50px] w-full hidden md:block">
             <CardContent className="p-6 md:pb-10 space-y-4">
                 <div className="flex justify-between items-center">
                     <p className="text-black text-base font-normal">Recent Site Photos</p>
