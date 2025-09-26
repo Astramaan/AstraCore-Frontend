@@ -9,7 +9,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto h-screen md:h-auto items-stretch">
           
           {/* Image Section */}
-          <div className="relative w-full h-[400px] shrink-0 md:w-[396px] md:h-auto">
+          <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-auto">
             <div className="h-full relative md:pl-4">
               <Image 
                   src="/images/logoimage.png"
@@ -23,7 +23,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
           </div>
 
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-16 md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full flex-1">
+          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-24 md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full flex-1">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo />
               <p className="text-lg text-grey-1 mt-6 md:mt-8">Log in and let’s get to work on your projects.</p>
