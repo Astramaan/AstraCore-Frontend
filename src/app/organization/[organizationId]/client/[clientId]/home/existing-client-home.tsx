@@ -204,7 +204,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                     {siteImages.slice(0, 4).map((src, index) => (
-                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={()={() => onImageClick(index)}}>
+                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={() => onImageClick(index)}>
                             <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
                         </div>
                     ))}
@@ -402,15 +402,18 @@ export default function ExistingClientHomePage() {
                            <PaymentCard />
                         </PaymentsDialog>
                     </div>
-                    <div className="flex-1 md:flex-initial">
+                     <div className="md:hidden">
                         <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                     </div>
+                     <div className="hidden md:block">
+                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                    </div>
+                     <SitePhotos 
+                        onViewMore={() => setIsGalleryOpen(true)}
+                        onImageClick={openImagePreview}
+                        siteImages={project.siteImages}
+                    />
                 </div>
-                <SitePhotos 
-                    onViewMore={() => setIsGalleryOpen(true)}
-                    onImageClick={openImagePreview}
-                    siteImages={project.siteImages}
-                />
             </aside>
         </div>
     </main>
@@ -442,7 +445,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-    
-
-    
