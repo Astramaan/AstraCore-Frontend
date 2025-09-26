@@ -128,7 +128,12 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                 <div className="mt-4 space-y-4">
                                     <Separator />
                                     <div className="pt-2 space-y-2">
-                                        {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>}
+                                        {stage.approvalDate && (
+                                            <div className="flex justify-between items-center">
+                                                <p className="text-sm text-muted-foreground">Approved on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                                <button className="text-sm text-primary underline">Raise issue</button>
+                                            </div>
+                                        )}
                                         {stage.documents.map((doc, index) => (
                                             <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
                                                 <PdfIcon className="w-6 h-6 shrink-0"/>
@@ -383,14 +388,14 @@ export default function ExistingClientHomePage() {
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                     >
-                        View Completed Stages
+                       View Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Stages
+                       View Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">
@@ -462,3 +467,4 @@ export default function ExistingClientHomePage() {
     
 
     
+
