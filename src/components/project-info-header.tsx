@@ -13,9 +13,7 @@ interface ProjectInfoHeaderProps {
     project: {
         name: string;
         coverImage: string;
-        profileImage: string;
         progress: number;
-        daysLeft: number;
         pm?: string;
         id: string;
     }
@@ -28,13 +26,7 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
             <div className="absolute inset-0 bg-black/40 z-10"></div>
             
             <div className="relative z-20 flex items-center justify-end p-4 gap-4">
-                <div className="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-white">
-                    Soil Testing is Underway...
-                </div>
-                <Button variant="ghost" size="icon" className="relative text-white hover:bg-white/20">
-                     <NotificationBellIcon />
-                     <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white" />
-                </Button>
+                
             </div>
             
             <div className="relative z-20 flex items-center gap-4 px-10 pb-4">
