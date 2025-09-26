@@ -48,7 +48,7 @@ const formatDate = (dateString: string) => {
 const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
   return (
     <Card
-      className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-white"
+      className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-background"
       onClick={() => onClick(stage)}
     >
       <div className="flex items-center gap-4">
