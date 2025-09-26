@@ -125,7 +125,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
-            <span className="text-2xl font-semibold">Project Completed Tasks</span>
+            <span className="text-2xl font-semibold">Project Completed Stages</span>
             <SheetClose asChild>
               <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
                 <X className="h-6 w-6" />
@@ -135,7 +135,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
            <div className="relative pt-4">
             <Search className="absolute left-4 top-1/2 -translate-y-0.5 h-5 w-5 text-gray-400" />
             <Input
-              placeholder="Search completed tasks..."
+              placeholder="Search completed stages..."
               className="pl-12 h-14 rounded-full bg-background"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -149,7 +149,7 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
                     <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} />
                 ))
              ) : (
-                <p className="text-muted-foreground col-span-full text-center py-10">No completed tasks match your search.</p>
+                <p className="text-muted-foreground col-span-full text-center py-10">No completed stages match your search.</p>
              )}
           </div>
         </ScrollArea>
