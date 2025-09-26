@@ -71,6 +71,8 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     useEffect(() => {
         if (stage.status === 'On Going' && hasAttachments) {
             setIsOpen(true);
+        } else {
+            setIsOpen(false);
         }
     }, [stage.status, hasAttachments]);
 
@@ -467,4 +469,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
 
