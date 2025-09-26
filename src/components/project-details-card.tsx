@@ -98,7 +98,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                           <DetailField icon={<Ruler />} label="Site Dimension" value={projectInfo.dimension} />
                           <DetailField icon={<Layers />} label="Floors" value={projectInfo.floors} />
                           <DetailField icon={<Activity />} label="Status" value={projectInfo.status} />
-                           <DetailField icon={<MapPin />} label="Location" value={<a href={projectInfo.locationLink} target="_blank" rel="noopener noreferrer" className="text-primary underline">View on Map</a>} />
+                           <DetailField icon={<MapPin />} label="Site Location" value={<a href={projectInfo.locationLink} target="_blank" rel="noopener noreferrer" className="text-primary underline">View on Map</a>} />
                         </div>
                     </div>
                 </div>
