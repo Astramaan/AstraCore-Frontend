@@ -192,8 +192,8 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <Card className="rounded-full">
-        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2">
+    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full">
+        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2 bg-white rounded-full">
             <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
                 <p className="text-grey-1 text-xs">Quick Reply</p>
@@ -202,7 +202,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
                 <WhatsappIcon className="w-6 h-6" />
             </div>
         </a>
-    </Card>
+    </motion.div>
 );
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
@@ -227,21 +227,23 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full">
-        <CardContent className="p-4 px-6 w-full">
-            <div className="flex items-center justify-between gap-4">
-                 <div className="flex-1">
-                    <p className="text-black text-sm font-normal">Payment</p>
-                    <p className="text-grey-1 text-xs">Due on 05 June</p>
+    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full">
+        <Card className="rounded-full">
+            <CardContent className="p-4 px-6 w-full">
+                <div className="flex items-center justify-between gap-4">
+                     <div className="flex-1">
+                        <p className="text-black text-sm font-normal">Payment</p>
+                        <p className="text-grey-1 text-xs">Due on 05 June</p>
+                    </div>
+                    <div className="flex gap-1">
+                        {[...Array(7)].map((_, i) => (
+                            <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
+                        ))}
+                    </div>
                 </div>
-                <div className="flex gap-1">
-                    {[...Array(7)].map((_, i) => (
-                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
-                    ))}
-                </div>
-            </div>
-        </CardContent>
-    </Card>
+            </CardContent>
+        </Card>
+    </motion.div>
 );
 
 const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
@@ -453,4 +455,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
