@@ -23,7 +23,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
           </div>
 
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-24 md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full flex-1">
+          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-28 md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full flex-1">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo />
               <p className="text-lg text-grey-1 mt-6 md:mt-8">Log in and let’s get to work on your projects.</p>
