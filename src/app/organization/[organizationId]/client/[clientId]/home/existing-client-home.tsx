@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -160,7 +159,7 @@ export default function ExistingClientHomePage() {
     { id: 6, title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
   
-  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed').map(stage => ({ ...stage })), [allStages]);
+  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
 
   const recentlyCompletedTasks = useMemo(() => {
     const now = new Date();
@@ -172,7 +171,7 @@ export default function ExistingClientHomePage() {
             return approvalDate > twentyFourHoursAgo;
         }
         return false;
-    }).map(stage => ({ ...stage }));
+    });
   }, [allStages]);
 
   const completedTasks = useMemo(() => {
@@ -263,7 +262,7 @@ export default function ExistingClientHomePage() {
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
-                            <StageCard
+                           <StageCard
                                 key={`timeline-${stage.id}`}
                                 stage={stage}
                                 onReopen={handleReopenTask}
@@ -325,7 +324,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-
-
-    
