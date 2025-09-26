@@ -14,7 +14,7 @@ import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
 import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { X, Download } from 'lucide-react';
+import { X, Download, HardHat, LandPlot, Bot, UserCog } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
@@ -218,9 +218,9 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
 );
 
 const PaymentCard = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<'button'>>((props, ref) => (
-    <button ref={ref} {...props}>
-        <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-            <Card className="rounded-full">
+    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
+        <button ref={ref} {...props} className="w-full">
+            <Card className="rounded-full w-full">
                 <CardContent className="p-4 px-6 w-full">
                     <div className="flex items-center justify-between gap-4">
                          <div className="flex-1 text-left">
@@ -235,8 +235,8 @@ const PaymentCard = React.forwardRef<HTMLButtonElement, React.ComponentPropsWith
                     </div>
                 </CardContent>
             </Card>
-        </motion.div>
-    </button>
+        </button>
+    </motion.div>
 ));
 PaymentCard.displayName = 'PaymentCard';
 
@@ -381,13 +381,13 @@ export default function ExistingClientHomePage() {
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-[calc(33.33%-0.75rem)]"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-auto"
                     >
                         View Completed Stages
                     </Button>
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-[calc(33.33%-0.75rem)] 2xl:ml-auto"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary md:flex-1 2xl:flex-grow-0 2xl:w-auto 2xl:ml-auto"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
                         View Upcoming Stages
@@ -452,9 +452,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-
-
-    
-
-    
