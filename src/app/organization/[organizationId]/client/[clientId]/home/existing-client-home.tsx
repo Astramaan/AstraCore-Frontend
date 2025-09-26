@@ -109,7 +109,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         </div>
                     </CollapsibleTrigger>
                     
-                    <CollapsibleContent>
+                    <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                         {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                             <div className="mt-4 space-y-4">
                                 <Separator />
