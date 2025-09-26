@@ -77,7 +77,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         <>
             <motion.div
                 layout
-                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
+                transition={{ layout: { duration: 0.3, type: "tween", ease: "easeInOut" } }}
                 className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer hover:shadow-md" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
             >
