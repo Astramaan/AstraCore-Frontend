@@ -128,7 +128,8 @@ export default function ExistingClientHomePage() {
   const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
   const [isRaiseIssueSheetOpen, setIsRaiseIssueSheetOpen] = useState(false);
   const [stageForIssue, setStageForIssue] = useState<TimelineStage | null>(null);
-  const [openCardId, setOpenCardId] = useState<string | null>(null);
+  const [openRecentCardId, setOpenRecentCardId] = useState<string | null>(null);
+  const [openTimelineCardId, setOpenTimelineCardId] = useState<string | null>(null);
 
 
   const project = {
@@ -158,10 +159,6 @@ export default function ExistingClientHomePage() {
     { id: 5, title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
     { id: 6, title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
-  
-  const handleCardToggle = (cardId: string) => {
-    setOpenCardId(prevId => (prevId === cardId ? null : cardId));
-  };
   
   const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed').map(stage => ({ ...stage })), [allStages]);
 
@@ -256,8 +253,8 @@ export default function ExistingClientHomePage() {
                                         stage={stage}
                                         onReopen={handleReopenTask}
                                         onRaiseIssue={handleRaiseIssue}
-                                        isOpen={openCardId === `recent-${stage.id}`}
-                                        onToggle={() => handleCardToggle(`recent-${stage.id}`)}
+                                        isOpen={openRecentCardId === `recent-${stage.id}`}
+                                        onToggle={() => setOpenRecentCardId(prev => prev === `recent-${stage.id}` ? null : `recent-${stage.id}`)}
                                     />
                                 ))}
                             </div>
@@ -271,8 +268,8 @@ export default function ExistingClientHomePage() {
                                 stage={stage}
                                 onReopen={handleReopenTask}
                                 onRaiseIssue={handleRaiseIssue}
-                                isOpen={openCardId === `timeline-${stage.id}`}
-                                onToggle={() => handleCardToggle(`timeline-${stage.id}`)}
+                                isOpen={openTimelineCardId === `timeline-${stage.id}`}
+                                onToggle={() => setOpenTimelineCardId(prev => prev === `timeline-${stage.id}` ? null : `timeline-${stage.id}`)}
                             />
                         ))}
                     </div>
