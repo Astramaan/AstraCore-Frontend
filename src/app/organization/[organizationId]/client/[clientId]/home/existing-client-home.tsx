@@ -193,7 +193,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full">
-        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2 bg-white rounded-full transition-colors">
+        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2 bg-white rounded-full">
             <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
                 <p className="text-grey-1 text-xs">Quick Reply</p>
@@ -382,14 +382,14 @@ export default function ExistingClientHomePage() {
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                     >
-                        View Completed Stages
+                        <span className="hidden md:inline">View </span>Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Stages
+                         <span className="hidden md:inline">View </span>Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">
