@@ -66,7 +66,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
     const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(stage.status === 'On Going' && hasAttachments);
 
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
         e.stopPropagation();
@@ -447,4 +447,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
 
