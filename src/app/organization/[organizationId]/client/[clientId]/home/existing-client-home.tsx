@@ -117,7 +117,7 @@ const StageCard = ({ stage, onReopen, onRaiseIssue, className }: { stage: Timeli
                     </div>
                 </div>
                 <AnimatePresence>
-                    {isOpen && (
+                    {isOpen && hasAttachments && (
                         <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
@@ -481,3 +481,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
