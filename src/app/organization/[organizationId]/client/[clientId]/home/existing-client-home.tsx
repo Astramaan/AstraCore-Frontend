@@ -22,6 +22,7 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { motion, AnimatePresence } from 'framer-motion';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
+import { RaiseIssueSheet, type IssueInfo } from '@/components/raise-issue-sheet';
 
 
 interface TimelineStage {
@@ -61,7 +62,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     );
 };
 
-const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReopen?: (stage: TimelineStage) => void, className?: string }) => {
+const StageCard = ({ stage, onReopen, onRaiseIssue, className }: { stage: TimelineStage, onReopen?: (stage: TimelineStage) => void, onRaiseIssue: (stage: TimelineStage) => void, className?: string }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
@@ -131,7 +132,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                         {stage.approvalDate && (
                                             <div className="flex justify-between items-center">
                                                 <p className="text-sm text-muted-foreground">Approved on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                                                <button className="text-sm text-primary underline">Raise issue</button>
+                                                <button onClick={() => onRaiseIssue(stage)} className="text-sm text-primary underline">Raise issue</button>
                                             </div>
                                         )}
                                         {stage.documents.map((doc, index) => (
@@ -297,6 +298,8 @@ export default function ExistingClientHomePage() {
   const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
   const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
   const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
+  const [isRaiseIssueSheetOpen, setIsRaiseIssueSheetOpen] = useState(false);
+  const [stageForIssue, setStageForIssue] = useState<TimelineStage | null>(null);
 
 
   const project = {
@@ -366,6 +369,17 @@ export default function ExistingClientHomePage() {
   const closeImagePreview = () => {
       setPreviewState({ open: false, startIndex: 0 });
   };
+  
+  const handleRaiseIssue = (stage: TimelineStage) => {
+    setStageForIssue(stage);
+    setIsRaiseIssueSheetOpen(true);
+  };
+  
+  const handleIssueSubmit = (issueInfo: IssueInfo) => {
+    console.log('Issue submitted for stage:', stageForIssue?.title, issueInfo);
+    // Here you would typically send this data to your backend.
+    setIsRaiseIssueSheetOpen(false);
+  };
 
 
   return (
@@ -404,7 +418,7 @@ export default function ExistingClientHomePage() {
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
                             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
-                                    <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                                    <StageCard key={index} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
                                 ))}
                             </div>
                             <Separator className="my-8" />
@@ -412,7 +426,7 @@ export default function ExistingClientHomePage() {
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
-                            <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                            <StageCard key={index} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
                         ))}
                     </div>
                 </div>
@@ -458,13 +472,12 @@ export default function ExistingClientHomePage() {
         tasks={completedTasks as any}
         onTaskClick={(task) => console.log('task clicked', task)}
     />
+    <RaiseIssueSheet
+        isOpen={isRaiseIssueSheetOpen}
+        onClose={() => setIsRaiseIssueSheetOpen(false)}
+        stageTitle={stageForIssue?.title || ''}
+        onSubmit={handleIssueSubmit}
+    />
     </>
   );
 }
-
-
-
-    
-
-    
-
