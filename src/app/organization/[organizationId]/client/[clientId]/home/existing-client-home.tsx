@@ -418,7 +418,7 @@ export default function ExistingClientHomePage() {
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
                             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
-                                    <StageCard key={index} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
+                                    <StageCard key={`${stage.title}-${index}-recent`} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
                                 ))}
                             </div>
                             <Separator className="my-8" />
@@ -426,7 +426,7 @@ export default function ExistingClientHomePage() {
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
-                            <StageCard key={index} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
+                            <StageCard key={`${stage.title}-${index}`} stage={stage} onReopen={handleReopenTask} onRaiseIssue={handleRaiseIssue} />
                         ))}
                     </div>
                 </div>
