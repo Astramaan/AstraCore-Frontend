@@ -18,7 +18,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   if (loading) {
     return (
         <div className="min-h-screen bg-background">
-            <header className="sticky top-0 z-30 bg-white p-4 m-6">
+            <header className="z-30 bg-white p-4 m-6">
                 <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-6 rounded-full bg-white">
                     <Skeleton className="h-16 w-full" />
                 </div>
@@ -32,12 +32,12 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="min-h-screen bg-background relative">
-        <header className="sticky top-0 z-30 bg-white p-4 m-6">
-           <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-6 rounded-full bg-white">
-             <ClientHeader />
-           </div>
-        </header>
         <div className="Profileinfoheader">
+          <header className="z-30 bg-white p-4 m-6">
+            <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-6 rounded-full bg-white">
+              <ClientHeader />
+            </div>
+          </header>
         </div>
         <main className="w-full flex-1 bg-background">
             {children}
