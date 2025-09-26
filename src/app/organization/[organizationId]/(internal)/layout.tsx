@@ -18,7 +18,10 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
     if (!loading) {
       if (!user) {
         router.replace('/');
-      } else if (user.roleType === 'client' || user.team === 'New User') {
+        return;
+      } 
+      
+      if (user.roleType === 'client' || user.team === 'New User') {
         const targetPath = user.team === 'New User' 
           ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
           : `/organization/${user.organizationId}/client/${user.userId}/home`;

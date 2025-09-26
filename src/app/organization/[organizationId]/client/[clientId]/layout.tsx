@@ -19,7 +19,10 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     if (!loading) {
       if (!user) {
         router.replace('/');
-      } else if (user.roleType !== 'client' || user.userId !== clientId) {
+        return;
+      } 
+      
+      if (user.roleType !== 'client' || user.userId !== clientId) {
         router.replace(`/organization/${organizationId}/home`);
       }
     }

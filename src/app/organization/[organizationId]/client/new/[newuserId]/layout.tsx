@@ -19,7 +19,10 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
     if (!loading) {
       if (!user) {
         router.replace('/');
-      } else if (user.team !== 'New User' || user.userId !== newuserId) {
+        return;
+      }
+      
+      if (user.team !== 'New User' || user.userId !== newuserId) {
         // If the user is not a "New User" or trying to access another user's page,
         // redirect them to their correct home.
         const targetPath = user.team === 'New User'
