@@ -36,59 +36,34 @@ interface Stage {
     createdAt: string;
     description: string;
     priority: 'Low' | 'Medium' | 'High';
+    progress?: number;
 }
 
-const getDateColor = (dateString: string) => {
-    const dueDate = new Date(dateString);
-    const today = new Date();
-    
-    dueDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    const diffTime = dueDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) { // Past due
-        return 'text-red-500';
-    } else if (diffDays === 0) {
-        return 'text-red-500'; // Today
-    } else if (diffDays === 1) {
-        return 'text-orange-500'; // Tomorrow
-    } else {
-        return 'text-muted-foreground'; // Default
-    }
+const formatDate = (dateString: string) => {
+    if (!dateString || isNaN(new Date(dateString).getTime())) return "Invalid Date";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
 const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
-    const priority = stage.priority;
-    const priorityColors: { [key: string]: string } = {
-        "Low": "bg-cyan-500/10 text-cyan-500",
-        "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-500/10 text-red-500",
-    };
-
-    const formattedDate = new Date(stage.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
-    const dateColor = getDateColor(stage.createdAt);
-
     return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-background" onClick={() => onClick(stage)}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{stage.title}</h3>
-                    <Badge className={priorityColors[stage.priority]}>{stage.priority}</Badge>
+        <Card className="w-full rounded-[24px] overflow-hidden cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={() => onClick(stage)}>
+            <div className="relative w-full h-32">
+                <Image src={stage.image} layout="fill" objectFit="cover" alt={stage.title} data-ai-hint="construction site" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute bottom-2 left-4 text-white">
+                    <h3 className="font-semibold text-base">{stage.title}</h3>
+                    <p className="text-xs opacity-80">{stage.subtitle}</p>
                 </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{stage.subtitle}</p>
+                <Badge className="absolute top-2 right-2 bg-background/80 text-foreground hover:bg-background">
+                    {stage.category}
+                </Badge>
             </div>
-            <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                    <div className="flex -space-x-2">
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                    </div>
-                     <Badge variant="outline" className="ml-4 bg-white text-zinc-900 border-transparent">{stage.category}</Badge>
-                </div>
-                <div className="text-right flex items-center gap-2">
-                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
+            <div className="p-4 space-y-2">
+                 <Progress value={0} className="h-2" />
+                <div className="flex justify-between items-center text-xs">
+                    <span className="font-medium">0%</span>
+                    <span className="text-muted-foreground">{formatDate(stage.createdAt)}</span>
                 </div>
             </div>
         </Card>
