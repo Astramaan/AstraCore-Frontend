@@ -22,6 +22,7 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { motion, AnimatePresence } from 'framer-motion';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
+import { ProjectTimelineChart } from '@/components/charts/project-timeline-chart';
 
 
 interface TimelineStage {
@@ -44,7 +45,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+            <DialogContent className="max-w-6xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
                 <DialogHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogTitle>{file.name}</DialogTitle>
                     <DialogClose asChild>
@@ -216,35 +217,6 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     </motion.div>
 );
 
-const ProjectMetricsCard = () => (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-        <Card className="rounded-[50px] w-full">
-            <CardContent className="p-6 space-y-4">
-                <p className="text-black text-base font-semibold">Project Metrics</p>
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-background rounded-2xl p-4 text-center">
-                        <p className="text-2xl font-bold">95%</p>
-                        <p className="text-sm text-muted-foreground">Work Quality</p>
-                    </div>
-                    <div className="bg-background rounded-2xl p-4 text-center">
-                        <p className="text-2xl font-bold">75%</p>
-                        <p className="text-sm text-muted-foreground">Work Progress</p>
-                    </div>
-                    <div className="bg-background rounded-2xl p-4 text-center">
-                        <p className="text-2xl font-bold">3</p>
-                        <p className="text-sm text-muted-foreground">Delayed Tasks</p>
-                    </div>
-                    <div className="bg-background rounded-2xl p-4 text-center">
-                        <p className="text-2xl font-bold">25</p>
-                        <p className="text-sm text-muted-foreground">Completed Tasks</p>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    </motion.div>
-);
-
-
 const PaymentCard = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<'button'>>((props, ref) => (
     <button ref={ref} {...props}>
         <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
@@ -382,6 +354,17 @@ export default function ExistingClientHomePage() {
   const closeImagePreview = () => {
       setPreviewState({ open: false, startIndex: 0 });
   };
+  
+  const timelineChartData = useMemo(() => {
+    const completed = allStages.filter(s => s.status === 'completed').length;
+    const onGoing = allStages.filter(s => s.status === 'On Going').length;
+    const upcoming = allStages.filter(s => s.status === 'Yet To Begin').length;
+    return [
+        {name: 'Upcoming', value: upcoming, fill: 'hsl(var(--muted))'},
+        {name: 'On Going', value: onGoing, fill: 'hsl(var(--chart-1))'},
+        {name: 'Completed', value: completed, fill: 'hsl(var(--chart-2))'},
+    ]
+  }, [allStages]);
 
 
   return (
@@ -436,7 +419,7 @@ export default function ExistingClientHomePage() {
                        <PaymentCard />
                     </PaymentsDialog>
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                     <ProjectMetricsCard />
+                     <ProjectTimelineChart data={timelineChartData} />
                 </div>
             </aside>
         </div>
