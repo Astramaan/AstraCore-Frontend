@@ -181,14 +181,14 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <Card className="rounded-full md:rounded-[50px]">
-        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center p-4 gap-2 md:flex-row text-center">
-            <div className="grid place-items-center h-10 w-10 rounded-full bg-white">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="w-6 h-6 text-green-500"><rect width="256" height="256" fill="none"/><path d="M45.4,177A95.9,95.9,0,1,1,79,210.6h0L45.8,220a7.9,7.9,0,0,1-9.8-9.8L45.4,177Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12"/><path d="M152.1,184A79.9,79.9,0,0,1,72,103.9,28,28,0,0,1,100,76h0a6.8,6.8,0,0,1,6,3.5l11.7,20.4a8.1,8.1,0,0,1-.1,8.1l-9.4,15.7h0a48,48,0,0,0,24.1,24.1h0l15.7-9.4a8.1,8.1,0,0,1,8.1-.1L176.5,150a6.8,6.8,0,0,1,3.5,6h0A28.1,28.1,0,0,1,152.1,184Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12"/></svg>
-            </div>
-            <div className="hidden md:block text-left">
+    <Card className="rounded-full">
+        <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2">
+            <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
                 <p className="text-grey-1 text-xs">Quick Reply</p>
+            </div>
+            <div className="grid place-items-center h-10 w-10 rounded-full bg-white">
+                <WhatsappIcon className="w-6 h-6" />
             </div>
         </a>
     </Card>
@@ -196,7 +196,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
     return (
-        <Card className="rounded-[50px] w-full hidden md:block">
+        <Card className="rounded-[50px] w-full">
             <CardContent className="p-6 md:pb-10 space-y-4">
                 <div className="flex justify-between items-center">
                     <p className="text-black text-base font-normal">Recent Site Photos</p>
@@ -352,9 +352,9 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-      <div className="relative mb-8 md:mx-8">
-        <ProjectInfoHeader project={project} />
-      </div>
+       <div className="relative mb-8 md:mx-8">
+            <ProjectInfoHeader project={project} />
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
@@ -397,17 +397,10 @@ export default function ExistingClientHomePage() {
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                  <div className="flex flex-col gap-4">
-                    <div className="flex-1">
-                        <PaymentsDialog>
-                           <PaymentCard />
-                        </PaymentsDialog>
-                    </div>
-                     <div className="md:hidden">
-                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                    </div>
-                     <div className="hidden md:block">
-                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                    </div>
+                    <PaymentsDialog>
+                       <PaymentCard />
+                    </PaymentsDialog>
+                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                      <SitePhotos 
                         onViewMore={() => setIsGalleryOpen(true)}
                         onImageClick={openImagePreview}
