@@ -369,6 +369,9 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
+      <div className="z-30 bg-white p-4 m-6 rounded-3xl">
+          <ClientHeader />
+      </div>
       <main>
         <div className="relative">
             <ProjectInfoHeader project={project} />
