@@ -369,11 +369,11 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
-      <div className="z-30 bg-white p-4 m-6 rounded-3xl">
-          <ClientHeader />
-      </div>
       <main>
         <div className="relative">
+            <div className="Profileinfoheader z-30 bg-white p-4 m-6 rounded-3xl">
+                <ClientHeader />
+            </div>
             <ProjectInfoHeader project={project} />
         </div>
 
