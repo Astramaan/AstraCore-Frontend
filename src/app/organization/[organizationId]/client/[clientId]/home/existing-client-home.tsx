@@ -114,10 +114,11 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            className="overflow-hidden"
                         >
                             {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
                                 <div className="mt-4 space-y-4">
@@ -444,3 +445,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
