@@ -26,7 +26,7 @@ export default function LivePage() {
                 muted
                 loop
                 playsInline
-                controls={false}
+                controls={true}
               />
             </div>
           </CardContent>
