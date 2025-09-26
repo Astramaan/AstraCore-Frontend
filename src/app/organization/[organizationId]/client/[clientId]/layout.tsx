@@ -27,8 +27,6 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
   
   return (
     <div className="min-h-screen bg-background relative">
-        <div className="Profileinfoheader">
-        </div>
         <main className="w-full flex-1 bg-background">
             {children}
         </main>
