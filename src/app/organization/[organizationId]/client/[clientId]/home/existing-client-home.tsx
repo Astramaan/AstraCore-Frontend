@@ -380,13 +380,13 @@ export default function ExistingClientHomePage() {
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                     >
                         View Completed Stages
                     </Button>
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
                         View Upcoming Stages
@@ -435,7 +435,7 @@ export default function ExistingClientHomePage() {
     />
      <ImagePreviewDialog 
         open={previewState.open}
-        onOpenChange={(open) => !open && closePreview()}
+        onOpenChange={(open) => !open && closeImagePreview()}
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"
