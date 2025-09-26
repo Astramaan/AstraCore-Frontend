@@ -6,10 +6,10 @@ import Image from "next/image";
 export default function LoginPage({ searchParams }: { searchParams: { [key:string]: string | string[] | undefined } }) {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-0 md:p-4">
-      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto h-full md:h-auto items-stretch">
+      <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto h-full md:h-auto items-stretch">
           
           {/* Image Section */}
-          <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
+          <div className="relative w-full h-[300px] shrink-0 md:w-[396px] md:h-auto">
             <div className="h-full relative md:pl-4">
               <Image 
                   src="/images/logoimage.png"
