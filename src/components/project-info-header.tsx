@@ -21,7 +21,7 @@ interface ProjectInfoHeaderProps {
 
 export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
     return (
-        <div className="relative h-80 overflow-hidden flex flex-col justify-between">
+        <div className="relative h-96 overflow-hidden flex flex-col justify-between">
             <Image src={project.coverImage} layout="fill" objectFit="cover" alt={`${project.name} cover`} data-ai-hint="abstract background" className="z-0"/>
             <div className="absolute inset-0 bg-black/40 z-10"></div>
             
