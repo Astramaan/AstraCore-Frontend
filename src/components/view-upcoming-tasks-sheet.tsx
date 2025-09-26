@@ -85,7 +85,7 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
             </div>
             <p className="text-sm">{stage.subtitle}</p>
             <div className="pt-2">
-                <Progress value={stage.progress || 0} className="h-2 [&>div]:bg-white" />
+                <Progress value={stage.progress || 0} className="h-2 bg-white" />
                 <div className="flex justify-between items-center mt-2">
                 <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
                 <span className="text-grey-1 text-xs">
