@@ -90,8 +90,8 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                     )}
                      <div className={cn("space-y-6", personalInfo ? '' : 'col-span-full')}>
                         <div className={cn(
-                            "grid grid-cols-1 gap-y-4 gap-x-8",
-                             personalInfo ? 'md:grid-cols-2' : 'md:grid-cols-3'
+                            "grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8",
+                             personalInfo ? '' : 'lg:grid-cols-3'
                         )}>
                           <DetailField icon={<DollarSign />} label="Project cost" value={projectInfo.cost} />
                           <DetailField icon={<Calendar />} label="Duration" value={`${projectInfo.duration.start} - ${projectInfo.duration.end}`} />
