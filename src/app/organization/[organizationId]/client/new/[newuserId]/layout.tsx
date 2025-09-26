@@ -22,9 +22,9 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
         return;
       }
       
+      // If the user is not a "New User" or trying to access another user's page,
+      // redirect them to their correct home.
       if (user.team !== 'New User' || user.userId !== newuserId) {
-        // If the user is not a "New User" or trying to access another user's page,
-        // redirect them to their correct home.
         const targetPath = user.team === 'New User'
           ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
           : user.roleType === 'client'
@@ -35,7 +35,7 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
     }
   }, [user, loading, router, organizationId, newuserId]);
 
-  if (loading || !user) {
+  if (loading || !user || user.team !== 'New User' || user.userId !== newuserId) {
     return (
         <div className="min-h-screen bg-background p-4">
             <header className="max-w-[1440px] mx-auto mb-6">

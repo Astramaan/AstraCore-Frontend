@@ -20,15 +20,21 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
       if (!user) {
         router.replace('/');
         return;
-      } 
+      }
       
-      if (user.roleType !== 'client' || user.userId !== clientId) {
-        router.replace(`/organization/${organizationId}/home`);
+      // If the user is not the correct client or is a new user, redirect them.
+      if (user.roleType !== 'client' || user.userId !== clientId || user.team === 'New User') {
+         const targetPath = user.team === 'New User'
+          ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
+          : user.roleType === 'client'
+          ? `/organization/${user.organizationId}/client/${user.userId}/home`
+          : `/organization/${user.organizationId}/home`;
+        router.replace(targetPath);
       }
     }
   }, [user, loading, router, organizationId, clientId]);
 
-  if (loading || !user) {
+  if (loading || !user || user.roleType !== 'client' || user.userId !== clientId || user.team === 'New User') {
     return (
         <div className="min-h-screen bg-background p-4">
             <header className="max-w-[1440px] mx-auto mb-6">
