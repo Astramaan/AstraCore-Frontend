@@ -233,25 +233,28 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 };
 
 
-const PaymentCard = () => (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-        <Card className="rounded-full">
-            <CardContent className="p-4 px-6 w-full">
-                <div className="flex items-center justify-between gap-4">
-                     <div className="flex-1">
-                        <p className="text-black text-sm font-normal">Payment</p>
-                        <p className="text-grey-1 text-xs">Due on 05 June</p>
+const PaymentCard = React.forwardRef<HTMLButtonElement, React.ComponentPropsWithoutRef<'button'>>((props, ref) => (
+    <button ref={ref} {...props}>
+        <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
+            <Card className="rounded-full">
+                <CardContent className="p-4 px-6 w-full">
+                    <div className="flex items-center justify-between gap-4">
+                         <div className="flex-1 text-left">
+                            <p className="text-black text-sm font-normal">Payment</p>
+                            <p className="text-grey-1 text-xs">Due on 05 June</p>
+                        </div>
+                        <div className="flex gap-1">
+                            {[...Array(7)].map((_, i) => (
+                                <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex gap-1">
-                        {[...Array(7)].map((_, i) => (
-                            <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
-                        ))}
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    </motion.div>
-);
+                </CardContent>
+            </Card>
+        </motion.div>
+    </button>
+));
+PaymentCard.displayName = 'PaymentCard';
 
 const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
     return (
@@ -458,6 +461,7 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
 
 
 
