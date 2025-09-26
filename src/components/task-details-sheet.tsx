@@ -606,7 +606,6 @@ export function TaskDetailsSheet({
   task,
   onUpdateTask,
 }: TaskDetailsSheetProps) {
-  const isMobile = useIsMobile();
 
   if (!task) return null;
 
@@ -618,7 +617,7 @@ export function TaskDetailsSheet({
       <DialogOrSheetContent
         side="bottom"
         className={cn(
-          'p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none'
+          'p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom'
         )}
       >
         <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
