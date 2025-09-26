@@ -204,7 +204,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                     {siteImages.slice(0, 4).map((src, index) => (
-                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={() => onImageClick(index)}>
+                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={()={() => onImageClick(index)}}>
                             <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
                         </div>
                     ))}
@@ -396,7 +396,7 @@ export default function ExistingClientHomePage() {
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
-                 <div className="flex flex-col md:flex-row gap-4">
+                 <div className="flex flex-col gap-4">
                     <div className="flex-1">
                         <PaymentsDialog>
                            <PaymentCard />
@@ -442,5 +442,7 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
 
     
