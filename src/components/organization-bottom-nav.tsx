@@ -13,13 +13,13 @@ import LeadsIcon from './icons/leads-icon';
 import { useUser } from '@/context/user-context';
 import TeamIcon from './icons/team-icon';
 
-const allNavItems = [
-    { href: `/home`, icon: HomeIcon, label: "Home", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'Sales', 'superAdmin'] },
-    { href: `/meetings`, icon: MeetingsIcon, label: "Meetings", teams: ['Project Manager', 'Architect', 'Sales', 'superAdmin', 'Site Supervisor'] },
-    { href: `/projects`, icon: ProjectsIcon, label: "Projects", teams: ['Project Manager', 'Architect', 'Site Supervisor', 'superAdmin'] },
-    { href: `/leads`, icon: LeadsIcon, label: "Leads", teams: ['Sales', 'superAdmin'] },
-    { href: `/vendors`, icon: VendorsIcon, label: "Vendors", teams: ['Project Manager', 'superAdmin', 'Site Supervisor'] },
-    { href: `/teams`, icon: TeamIcon, label: "Teams", teams: ['superAdmin'] },
+const navItems = [
+    { href: `/home`, icon: HomeIcon, label: "Home" },
+    { href: `/meetings`, icon: MeetingsIcon, label: "Meetings" },
+    { href: `/projects`, icon: ProjectsIcon, label: "Projects" },
+    { href: `/leads`, icon: LeadsIcon, label: "Leads" },
+    { href: `/vendors`, icon: VendorsIcon, label: "Vendors" },
+    { href: `/teams`, icon: TeamIcon, label: "Teams" },
 ];
 
 export const OrganizationBottomNav = () => {
@@ -27,16 +27,8 @@ export const OrganizationBottomNav = () => {
     const pathname = usePathname();
     const params = useParams();
     const organizationId = params.organizationId as string;
-
-    const navItems = React.useMemo(() => {
-        if (!user) return [];
-        if (user.roleType === 'superAdmin') {
-            return allNavItems.filter(item => item.teams.includes('superAdmin'));
-        }
-        return allNavItems.filter(item => user.team && item.teams.includes(user.team));
-    }, [user]);
     
-    if (loading || !user || navItems.length === 0) {
+    if (loading || !user) {
         return null;
     }
 
