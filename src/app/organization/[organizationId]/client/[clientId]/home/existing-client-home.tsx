@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -114,7 +115,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            transition={{ ease: "easeInOut", duration: 0.3 }}
                             style={{ overflow: 'hidden' }}
                         >
                             {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
@@ -373,14 +374,14 @@ export default function ExistingClientHomePage() {
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                     >
-                        View Completed Tasks
+                        View Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Tasks
+                        View Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">
@@ -446,3 +447,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+
