@@ -85,12 +85,9 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
     return (
         <>
-            <motion.div
-                layout
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
+            <div
                 className={cn("rounded-[24px] bg-white transition-shadow p-4 shadow-sm", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
-                whileHover={{ scale: 1.03 }}
             >
                 <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
@@ -188,7 +185,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </motion.div>
+            </div>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
                 onOpenChange={(open) => !open && setSelectedPdf(null)} 
