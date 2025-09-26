@@ -27,7 +27,7 @@ import { StageCard, TimelineStage } from '@/components/stage-card';
 
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full">
+    <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }} className="hover:shadow-lg rounded-full px-6">
         <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 px-6 gap-2 bg-white rounded-full">
             <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
@@ -213,7 +213,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-        <div className="relative mb-8">
+        <div className="relative mb-8 h-[400px]">
             <ProjectInfoHeader project={project}>
                 <div className="bg-white py-4 px-6 md:px-10 m-6 rounded-[50px] z-30">
                     <ClientHeader />
@@ -221,7 +221,7 @@ export default function ExistingClientHomePage() {
             </ProjectInfoHeader>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-4 gap-8 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-4 gap-8 md:px-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-5 2xl:col-span-3 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -230,14 +230,14 @@ export default function ExistingClientHomePage() {
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                     >
-                        View Completed Stages
+                        <span className='hidden md:inline'>View </span>Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Stages
+                        <span className='hidden md:inline'>View </span>Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">
