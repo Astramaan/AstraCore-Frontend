@@ -77,8 +77,9 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         <>
             <motion.div
                 layout
-                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
-                className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer hover:shadow-md" : "")}
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+                className={cn("rounded-[24px] bg-white transition-shadow p-4 shadow-sm", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
             >
                 <div className={cn("w-full")}>
@@ -445,6 +446,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-
-
