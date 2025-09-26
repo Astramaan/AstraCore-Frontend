@@ -99,16 +99,16 @@ export default function ClientProjectDetailsPage() {
             <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
                 <ClientHeader />
             </header>
-            <main className="max-w-[1440px] 2xl:max-w-none mx-auto p-4 md:p-8 space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_1fr] md:gap-8">
-                <div className="md:col-span-2 lg:col-span-3">
+            <main className="max-w-[1440px] 2xl:max-w-none mx-auto p-4 md:p-8 space-y-8 md:grid md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-3 lg:grid-rows-[auto_1fr] md:gap-8">
+                <div className="md:col-span-2 lg:col-span-5 xl:col-span-3">
                     <ProjectDetailsCard 
                         projectInfo={projectData.projectInfo}
                     />
                 </div>
-                <div className="md:col-span-2 lg:col-span-2 lg:row-start-2">
+                <div className="md:col-span-2 lg:col-span-3 xl:col-span-2 lg:row-start-2">
                     <ProjectFilesCard phases={mockTimeline} />
                 </div>
-                <div className="space-y-8 md:col-span-2 lg:col-span-1 lg:row-start-2">
+                <div className="space-y-8 md:col-span-2 lg:col-span-2 xl:col-span-1 lg:row-start-2">
                     <ProjectVisualsCard visuals={visuals} />
                     <ProjectMaterialsCard materials={materials} />
                 </div>
