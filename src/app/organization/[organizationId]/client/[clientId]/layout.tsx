@@ -22,19 +22,21 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
         return;
       }
       
-      // If the user is not the correct client for this page, or not a client at all, redirect them.
-      if (user.roleType !== 'client' || user.userId !== clientId) {
+      if (user.roleType !== 'client' || user.userId !== clientId || user.team === 'New User') {
          const targetPath = user.team === 'New User'
           ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
           : user.roleType === 'client'
           ? `/organization/${user.organizationId}/client/${user.userId}/home`
           : `/organization/${user.organizationId}/home`;
-        router.replace(targetPath);
+        
+        if (router.pathname !== targetPath) {
+          router.replace(targetPath);
+        }
       }
     }
   }, [user, loading, router, organizationId, clientId]);
 
-  if (loading || !user || user.roleType !== 'client' || user.userId !== clientId) {
+  if (loading || !user || user.roleType !== 'client' || user.userId !== clientId || user.team === 'New User') {
     return (
         <div className="min-h-screen bg-background p-4">
             <header className="max-w-[1440px] mx-auto mb-6">

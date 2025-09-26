@@ -22,15 +22,16 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
         return;
       }
       
-      // If the user is not a "New User" or trying to access another user's page,
-      // redirect them to their correct home.
       if (user.team !== 'New User' || user.userId !== newuserId) {
         const targetPath = user.team === 'New User'
           ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
           : user.roleType === 'client'
           ? `/organization/${user.organizationId}/client/${user.userId}/home`
           : `/organization/${user.organizationId}/home`;
-        router.replace(targetPath);
+
+        if (router.pathname !== targetPath) {
+          router.replace(targetPath);
+        }
       }
     }
   }, [user, loading, router, organizationId, newuserId]);
