@@ -11,6 +11,7 @@ interface ProjectInfoHeaderProps {
         coverImage: string;
         profileImage: string;
         progress: number;
+        pm?: string;
     }
 }
 
@@ -23,6 +24,9 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
                 <Image src={project.profileImage} width={94} height={94} alt={project.name} className="rounded-full border-[3px] border-white" data-ai-hint="person portrait"/>
                 <div>
                     <h2 className="text-2xl font-bold text-white">{project.name}</h2>
+                    {project.pm && (
+                        <p className="text-sm text-white/80">Project Manager: {project.pm}</p>
+                    )}
                 </div>
             </div>
             <div className="relative z-20 flex items-center gap-4 max-w-md w-1/3">
