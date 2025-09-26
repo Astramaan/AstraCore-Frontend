@@ -14,29 +14,8 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
   const params = useParams();
   const organizationId = params.organizationId as string;
   const newuserId = params.newuserId as string;
-
-  useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.replace('/');
-        return;
-      }
-      
-      if (user.team !== 'New User' || user.userId !== newuserId) {
-        const targetPath = user.team === 'New User'
-          ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
-          : user.roleType === 'client'
-          ? `/organization/${user.organizationId}/client/${user.userId}/home`
-          : `/organization/${user.organizationId}/home`;
-
-        if (router.pathname !== targetPath) {
-          router.replace(targetPath);
-        }
-      }
-    }
-  }, [user, loading, router, organizationId, newuserId]);
-
-  if (loading || !user || user.team !== 'New User' || user.userId !== newuserId) {
+  
+  if (loading) {
     return (
         <div className="min-h-screen bg-background p-4">
             <header className="max-w-[1440px] mx-auto mb-6">

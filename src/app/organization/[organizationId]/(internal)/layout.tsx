@@ -14,26 +14,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   const router = useRouter();
   const { user, loading, isSuperAdmin } = useUser();
   
-  useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.replace('/');
-        return;
-      } 
-      
-      if (user.roleType === 'client') {
-        const targetPath = user.team === 'New User' 
-          ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
-          : `/organization/${user.organizationId}/client/${user.userId}/home`;
-          
-        if (router.pathname !== targetPath) {
-            router.replace(targetPath);
-        }
-      }
-    }
-  }, [user, loading, router]);
-  
-  if (loading || !user || user.roleType === 'client') {
+  if (loading) {
     return (
        <div className="min-h-screen bg-background p-4 md:p-8">
             <header className="max-w-[1440px] mx-auto mb-6">

@@ -94,24 +94,7 @@ function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading, isSuperAdmin } = useUser();
     const router = useRouter();
 
-    useEffect(() => {
-        if (!loading) {
-            if (!user) {
-                router.replace('/');
-                return;
-            }
-            if (!isSuperAdmin) {
-                const targetPath = user.team === 'New User'
-                    ? `/organization/${user.organizationId}/client/new/${user.userId}/home`
-                    : user.roleType === 'client'
-                    ? `/organization/${user.organizationId}/client/${user.userId}/home`
-                    : `/organization/${user.organizationId}/home`;
-                router.replace(targetPath);
-            }
-        }
-    }, [user, loading, isSuperAdmin, router]);
-
-    if (loading || !isSuperAdmin) {
+    if (loading) {
         return (
              <div className="min-h-screen bg-background p-4 flex">
                 <div className="hidden md:block w-64">
