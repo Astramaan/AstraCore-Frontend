@@ -230,14 +230,14 @@ export default function ExistingClientHomePage() {
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                     >
-                        <span className='hidden md:inline'>View </span>Completed Stages
+                        Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-auto 2xl:px-8"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        <span className='hidden md:inline'>View </span>Upcoming Stages
+                        Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">
@@ -310,3 +310,6 @@ export default function ExistingClientHomePage() {
   );
 }
 
+
+
+    
