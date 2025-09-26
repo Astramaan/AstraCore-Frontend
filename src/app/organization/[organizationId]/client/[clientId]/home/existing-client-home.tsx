@@ -21,6 +21,7 @@ import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
+import { ProjectInfoHeader } from '@/components/project-info-header';
 
 
 interface TimelineStage {
@@ -280,7 +281,7 @@ export default function ExistingClientHomePage() {
 
 
   const project = {
-    name: 'Rabeek',
+    name: user?.name || 'Rabeek',
     pm: 'Yaswanth',
     id: 'RABE0001',
     progress: 70,
@@ -351,37 +352,9 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 md:mx-8">
-        <div className="rounded-b-[50px] md:rounded-[50px] overflow-hidden">
-            <div className="relative h-[300px] md:h-[480px] w-full">
-                <Image src={project.coverImage} fill alt="Project cover" className="w-full h-full object-cover" data-ai-hint="narrow street old buildings"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-
-                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end text-white">
-                    <div className="flex items-end gap-4">
-                        <div className="relative w-20 h-10 md:w-24 md:h-12 overflow-hidden">
-                            <svg className="w-full h-full" viewBox="0 0 100 50">
-                                <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-50/20"/>
-                                <path d="M 5 50 A 45 45 0 0 1 95 50" fill="none" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-cyan-500"
-                                    style={{
-                                        strokeDasharray: 141.3,
-                                        strokeDashoffset: 141.3 - (project.progress / 100) * 141.3
-                                    }}
-                                />
-                            </svg>
-                                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xl md:text-2xl font-semibold">
-                                {project.progress}%
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-white text-base md:text-lg">Project Manager: {project.pm}</p>
-                            <p className="text-white text-sm md:text-base">{new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div className="relative mb-8 md:mx-8">
+        <ProjectInfoHeader project={project} />
+      </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
