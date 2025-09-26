@@ -1,13 +1,14 @@
+
 'use client';
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { Separator } from './ui/separator';
 import PdfIcon from './icons/pdf-icon';
 import { Dialog, DialogContent, DialogHeader as DialogPrimitiveHeader, DialogTitle as DialogPrimitiveTitle, DialogClose } from './ui/dialog';
-import Image from 'next/image';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 
 interface FileVersion {
     name: string;
@@ -59,20 +60,26 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
     );
 };
 
-const FileItem = ({ file, index, onFileClick }: { file: File, index: number, onFileClick: (file: File) => void }) => (
-    <div>
-        <div className="flex items-center gap-4 py-4 cursor-pointer" onClick={() => onFileClick(file)}>
-            <p className="text-sm min-w-[24px]">{index + 1}.</p>
-            <PdfIcon className="w-6 h-6 shrink-0" />
-            <div className="flex-1">
-                <p className="text-base text-black font-medium">{file.name}</p>
-                <p className="text-xs text-stone-400">{file.date}</p>
-            </div>
+const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File) => void }) => (
+    <div className="flex items-center gap-4 py-3 cursor-pointer group" onClick={() => onFileClick(file)}>
+        <PdfIcon className="w-6 h-6 shrink-0" />
+        <div className="flex-1">
+            <p className="text-base text-black font-medium group-hover:text-primary">{file.name}</p>
+            <p className="text-xs text-stone-400">{file.date} {file.version && `• ${file.version}`}</p>
         </div>
-        <Separator />
+        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
     </div>
 );
 
+
+const fileSectionTitles = {
+    initial: 'Initial',
+    costing: 'Costing',
+    architecture: 'Architecture Design',
+    structure: 'Structure Design',
+    sanction: 'Sanction Drawings',
+    construction: 'Construction Drawings'
+};
 
 export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps) => {
     const [files, setFiles] = useState(initialFiles);
@@ -86,17 +93,34 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
         setSelectedFile(null);
     };
     
-    const allFiles = Object.values(files).flat();
-
     return (
         <>
-            <Card className="rounded-[50px] border-0">
+            <Card className="rounded-[50px] p-6 md:p-10">
+                 <CardHeader className="p-0 mb-6">
+                    <CardTitle className="text-xl font-medium">Design & Documents</CardTitle>
+                </CardHeader>
                 <CardContent className="p-0">
-                    <div className="grid grid-cols-1 gap-x-8">
-                        {allFiles.map((file, index) => (
-                             <FileItem key={file.id} file={file} index={index} onFileClick={handleFileClick} />
-                        ))}
-                    </div>
+                    <Accordion type="single" collapsible className="w-full space-y-4">
+                        {Object.entries(files).map(([key, fileList]) => {
+                             if (fileList.length === 0) return null;
+                             const title = fileSectionTitles[key as keyof typeof fileSectionTitles] || key;
+                            return (
+                                <AccordionItem key={key} value={key} className="bg-background rounded-[24px] border-none">
+                                    <AccordionTrigger className="px-6 text-lg font-medium text-black hover:no-underline">
+                                        <div className="flex items-center gap-3">
+                                            <span>{title}</span>
+                                            <span className="text-sm font-normal text-muted-foreground">({fileList.length} files)</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        {fileList.map((file, index) => (
+                                            <FileItem key={file.id} file={file} onFileClick={handleFileClick} />
+                                        ))}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            )
+                        })}
+                    </Accordion>
                 </CardContent>
             </Card>
             <PdfViewerDialog open={!!selectedFile} onOpenChange={(open) => !open && handleCloseDialog()} file={selectedFile} />
