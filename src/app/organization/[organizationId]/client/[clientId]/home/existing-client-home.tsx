@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -131,6 +132,7 @@ export default function ExistingClientHomePage() {
   const [openTimelineCardId, setOpenTimelineCardId] = useState<string | null>(null);
 
 
+
   const project = {
     name: 'Gokula',
     pm: 'Yaswanth',
@@ -159,21 +161,24 @@ export default function ExistingClientHomePage() {
     { id: 6, title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
   
-  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
+  const timeline = useMemo(
+        () => allStages.filter((stage) => stage.status !== 'completed'),
+        [allStages]
+    );
 
-  const recentlyCompletedTasks = useMemo(() => {
-    const now = new Date();
-    const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+    const recentlyCompletedTasks = useMemo(() => {
+        const now = new Date();
+        const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
-    return allStages.filter(stage => {
-        if (stage.status === 'completed' && stage.approvalDate) {
-            const approvalDate = new Date(stage.approvalDate);
-            return approvalDate > twentyFourHoursAgo;
-        }
-        return false;
-    });
-  }, [allStages]);
-
+        return allStages.filter((stage) => {
+            if (stage.status === 'completed' && stage.approvalDate) {
+                const approvalDate = new Date(stage.approvalDate);
+                return approvalDate > twentyFourHoursAgo;
+            }
+            return false;
+        });
+    }, [allStages]);
+  
   const completedTasks = useMemo(() => {
     const now = new Date();
     const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
@@ -246,7 +251,7 @@ export default function ExistingClientHomePage() {
                         <div className="mb-8">
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
                             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
-                                {recentlyCompletedTasks.map((stage, index) => (
+                                {recentlyCompletedTasks.map((stage) => (
                                     <StageCard
                                         key={`recent-${stage.id}`}
                                         stage={stage}
@@ -261,7 +266,7 @@ export default function ExistingClientHomePage() {
                         </div>
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
-                        {timeline.map((stage, index) => (
+                        {timeline.map((stage) => (
                            <StageCard
                                 key={`timeline-${stage.id}`}
                                 stage={stage}

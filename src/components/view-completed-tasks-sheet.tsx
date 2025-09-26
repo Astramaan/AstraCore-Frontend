@@ -85,7 +85,7 @@ const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: 
             </div>
             <p className="text-sm">{stage.subtitle}</p>
             <div className="pt-2">
-                <Progress value={100} className="h-2 [&>div]:bg-white" />
+                <Progress value={100} className="h-2" />
                 <div className="flex justify-between items-center mt-2">
                 <span className="text-black text-xs font-normal">100%</span>
                 <span className="text-grey-1 text-xs">
