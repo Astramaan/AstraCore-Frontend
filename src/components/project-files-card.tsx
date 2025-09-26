@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -26,15 +25,18 @@ export interface File {
     history: FileVersion[];
 }
 
+export interface Stage {
+    name: string;
+    documents?: File[];
+}
+
+export interface Phase {
+    name: string;
+    stages: Stage[];
+}
+
 interface ProjectFilesCardProps {
-    files: {
-        initial: File[];
-        costing: File[];
-        architecture: File[];
-        structure: File[];
-        sanction: File[];
-        construction: File[];
-    };
+    phases: Phase[];
 }
 
 const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenChange: (open: boolean) => void; file: File | FileVersion | null }) => {
@@ -71,18 +73,7 @@ const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File)
     </div>
 );
 
-
-const fileSectionTitles = {
-    initial: 'Initial',
-    costing: 'Costing',
-    architecture: 'Architecture Design',
-    structure: 'Structure Design',
-    sanction: 'Sanction Drawings',
-    construction: 'Construction Drawings'
-};
-
-export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps) => {
-    const [files, setFiles] = useState(initialFiles);
+export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
     const [selectedFile, setSelectedFile] = useState<File | FileVersion | null>(null);
 
     const handleFileClick = (file: File | FileVersion) => {
@@ -101,21 +92,31 @@ export const ProjectFilesCard = ({ files: initialFiles }: ProjectFilesCardProps)
                 </CardHeader>
                 <CardContent className="p-0">
                     <Accordion type="single" collapsible className="w-full space-y-4">
-                        {Object.entries(files).map(([key, fileList]) => {
-                             if (fileList.length === 0) return null;
-                             const title = fileSectionTitles[key as keyof typeof fileSectionTitles] || key;
+                        {phases.map((phase) => {
+                            const totalFiles = phase.stages.reduce((acc, stage) => acc + (stage.documents?.length || 0), 0);
+                             if (totalFiles === 0) return null;
+
                             return (
-                                <AccordionItem key={key} value={key} className="bg-background rounded-[24px] border-none">
+                                <AccordionItem key={phase.name} value={phase.name} className="bg-background rounded-[24px] border-none">
                                     <AccordionTrigger className="px-6 text-lg font-medium text-black hover:no-underline">
                                         <div className="flex items-center gap-3">
-                                            <span>{title}</span>
-                                            <span className="text-sm font-normal text-muted-foreground">({fileList.length} files)</span>
+                                            <span>{phase.name}</span>
+                                            <span className="text-sm font-normal text-muted-foreground">({totalFiles} files)</span>
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent>
-                                        {fileList.map((file, index) => (
-                                            <FileItem key={file.id} file={file} onFileClick={handleFileClick} />
-                                        ))}
+                                        <div className="space-y-2">
+                                            {phase.stages.map((stage) => (
+                                                stage.documents && stage.documents.length > 0 && (
+                                                    <div key={stage.name} className="pl-4">
+                                                        <h4 className="font-semibold text-md text-muted-foreground my-2">{stage.name}</h4>
+                                                         {stage.documents.map((file) => (
+                                                            <FileItem key={file.id} file={file} onFileClick={handleFileClick} />
+                                                         ))}
+                                                    </div>
+                                                )
+                                            ))}
+                                        </div>
                                     </AccordionContent>
                                 </AccordionItem>
                             )
