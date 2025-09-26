@@ -19,7 +19,7 @@ import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 
@@ -111,69 +111,71 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         </div>
                     </div>
                 </div>
-                    
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
-                            <div className="mt-4 space-y-4">
-                                <Separator />
-                                <div className="pt-2 space-y-2">
-                                    {stage.documents.map((doc, index) => (
-                                        <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
-                                            <PdfIcon className="w-6 h-6 shrink-0"/>
-                                            <div className="flex-1">
-                                                <p className="text-base text-black font-medium">{doc.name}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                {isProjectManager && (
-                                    <div className="flex gap-4">
-                                        <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                                        <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                        
-                        {(stage.status === 'completed' && hasAttachments) && (
-                            <div className="mt-4 space-y-4">
-                                <Separator />
-                                <div className="pt-4">
-                                {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
-                                    {stage.siteImages && stage.siteImages.length > 0 && (
-                                        <div className="grid grid-cols-4 gap-2">
-                                            {stage.siteImages?.map((img, index) => (
-                                                <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                                            ))}
-                                        </div>
-                                    )}
-                                    {stage.documents && stage.documents.length > 0 && (
-                                        <div className="pt-4 space-y-2">
-                                            {stage.documents.map((doc, index) => (
-                                                <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted">
-                                                    <PdfIcon className="w-6 h-6 shrink-0"/>
-                                                    <div className="flex-1">
-                                                        <p className="text-base text-black font-medium">{doc.name}</p>
-                                                    </div>
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
+                                <div className="mt-4 space-y-4">
+                                    <Separator />
+                                    <div className="pt-2 space-y-2">
+                                        {stage.documents.map((doc, index) => (
+                                            <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
+                                                <PdfIcon className="w-6 h-6 shrink-0"/>
+                                                <div className="flex-1">
+                                                    <p className="text-base text-black font-medium">{doc.name}</p>
                                                 </div>
-                                            ))}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {isProjectManager && (
+                                        <div className="flex gap-4">
+                                            <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
+                                            <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
                                         </div>
                                     )}
                                 </div>
-                                {isProjectManager && (
-                                    <div className="flex justify-end pt-2">
-                                        <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => {e.stopPropagation(); onReopen?.(stage);}}>Reopen</Button>
+                            )}
+                            
+                            {(stage.status === 'completed' && hasAttachments) && (
+                                <div className="mt-4 space-y-4">
+                                    <Separator />
+                                    <div className="pt-4">
+                                    {stage.approvalDate && <p className="text-sm text-muted-foreground mb-2">Approved by Project Manager on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
+                                        {stage.siteImages && stage.siteImages.length > 0 && (
+                                            <div className="grid grid-cols-4 gap-2">
+                                                {stage.siteImages?.map((img, index) => (
+                                                    <Image key={index} src={img} width={100} height={100} alt={`Site image ${'index + 1'}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
+                                                ))}
+                                            </div>
+                                        )}
+                                        {stage.documents && stage.documents.length > 0 && (
+                                            <div className="pt-4 space-y-2">
+                                                {stage.documents.map((doc, index) => (
+                                                    <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted">
+                                                        <PdfIcon className="w-6 h-6 shrink-0"/>
+                                                        <div className="flex-1">
+                                                            <p className="text-base text-black font-medium">{doc.name}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                            </div>
-                        )}
-                    </motion.div>
-                )}
+                                    {isProjectManager && (
+                                        <div className="flex justify-end pt-2">
+                                            <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => {e.stopPropagation(); onReopen?.(stage);}}>Reopen</Button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </motion.div>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 
