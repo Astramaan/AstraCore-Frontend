@@ -73,7 +73,6 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
             </div>
             
             <div className="relative z-20 flex items-center gap-4 px-10 pb-4">
-                <CircularProgress value={project.daysLeft} maxValue={365} text={String(project.daysLeft)} />
                 <div>
                     <h2 className="text-lg font-bold text-white">Project Manager</h2>
                     <p className="text-sm text-white/80">{project.pm}</p>
@@ -87,3 +86,4 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
         </div>
     );
 };
+
