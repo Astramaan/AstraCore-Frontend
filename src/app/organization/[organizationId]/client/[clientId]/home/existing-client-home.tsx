@@ -212,7 +212,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full">
+    <Card className="rounded-full cursor-pointer">
         <CardContent className="p-4 px-6 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div className="flex-1">
@@ -348,8 +348,12 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 md:mx-8">
-            <ProjectInfoHeader project={project} />
+       <div className="relative mb-8">
+            <ProjectInfoHeader project={project}>
+                <div className="p-4">
+                    <ClientHeader />
+                </div>
+            </ProjectInfoHeader>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
