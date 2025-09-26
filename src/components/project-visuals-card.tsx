@@ -95,15 +95,10 @@ const ImageGrid = ({ images, title, onViewMoreClick, onImageClick }: { images: s
                     View more <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
             </div>
-            <div className="grid grid-cols-4 gap-3.5">
-                {images.slice(0, 4).map((src, index) => (
+            <div className="grid grid-cols-3 gap-3">
+                {images.slice(0, 3).map((src, index) => (
                     <div key={index} className="relative aspect-square cursor-pointer" onClick={() => onImageClick(index)}>
                         <Image src={src} layout="fill" objectFit="cover" alt={`${title} ${index + 1}`} className="rounded-[10px]" data-ai-hint="architectural render" />
-                        {index === 3 && images.length > 4 && (
-                             <div className="absolute inset-0 bg-black/50 rounded-[10px] flex items-center justify-center cursor-pointer" onClick={(e) => { e.stopPropagation(); onViewMoreClick(); }}>
-                                <p className="text-white text-lg font-bold">+{images.length - 4}</p>
-                            </div>
-                        )}
                     </div>
                 ))}
             </div>
