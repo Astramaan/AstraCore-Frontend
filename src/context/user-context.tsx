@@ -2,6 +2,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface User {
     userId: string;
@@ -19,6 +20,7 @@ interface UserContextType {
   user: User | null;
   loading: boolean;
   isSuperAdmin: boolean;
+  isClient: boolean;
   setUser: (user: User | null) => void;
   logout: () => void;
 }
@@ -28,6 +30,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUserState] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -42,6 +45,26 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   }, []);
+  
+  useEffect(() => {
+    if (!loading && user) {
+        let targetPath;
+        const isClientRole = user.role === 'CLIENT';
+
+        if (user.roleType === 'superAdmin') {
+            targetPath = '/platform/dashboard';
+        } else if (isClientRole) {
+            if (user.team === 'New User') {
+                targetPath = `/organization/${user.organizationId}/client/new/${user.userId}/home`;
+            } else {
+                targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
+            }
+        } else {
+            targetPath = `/organization/${user.organizationId}/home`;
+        }
+        router.push(targetPath);
+    }
+  }, [user, loading, router]);
 
   const setUser = (user: User | null) => {
     setUserState(user);
@@ -59,9 +82,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const isSuperAdmin = user?.roleType === 'superAdmin';
+  const isClient = user?.role === 'CLIENT';
 
   return (
-    <UserContext.Provider value={{ user, loading, isSuperAdmin, setUser, logout }}>
+    <UserContext.Provider value={{ user, loading, isSuperAdmin, isClient, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );
