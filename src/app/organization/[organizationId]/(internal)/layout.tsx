@@ -30,7 +30,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   const isDetailPage = pathname.includes('/projects/') || pathname.includes('/teams/');
   const isProfilePage = pathname.includes('/profile');
   
-  const shouldShowNav = isSuperAdmin || (!isDetailPage && !isProfilePage);
+  const shouldShowNav = user?.roleType === 'superAdmin' ? true : (!isDetailPage && !isProfilePage);
 
 
   return (
