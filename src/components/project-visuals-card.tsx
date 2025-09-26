@@ -130,7 +130,7 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
     return (
         <>
             <Card className="rounded-[50px]">
-                <CardContent className="p-10 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8">
+                <CardContent className="p-10 flex flex-col gap-8">
                     <ImageGrid
                         images={visuals['3d']}
                         title="3D Visualize"
@@ -138,7 +138,7 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
                         onImageClick={(index) => openPreview(visuals['3d'], '3D Visualize', index)}
                     />
 
-                    <Separator orientation="vertical" className="h-full" />
+                    <Separator orientation="horizontal" />
 
                     <ImageGrid
                         images={visuals.gallery}
