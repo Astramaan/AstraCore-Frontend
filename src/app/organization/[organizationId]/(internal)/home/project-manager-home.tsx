@@ -123,7 +123,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 View Project Upcoming Tasks
             </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
             {projectTasks.map((stage) => (
                 <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
             ))}
@@ -241,9 +241,9 @@ export default function ProjectManagerHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                 <div className="flex flex-row justify-between items-center gap-4">
+                 <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
-                     <div className="w-64">
+                     <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
                                 <SelectValue placeholder="Select a Project" />
@@ -319,13 +319,13 @@ export default function ProjectManagerHome() {
                         </div>
                         <h2 className="text-xl font-medium text-left pt-4">My Task</h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 mt-4">
                         {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
                 <div className="mt-8">
                     <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
                     </div>
                 </div>
@@ -368,7 +368,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-
-
-    
