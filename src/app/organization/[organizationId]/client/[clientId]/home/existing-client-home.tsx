@@ -87,10 +87,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         <>
             <motion.div
                 layout
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+                transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
                 className={cn("rounded-[24px] bg-white transition-shadow p-4 shadow-sm", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
+                whileHover={{ scale: 1.03 }}
             >
                 <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
@@ -468,3 +468,6 @@ export default function ExistingClientHomePage() {
 
 
 
+
+
+    
