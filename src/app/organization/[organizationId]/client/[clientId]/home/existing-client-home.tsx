@@ -163,7 +163,7 @@ export default function ExistingClientHomePage() {
     setOpenCardId(prevId => (prevId === cardId ? null : cardId));
   };
   
-  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
+  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed').map(stage => ({ ...stage })), [allStages]);
 
   const recentlyCompletedTasks = useMemo(() => {
     const now = new Date();
@@ -175,7 +175,7 @@ export default function ExistingClientHomePage() {
             return approvalDate > twentyFourHoursAgo;
         }
         return false;
-    });
+    }).map(stage => ({ ...stage }));
   }, [allStages]);
 
   const completedTasks = useMemo(() => {
