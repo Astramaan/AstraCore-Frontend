@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import type { Task } from '@/components/task-details-sheet';
+import { motion } from 'framer-motion';
 
 const getDateColor = (dateString: string) => {
     const dueDate = new Date(dateString);
@@ -35,26 +37,31 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
     const dateColor = getDateColor(task.date);
 
     return (
-        <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow" onClick={onClick}>
-            <div>
-                <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
-                    <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
-                </div>
-                <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
-            </div>
-            <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                    <div className="flex -space-x-2">
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                        <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+        <motion.div
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+        >
+            <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={onClick}>
+                <div>
+                    <div className="flex justify-between items-start">
+                        <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
+                        <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                     </div>
-                     <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
+                    <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
                 </div>
-                <div className="text-right flex items-center gap-2">
-                     <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                        <div className="flex -space-x-2">
+                            <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                            <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                        </div>
+                         <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
+                    </div>
+                    <div className="text-right flex items-center gap-2">
+                         <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
+                    </div>
                 </div>
-            </div>
-        </Card>
+            </Card>
+        </motion.div>
     )
 };
