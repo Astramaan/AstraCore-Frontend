@@ -20,7 +20,7 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
         whileHover={{ scale: 1.03 }}
         transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
         onClick={() => onClick(meeting)}
-        className="cursor-pointer"
+        className="cursor-pointer hover:shadow-lg rounded-[50px]"
     >
         <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between">
             <div className="flex-1">
