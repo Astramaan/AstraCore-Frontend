@@ -223,12 +223,12 @@ const ProjectMetricsCard = () => (
                 <p className="text-black text-base font-semibold">Project Metrics</p>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="bg-background rounded-2xl p-4 text-center">
-                        <p className="text-2xl font-bold">12</p>
-                        <p className="text-sm text-muted-foreground">Total Snags</p>
+                        <p className="text-2xl font-bold">95%</p>
+                        <p className="text-sm text-muted-foreground">Work Quality</p>
                     </div>
                     <div className="bg-background rounded-2xl p-4 text-center">
-                        <p className="text-2xl font-bold">2</p>
-                        <p className="text-sm text-muted-foreground">Pending Payments</p>
+                        <p className="text-2xl font-bold">75%</p>
+                        <p className="text-sm text-muted-foreground">Work Progress</p>
                     </div>
                     <div className="bg-background rounded-2xl p-4 text-center">
                         <p className="text-2xl font-bold">3</p>
