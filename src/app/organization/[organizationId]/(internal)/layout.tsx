@@ -40,7 +40,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
              <OrganizationHeader />
            </div>
         </header>
-        <main className="max-w-[1440px] 2xl:max-w-none mx-auto w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 py-4 px-4 md:px-8 2xl:px-10 space-y-6">
+        <main className="max-w-[1440px] 2xl:max-w-none w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 py-4 px-4 md:px-8 2xl:px-10 space-y-6">
             {children}
         </main>
         {shouldShowNav && <OrganizationBottomNav />}
