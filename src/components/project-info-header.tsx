@@ -21,44 +21,9 @@ interface ProjectInfoHeaderProps {
     }
 }
 
-const CircularProgress = ({ value, maxValue, text, size=100, strokeWidth=8 }: { value: number, maxValue: number, text: string, size?: number, strokeWidth?: number }) => {
-    const radius = (size - strokeWidth) / 2;
-    const circumference = 2 * Math.PI * radius;
-    const progress = (value / maxValue) * 100;
-    const offset = circumference - (progress / 100) * circumference;
-
-    return (
-        <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
-                <circle
-                    stroke="rgba(255, 255, 255, 0.2)"
-                    fill="transparent"
-                    strokeWidth={strokeWidth}
-                    r={radius}
-                    cx={size/2}
-                    cy={size/2}
-                />
-                <circle
-                    stroke="hsl(var(--primary))"
-                    fill="transparent"
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={circumference}
-                    strokeDashoffset={offset}
-                    strokeLinecap="round"
-                    r={radius}
-                    cx={size/2}
-                    cy={size/2}
-                />
-            </svg>
-            <span className="absolute text-2xl font-bold text-white">{text}</span>
-        </div>
-    );
-};
-
-
 export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
     return (
-        <div className="relative h-60 overflow-hidden flex flex-col justify-between">
+        <div className="relative h-80 overflow-hidden flex flex-col justify-between">
             <Image src={project.coverImage} layout="fill" objectFit="cover" alt={`${project.name} cover`} data-ai-hint="abstract background" className="z-0"/>
             <div className="absolute inset-0 bg-black/40 z-10"></div>
             
@@ -86,4 +51,3 @@ export const ProjectInfoHeader = ({ project }: ProjectInfoHeaderProps) => {
         </div>
     );
 };
-
