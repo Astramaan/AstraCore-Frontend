@@ -101,7 +101,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                         <div className="flex-1 space-y-1 w-full text-left">
                             <div className="flex justify-between items-start">
                                 <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                                <Badge className={cn('capitalize',
+                                <Badge className={cn('capitalize whitespace-nowrap',
                                     stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' :
                                         stage.status === 'completed' ? 'bg-green-100 text-green-700' :
                                             'bg-gray-100 text-gray-600'
@@ -458,4 +458,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
 

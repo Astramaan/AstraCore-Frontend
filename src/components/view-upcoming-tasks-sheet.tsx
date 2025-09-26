@@ -61,7 +61,7 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
                 <div className="flex-1 space-y-1 w-full text-left">
                     <div className="flex justify-between items-start">
                         <h3 className="text-black text-base font-semibold">{stage.title}</h3>
-                        <Badge className="bg-gray-100 text-gray-700 capitalize">{stage.status}</Badge>
+                        <Badge className="bg-gray-100 text-gray-700 capitalize whitespace-nowrap">{stage.status}</Badge>
                     </div>
                     <p className="text-sm">{stage.subtitle}</p>
                     <div className="pt-2">
