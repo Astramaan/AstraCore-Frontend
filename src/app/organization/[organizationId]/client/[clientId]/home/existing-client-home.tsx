@@ -76,8 +76,6 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     return (
         <>
             <motion.div
-                layout
-                transition={{ layout: { duration: 0.5, type: "tween" } }}
                 className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}
                 onClick={() => hasAttachments && setIsOpen(!isOpen)}
             >
@@ -117,7 +115,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3, type: 'tween' }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
                             style={{ overflow: 'hidden' }}
                         >
                             {(stage.status === 'On Going' && stage.documents && stage.documents.length > 0) && (
