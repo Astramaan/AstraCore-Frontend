@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -149,7 +150,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8 md:p-8">
+                <div className="max-w-[1240px] 2xl:max-w-none mx-auto space-y-8 md:p-8 2xl:px-10">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (

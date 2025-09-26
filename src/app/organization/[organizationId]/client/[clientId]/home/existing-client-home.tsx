@@ -87,7 +87,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 
     return (
         <>
-             <motion.div
+            <motion.div
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
             >
@@ -382,12 +382,12 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
-    <main>
-       <div className="relative mb-8 md:mx-8">
+    <main className="max-w-[1440px] 2xl:max-w-none mx-auto">
+       <div className="relative mb-8 md:mx-8 2xl:mx-10">
             <ProjectInfoHeader project={project} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8 2xl:px-10">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -469,9 +469,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-
-
-
-
-    

@@ -1,8 +1,9 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -10,8 +11,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { PlatformSidebar } from '@/components/platform-sidebar';
-import { usePathname } from 'next/navigation';
 import NotificationBellIcon from '@/components/icons/notification-bell-icon';
+import { useUser } from '@/context/user-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 const PlatformHeader = () => {
@@ -28,7 +30,7 @@ const PlatformHeader = () => {
 
     return (
         <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8 2xl:px-10">
                 <div className="flex items-center justify-between h-20">
                     <div className="flex items-center gap-4">
                         <div className="md:hidden">
@@ -88,18 +90,45 @@ const PlatformHeader = () => {
 };
 
 
+function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
+    const { user, loading, isSuperAdmin } = useUser();
+    const router = useRouter();
+
+    if (loading) {
+        return (
+             <div className="min-h-screen bg-background p-4 flex">
+                <div className="hidden md:block w-64">
+                    <Skeleton className="h-full w-full" />
+                </div>
+                <div className="flex-1 flex flex-col">
+                    <header className="h-20">
+                         <Skeleton className="h-full w-full" />
+                    </header>
+                    <main className="flex-1 p-4">
+                        <Skeleton className="h-full w-full" />
+                    </main>
+                </div>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="min-h-screen bg-background flex">
+            <div className="hidden md:block w-64 border-r border-stone-300">
+                <PlatformSidebar />
+            </div>
+            <div className="flex-1 flex flex-col">
+                <PlatformHeader />
+                <main className="flex-1 overflow-y-auto">
+                {children}
+                </main>
+            </div>
+        </div>
+    );
+}
+
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="min-h-screen bg-background flex">
-        <div className="hidden md:block w-64 border-r border-stone-300">
-            <PlatformSidebar />
-        </div>
-        <div className="flex-1 flex flex-col">
-            <PlatformHeader />
-            <main className="flex-1 overflow-y-auto">
-              {children}
-            </main>
-        </div>
-    </div>
-  );
+    return (
+        <PlatformLayoutContent>{children}</PlatformLayoutContent>
+    )
 }

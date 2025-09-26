@@ -17,11 +17,11 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
   
   if (loading) {
     return (
-        <div className="min-h-screen bg-background p-4">
-            <header className="max-w-[1440px] mx-auto mb-6">
+        <div className="min-h-screen bg-background p-4 2xl:p-10">
+            <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">
                 <Skeleton className="h-16 w-full" />
             </header>
-            <main className="max-w-[1440px] mx-auto">
+            <main className="max-w-[1440px] 2xl:max-w-none mx-auto">
                 <Skeleton className="h-96 w-full" />
             </main>
         </div>
@@ -32,7 +32,7 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
   return (
     <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
-           <div className="max-w-[1440px] mx-auto p-4">
+           <div className="max-w-[1440px] 2xl:max-w-none mx-auto p-4 2xl:px-10">
              <ClientHeader />
            </div>
         </header>
