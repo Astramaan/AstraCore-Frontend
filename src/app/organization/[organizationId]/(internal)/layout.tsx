@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, loading } = useUser();
+  const { user, loading, isSuperAdmin } = useUser();
   
   if (loading) {
     return (
@@ -31,7 +31,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   const isProfilePage = pathname.includes('/profile');
   
   // Super Admin should always see the nav. Other users see it on non-detail pages.
-  const shouldShowNav = user?.roleType === 'superAdmin' || (!isDetailPage && !isProfilePage);
+  const shouldShowNav = isSuperAdmin || (!isDetailPage && !isProfilePage);
 
 
   return (
