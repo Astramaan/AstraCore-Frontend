@@ -72,6 +72,12 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
         e.stopPropagation();
         setSelectedPdf(doc);
     };
+    
+    const formatDate = (dateString: string) => {
+        if (!dateString || isNaN(new Date(dateString).getTime())) return "Invalid Date";
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
 
     return (
         <>
@@ -106,7 +112,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                 <Progress value={stage.progress} className="h-2" />
                                 <div className="flex justify-between items-center mt-2">
                                     <span className="text-black text-xs font-normal">{stage.progress}%</span>
-                                    <span className="text-grey-1 text-xs">{stage.date}</span>
+                                    <span className="text-grey-1 text-xs">{formatDate(stage.date)}</span>
                                 </div>
                             </div>
                         </div>
@@ -314,12 +320,12 @@ export default function ExistingClientHomePage() {
   };
 
   const [allStages, setAllStages] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
-    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
-    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
-    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
-    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
+    { title: "Soil Testing", subtitle: "initial stage", date: "2024-05-25", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
+    { title: "Slabs", subtitle: "initial stage", date: "2024-05-26", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
+    { title: "Foundation", subtitle: "initial stage", date: "2024-05-27", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { title: "IDK", subtitle: "initial stage", date: "2024-05-28", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { title: "Stage 06", subtitle: "initial stage", date: "2024-05-29", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { title: "Stage IDK", subtitle: "initial stage", date: "2024-05-30", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
   ]);
   
   const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
@@ -452,3 +458,7 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+
+
+    
