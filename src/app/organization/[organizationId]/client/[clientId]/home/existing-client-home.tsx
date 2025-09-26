@@ -370,11 +370,11 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8">
+        <div className="relative">
             <ProjectInfoHeader project={project} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-5 gap-8 px-4 md:px-8 2xl:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-5 gap-8 px-4 md:px-8 2xl:px-10 mt-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 2xl:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
