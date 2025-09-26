@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -75,7 +76,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     );
 };
 
-const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReopen?: (stage: CustomStage) => void, className?: string }) => {
+const StageCard = ({ stage, onReopen, onPayment, className }: { stage: CustomStage, onReopen?: (stage: CustomStage) => void, onPayment?: (stageId: number) => void, className?: string }) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
@@ -187,6 +188,13 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
                             </div>
                         )}
                     </CollapsibleContent>
+                    {stage.type === 'payment' && stage.status === 'pending' && (
+                        <div className="mt-4 pt-4 border-t">
+                            <Button className="w-full h-12 rounded-full" onClick={() => onPayment?.(stage.id)}>
+                                Pay Now
+                            </Button>
+                        </div>
+                    )}
                 </Card>
             </Collapsible>
              <PdfPreviewDialog 
@@ -200,13 +208,13 @@ const StageCard = ({ stage, onReopen, className }: { stage: CustomStage, onReope
 };
 
 
-export const ProjectTimelineStages = ({ stages }: { stages?: CustomStage[] }) => {
+export const ProjectTimelineStages = ({ stages, onPayment }: { stages?: CustomStage[], onPayment?: (stageId: number) => void }) => {
     const displayStages = stages || allStages;
     return (
         <Card className="rounded-[50px] p-0 border-none shadow-none bg-transparent">
             <CardContent className="p-0">
                 <div className="w-full space-y-4">
-                    {displayStages.map((stage) => <StageCard key={stage.id} stage={stage} />)}
+                    {displayStages.map((stage) => <StageCard key={stage.id} stage={stage} onPayment={onPayment} />)}
                 </div>
             </CardContent>
         </Card>

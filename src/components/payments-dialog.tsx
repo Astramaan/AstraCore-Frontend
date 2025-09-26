@@ -2,7 +2,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -57,9 +57,17 @@ const allStages: CustomStage[] = [
 ];
 
 const PaymentsTimeline = () => {
-    const paymentStages = allStages.filter(stage => stage.type === 'payment');
+    const [stages, setStages] = useState(allStages.filter(stage => stage.type === 'payment'));
 
-    return <ProjectTimelineStages stages={paymentStages} />;
+    const handlePayment = (stageId: number) => {
+        setStages(currentStages => 
+            currentStages.map(stage => 
+                stage.id === stageId ? { ...stage, status: 'completed', progress: 100 } : stage
+            )
+        );
+    };
+
+    return <ProjectTimelineStages stages={stages} onPayment={handlePayment} />;
 }
 
 export const PaymentsDialog = ({ children }: { children?: React.ReactNode }) => {
