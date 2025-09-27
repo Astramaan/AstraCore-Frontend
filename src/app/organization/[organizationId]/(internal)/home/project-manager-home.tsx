@@ -21,7 +21,7 @@ import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import { StageCard as ProjectTaskCard, TimelineStage as Stage } from '@/components/stage-card';
+import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
 import { TaskCard } from '@/components/task-card';
 
 
@@ -114,7 +114,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {projectTasks.map((stage) => (
-                <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} onRaiseIssue={() => {}} onReopen={() => {}} isOpen={false} onToggle={() => {}} />
+                <StageCard key={stage.id} stage={stage} onStageClick={onStageClick} onRaiseIssue={() => {}} onReopen={() => {}} isOpen={false} onToggle={() => {}} />
             ))}
         </div>
       </div>
@@ -201,7 +201,7 @@ export default function ProjectManagerHome() {
         const ongoing = selectedProject.tasks.filter(t => t.status === 'On Going').length;
         const upcoming = selectedProject.tasks.filter(t => t.status === 'Yet To Begin').length;
         return [
-            { name: 'Ongoing', value: ongoing, fill: 'hsl(var(--chart-2))' },
+            { name: 'Ongoing', value: ongoing, fill: 'hsl(var(--primary))' },
             { name: 'Upcoming', value: upcoming, fill: 'hsl(var(--muted))' },
         ];
     }, [selectedProject]);
@@ -239,8 +239,6 @@ export default function ProjectManagerHome() {
             </main>
             <HomeAside
               meetings={meetings}
-              myTasksChartData={[]}
-              assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
