@@ -142,6 +142,15 @@ export async function getLeads() {
 
 export async function addLead(prevState: any, formData: FormData) {
     try {
+        const fullName = formData.get('fullName') as string;
+        const phoneNumber = formData.get('phoneNumber') as string;
+        const email = formData.get('email') as string;
+        const siteAddressPinCode = formData.get('pincode') as string;
+
+        if (!fullName || !phoneNumber || !email || !siteAddressPinCode) {
+            return { success: false, message: "All fields are required." };
+        }
+        
         const res = await fetch(`/api/leads`, {
             method: 'POST',
             headers: {
@@ -149,10 +158,10 @@ export async function addLead(prevState: any, formData: FormData) {
                 ...getAuthHeadersFromCookie()
             },
             body: JSON.stringify({
-                fullName: formData.get('fullName'),
-                phoneNumber: formData.get('phoneNumber'),
-                email: formData.get('email'),
-                siteAddressPinCode: formData.get('pincode')
+                fullName,
+                phoneNumber,
+                email,
+                siteAddressPinCode,
             }),
         });
 
