@@ -113,17 +113,12 @@ export async function addMember(prevState: any, formData: FormData) {
 }
 
 export async function getLeads() {
-    const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
-        return { success: false, message: 'Unauthorized: Missing user data', data: [] };
-    }
-
     try {
-        const res = await fetch(`${API_BASE_URL}/org/leads`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                ...authHeaders
+                ...getAuthHeadersFromCookie()
             },
         });
 
@@ -142,17 +137,12 @@ export async function getLeads() {
 
 
 export async function addLead(prevState: any, formData: FormData) {
-    const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
-        return { success: false, message: 'Unauthorized: Missing user data' };
-    }
-
     try {
-        const res = await fetch(`${API_BASE_URL}/org/leads`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ...authHeaders
+                ...getAuthHeadersFromCookie()
             },
             body: JSON.stringify({
                 fullName: formData.get('fullName'),
