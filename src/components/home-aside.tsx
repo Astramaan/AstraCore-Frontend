@@ -41,8 +41,8 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
 
 interface HomeAsideProps {
     meetings: Meeting[];
-    myTasksChartData: { name: string; value: number }[];
-    assignedTasksChartData: { name: string; value: number }[];
+    myTasksChartData?: { name: string; value: number }[];
+    assignedTasksChartData?: { name: string; value: number }[];
     projectTasksChartData?: { name: string; value: number, fill: string }[];
     onMeetingClick: (meeting: Meeting) => void;
     onAddTask: (task: Omit<Task, 'id' | 'attachments'>) => void;
@@ -86,7 +86,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                                 </CardContent>
                             </Card>
                         )}
-                        {myTasksChartData.length > 0 && 
+                        {myTasksChartData && myTasksChartData.length > 0 && 
                             <Card className="rounded-[50px] relative">
                                 <CardContent className="pt-10">
                                     <div className="relative">
@@ -96,7 +96,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                             </Card>
                         }
 
-                        {assignedTasksChartData.length > 0 &&
+                        {assignedTasksChartData && assignedTasksChartData.length > 0 &&
                             <Card className="rounded-[50px] relative">
                                 <CardContent className="pt-10">
                                     <div className="relative">
