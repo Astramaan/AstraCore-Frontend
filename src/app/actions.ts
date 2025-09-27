@@ -17,7 +17,7 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     try {
         const userData = JSON.parse(userDataCookie.value);
         return {
-            'x-user': JSON.stringify(userData),
+            'x-user': userData.userId,
             'x-user-id': userData.userId,
             'x-login-id': userData.email,
         };
@@ -205,7 +205,7 @@ export async function getLeadByEmail(email: string) {
 
 export async function addProject(projectData: any) {
     const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
       return { success: false, message: "Unauthorized: Missing user data" };
     }
 
@@ -436,7 +436,7 @@ export async function deactivateUser(userId: string) {
 
 export async function createMeeting(meetingData: any) {
     const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
       return { success: false, message: "Unauthorized: Missing user data" };
     }
 
