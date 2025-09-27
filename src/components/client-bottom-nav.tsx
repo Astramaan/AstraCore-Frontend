@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, GanttChartSquare, Video, User } from 'lucide-react';
+import { Home, GanttChartSquare, Video, User, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,7 @@ export const ClientBottomNav = () => {
 
     const navItems = [
         { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/${userId}/stages`, icon: Layers, label: "Stages" },
         { href: `/organization/${organizationId}/client/${userId}/project`, icon: GanttChartSquare, label: "My Project" },
         { href: `/organization/${organizationId}/client/${userId}/live`, icon: Video, label: "Live" },
         { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
