@@ -90,7 +90,7 @@ export async function addMember(prevState: any, formData: FormData) {
             roleType: "client"
         };
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
+        const res = await fetch(`/api/users`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export async function addMember(prevState: any, formData: FormData) {
 
 export async function getLeads() {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
+        const res = await fetch(`/api/leads`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ export async function getLeads() {
 
 export async function addLead(prevState: any, formData: FormData) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
+        const res = await fetch(`/api/leads`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -199,7 +199,7 @@ export async function addProject(projectData: any) {
       return { success: false, message: "Unauthorized: Missing user data" };
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+    const res = await fetch(`/api/projects`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -229,7 +229,7 @@ export async function inviteUser(prevState: any, formData: FormData) {
     const role = formData.get('role');
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/invite`, {
+        const res = await fetch(`/api/invite`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -256,7 +256,7 @@ export async function inviteUser(prevState: any, formData: FormData) {
 export async function requestPasswordReset(prevState: any, formData: FormData) {
     const email = formData.get("email");
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
+        const res = await fetch(`/api/send-otp`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -286,7 +286,7 @@ export async function verifyOtp(prevState: any, formData: FormData) {
     const flow = formData.get('flow');
     
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/verify-otp`, {
+        const res = await fetch(`/api/verify-otp`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -325,7 +325,7 @@ export async function createPassword(prevState: any, formData: FormData) {
     }
 
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/signup`, {
+        const res = await fetch(`/api/signup`, {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -357,7 +357,7 @@ export async function createPassword(prevState: any, formData: FormData) {
 
 export async function changePassword(prevState: any, formData: FormData) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/update-password`, {
+        const res = await fetch(`/api/update-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -381,7 +381,7 @@ export async function changePassword(prevState: any, formData: FormData) {
 
 export async function updateUser(prevState: any, formData: FormData) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/update-profile`, {
+    const res = await fetch(`/api/update-profile`, {
       method: "PATCH",
       headers: { 
           "Content-Type": "application/json",
@@ -402,7 +402,7 @@ export async function updateUser(prevState: any, formData: FormData) {
 
 export async function deactivateUser(userId: string) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
+        const res = await fetch(`/api/users`, {
             method: "DELETE",
             headers: { 
                 "Content-Type": "application/json",
@@ -430,7 +430,7 @@ export async function createMeeting(meetingData: any) {
       return { success: false, message: "Unauthorized: Missing user data" };
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
+    const res = await fetch(`/api/meetings`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
