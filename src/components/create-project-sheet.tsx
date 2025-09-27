@@ -29,7 +29,7 @@ import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { addProject } from '@/app/actions';
+import { addProject, getLeadByEmail } from '@/app/actions';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { Card, CardContent } from './ui/card';
 
@@ -102,6 +102,28 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
     const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchLeadData = async () => {
+            if (email) {
+                const result = await getLeadByEmail(email);
+                if (result.success && result.data) {
+                    setName(result.data.name || '');
+                    setPhone(result.data.phoneNumber || '');
+                    // Assuming siteAddressPinCode can be used for site address
+                    setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${result.data.siteAddressPinCode}`: '');
+                }
+            }
+        };
+
+        const handler = setTimeout(() => {
+            fetchLeadData();
+        }, 500); // Debounce time
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [email]);
 
 
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -825,5 +847,6 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 }
 
     
+
 
 

@@ -181,6 +181,34 @@ export async function addLead(prevState: any, formData: FormData) {
     }
 }
 
+export async function getLeadByEmail(email: string) {
+    const authHeaders = getAuthHeadersFromCookie();
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+        return { success: false, message: 'Unauthorized: Missing user data' };
+    }
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/org/lead-by-email?email=${encodeURIComponent(email)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                ...authHeaders
+            },
+        });
+
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || 'Failed to fetch lead.', data: null };
+        }
+
+        return { success: true, data: data.lead };
+    } catch (error) {
+        console.error('Get lead by email action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.', data: null };
+    }
+}
+
 export async function addProject(projectData: any) {
     const authHeaders = getAuthHeadersFromCookie();
     if (Object.keys(authHeaders).length === 0 || !authHeaders.userId) {
