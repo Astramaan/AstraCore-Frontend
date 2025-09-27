@@ -118,6 +118,35 @@ export async function addMember(prevState: any, formData: FormData) {
     }
 }
 
+export async function getLeads() {
+    const authHeaders = getAuthHeadersFromCookie();
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+        return { success: false, message: 'Unauthorized: Missing user data', data: [] };
+    }
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/org/leads`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                ...authHeaders
+            },
+        });
+
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || 'Failed to fetch leads.', data: [] };
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Get leads action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.', data: [] };
+    }
+}
+
+
 export async function addLead(prevState: any, formData: FormData) {
     const authHeaders = getAuthHeadersFromCookie();
     if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {

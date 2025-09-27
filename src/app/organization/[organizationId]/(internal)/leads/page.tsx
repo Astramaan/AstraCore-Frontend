@@ -34,79 +34,8 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-
-const leadsData: Lead[] = [
-    {
-        organization: "Platinum Partners",
-        leadId: "PLATINUMHYD789",
-        fullName: "Rajesh Singh",
-        contact: "raj.singh@platinum.co | +91 7654321098",
-        phone: "7654321098",
-        email: "raj.singh@platinum.co",
-        address: "Door 789, Platinum Heights, Jubilee Hills, Hyderabad, Telangana 500033",
-        pincode: "500033",
-        tokenAmount: "5,00,000",
-        level: "Level 3",
-        profileImage: "https://placehold.co/94x94.png",
-        coverImage: "https://placehold.co/712x144.png",
-        siteImages: [
-            "https://placehold.co/150x150.png",
-            "https://placehold.co/150x150.png"
-        ]
-    },
-    {
-        organization: "Golden Ventures",
-        leadId: "GOLDMYS7890",
-        fullName: "Balaji Naik",
-        contact: "Employee@abc.com | +91 1234567890",
-        phone: "9380032186",
-        email: "balaji.naik@goldenventures.com",
-        address: "43, Second Floor, Leela Palace Rd, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-        pincode: "560008",
-        tokenAmount: "1,00,000",
-        level: "Level 1",
-        profileImage: "https://placehold.co/94x94.png",
-        coverImage: "https://placehold.co/712x144.png",
-        siteImages: [
-            "https://placehold.co/150x150.png",
-            "https://placehold.co/150x150.png",
-            "https://placehold.co/150x150.png",
-            "https://placehold.co/150x150.png",
-        ]
-    },
-    {
-        organization: "Silver Innovations",
-        leadId: "SILVERBLR123",
-        fullName: "Anil Kumar",
-        contact: "anil.k@silver.io | +91 9876543210",
-        phone: "9876543210",
-        email: "anil.k@silver.io",
-        address: "123, Silver Street, Whitefield, Bengaluru, Karnataka 560066",
-        pincode: "560066",
-        tokenAmount: "2,50,000",
-        level: "Level 2",
-        profileImage: "https://placehold.co/94x94.png",
-        coverImage: "https://placehold.co/712x144.png",
-        siteImages: [
-            "https://placehold.co/150x150.png"
-        ]
-    },
-    {
-        organization: "Bronze Builders",
-        leadId: "BRONZECHE456",
-        fullName: "Sunita Reddy",
-        contact: "s.reddy@bronze.dev | +91 8765432109",
-        phone: "8765432109",
-        email: "s.reddy@bronze.dev",
-        address: "Plot 45, Bronze Avenue, T. Nagar, Chennai, Tamil Nadu 600017",
-        pincode: "600017",
-        tokenAmount: "75,000",
-        level: "Level 1",
-        profileImage: "https://placehold.co/94x94.png",
-        coverImage: "https://placehold.co/712x144.png",
-        siteImages: []
-    },
-];
+import { getLeads } from '@/app/actions';
+import { useToast } from '@/components/ui/use-toast';
 
 const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, organizationId: string, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
@@ -328,8 +257,9 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
 
 export default function LeadsPage() {
     const params = useParams();
+    const { toast } = useToast();
     const organizationId = params.organizationId as string;
-    const [allLeads, setAllLeads] = useState(leadsData);
+    const [allLeads, setAllLeads] = useState<Lead[]>([]);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
     const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
     const [contactedLead, setContactedLead] = useState<Lead | null>(null);
@@ -338,6 +268,41 @@ export default function LeadsPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLeadDetails, setSelectedLeadDetails] = useState<Lead | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchLeads() {
+            setIsLoading(true);
+            const result = await getLeads();
+            if (result.success) {
+                const formattedLeads = result.data.map((lead: any) => ({
+                    organization: "Organization Name", // This is missing from API
+                    leadId: lead.leadDisplayId,
+                    fullName: lead.name,
+                    contact: `${lead.email} | ${lead.phoneNumber}`,
+                    phone: lead.phoneNumber,
+                    email: lead.email,
+                    address: "Address missing from API", // This is missing from API
+                    pincode: "Pincode missing", // This is missing from API
+                    tokenAmount: "Token missing", // This is missing from API
+                    level: "Level 1", // This is missing from API
+                    profileImage: "https://placehold.co/94x94.png",
+                    coverImage: "https://placehold.co/712x144.png",
+                    siteImages: [],
+                }));
+                setAllLeads(formattedLeads);
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error fetching leads',
+                    description: result.message,
+                });
+            }
+            setIsLoading(false);
+        }
+        fetchLeads();
+    }, [toast]);
+
 
     const filteredLeads = useMemo(() => {
         let leads = [...allLeads].sort((a, b) => {
@@ -457,22 +422,28 @@ export default function LeadsPage() {
 
              <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
                 <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
-                    {filteredLeads.map((lead, index) => (
-                        <LeadCard 
-                            key={lead.leadId} 
-                            lead={lead} 
-                            organizationId={organizationId}
-                            onSelectionChange={handleSelectionChange}
-                            isSelected={selectedLeads.includes(lead.leadId)}
-                            onSingleDelete={handleSingleDelete}
-                            onContact={handleContact}
-                            onViewDetails={handleViewDetails}
-                            onLevelChange={handleLevelChange}
-                            onEdit={handleEdit}
-                            isFirst={index === 0}
-                            isLast={index === filteredLeads.length - 1}
-                        />
-                    ))}
+                    {isLoading ? (
+                        <div className="text-center py-10">Loading leads...</div>
+                    ) : filteredLeads.length > 0 ? (
+                        filteredLeads.map((lead, index) => (
+                            <LeadCard 
+                                key={lead.leadId} 
+                                lead={lead} 
+                                organizationId={organizationId}
+                                onSelectionChange={handleSelectionChange}
+                                isSelected={selectedLeads.includes(lead.leadId)}
+                                onSingleDelete={handleSingleDelete}
+                                onContact={handleContact}
+                                onViewDetails={handleViewDetails}
+                                onLevelChange={handleLevelChange}
+                                onEdit={handleEdit}
+                                isFirst={index === 0}
+                                isLast={index === filteredLeads.length - 1}
+                            />
+                        ))
+                    ) : (
+                        <div className="text-center py-10">No leads found.</div>
+                    )}
                 </div>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
                     <AlertDialogHeader className="items-center text-center">
@@ -546,6 +517,7 @@ export default function LeadsPage() {
 }
 
     
+
 
 
 
