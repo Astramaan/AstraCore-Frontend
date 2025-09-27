@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -62,19 +63,6 @@ const meetings: Meeting[] = [
     { type: 'lead', name: "Lead Discussion", city: "Bengaluru", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw", email: 'lead@example.com', phone: '0987654321' },
 ];
 
-// Data for Architect Home
-const initialTaskData: Task[] = [
-    { id: "TSK010", title: "Review structural drawings", date: "29 May 2024", description: "Review and approve the final structural drawings for the Charan Project. Ensure they align with the architectural vision and local building codes.", priority: "High", status: "In Progress", category: "Design Review", project: "Charan Project", clientId: "CHA2024", attachments: [{ type: 'pdf', name: 'structural_v3.pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }] },
-    { id: "TSK011", title: "Client design feedback call", date: "30 May 2024", description: "Discuss the latest design iterations with the client for the Satish Project. Address any concerns and finalize the color palette.", priority: "Medium", status: "Pending", category: "Client Meeting", project: "Satish Project", clientId: "SAT2025", attachments: [] },
-];
-const assignedTasksData: Task[] = [
-    { id: "TSK012", title: "3D Model Renderings", date: "5 June 2024", description: "Create high-quality 3D renderings for the exterior of the Charan Project.", priority: "Medium", status: "Pending", category: "Visualization", project: "Charan Project", clientId: "CHA2024", attachments: [], isAssigned: true },
-];
-
-
-type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
-
-
 const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed' && task.category === 'Design');
@@ -121,7 +109,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                 onClick={onOpenUpcomingTasks}
             >
-                View Project Upcoming Tasks
+                Upcoming Stage
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
@@ -139,16 +127,9 @@ export default function ArchitectHome() {
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
-    const [activeFilter, setActiveFilter] = useState<FilterType>(null);
-    const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
-
-
-    const handleFilterClick = (filter: FilterType) => {
-        setActiveFilter(activeFilter === filter ? null : filter);
-    };
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
@@ -226,19 +207,6 @@ export default function ArchitectHome() {
     }, [selectedProject]);
 
 
-    const applyFilters = (tasks: Task[]) => {
-        if (activeFilter) {
-            return tasks.filter(task => {
-                if (activeFilter === 'High Priority') return task.priority === 'High';
-                return task.status === activeFilter;
-            });
-        }
-        return tasks.filter(task => task.status !== 'Completed');
-    };
-
-    const filteredMyTasks = useMemo(() => applyFilters(initialTaskData), [activeFilter]);
-    const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasksData), [activeFilter]);
-
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
@@ -267,69 +235,6 @@ export default function ArchitectHome() {
                             onOpenUpcomingTasks={() => setIsUpcomingTasksSheetOpen(true)}
                         />
                     )}
-                </div>
-
-                <Separator className="my-6" />
-                
-                <div className="mt-8 space-y-4">
-                    
-                    <div className="flex lg:hidden justify-between items-center w-full mb-4">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
-                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
-                                    Filter
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
-                                    All (exclude completed)
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
-                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
-                                        <div className="w-4 mr-2">
-                                        {activeFilter === option && <Check className="h-4 w-4" />}
-                                        </div>
-                                        {option}
-                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                         <div className="flex items-center gap-4">
-                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                        </div>
-                    </div>
-                   
-                    <div>
-                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
-                            {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                                <Button
-                                    key={filter}
-                                    variant="outline"
-                                    className={cn(
-                                        "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                                        activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                                    )}
-                                    onClick={() => handleFilterClick(filter as FilterType)}
-                                >
-                                    {filter}
-                                    {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                </Button>
-                            ))}
-                        </div>
-                        <h2 className="text-xl font-medium text-left pt-4">My Task</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 mt-4">
-                        {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-                    </div>
-                </div>
-                <div className="mt-8">
-                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
-                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-                    </div>
                 </div>
             </main>
             <HomeAside

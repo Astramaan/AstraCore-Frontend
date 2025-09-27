@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -104,7 +105,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                 onClick={onOpenUpcomingTasks}
             >
-                View Project Upcoming Tasks
+                Upcoming Stage
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
