@@ -30,6 +30,8 @@ export const OrganizationHeader = () => {
 
     if (pathname.includes('/home')) {
         pageTitle = 'Home';
+    } else if (pathname.includes('/tasks')) {
+        pageTitle = 'Tasks';
     } else if (pathname.includes('/meetings')) {
         pageTitle = 'Meetings';
     } else if (pathname.includes('/projects')) {

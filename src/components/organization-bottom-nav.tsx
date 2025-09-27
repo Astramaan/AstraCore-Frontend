@@ -12,9 +12,11 @@ import VendorsIcon from './icons/vendors-icon';
 import LeadsIcon from './icons/leads-icon';
 import { useUser } from '@/context/user-context';
 import TeamIcon from './icons/team-icon';
+import { GanttChartSquare } from 'lucide-react';
 
 const navItems = [
     { href: `/home`, icon: HomeIcon, label: "Home" },
+    { href: `/tasks`, icon: GanttChartSquare, label: "Tasks" },
     { href: `/meetings`, icon: MeetingsIcon, label: "Meetings" },
     { href: `/projects`, icon: ProjectsIcon, label: "Projects" },
     { href: `/leads`, icon: LeadsIcon, label: "Leads" },
@@ -30,12 +32,22 @@ export const OrganizationBottomNav = () => {
     if (loading || !user) {
         return null;
     }
+    
+    const canViewTasks = user.team === 'Project Manager' || user.team === 'Architect' || user.team === 'Site Supervisor' || user.roleType === 'superAdmin';
+
+    const visibleNavItems = navItems.filter(item => {
+        if (item.href === '/tasks') {
+            return canViewTasks;
+        }
+        return true;
+    })
+
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
              <div className="relative w-full md:w-auto bg-neutral-900/20 rounded-full backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
-                    {navItems.map((item) => {
+                    {visibleNavItems.map((item) => {
                         const baseHref = `/organization/${organizationId}${item.href}`;
                         const isActive = pathname.startsWith(baseHref);
                         return (
