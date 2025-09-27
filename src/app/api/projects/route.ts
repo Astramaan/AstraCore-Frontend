@@ -13,10 +13,14 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 
     try {
-        // The backend expects the user object as a plain string, not stringified JSON inside another string.
-        const userData = JSON.parse(userDataCookie.value);
+        let userData = JSON.parse(userDataCookie.value);
+        // Handle cases where the cookie is double-stringified
+        if (typeof userData === 'string') {
+            userData = JSON.parse(userData);
+        }
+        
         return {
-            'x-user': JSON.stringify(userData), // Directly stringify the object
+            'x-user': JSON.stringify(userData),
             'x-user-id': userData.userId,
             'x-login-id': userData.email,
         };
