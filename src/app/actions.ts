@@ -119,9 +119,37 @@ export async function addMember(prevState: any, formData: FormData) {
 }
 
 export async function addLead(prevState: any, formData: FormData) {
-    console.log("Adding lead with data:", Object.fromEntries(formData.entries()));
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true, message: 'Lead added successfully' };
+    const authHeaders = getAuthHeadersFromCookie();
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+        return { success: false, message: 'Unauthorized: Missing user data' };
+    }
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/org/leads`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...authHeaders
+            },
+            body: JSON.stringify({
+                fullName: formData.get('fullName'),
+                phoneNumber: formData.get('phone'),
+                email: formData.get('email'),
+                siteAddressPinCode: formData.get('pincode')
+            }),
+        });
+
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || 'Failed to create lead.' };
+        }
+
+        return { success: true, message: data.message };
+    } catch (error) {
+        console.error('Add lead action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
 }
 
 export async function addProject(projectData: any) {
