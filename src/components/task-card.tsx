@@ -33,6 +33,12 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
         "Medium": "bg-yellow-500/10 text-yellow-500",
         "High": "bg-red-500/10 text-red-500",
     }
+    
+    const statusColors: { [key: string]: string } = {
+        "In Progress": "bg-blue-100 text-blue-800",
+        "Pending": "bg-yellow-100 text-yellow-800",
+    }
+
     const formattedDate = new Date(task.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
     const dateColor = getDateColor(task.date);
 
@@ -43,9 +49,14 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
         >
             <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={onClick}>
                 <div>
-                    <div className="flex justify-between items-start">
-                        <h3 className="text-lg font-medium text-zinc-900">{task.title}</h3>
-                        <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
+                    <div className="flex justify-between items-start gap-2">
+                        <h3 className="text-lg font-medium text-zinc-900 line-clamp-1">{task.title}</h3>
+                        <div className="flex-shrink-0 flex gap-2">
+                            {task.status && (task.status === "In Progress" || task.status === "Pending") && (
+                                <Badge className={cn(statusColors[task.status])}>{task.status}</Badge>
+                            )}
+                            <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
+                        </div>
                     </div>
                     <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
                 </div>
