@@ -11,8 +11,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading, isSuperAdmin, isClient } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/');
+    }
+  }, [user, loading, router]);
   
-  if (loading) {
+  if (loading || !user) {
     return (
        <div className="min-h-screen bg-background p-4 md:p-8 2xl:p-10">
             <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">
