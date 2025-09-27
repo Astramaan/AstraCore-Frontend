@@ -52,28 +52,40 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     );
 };
 
-export const StageCard = ({ stage, onReopen, onRaiseIssue, className, isOpen, onToggle }: { stage: TimelineStage, onReopen?: (stage: TimelineStage) => void, onRaiseIssue: (stage: TimelineStage) => void, className?: string, isOpen: boolean, onToggle: () => void }) => {
+export const StageCard = ({ 
+    stage, 
+    onCardClick,
+    className 
+}: { 
+    stage: TimelineStage, 
+    onCardClick?: (stage: TimelineStage) => void,
+    className?: string
+}) => {
     const { user } = useUser();
     const isProjectManager = user?.team === 'Project Manager';
     const [selectedPdf, setSelectedPdf] = useState<{ name: string, url: string } | null>(null);
-    const hasAttachments = (stage.documents && stage.documents.length > 0) || (stage.siteImages && stage.siteImages.length > 0);
 
     const handlePdfClick = (e: React.MouseEvent, doc: { name: string, url: string }) => {
         e.stopPropagation();
         setSelectedPdf(doc);
     };
 
+    const handleCardClick = () => {
+        if (onCardClick) {
+            onCardClick(stage);
+        }
+    }
+
     return (
         <>
             <motion.div
-                whileHover={hasAttachments ? { scale: 1.03 } : {}}
+                whileHover={{ scale: 1.03 }}
                 transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
                 className={cn(
-                    "rounded-[24px] bg-white transition-shadow p-4",
+                    "rounded-[24px] bg-white transition-shadow p-4 cursor-pointer hover:shadow-lg",
                     className,
-                    hasAttachments ? "cursor-pointer hover:shadow-lg" : "cursor-default"
                 )}
-                onClick={hasAttachments ? onToggle : undefined}
+                onClick={handleCardClick}
             >
                  <div className={cn("w-full")}>
                     <div className="flex items-center gap-4">
@@ -105,63 +117,6 @@ export const StageCard = ({ stage, onReopen, onRaiseIssue, className, isOpen, on
                         </div>
                     </div>
                 </div>
-                <AnimatePresence>
-                    {isOpen && hasAttachments && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ ease: "easeInOut", duration: 0.3 }}
-                            style={{ overflow: 'hidden' }}
-                        >
-                            {(stage.status === 'On Going' || stage.status === 'completed') && (
-                                <div className="mt-4 space-y-4">
-                                    <Separator />
-                                     <div className="pt-2 space-y-2">
-                                        {stage.approvalDate && (
-                                            <div className="flex justify-between items-center">
-                                                <p className="text-sm text-muted-foreground">Approved on {new Date(stage.approvalDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                                                <button onClick={() => onRaiseIssue(stage)} className="text-sm text-primary underline">Raise issue</button>
-                                            </div>
-                                        )}
-
-                                        {stage.documents && stage.documents.length > 0 && (
-                                            <div className="pt-2 space-y-2">
-                                                {stage.documents.map((doc, index) => (
-                                                    <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
-                                                        <PdfIcon className="w-6 h-6 shrink-0"/>
-                                                        <div className="flex-1">
-                                                            <p className="text-base text-black font-medium">{doc.name}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                        
-                                        {stage.siteImages && stage.siteImages.length > 0 && (
-                                            <div className="grid grid-cols-4 gap-2 pt-2">
-                                                {stage.siteImages?.map((img, index) => (
-                                                    <Image key={index} src={img} width={100} height={100} alt={`Site image ${index + 1}`} className="rounded-[15px] object-cover aspect-square" data-ai-hint="construction site photo" />
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                    {isProjectManager && stage.status === 'On Going' && (
-                                        <div className="flex gap-4">
-                                            <Button variant="outline" className="flex-1 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive h-[54px] border-0 text-base md:text-lg">Reject</Button>
-                                            <Button className="flex-1 rounded-full bg-primary hover:bg-primary/90 h-[54px] text-base md:text-lg">Approve</Button>
-                                        </div>
-                                    )}
-                                    {isProjectManager && stage.status === 'completed' && (
-                                        <div className="flex justify-end pt-2">
-                                            <Button variant="outline" size="sm" className="rounded-full" onClick={(e) => {e.stopPropagation(); onReopen?.(stage);}}>Reopen</Button>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
             </motion.div>
              <PdfPreviewDialog 
                 open={!!selectedPdf} 

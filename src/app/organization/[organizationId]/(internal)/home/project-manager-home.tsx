@@ -62,12 +62,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
     }, [project.tasks]);
-    const [openStageId, setOpenStageId] = useState<number | null>(projectTasks[0]?.id || null);
-
-    const handleToggleStage = (stageId: number) => {
-        setOpenStageId(prevId => (prevId === stageId ? null : stageId));
-    };
-
+    
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -117,11 +112,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 <StageCard 
                     key={stage.id} 
                     stage={stage} 
-                    onStageClick={onStageClick} 
-                    onRaiseIssue={() => {}} 
-                    onReopen={() => {}} 
-                    isOpen={openStageId === stage.id} 
-                    onToggle={() => handleToggleStage(stage.id)} 
+                    onCardClick={onStageClick} 
                 />
             ))}
         </div>
