@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useActionState, useEffect } from 'react';
+import React, { useState, useActionState, useEffect, useTransition } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -34,6 +34,8 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
     const [state, formAction] = useActionState(addLead, { success: false, message: '' });
+    const [isPending, startTransition] = useTransition();
+
 
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
@@ -103,7 +105,9 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             });
             return;
         }
-        formAction(new FormData(e.currentTarget));
+        startTransition(() => {
+            formAction(new FormData(e.currentTarget));
+        });
     }
 
     return (
@@ -124,8 +128,8 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             </ScrollArea>
             
             <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-center">
-                <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg">
-                    Add
+                <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg" disabled={isPending}>
+                    {isPending ? 'Adding...' : 'Add'}
                 </Button>
             </div>
         </form>
