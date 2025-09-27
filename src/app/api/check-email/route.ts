@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const res = await fetch(`${API_BASE_URL}/api/v1/check-email-existed`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ email: body.email }),
     });
 
     const data = await res.json();
