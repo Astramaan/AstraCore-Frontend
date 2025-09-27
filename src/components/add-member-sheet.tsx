@@ -40,7 +40,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const { user } = useUser();
     
     const isTeamAdmin = user?.team === 'Architect' || user?.team === 'Sales' || user?.team === 'Site Supervisor';
-    const teamValue = user?.team?.toLowerCase().replace(' ', '');
+    const teamValue = user?.team;
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -93,6 +93,8 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
     return (
     <form action={formAction} className="flex flex-col h-full">
+        <input type="hidden" name="team" value={isTeamAdmin ? teamValue : team} />
+        <input type="hidden" name="roleType" value={isTeamAdmin ? 'member' : role} />
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="space-y-6">
                 <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} required />
@@ -102,31 +104,26 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                 </div>
                 <FloatingLabelInput id="member-phone" name="mobileNumber" type="tel" label="Mobile Number" value={phone} onChange={handlePhoneChange} required />
 
-                {isTeamAdmin ? (
-                    <>
-                        <input type="hidden" name="team" value={teamValue} />
-                        <input type="hidden" name="role" value="member" />
-                    </>
-                ) : (
+                {!isTeamAdmin && (
                     <>
                         <div className="space-y-2">
-                            <Label htmlFor="team" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
-                            <Select name="team" onValueChange={setTeam} value={team} required>
-                                <SelectTrigger id="team" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                            <Label htmlFor="team-select" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
+                            <Select onValueChange={setTeam} value={team} required>
+                                <SelectTrigger id="team-select" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a team" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {teams.map(r => (
-                                        <SelectItem key={r} value={r.toLowerCase().replace('&', 'and')}>{r}</SelectItem>
+                                        <SelectItem key={r} value={r}>{r}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
-                            <Select name="role" onValueChange={setRole} value={role} required>
-                                <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
+                            <Label htmlFor="role-select" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
+                            <Select onValueChange={setRole} value={role} required>
+                                <SelectTrigger id="role-select" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
                                 <SelectContent>

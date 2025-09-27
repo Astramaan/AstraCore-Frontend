@@ -91,7 +91,9 @@ export async function addMember(prevState: any, formData: FormData) {
         const rawFormData = Object.fromEntries(formData.entries());
         const requestBody = {
             ...rawFormData,
-            mobileNumber: rawFormData.mobileNumber
+            mobileNumber: rawFormData.mobileNumber,
+            team: "New User",
+            roleType: "client"
         };
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
