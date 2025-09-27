@@ -319,12 +319,6 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                     </Button>
                                 </DialogOrSheetTrigger>
                                 <ChangePasswordDialog email={member.email} />
-                                {isSuperAdmin && (
-                                     <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20" onClick={() => setIsBrandingSheetOpen(true)}>
-                                        <Palette className="mr-2 h-5 w-5"/>
-                                        Branding
-                                    </Button>
-                                )}
                             </div>
                         )}
                     </div>

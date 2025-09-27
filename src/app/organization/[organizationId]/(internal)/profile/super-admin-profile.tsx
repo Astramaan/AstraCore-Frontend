@@ -1,20 +1,22 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PersonalDetails } from '@/components/personal-details';
 import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import { Button } from '@/components/ui/button';
-import { LogOut, ChevronLeft } from 'lucide-react';
+import { LogOut, ChevronLeft, Palette } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { FeatureAccessCard } from '@/components/feature-access-card';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { ProjectStageToggleCard } from '@/components/project-stage-toggle-card';
+import { BrandingSheet } from '@/components/branding-sheet';
 
 export default function SuperAdminProfilePage() {
     const router = useRouter();
     const { user, logout } = useUser();
+    const [isBrandingSheetOpen, setIsBrandingSheetOpen] = useState(false);
     
     if (!user) return null; // Should be handled by layout, but as a safeguard
     
@@ -46,6 +48,7 @@ export default function SuperAdminProfilePage() {
                     </div>
                 </div>
             </div>
+            <BrandingSheet isOpen={isBrandingSheetOpen} onOpenChange={setIsBrandingSheetOpen} />
         </div>
     );
 }
