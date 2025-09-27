@@ -151,10 +151,8 @@ export default function TasksPage() {
                 </div>
             </main>
              <HomeAside
-                meetings={[]}
                 myTasksChartData={myTasksChartData}
                 assignedTasksChartData={assignedTasksChartData}
-                onMeetingClick={() => {}}
                 onAddTask={handleAddTask}
             />
              {selectedTask && (
@@ -168,3 +166,4 @@ export default function TasksPage() {
         </div>
     );
 }
+

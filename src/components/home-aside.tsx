@@ -40,11 +40,11 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
 )
 
 interface HomeAsideProps {
-    meetings: Meeting[];
+    meetings?: Meeting[];
     myTasksChartData?: { name: string; value: number }[];
     assignedTasksChartData?: { name: string; value: number }[];
     projectTasksChartData?: { name: string; value: number, fill: string }[];
-    onMeetingClick: (meeting: Meeting) => void;
+    onMeetingClick?: (meeting: Meeting) => void;
     onAddTask: (task: Omit<Task, 'id' | 'attachments'>) => void;
 }
 
@@ -60,17 +60,19 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
             </div>
 
             <div className="md:grid md:grid-cols-2 lg:grid-cols-1 gap-6">
-                 <div>
-                    <div className="flex justify-between items-center mb-3">
-                        <h2 className="text-xl font-medium">Meetings</h2>
-                        <Link href={`/organization/${organizationId}/meetings`} className="text-sm text-black hover:text-primary">
-                            see all meetings
-                        </Link>
+                 {meetings && meetings.length > 0 && onMeetingClick && (
+                     <div>
+                        <div className="flex justify-between items-center mb-3">
+                            <h2 className="text-xl font-medium">Meetings</h2>
+                            <Link href={`/organization/${organizationId}/meetings`} className="text-sm text-black hover:text-primary">
+                                see all meetings
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4">
+                            {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} onClick={onMeetingClick} />)}
+                        </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-4">
-                        {meetings.map(meeting => <MeetingCard key={meeting.id} meeting={meeting} onClick={onMeetingClick} />)}
-                    </div>
-                </div>
+                 )}
                 
                  <div>
                     <div className="flex justify-between items-center mb-3">
@@ -111,3 +113,4 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
         </aside>
     );
 }
+
