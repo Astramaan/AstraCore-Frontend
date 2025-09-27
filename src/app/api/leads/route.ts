@@ -25,6 +25,35 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 }
 
+export async function GET(req: NextRequest) {
+  try {
+    const authHeaders = getAuthHeadersFromCookie();
+
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
+    }
+
+    const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders
+      },
+    });
+
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+
+  } catch (err: any) {
+    console.error("Get leads proxy failed:", err);
+    return NextResponse.json(
+      { success: false, message: "Get leads proxy failed", details: err.message },
+      { status: 500 }
+    );
+  }
+}
+
+
 export async function POST(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
@@ -56,3 +85,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
