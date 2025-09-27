@@ -115,7 +115,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-4">
                     <FloatingLabelInput id="full-name" name="fullName" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
-                    <FloatingLabelInput id="phone-number" name="phone" label="Phone Number" type="tel" value={phone} onChange={handlePhoneChange} required />
+                    <FloatingLabelInput id="phone-number" name="phoneNumber" label="Phone Number" type="tel" value={phone} onChange={handlePhoneChange} required />
                     <div>
                         <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={handleEmailChange} required />
                         {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}

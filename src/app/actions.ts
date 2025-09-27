@@ -150,7 +150,7 @@ export async function addLead(prevState: any, formData: FormData) {
             },
             body: JSON.stringify({
                 fullName: formData.get('fullName'),
-                phoneNumber: formData.get('phone'),
+                phoneNumber: formData.get('phoneNumber'),
                 email: formData.get('email'),
                 siteAddressPinCode: formData.get('pincode')
             }),
