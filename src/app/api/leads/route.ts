@@ -14,7 +14,7 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     try {
         const userData = JSON.parse(userDataCookie.value);
         return {
-            'x-user': encodeURIComponent(JSON.stringify(userData)),
+            'x-user': JSON.stringify(userData),
             'x-user-id': userData.userId,
             'x-login-id': userData.email,
         };
