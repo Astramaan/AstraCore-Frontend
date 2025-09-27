@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -103,7 +102,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
     );
 }
 
-export default function NewUserHomePage({ params }: { params: { organizationId: string, clientId: string } }) {
+export default function NewUserHomePage({ params }: { params: { organizationId: string, userId: string } }) {
     const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
     const [consultationType, setConsultationType] = useState<'office' | 'home' | 'online' | 'in-person' | null>(null);
     const [appointment, setAppointment] = useState<AppointmentDetails | null>(null);

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -28,6 +27,11 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
     );
   }
 
+  // This layout is only for 'New User' team. Redirect if not.
+  if (user && user.team !== 'New User') {
+      router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
+      return null;
+  }
 
   return (
     <div className="min-h-screen bg-background">

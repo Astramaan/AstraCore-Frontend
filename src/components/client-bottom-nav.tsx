@@ -1,7 +1,6 @@
-
 'use client';
 
-import { Home, GanttChartSquare, Video, Users } from 'lucide-react';
+import { Home, GanttChartSquare, Video, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -12,13 +11,13 @@ export const ClientBottomNav = () => {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string;
-    const userId = user?.userId || (params.clientId as string);
+    const userId = user?.userId || (params.userId as string);
 
     const navItems = [
         { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
         { href: `/organization/${organizationId}/client/${userId}/project`, icon: GanttChartSquare, label: "My Project" },
         { href: `/organization/${organizationId}/client/${userId}/live`, icon: Video, label: "Live" },
-        { href: `/organization/${organizationId}/client/${userId}/meet-us`, icon: Users, label: "Meet us" },
+        { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
     ];
 
     return (
@@ -26,7 +25,7 @@ export const ClientBottomNav = () => {
              <div className="relative md:w-auto bg-black/10 rounded-full backdrop-blur-[5px] p-4">
                 <div className="flex items-center justify-center gap-4">
                     {navItems.map((item) => {
-                        const isActive = pathname === item.href;
+                        const isActive = pathname.startsWith(item.href);
                         return (
                              <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(

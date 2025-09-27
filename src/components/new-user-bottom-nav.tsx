@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Award, GanttChartSquare, Home, User } from 'lucide-react';
@@ -12,13 +11,13 @@ export const NewUserBottomNav = () => {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string;
-    const userId = user?.userId || (params.newuserId as string);
+    const userId = user?.userId || (params.userId as string);
 
     const navItems = [
-        { href: `/organization/${organizationId}/client/new/${userId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/new/${userId}/packages`, icon: Award, label: "Packages" },
-        { href: `/organization/${organizationId}/client/new/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
-        { href: `/organization/${organizationId}/client/new/${userId}/profile`, icon: User, label: "Profile" },
+        { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/${userId}/packages`, icon: Award, label: "Packages" },
+        { href: `/organization/${organizationId}/client/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
+        { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
     ];
 
     return (
@@ -26,7 +25,7 @@ export const NewUserBottomNav = () => {
              <div className="relative w-full md:w-auto bg-black/10 rounded-full backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {navItems.map((item) => {
-                        const isActive = pathname === item.href;
+                        const isActive = pathname.startsWith(item.href);
                         return (
                              <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(

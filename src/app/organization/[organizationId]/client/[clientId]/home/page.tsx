@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { Suspense } from 'react';
@@ -6,21 +5,14 @@ import ExistingClientHomePage from './existing-client-home';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/context/user-context';
 import NewUserHomePage from './new-user-home';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 function ClientHomePage() {
-  const { user } = useUser();
+  const { user, loading } = useUser();
+  const params = useParams();
   
-  // This page is for existing clients, so we render that component.
-  // The layout will handle redirection for new users.
-  return <ExistingClientHomePage />;
-}
-
-export default function ClientHomePageWrapper() {
-    const { user, loading } = useUser();
-    
-    if (loading || !user) {
-        return (
+  if (loading || !user) {
+      return (
             <div className="space-y-6 p-4">
                 <div className="flex justify-between items-center mb-6">
                     <Skeleton className="h-10 w-24" />
@@ -39,21 +31,20 @@ export default function ClientHomePageWrapper() {
                     </div>
                 </div>
             </div>
-        );
-    }
-    
-    // This logic seems more appropriate for a layout or middleware,
-    // but placing it here as per the current structure.
-    if (user.team === 'New User') {
-        const { organizationId, clientId } = useParams();
-        // Assuming clientId is the new userId for the new user.
-        return <NewUserHomePage params={{ organizationId: organizationId as string, clientId: clientId as string }} />;
-    }
-    
+      );
+  }
+  
+  if (user.team === 'New User') {
+      return <NewUserHomePage params={{ organizationId: params.organizationId as string, userId: user.userId }} />;
+  }
+  
+  return <ExistingClientHomePage />;
+}
+
+export default function ClientHomePageWrapper() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <ClientHomePage />
         </Suspense>
     );
 }
-

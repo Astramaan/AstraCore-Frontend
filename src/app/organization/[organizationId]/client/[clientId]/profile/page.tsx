@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -104,8 +103,8 @@ export default function ClientProfilePage() {
     }, [user])
     
     const handleSave = (updatedProfile: any) => {
-        setProfile(updatedProfile);
         // Here you would also update the user context or make an API call
+        setProfile(updatedProfile);
         setIsEditing(false);
     }
     
