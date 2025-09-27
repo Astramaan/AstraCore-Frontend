@@ -73,7 +73,7 @@ export default function TasksPage() {
         const inProgress = initialTaskData.filter(t => t.status === 'In Progress').length;
         const pending = initialTaskData.filter(t => t.status === 'Pending').length;
         return [
-            { name: 'In-Progress', value: inProgress, fill: 'hsl(var(--chart-2))' },
+            { name: 'In-Progress', value: inProgress, fill: 'hsl(var(--primary))' },
             { name: 'Pending', value: pending, fill: 'hsl(var(--muted))' }
         ];
     }, []);
@@ -82,7 +82,7 @@ export default function TasksPage() {
         const inProgress = assignedTasksData.filter(t => t.status === 'In Progress').length;
         const pending = assignedTasksData.filter(t => t.status === 'Pending').length;
         return [
-            { name: 'In-Progress', value: inProgress, fill: 'hsl(var(--chart-2))' },
+            { name: 'In-Progress', value: inProgress, fill: 'hsl(var(--primary))' },
             { name: 'Pending', value: pending, fill: 'hsl(var(--muted))' }
         ];
     }, []);
