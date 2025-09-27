@@ -14,17 +14,11 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 
     try {
         const userData = JSON.parse(userDataCookie.value);
-        const headers: Record<string, string> = {};
-        const userHeaders = ['userId', 'name', 'email', 'role', 'mobileNumber', 'city', 'organizationId', 'orgCode', 'team', 'roleType'];
-        
-        userHeaders.forEach(headerKey => {
-            if (userData[headerKey]) {
-                headers[headerKey] = String(userData[headerKey]);
-            }
-        });
-        headers['x-user-id'] = userData.userId;
-        headers['x-login-id'] = userData.email;
-        return headers;
+        return {
+            'x-user': JSON.stringify(userData),
+            'x-user-id': userData.userId,
+            'x-login-id': userData.email,
+        };
     } catch (e) {
         console.error("Failed to parse user data cookie", e);
         return {};
