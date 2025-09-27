@@ -445,5 +445,3 @@ export async function createMeeting(meetingData: any) {
 
     return res.json();
 }
-
-    
