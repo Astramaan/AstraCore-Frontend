@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
 import { cookies } from 'next/headers';
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
     
     const body = await req.json();
 
-    const res = await fetch(`${API_BASE_URL}/org/leads`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
