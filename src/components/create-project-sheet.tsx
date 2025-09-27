@@ -32,6 +32,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 import { addProject, getLeadByEmail } from '@/app/actions';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { Card, CardContent } from './ui/card';
+import { useUser } from '@/context/user-context';
 
 const mockArchitects = [
     { value: "554cee57f2f634d9", label: "Darshan" },
@@ -152,7 +153,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const formData = {
-            customerDetails: {
+            personalDetails: {
                 name: name,
                 email: email,
                 phoneNumber: phone,
@@ -164,7 +165,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
-                siteLocationLink: siteLocationLink,
+                siteLink: siteLocationLink,
                 siteAddress: siteAddress
             },
             projectAssign: {
@@ -405,6 +406,7 @@ const ProjectTimelineForm = ({
     projectData: any;
 }) => {
     const { toast } = useToast();
+    const { user } = useUser();
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [isPending, startTransition] = useTransition();
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
@@ -437,8 +439,17 @@ const ProjectTimelineForm = ({
             });
             timelineData.push(newPhase);
         });
+        
+        if (!user) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'User not found. Please log in again.',
+            });
+            return;
+        }
 
-        const fullData = { ...projectData, phases: timelineData, startDate: startDate?.toISOString() };
+        const fullData = { ...projectData, createdBy: user.userId, phases: timelineData, startDate: startDate?.toISOString() };
 
         startTransition(async () => {
             const result = await addProject(fullData);
@@ -847,6 +858,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 }
 
     
+
 
 
 

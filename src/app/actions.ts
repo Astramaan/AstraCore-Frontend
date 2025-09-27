@@ -172,7 +172,7 @@ export async function getLeadByEmail(email: string) {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/org/lead-by-email?email=${encodeURIComponent(email)}`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/lead-by-email?email=${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
