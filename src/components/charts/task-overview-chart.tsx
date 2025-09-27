@@ -3,9 +3,11 @@
 
 import * as React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { motion } from 'framer-motion';
 
 interface TaskOverviewChartProps {
-    data: { name: string; value: number }[];
+    data: { name: string; value: number, fill?: string }[];
     title?: React.ReactNode;
 }
 
@@ -69,7 +71,7 @@ export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
             stroke="none"
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell key={`cell-${index}`} fill={entry.fill || COLORS[index % COLORS.length]} />
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip />} />

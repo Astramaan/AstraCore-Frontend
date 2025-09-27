@@ -43,7 +43,7 @@ interface HomeAsideProps {
     meetings: Meeting[];
     myTasksChartData: { name: string; value: number }[];
     assignedTasksChartData: { name: string; value: number }[];
-    projectTasksChartData?: { name: string; value: number }[];
+    projectTasksChartData?: { name: string; value: number, fill: string }[];
     onMeetingClick: (meeting: Meeting) => void;
     onAddTask: (task: Omit<Task, 'id' | 'attachments'>) => void;
 }
@@ -78,7 +78,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
                         {projectTasksChartData && (
-                            <Card className="rounded-[50px] relative">
+                             <Card className="rounded-[50px] relative">
                                 <CardContent className="pt-10">
                                     <div className="relative">
                                         <TaskOverviewChart data={projectTasksChartData} title="Project Tasks" />
@@ -86,21 +86,25 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                                 </CardContent>
                             </Card>
                         )}
-                        <Card className="rounded-[50px] relative">
-                            <CardContent className="pt-10">
-                                <div className="relative">
-                                    <TaskOverviewChart data={myTasksChartData} title="My Tasks" />
-                                </div>
-                            </CardContent>
-                        </Card>
+                        {myTasksChartData.length > 0 && 
+                            <Card className="rounded-[50px] relative">
+                                <CardContent className="pt-10">
+                                    <div className="relative">
+                                        <TaskOverviewChart data={myTasksChartData} title="My Tasks" />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        }
 
-                        <Card className="rounded-[50px] relative">
-                            <CardContent className="pt-10">
-                                <div className="relative">
-                                    <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
-                                </div>
-                            </CardContent>
-                        </Card>
+                        {assignedTasksChartData.length > 0 &&
+                            <Card className="rounded-[50px] relative">
+                                <CardContent className="pt-10">
+                                    <div className="relative">
+                                        <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        }
                     </div>
                 </div>
             </div>
