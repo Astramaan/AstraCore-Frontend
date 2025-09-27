@@ -102,7 +102,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 onClick={onOpenCompletedTasks}
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
             >
-                View Project Completed Tasks
+                Completed Stage
             </Button>
             <Button
                 variant="outline"
