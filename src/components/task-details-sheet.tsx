@@ -623,7 +623,7 @@ export function TaskDetailsSheet({
         <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
           <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
             {task.isProjectTask
-              ? 'Project Task Details'
+              ? 'Project Stage Details'
               : task.isAssigned
               ? 'Assigned Task Details'
               : 'Task Details'}
