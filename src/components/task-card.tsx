@@ -57,7 +57,7 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
                     </div>
                     <p className="text-base text-zinc-900 mt-2 truncate flex-grow">{task.description}</p>
                     {task.status && (task.status === "In Progress" || task.status === "Pending") && (
-                        <div className="mt-2">
+                        <div className="mt-2 flex justify-end">
                             <Badge className={cn(statusColors[task.status])}>{task.status}</Badge>
                         </div>
                     )}
