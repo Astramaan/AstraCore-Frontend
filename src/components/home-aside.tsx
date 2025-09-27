@@ -45,7 +45,7 @@ interface HomeAsideProps {
     assignedTasksChartData?: { name: string; value: number }[];
     projectTasksChartData?: { name: string; value: number, fill: string }[];
     onMeetingClick?: (meeting: Meeting) => void;
-    onAddTask: (task: Omit<Task, 'id' | 'attachments'>) => void;
+    onAddTask?: (task: Omit<Task, 'id' | 'attachments'>) => void;
 }
 
 export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, projectTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
@@ -54,10 +54,12 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
     
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
-            <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
-                 <AssignTaskSheet onTaskAssigned={onAddTask} />
-                <AddMemberSheet />
-            </div>
+            {onAddTask && (
+                <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
+                    <AssignTaskSheet onTaskAssigned={onAddTask} />
+                    <AddMemberSheet />
+                </div>
+            )}
 
             <div className="md:grid md:grid-cols-2 lg:grid-cols-1 gap-6">
                  {meetings && meetings.length > 0 && onMeetingClick && (

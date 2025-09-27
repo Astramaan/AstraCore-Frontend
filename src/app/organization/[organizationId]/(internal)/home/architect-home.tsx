@@ -21,16 +21,15 @@ import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import { ProjectTaskCard, Stage } from '@/components/project-task-card';
-import { TaskCard } from '@/components/task-card';
+import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
 
 
 const allStages: Stage[] = [
-    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', duration: '2 Days', status: 'completed', type: 'stage', createdBy: 'Anil Kumar', createdAt: '25 May 2024', description: 'Present the final architectural designs to the client for approval.', priority: 'Low', progress: 100 },
-    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', duration: '2 Days', status: 'ongoing', type: 'stage', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], snagCount: 3, createdBy: 'Site Supervisor', createdAt: new Date().toISOString(), description: 'Begin excavation as per the approved site plan.', priority: 'High', progress: 70 },
-    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', duration: '2 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), description: 'Mark the grid lines for foundation work.', priority: 'Low', progress: 0 },
-    { id: 6, title: 'Foundation Work', subtitle: 'Sub-structure', category: 'Civil', image: 'https://picsum.photos/seed/foundation/100/100', duration: '5 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '30 May 2024', description: 'Lay the foundation for the structure.', priority: 'High', progress: 0 },
-    { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', duration: '7 Days', status: 'upcoming', type: 'stage', createdBy: 'Site Supervisor', createdAt: '05 June 2024', description: 'Erect the building frame.', priority: 'Medium', progress: 0 },
+    { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', date: '25 May 2024', status: 'completed', progress: 100 },
+    { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', date: new Date().toISOString(), status: 'On Going', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], progress: 70 },
+    { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), status: 'Yet To Begin', progress: 0 },
+    { id: 6, title: 'Foundation Work', subtitle: 'Sub-structure', category: 'Civil', image: 'https://picsum.photos/seed/foundation/100/100', date: '30 May 2024', status: 'Yet To Begin', progress: 0 },
+    { id: 7, title: 'Framing', subtitle: 'Super-structure', category: 'Carpentry', image: 'https://picsum.photos/seed/framing/100/100', date: '05 June 2024', status: 'Yet To Begin', progress: 0 },
 ];
 
 const projectsData = [
@@ -67,6 +66,11 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed' && task.category === 'Design');
     }, [project.tasks]);
+    const [openStageId, setOpenStageId] = useState<number | null>(projectTasks[0]?.id || null);
+
+    const handleToggleStage = (stageId: number) => {
+        setOpenStageId(prevId => (prevId === stageId ? null : stageId));
+    };
 
     return (
       <div className="space-y-4">
@@ -114,7 +118,15 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
             {projectTasks.map((stage) => (
-                <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
+                <StageCard 
+                    key={stage.id} 
+                    stage={stage} 
+                    onStageClick={onStageClick}
+                    onRaiseIssue={() => {}} 
+                    onReopen={() => {}} 
+                    isOpen={openStageId === stage.id} 
+                    onToggle={() => handleToggleStage(stage.id)} 
+                />
             ))}
         </div>
       </div>
@@ -136,9 +148,9 @@ export default function ArchitectHome() {
             id: stage.id.toString(),
             title: stage.title,
             subtitle: stage.subtitle,
-            description: stage.description,
-            date: stage.createdAt,
-            priority: stage.priority,
+            description: stage.description || '',
+            date: stage.date,
+            priority: stage.priority || 'Medium',
             status: stage.status,
             category: stage.category,
             project: selectedProject?.name || 'Unknown Project',
@@ -193,16 +205,16 @@ export default function ArchitectHome() {
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
-    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'upcoming' || stage.status === 'pending'), []);
+    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin' || stage.status === 'pending'), []);
     const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
     const projectTasksChartData = useMemo(() => {
         if (!selectedProject) return [];
-        const ongoing = selectedProject.tasks.filter(t => t.status === 'ongoing').length;
-        const upcoming = selectedProject.tasks.filter(t => t.status === 'upcoming').length;
+        const ongoing = selectedProject.tasks.filter(t => t.status === 'On Going').length;
+        const upcoming = selectedProject.tasks.filter(t => t.status === 'Yet To Begin').length;
         return [
-            { name: 'Ongoing', value: ongoing },
-            { name: 'Upcoming', value: upcoming },
+            { name: 'Ongoing', value: ongoing, fill: 'hsl(var(--primary))' },
+            { name: 'Upcoming', value: upcoming, fill: 'hsl(var(--muted))' },
         ];
     }, [selectedProject]);
 
@@ -239,11 +251,8 @@ export default function ArchitectHome() {
             </main>
             <HomeAside
               meetings={meetings}
-              myTasksChartData={[]}
-              assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
             />
             {selectedTask && (
                 <TaskDetailsSheet

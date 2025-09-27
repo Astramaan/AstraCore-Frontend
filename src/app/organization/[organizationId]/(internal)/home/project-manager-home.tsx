@@ -22,7 +22,6 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
-import { TaskCard } from '@/components/task-card';
 
 
 const allStages: Stage[] = [
@@ -59,14 +58,15 @@ const meetings: Meeting[] = [
     { type: 'lead', name: "Lead Discussion", city: "Bengaluru", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw", email: 'lead@example.com', phone: '0987654321' },
 ];
 
-
-type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
-
-
 const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
     }, [project.tasks]);
+    const [openStageId, setOpenStageId] = useState<number | null>(projectTasks[0]?.id || null);
+
+    const handleToggleStage = (stageId: number) => {
+        setOpenStageId(prevId => (prevId === stageId ? null : stageId));
+    };
 
     return (
       <div className="space-y-4">
@@ -114,7 +114,15 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {projectTasks.map((stage) => (
-                <StageCard key={stage.id} stage={stage} onStageClick={onStageClick} onRaiseIssue={() => {}} onReopen={() => {}} isOpen={false} onToggle={() => {}} />
+                <StageCard 
+                    key={stage.id} 
+                    stage={stage} 
+                    onStageClick={onStageClick} 
+                    onRaiseIssue={() => {}} 
+                    onReopen={() => {}} 
+                    isOpen={openStageId === stage.id} 
+                    onToggle={() => handleToggleStage(stage.id)} 
+                />
             ))}
         </div>
       </div>
@@ -193,7 +201,7 @@ export default function ProjectManagerHome() {
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
-    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'upcoming' || stage.status === 'pending'), []);
+    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin' || stage.status === 'pending'), []);
     const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
     const projectTasksChartData = useMemo(() => {
@@ -241,7 +249,6 @@ export default function ProjectManagerHome() {
               meetings={meetings}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
             />
             {selectedTask && (
                 <TaskDetailsSheet
