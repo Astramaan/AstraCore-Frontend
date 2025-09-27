@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Home, GanttChartSquare, Video, User, Layers } from 'lucide-react';
@@ -11,14 +12,14 @@ export const ClientBottomNav = () => {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string;
-    const userId = user?.userId || (params.userId as string);
+    const clientId = params.clientId as string;
 
     const navItems = [
-        { href: `/organization/${organizationId}/client/${userId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/${userId}/stages`, icon: Layers, label: "Stages" },
-        { href: `/organization/${organizationId}/client/${userId}/project`, icon: GanttChartSquare, label: "My Project" },
-        { href: `/organization/${organizationId}/client/${userId}/live`, icon: Video, label: "Live" },
-        { href: `/organization/${organizationId}/client/${userId}/profile`, icon: User, label: "Profile" },
+        { href: `/organization/${organizationId}/client/${clientId}/home`, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/client/${clientId}/stages`, icon: Layers, label: "Stages" },
+        { href: `/organization/${organizationId}/client/${clientId}/project`, icon: GanttChartSquare, label: "My Project" },
+        { href: `/organization/${organizationId}/client/${clientId}/live`, icon: Video, label: "Live" },
+        { href: `/organization/${organizationId}/client/${clientId}/profile`, icon: User, label: "Profile" },
     ];
 
     return (

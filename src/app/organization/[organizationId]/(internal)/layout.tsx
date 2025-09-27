@@ -7,7 +7,6 @@ import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
 import { usePathname, useRouter } from 'next/navigation';
 import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ClientBottomNav } from '@/components/client-bottom-nav';
 
 
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
@@ -31,10 +30,8 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   const isDetailPage = pathname.includes('/projects/') || pathname.includes('/teams/');
   const isProfilePage = pathname.includes('/profile');
   
-  const isClient = user?.roleType === 'client';
-
   // Super Admin should always see the nav. Other users see it on non-detail pages.
-  const shouldShowOrgNav = !isClient && (isSuperAdmin || (!isDetailPage && !isProfilePage));
+  const shouldShowOrgNav = isSuperAdmin || (!isDetailPage && !isProfilePage);
 
 
   return (
@@ -48,7 +45,6 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
             {children}
         </main>
         {shouldShowOrgNav && <OrganizationBottomNav />}
-        {isClient && <ClientBottomNav />}
     </div>
   );
 }

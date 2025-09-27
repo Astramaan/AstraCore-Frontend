@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
@@ -62,7 +63,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const isSuperAdmin = user?.roleType === 'superAdmin';
-  const isClient = user?.role === 'CLIENT';
+  const isClient = user?.roleType === 'client';
 
   return (
     <UserContext.Provider value={{ user, loading, isSuperAdmin, isClient, setUser, logout }}>
