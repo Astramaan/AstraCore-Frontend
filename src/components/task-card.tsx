@@ -48,19 +48,21 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
             transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
         >
             <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={onClick}>
-                <div>
+                <div className="flex-1 flex flex-col">
                     <div className="flex justify-between items-start gap-2">
                         <h3 className="text-lg font-medium text-zinc-900 line-clamp-1">{task.title}</h3>
                         <div className="flex-shrink-0 flex gap-2">
-                            {task.status && (task.status === "In Progress" || task.status === "Pending") && (
-                                <Badge className={cn(statusColors[task.status])}>{task.status}</Badge>
-                            )}
                             <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                         </div>
                     </div>
-                    <p className="text-base text-zinc-900 mt-2 truncate">{task.description}</p>
+                    <p className="text-base text-zinc-900 mt-2 truncate flex-grow">{task.description}</p>
+                    {task.status && (task.status === "In Progress" || task.status === "Pending") && (
+                        <div className="mt-2">
+                            <Badge className={cn(statusColors[task.status])}>{task.status}</Badge>
+                        </div>
+                    )}
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center pt-2">
                     <div className="flex items-center">
                         <div className="flex -space-x-2">
                             <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
