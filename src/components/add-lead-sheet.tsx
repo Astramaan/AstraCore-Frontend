@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useActionState, useEffect, useTransition } from 'react';
@@ -13,9 +14,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X } from "lucide-react";
+import { Plus, X, ShieldAlert } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { addLead } from '@/app/actions';
 import { useToast } from './ui/use-toast';
@@ -36,25 +47,21 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [state, formAction] = useActionState(addLead, { success: false, message: '' });
     const [isPending, startTransition] = useTransition();
 
-
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [pincode, setPincode] = useState('');
     const [emailError, setEmailError] = useState('');
     const [pincodeError, setPincodeError] = useState('');
+    const [backendError, setBackendError] = useState<string | null>(null);
 
     useEffect(() => {
         if (state?.success) {
             onFormSuccess();
         } else if (state?.message && !state.success) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
+            setBackendError(state.message);
         }
-    }, [state, onFormSuccess, toast]);
+    }, [state, onFormSuccess]);
     
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -111,28 +118,48 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col h-full">
-            <ScrollArea className="flex-1 p-6 no-scrollbar">
-                <div className="space-y-4">
-                    <FloatingLabelInput id="full-name" name="fullName" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
-                    <FloatingLabelInput id="phone-number" name="phoneNumber" label="Phone Number" type="tel" value={phone} onChange={handlePhoneChange} required />
-                    <div>
-                        <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={handleEmailChange} required />
-                        {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
+        <>
+            <form onSubmit={handleSubmit} className="flex flex-col h-full">
+                <ScrollArea className="flex-1 p-6 no-scrollbar">
+                    <div className="space-y-4">
+                        <FloatingLabelInput id="full-name" name="fullName" label="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                        <FloatingLabelInput id="phone-number" name="phoneNumber" label="Phone Number" type="tel" value={phone} onChange={handlePhoneChange} required />
+                        <div>
+                            <FloatingLabelInput id="email-id" name="email" label="Email ID" type="email" value={email} onChange={handleEmailChange} required />
+                            {emailError && <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>}
+                        </div>
+                        <div>
+                            <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={handlePincodeChange} required />
+                            {pincodeError && <p className="text-destructive text-sm mt-1 px-4">{pincodeError}</p>}
+                        </div>
                     </div>
-                    <div>
-                        <FloatingLabelInput id="pincode" name="pincode" label="Site location pin code" value={pincode} onChange={handlePincodeChange} required />
-                        {pincodeError && <p className="text-destructive text-sm mt-1 px-4">{pincodeError}</p>}
-                    </div>
+                </ScrollArea>
+                
+                <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-center">
+                    <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg" disabled={isPending}>
+                        {isPending ? 'Adding...' : 'Add'}
+                    </Button>
                 </div>
-            </ScrollArea>
-            
-            <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-center">
-                <Button type="submit" className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg" disabled={isPending}>
-                    {isPending ? 'Adding...' : 'Add'}
-                </Button>
-            </div>
-        </form>
+            </form>
+             <AlertDialog open={!!backendError} onOpenChange={() => setBackendError(null)}>
+                <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Error Adding Lead</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-grey-2">
+                            {backendError}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogAction onClick={() => setBackendError(null)} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-white hover:bg-primary/90">OK</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
     );
 };
 
