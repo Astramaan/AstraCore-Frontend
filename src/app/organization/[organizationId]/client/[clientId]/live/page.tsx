@@ -181,7 +181,7 @@ export default function LivePage() {
                         </div>
                     </Card>
                      <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white p-6">
-                        <p className="text-sm text-white/80">Snags</p>
+                        <p className="text-sm text-white/80">Issues</p>
                         <div className="flex items-center gap-4 mt-2">
                              <div className="flex items-center gap-2">
                                 <SnagListIcon className="w-8 h-8"/>
