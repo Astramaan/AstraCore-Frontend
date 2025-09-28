@@ -22,6 +22,7 @@ function getAuthHeadersFromCookie(): Record<string, string> {
         'x-user': JSON.stringify(staticUserData),
         'x-user-id': staticUserData.userId,
         'x-login-id': staticUserData.email,
+        'x-organization-id': staticUserData.organizationId,
     };
 }
 
@@ -134,22 +135,24 @@ export async function addMember(prevState: any, formData: FormData) {
 
 export async function addLead(prevState: any, formData: FormData) {
     try {
+        const authHeaders = getAuthHeadersFromCookie();
+        if (Object.keys(authHeaders).length === 0) {
+            return { success: false, message: "Authentication failed. Please log in again." };
+        }
+
         const payload = {
             name: formData.get('fullName') as string,
             phoneNumber: formData.get('phoneNumber') as string,
             email: formData.get('email') as string,
             siteAddressPinCode: formData.get('pincode') as string,
+            siteAddress: formData.get('pincode') as string, // Using pincode as placeholder for siteAddress
+            organizationName: "ABCConstructionsDEL" // Hardcoded as per your backend's likely expectation
         };
 
         if (!payload.name || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
             return { success: false, message: "All fields are required." };
         }
         
-        const authHeaders = getAuthHeadersFromCookie();
-        if (Object.keys(authHeaders).length === 0) {
-            return { success: false, message: "Authentication failed. Please log in again." };
-        }
-
         const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
             method: 'POST',
             headers: {
