@@ -184,7 +184,7 @@ export default function LivePage() {
     <div ref={containerRef} className="w-screen h-screen bg-black relative overflow-hidden">
         <video
             ref={videoRef}
-            className="w-full h-full object-cover cursor-pointer"
+            className="w-full h-full object-contain cursor-pointer"
             autoPlay
             muted
             loop
@@ -297,4 +297,3 @@ export default function LivePage() {
     </div>
   );
 }
-
