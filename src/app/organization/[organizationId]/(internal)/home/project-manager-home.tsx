@@ -145,7 +145,7 @@ export default function ProjectManagerHome() {
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
     
-    const canAssignTask = user?.roleType === 'superAdmin';
+    const canManageMembers = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
 
 
     const handleStageClick = (stage: Stage) => {
@@ -260,8 +260,7 @@ export default function ProjectManagerHome() {
               assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={canAssignTask ? handleAddTask : undefined}
-              showAddMemberButton={canAssignTask}
+              showAddMemberButton={canManageMembers}
             />
             {selectedTask && (
                 <TaskDetailsSheet

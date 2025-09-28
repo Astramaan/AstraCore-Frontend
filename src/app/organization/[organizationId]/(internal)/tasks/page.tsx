@@ -155,7 +155,7 @@ export default function TasksPage() {
                 myTasksChartData={myTasksChartData}
                 assignedTasksChartData={assignedTasksChartData}
                 onAddTask={handleAddTask}
-                showAddMemberButton={canManageMembers}
+                showAddMemberButton={false}
             />
              {selectedTask && (
                 <TaskDetailsSheet
