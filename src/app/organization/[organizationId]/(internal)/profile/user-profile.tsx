@@ -26,15 +26,15 @@ export default function UserProfilePage() {
             </div>
             <PersonalDetails memberId={user.userId} />
 
-            <div className="grid grid-cols-1 gap-6">
-                <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6">
+                <div className="2xl:col-span-2">
                     <ActiveSessionsCard />
-                    <div className="flex justify-end">
-                        <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive w-full">
-                           <LogOut className="mr-2 h-5 w-5" />
-                           Logout
-                        </Button>
-                    </div>
+                </div>
+                <div className="flex justify-end">
+                    <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive w-full">
+                       <LogOut className="mr-2 h-5 w-5" />
+                       Logout
+                    </Button>
                 </div>
             </div>
         </div>
