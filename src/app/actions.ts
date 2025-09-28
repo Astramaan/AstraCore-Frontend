@@ -44,7 +44,6 @@ export async function verifyInvite(token: string, orgId: string) {
         const params = new URLSearchParams({
             email: inviteDetails.email,
             organization: inviteDetails.organizationName,
-            // You might want to pass more details from the invite
         });
         
         redirect(`/signup?${params.toString()}`);
@@ -88,10 +87,11 @@ export async function addMember(prevState: any, formData: FormData) {
     try {
         const rawFormData = Object.fromEntries(formData.entries());
         const requestBody = {
-            ...rawFormData,
+            name: rawFormData.name,
+            email: rawFormData.email,
             mobileNumber: rawFormData.mobileNumber,
-            team: "New User",
-            roleType: "client"
+            team: rawFormData.team || "New User",
+            roleType: rawFormData.roleType || "client"
         };
 
         const res = await fetch(`/api/users`, {
@@ -142,12 +142,14 @@ export async function getLeads() {
 
 export async function addLead(prevState: any, formData: FormData) {
     try {
-        const fullName = formData.get('fullName') as string;
-        const phoneNumber = formData.get('phoneNumber') as string;
-        const email = formData.get('email') as string;
-        const siteAddressPinCode = formData.get('pincode') as string;
+        const payload = {
+            fullName: formData.get('fullName') as string,
+            phoneNumber: formData.get('phoneNumber') as string,
+            email: formData.get('email') as string,
+            siteAddressPinCode: formData.get('pincode') as string,
+        };
 
-        if (!fullName || !phoneNumber || !email || !siteAddressPinCode) {
+        if (!payload.fullName || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
             return { success: false, message: "All fields are required." };
         }
         
@@ -157,12 +159,7 @@ export async function addLead(prevState: any, formData: FormData) {
                 'Content-Type': 'application/json',
                 ...getAuthHeadersFromCookie()
             },
-            body: JSON.stringify({
-                fullName,
-                phoneNumber,
-                email,
-                siteAddressPinCode,
-            }),
+            body: JSON.stringify(payload),
         });
 
         const data = await res.json();
@@ -272,8 +269,7 @@ export async function requestPasswordReset(prevState: any, formData: FormData) {
         const res = await fetch(`/api/send-otp`, {
             method: "POST",
             headers: { 
-                "Content-Type": "application/json",
-                ...getAuthHeadersFromCookie()
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({ email }),
         });
@@ -302,8 +298,7 @@ export async function verifyOtp(prevState: any, formData: FormData) {
         const res = await fetch(`/api/verify-otp`, {
             method: "POST",
             headers: { 
-                "Content-Type": "application/json",
-                ...getAuthHeadersFromCookie()
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({ email, otp }),
         });
@@ -341,8 +336,7 @@ export async function createPassword(prevState: any, formData: FormData) {
         const res = await fetch(`/api/signup`, {
             method: "POST",
             headers: { 
-                "Content-Type": "application/json",
-                ...getAuthHeadersFromCookie()
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 name: formData.get('name'),
@@ -454,3 +448,5 @@ export async function createMeeting(meetingData: any) {
 
     return res.json();
 }
+
+    
