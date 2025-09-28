@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { TaskCard } from '@/components/task-card';
 import { AssignTaskSheet } from '@/components/add-task-sheet';
-import { AddMemberSheet } from '@/components/add-member-sheet';
 import { HomeAside } from '@/components/home-aside';
 
 // Data for Default Home
