@@ -9,52 +9,49 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     const cookieStore = cookies();
     const userDataCookie = cookieStore.get('user-data');
     if (!userDataCookie) {
+        console.error("Auth cookie not found");
         return {};
     }
 
+    const cookieValue = userDataCookie.value;
+
+    let userData: any;
+
     try {
-        let userData;
-        const cookieValue = userDataCookie.value;
-        
+        // Attempt to parse directly
+        userData = JSON.parse(cookieValue);
+    } catch (e) {
         try {
-            // First attempt to parse
-            userData = JSON.parse(cookieValue);
-        } catch (e) {
-            // If parsing fails, it might be a double-encoded string
-            console.error("Failed to parse user data cookie, trying to parse again", e);
-            try {
-              userData = JSON.parse(cookieValue);
-            } catch (innerError) {
-              console.error("Failed to parse double-stringified cookie", innerError);
-              return {};
-            }
-        }
-        
-        // After potential double-parsing, if it's a string, parse it again.
-        if (typeof userData === 'string') {
-            try {
-                userData = JSON.parse(userData);
-            } catch (error) {
-                console.error("Final attempt to parse stringified userData failed", error);
-                return {};
-            }
-        }
-            
-        // Validate the expected structure
-        if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-            console.error("Invalid user data structure in cookie", userData);
+            // If direct parsing fails, try decoding and then parsing
+            const decodedValue = decodeURIComponent(cookieValue);
+            userData = JSON.parse(decodedValue);
+        } catch (e2) {
+            console.error("Failed to parse user data cookie after decoding:", e2);
             return {};
         }
+    }
+    
+    // Handle cases where the parsed data is still a string (double-encoded JSON)
+    if (typeof userData === 'string') {
+        try {
+            userData = JSON.parse(userData);
+        } catch (e3) {
+            console.error("Failed to parse double-stringified user data:", e3);
+            return {};
+        }
+    }
         
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
-    } catch (e) {
-        console.error("Error processing user data cookie", e);
+    // Final validation of the parsed user data structure
+    if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+        console.error("Invalid user data structure in cookie after parsing:", userData);
         return {};
     }
+    
+    return {
+        'x-user': JSON.stringify(userData),
+        'x-user-id': userData.userId,
+        'x-login-id': userData.email,
+    };
 }
 
 export async function GET(req: NextRequest) {

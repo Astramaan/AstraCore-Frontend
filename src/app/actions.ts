@@ -10,50 +10,49 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     const cookieStore = cookies();
     const userDataCookie = cookieStore.get('user-data');
     if (!userDataCookie) {
+        console.error("Auth cookie not found");
         return {};
     }
+
+    const cookieValue = userDataCookie.value;
+
+    let userData: any;
 
     try {
-        let userDataValue = userDataCookie.value;
-        // The cookie value might be a URL-encoded JSON string, which itself contains a JSON string.
-        // It needs to be decoded and parsed multiple times.
-        let parsedData = JSON.parse(decodeURIComponent(userDataValue));
-
-        // If the result of the first parse is a string, it's likely double-encoded.
-        if (typeof parsedData === 'string') {
-            parsedData = JSON.parse(parsedData);
-        }
-        
-        const userData = parsedData;
-
-        // Validate the expected structure
-        if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-            console.error("Invalid user data structure in cookie", userData);
+        // Attempt to parse directly
+        userData = JSON.parse(cookieValue);
+    } catch (e) {
+        try {
+            // If direct parsing fails, try decoding and then parsing
+            const decodedValue = decodeURIComponent(cookieValue);
+            userData = JSON.parse(decodedValue);
+        } catch (e2) {
+            console.error("Failed to parse user data cookie after decoding:", e2);
             return {};
         }
-        
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
-    } catch (e) {
-        console.error("Error processing user data cookie:", e);
-        // Fallback for simple JSON parsing if the above fails
+    }
+    
+    // Handle cases where the parsed data is still a string (double-encoded JSON)
+    if (typeof userData === 'string') {
         try {
-            const userData = JSON.parse(userDataCookie.value);
-            if (userData && userData.userId && userData.email) {
-                 return {
-                    'x-user': JSON.stringify(userData),
-                    'x-user-id': userData.userId,
-                    'x-login-id': userData.email,
-                };
-            }
-        } catch (finalError) {
-             console.error("Final attempt to parse user data cookie failed:", finalError);
+            userData = JSON.parse(userData);
+        } catch (e3) {
+            console.error("Failed to parse double-stringified user data:", e3);
+            return {};
         }
+    }
+        
+    // Final validation of the parsed user data structure
+    if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+        console.error("Invalid user data structure in cookie after parsing:", userData);
         return {};
     }
+    
+    return {
+        'x-user': JSON.stringify(userData),
+        'x-user-id': userData.userId,
+        'x-login-id': userData.email,
+    };
 }
 
 export async function getProjects() {
