@@ -11,6 +11,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { TaskCard } from '@/components/task-card';
 import { AssignTaskSheet } from '@/components/add-task-sheet';
 import { HomeAside } from '@/components/home-aside';
+import { useUser } from '@/context/user-context';
 
 // Data for Default Home
 const initialTaskData: Task[] = [
@@ -27,6 +28,7 @@ const assignedTasksData: Task[] = [
 type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
 
 export default function TasksPage() {
+    const { user } = useUser();
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [activeFilter, setActiveFilter] = useState<FilterType>(null);
@@ -85,6 +87,8 @@ export default function TasksPage() {
             { name: 'Pending', value: pending, fill: 'hsl(var(--muted))' }
         ];
     }, []);
+    
+    const canManageMembers = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
 
     return (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -151,7 +155,7 @@ export default function TasksPage() {
                 myTasksChartData={myTasksChartData}
                 assignedTasksChartData={assignedTasksChartData}
                 onAddTask={handleAddTask}
-                showAddMemberButton={true}
+                showAddMemberButton={canManageMembers}
             />
              {selectedTask && (
                 <TaskDetailsSheet
