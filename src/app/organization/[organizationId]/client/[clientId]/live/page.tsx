@@ -86,7 +86,7 @@ export default function LivePage() {
   }
 
   return (
-    <div ref={containerRef} className="w-screen h-screen bg-black relative overflow-hidden">
+    <div ref={containerRef} className="h-screen bg-black relative overflow-hidden">
         <Image
             src={activeCamera.src}
             alt={activeCamera.name}
