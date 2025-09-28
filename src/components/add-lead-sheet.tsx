@@ -150,7 +150,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                           <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                         </div>
                         <AlertDialogTitle className="text-2xl font-semibold">Error Adding Lead</AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
+                        <AlertDialogDescription className="text-lg text-grey-1">
                             {backendError}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
