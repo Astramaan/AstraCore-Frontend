@@ -137,25 +137,13 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             return;
         }
         
-        const combinedDateTime = new Date(date);
-        const [timeValue, period] = time.split(' ');
-        let [hours, minutes] = timeValue.split(':').map(Number);
-
-        if (period === 'PM' && hours < 12) {
-            hours += 12;
-        }
-        if (period === 'AM' && hours === 12) { // Midnight case
-            hours = 0;
-        }
-        combinedDateTime.setHours(hours, minutes, 0, 0);
-
         const meetingData = {
             title,
             description,
             projectId: selectedId,
             meetingLink,
-            date: date.toISOString(),
-            startTime: time,
+            date: date,
+            time: time,
             targetType: {
                 type: targetType,
                 id: selectedId
@@ -169,7 +157,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             email,
             phone,
             type: targetType,
-            time,
         };
 
         startTransition(async () => {
@@ -473,7 +460,7 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
                     <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
                         <Plus className="h-6 w-6 text-black"/>
                     </div>
-                    Create New Meeting
+                    Create Meeting
                     <div className="flex items-center gap-4 ml-auto">
                         <SheetClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
