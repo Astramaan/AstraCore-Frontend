@@ -106,12 +106,11 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
 
     useEffect(() => {
         const fetchLeadData = async () => {
-            if (email) {
+            if (email && /^\S+@\S+\.\S+$/.test(email)) {
                 const result = await getLeadByEmail(email);
                 if (result.success && result.data) {
-                    setName(result.data.name || '');
+                    setName(result.data.fullName || '');
                     setPhone(result.data.phoneNumber || '');
-                    // Assuming siteAddressPinCode can be used for site address
                     setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${result.data.siteAddressPinCode}`: '');
                 }
             }
@@ -119,7 +118,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
 
         const handler = setTimeout(() => {
             fetchLeadData();
-        }, 500); // Debounce time
+        }, 500); 
 
         return () => {
             clearTimeout(handler);
