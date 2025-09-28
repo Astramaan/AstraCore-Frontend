@@ -146,28 +146,7 @@ export default function LivePage() {
                 </Button>
             </div>
             <ScrollArea className="h-[calc(100vh-120px)]">
-                <div className="space-y-4 pr-3">
-                    {cameraFeeds[activeCameraType].map(camera => (
-                        <Card 
-                            key={camera.name} 
-                            className={cn(
-                                'rounded-full p-3 cursor-pointer transition-colors bg-black/20 border-white/20 hover:bg-white/10', 
-                                activeCamera.name === camera.name ? 'bg-primary/50 border-primary' : ''
-                            )}
-                            onClick={() => setActiveCamera(camera)}
-                        >
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                     <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center">
-                                        <Camera className="w-6 h-6 text-zinc-400" />
-                                     </div>
-                                     <p className="font-medium text-white">{camera.name}</p>
-                                </div>
-                                <div className="w-3 h-3 rounded-full bg-green-500 mr-4"/>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
+                
             </ScrollArea>
         </aside>
     </div>
