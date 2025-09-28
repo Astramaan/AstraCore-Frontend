@@ -249,6 +249,7 @@ export default function ArchitectHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={canAssignTask ? handleAddTask : undefined}
+              showAddMemberButton={canAssignTask}
             />
             {selectedTask && (
                 <TaskDetailsSheet
