@@ -10,6 +10,8 @@ import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Image from 'next/image';
 import { ProjectTimelineChart } from '@/components/charts/project-timeline-chart';
+import { Progress } from '@/components/ui/progress';
+import SnagListIcon from '@/components/icons/snag-list-icon';
 
 const cameraFeeds = {
     'Onsite Camera': [
@@ -25,6 +27,15 @@ const cameraFeeds = {
 };
 
 type CameraType = 'Onsite Camera' | 'Drones';
+
+const MetricCard = ({ title, value, footer }: { title: string, value: string, footer: string }) => (
+    <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white p-6">
+        <p className="text-sm text-white/80">{title}</p>
+        <p className="text-4xl font-bold">{value}</p>
+        <p className="text-sm text-white/80 mt-2">{footer}</p>
+    </Card>
+);
+
 
 export default function LivePage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -154,7 +165,7 @@ export default function LivePage() {
                 </Button>
             </div>
             <ScrollArea className="h-[calc(100vh-120px)]">
-                <div className="space-y-4">
+                 <div className="space-y-4">
                     {projectTasksChartData && (
                         <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white">
                             <CardContent className="pt-6">
@@ -162,6 +173,32 @@ export default function LivePage() {
                             </CardContent>
                         </Card>
                     )}
+                    <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white p-6">
+                        <p className="text-sm text-white/80">Project Progress</p>
+                        <div className="flex items-center gap-4 mt-2">
+                            <p className="text-4xl font-bold">70%</p>
+                            <Progress value={70} className="w-full h-2" />
+                        </div>
+                    </Card>
+                     <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white p-6">
+                        <p className="text-sm text-white/80">Snags</p>
+                        <div className="flex items-center gap-4 mt-2">
+                             <div className="flex items-center gap-2">
+                                <SnagListIcon className="w-8 h-8"/>
+                                <div>
+                                    <p className="text-2xl font-bold">12</p>
+                                    <p className="text-xs text-white/80">Open</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <SnagListIcon className="w-8 h-8 text-green-400"/>
+                                <div>
+                                    <p className="text-2xl font-bold">38</p>
+                                    <p className="text-xs text-white/80">Closed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
             </ScrollArea>
         </aside>
