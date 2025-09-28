@@ -126,13 +126,12 @@ export async function signup(prevState: any, formData: FormData) {
 
 export async function addMember(prevState: any, formData: FormData) {
     try {
-        const rawFormData = Object.fromEntries(formData.entries()) as Record<string, string>;
         const requestBody = {
-            name: rawFormData.name,
-            email: rawFormData.email,
-            mobileNumber: rawFormData.mobileNumber,
-            team: rawFormData.team || "New User",
-            roleType: rawFormData.roleType || "client"
+            name: formData.get('name'),
+            email: formData.get('email'),
+            mobileNumber: formData.get('mobileNumber'),
+            team: formData.get('team') || "New User",
+            roleType: formData.get('roleType') || "client"
         };
         
         if (!requestBody.name || !requestBody.email || !requestBody.mobileNumber) {
@@ -525,3 +524,4 @@ export async function createMeeting(meetingData: any) {
     }
 }
     
+  

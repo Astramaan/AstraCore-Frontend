@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { getProjects, type Project } from "@/app/actions";
+import { getProjects } from "@/app/actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -214,7 +214,7 @@ export default function ProjectsPage() {
                     statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
                     image: "https://placehold.co/59x59",
                     progress: 50, // Placeholder
-                    projectType: 'New Construction', // Placeholder
+                    projectType: p.projectDetails.projectType || 'New Construction',
                 }));
                 setAllProjects(formattedProjects);
             } else {
@@ -360,3 +360,5 @@ export default function ProjectsPage() {
         </div>
     );
 }
+
+  

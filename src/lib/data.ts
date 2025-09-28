@@ -18,6 +18,7 @@ export interface Project {
     image: string;
     progress: number;
     projectType: 'New Construction' | 'Renovation' | 'Interior Design';
+    createdBy?: string;
 }
 
 const mockProjects: Project[] = [
@@ -149,10 +150,21 @@ export async function getDepartments(): Promise<Department[]> {
     return [];
 }
 
-
-export async function getProjects(): Promise<Project[]> {
-    console.log('Using mock projects data.');
-    return mockProjects;
+// This function is no longer used for fetching projects on the client side,
+// but it's kept for potential future server-side use.
+export async function getProjects(): Promise<{ success: boolean; data?: any; message?: string }> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`);
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
+            return { success: false, message: errorData.message || 'Failed to fetch projects' };
+        }
+        const data = await res.json();
+        return { success: true, data: data.projects };
+    } catch (error) {
+        console.error('Get projects action failed:', error);
+        return { success: false, message: 'An unexpected error occurred while fetching projects.' };
+    }
 }
 
 export async function getProjectDetails(projectId: string) {
@@ -180,3 +192,5 @@ export async function getProjectDetails(projectId: string) {
     console.warn(`No specific mock project found for ID: ${projectId}. Returning default mock.`);
     return mockProjectDetails;
 }
+
+  
