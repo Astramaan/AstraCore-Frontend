@@ -20,34 +20,40 @@ function getAuthHeadersFromCookie(): Record<string, string> {
         try {
             // First attempt to parse
             userData = JSON.parse(cookieValue);
-            
-            // Check if it's a string and needs another parse
-            if (typeof userData === 'string') {
-                try {
-                    userData = JSON.parse(userData);
-                } catch (innerError) {
-                    console.error("Failed to parse double-stringified cookie", innerError);
-                    return {};
-                }
+        } catch (e) {
+            // If parsing fails, it might be a double-encoded string
+            console.error("Failed to parse user data cookie, trying to parse again", e);
+            try {
+              userData = JSON.parse(cookieValue);
+            } catch (innerError) {
+              console.error("Failed to parse double-stringified cookie", innerError);
+              return {};
             }
-            
-            // Validate the expected structure
-            if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-                console.error("Invalid user data structure in cookie");
+        }
+        
+        // After potential double-parsing, if it's a string, parse it again.
+        if (typeof userData === 'string') {
+            try {
+                userData = JSON.parse(userData);
+            } catch (error) {
+                console.error("Final attempt to parse stringified userData failed", error);
                 return {};
             }
+        }
             
-            return {
-                'x-user': JSON.stringify(userData),
-                'x-user-id': userData.userId,
-                'x-login-id': userData.email,
-            };
-        } catch (e) {
-            console.error("Failed to parse user data cookie", e);
+        // Validate the expected structure
+        if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+            console.error("Invalid user data structure in cookie", userData);
             return {};
         }
+        
+        return {
+            'x-user': JSON.stringify(userData),
+            'x-user-id': userData.userId,
+            'x-login-id': userData.email,
+        };
     } catch (e) {
-        console.error("Error accessing cookie", e);
+        console.error("Error processing user data cookie", e);
         return {};
     }
 }
