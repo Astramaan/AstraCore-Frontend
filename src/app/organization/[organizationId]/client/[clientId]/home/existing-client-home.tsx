@@ -351,9 +351,9 @@ export default function ExistingClientHomePage() {
           <ProjectInfoHeader project={project} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-3 gap-8 px-4 md:px-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
+            <div className="md:col-span-3 lg:col-span-2 xl:col-span-3 2xl:col-span-2 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
@@ -390,7 +390,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
+            <aside className="md:col-span-2 lg:col-span-1 xl:col-span-2 2xl:col-span-1 flex flex-col gap-4 order-1 md:order-2">
                  <div className="flex flex-col gap-4">
                     <PaymentsDialog>
                        <PaymentCard />
@@ -433,5 +433,7 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
 
     
