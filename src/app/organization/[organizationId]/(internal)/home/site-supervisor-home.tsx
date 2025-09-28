@@ -23,6 +23,7 @@ import { Separator } from '@/components/ui/separator';
 import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
 import { SnagListSheet, Snag } from '@/components/snag-list-sheet';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
+import { useUser } from '@/context/user-context';
 
 const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', date: '25 May 2024', status: 'completed', progress: 100 },
@@ -126,6 +127,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
 
 export default function SiteSupervisorHome() {
+    const { user } = useUser();
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -134,6 +136,8 @@ export default function SiteSupervisorHome() {
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [isSnagListSheetOpen, setIsSnagListSheetOpen] = useState(false);
     const [isAddSnagSheetOpen, setIsAddSnagSheetOpen] = useState(false);
+
+    const canAssignTask = user?.roleType === 'superAdmin';
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
@@ -225,6 +229,7 @@ export default function SiteSupervisorHome() {
               meetings={meetings}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
+              onAddTask={canAssignTask ? handleAddTask : undefined}
             />
             {selectedTask && (
                 <TaskDetailsSheet

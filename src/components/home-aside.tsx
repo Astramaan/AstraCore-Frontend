@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AssignTaskSheet } from "@/components/assign-task-sheet";
+import { AssignTaskSheet } from "@/components/add-task-sheet";
 import { AddMemberSheet } from "@/components/add-member-sheet";
 import RedirectionArrowIcon from '@/components/icons/redirection-arrow-icon';
 import { TaskOverviewChart } from '@/components/charts/task-overview-chart';
@@ -56,10 +56,11 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
     const { user } = useUser();
     
     const canAddMember = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
-    
+    const canAssignTask = onAddTask && (user?.roleType === 'superAdmin');
+
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
-            {onAddTask && (
+            {canAssignTask && (
                 <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                     <AssignTaskSheet onTaskAssigned={onAddTask} />
                     {showAddMemberButton && canAddMember && <AddMemberSheet />}

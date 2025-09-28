@@ -22,6 +22,7 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
+import { useUser } from '@/context/user-context';
 
 
 const allStages: Stage[] = [
@@ -126,6 +127,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
 
 export default function ArchitectHome() {
+    const { user } = useUser();
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -133,6 +135,8 @@ export default function ArchitectHome() {
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
+
+    const canAssignTask = user?.roleType === 'superAdmin';
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
@@ -244,6 +248,7 @@ export default function ArchitectHome() {
               meetings={meetings}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
+              onAddTask={canAssignTask ? handleAddTask : undefined}
             />
             {selectedTask && (
                 <TaskDetailsSheet

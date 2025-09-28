@@ -23,6 +23,7 @@ import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { ProjectTaskCard, Stage } from '@/components/project-task-card';
 import { TaskCard } from '@/components/task-card';
+import { useUser } from '@/context/user-context';
 
 
 const allStages: Stage[] = [
@@ -135,6 +136,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
 
 export default function ProjectManagerHome() {
+    const { user } = useUser();
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -144,6 +146,8 @@ export default function ProjectManagerHome() {
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
+    
+    const canAssignTask = user?.roleType === 'superAdmin';
 
 
     const handleFilterClick = (filter: FilterType) => {
@@ -295,9 +299,11 @@ export default function ProjectManagerHome() {
                                 ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                         <div className="flex items-center gap-4">
-                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                        </div>
+                         {canAssignTask && (
+                            <div className="flex items-center gap-4">
+                                <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                            </div>
+                        )}
                     </div>
                    
                     <div>
@@ -336,8 +342,8 @@ export default function ProjectManagerHome() {
               assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
-              showAddMemberButton={true}
+              onAddTask={canAssignTask ? handleAddTask : undefined}
+              showAddMemberButton={canAssignTask}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -369,7 +375,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-
-
-    
