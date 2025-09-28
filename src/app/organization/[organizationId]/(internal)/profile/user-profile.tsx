@@ -26,11 +26,8 @@ export default function UserProfilePage() {
             </div>
             <PersonalDetails memberId={user.userId} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 flex flex-col gap-6">
-                   {/* Non-admins don't see feature access or branding */}
-                </div>
-                <div className="flex flex-col gap-6 lg:col-start-3">
+            <div className="grid grid-cols-1 gap-6">
+                <div className="flex flex-col gap-6">
                     <ActiveSessionsCard />
                     <div className="flex justify-end">
                         <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive w-full">
