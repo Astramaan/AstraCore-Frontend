@@ -29,6 +29,7 @@ import { createMeeting } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { useUser } from '@/context/user-context';
+import { Textarea } from './ui/textarea';
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -59,6 +60,7 @@ const mockMembers = [
 const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
     const { user } = useUser();
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
     const [meetingLinkError, setMeetingLinkError] = useState('');
@@ -149,7 +151,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
         const meetingData = {
             title,
-            description: "Discussion on progress and blockers",
+            description,
             projectId: selectedId,
             meetingLink,
             startTime: combinedDateTime.toISOString(),
@@ -211,6 +213,11 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Title*</Label>
                     <Input id="title" placeholder="Enter meeting title" className="bg-background rounded-full h-14" value={title} onChange={(e) => setTitle(e.target.value)} />
+                </div>
+                
+                 <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900')}>Description</Label>
+                    <Textarea id="description" placeholder="Enter meeting description" className="bg-background rounded-3xl min-h-[120px]" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
 
                 <div className="space-y-2 sm:col-span-2">

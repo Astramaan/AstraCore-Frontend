@@ -481,7 +481,7 @@ export async function createMeeting(meetingData: any) {
     try {
         const payload = {
             title: meetingData.title,
-            description: meetingData.description || "Meeting description",
+            description: meetingData.description || "No description provided.",
             projectId: meetingData.projectId,
             meetingLink: meetingData.meetingLink,
             startTime: meetingData.startTime,
