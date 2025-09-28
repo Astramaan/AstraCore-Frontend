@@ -141,15 +141,13 @@ export async function addLead(prevState: any, formData: FormData) {
         }
 
         const payload = {
-            name: formData.get('fullName') as string,
+            fullName: formData.get('fullName') as string,
             phoneNumber: formData.get('phoneNumber') as string,
             email: formData.get('email') as string,
             siteAddressPinCode: formData.get('pincode') as string,
-            siteAddress: formData.get('pincode') as string, // Using pincode as placeholder for siteAddress
-            organizationName: "ABCConstructionsDEL" // Hardcoded as per your backend's likely expectation
         };
 
-        if (!payload.name || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
+        if (!payload.fullName || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
             return { success: false, message: "All fields are required." };
         }
         
