@@ -156,7 +156,7 @@ export default function LivePage() {
             <ScrollArea className="h-[calc(100vh-120px)]">
                 <div className="space-y-4">
                     {projectTasksChartData && (
-                        <Card className="rounded-[50px] relative bg-white/10 border-white/20 text-white">
+                        <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white">
                             <CardContent className="pt-6">
                                 <ProjectTimelineChart data={projectTasksChartData} />
                             </CardContent>
@@ -168,3 +168,4 @@ export default function LivePage() {
     </div>
   );
 }
+
