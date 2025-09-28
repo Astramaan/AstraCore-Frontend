@@ -115,14 +115,14 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 onClick={onOpenCompletedTasks}
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
             >
-                View Project Completed Tasks
+                Completed Stages
             </Button>
             <Button
                 variant="outline"
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                 onClick={onOpenUpcomingTasks}
             >
-                View Project Upcoming Tasks
+                Upcoming Stages
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -141,12 +141,19 @@ export default function ProjectManagerHome() {
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
+    const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+    const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
     
     const canManageMembers = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
+    const canAssignTask = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
 
+
+    const handleFilterClick = (filter: FilterType) => {
+        setActiveFilter(activeFilter === filter ? null : filter);
+    };
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
@@ -292,3 +299,5 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
+    
