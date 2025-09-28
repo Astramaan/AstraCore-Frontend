@@ -479,12 +479,32 @@ export async function deactivateUser(userId: string) {
 
 export async function createMeeting(meetingData: any) {
     try {
+        const payload = {
+            title: meetingData.title,
+            description: meetingData.description,
+            projectId: meetingData.projectId,
+            meetingLink: meetingData.meetingLink,
+            startTime: meetingData.startTime,
+            targetType: {
+                type: meetingData.type,
+                id: meetingData.targetType.id
+            },
+            participants: meetingData.participants,
+            manualDetails: {
+                name: meetingData.name,
+                email: meetingData.email,
+                phoneNumber: meetingData.phone,
+                location: meetingData.city,
+                type: meetingData.type
+            }
+        };
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(meetingData),
+            body: JSON.stringify(payload),
         });
 
         const data = await res.json();
