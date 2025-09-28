@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -28,6 +27,8 @@ import { ScrollArea } from './ui/scroll-area';
 import { Badge } from './ui/badge';
 import { createMeeting } from '@/app/actions';
 import { useToast } from './ui/use-toast';
+import { SuccessPopup } from './success-popup';
+import { useUser } from '@/context/user-context';
 
 const timeSlots = [
     "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
@@ -49,26 +50,26 @@ const mockLeads = [
 const allContacts = [...mockClients.map(c => ({...c, type: 'client' as const})), ...mockLeads.map(l => ({...l, type: 'lead' as const}))];
 
 const mockMembers = [
-    { id: 'balaji', name: 'Balaji Naik' },
-    { id: 'anil', name: 'Anil Kumar' },
-    { id: 'yaswanth', name: 'Yaswanth' },
+    { id: 'USR123', name: 'Balaji Naik', role: 'ADMIN' },
+    { id: 'USR456', name: 'Anil Kumar', role: 'ENGINEER' },
+    { id: 'USR789', name: 'Yaswanth', role: 'MEMBER' },
 ];
 
 
 const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void, onClose: () => void }) => {
+    const { user } = useUser();
     const [title, setTitle] = useState('');
     const [date, setDate] = React.useState<Date>();
     const [meetingLink, setMeetingLink] = React.useState('');
     const [meetingLinkError, setMeetingLinkError] = useState('');
-    const [selectedType, setSelectedType] = React.useState<'client' | 'lead' | 'others' | ''>('');
-    const [members, setMembers] = React.useState<string[]>([]);
+    const [targetType, setTargetType] = React.useState<'client' | 'lead' | 'others' | ''>('');
+    const [participants, setParticipants] = React.useState<string[]>([]);
     const [time, setTime] = React.useState('');
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [isManual, setIsManual] = useState(false);
-    const [isLocationEnabled, setIsLocationEnabled] = useState(true);
     const [selectedId, setSelectedId] = useState('');
     const [comboboxOpen, setComboboxOpen] = useState(false);
     const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
@@ -83,7 +84,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 setCity('');
                 setEmail('');
                 setPhone('');
-                setSelectedType('');
+                setTargetType('');
             }
             return;
         };
@@ -94,7 +95,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             setCity(contact.city);
             setEmail(contact.email);
             setPhone(contact.phone);
-            setSelectedType(contact.type);
+            setTargetType(contact.type);
         }
     }, [selectedId, isManual]);
 
@@ -125,7 +126,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             return;
         }
         
-        if (!title || !name || !selectedType || !date || !time) {
+        if (!title || !targetType || !date || !time) {
             toast({
                 variant: 'destructive',
                 title: 'Missing Information',
@@ -133,26 +134,55 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             });
             return;
         }
+        
+        const combinedDateTime = new Date(date);
+        const [timeValue, period] = time.split(' ');
+        let [hours, minutes] = timeValue.split(':').map(Number);
+
+        if (period === 'PM' && hours < 12) {
+            hours += 12;
+        }
+        if (period === 'AM' && hours === 12) { // Midnight case
+            hours = 0;
+        }
+        combinedDateTime.setHours(hours, minutes, 0, 0);
 
         const meetingData = {
             title,
+            description: "Discussion on progress and blockers",
+            projectId: selectedId,
+            meetingLink,
+            startTime: combinedDateTime.toISOString(),
+            targetType: {
+                type: targetType,
+                id: selectedId
+            },
+            participants: participants.map(pId => ({
+                userId: pId,
+                participantRole: mockMembers.find(m => m.id === pId)?.role || 'MEMBER'
+            })),
             name,
-            city: isLocationEnabled ? city : 'Online',
+            city,
             email,
             phone,
-            type: selectedType,
-            date: date.toISOString(),
+            type: targetType,
+            date: date.toLocaleDateString(),
             time,
-            link: meetingLink,
-            members,
         };
 
         startTransition(async () => {
             const result = await createMeeting(meetingData);
             if (result.success) {
-                onMeetingCreated({
-                    ...meetingData,
-                    date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+                 onMeetingCreated({
+                    title: meetingData.title,
+                    name: meetingData.name,
+                    city: meetingData.city,
+                    email: meetingData.email,
+                    phone: meetingData.phone,
+                    type: meetingData.type,
+                    date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+                    time: meetingData.time,
+                    link: meetingData.link,
                 });
                 onClose();
             } else {
@@ -166,7 +196,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
     }
     
     const toggleMember = (memberId: string) => {
-        setMembers(prev => 
+        setParticipants(prev => 
             prev.includes(memberId) 
                 ? prev.filter(id => id !== memberId)
                 : [...prev, memberId]
@@ -189,8 +219,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     {meetingLinkError && <p className="text-destructive text-sm mt-1 px-4">{meetingLinkError}</p>}
                 </div>
 
-                <div className="space-y-2">
-                    <Label htmlFor="add-members" className={cn("text-lg font-medium", members.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="add-members" className={cn("text-lg font-medium", participants.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
                     <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -200,8 +230,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                 className="w-full justify-between h-auto min-h-14 bg-background rounded-full flex-wrap px-4 py-2"
                             >
                                 <div className="flex gap-1 flex-wrap items-center">
-                                    {members.length > 0
-                                        ? members.map(memberId => (
+                                    {participants.length > 0
+                                        ? participants.map(memberId => (
                                             <Badge key={memberId} variant="secondary" className="gap-1 bg-primary/10 text-primary border-primary/20" onClick={(e) => { e.stopPropagation(); toggleMember(memberId); }}>
                                                 {mockMembers.find((member) => member.id === memberId)?.name}
                                                 <X className="h-3 w-3"/>
@@ -228,7 +258,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                                                 <Check
                                                     className={cn(
                                                         "mr-2 h-4 w-4",
-                                                        members.includes(member.id) ? "opacity-100" : "opacity-0"
+                                                        participants.includes(member.id) ? "opacity-100" : "opacity-0"
                                                     )}
                                                 />
                                                 {member.name}
@@ -281,7 +311,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     </Select>
                 </div>
                 
-                <div className="space-y-2">
+                <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
                     <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
                         <PopoverTrigger asChild>
@@ -343,8 +373,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 {(isManual) && (
                     <>
                         <div className="space-y-2">
-                            <Label htmlFor="type-select" className={cn("text-lg font-medium", selectedType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
-                            <Select value={selectedType} onValueChange={(value: 'client' | 'lead' | 'others') => setSelectedType(value)}>
+                            <Label htmlFor="type-select" className={cn("text-lg font-medium", targetType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
+                            <Select value={targetType} onValueChange={(value: 'client' | 'lead' | 'others') => setTargetType(value)}>
                                 <SelectTrigger id="type-select" className="h-14 bg-background rounded-full">
                                     <SelectValue placeholder="Client / Lead / Others" />
                                 </SelectTrigger>
@@ -402,42 +432,61 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
 
 export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (meeting: Omit<Meeting, 'id'>) => void }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleSuccess = (meeting: Omit<Meeting, 'id'>) => {
+      onMeetingCreated(meeting);
+      setShowSuccess(true);
+  }
 
   const handleClose = () => setIsOpen(false);
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button className="rounded-full h-[54px] w-[54px] p-0 md:w-auto md:px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary text-lg font-medium shrink-0">
-            <PlusCircle className="h-5 w-5 md:mr-2" />
-            <span className="hidden md:inline">Create</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent 
-          side="bottom"
-          className={cn(
-            "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
-          )}
-      >
-          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <SheetTitle className="flex items-center text-2xl font-semibold">
-                  <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
-                    <Plus className="h-6 w-6 text-black"/>
-                  </div>
-                  Create New Meeting
-                  <div className="flex items-center gap-4 ml-auto">
-                      <SheetClose asChild>
-                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
-                            <X className="h-6 w-6" />
-                        </Button>
-                      </SheetClose>
-                  </div>
-              </SheetTitle>
-          </SheetHeader>
-          <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
-            <CreateMeetingForm onMeetingCreated={onMeetingCreated} onClose={handleClose}/>
-          </div>
-      </SheetContent>
-    </Sheet>
+    <>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+            <Button className="rounded-full h-[54px] w-[54px] p-0 md:w-auto md:px-6 bg-primary/10 text-primary hover:bg-primary/20 border border-primary text-lg font-medium shrink-0">
+                <PlusCircle className="h-5 w-5 md:mr-2" />
+                <span className="hidden md:inline">Create</span>
+            </Button>
+        </SheetTrigger>
+        <SheetContent 
+            side="bottom"
+            className={cn(
+                "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
+            )}
+            onInteractOutside={(e) => {
+              if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
+                  e.preventDefault();
+              }
+            }}
+        >
+            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <SheetTitle className="flex items-center text-2xl font-semibold">
+                    <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
+                        <Plus className="h-6 w-6 text-black"/>
+                    </div>
+                    Create New Meeting
+                    <div className="flex items-center gap-4 ml-auto">
+                        <SheetClose asChild>
+                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                <X className="h-6 w-6" />
+                            </Button>
+                        </SheetClose>
+                    </div>
+                </SheetTitle>
+            </SheetHeader>
+            <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
+                <CreateMeetingForm onMeetingCreated={handleSuccess} onClose={handleClose}/>
+            </div>
+        </SheetContent>
+        </Sheet>
+        <SuccessPopup 
+            isOpen={showSuccess}
+            onClose={() => setShowSuccess(false)}
+            title="Meeting Scheduled!"
+            message="The meeting has been successfully created and participants have been notified."
+        />
+    </>
   );
 }
