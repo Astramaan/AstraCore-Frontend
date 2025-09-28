@@ -178,10 +178,13 @@ export async function addLead(prevState: any, formData: FormData) {
             return { success: false, message: "All fields are required." };
         }
         
+        const authHeaders = getAuthHeadersFromCookie();
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...authHeaders
             },
             body: JSON.stringify(payload),
         });
