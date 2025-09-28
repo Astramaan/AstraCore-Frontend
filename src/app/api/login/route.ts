@@ -7,6 +7,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    if (!body || !body.email || !body.password) {
+        return NextResponse.json({ success: false, message: "Email and password are required." }, { status: 400 });
+    }
+
     // forward to backend
     const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
       method: "POST",
@@ -15,6 +19,11 @@ export async function POST(req: Request) {
     });
 
     const data = await res.json();
+
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || 'Login failed.' }, { status: res.status });
+    }
+
     return NextResponse.json(data, { status: res.status });
   } catch (err: any) {
     console.error("Login proxy failed:", err);

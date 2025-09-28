@@ -62,6 +62,10 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
+    if (!body || !body.email || !body.role) {
+      return NextResponse.json({ success: false, message: "Invalid request body: email and role are required." }, { status: 400 });
+    }
+
     const res = await fetch(`${API_BASE_URL}/api/v1/signuplink`, {
       method: "POST",
       headers: { 
@@ -72,6 +76,10 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await res.json();
+    
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to send invitation." }, { status: res.status });
+    }
 
     return NextResponse.json(data, { status: res.status });
     
@@ -83,5 +91,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-    

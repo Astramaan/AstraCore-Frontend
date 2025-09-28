@@ -71,6 +71,10 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await res.json();
+    
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to create meeting." }, { status: res.status });
+    }
 
     return NextResponse.json(data, { status: res.status });
     
@@ -82,5 +86,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-    

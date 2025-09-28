@@ -71,6 +71,10 @@ export async function PATCH(req: NextRequest) {
     });
 
     const data = await res.json();
+    
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to update profile." }, { status: res.status });
+    }
 
     return NextResponse.json(data, { status: res.status });
     

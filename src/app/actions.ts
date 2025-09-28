@@ -133,7 +133,7 @@ export async function addMember(prevState: any, formData: FormData) {
 
         const data = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok || !data.success) {
             return { success: false, message: data.message || "Failed to add member" };
         }
 
@@ -229,17 +229,51 @@ export async function addProject(projectData: any) {
 }
 
 export async function updateProject(projectData: any) {
-    // This is a mock function
-    console.log("Updating project with data:", projectData);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true, message: 'Project updated successfully' };
+    try {
+        if (!projectData.id) {
+            return { success: false, message: 'Project ID is required to update.' };
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(projectData),
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || 'Failed to update project' };
+        }
+        return { success: true, message: 'Project updated successfully' };
+    } catch (error) {
+        console.error('Update project action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
 }
 
 export async function deleteProject(id: string) {
-    // This is a mock function
-    console.log("Deleting project with ID:", id);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return { success: true, message: 'Project deleted successfully' };
+     try {
+        if (!id) {
+            return { success: false, message: 'Project ID is required to delete.' };
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id }),
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || 'Failed to delete project' };
+        }
+        return { success: true, message: 'Project deleted successfully' };
+    } catch (error) {
+        console.error('Delete project action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
 }
 
 export async function inviteUser(prevState: any, formData: FormData) {
@@ -261,7 +295,7 @@ export async function inviteUser(prevState: any, formData: FormData) {
 
         const data = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok || !data.success) {
             return { success: false, message: data.message || "Invitation failed" };
         }
         
@@ -392,7 +426,7 @@ export async function changePassword(prevState: any, formData: FormData) {
 
         const data = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok || !data.success) {
             return { success: false, message: data.message || 'Failed to change password' };
         }
 
@@ -415,7 +449,7 @@ export async function updateUser(prevState: any, formData: FormData) {
     
     const data = await res.json();
     
-    if (!res.ok) {
+    if (!res.ok || !data.success) {
       return { success: false, message: data.message || "Failed to update user" };
     }
     
@@ -442,7 +476,7 @@ export async function deactivateUser(userId: string) {
 
         const data = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok || !data.success) {
             return { success: false, message: data.message || "Failed to deactivate user" };
         }
 

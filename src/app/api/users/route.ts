@@ -68,6 +68,10 @@ export async function GET(req: NextRequest) {
     });
 
     const data = await res.json();
+    
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to fetch users." }, { status: res.status });
+    }
 
     return NextResponse.json(data, { status: res.status });
     
@@ -89,6 +93,10 @@ export async function POST(req: NextRequest) {
     }
     
     const body = await req.json();
+    
+    if (!body || !body.name || !body.email || !body.mobileNumber) {
+        return NextResponse.json({ success: false, message: "Invalid request: name, email, and mobile number are required." }, { status: 400 });
+    }
 
     const res = await fetch(`${API_BASE_URL}/api/v1/invite`, {
       method: "POST",
@@ -100,6 +108,10 @@ export async function POST(req: NextRequest) {
     });
 
     const data = await res.json();
+
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to add member." }, { status: res.status });
+    }
 
     return NextResponse.json(data, { status: res.status });
     
@@ -133,6 +145,10 @@ export async function PATCH(req: NextRequest) {
 
     const data = await res.json();
 
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to update user." }, { status: res.status });
+    }
+
     return NextResponse.json(data, { status: res.status });
     
   } catch (err: any) {
@@ -154,6 +170,10 @@ export async function DELETE(req: NextRequest) {
     }
     
     const body = await req.json();
+    
+    if (!body || !body.userId) {
+        return NextResponse.json({ success: false, message: "Invalid request: userId is required." }, { status: 400 });
+    }
 
     const res = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
       method: "DELETE",
@@ -166,6 +186,10 @@ export async function DELETE(req: NextRequest) {
 
     const data = await res.json();
 
+    if (!res.ok) {
+        return NextResponse.json({ success: false, message: data.message || "Failed to deactivate user." }, { status: res.status });
+    }
+
     return NextResponse.json(data, { status: res.status });
     
   } catch (err: any) {
@@ -176,5 +200,3 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
-
-    
