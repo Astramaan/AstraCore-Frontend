@@ -419,26 +419,19 @@ const ProjectTimelineForm = ({
         }
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
-        const formData = new FormData(event.currentTarget);
-        const timelineData: Phase[] = [];
-
-        timeline.forEach((phase, phaseIndex) => {
-            const newPhase: Phase = { name: phase.name, stages: [] };
-            phase.stages.forEach((stage, stageIndex) => {
-                const newStage: Stage = { name: stage.name, tasks: [] };
-                stage.tasks.forEach((task, taskIndex) => {
-                    newStage.tasks.push({
-                        name: task.name,
-                        duration: formData.get(`duration_${phaseIndex}_${stageIndex}_${taskIndex}`) as string || task.duration,
-                    });
-                });
-                newPhase.stages.push(newStage);
-            });
-            timelineData.push(newPhase);
-        });
+        const timelineData: Phase[] = timeline.map((phase) => ({
+            ...phase,
+            stages: phase.stages.map((stage) => ({
+                ...stage,
+                tasks: stage.tasks.map((task) => ({
+                    ...task,
+                    status: 'Not Started'
+                }))
+            }))
+        }));
         
         if (!user) {
             toast({
@@ -449,8 +442,13 @@ const ProjectTimelineForm = ({
             return;
         }
 
-        const fullData = { ...projectData, createdBy: user.userId, phases: timelineData, startDate: startDate?.toISOString() };
-
+        const fullData = { 
+            ...projectData, 
+            createdBy: user.userId, 
+            phases: timelineData, 
+            startDate: startDate?.toISOString() 
+        };
+        
         startTransition(async () => {
             const result = await addProject(fullData);
             if (result.success) {
@@ -862,3 +860,6 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
 
+
+
+    

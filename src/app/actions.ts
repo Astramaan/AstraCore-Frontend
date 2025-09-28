@@ -483,33 +483,25 @@ export async function deactivateUser(userId: string) {
 }
 
 export async function createMeeting(meetingData: any) {
-    try {
-        const payload = {
-            title: meetingData.title,
-            description: meetingData.description || "No description provided.",
-            projectId: meetingData.projectId,
-            meetingLink: meetingData.meetingLink,
-            date: meetingData.date,
-            startTime: meetingData.time,
-            targetType: {
-                type: meetingData.type,
-                id: meetingData.targetType.id
-            },
-            participants: meetingData.participants,
-            manualDetails: {
-                name: meetingData.name,
-                email: meetingData.email,
-                phoneNumber: meetingData.phone,
-                location: meetingData.city,
-                type: meetingData.type
-            }
-        };
+    const { date, time, ...rest } = meetingData;
+    const combinedDateTime = new Date(date);
+    const [timeValue, period] = time.split(' ');
+    let [hours, minutes] = timeValue.split(':').map(Number);
+    if (period === 'PM' && hours < 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    combinedDateTime.setHours(hours, minutes, 0, 0);
 
+    const payload = {
+        ...rest,
+        date: combinedDateTime.toISOString().split('T')[0],
+        startTime: combinedDateTime.toISOString(),
+        description: meetingData.description || "No description provided.",
+    };
+
+    try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
 
@@ -576,5 +568,7 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
+
+    
 
     
