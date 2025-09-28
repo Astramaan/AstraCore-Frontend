@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Play, Pause, Maximize, Minimize, Rewind, FastForward, Volume2, VolumeX, Camera, Video as VideoIcon, PanelRightOpen, PanelRightClose } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Image from 'next/image';
+import { ProjectTimelineChart } from '@/components/charts/project-timeline-chart';
 
 const cameraFeeds = {
     'Onsite Camera': [
@@ -85,6 +86,13 @@ export default function LivePage() {
     setActiveCamera(cameraFeeds[type][0]);
   }
 
+  const projectTasksChartData = useMemo(() => {
+    return [
+        { name: 'Ongoing', value: 10, fill: 'hsl(var(--primary))' },
+        { name: 'Upcoming', value: 25, fill: 'hsl(var(--muted))' },
+    ];
+  }, []);
+
   return (
     <div ref={containerRef} className="h-screen bg-black relative overflow-hidden">
         <Image
@@ -146,7 +154,15 @@ export default function LivePage() {
                 </Button>
             </div>
             <ScrollArea className="h-[calc(100vh-120px)]">
-                
+                <div className="space-y-4">
+                    {projectTasksChartData && (
+                        <Card className="rounded-[50px] relative bg-white/10 border-white/20 text-white">
+                            <CardContent className="pt-6">
+                                <ProjectTimelineChart data={projectTasksChartData} />
+                            </CardContent>
+                        </Card>
+                    )}
+                </div>
             </ScrollArea>
         </aside>
     </div>
