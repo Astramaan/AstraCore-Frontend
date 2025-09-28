@@ -60,22 +60,6 @@ const meetings: Meeting[] = [
     { type: 'lead', name: "Lead Discussion", city: "Bengaluru", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw", email: 'lead@example.com', phone: '0987654321' },
 ];
 
-// Data for Default Home
-const initialTaskData: Task[] = [
-    { id: "TSK001", title: "Product Weekly update", date: "25 May 2024", description: "This week, our team made significant progress on the new feature development, hitting all key milestones. We also addressed several critical bugs and are on track for the upcoming sprint review.", priority: "Low", status: "In Progress", category: "Meetings", project: "AstraCore App", clientId: "CL001", attachments: [{ type: 'pdf', name: 'update.pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }, { type: 'image', name: 'screenshot.png', url: 'https://placehold.co/600x400' }] },
-    { id: "TSK002", title: "New Landing Page Design", date: "26 May 2024", description: "Create mockups for the new landing page, focusing on a clean, modern aesthetic and improved user experience. The design should be responsive and optimized for both desktop and mobile devices.", priority: "High", status: "In Progress", category: "Design", project: "Website Redesign", clientId: "CL002", attachments: [{ type: 'image', name: 'moodboard.png', url: 'https://placehold.co/800x600' }] },
-    { id: "TSK003", title: "API Integration", date: "27 May 2024", description: "Integrate with the new payment gateway API. This includes implementing authentication, handling payment requests, and processing transaction responses. Ensure robust error handling is in place.", priority: "Low", status: "In Progress", category: "Development", project: "E-commerce Platform", clientId: "CL003", attachments: [] },
-    { id: "TSK004", title: "User Testing Feedback", date: new Date().toISOString(), description: "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.", priority: "Low", status: "Pending", category: "QA", project: "Mobile App Beta", clientId: "CL004", attachments: [] },
-];
-const assignedTasksData: Task[] = [
-    { id: "TSK005", title: "Database Migration", date: "30 May 2024", description: "Plan and execute the migration of the user database from the legacy system to the new cloud infrastructure. Ensure data integrity and minimal downtime.", priority: "High", status: "In Progress", category: "Backend", project: "Infrastructure Upgrade", clientId: "CL005", attachments: [], isAssigned: true },
-    { id: "TSK006", title: "Onboarding Tutorial", date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), description: "Create an interactive tutorial for new users to guide them through the main features of the application. Include tooltips and guided steps.", priority: "Medium", status: "Pending", category: "UX", project: "AstraCore App", clientId: "CL001", attachments: [], isAssigned: true },
-];
-
-
-type FilterType = "High Priority" | "In Progress" | "Pending" | "Completed" | null;
-
-
 const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
@@ -104,7 +88,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                <div className="flex gap-2 w-full md:w-auto">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
@@ -141,19 +125,11 @@ export default function ProjectManagerHome() {
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(projectsData[0].id);
-    const [activeFilter, setActiveFilter] = useState<FilterType>(null);
-    const inProgressCount = useMemo(() => projectsData.flatMap(p => p.tasks).filter(t => t.status === 'ongoing').length, []);
     const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
     
     const canManageMembers = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
-    const canAssignTask = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
-
-
-    const handleFilterClick = (filter: FilterType) => {
-        setActiveFilter(activeFilter === filter ? null : filter);
-    };
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
@@ -263,8 +239,6 @@ export default function ProjectManagerHome() {
             </main>
             <HomeAside
               meetings={meetings}
-              myTasksChartData={[]}
-              assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               showAddMemberButton={canManageMembers}
@@ -299,5 +273,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-    
