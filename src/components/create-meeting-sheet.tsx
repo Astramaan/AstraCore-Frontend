@@ -154,7 +154,8 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             description,
             projectId: selectedId,
             meetingLink,
-            startTime: combinedDateTime.toISOString(),
+            date: date.toISOString(),
+            startTime: time,
             targetType: {
                 type: targetType,
                 id: selectedId
@@ -168,7 +169,6 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
             email,
             phone,
             type: targetType,
-            date: date.toLocaleDateString(),
             time,
         };
 
@@ -184,7 +184,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     type: meetingData.type,
                     date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
                     time: meetingData.time,
-                    link: meetingData.link,
+                    link: meetingData.meetingLink,
                 });
                 onClose();
             } else {

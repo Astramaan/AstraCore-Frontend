@@ -484,7 +484,8 @@ export async function createMeeting(meetingData: any) {
             description: meetingData.description || "No description provided.",
             projectId: meetingData.projectId,
             meetingLink: meetingData.meetingLink,
-            startTime: meetingData.startTime,
+            date: new Date(meetingData.date).toISOString(),
+            startTime: meetingData.time,
             targetType: {
                 type: meetingData.type,
                 id: meetingData.targetType.id
