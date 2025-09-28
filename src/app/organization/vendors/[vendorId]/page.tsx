@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { VendorDetailsCard } from '@/components/vendor-details-card';
@@ -42,8 +43,8 @@ const mockVendor = {
     ]
 };
 
-export default function VendorDetailsPage({ params }: { id: string, organizationId: string }) {
-    // In a real app, you would fetch vendor data based on params.id
+export default function VendorDetailsPage({ params }: { params: { vendorId: string, organizationId: string } }) {
+    // In a real app, you would fetch vendor data based on params.vendorId
     const [vendor, setVendor] = useState(mockVendor);
     const [isEditing, setIsEditing] = useState(false);
     
