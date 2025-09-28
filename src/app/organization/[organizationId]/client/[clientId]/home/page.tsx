@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { Suspense } from 'react';
@@ -14,10 +15,6 @@ function ClientHomePage() {
   if (loading || !user) {
       return (
             <div className="space-y-6 p-4">
-                <div className="flex justify-between items-center mb-6">
-                    <Skeleton className="h-10 w-24" />
-                    <Skeleton className="h-10 w-10 rounded-full" />
-                </div>
                 <Skeleton className="h-80 w-full rounded-b-[50px] md:rounded-[50px]" />
                 <div className="space-y-4">
                      <div className="grid grid-cols-2 gap-4">

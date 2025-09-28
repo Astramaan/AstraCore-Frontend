@@ -1,42 +1,24 @@
+
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import Image from 'next/image';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { useUser } from '@/context/user-context';
-import { ClientHeader } from '@/components/client-header';
-import { Badge } from '@/components/ui/badge';
+import React, { useState, useMemo } from 'react';
+import { ProjectInfoHeader } from '@/components/project-info-header';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
-import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '@/components/ui/dialog';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { X, Download } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
-import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
-import { ProjectInfoHeader } from '@/components/project-info-header';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { StageCard as ClientStageCard } from '@/components/stage-card';
+import { StageCard, TimelineStage } from '@/components/stage-card';
 import { RaiseIssueSheet } from '@/components/raise-issue-sheet';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { X } from 'lucide-react';
 
-interface TimelineStage {
-    id: number;
-    title: string;
-    subtitle: string;
-    date: string;
-    status: 'On Going' | 'Yet To Begin' | 'completed';
-    progress: number;
-    category: string;
-    image: string;
-    siteImages?: string[];
-    approvalDate?: string;
-    documents?: { name: string, url: string }[];
-}
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <Card className="rounded-full">
@@ -129,9 +111,7 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
     );
 };
 
-
 export default function ExistingClientHomePage() {
-  const { user } = useUser();
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
   const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
@@ -227,15 +207,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8">
-            <ProjectInfoHeader project={project}>
-                <div className="p-4">
-                    <ClientHeader />
-                </div>
-            </ProjectInfoHeader>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8 pb-32">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -260,7 +232,7 @@ export default function ExistingClientHomePage() {
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
-                                     <ClientStageCard 
+                                     <StageCard 
                                         key={index} 
                                         stage={stage as any} 
                                         onReopen={handleReopenTask as any} 
@@ -275,7 +247,7 @@ export default function ExistingClientHomePage() {
                     )}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {timeline.map((stage, index) => (
-                            <ClientStageCard 
+                            <StageCard 
                                 key={index} 
                                 stage={stage as any} 
                                 onReopen={handleReopenTask as any} 

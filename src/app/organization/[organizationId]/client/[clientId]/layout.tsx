@@ -6,6 +6,7 @@ import { ClientBottomNav } from '@/components/client-bottom-nav';
 import { UserProvider, useUser } from '@/context/user-context';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ClientHeader } from '@/components/client-header';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading } = useUser();
@@ -42,6 +43,9 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     
     return (
         <div className="min-h-screen bg-background relative">
+             <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+                <ClientHeader />
+            </header>
             <main className="w-full flex-1 bg-background">
                 {children}
             </main>
