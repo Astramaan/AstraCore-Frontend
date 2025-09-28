@@ -1,4 +1,6 @@
 
+'use client';
+
 import AuthForm from "@/components/auth-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
