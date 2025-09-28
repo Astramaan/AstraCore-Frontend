@@ -45,9 +45,9 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [pincodeError, setPincodeError] = useState('');
 
     useEffect(() => {
-        if (state.success) {
+        if (state?.success) {
             onFormSuccess();
-        } else if (state.message) {
+        } else if (state?.message && !state.success) {
             toast({
                 variant: 'destructive',
                 title: 'Error',

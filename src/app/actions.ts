@@ -164,13 +164,13 @@ export async function addMember(prevState: any, formData: FormData) {
 export async function addLead(prevState: any, formData: FormData) {
     try {
         const payload = {
-            fullName: formData.get('fullName') as string,
+            name: formData.get('fullName') as string,
             phoneNumber: formData.get('phoneNumber') as string,
             email: formData.get('email') as string,
             siteAddressPinCode: formData.get('pincode') as string,
         };
 
-        if (!payload.fullName || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
+        if (!payload.name || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
             return { success: false, message: "All fields are required." };
         }
         
@@ -575,3 +575,4 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
+
