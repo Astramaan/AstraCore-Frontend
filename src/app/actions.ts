@@ -28,13 +28,18 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 
 export async function getProjects() {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`);
+        const authHeaders = getAuthHeadersFromCookie();
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
+            headers: {
+                ...authHeaders,
+            },
+        });
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
             return { success: false, message: errorData.message || 'Failed to fetch projects' };
         }
         const data = await res.json();
-        return { success: true, data: data.projects };
+        return { success: true, data: data.data };
     } catch (error) {
         console.error('Get projects action failed:', error);
         return { success: false, message: 'An unexpected error occurred while fetching projects.' };
@@ -484,7 +489,7 @@ export async function createMeeting(meetingData: any) {
             description: meetingData.description || "No description provided.",
             projectId: meetingData.projectId,
             meetingLink: meetingData.meetingLink,
-            date: new Date(meetingData.date).toISOString(),
+            date: meetingData.date,
             startTime: meetingData.time,
             targetType: {
                 type: meetingData.type,
@@ -571,3 +576,5 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
+
+    

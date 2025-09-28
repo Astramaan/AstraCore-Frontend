@@ -208,7 +208,7 @@ export default function ProjectsPage() {
                     id: p.projectId,
                     name: p.personalDetails.name,
                     city: p.projectDetails.state,
-                    contact: "N/A", // Not available in the response
+                    contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
                     startDate: new Date(p.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
                     status: p.projectStatus,
                     statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
@@ -361,4 +361,4 @@ export default function ProjectsPage() {
     );
 }
 
-  
+    
