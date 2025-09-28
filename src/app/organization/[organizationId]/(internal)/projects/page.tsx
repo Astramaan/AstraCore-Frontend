@@ -279,8 +279,8 @@ export default function ProjectsPage() {
         <div className="space-y-8">
             
             <div>
-                 <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-                    <h2 className="text-xl text-black font-medium self-start md:self-center">Active Projects</h2>
+                 <div className="flex flex-col md:flex-row justify-between items-end mb-4 gap-4">
+                    <h2 className="text-xl text-black font-medium self-start md:self-end">Active Projects</h2>
                     <div className="flex items-center gap-4 w-full md:w-auto">
                         <div className="relative flex-1">
                              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
@@ -361,4 +361,3 @@ export default function ProjectsPage() {
     );
 }
 
-    
