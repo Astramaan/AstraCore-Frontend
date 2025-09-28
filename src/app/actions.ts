@@ -7,54 +7,21 @@ import { redirect } from 'next/navigation';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
 function getAuthHeadersFromCookie(): Record<string, string> {
-    const cookieStore = cookies();
-    const userDataCookie = cookieStore.get('user-data');
-    if (!userDataCookie) {
-        console.error("Auth cookie not found");
-        return {};
-    }
+    const staticUserData = {
+        "userId": "8c26c0b3032ecc4f",
+        "name": "saras",
+        "email": "saras@gmail.com",
+        "role": "ORG_ADMIN",
+        "mobileNumber": "9876543210",
+        "city": "Delhi",
+        "organizationId": "ORG-f9705032-d42a-46df-b799-87bcda629142",
+        "orgCode": "ABCConstructionsDEL"
+    };
 
-    let cookieValue = userDataCookie.value;
-    
-    // Attempt to decode the cookie value, as it might be URL-encoded
-    try {
-        cookieValue = decodeURIComponent(cookieValue);
-    } catch (e) {
-        // If decoding fails, it might not be encoded, so we can proceed.
-        // This is not an error condition.
-    }
-    
-    let userData: any;
-    try {
-        // First, try to parse it as JSON directly.
-        userData = JSON.parse(cookieValue);
-    } catch (e) {
-        console.error("Failed to parse user data cookie as JSON:", e);
-        // If it fails, return empty headers as we can't proceed.
-        return {};
-    }
-
-    // Handle cases where the parsed data is *still* a string (double-encoded JSON).
-    // This seems to be the core issue.
-    if (typeof userData === 'string') {
-        try {
-            userData = JSON.parse(userData);
-        } catch (e2) {
-            console.error("Failed to parse double-stringified user data:", e2);
-            return {};
-        }
-    }
-    
-    // Final validation to ensure we have a valid user object.
-    if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-        console.error("Invalid user data structure in cookie after all parsing attempts:", userData);
-        return {};
-    }
-    
     return {
-        'x-user': JSON.stringify(userData),
-        'x-user-id': userData.userId,
-        'x-login-id': userData.email,
+        'x-user': JSON.stringify(staticUserData),
+        'x-user-id': staticUserData.userId,
+        'x-login-id': staticUserData.email,
     };
 }
 
