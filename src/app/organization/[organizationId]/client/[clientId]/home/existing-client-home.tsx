@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -373,7 +374,7 @@ export default function ExistingClientHomePage() {
                     {recentlyCompletedTasks.length > 0 && (
                         <div className="mb-8">
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
                                     <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                                 ))}
@@ -381,7 +382,7 @@ export default function ExistingClientHomePage() {
                             <Separator className="my-8" />
                         </div>
                     )}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                         ))}
