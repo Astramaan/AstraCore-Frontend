@@ -435,20 +435,21 @@ export default function LeadsPage() {
                         <div className="text-center py-10">Loading leads...</div>
                     ) : filteredLeads.length > 0 ? (
                         filteredLeads.map((lead, index) => (
-                            <LeadCard 
-                                key={lead.leadId} 
-                                lead={lead} 
-                                organizationId={organizationId}
-                                onSelectionChange={handleSelectionChange}
-                                isSelected={selectedLeads.includes(lead.leadId)}
-                                onSingleDelete={handleSingleDelete}
-                                onContact={handleContact}
-                                onViewDetails={handleViewDetails}
-                                onLevelChange={handleLevelChange}
-                                onEdit={handleEdit}
-                                isFirst={index === 0}
-                                isLast={index === filteredLeads.length - 1}
-                            />
+                            <div key={lead.leadId}>
+                                <LeadCard 
+                                    lead={lead} 
+                                    organizationId={organizationId}
+                                    onSelectionChange={handleSelectionChange}
+                                    isSelected={selectedLeads.includes(lead.leadId)}
+                                    onSingleDelete={handleSingleDelete}
+                                    onContact={handleContact}
+                                    onViewDetails={handleViewDetails}
+                                    onLevelChange={handleLevelChange}
+                                    onEdit={handleEdit}
+                                    isFirst={index === 0}
+                                    isLast={index === filteredLeads.length - 1}
+                                />
+                            </div>
                         ))
                     ) : (
                         <div className="text-center py-10">No leads found.</div>
