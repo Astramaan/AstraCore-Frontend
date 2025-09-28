@@ -452,7 +452,10 @@ export default function LeadsPage() {
                             </div>
                         ))
                     ) : (
-                        <div className="text-center py-10">No leads found.</div>
+                        <div className="text-center py-10 text-muted-foreground">
+                            <p>No leads found.</p>
+                            <p>Get started by adding a new lead!</p>
+                        </div>
                     )}
                 </div>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
@@ -525,4 +528,3 @@ export default function LeadsPage() {
         </div>
     );
 }
-

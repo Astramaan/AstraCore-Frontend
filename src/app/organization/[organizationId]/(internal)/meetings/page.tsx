@@ -270,17 +270,24 @@ export default function MeetingsPage() {
             <div>
                 <Card className="rounded-[50px] bg-white">
                     <CardContent className="p-0 lg:p-6">
-                       {meetings.length > 0 ? meetings.map((meeting, index) => (
-                            <MeetingListItem 
-                                key={`${meeting.id}-${index}`}
-                                meeting={meeting} 
-                                onEdit={setMeetingToEdit}
-                                onDelete={handleDeleteClick}
-                                onViewDetails={handleViewDetails}
-                                isFirst={index === 0}
-                                isLast={index === meetings.length - 1}
-                            />
-                        )) : <p className="text-center text-muted-foreground p-10">No {title.toLowerCase()} found.</p>}
+                       {meetings.length > 0 ? (
+                            meetings.map((meeting, index) => (
+                                <MeetingListItem 
+                                    key={`${meeting.id}-${index}`}
+                                    meeting={meeting} 
+                                    onEdit={setMeetingToEdit}
+                                    onDelete={handleDeleteClick}
+                                    onViewDetails={handleViewDetails}
+                                    isFirst={index === 0}
+                                    isLast={index === meetings.length - 1}
+                                />
+                            ))
+                        ) : (
+                            <div className="text-center py-10 text-muted-foreground">
+                                <p>No {title.toLowerCase()} scheduled yet.</p>
+                                <p>Click 'Create' to add a new meeting.</p>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>

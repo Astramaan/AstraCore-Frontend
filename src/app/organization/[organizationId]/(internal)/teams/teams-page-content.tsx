@@ -289,7 +289,10 @@ export default function TeamsPageContent() {
                                     <RoleCard key={role.name} role={role} onViewMembers={handleViewMembers}/>
                                 ))
                             ) : (
-                                <p className="text-center py-10 text-muted-foreground">No teams found.</p>
+                                <div className="text-center py-10 text-muted-foreground">
+                                    <p>No teams found.</p>
+                                    {user?.roleType === 'superAdmin' && <p>Click "Create New Team" to add one.</p>}
+                                </div>
                             )
                         )}
                     </div>

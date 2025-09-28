@@ -303,18 +303,25 @@ export default function ProjectsPage() {
                 </div>
                 <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 lg:p-6">
-                        {activeProjects.map((project, index) => (
-                            <ProjectListItem 
-                                key={project.id} 
-                                project={project} 
-                                onEdit={handleEdit} 
-                                onDelete={handleDeleteClick} 
-                                isFirst={index === 0}
-                                isLast={index === activeProjects.length - 1} 
-                                organizationId={organizationId}
-                                canManage={canManageProjects}
-                            />
-                        ))}
+                        {activeProjects.length > 0 ? (
+                            activeProjects.map((project, index) => (
+                                <ProjectListItem 
+                                    key={project.id} 
+                                    project={project} 
+                                    onEdit={handleEdit} 
+                                    onDelete={handleDeleteClick} 
+                                    isFirst={index === 0}
+                                    isLast={index === activeProjects.length - 1} 
+                                    organizationId={organizationId}
+                                    canManage={canManageProjects}
+                                />
+                            ))
+                        ) : (
+                            <div className="text-center py-10 text-muted-foreground">
+                                <p>No active projects yet.</p>
+                                {canCreateProject && <p>Click "Create project" to get started!</p>}
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>
@@ -323,18 +330,24 @@ export default function ProjectsPage() {
                 <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
                  <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 lg:p-6">
-                        {completedProjects.map((project, index) => (
-                            <ProjectListItem 
-                                key={project.id} 
-                                project={project} 
-                                onEdit={handleEdit} 
-                                onDelete={handleDeleteClick} 
-                                isFirst={index === 0}
-                                isLast={index === completedProjects.length - 1} 
-                                organizationId={organizationId}
-                                canManage={canManageProjects}
-                            />
-                        ))}
+                       {completedProjects.length > 0 ? (
+                            completedProjects.map((project, index) => (
+                                <ProjectListItem 
+                                    key={project.id} 
+                                    project={project} 
+                                    onEdit={handleEdit} 
+                                    onDelete={handleDeleteClick} 
+                                    isFirst={index === 0}
+                                    isLast={index === completedProjects.length - 1} 
+                                    organizationId={organizationId}
+                                    canManage={canManageProjects}
+                                />
+                            ))
+                        ) : (
+                             <div className="text-center py-10 text-muted-foreground">
+                                <p>No completed projects to show.</p>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>
@@ -360,4 +373,3 @@ export default function ProjectsPage() {
         </div>
     );
 }
-
