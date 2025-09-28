@@ -250,7 +250,7 @@ export default function MeetingsPage() {
     
     const renderMeetingList = (meetings: Meeting[], title: string) => (
         <>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
                 <h2 className="text-xl text-black font-medium">{title}</h2>
                  {title === "Client Meetings" && (
                      <div className="flex items-center gap-4 w-full md:w-auto">
@@ -336,5 +336,3 @@ export default function MeetingsPage() {
         </div>
     );
 }
-
-    
