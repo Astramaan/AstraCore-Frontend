@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -280,7 +279,7 @@ export default function LeadsPage() {
                     const formattedLeads = result.data.map((lead: any) => ({
                         organization: lead.organizationName || "Organization Name",
                         leadId: lead.leadDisplayId,
-                        fullName: lead.name,
+                        fullName: lead.fullName,
                         contact: `${lead.email} | ${lead.phoneNumber}`,
                         phone: lead.phoneNumber,
                         email: lead.email,
@@ -527,20 +526,3 @@ export default function LeadsPage() {
 }
 
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
