@@ -16,11 +16,27 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
+import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
+import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { StageCard as ClientStageCard } from '@/components/stage-card';
+import { RaiseIssueSheet } from '@/components/raise-issue-sheet';
+
+interface TimelineStage {
+    id: number;
+    title: string;
+    subtitle: string;
+    date: string;
+    status: 'On Going' | 'Yet To Begin' | 'completed';
+    progress: number;
+    category: string;
+    image: string;
+    siteImages?: string[];
+    approvalDate?: string;
+    documents?: { name: string, url: string }[];
+}
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     <Card className="rounded-full">
@@ -116,11 +132,14 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
 
 export default function ExistingClientHomePage() {
   const { user } = useUser();
-  const params = useParams();
-  const organizationId = params.organizationId as string;
-  const clientId = params.clientId as string;
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
+  const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
+  const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
+  const [openStageId, setOpenStageId] = useState<number | null>(null);
+  const [isRaiseIssueSheetOpen, setIsRaiseIssueSheetOpen] = useState(false);
+  const [stageForIssue, setStageForIssue] = useState<TimelineStage | null>(null);
+
 
   const project = {
     name: 'Gokula',
@@ -140,6 +159,47 @@ export default function ExistingClientHomePage() {
         "https://picsum.photos/seed/site6/600/400",
     ]
   };
+
+  const [allStages, setAllStages] = useState<TimelineStage[]>([
+    { id: 1, title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
+    { id: 2, title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
+    { id: 3, title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { id: 4, title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { id: 5, title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { id: 6, title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
+  ]);
+  
+  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
+
+  const recentlyCompletedTasks = useMemo(() => {
+    const now = new Date();
+    const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+
+    return allStages.filter(stage => {
+        if (stage.status === 'completed' && stage.approvalDate) {
+            const approvalDate = new Date(stage.approvalDate);
+            return approvalDate > twentyFourHoursAgo;
+        }
+        return false;
+    });
+  }, [allStages]);
+
+  const completedTasks = useMemo(() => {
+    const now = new Date();
+    const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+    return allStages.filter(stage => stage.status === 'completed' && (!stage.approvalDate || new Date(stage.approvalDate) <= twentyFourHoursAgo))
+  }, [allStages]);
+  
+  const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin'), [allStages]);
+
+  
+  const handleReopenTask = (stageToReopen: TimelineStage) => {
+    setAllStages(currentTimeline => 
+        currentTimeline.map(stage => 
+            stage.title === stageToReopen.title ? { ...stage, status: 'On Going', progress: 50 } : stage
+        )
+    );
+  };
   
   const openImagePreview = (index: number) => {
     setPreviewState({ open: true, startIndex: index });
@@ -147,6 +207,20 @@ export default function ExistingClientHomePage() {
 
   const closeImagePreview = () => {
       setPreviewState({ open: false, startIndex: 0 });
+  };
+
+  const handleToggleStage = (stageId: number) => {
+    setOpenStageId(prevId => (prevId === stageId ? null : stageId));
+  };
+
+  const handleRaiseIssue = (stage: TimelineStage) => {
+      setStageForIssue(stage);
+      setIsRaiseIssueSheetOpen(true);
+  };
+
+  const handleIssueSubmit = (issueInfo: any) => {
+      console.log('Issue submitted for stage:', stageForIssue?.title, issueInfo);
+      setIsRaiseIssueSheetOpen(false);
   };
 
 
@@ -162,26 +236,62 @@ export default function ExistingClientHomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
+            {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
-                 <Link href={`/organization/${organizationId}/client/${clientId}/stages`}>
-                    <Card className="rounded-[40px] bg-white transition-shadow p-6 cursor-pointer hover:shadow-lg">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <h3 className="text-xl font-semibold">Project Stages</h3>
-                                <p className="text-muted-foreground">View all tasks and progress</p>
+                 <div className="mb-6 flex flex-row gap-4 justify-between">
+                    <Button
+                        variant="outline"
+                        onClick={() => setIsCompletedTasksSheetOpen(true)}
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                    >
+                        View Completed Tasks
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
+                    >
+                        View Upcoming Tasks
+                    </Button>
+                </div>
+                <div className="relative pb-4">
+                    {recentlyCompletedTasks.length > 0 && (
+                        <div className="mb-8">
+                            <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                {recentlyCompletedTasks.map((stage, index) => (
+                                     <ClientStageCard 
+                                        key={index} 
+                                        stage={stage as any} 
+                                        onReopen={handleReopenTask as any} 
+                                        onRaiseIssue={handleRaiseIssue as any}
+                                        isOpen={openStageId === stage.id}
+                                        onToggle={() => handleToggleStage(stage.id)}
+                                    />
+                                ))}
                             </div>
-                            <Button variant="ghost" size="icon"><X className="transform rotate-45" /></Button>
+                            <Separator className="my-8" />
                         </div>
-                    </Card>
-                </Link>
+                    )}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {timeline.map((stage, index) => (
+                            <ClientStageCard 
+                                key={index} 
+                                stage={stage as any} 
+                                onReopen={handleReopenTask as any} 
+                                onRaiseIssue={handleRaiseIssue as any}
+                                isOpen={openStageId === stage.id}
+                                onToggle={() => handleToggleStage(stage.id)}
+                            />
+                        ))}
+                    </div>
+                </div>
             </div>
 
             <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                  <div className="flex flex-col gap-4">
                     <PaymentsDialog>
-                        <div className="w-full">
-                           <PaymentCard />
-                        </div>
+                       <PaymentCard />
                     </PaymentsDialog>
                     <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
                      <SitePhotos 
@@ -206,6 +316,26 @@ export default function ExistingClientHomePage() {
         startIndex={previewState.startIndex}
         title="Site Photo"
     />
+    <ViewUpcomingTasksSheet 
+        isOpen={isUpcomingTasksSheetOpen}
+        onClose={() => setIsUpcomingTasksSheetOpen(false)}
+        tasks={upcomingTasks as any}
+        onTaskClick={(task) => console.log('task clicked', task)}
+    />
+    <ViewCompletedTasksSheet
+        isOpen={isCompletedTasksSheetOpen}
+        onClose={() => setIsCompletedTasksSheetOpen(false)}
+        tasks={completedTasks as any}
+        onTaskClick={(task) => console.log('task clicked', task)}
+    />
+     {stageForIssue && (
+        <RaiseIssueSheet
+            isOpen={isRaiseIssueSheetOpen}
+            onClose={() => setIsRaiseIssueSheetOpen(false)}
+            stageTitle={stageForIssue.title}
+            onSubmit={handleIssueSubmit}
+        />
+    )}
     </>
   );
 }

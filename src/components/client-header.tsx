@@ -22,8 +22,6 @@ export const ClientHeader = () => {
             
             if (pathname.includes('/home')) {
                 setPageTitle(isNewUser ? 'Book your free consultation' : 'Home');
-            } else if (pathname.includes('/stages')) {
-                setPageTitle('Project Stages');
             } else if (pathname.includes('/packages')) {
                 setPageTitle('Packages');
             } else if (pathname.includes('/project')) {

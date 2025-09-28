@@ -16,11 +16,16 @@ export const ClientBottomNav = () => {
 
     const navItems = [
         { href: `/organization/${organizationId}/client/${clientId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/${clientId}/stages`, icon: Layers, label: "Stages" },
         { href: `/organization/${organizationId}/client/${clientId}/project`, icon: GanttChartSquare, label: "My Project" },
         { href: `/organization/${organizationId}/client/${clientId}/live`, icon: Video, label: "Live" },
         { href: `/organization/${organizationId}/client/${clientId}/profile`, icon: User, label: "Profile" },
     ];
+    
+    // Hide nav for new users who only see a simplified home page
+    if (user?.team === 'New User') {
+        return null;
+    }
+
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
