@@ -180,7 +180,7 @@ export async function addLead(prevState: any, formData: FormData) {
         
         const authHeaders = getAuthHeadersFromCookie();
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -579,6 +579,3 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
-
-
-
