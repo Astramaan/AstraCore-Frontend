@@ -21,6 +21,7 @@ function getAuthHeadersFromCookie(): Record<string, string> {
         'x-user': JSON.stringify(staticUserData),
         'x-user-id': staticUserData.userId,
         'x-login-id': staticUserData.email,
+        'x-organization-id': staticUserData.organizationId,
     };
 }
 

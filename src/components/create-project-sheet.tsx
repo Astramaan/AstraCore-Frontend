@@ -103,6 +103,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
     const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const fetchLeadData = async () => {
@@ -115,13 +116,19 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 }
             }
         };
+        
+        if (debounceTimeout.current) {
+            clearTimeout(debounceTimeout.current);
+        }
 
-        const handler = setTimeout(() => {
+        debounceTimeout.current = setTimeout(() => {
             fetchLeadData();
         }, 500); 
 
         return () => {
-            clearTimeout(handler);
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current);
+            }
         };
     }, [email]);
 

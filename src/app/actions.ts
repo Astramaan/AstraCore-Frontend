@@ -197,7 +197,7 @@ export async function getLeadByEmail(email: string) {
             return { success: false, message: data.message || 'Failed to fetch lead.', data: null };
         }
 
-        return { success: true, data: data.lead, message: data.message || "Lead fetched successfully" };
+        return { success: true, data: data.data, message: data.message || "Lead fetched successfully" };
     } catch (error) {
         console.error('Get lead by email action failed:', error);
         return { success: false, message: 'An unexpected error occurred.', data: null };
@@ -206,10 +206,12 @@ export async function getLeadByEmail(email: string) {
 
 export async function addProject(projectData: any) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+        const authHeaders = getAuthHeadersFromCookie();
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                ...authHeaders
             },
             body: JSON.stringify(projectData),
         });
