@@ -52,6 +52,21 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 }
 
+export async function getLeads() {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`);
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ message: 'Failed to fetch leads and parse error' }));
+            return { success: false, message: errorData.message || 'Failed to fetch leads' };
+        }
+        const data = await res.json();
+        return { success: true, data: data.data };
+    } catch (error) {
+        console.error('Get leads action failed:', error);
+        return { success: false, message: 'An unexpected error occurred while fetching leads.' };
+    }
+}
+
 export async function verifyInvite(token: string, orgId: string) {
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/invite/${token}/${orgId}`);
