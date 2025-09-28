@@ -4,18 +4,18 @@
 import React, { useEffect } from 'react';
 import { OrganizationHeader } from '@/components/organization-header';
 import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
-import { usePathname, useRouter } from 'next/navigation';
-import { useUser } from '@/context/user-context';
+import { useRouter } from 'next/navigation';
+import { UserProvider, useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
-  const { user, loading, isSuperAdmin, isClient } = useUser();
+  const { user, loading, isClient } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/');
+      router.replace('/');
     }
   }, [user, loading, router]);
   
@@ -52,6 +52,8 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
 
 export default function OrganizationInternalLayout({ children }: { children: React.ReactNode }) {
   return (
-    <OrganizationInternalLayoutContent>{children}</OrganizationInternalLayoutContent>
+    <UserProvider>
+        <OrganizationInternalLayoutContent>{children}</OrganizationInternalLayoutContent>
+    </UserProvider>
   )
 }
