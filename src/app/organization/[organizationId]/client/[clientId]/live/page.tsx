@@ -91,7 +91,7 @@ export default function LivePage() {
             src={activeCamera.src}
             alt={activeCamera.name}
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
             className="cursor-pointer"
             key={activeCamera.src}
             data-ai-hint="house construction"
