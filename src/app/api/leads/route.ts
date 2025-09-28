@@ -1,67 +1,30 @@
 
 import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
-import { cookies } from 'next/headers';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
-function getAuthHeadersFromCookie(): Record<string, string> {
-    const cookieStore = cookies();
-    const userDataCookie = cookieStore.get('user-data');
-    if (!userDataCookie) {
+function getAuthHeadersFromRequest(req: NextRequest): Record<string, string> {
+    const userId = req.headers.get('x-user-id');
+    const loginId = req.headers.get('x-login-id');
+    const user = req.headers.get('x-user');
+
+    if (!userId || !loginId || !user) {
         return {};
     }
 
-    try {
-        let userData;
-        const cookieValue = userDataCookie.value;
-        
-        try {
-            // First attempt to parse
-            userData = JSON.parse(cookieValue);
-        } catch (e) {
-            // If parsing fails, it might be a double-encoded string
-            console.error("Failed to parse user data cookie, trying to parse again", e);
-            try {
-              userData = JSON.parse(cookieValue);
-            } catch (innerError) {
-              console.error("Failed to parse double-stringified cookie", innerError);
-              return {};
-            }
-        }
-        
-        // After potential double-parsing, if it's a string, parse it again.
-        if (typeof userData === 'string') {
-            try {
-                userData = JSON.parse(userData);
-            } catch (error) {
-                console.error("Final attempt to parse stringified userData failed", error);
-                return {};
-            }
-        }
-            
-        // Validate the expected structure
-        if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-            console.error("Invalid user data structure in cookie", userData);
-            return {};
-        }
-        
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
-    } catch (e) {
-        console.error("Error processing user data cookie", e);
-        return {};
-    }
+    return {
+        'x-user-id': userId,
+        'x-login-id': loginId,
+        'x-user': user,
+    };
 }
 
 export async function GET(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromCookie();
+    const authHeaders = getAuthHeadersFromRequest(req);
 
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+    if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
@@ -99,9 +62,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromCookie();
+    const authHeaders = getAuthHeadersFromRequest(req);
 
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+    if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
