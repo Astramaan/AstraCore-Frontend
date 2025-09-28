@@ -267,16 +267,12 @@ export async function updateProject(projectData: any) {
 }
 
 export async function deleteProject(id: string) {
-     try {
+    try {
         if (!id) {
             return { success: false, message: 'Project ID is required to delete.' };
         }
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${id}`, {
             method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id }),
         });
 
         const data = await res.json();

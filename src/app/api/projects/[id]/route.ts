@@ -142,3 +142,46 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         );
     }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+    const projectId = params.id;
+    try {
+        const authHeaders = getAuthHeadersFromCookie();
+
+        if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+            return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
+        }
+
+        if (!projectId) {
+            return NextResponse.json({ success: false, message: "Project ID is required." }, { status: 400 });
+        }
+
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${projectId}`, {
+            method: "DELETE",
+            headers: {
+                ...authHeaders
+            },
+        });
+
+        if (!res.ok) {
+            let errorBody;
+            try {
+                errorBody = await res.json();
+            } catch (e) {
+                errorBody = { message: "An unexpected error occurred on the backend." };
+            }
+            console.error("Backend error on project deletion:", errorBody);
+            return NextResponse.json({ success: false, message: errorBody.message || 'Failed to delete project.' }, { status: res.status });
+        }
+
+        const data = await res.json();
+        return NextResponse.json(data, { status: 200 });
+
+    } catch (err: any) {
+        console.error(`Delete project proxy failed for ${projectId}:`, err);
+        return NextResponse.json(
+            { success: false, message: "Delete project proxy failed", details: err.message },
+            { status: 500 }
+        );
+    }
+}
