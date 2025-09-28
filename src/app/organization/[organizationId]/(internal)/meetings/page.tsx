@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -24,22 +25,8 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-
-const initialClientMeetings: Meeting[] = [
-    { type: 'client', name: "Charan Project", city: "Mysuru", id: "CHA2024", date: "1st Sept 2024", time: "11:00 am", link: "meet.google.com/abc-xyz", email: "admin@abc.com", phone: "+91 1234567890" },
-    { type: 'client', name: "Delta Project", city: "Bengaluru", id: "DEL2024", date: "2nd Sept 2024", time: "10:00 am", link: "meet.google.com/def-uvw", email: "contact@delta.com", phone: "+91 9876543210" },
-    { type: 'client', name: "Gamma Project", city: "Chennai", id: "GAM2024", date: "3rd Sept 2024", time: "02:00 pm", link: "meet.google.com/ghi-rst", email: "support@gamma.co", phone: "+91 8765432109" },
-];
-
-const initialLeadMeetings: Meeting[] = [
-    { type: 'lead', name: "Alpha Lead", city: "Hyderabad", id: "LEAD2024", date: "5th Sept 2024", time: "03:00 pm", link: "meet.google.com/jkl-mno", email: "sales@alpha.io", phone: "+91 7654321098" },
-    { type: 'lead', name: "Beta Lead", city: "Mumbai", id: "LEAD2024-2", date: "6th Sept 2024", time: "09:30 am", link: "meet.google.com/pqr-stu", email: "info@betaleads.com", phone: "+91 6543210987" },
-];
-
-const initialOtherMeetings: Meeting[] = [
-    { type: 'others', name: "Internal Team Sync", title: "Weekly Sync", city: "Remote", id: "INT2024", date: "7th Sept 2024", time: "04:00 pm", link: "meet.google.com/uvw-xyz", email: "team@astramaan.com", phone: "N/A" },
-    { type: 'others', name: "Vendor Discussion", title: "Steel Prices", city: "Remote", id: "VEN2024", date: "8th Sept 2024", time: "11:30 am", link: "meet.google.com/rst-uvw", email: "vendor@supplier.com", phone: "+91 5544332211" },
-];
+import { useToast } from '@/components/ui/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
@@ -162,34 +149,58 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
 export default function MeetingsPage() {
     const params = useParams();
     const organizationId = params.organizationId as string;
+    const { toast } = useToast();
     const [searchTerm, setSearchTerm] = useState('');
-    const [clientMeetings, setClientMeetings] = useState(initialClientMeetings);
-    const [leadMeetings, setLeadMeetings] = useState(initialLeadMeetings);
-    const [otherMeetings, setOtherMeetings] = useState(initialOtherMeetings);
+    const [allMeetings, setAllMeetings] = useState<Meeting[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     const [meetingToDelete, setMeetingToDelete] = useState<Meeting | null>(null);
     const [meetingToEdit, setMeetingToEdit] = useState<Meeting | null>(null);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
 
+    useEffect(() => {
+        const fetchMeetings = async () => {
+            setIsLoading(true);
+            try {
+                const res = await fetch('/api/meetings');
+                if (!res.ok) {
+                    throw new Error('Failed to fetch meetings');
+                }
+                const result = await res.json();
+                if (result.success) {
+                    const formattedMeetings = result.data.map((m: any) => ({
+                        id: m.targetType.id || m.projectId,
+                        type: m.targetType.type,
+                        title: m.title,
+                        name: m.manualDetails.name,
+                        city: m.manualDetails.location,
+                        date: new Date(m.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+                        time: m.startTime,
+                        link: m.meetingLink,
+                        email: m.manualDetails.email,
+                        phone: m.manualDetails.phoneNumber,
+                    }));
+                    setAllMeetings(formattedMeetings);
+                } else {
+                    toast({ variant: 'destructive', title: 'Error', description: result.message });
+                }
+            } catch (error) {
+                toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch meetings.' });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchMeetings();
+    }, [toast]);
 
     const handleAddNewMeeting = (newMeeting: Omit<Meeting, 'id'>) => {
         const meetingWithId = { ...newMeeting, id: `NEW${Date.now()}`};
-        if (meetingWithId.type === 'client') {
-            setClientMeetings(prev => [meetingWithId, ...prev]);
-        } else if (meetingWithId.type === 'lead') {
-            setLeadMeetings(prev => [meetingWithId, ...prev]);
-        } else {
-            setOtherMeetings(prev => [meetingWithId, ...prev]);
-        }
+        setAllMeetings(prev => [meetingWithId, ...prev]);
     };
     
     const handleUpdateMeeting = (updatedMeeting: Meeting) => {
-        if(updatedMeeting.type === 'client') {
-            setClientMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
-        } else if (updatedMeeting.type === 'lead') {
-            setLeadMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
-        } else {
-            setOtherMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
-        }
+        setAllMeetings(prev => prev.map(m => m.id === updatedMeeting.id ? updatedMeeting : m));
         setMeetingToEdit(null);
     }
 
@@ -199,14 +210,9 @@ export default function MeetingsPage() {
 
     const confirmDelete = () => {
         if (meetingToDelete) {
-            if (meetingToDelete.type === 'client') {
-                setClientMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-            } else if (meetingToDelete.type === 'lead') {
-                setLeadMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-            } else {
-                setOtherMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-            }
+            setAllMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
             setMeetingToDelete(null);
+             toast({ title: "Success", description: "Meeting deleted successfully." });
         }
     };
 
@@ -220,13 +226,38 @@ export default function MeetingsPage() {
         );
     };
 
-    const filteredClientMeetings = useMemo(() => filterMeetings(clientMeetings), [searchTerm, clientMeetings]);
-    const filteredLeadMeetings = useMemo(() => filterMeetings(leadMeetings), [searchTerm, leadMeetings]);
-    const filteredOtherMeetings = useMemo(() => filterMeetings(otherMeetings), [searchTerm, otherMeetings]);
+    const clientMeetings = useMemo(() => filterMeetings(allMeetings.filter(m => m.type === 'client')), [searchTerm, allMeetings]);
+    const leadMeetings = useMemo(() => filterMeetings(allMeetings.filter(m => m.type === 'lead')), [searchTerm, allMeetings]);
+    const otherMeetings = useMemo(() => filterMeetings(allMeetings.filter(m => m.type === 'others')), [searchTerm, allMeetings]);
 
     const handleViewDetails = (meeting: Meeting) => {
         setSelectedMeeting(meeting);
     }
+    
+    const renderMeetingList = (meetings: Meeting[], title: string) => (
+        <>
+            <div className="flex justify-between items-center">
+                <h2 className="text-xl text-black font-medium">{title}</h2>
+            </div>
+            <div>
+                <Card className="rounded-[50px] bg-white">
+                    <CardContent className="p-0 lg:p-6">
+                       {meetings.length > 0 ? meetings.map((meeting, index) => (
+                            <MeetingListItem 
+                                key={`${meeting.id}-${index}`}
+                                meeting={meeting} 
+                                onEdit={setMeetingToEdit}
+                                onDelete={handleDeleteClick}
+                                onViewDetails={handleViewDetails}
+                                isFirst={index === 0}
+                                isLast={index === meetings.length - 1}
+                            />
+                        )) : <p className="text-center text-muted-foreground p-10">No {title.toLowerCase()} found.</p>}
+                    </CardContent>
+                </Card>
+            </div>
+        </>
+    );
 
     return (
         <div className="space-y-8">
@@ -245,66 +276,17 @@ export default function MeetingsPage() {
                     <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
                 </div>
             </div>
-            <div>
-                <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0 lg:p-6">
-                       {filteredClientMeetings.map((meeting, index) => (
-                            <MeetingListItem 
-                                key={meeting.id} 
-                                meeting={meeting} 
-                                onEdit={setMeetingToEdit}
-                                onDelete={handleDeleteClick}
-                                onViewDetails={handleViewDetails}
-                                isFirst={index === 0}
-                                isLast={index === filteredClientMeetings.length - 1}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
-            </div>
 
-             <div className="flex justify-between items-center">
-                <h2 className="text-xl text-black font-medium">Lead Meetings</h2>
-            </div>
-            <div>
-                <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0 lg:p-6">
-                         {filteredLeadMeetings.map((meeting, index) => (
-                            <MeetingListItem 
-                                key={meeting.id} 
-                                meeting={meeting}
-                                onEdit={setMeetingToEdit}
-                                onDelete={handleDeleteClick}
-                                onViewDetails={handleViewDetails}
-                                isFirst={index === 0}
-                                isLast={index === filteredLeadMeetings.length - 1}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
-            </div>
+            {isLoading ? (
+                 <Card className="rounded-[50px]"><CardContent className="p-6 space-y-4"><Skeleton className="h-20 w-full" /><Skeleton className="h-20 w-full" /></CardContent></Card>
+            ) : (
+                <>
+                    {renderMeetingList(clientMeetings, "Client Meetings")}
+                    {renderMeetingList(leadMeetings, "Lead Meetings")}
+                    {renderMeetingList(otherMeetings, "Other Meetings")}
+                </>
+            )}
 
-             <div className="flex justify-between items-center">
-                <h2 className="text-xl text-black font-medium">Other Meetings</h2>
-            </div>
-            <div>
-                <Card className="rounded-[50px] bg-white">
-                    <CardContent className="p-0 lg:p-6">
-                         {filteredOtherMeetings.map((meeting, index) => (
-                            <MeetingListItem 
-                                key={meeting.id} 
-                                meeting={meeting}
-                                onEdit={setMeetingToEdit}
-                                onDelete={handleDeleteClick}
-                                onViewDetails={handleViewDetails}
-                                isFirst={index === 0}
-                                isLast={index === filteredOtherMeetings.length - 1}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
-            </div>
-            
             <AlertDialog open={!!meetingToDelete} onOpenChange={(isOpen) => !isOpen && setMeetingToDelete(null)}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
                     <AlertDialogHeader className="items-center text-center">
