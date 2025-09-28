@@ -4,12 +4,16 @@
 import React, { useEffect } from 'react';
 import { ClientBottomNav } from '@/components/client-bottom-nav';
 import { UserProvider, useUser } from '@/context/user-context';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading } = useUser();
     const router = useRouter();
+    const pathname = usePathname();
+
+    const isLivePage = pathname.includes('/live');
 
     useEffect(() => {
         if (!loading && !user) {
@@ -42,7 +46,10 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     
     return (
         <div className="min-h-screen bg-background relative">
-            <main className="w-full flex-1 bg-background">
+            <main className={cn(
+                "w-full flex-1 bg-background",
+                !isLivePage && "pb-32"
+            )}>
                 {children}
             </main>
             <ClientBottomNav />
