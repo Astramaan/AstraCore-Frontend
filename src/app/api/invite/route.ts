@@ -13,35 +13,34 @@ function getAuthHeadersFromCookie(): Record<string, string> {
         return {};
     }
 
-    const cookieValue = userDataCookie.value;
-
-    let userData: any;
-
+    let cookieValue = userDataCookie.value;
+    
     try {
-        // Attempt to parse directly
+        // First, try to decode it, in case it's URL-encoded
+        cookieValue = decodeURIComponent(cookieValue);
+    } catch (e) {
+        // If it fails, it's probably not encoded, so we can continue
+    }
+    
+    let userData: any;
+    try {
         userData = JSON.parse(cookieValue);
     } catch (e) {
+        console.error("Failed to parse user data cookie as JSON:", e);
+        return {};
+    }
+
+    // Handle cases where the parsed data is *still* a string (double-encoded JSON)
+    if (typeof userData === 'string') {
         try {
-            // If direct parsing fails, try decoding and then parsing
-            const decodedValue = decodeURIComponent(cookieValue);
-            userData = JSON.parse(decodedValue);
+            userData = JSON.parse(userData);
         } catch (e2) {
-            console.error("Failed to parse user data cookie after decoding:", e2);
+            console.error("Failed to parse double-stringified user data:", e2);
             return {};
         }
     }
     
-    // Handle cases where the parsed data is still a string (double-encoded JSON)
-    if (typeof userData === 'string') {
-        try {
-            userData = JSON.parse(userData);
-        } catch (e3) {
-            console.error("Failed to parse double-stringified user data:", e3);
-            return {};
-        }
-    }
-        
-    // Final validation of the parsed user data structure
+    // Final validation
     if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
         console.error("Invalid user data structure in cookie after parsing:", userData);
         return {};
@@ -94,3 +93,5 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+    

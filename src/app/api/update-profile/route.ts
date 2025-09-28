@@ -9,52 +9,48 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     const cookieStore = cookies();
     const userDataCookie = cookieStore.get('user-data');
     if (!userDataCookie) {
+        console.error("Auth cookie not found");
         return {};
     }
 
+    let cookieValue = userDataCookie.value;
+    
     try {
-        let userData;
-        const cookieValue = userDataCookie.value;
-        
-        try {
-            // First attempt to parse
-            userData = JSON.parse(cookieValue);
-        } catch (e) {
-            // If parsing fails, it might be a double-encoded string
-            console.error("Failed to parse user data cookie, trying to parse again", e);
-            try {
-              userData = JSON.parse(cookieValue);
-            } catch (innerError) {
-              console.error("Failed to parse double-stringified cookie", innerError);
-              return {};
-            }
-        }
-        
-        // After potential double-parsing, if it's a string, parse it again.
-        if (typeof userData === 'string') {
-            try {
-                userData = JSON.parse(userData);
-            } catch (error) {
-                console.error("Final attempt to parse stringified userData failed", error);
-                return {};
-            }
-        }
-            
-        // Validate the expected structure
-        if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-            console.error("Invalid user data structure in cookie", userData);
-            return {};
-        }
-        
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
+        // First, try to decode it, in case it's URL-encoded
+        cookieValue = decodeURIComponent(cookieValue);
     } catch (e) {
-        console.error("Error processing user data cookie", e);
+        // If it fails, it's probably not encoded, so we can continue
+    }
+    
+    let userData: any;
+    try {
+        userData = JSON.parse(cookieValue);
+    } catch (e) {
+        console.error("Failed to parse user data cookie as JSON:", e);
         return {};
     }
+
+    // Handle cases where the parsed data is *still* a string (double-encoded JSON)
+    if (typeof userData === 'string') {
+        try {
+            userData = JSON.parse(userData);
+        } catch (e2) {
+            console.error("Failed to parse double-stringified user data:", e2);
+            return {};
+        }
+    }
+    
+    // Final validation
+    if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+        console.error("Invalid user data structure in cookie after parsing:", userData);
+        return {};
+    }
+    
+    return {
+        'x-user': JSON.stringify(userData),
+        'x-user-id': userData.userId,
+        'x-login-id': userData.email,
+    };
 }
 
 export async function PATCH(req: NextRequest) {
@@ -92,3 +88,5 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+    
