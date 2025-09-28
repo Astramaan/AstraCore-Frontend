@@ -464,7 +464,7 @@ export default function LeadsPage() {
                         <AlertDialogTitle className="text-2xl font-semibold">
                             {leadToDelete.length > 1 ? "Delete Selected Leads?" : "Confirm Lead Deletion?"}
                         </AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
+                        <AlertDialogDescription className="text-lg text-grey-1">
                             {leadToDelete.length > 1 
                                 ? "The selected leads and all associated data will be permanently removed from AstraCore." 
                                 : "Deleting this lead will permanently remove all associated data from AstraCore. This action cannot be undone."
@@ -525,4 +525,3 @@ export default function LeadsPage() {
     );
 }
 
-    
