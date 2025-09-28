@@ -79,12 +79,6 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
     }, [project.tasks]);
-    
-    const formatDate = (dateString: string) => {
-        if (!dateString || isNaN(new Date(dateString).getTime())) return "Invalid Date";
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    };
 
     return (
       <div className="space-y-4">
@@ -109,7 +103,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                <div className="flex gap-2 w-full md:w-auto">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
@@ -249,7 +243,7 @@ export default function ProjectManagerHome() {
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
                  <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
-                    <h2 className="text-xl font-medium text-left">Project Stage</h2>
+                    <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
                             <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
@@ -275,11 +269,75 @@ export default function ProjectManagerHome() {
                     )}
                 </div>
                 
+                <div className="mt-8 space-y-4">
+                    
+                    <div className="flex lg:hidden justify-between items-center w-full mb-4">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
+                                    Filter
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
+                                    All (exclude completed)
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
+                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
+                                        <div className="w-4 mr-2">
+                                        {activeFilter === option && <Check className="h-4 w-4" />}
+                                        </div>
+                                        {option}
+                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                         <div className="flex items-center gap-4">
+                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                        </div>
+                    </div>
+                   
+                    <div>
+                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
+                            {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
+                                <Button
+                                    key={filter}
+                                    variant="outline"
+                                    className={cn(
+                                        "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
+                                        activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                                    )}
+                                    onClick={() => handleFilterClick(filter as FilterType)}
+                                >
+                                    {filter}
+                                    {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
+                                </Button>
+                            ))}
+                        </div>
+                        <h2 className="text-xl font-medium text-left pt-4">My Task</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                    </div>
+                </div>
+                <div className="mt-8">
+                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
+                    </div>
+                </div>
             </main>
             <HomeAside
               meetings={meetings}
+              myTasksChartData={[]}
+              assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
+              onAddTask={handleAddTask}
+              showAddMemberButton={true}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -311,5 +369,7 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
+
 
     

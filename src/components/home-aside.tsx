@@ -14,6 +14,7 @@ import type { Task } from '@/components/task-details-sheet';
 import GoogleMeetIcon from './icons/google-meet-icon';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useUser } from '@/context/user-context';
 
 const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
     <motion.div
@@ -46,18 +47,22 @@ interface HomeAsideProps {
     projectTasksChartData?: { name: string; value: number, fill: string }[];
     onMeetingClick?: (meeting: Meeting) => void;
     onAddTask?: (task: Omit<Task, 'id' | 'attachments'>) => void;
+    showAddMemberButton?: boolean;
 }
 
-export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, projectTasksChartData, onMeetingClick, onAddTask }: HomeAsideProps) {
+export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, projectTasksChartData, onMeetingClick, onAddTask, showAddMemberButton = false }: HomeAsideProps) {
     const params = useParams();
     const organizationId = params.organizationId as string;
+    const { user } = useUser();
+    
+    const canAddMember = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
     
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
             {onAddTask && (
                 <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
                     <AssignTaskSheet onTaskAssigned={onAddTask} />
-                    <AddMemberSheet />
+                    {showAddMemberButton && canAddMember && <AddMemberSheet />}
                 </div>
             )}
 
@@ -115,4 +120,3 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
         </aside>
     );
 }
-
