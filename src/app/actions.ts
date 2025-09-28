@@ -58,7 +58,7 @@ export async function verifyInvite(token: string, orgId: string) {
         const data = await res.json();
 
         if (!res.ok || !data.success) {
-            return { error: data.message || "Invalid or expired invite link." };
+            return { success: false, message: data.message || "Invalid or expired invite link." };
         }
 
         const inviteDetails = data.data;
@@ -70,7 +70,7 @@ export async function verifyInvite(token: string, orgId: string) {
         redirect(`/signup?${params.toString()}`);
     } catch (error) {
         console.error("Invite verification failed:", error);
-        return { error: "An unexpected error occurred." };
+        return { success: false, message: "An unexpected error occurred." };
     }
 }
 
@@ -78,6 +78,10 @@ export async function verifyInvite(token: string, orgId: string) {
 export async function signup(prevState: any, formData: FormData) {
   const email = formData.get('email');
   
+  if (!email) {
+      return { success: false, message: "Email is required." };
+  }
+
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
         method: "POST",
@@ -90,7 +94,7 @@ export async function signup(prevState: any, formData: FormData) {
     const data = await res.json();
 
     if (!res.ok || !data.success) {
-        return { error: data.error || data.message || "Failed to send OTP. Please try again." };
+        return { success: false, message: data.error || data.message || "Failed to send OTP. Please try again." };
     }
     
     const params = new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>);
@@ -100,13 +104,13 @@ export async function signup(prevState: any, formData: FormData) {
     
   } catch (error) {
       console.error("Signup action failed:", error);
-      return { error: "An unexpected error occurred." };
+      return { success: false, message: "An unexpected error occurred." };
   }
 }
 
 export async function addMember(prevState: any, formData: FormData) {
     try {
-        const rawFormData = Object.fromEntries(formData.entries());
+        const rawFormData = Object.fromEntries(formData.entries()) as Record<string, string>;
         const requestBody = {
             name: rawFormData.name,
             email: rawFormData.email,
@@ -114,6 +118,10 @@ export async function addMember(prevState: any, formData: FormData) {
             team: rawFormData.team || "New User",
             roleType: rawFormData.roleType || "client"
         };
+        
+        if (!requestBody.name || !requestBody.email || !requestBody.mobileNumber) {
+            return { success: false, message: "Name, email, and mobile number are required." };
+        }
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "POST",
@@ -163,7 +171,7 @@ export async function addLead(prevState: any, formData: FormData) {
             return { success: false, message: data.message || 'Failed to create lead.' };
         }
 
-        return { success: true, message: data.message };
+        return { success: true, message: data.message || "Lead added successfully!" };
     } catch (error) {
         console.error('Add lead action failed:', error);
         return { success: false, message: 'An unexpected error occurred.' };
@@ -171,8 +179,11 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function getLeadByEmail(email: string) {
-
     try {
+        if (!email) {
+            return { success: false, message: 'Email is required.', data: null };
+        }
+
         const res = await fetch(`${API_BASE_URL}/api/v1/org/lead-by-email?email=${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
@@ -187,7 +198,7 @@ export async function getLeadByEmail(email: string) {
             return { success: false, message: data.message || 'Failed to fetch lead.', data: null };
         }
 
-        return { success: true, data: data.lead };
+        return { success: true, data: data.lead, message: data.message || "Lead fetched successfully" };
     } catch (error) {
         console.error('Get lead by email action failed:', error);
         return { success: false, message: 'An unexpected error occurred.', data: null };
@@ -195,26 +206,37 @@ export async function getLeadByEmail(email: string) {
 }
 
 export async function addProject(projectData: any) {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(projectData),
+        });
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(projectData),
-    });
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || "Failed to create project." };
+        }
 
-    return res.json();
+        return { success: true, data: data.data, message: data.message || "Project created successfully." };
+    } catch (error) {
+        console.error('Add project action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
 }
 
-
 export async function updateProject(projectData: any) {
+    // This is a mock function
     console.log("Updating project with data:", projectData);
     await new Promise(resolve => setTimeout(resolve, 1000));
     return { success: true, message: 'Project updated successfully' };
 }
 
 export async function deleteProject(id: string) {
+    // This is a mock function
     console.log("Deleting project with ID:", id);
     await new Promise(resolve => setTimeout(resolve, 1000));
     return { success: true, message: 'Project deleted successfully' };
@@ -223,6 +245,10 @@ export async function deleteProject(id: string) {
 export async function inviteUser(prevState: any, formData: FormData) {
     const email = formData.get('email');
     const role = formData.get('role');
+
+    if (!email || !role) {
+        return { success: false, message: "Email and role are required." };
+    }
 
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/invite`, {
@@ -247,9 +273,13 @@ export async function inviteUser(prevState: any, formData: FormData) {
     }
 }
 
-
 export async function requestPasswordReset(prevState: any, formData: FormData) {
     const email = formData.get("email");
+
+    if (!email) {
+        return { success: false, message: "Email is required." };
+    }
+
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
             method: "POST",
@@ -262,15 +292,14 @@ export async function requestPasswordReset(prevState: any, formData: FormData) {
         const data = await res.json();
 
         if (!res.ok || !data.success) {
-            return { error: data.message || "Failed to send OTP. Please try again." };
+            return { success: false, message: data.message || "Failed to send OTP. Please try again." };
         }
 
-        const { redirect } = await import('next/navigation');
         redirect(`/otp-verification?email=${email}&flow=forgot-password`);
         
     } catch (error) {
         console.error("Request password reset failed:", error);
-        return { error: "An unexpected error occurred." };
+        return { success: false, message: "An unexpected error occurred." };
     }
 }
 
@@ -279,6 +308,10 @@ export async function verifyOtp(prevState: any, formData: FormData) {
     const email = formData.get('email') as string;
     const flow = formData.get('flow');
     
+    if (!otp || otp.length < 4) {
+        return { success: false, message: "Please enter a valid OTP." };
+    }
+
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/verify-otp`, {
             method: "POST",
@@ -291,30 +324,31 @@ export async function verifyOtp(prevState: any, formData: FormData) {
         const data = await res.json();
 
         if (!res.ok || !data.success) {
-            return { error: data.message || "Invalid OTP. Please try again." };
+            return { success: false, message: data.message || "Invalid OTP. Please try again." };
         }
 
-        const { redirect } = await import('next/navigation');
+        const params = new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>);
+        
         if (flow === 'signup') {
-            redirect(`/create-password?${new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>)}`);
+            redirect(`/create-password?${params.toString()}`);
         } else if (flow === 'forgot-password' || flow === 'change-password') {
-            redirect(`/set-password?${new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>)}`);
+            redirect(`/set-password?${params.toString()}`);
         }
         
         return { success: true };
 
     } catch (error) {
         console.error("Verify OTP action failed:", error);
-        return { error: "An unexpected error occurred." };
+        return { success: false, message: "An unexpected error occurred." };
     }
 }
 
 export async function createPassword(prevState: any, formData: FormData) {
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirm-password');
+    const password = formData.get('password') as string;
+    const confirmPassword = formData.get('confirm-password') as string;
 
     if (password !== confirmPassword) {
-        return { error: 'Passwords do not match.' };
+        return { success: false, message: 'Passwords do not match.' };
     }
 
     try {
@@ -323,38 +357,37 @@ export async function createPassword(prevState: any, formData: FormData) {
             headers: { 
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                name: formData.get('name'),
-                email: formData.get('email'),
-                mobileNumber: formData.get('phone'),
-                organizationName: formData.get('organization'),
-                password: password
-            }),
+            body: JSON.stringify(Object.fromEntries(formData.entries())),
         });
 
         const data = await res.json();
 
         if (!res.ok || !data.success) {
-            return { error: data.message || "Failed to create account." };
+            return { success: false, message: data.message || "Failed to create account." };
         }
         
-        const { redirect } = await import('next/navigation');
         redirect('/password-success');
 
     } catch (error) {
         console.error("Create password action failed:", error);
-        return { error: "An unexpected error occurred." };
+        return { success: false, message: "An unexpected error occurred." };
     }
 }
 
 export async function changePassword(prevState: any, formData: FormData) {
     try {
+        const payload = Object.fromEntries(formData.entries()) as Record<string, string>;
+        
+        if (payload.newPassword !== payload.confirmPassword) {
+            return { success: false, message: 'New passwords do not match.' };
+        }
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/update-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(Object.fromEntries(formData)),
+            body: JSON.stringify(payload),
         });
 
         const data = await res.json();
@@ -379,10 +412,13 @@ export async function updateUser(prevState: any, formData: FormData) {
         },
       body: JSON.stringify(Object.fromEntries(formData)),
     });
+    
     const data = await res.json();
+    
     if (!res.ok) {
       return { success: false, message: data.message || "Failed to update user" };
     }
+    
     return { success: true, message: data.message || "Profile updated successfully" };
   } catch (error) {
     console.error("Update user action failed:", error);
@@ -391,6 +427,10 @@ export async function updateUser(prevState: any, formData: FormData) {
 }
 
 export async function deactivateUser(userId: string) {
+    if (!userId) {
+        return { success: false, message: "User ID is required." };
+    }
+    
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "DELETE",
@@ -414,14 +454,24 @@ export async function deactivateUser(userId: string) {
 }
 
 export async function createMeeting(meetingData: any) {
-    
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(meetingData),
-    });
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(meetingData),
+        });
 
-    return res.json();
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            return { success: false, message: data.message || "Failed to create meeting." };
+        }
+
+        return { success: true, data: data.data, message: "Meeting created successfully." };
+    } catch (error) {
+        console.error('Create meeting action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
 }
