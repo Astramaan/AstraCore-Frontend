@@ -285,7 +285,7 @@ export default function LeadsPage() {
                         phone: lead.phoneNumber,
                         email: lead.email,
                         address: lead.siteAddress || "Address missing",
-                        pincode: lead.siteAddressPinCode || "Pincode missing",
+                        pincode: lead.siteAddressPinCode || lead.siteLocationPinCode || "Pincode missing",
                         tokenAmount: lead.tokenAmount || "Token missing",
                         level: lead.level || "Level 1",
                         profileImage: "https://placehold.co/94x94.png",
@@ -527,6 +527,7 @@ export default function LeadsPage() {
 }
 
     
+
 
 
 
