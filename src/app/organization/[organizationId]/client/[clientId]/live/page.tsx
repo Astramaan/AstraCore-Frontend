@@ -12,7 +12,7 @@ import Image from 'next/image';
 
 const cameraFeeds = {
     'Onsite Camera': [
-        { name: 'Main Gate', src: 'https://picsum.photos/seed/maingate/1920/1080' },
+        { name: 'Main Gate', src: 'https://images.unsplash.com/photo-1593786267440-550458cc882a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxIb3VzZSUyMGNvbnN0cnVjdGlvbnxlbnwwfHx8fDE3NTkwNDU4MDR8MA&ixlib=rb-4.1.0&q=80&w=1080' },
         { name: 'Block A', src: 'https://picsum.photos/seed/blocka/1920/1080' },
         { name: 'Yard', src: 'https://picsum.photos/seed/yard/1920/1080' },
         { name: 'Terrace', src: 'https://picsum.photos/seed/terrace/1920/1080' },
