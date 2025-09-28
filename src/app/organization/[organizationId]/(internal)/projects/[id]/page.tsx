@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -30,40 +29,10 @@ import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
 import { useUser } from '@/context/user-context';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
-const mockProject = {
-    id: "YAS2024",
-    name: "Yash",
-    coverImage: "https://placehold.co/1216x144",
-    profileImage: "https://placehold.co/94x94",
-    progress: 25,
-    contact: "yash69@gmail.com | 1234567890",
-    city: "Bengaluru",
-    startDate: "25 May 2024",
-    status: "On going",
-    statusColor: "text-green-600",
-    image: "https://placehold.co/59x59",
-    // Adding createdBy field for permission check
-    createdBy: "pm_user_id", // This should come from your data source
-    personalInfo: {
-        name: "Yash",
-        clientId: "YAS2024",
-        phone: "1234567890",
-        email: "yash69@gmail.com",
-        address: "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
-    },
-    projectInfo: {
-        cost: "1.5 cr",
-        duration: {
-            start: "25 May 2024",
-            end: "1 Dec 2024"
-        },
-        dimension: "1200 Sq. ft",
-        floors: "G+1",
-        status: "On going",
-        locationLink: "https://maps.google.com"
-    },
+const mockFilesAndVisuals = {
     visuals: {
         "3d": [
             "https://placehold.co/68x68",
@@ -87,35 +56,23 @@ const mockProject = {
         architecture: [
             { id: 'arch-1', name: "Architecture Schematic Drawing", date: "28 July 2024", version: "V 1", history: [] },
             { id: 'arch-2', name: "Architecture Concept Design", date: "28 July 2024", version: "V 2", history: [{ name: "Architecture Concept Design", date: "27 July 2024", version: "V 1"}] },
-            { id: 'arch-3', name: "Interior Concept Design", date: "28 July 2024", version: "V 1", history: [] },
         ],
         structure: [
             { id: 'struct-1', name: "Soil Testing Report", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'struct-2', name: "Structure Analysis Report", date: "28 July 2024", version: "V 1", history: [] },
         ],
         sanction: [{ id: 'sanc-1', name: "Sanction Drawing", date: "28 July 2024", version: "V 1", history: [] }],
         construction: [
             { id: 'cons-1', name: "Tender Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-2', name: "Structure GFC Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-3', name: "Civil GFC Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-4', name: "Architecture GFC Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-5', name: "Interior GFC Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-6', name: "Electrical Drawing", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-7', name: "Plumbing Package", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-8', name: "Passive Cooling Package", date: "28 July 2024", version: "V 1", history: [] },
-            { id: 'cons-9', name: "Miscellaneous Package", date: "28 July 2024", version: "V 1", history: [] },
         ],
     },
-    timeline: {
-        // Mock timeline data
-    }
 };
 
 export default function ProjectDetailsPage() {
     const params = useParams();
     const id = params.id as string;
     const { user } = useUser();
-    const [project, setProject] = useState<(Project & typeof mockProject) | null>(null);
+    const [project, setProject] = useState<any | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
@@ -124,31 +81,72 @@ export default function ProjectDetailsPage() {
 
     useEffect(() => {
         const fetchProject = async () => {
+            setIsLoading(true);
             const projectDetails = await getProjectDetails(id);
             if (projectDetails) {
-                 const displayProject = { ...mockProject, ...projectDetails, name: projectDetails.name || mockProject.name, personalInfo: { ...mockProject.personalInfo, name: projectDetails.name || mockProject.personalInfo.name } };
-                setProject(displayProject as any);
+                 const displayProject = { 
+                     ...projectDetails, 
+                     id: projectDetails.projectId,
+                     name: projectDetails.personalDetails.name,
+                     progress: 50, // Placeholder
+                     ...mockFilesAndVisuals // Merging mock data for UI that is not yet in API
+                 };
+                setProject(displayProject);
             }
+            setIsLoading(false);
         };
         fetchProject();
     }, [id]);
 
-    const canManageProject = user?.roleType === 'superAdmin' || (user?.team === 'Project Manager' && user.userId === project?.createdBy);
+    const canManageProject = user?.roleType === 'superAdmin' || user?.userId === project?.createdBy;
 
-    if (!project) {
+    if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-full">
-                <p>Loading project details...</p>
+             <div className="space-y-6">
+                 <Skeleton className="h-12 w-1/4" />
+                 <Skeleton className="h-48 w-full" />
+                 <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
+                    <div className="space-y-6">
+                        <Skeleton className="h-64 w-full" />
+                        <Skeleton className="h-80 w-full" />
+                    </div>
+                    <div className="w-full xl:w-[384px] space-y-6">
+                        <Skeleton className="h-40 w-full" />
+                        <Skeleton className="h-80 w-full" />
+                    </div>
+                </div>
             </div>
         );
     }
     
-    const handleEdit = (project: Project) => {
-        setProjectToEdit(project);
+    if (!project) {
+        return (
+            <div className="flex flex-col justify-center items-center h-full text-center">
+                <h2 className="text-2xl font-bold">Project Not Found</h2>
+                <p className="text-muted-foreground">The project you are looking for does not exist or you do not have permission to view it.</p>
+                <Button onClick={() => router.back()} className="mt-4">Go Back</Button>
+            </div>
+        );
+    }
+    
+    const handleEdit = () => {
+        const editData = {
+            id: project.id,
+            name: project.name,
+            city: project.projectDetails.siteAddress, // Or a more specific city field if available
+            contact: `${project.personalDetails.email} | ${project.personalDetails.phoneNumber}`,
+            startDate: project.startDate,
+            status: project.projectStatus,
+            statusColor: project.projectStatus === "In Progress" ? "text-green-600" : "text-gray-500",
+            image: "https://placehold.co/59x59",
+            progress: project.progress,
+            projectType: project.projectDetails.projectType,
+        };
+        setProjectToEdit(editData as Project);
     };
     
-    const handleDeleteClick = (project: Project) => {
-        setProjectToDelete(project);
+    const handleDeleteClick = () => {
+        setProjectToDelete(project as Project);
         setIsDeleteDialogOpen(true);
     };
 
@@ -160,7 +158,7 @@ export default function ProjectDetailsPage() {
                     title: 'Success',
                     description: result.message,
                 });
-                router.push('/organization/projects');
+                router.push(`/organization/${params.organizationId}/projects`);
             } else {
                  toast({
                     variant: 'destructive',
@@ -174,10 +172,40 @@ export default function ProjectDetailsPage() {
     };
 
     const handleProjectUpdated = (updatedProject: Project) => {
-        setProject(prev => prev ? { ...prev, ...updatedProject } : null);
+        setProject((prev: any) => ({ ...prev, ...updatedProject }));
+        setProjectToEdit(null);
     };
     
     const canViewPayments = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
+
+    const projectInfoHeaderData = {
+        name: project.personalDetails.name,
+        coverImage: "https://placehold.co/1216x144",
+        progress: project.progress,
+        pm: "Yaswanth", // Placeholder
+        id: project.projectId,
+    }
+
+    const projectDetailsCardData = {
+        personalInfo: {
+            name: project.personalDetails.name,
+            clientId: project.clientId,
+            phone: project.personalDetails.phoneNumber,
+            email: project.personalDetails.email,
+            address: project.personalDetails.currentAddress,
+        },
+        projectInfo: {
+            cost: project.projectDetails.projectCost,
+            duration: {
+                start: new Date(project.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+                end: "1 Dec 2024" // Placeholder
+            },
+            dimension: project.projectDetails.dimension,
+            floors: project.projectDetails.floor,
+            status: project.projectStatus,
+            locationLink: project.projectDetails.siteLink || "https://maps.google.com"
+        }
+    };
 
     return (
         <div className="space-y-6">
@@ -188,15 +216,15 @@ export default function ProjectDetailsPage() {
                     Back
                 </Button>
             </div>
-             <ProjectInfoHeader project={project} />
+             <ProjectInfoHeader project={projectInfoHeaderData} />
 
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
                 <div className="space-y-6">
                     <ProjectDetailsCard 
-                        personalInfo={project.personalInfo} 
-                        projectInfo={project.projectInfo} 
-                        onEdit={canManageProject ? () => handleEdit(project) : undefined}
-                        onDelete={canManageProject ? () => handleDeleteClick(project) : undefined}
+                        personalInfo={projectDetailsCardData.personalInfo} 
+                        projectInfo={projectDetailsCardData.projectInfo} 
+                        onEdit={canManageProject ? handleEdit : undefined}
+                        onDelete={canManageProject ? handleDeleteClick : undefined}
                     />
                     <ProjectVisualsCard visuals={project.visuals} />
                 </div>
