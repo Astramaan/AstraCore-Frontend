@@ -147,6 +147,7 @@ export default function DefaultHomePage() {
               assignedTasksChartData={[{ name: 'In-Progress', value: 1 }, { name: 'Pending', value: 1 }]}
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
+              showAddMemberButton={true}
             />
             {selectedTask && (
                 <TaskDetailsSheet

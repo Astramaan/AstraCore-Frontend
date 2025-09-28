@@ -60,12 +60,10 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
 
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
-            {canAssignTask && (
-                <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
-                    <AssignTaskSheet onTaskAssigned={onAddTask} />
-                    {showAddMemberButton && canAddMember && <AddMemberSheet />}
-                </div>
-            )}
+            <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
+                {canAssignTask && <AssignTaskSheet onTaskAssigned={onAddTask} />}
+                {showAddMemberButton && canAddMember && <AddMemberSheet />}
+            </div>
 
             <div className="md:grid md:grid-cols-2 lg:grid-cols-1 gap-6">
                  {meetings && meetings.length > 0 && onMeetingClick && (
