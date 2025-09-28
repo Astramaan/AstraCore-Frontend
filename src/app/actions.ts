@@ -52,20 +52,21 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 }
 
-export async function getLeads() {
+export async function getProjects() {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`);
         if (!res.ok) {
-            const errorData = await res.json().catch(() => ({ message: 'Failed to fetch leads and parse error' }));
-            return { success: false, message: errorData.message || 'Failed to fetch leads' };
+            const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
+            return { success: false, message: errorData.message || 'Failed to fetch projects' };
         }
         const data = await res.json();
-        return { success: true, data: data.data };
+        return { success: true, data: data.projects };
     } catch (error) {
-        console.error('Get leads action failed:', error);
-        return { success: false, message: 'An unexpected error occurred while fetching leads.' };
+        console.error('Get projects action failed:', error);
+        return { success: false, message: 'An unexpected error occurred while fetching projects.' };
     }
 }
+
 
 export async function verifyInvite(token: string, orgId: string) {
     try {
@@ -523,5 +524,4 @@ export async function createMeeting(meetingData: any) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
-
     

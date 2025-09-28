@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { getProjects, Project } from "@/lib/data";
+import { getProjects, type Project } from "@/app/actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,7 +29,22 @@ import { useParams } from 'next/navigation';
 import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
 
-const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId, canManage }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string, canManage: boolean }) => (
+// The Project type for the frontend, adapted from the backend response
+export interface FrontendProject {
+    id: string;
+    name: string;
+    city: string;
+    contact: string;
+    startDate: string;
+    status: string;
+    statusColor: string;
+    image: string;
+    progress: number;
+    projectType: 'New Construction' | 'Renovation' | 'Interior Design';
+}
+
+
+const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId, canManage }: { project: FrontendProject, onEdit: (project: FrontendProject) => void, onDelete: (project: FrontendProject) => void, isFirst?: boolean, isLast?: boolean, organizationId: string, canManage: boolean }) => (
     <div className="flex flex-col group">
         {/* Mobile & Tablet View */}
         <div className="lg:hidden p-6 md:p-10 gap-4">
@@ -179,31 +193,51 @@ export default function ProjectsPage() {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string || 'habi123';
-    const [allProjects, setAllProjects] = useState<Project[]>([]);
-    const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
+    const [allProjects, setAllProjects] = useState<FrontendProject[]>([]);
+    const [projectToEdit, setProjectToEdit] = useState<FrontendProject | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
+    const [projectToDelete, setProjectToDelete] = useState<FrontendProject | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const { toast } = useToast();
 
     useEffect(() => {
         const fetchProjects = async () => {
-            const projects = await getProjects();
-            setAllProjects(projects);
+            const result = await getProjects();
+            if (result.success && result.data) {
+                const formattedProjects = result.data.map((p: any) => ({
+                    id: p.projectId,
+                    name: p.personalDetails.name,
+                    city: p.projectDetails.state,
+                    contact: "N/A", // Not available in the response
+                    startDate: new Date(p.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+                    status: p.projectStatus,
+                    statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
+                    image: "https://placehold.co/59x59",
+                    progress: 50, // Placeholder
+                    projectType: 'New Construction', // Placeholder
+                }));
+                setAllProjects(formattedProjects);
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: result.message || 'Failed to fetch projects'
+                });
+            }
         };
         fetchProjects();
-    }, []);
+    }, [toast]);
 
     const filteredProjects = allProjects.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const activeProjects = filteredProjects.filter(p => p.status !== 'Completed');
     const completedProjects = filteredProjects.filter(p => p.status === 'Completed');
 
-    const handleEdit = (project: Project) => {
+    const handleEdit = (project: FrontendProject) => {
         setProjectToEdit(project);
     };
     
-    const handleDeleteClick = (project: Project) => {
+    const handleDeleteClick = (project: FrontendProject) => {
         setProjectToDelete(project);
         setIsDeleteDialogOpen(true);
     };
@@ -230,12 +264,11 @@ export default function ProjectsPage() {
     };
 
 
-    const handleProjectAdded = (newProject: Project) => {
-        // This is a simplified handler. You might want to refetch or update state more intelligently
+    const handleProjectAdded = (newProject: FrontendProject) => {
         setAllProjects(prev => [...prev, newProject]);
     };
 
-    const handleProjectUpdated = (updatedProject: Project) => {
+    const handleProjectUpdated = (updatedProject: FrontendProject) => {
         setAllProjects(prev => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
     };
 
@@ -260,9 +293,9 @@ export default function ProjectsPage() {
                         </div>
                         {canCreateProject && (
                             <CreateProjectSheet 
-                                onProjectAdded={handleProjectAdded} 
-                                projectToEdit={projectToEdit}
-                                onProjectUpdated={handleProjectUpdated}
+                                onProjectAdded={handleProjectAdded as any} 
+                                projectToEdit={projectToEdit as any}
+                                onProjectUpdated={handleProjectUpdated as any}
                                 onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
                             />
                         )}

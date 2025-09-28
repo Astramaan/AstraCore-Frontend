@@ -51,6 +51,45 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 }
 
+export async function GET(req: NextRequest) {
+  try {
+    const authHeaders = getAuthHeadersFromCookie();
+
+    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+      return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
+    }
+
+    const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders
+      },
+    });
+
+    if (!res.ok) {
+        let errorBody;
+        try {
+            errorBody = await res.json();
+        } catch (e) {
+            errorBody = { message: "An unexpected error occurred on the backend." };
+        }
+        console.error("Backend error:", errorBody);
+        return NextResponse.json({ success: false, message: errorBody.message || 'Failed to fetch projects from backend.' }, { status: res.status });
+    }
+
+    const data = await res.json();
+    return NextResponse.json(data, { status: 200 });
+
+  } catch (err: any) {
+    console.error("Get projects proxy failed:", err);
+    return NextResponse.json(
+      { success: false, message: "Get projects proxy failed", details: err.message },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
@@ -86,5 +125,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
     
