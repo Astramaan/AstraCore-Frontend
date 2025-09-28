@@ -94,7 +94,7 @@ export async function signup(prevState: any, formData: FormData) {
     const data = await res.json();
 
     if (!res.ok || !data.success) {
-        return { success: false, message: data.error || data.message || "Failed to send OTP. Please try again." };
+        return { success: false, message: data.message || "Failed to send OTP. Please try again." };
     }
     
     const params = new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>);
@@ -184,11 +184,10 @@ export async function getLeadByEmail(email: string) {
             return { success: false, message: 'Email is required.', data: null };
         }
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/lead-by-email?email=${encodeURIComponent(email)}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads/by-email?email=${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                ...getAuthHeadersFromCookie()
             },
         });
 
@@ -509,3 +508,5 @@ export async function createMeeting(meetingData: any) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
+
+    
