@@ -275,8 +275,7 @@ export default function MeetingsPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-end gap-4">
-                <h2 className="text-xl text-black font-medium self-start md:self-end">Client Meetings</h2>
+            <div className="flex flex-col md:flex-row justify-end items-end gap-4">
                  <div className="flex items-center gap-4 w-full md:w-auto">
                     <div className="relative flex-1 md:w-64">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
