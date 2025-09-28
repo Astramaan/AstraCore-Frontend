@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
-
+    
     const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
       method: "GET",
       headers: {
@@ -45,6 +45,17 @@ export async function GET(req: NextRequest) {
         ...authHeaders
       },
     });
+
+    if (!res.ok) {
+        let errorBody;
+        try {
+            errorBody = await res.json();
+        } catch (e) {
+            errorBody = { message: "An unexpected error occurred on the backend." };
+        }
+        console.error("Backend error:", errorBody);
+        return NextResponse.json({ success: false, message: errorBody.message || 'Failed to fetch leads from backend.' }, { status: res.status });
+    }
 
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
@@ -90,5 +101,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-    

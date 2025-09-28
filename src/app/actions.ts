@@ -116,30 +116,6 @@ export async function addMember(prevState: any, formData: FormData) {
     }
 }
 
-export async function getLeads() {
-    try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                ...getAuthHeadersFromCookie()
-            },
-        });
-
-        const data = await res.json();
-        
-        if (!res.ok || !data.success) {
-            return { success: false, message: data.message || 'Failed to fetch leads.', data: [] };
-        }
-
-        return data;
-    } catch (error) {
-        console.error('Get leads action failed:', error);
-        return { success: false, message: 'An unexpected error occurred.', data: [] };
-    }
-}
-
-
 export async function addLead(prevState: any, formData: FormData) {
     try {
         const payload = {

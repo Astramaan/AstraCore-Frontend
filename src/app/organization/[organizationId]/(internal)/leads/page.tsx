@@ -34,7 +34,6 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { getLeads } from '@/app/actions';
 import { useToast } from '@/components/ui/use-toast';
 
 const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, organizationId: string, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
@@ -273,32 +272,43 @@ export default function LeadsPage() {
     useEffect(() => {
         async function fetchLeads() {
             setIsLoading(true);
-            const result = await getLeads();
-            if (result.success) {
-                const formattedLeads = result.data.map((lead: any) => ({
-                    organization: "Organization Name", // This is missing from API
-                    leadId: lead.leadDisplayId,
-                    fullName: lead.name,
-                    contact: `${lead.email} | ${lead.phoneNumber}`,
-                    phone: lead.phoneNumber,
-                    email: lead.email,
-                    address: "Address missing from API", // This is missing from API
-                    pincode: "Pincode missing", // This is missing from API
-                    tokenAmount: "Token missing", // This is missing from API
-                    level: "Level 1", // This is missing from API
-                    profileImage: "https://placehold.co/94x94.png",
-                    coverImage: "https://placehold.co/712x144.png",
-                    siteImages: [],
-                }));
-                setAllLeads(formattedLeads);
-            } else {
-                toast({
+            try {
+                const res = await fetch('/api/leads');
+                const result = await res.json();
+
+                if (result.success) {
+                    const formattedLeads = result.data.map((lead: any) => ({
+                        organization: lead.organizationName || "Organization Name",
+                        leadId: lead.leadDisplayId,
+                        fullName: lead.name,
+                        contact: `${lead.email} | ${lead.phoneNumber}`,
+                        phone: lead.phoneNumber,
+                        email: lead.email,
+                        address: lead.siteAddress || "Address missing",
+                        pincode: lead.siteAddressPinCode || "Pincode missing",
+                        tokenAmount: lead.tokenAmount || "Token missing",
+                        level: lead.level || "Level 1",
+                        profileImage: "https://placehold.co/94x94.png",
+                        coverImage: "https://placehold.co/712x144.png",
+                        siteImages: [],
+                    }));
+                    setAllLeads(formattedLeads);
+                } else {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error fetching leads',
+                        description: result.message,
+                    });
+                }
+            } catch (error) {
+                 toast({
                     variant: 'destructive',
-                    title: 'Error fetching leads',
-                    description: result.message,
+                    title: 'Network Error',
+                    description: 'Failed to connect to the server.',
                 });
+            } finally {
+                setIsLoading(false);
             }
-            setIsLoading(false);
         }
         fetchLeads();
     }, [toast]);
@@ -517,6 +527,7 @@ export default function LeadsPage() {
 }
 
     
+
 
 
 
