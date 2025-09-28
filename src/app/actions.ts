@@ -547,3 +547,26 @@ export async function updateMeeting(meetingData: any) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
+
+
+export async function deleteMeeting(projectId: string, meetingId: string) {
+    try {
+        if (!projectId || !meetingId) {
+            return { success: false, message: 'Project ID and Meeting ID are required for deletion.' };
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectId}/meetings/${meetingId}`, {
+            method: 'DELETE',
+        });
+        
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ message: 'Failed to delete meeting' }));
+            return { success: false, message: errorData.message || 'Failed to delete meeting' };
+        }
+        const data = await res.json();
+        return { success: true, message: 'Meeting deleted successfully', data: data.data };
+
+    } catch (error) {
+        console.error('Delete meeting action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
+}

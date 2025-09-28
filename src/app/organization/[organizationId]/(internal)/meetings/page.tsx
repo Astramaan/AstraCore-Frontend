@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { deleteMeeting } from '@/app/actions';
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
@@ -169,7 +170,8 @@ export default function MeetingsPage() {
                 const result = await res.json();
                 if (result.success) {
                     const formattedMeetings = result.data.map((m: any) => ({
-                        id: m.targetType.id || m.projectId,
+                        id: m.meetingId || m.id,
+                        projectId: m.projectId,
                         type: m.targetType.type,
                         title: m.title,
                         name: m.manualDetails.name,
@@ -208,11 +210,23 @@ export default function MeetingsPage() {
         setMeetingToDelete(meeting);
     };
 
-    const confirmDelete = () => {
+    const confirmDelete = async () => {
         if (meetingToDelete) {
-            setAllMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+            const { projectId, id: meetingId } = meetingToDelete;
+            if (!projectId || !meetingId) {
+                toast({ variant: 'destructive', title: 'Error', description: 'Cannot delete meeting without Project and Meeting ID.' });
+                setMeetingToDelete(null);
+                return;
+            }
+            const result = await deleteMeeting(projectId, meetingId);
+
+            if (result.success) {
+                setAllMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+                toast({ title: "Success", description: result.message });
+            } else {
+                toast({ variant: 'destructive', title: 'Error', description: result.message });
+            }
             setMeetingToDelete(null);
-             toast({ title: "Success", description: "Meeting deleted successfully." });
         }
     };
 
