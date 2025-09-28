@@ -95,3 +95,50 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     );
   }
 }
+
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+    const projectId = params.id;
+    try {
+        const authHeaders = getAuthHeadersFromCookie();
+
+        if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
+            return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
+        }
+
+        if (!projectId) {
+            return NextResponse.json({ success: false, message: "Project ID is required." }, { status: 400 });
+        }
+
+        const body = await req.json();
+
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${projectId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                ...authHeaders
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+            let errorBody;
+            try {
+                errorBody = await res.json();
+            } catch (e) {
+                errorBody = { message: "An unexpected error occurred on the backend." };
+            }
+            console.error("Backend error on project update:", errorBody);
+            return NextResponse.json({ success: false, message: errorBody.message || 'Failed to update project.' }, { status: res.status });
+        }
+
+        const data = await res.json();
+        return NextResponse.json(data, { status: 200 });
+
+    } catch (err: any) {
+        console.error(`Update project proxy failed for ${projectId}:`, err);
+        return NextResponse.json(
+            { success: false, message: "Update project proxy failed", details: err.message },
+            { status: 500 }
+        );
+    }
+}

@@ -247,7 +247,7 @@ export async function updateProject(projectData: any) {
         if (!projectData.id) {
             return { success: false, message: 'Project ID is required to update.' };
         }
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectData.id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
