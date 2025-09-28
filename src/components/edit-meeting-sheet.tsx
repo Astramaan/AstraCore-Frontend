@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -21,10 +21,13 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from './ui/command';
 import { ScrollArea } from './ui/scroll-area';
-
+import { updateMeeting } from '@/app/actions';
+import { useToast } from './ui/use-toast';
+import { SuccessPopup } from './success-popup';
 
 export interface Meeting {
     id: string;
+    projectId?: string;
     type: 'client' | 'lead' | 'others';
     title?: string;
     name: string;
@@ -69,11 +72,14 @@ const mockMembers = [
 ];
 
 const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meeting, onMeetingUpdated: (meeting: Meeting) => void, onClose: () => void }) => {
+    const { toast } = useToast();
+    const [isPending, startTransition] = useTransition();
+
     const [title, setTitle] = useState(meeting.title || '');
     const [date, setDate] = useState<Date | undefined>(meeting.date ? new Date(meeting.date.replace(/(\d+)(st|nd|rd|th)/, '$1')) : undefined);
     const [meetingLink, setMeetingLink] = useState(meeting.link);
     const [selectedType, setSelectedType] = useState<'client' | 'lead' | 'others'>(meeting.type);
-    const [members, setMembers] = useState('member1'); // Mock
+    const [participants, setParticipants] = useState(['member1']); // Mock
     const [time, setTime] = useState(meeting.time);
     const [name, setName] = useState(meeting.name);
     const [city, setCity] = useState(meeting.city);
@@ -97,24 +103,54 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
 
     const handleSubmit = () => {
         if (title && name && selectedType && date && time && meeting) {
-            onMeetingUpdated({
+
+            const combinedDateTime = new Date(date);
+            const [timeValue, period] = time.split(' ');
+            let [hours, minutes] = timeValue.split(':').map(Number);
+            if (period === 'PM' && hours < 12) hours += 12;
+            if (period === 'AM' && hours === 12) hours = 0;
+            combinedDateTime.setHours(hours, minutes, 0, 0);
+
+            const updatedMeetingData = {
                 ...meeting,
-                id: selectedId,
+                projectId: meeting.projectId || selectedId,
+                meetingId: meeting.id,
                 title,
                 name,
                 city,
                 email,
                 phone,
                 type: selectedType,
-                date: date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }).replace(/(\d+),/, (match, day) => {
-                    const suffixes = ["th", "st", "nd", "rd"];
-                    const v = day % 100;
-                    return day + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
-                }),
+                date: combinedDateTime.toISOString(),
                 time,
                 link: meetingLink,
+                startTime: combinedDateTime.toISOString(),
+                 targetType: {
+                    type: selectedType,
+                    id: selectedId
+                },
+                 participants: participants.map(pId => ({
+                    userId: pId,
+                    participantRole: 'MEMBER'
+                })),
+                manualDetails: {
+                    name, email, phoneNumber: phone, location: city, type: selectedType
+                }
+            };
+            
+            startTransition(async () => {
+                const result = await updateMeeting(updatedMeetingData);
+                if (result.success) {
+                    onMeetingUpdated({ ...updatedMeetingData, date: date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) });
+                    onClose();
+                } else {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: result.message || 'Failed to update meeting.',
+                    });
+                }
             });
-            onClose();
         }
     }
 
@@ -135,7 +171,7 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="add-members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                    <Label htmlFor="add-members" className={cn("text-lg font-medium", participants.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
                     <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -144,8 +180,8 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                                 aria-expanded={memberComboboxOpen}
                                 className="w-full justify-between h-14 bg-background rounded-full"
                             >
-                                {members
-                                    ? mockMembers.find((member) => member.id === members)?.name
+                                {participants.length > 0
+                                    ? `${participants.length} member(s) selected`
                                     : "Select a team member..."}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
@@ -160,15 +196,17 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
                                             <CommandItem
                                                 key={member.id}
                                                 value={member.id}
-                                                onSelect={(currentValue) => {
-                                                    setMembers(currentValue === members ? "" : currentValue)
-                                                    setMemberComboboxOpen(false)
+                                                onSelect={() => {
+                                                    const newParticipants = participants.includes(member.id)
+                                                        ? participants.filter(p => p !== member.id)
+                                                        : [...participants, member.id];
+                                                    setParticipants(newParticipants);
                                                 }}
                                             >
                                                 <Check
                                                     className={cn(
                                                         "mr-2 h-4 w-4",
-                                                        members === member.id ? "opacity-100" : "opacity-0"
+                                                        participants.includes(member.id) ? "opacity-100" : "opacity-0"
                                                     )}
                                                 />
                                                 {member.name}
@@ -288,8 +326,8 @@ const EditMeetingForm = ({ meeting, onMeetingUpdated, onClose }: { meeting: Meet
             </div>
         </ScrollArea>
         <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
-            <Button onClick={handleSubmit} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full">
-                Save Changes
+            <Button onClick={handleSubmit} className="w-full md:w-auto md:px-14 h-[54px] text-lg rounded-full" disabled={isPending}>
+                {isPending ? 'Saving...' : 'Save Changes'}
             </Button>
         </div>
     </div>
@@ -308,7 +346,7 @@ export function EditMeetingSheet({ isOpen, onClose, meeting, onMeetingUpdated }:
             "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
           )}
       >
-          <SheetHeader className="p-6 border-b">
+          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
               <SheetTitle className="flex items-center text-2xl font-semibold">
                   <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
                     <Edit className="h-6 w-6 text-black"/>

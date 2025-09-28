@@ -521,3 +521,29 @@ export async function createMeeting(meetingData: any) {
 }
     
   
+export async function updateMeeting(meetingData: any) {
+    const { projectId, meetingId, ...payload } = meetingData;
+    try {
+        if (!projectId || !meetingId) {
+            return { success: false, message: 'Project ID and Meeting ID are required for an update.' };
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectId}/meetings/${meetingId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ message: 'Failed to update meeting' }));
+            return { success: false, message: errorData.message || 'Failed to update meeting' };
+        }
+
+        const data = await res.json();
+        return { success: true, message: 'Meeting updated successfully', data: data.data };
+    } catch (error) {
+        console.error('Update meeting action failed:', error);
+        return { success: false, message: 'An unexpected error occurred.' };
+    }
+}
