@@ -8,30 +8,25 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Image from 'next/image';
 
 const cameraFeeds = {
     'Onsite Camera': [
-        { name: 'Main Gate', src: '/video/Live.mp4' },
-        { name: 'Block A', src: '/video/Live-2.mp4' },
-        { name: 'Yard', src: '/video/Live.mp_4' },
-        { name: 'Terrace', src: '/video/Live-2.mp_4' },
+        { name: 'Main Gate', src: 'https://picsum.photos/seed/maingate/1920/1080' },
+        { name: 'Block A', src: 'https://picsum.photos/seed/blocka/1920/1080' },
+        { name: 'Yard', src: 'https://picsum.photos/seed/yard/1920/1080' },
+        { name: 'Terrace', src: 'https://picsum.photos/seed/terrace/1920/1080' },
     ],
     'Drones': [
-        { name: 'Drone 1 (Alpha)', src: '/video/Live-2.mp4' },
-        { name: 'Drone 2 (Beta)', src: '/video/Live.mp4' },
+        { name: 'Drone 1 (Alpha)', src: 'https://picsum.photos/seed/drone1/1920/1080' },
+        { name: 'Drone 2 (Beta)', src: 'https://picsum.photos/seed/drone2/1920/1080' },
     ]
 };
 
 type CameraType = 'Onsite Camera' | 'Drones';
 
 export default function LivePage() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(true);
-  const [duration, setDuration] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isControlsVisible, setIsControlsVisible] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -40,33 +35,6 @@ export default function LivePage() {
   const [activeCamera, setActiveCamera] = useState(cameraFeeds[activeCameraType][0]);
 
   let controlsTimeout: NodeJS.Timeout;
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-        video.src = activeCamera.src;
-        video.muted = isMuted; 
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                setIsPlaying(false);
-                console.error("Autoplay was prevented: ", error)
-            });
-        }
-        setIsPlaying(true);
-
-      const handleTimeUpdate = () => setProgress((video.currentTime / video.duration) * 100);
-      const handleLoadedMetadata = () => setDuration(video.duration);
-
-      video.addEventListener('timeupdate', handleTimeUpdate);
-      video.addEventListener('loadedmetadata', handleLoadedMetadata);
-
-      return () => {
-        video.removeEventListener('timeupdate', handleTimeUpdate);
-        video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      };
-    }
-  }, [activeCamera, isMuted]);
   
   const handleMouseMove = () => {
     setIsControlsVisible(true);
@@ -92,58 +60,6 @@ export default function LivePage() {
     };
   }, [isControlsVisible]);
 
-  const togglePlayPause = () => {
-    const video = videoRef.current;
-    if (video) {
-      if (video.paused) {
-        video.play();
-        setIsPlaying(true);
-      } else {
-        video.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
-  
-  const handleSeek = (value: number[]) => {
-    const video = videoRef.current;
-    if(video) {
-      video.currentTime = (value[0] / 100) * video.duration;
-      setProgress(value[0]);
-    }
-  }
-
-  const handleSeekRelative = (seconds: number) => {
-    const video = videoRef.current;
-    if (video) {
-      video.currentTime += seconds;
-    }
-  };
-
-  const toggleMute = () => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = !video.muted;
-      setIsMuted(video.muted);
-    }
-  };
-  
-  const handleVolumeChange = (value: number[]) => {
-    const newVolume = value[0];
-    const video = videoRef.current;
-    if (video) {
-        video.volume = newVolume / 100;
-        setVolume(newVolume);
-        if (newVolume > 0 && video.muted) {
-            video.muted = false;
-            setIsMuted(false);
-        } else if (newVolume === 0 && !video.muted) {
-            video.muted = true;
-            setIsMuted(true);
-        }
-    }
-  };
-
   const toggleFullScreen = () => {
     const elem = document.documentElement;
      if (!document.fullscreenElement) {
@@ -163,17 +79,6 @@ export default function LivePage() {
     return () => document.removeEventListener('fullscreenchange', handleFullScreenChange);
   }, []);
 
-  const formatTime = (seconds: number) => {
-    if (isNaN(seconds) || seconds < 0) return "00:00";
-    const date = new Date(seconds * 1000);
-    const hh = date.getUTCHours();
-    const mm = date.getUTCMinutes();
-    const ss = date.getUTCSeconds().toString().padStart(2, '0');
-    if (hh) {
-      return `${hh}:${mm.toString().padStart(2, '0')}:${ss}`;
-    }
-    return `${mm}:${ss}`;
-  };
 
   const handleCameraTypeChange = (type: CameraType) => {
     setActiveCameraType(type);
@@ -182,15 +87,14 @@ export default function LivePage() {
 
   return (
     <div ref={containerRef} className="w-screen h-screen bg-black relative overflow-hidden">
-        <video
-            ref={videoRef}
-            className="w-full h-full object-contain cursor-pointer"
-            autoPlay
-            muted
-            loop
-            playsInline
-            onClick={togglePlayPause}
+        <Image
+            src={activeCamera.src}
+            alt={activeCamera.name}
+            layout="fill"
+            objectFit="contain"
+            className="cursor-pointer"
             key={activeCamera.src}
+            data-ai-hint="house construction"
         />
         <div 
             className={cn(
@@ -205,35 +109,7 @@ export default function LivePage() {
             )}
             onClick={(e) => e.stopPropagation()}
         >
-            <div className="flex items-center gap-4 text-white">
-                <span className="text-xs">{formatTime(videoRef.current?.currentTime || 0)}</span>
-                <Slider
-                    value={[progress]}
-                    onValueChange={handleSeek}
-                    max={100}
-                    step={0.1}
-                    className="w-full cursor-pointer"
-                    />
-                <span className="text-xs">{formatTime(duration)}</span>
-            </div>
-            <div className="flex items-center justify-between mt-2">
-                <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={() => handleSeekRelative(-10)}><Rewind/></Button>
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={togglePlayPause}>
-                        {isPlaying ? <Pause /> : <Play />}
-                    </Button>
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={() => handleSeekRelative(10)}><FastForward/></Button>
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={toggleMute}>
-                    {isMuted ? <VolumeX /> : <Volume2 />}
-                    </Button>
-                    <Slider
-                        value={[isMuted ? 0 : volume]}
-                        onValueChange={handleVolumeChange}
-                        max={100}
-                        step={1}
-                        className="w-24 cursor-pointer"
-                    />
-                </div>
+            <div className="flex items-center justify-end mt-2">
                 <Button variant="ghost" size="icon" className="text-white hover:bg-white/20" onClick={toggleFullScreen}>
                     {isFullScreen ? <Minimize /> : <Maximize />}
                 </Button>
