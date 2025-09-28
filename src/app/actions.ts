@@ -16,22 +16,26 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 
     let cookieValue = userDataCookie.value;
     
+    // Attempt to decode the cookie value, as it might be URL-encoded
     try {
-        // First, try to decode it, in case it's URL-encoded
         cookieValue = decodeURIComponent(cookieValue);
     } catch (e) {
-        // If it fails, it's probably not encoded, so we can continue
+        // If decoding fails, it might not be encoded, so we can proceed.
+        // This is not an error condition.
     }
     
     let userData: any;
     try {
+        // First, try to parse it as JSON directly.
         userData = JSON.parse(cookieValue);
     } catch (e) {
         console.error("Failed to parse user data cookie as JSON:", e);
+        // If it fails, return empty headers as we can't proceed.
         return {};
     }
 
-    // Handle cases where the parsed data is *still* a string (double-encoded JSON)
+    // Handle cases where the parsed data is *still* a string (double-encoded JSON).
+    // This seems to be the core issue.
     if (typeof userData === 'string') {
         try {
             userData = JSON.parse(userData);
@@ -41,9 +45,9 @@ function getAuthHeadersFromCookie(): Record<string, string> {
         }
     }
     
-    // Final validation
+    // Final validation to ensure we have a valid user object.
     if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
-        console.error("Invalid user data structure in cookie after parsing:", userData);
+        console.error("Invalid user data structure in cookie after all parsing attempts:", userData);
         return {};
     }
     
@@ -175,6 +179,9 @@ export async function addLead(prevState: any, formData: FormData) {
         }
         
         const authHeaders = getAuthHeadersFromCookie();
+        if (Object.keys(authHeaders).length === 0) {
+            return { success: false, message: "Authentication failed. Please log in again." };
+        }
 
         const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
             method: 'POST',
@@ -575,4 +582,3 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
-
