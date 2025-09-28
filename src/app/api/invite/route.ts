@@ -13,19 +13,40 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 
     try {
-        let userData = JSON.parse(userDataCookie.value);
-        // Handle cases where the cookie is double-stringified
-        if (typeof userData === 'string') {
-            userData = JSON.parse(userData);
-        }
+        let userData;
+        const cookieValue = userDataCookie.value;
         
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
+        try {
+            // First attempt to parse
+            userData = JSON.parse(cookieValue);
+            
+            // Check if it's a string and needs another parse
+            if (typeof userData === 'string') {
+                try {
+                    userData = JSON.parse(userData);
+                } catch (innerError) {
+                    console.error("Failed to parse double-stringified cookie", innerError);
+                    return {};
+                }
+            }
+            
+            // Validate the expected structure
+            if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+                console.error("Invalid user data structure in cookie");
+                return {};
+            }
+            
+            return {
+                'x-user': JSON.stringify(userData),
+                'x-user-id': userData.userId,
+                'x-login-id': userData.email,
+            };
+        } catch (e) {
+            console.error("Failed to parse user data cookie", e);
+            return {};
+        }
     } catch (e) {
-        console.error("Failed to parse user data cookie", e);
+        console.error("Error accessing cookie", e);
         return {};
     }
 }

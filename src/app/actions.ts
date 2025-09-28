@@ -14,19 +14,40 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 
     try {
-        let userData = JSON.parse(userDataCookie.value);
-        // Handle cases where the cookie is double-stringified
-        if (typeof userData === 'string') {
-            userData = JSON.parse(userData);
-        }
+        let userData;
+        const cookieValue = userDataCookie.value;
         
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
+        try {
+            // First attempt to parse
+            userData = JSON.parse(cookieValue);
+            
+            // Check if it's a string and needs another parse
+            if (typeof userData === 'string') {
+                try {
+                    userData = JSON.parse(userData);
+                } catch (innerError) {
+                    console.error("Failed to parse double-stringified cookie", innerError);
+                    return {};
+                }
+            }
+            
+            // Validate the expected structure
+            if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+                console.error("Invalid user data structure in cookie");
+                return {};
+            }
+            
+            return {
+                'x-user': JSON.stringify(userData),
+                'x-user-id': userData.userId,
+                'x-login-id': userData.email,
+            };
+        } catch (e) {
+            console.error("Failed to parse user data cookie", e);
+            return {};
+        }
     } catch (e) {
-        console.error("Failed to parse user data cookie", e);
+        console.error("Error accessing cookie", e);
         return {};
     }
 }
@@ -58,7 +79,7 @@ export async function signup(prevState: any, formData: FormData) {
   const email = formData.get('email');
   
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/send-otp-email`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
         method: "POST",
         headers: { 
             "Content-Type": "application/json"
@@ -98,7 +119,6 @@ export async function addMember(prevState: any, formData: FormData) {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
-                ...getAuthHeadersFromCookie()
             },
             body: JSON.stringify(requestBody),
         });
@@ -133,7 +153,6 @@ export async function addLead(prevState: any, formData: FormData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ...getAuthHeadersFromCookie()
             },
             body: JSON.stringify(payload),
         });
@@ -152,17 +171,13 @@ export async function addLead(prevState: any, formData: FormData) {
 }
 
 export async function getLeadByEmail(email: string) {
-    const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
-        return { success: false, message: 'Unauthorized: Missing user data' };
-    }
 
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/org/lead-by-email?email=${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                ...authHeaders
+                ...getAuthHeadersFromCookie()
             },
         });
 
@@ -180,16 +195,11 @@ export async function getLeadByEmail(email: string) {
 }
 
 export async function addProject(projectData: any) {
-    const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
-      return { success: false, message: "Unauthorized: Missing user data" };
-    }
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            ...authHeaders,
         },
         body: JSON.stringify(projectData),
     });
@@ -219,7 +229,6 @@ export async function inviteUser(prevState: any, formData: FormData) {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
-                ...getAuthHeadersFromCookie()
             },
             body: JSON.stringify({ email, role }),
         });
@@ -344,7 +353,6 @@ export async function changePassword(prevState: any, formData: FormData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ...getAuthHeadersFromCookie(),
             },
             body: JSON.stringify(Object.fromEntries(formData)),
         });
@@ -368,7 +376,6 @@ export async function updateUser(prevState: any, formData: FormData) {
       method: "PATCH",
       headers: { 
           "Content-Type": "application/json",
-          ...getAuthHeadersFromCookie()
         },
       body: JSON.stringify(Object.fromEntries(formData)),
     });
@@ -389,7 +396,6 @@ export async function deactivateUser(userId: string) {
             method: "DELETE",
             headers: { 
                 "Content-Type": "application/json",
-                ...getAuthHeadersFromCookie()
             },
             body: JSON.stringify({ userId }),
         });
@@ -408,16 +414,11 @@ export async function deactivateUser(userId: string) {
 }
 
 export async function createMeeting(meetingData: any) {
-    const authHeaders = getAuthHeadersFromCookie();
-    if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
-      return { success: false, message: "Unauthorized: Missing user data" };
-    }
-
+    
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            ...authHeaders,
         },
         body: JSON.stringify(meetingData),
     });

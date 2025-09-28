@@ -13,19 +13,40 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     }
 
     try {
-        let userData = JSON.parse(userDataCookie.value);
-        // Handle cases where the cookie is double-stringified
-        if (typeof userData === 'string') {
-            userData = JSON.parse(userData);
-        }
+        let userData;
+        const cookieValue = userDataCookie.value;
         
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
+        try {
+            // First attempt to parse
+            userData = JSON.parse(cookieValue);
+            
+            // Check if it's a string and needs another parse
+            if (typeof userData === 'string') {
+                try {
+                    userData = JSON.parse(userData);
+                } catch (innerError) {
+                    console.error("Failed to parse double-stringified cookie", innerError);
+                    return {};
+                }
+            }
+            
+            // Validate the expected structure
+            if (!userData || typeof userData !== 'object' || !userData.userId || !userData.email) {
+                console.error("Invalid user data structure in cookie");
+                return {};
+            }
+            
+            return {
+                'x-user': JSON.stringify(userData),
+                'x-user-id': userData.userId,
+                'x-login-id': userData.email,
+            };
+        } catch (e) {
+            console.error("Failed to parse user data cookie", e);
+            return {};
+        }
     } catch (e) {
-        console.error("Failed to parse user data cookie", e);
+        console.error("Error accessing cookie", e);
         return {};
     }
 }
@@ -58,7 +79,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    return NextResponse.json(data, { status: 200 });
 
   } catch (err: any) {
     console.error("Get leads proxy failed:", err);
@@ -78,7 +99,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
     }
     
-    const body = await req.json();
+    let body;
+    try {
+        body = await req.json();
+        if (!body || typeof body !== 'object') {
+            return NextResponse.json({ success: false, message: "Invalid request body" }, { status: 400 });
+        }
+    } catch (e) {
+        return NextResponse.json({ success: false, message: "Invalid JSON in request body" }, { status: 400 });
+    }
 
     const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
       method: "POST",
@@ -89,9 +118,19 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(body),
     });
 
-    const data = await res.json();
+    if (!res.ok) {
+        let errorBody;
+        try {
+            errorBody = await res.json();
+        } catch (e) {
+            errorBody = { message: "An unexpected error occurred on the backend." };
+        }
+        console.error("Backend error:", errorBody);
+        return NextResponse.json({ success: false, message: errorBody.message || 'Failed to create lead.' }, { status: res.status });
+    }
 
-    return NextResponse.json(data, { status: res.status });
+    const data = await res.json();
+    return NextResponse.json(data, { status: 200 });
     
   } catch (err: any) {
     console.error("Create lead proxy failed:", err);
