@@ -21,8 +21,6 @@ interface ProjectInfoHeaderProps {
 }
 
 export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps) => {
-    const pmInitials = project.pm?.split(' ').map(n => n[0]).join('') || 'PM';
-
     return (
         <div className="relative w-full h-80 md:h-64">
             <Image 
@@ -48,7 +46,7 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
                             <p className="text-white text-shadow">{project.id}</p>
                         </div>
                         {project.pm && (
-                             <div className="hidden md:block text-right">
+                             <div className="text-right">
                                 <p className="text-sm text-white/80">Project Manager</p>
                                 <p className="text-base font-semibold text-white">{project.pm}</p>
                             </div>
