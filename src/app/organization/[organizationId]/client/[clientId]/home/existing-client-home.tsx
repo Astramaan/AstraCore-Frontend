@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -346,11 +347,12 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
-       <div className="relative mb-8 md:hidden">
+    <main>
+       <div className="relative mb-8 md:block hidden lg:hidden">
             <ProjectInfoHeader project={project}/>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0 md:px-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -403,6 +405,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </aside>
         </div>
+    </main>
     <ImageGallerySheet
         open={isGalleryOpen}
         onOpenChange={setIsGalleryOpen}

@@ -8,7 +8,7 @@ import { useUser } from '@/context/user-context';
 import NewUserHomePage from './new-user-home';
 import { useParams } from 'next/navigation';
 
-function ClientHomePage() {
+function ClientHomePageContent() {
   const { user, loading } = useUser();
   const params = useParams();
   
@@ -43,7 +43,15 @@ function ClientHomePage() {
 export default function ClientHomePageWrapper() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ClientHomePage />
+            <ClientHomePageContent />
         </Suspense>
     );
+}
+
+export function generateStaticParams() {
+  // In a real app, you would fetch this data from a database or API
+  return [
+    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', clientId: '8c26c0b3032ecc4f' },
+    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', clientId: '1e17e76f2486e270' },
+  ];
 }
