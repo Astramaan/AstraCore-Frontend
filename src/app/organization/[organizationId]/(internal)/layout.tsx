@@ -5,30 +5,21 @@ import React, { useEffect } from 'react';
 import { OrganizationHeader } from '@/components/organization-header';
 import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
 import { useRouter } from 'next/navigation';
-import { UserProvider, useUser } from '@/context/user-context';
+import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
-  const { user, loading, isClient } = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (loading) return;
-
-    if (!user) {
-      router.replace('/');
-      return;
-    }
-    
-    // This check is now primarily handled in the UserProvider for robustness
-    if (isClient) {
+    if (!loading && user?.roleType === 'client') {
       router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
-      return;
     }
-  }, [user, loading, isClient, router]);
+  }, [user, loading, router]);
   
-  if (loading || !user || isClient) {
+  if (loading || !user || user.roleType === 'client') {
     return (
        <div className="min-h-screen bg-background p-4 md:p-8 2xl:p-10">
             <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">

@@ -16,12 +16,16 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const isLivePage = pathname.includes('/live');
 
     useEffect(() => {
-        if (!loading && !user) {
+        if (!loading && user) {
+            if (user.roleType !== 'client') {
+                router.replace(`/organization/${user.organizationId}/home`);
+            }
+        } else if (!loading && !user) {
             router.replace('/');
         }
     }, [user, loading, router]);
     
-    if (loading || !user) {
+    if (loading || !user || user.roleType !== 'client') {
          return (
             <div className="space-y-6 p-4">
                 <div className="flex justify-between items-center mb-6">

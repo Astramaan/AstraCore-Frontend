@@ -69,31 +69,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     if (!loading && !pathname.startsWith('/invite')) {
       const isAuthPage = pathname === '/' || pathname.startsWith('/signup') || pathname.startsWith('/otp-verification') || pathname.startsWith('/create-password') || pathname.startsWith('/forgot-password') || pathname.startsWith('/password-success');
       
-      if (user) {
-        // User is logged in
-        const isInternalPage = pathname.includes('/(internal)/');
-        const isClientPage = pathname.includes('/client/');
-
-        if (isClient && isInternalPage) {
-           router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
-        } else if (!isClient && isClientPage) {
-           router.replace(`/organization/${user.organizationId}/home`);
-        } else if (isAuthPage) {
-           let targetPath;
-            if (isSuperAdmin) {
-                targetPath = '/platform/dashboard';
-            } else if (isClient) {
-                targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
-            } else {
-                targetPath = `/organization/${user.organizationId}/home`;
-            }
-            router.replace(targetPath);
+      if (user && isAuthPage) {
+        let targetPath;
+        if (isSuperAdmin) {
+            targetPath = '/platform/dashboard';
+        } else if (isClient) {
+            targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
+        } else {
+            targetPath = `/organization/${user.organizationId}/home`;
         }
-      } else {
-        // User is not logged in
-        if (!isAuthPage) {
-            router.replace('/');
-        }
+        router.replace(targetPath);
+      } else if (!user && !isAuthPage) {
+        router.replace('/');
       }
     }
   }, [user, loading, pathname, router, isClient, isSuperAdmin]);
