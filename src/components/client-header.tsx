@@ -1,7 +1,8 @@
+
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { usePathname, useParams } from 'next/navigation';
+import React, { useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import { HabiLogo } from '@/components/habi-logo';
 import { useUser } from '@/context/user-context';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -12,29 +13,30 @@ import { Skeleton } from './ui/skeleton';
 export const ClientHeader = () => {
     const pathname = usePathname();
     const { user, loading } = useUser();
-    const [pageTitle, setPageTitle] = useState('');
     
-    const userName = user?.name || 'User';
-    const userInitials = userName.split(' ').map(n => n[0]).join('');
+    const pageTitle = useMemo(() => {
+        if (!user) return '';
 
-    useEffect(() => {
-        if (user) {
-            const isNewUser = user.team === 'New User';
-            
-            if (pathname.includes('/home')) {
-                setPageTitle(''); // No title for home on mobile
-            } else if (pathname.includes('/packages')) {
-                setPageTitle('Packages');
-            } else if (pathname.includes('/projects')) {
-                setPageTitle('My Project');
-            } else if (pathname.includes('/profile')) {
-                setPageTitle('Profile');
-            } else if (pathname.includes('/meet-us')) {
-                setPageTitle('Meet Us');
-            } else if (pathname.includes('/live')) {
-                setPageTitle('Live');
-            }
+        const isNewUser = user.team === 'New User';
+
+        if (pathname.includes('/home')) {
+            return isNewUser ? 'Book your free consultation' : '';
+        } else if (pathname.includes('/packages')) {
+            return 'Packages';
+        } else if (pathname.includes('/project') && !pathname.includes('/projects')) { // for single project
+            return 'My Project';
+        } else if (pathname.includes('/projects')) { // for projects list
+            return 'Our Projects';
+        } else if (pathname.includes('/profile')) {
+            return 'Profile';
+        } else if (pathname.includes('/meet-us')) {
+            return 'Meet Us';
+        } else if (pathname.includes('/live')) {
+            return 'Live';
+        } else if (pathname.includes('/stages')) {
+            return 'Stages';
         }
+        return '';
     }, [user, pathname]);
 
     if (loading) {
@@ -46,6 +48,8 @@ export const ClientHeader = () => {
         )
     }
 
+    const userName = user?.name || 'User';
+    const userInitials = userName.split(' ').map(n => n[0]).join('');
 
     return (
         <header className="flex flex-row justify-between items-center w-full gap-4">
@@ -53,7 +57,7 @@ export const ClientHeader = () => {
                 <HabiLogo />
                 {pageTitle && (
                     <>
-                        <div className="w-px h-8 bg-stone-300 md:block" />
+                        <div className="w-px h-8 bg-stone-300 hidden md:block" />
                         <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
                            {pageTitle}
                         </h2>

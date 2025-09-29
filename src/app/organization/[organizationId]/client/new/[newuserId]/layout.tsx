@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect } from 'react';
@@ -11,8 +12,6 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
   const { user, loading } = useUser();
   const router = useRouter();
   const params = useParams();
-  const organizationId = params.organizationId as string;
-  const newuserId = params.newuserId as string;
   
   if (loading) {
     return (
@@ -35,10 +34,8 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
 
   return (
     <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm">
-           <div className="max-w-[1440px] 2xl:max-w-none mx-auto p-4 2xl:px-10">
-             <ClientHeader />
-           </div>
+        <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4 2xl:px-10">
+            <ClientHeader />
         </header>
         <main className="w-full flex-1 overflow-y-auto bg-background pb-32">
             {children}

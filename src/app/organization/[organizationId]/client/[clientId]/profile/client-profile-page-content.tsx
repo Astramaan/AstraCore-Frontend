@@ -14,7 +14,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUser } from '@/context/user-context';
 import { AddFamilyMemberSheet } from '@/components/add-family-member-sheet';
-import { ClientHeader } from '@/components/client-header';
 
 const DetailField = ({ label, value }: { label: string, value: string }) => (
     <div className="space-y-1">

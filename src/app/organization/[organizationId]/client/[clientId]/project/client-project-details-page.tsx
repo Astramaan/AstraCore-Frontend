@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -5,7 +6,6 @@ import { ProjectDetailsCard } from '@/components/project-details-card';
 import { ProjectFilesCard, type Phase } from '@/components/project-files-card';
 import { ProjectVisualsCard } from '@/components/project-visuals-card';
 import { ProjectMaterialsCard } from '@/components/project-materials-card';
-import { ClientHeader } from '@/components/client-header';
 
 
 const mockTimeline: Phase[] = [

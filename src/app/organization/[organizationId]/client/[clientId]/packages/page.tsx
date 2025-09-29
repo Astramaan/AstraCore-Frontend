@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,7 @@ const packages = [
             "3D Visualizations",
             "Dedicated Project Manager",
         ],
-        isPopular: false,
+        isPopular: true,
     },
     {
         name: "Luxury",
@@ -86,14 +87,13 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
 export default function PackagesPage() {
     const params = useParams();
     const organizationId = params.organizationId as string;
-    const userId = params.userId as string;
+    const clientId = params.clientId as string;
 
     return (
         <div className="bg-background min-h-screen">
             <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8 pb-32">
-                <div className="text-center">
-                    <h1 className="text-3xl md:text-4xl font-bold">Our Packages</h1>
-                    <p className="text-muted-foreground mt-2">Find the perfect plan for your dream home.</p>
+                <div className="text-center pt-4 md:pt-0">
+                    <p className="text-muted-foreground">Find the perfect plan for your dream home.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -104,7 +104,7 @@ export default function PackagesPage() {
 
                 <div className="text-center pt-8">
                     <Button asChild className="rounded-full h-[54px] px-8 text-lg">
-                        <Link href={`/organization/${organizationId}/client/${userId}/home#book-consultation-section`}>
+                        <Link href={`/organization/${organizationId}/client/${clientId}/home#book-consultation-section`}>
                             Contact Team
                         </Link>
                     </Button>
