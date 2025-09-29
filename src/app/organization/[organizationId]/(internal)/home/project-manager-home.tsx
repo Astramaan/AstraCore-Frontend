@@ -68,7 +68,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-white rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
@@ -89,12 +89,12 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                <div className="flex gap-2 w-full md:w-auto">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
         </div>
-        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
+        <div className="mt-6 flex flex-row gap-4 justify-between">
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
@@ -211,7 +211,7 @@ export default function ProjectManagerHome() {
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
-                 <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
+                 <div className="flex flex-row justify-between items-center gap-4">
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
