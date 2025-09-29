@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Play, Pause, Maximize, Minimize, Rewind, FastForward, Volume2, VolumeX, Camera, Video as VideoIcon, PanelRightOpen, PanelRightClose, CheckCircle2 } from 'lucide-react';
+import { Play, Pause, Maximize, Minimize, Rewind, FastForward, Volume2, VolumeX, Camera, Video as VideoIcon, PanelRightOpen, PanelRightClose, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
@@ -191,7 +191,7 @@ export default function LivePage() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
-                                <CheckCircle2 className="w-8 h-8 text-green-400"/>
+                                <ShieldCheck className="w-8 h-8 text-green-400"/>
                                 <div>
                                     <p className="text-2xl font-bold">38</p>
                                     <p className="text-xs text-white/80">Closed</p>
