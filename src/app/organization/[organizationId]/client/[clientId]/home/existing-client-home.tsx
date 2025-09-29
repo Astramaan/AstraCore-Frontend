@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
+import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
@@ -21,7 +22,6 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ClientHeader } from '@/components/client-header';
 import { HabiLogo } from '@/components/habi-logo';
 
 
@@ -356,7 +356,7 @@ export default function ExistingClientHomePage() {
                  </div>
             </ProjectInfoHeader>
         </div>
-        <div className="hidden md:block sticky top-0 z-10 bg-background mb-8 lg:hidden">
+        <div className="hidden lg:block sticky top-0 z-10 bg-background mb-8">
              <div className="p-4 bg-white">
                 <ClientHeader />
             </div>
@@ -365,7 +365,7 @@ export default function ExistingClientHomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0 md:px-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
+            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-0 md:px-0">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
@@ -425,7 +425,7 @@ export default function ExistingClientHomePage() {
     />
      <ImagePreviewDialog 
         open={previewState.open}
-        onOpenChange={(open) => !open && closeImagePreview()}
+        onOpenChange={(open) => !open && closePreview()}
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"
@@ -445,5 +445,4 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
 
