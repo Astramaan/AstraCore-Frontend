@@ -345,12 +345,11 @@ export default function ExistingClientHomePage() {
 
 
   return (
-    <>
-    <div className="relative mb-8">
-        <ProjectInfoHeader project={project} />
-    </div>
+    <main>
+       <div className="relative mb-8">
+            <ProjectInfoHeader project={project}/>
+        </div>
 
-    <main className="p-4 md:p-8">
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0 md:px-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
@@ -404,7 +403,6 @@ export default function ExistingClientHomePage() {
                 </div>
             </aside>
         </div>
-    </main>
     <ImageGallerySheet
         open={isGalleryOpen}
         onOpenChange={setIsGalleryOpen}
@@ -430,7 +428,6 @@ export default function ExistingClientHomePage() {
         tasks={completedTasks as any}
         onTaskClick={(task) => console.log('task clicked', task)}
     />
-    </>
+    </main>
   );
 }
-

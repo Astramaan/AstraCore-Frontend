@@ -36,9 +36,7 @@ function ClientHomePage() {
   }
   
   return (
-    <main className="p-0 md:p-8">
       <ExistingClientHomePage />
-    </main>
   );
 }
 
