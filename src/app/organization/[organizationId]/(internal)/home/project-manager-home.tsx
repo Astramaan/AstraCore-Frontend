@@ -93,7 +93,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
               </div>
             </div>
         </div>
-        <div className="mt-6 flex flex-row gap-4 justify-between">
+        <div className="mt-6 flex flex-col md:flex-row gap-4 justify-between">
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
@@ -109,7 +109,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 Upcoming Stages
             </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
             {projectTasks.map((stage) => (
                 <ProjectTaskCard key={stage.id} stage={stage} onStageClick={onStageClick} />
             ))}
@@ -273,6 +273,8 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
+    
 
     
 
