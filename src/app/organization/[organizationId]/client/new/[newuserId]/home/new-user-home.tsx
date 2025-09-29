@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
-import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin } from 'lucide-react';
-import React, { useState, useEffect } from "react";
+import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin, Upload } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -107,6 +107,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     const [consultationType, setConsultationType] = useState<'office' | 'home' | 'online' | 'in-person' | null>(null);
     const [appointment, setAppointment] = useState<AppointmentDetails | null>(null);
     const [isClient, setIsClient] = useState(false);
+    const [siteImage, setSiteImage] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setIsClient(true);
@@ -126,6 +128,12 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     const handleBookingSuccess = (details: AppointmentDetails) => {
         setAppointment(details);
     }
+
+    const handleSiteImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSiteImage(e.target.files[0]);
+        }
+    };
 
     const faqs = [
         {
@@ -196,6 +204,26 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 <div>
                                     <Label htmlFor="site-address">Site Address</Label>
                                     <Textarea id="site-address" placeholder="Enter the full site address" className="min-h-[54px] rounded-3xl" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="site-image">Site Image</Label>
+                                    <div 
+                                        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer"
+                                        onClick={() => fileInputRef.current?.click()}
+                                    >
+                                        <div className="space-y-1 text-center">
+                                            {siteImage ? (
+                                                <Image src={URL.createObjectURL(siteImage)} alt="Site preview" width={100} height={100} className="mx-auto h-24 w-auto" />
+                                            ) : (
+                                                <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                                            )}
+                                            <div className="flex text-sm text-gray-600">
+                                                <p className="pl-1">{siteImage ? siteImage.name : 'Upload a file or drag and drop'}</p>
+                                            </div>
+                                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>
+                                    <Input id="site-image-upload" name="site-image" type="file" className="sr-only" ref={fileInputRef} onChange={handleSiteImageChange} />
                                 </div>
                                 <div className="flex justify-end pt-4">
                                   <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg">
