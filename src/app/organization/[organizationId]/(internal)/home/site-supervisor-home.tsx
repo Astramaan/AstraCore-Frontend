@@ -101,13 +101,13 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
             >
                 Completed Stages
             </Button>
             <Button
                 variant="outline"
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                 onClick={onOpenUpcomingTasks}
             >
                 Upcoming Stages
