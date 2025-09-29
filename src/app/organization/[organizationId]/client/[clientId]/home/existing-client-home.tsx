@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -347,25 +348,10 @@ export default function ExistingClientHomePage() {
   return (
     <>
       <main>
-        <div className="relative mb-8 md:hidden">
+        <div className="relative mb-8">
             <ProjectInfoHeader project={project} />
         </div>
-        <div className="hidden md:block bg-background p-6 rounded-[50px] mb-8">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className="text-2xl font-bold">{project.name}</h1>
-                    <p className="text-muted-foreground">{project.id}</p>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="text-right">
-                        <p className="font-semibold">{project.progress}% completed</p>
-                        <p className="text-sm text-muted-foreground">{project.daysLeft} days left</p>
-                    </div>
-                    <Progress value={project.progress} className="w-48 h-2" />
-                </div>
-            </div>
-        </div>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
@@ -448,3 +434,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
