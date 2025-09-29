@@ -194,10 +194,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     <Input id="project-type" placeholder="e.g., New Construction, Renovation" className="h-[54px] rounded-full" />
                                 </div>
                                 <div>
-                                    <Label htmlFor="building-type">Building Type</Label>
-                                    <Input id="building-type" placeholder="e.g., Residential, Commercial" className="h-[54px] rounded-full" />
-                                </div>
-                                <div>
                                     <Label htmlFor="floor-count">Number of Floors</Label>
                                     <Input id="floor-count" type="number" placeholder="e.g., G+2" className="h-[54px] rounded-full" />
                                 </div>
