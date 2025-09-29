@@ -345,7 +345,7 @@ export default function ExistingClientHomePage() {
 
 
   return (
-    <main>
+    <>
        <div className="relative mb-8">
             <ProjectInfoHeader project={project}/>
         </div>
@@ -428,6 +428,7 @@ export default function ExistingClientHomePage() {
         tasks={completedTasks as any}
         onTaskClick={(task) => console.log('task clicked', task)}
     />
-    </main>
+    </>
   );
 }
+
