@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { OrganizationHeader } from '@/components/organization-header';
 import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/context/user-context';
+import { UserProvider, useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
