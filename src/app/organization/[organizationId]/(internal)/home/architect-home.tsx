@@ -71,8 +71,8 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white rounded-full px-6 py-4 flex flex-row justify-between items-center gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 2xl:justify-between 2xl:flex">
+            <div className="bg-white rounded-full px-6 py-4 flex flex-row justify-between items-center gap-4 2xl:w-80">
               <div>
                 <p className="text-sm text-muted-foreground">Project Manager</p>
                 <p className="font-semibold">{project.projectManager}</p>
@@ -84,7 +84,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-full py-4 px-6 flex flex-row justify-between items-center gap-4">
+            <div className="bg-white rounded-full py-4 px-6 flex flex-row justify-between items-center gap-4 2xl:w-80">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -284,6 +284,8 @@ export default function ArchitectHome() {
 }
 
     
+    
+
     
 
     
