@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { ClientHeader } from './client-header';
 import { Progress } from './ui/progress';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 interface ProjectInfoHeaderProps {
     project: {
@@ -15,13 +16,16 @@ interface ProjectInfoHeaderProps {
         progress: number;
         pm?: string;
         id: string;
+        profileImage?: string;
     },
     children?: React.ReactNode;
 }
 
 export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps) => {
+    const pmInitials = project.pm?.split(' ').map(n => n[0]).join('') || 'PM';
+
     return (
-        <div className="relative w-full h-80">
+        <div className="relative w-full h-80 md:h-64">
             <Image 
                 src={project.coverImage} 
                 layout="fill" 
@@ -38,10 +42,30 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
                     {children}
                 </div>
                 
-                <div className="flex justify-between items-end">
-                    <div>
-                        <h3 className="text-2xl font-bold text-white text-shadow">{project.name}</h3>
-                        <p className="text-white text-shadow">{project.id}</p>
+                <div className="space-y-4">
+                    <div className="flex justify-between items-end">
+                        <div>
+                            <h3 className="text-2xl font-bold text-white text-shadow">{project.name}</h3>
+                            <p className="text-white text-shadow">{project.id}</p>
+                        </div>
+                         {project.pm && (
+                            <div className="flex items-center gap-2 text-white">
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src={project.profileImage} />
+                                    <AvatarFallback>{pmInitials}</AvatarFallback>
+                                </Avatar>
+                                <div className="text-right">
+                                    <p className="text-xs">Project Manager</p>
+                                    <p className="font-semibold text-sm">{project.pm}</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                     <div className="bg-black/20 backdrop-blur-sm p-3 rounded-full">
+                        <div className="flex items-center gap-4">
+                            <Progress value={project.progress} className="h-2 flex-1" />
+                            <span className="text-white font-semibold text-sm">{project.progress}% completed</span>
+                        </div>
                     </div>
                 </div>
             </div>
