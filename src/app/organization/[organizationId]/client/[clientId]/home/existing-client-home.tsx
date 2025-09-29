@@ -352,7 +352,7 @@ export default function ExistingClientHomePage() {
             <ProjectInfoHeader project={project} />
         </div>
         
-        <div className="hidden md:block bg-background p-6 rounded-[50px] mb-8">
+        <div className="hidden md:block mb-8">
             <ProjectInfoHeader project={project} />
         </div>
         
@@ -362,13 +362,13 @@ export default function ExistingClientHomePage() {
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                     >
                         Completed Stages
                     </Button>
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
                         Upcoming Stages
