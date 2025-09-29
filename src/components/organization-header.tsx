@@ -24,7 +24,7 @@ export const OrganizationHeader = () => {
     
     const userName = user?.name || 'User';
     const userTeam = user?.team || 'Team';
-    const userRoleType = user?.roleType ? ` - ${user.roleType.charAt(0).toUpperCase() + user.roleType.slice(1)}` : '';
+    const userRole = user?.role ? ` - ${user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()}` : '';
 
     let pageTitle = '';
 
@@ -46,7 +46,7 @@ export const OrganizationHeader = () => {
         pageTitle = 'Subscription management'
     } else if (pathname.includes('/profile')) {
         pageTitle = 'My Profile'
-    } else if (user?.roleType === 'client') {
+    } else if (user?.role === 'CLIENT') {
         if (pathname.includes('/packages')) {
             pageTitle = 'Packages';
         }
@@ -72,7 +72,7 @@ export const OrganizationHeader = () => {
         </div>
         <div className="hidden md:flex items-center gap-2 lg:gap-4">
             <NotificationPopover />
-            {user?.roleType !== 'client' && (
+            {user?.role !== 'CLIENT' && (
                 <>
                     <Link href={`/organization/${organizationId}/teams`}>
                         <Button className={cn(
@@ -90,7 +90,7 @@ export const OrganizationHeader = () => {
                         </Avatar>
                         <div className="hidden lg:block">
                             <p className="text-base lg:text-lg font-medium">{userName}</p>
-                            <p className="text-sm lg:text-base text-grey-2">{userTeam}{userRoleType}</p>
+                            <p className="text-sm lg:text-base text-grey-2">{userTeam}{userRole}</p>
                         </div>
                     </Link>
                 </>
@@ -109,7 +109,7 @@ export const OrganizationHeader = () => {
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-col gap-4 pt-8">
-                        {user?.roleType !== 'client' && (
+                        {user?.role !== 'CLIENT' && (
                             <>
                                 <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
                                     <Avatar className="h-[54px] w-[54px]">
@@ -118,7 +118,7 @@ export const OrganizationHeader = () => {
                                     </Avatar>
                                     <div>
                                         <p className="text-base font-medium">{userName}</p>
-                                        <p className="text-sm text-grey-2">{userTeam}{userRoleType}</p>
+                                        <p className="text-sm text-grey-2">{userTeam}{userRole}</p>
                                     </div>
                                 </Link>
                                 <Separator />

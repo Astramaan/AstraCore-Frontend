@@ -164,9 +164,9 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                                         <SelectValue placeholder="Select a role" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Super Admin">Super Admin</SelectItem>
-                                        <SelectItem value="Admin">Admin</SelectItem>
-                                        <SelectItem value="Member">Member</SelectItem>
+                                        <SelectItem value="SUPER_ADMIN">Super Admin</SelectItem>
+                                        <SelectItem value="ORG_ADMIN">Admin</SelectItem>
+                                        <SelectItem value="MEMBER">Member</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -214,7 +214,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const member = user; // Simplified for now.
 
     const isOwner = user?.userId === memberId;
-    const isSuperAdmin = user?.roleType === 'superAdmin';
+    const isSuperAdmin = user?.role === 'SUPER_ADMIN';
 
     const handleSave = (updatedMember: any) => {
         // Here you would refresh the user context or refetch data if needed

@@ -10,16 +10,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useUser();
+  const { user, loading, isClient } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user?.roleType === 'client') {
+    if (!loading && user && isClient) {
       router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, isClient]);
   
-  if (loading || !user || user.roleType === 'client') {
+  if (loading || !user || isClient) {
     return (
        <div className="min-h-screen bg-background p-4 md:p-8 2xl:p-10">
             <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">

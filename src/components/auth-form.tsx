@@ -28,11 +28,11 @@ export default function AuthForm() {
     // This effect handles redirection after the user state has been updated.
     if (!loading && user) {
         let targetPath;
-        if (user.roleType === 'superAdmin') {
+        if (user.role === 'SUPER_ADMIN') {
             targetPath = '/platform/dashboard';
         } else if (user.team === 'New User') {
             targetPath = `/organization/${user.organizationId}/client/new/${user.userId}/home`;
-        } else if (user.roleType === 'client') {
+        } else if (user.role === 'CLIENT') {
             targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
         } else {
             targetPath = `/organization/${user.organizationId}/home`;

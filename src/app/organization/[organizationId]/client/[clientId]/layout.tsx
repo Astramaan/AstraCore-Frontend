@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
-    const { user, loading } = useUser();
+    const { user, loading, isClient } = useUser();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -17,15 +17,15 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         if (!loading && user) {
-            if (user.roleType !== 'client') {
+            if (!isClient) {
                 router.replace(`/organization/${user.organizationId}/home`);
             }
         } else if (!loading && !user) {
             router.replace('/');
         }
-    }, [user, loading, router]);
+    }, [user, loading, router, isClient]);
     
-    if (loading || !user || user.roleType !== 'client') {
+    if (loading || !user || !isClient) {
          return (
             <div className="space-y-6 p-4">
                 <div className="flex justify-between items-center mb-6">

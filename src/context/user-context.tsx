@@ -12,8 +12,8 @@ interface User {
     mobileNumber: string;
     organizationId: string;
     orgCode: string;
-    team: string;
-    roleType: string;
+    team?: string;
+    roleType?: string;
 }
 
 interface UserContextType {
@@ -62,8 +62,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     window.location.href = '/';
   }
 
-  const isSuperAdmin = user?.roleType === 'superAdmin';
-  const isClient = user?.roleType === 'client';
+  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
+  const isClient = user?.role === 'CLIENT';
 
   useEffect(() => {
     if (!loading && !pathname.startsWith('/invite')) {
