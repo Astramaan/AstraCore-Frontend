@@ -34,6 +34,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, organizationId: string, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
@@ -218,6 +219,54 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
     </div>
 );
 
+const LeadCardSkeleton = () => (
+    <div className="flex flex-col">
+        <div className="hidden lg:block py-6 px-10">
+            <div className="grid lg:grid-cols-[1.2fr_1.5fr_1fr] items-center gap-6">
+                <div className="flex items-center gap-4">
+                    <Skeleton className="w-6 h-6 rounded-full" />
+                    <div className="space-y-2">
+                        <Skeleton className="h-6 w-40" />
+                        <Skeleton className="h-5 w-24" />
+                    </div>
+                </div>
+                <div className="space-y-2 border-l border-gray-200 px-6">
+                    <Skeleton className="h-5 w-full" />
+                    <Skeleton className="h-5 w-28" />
+                </div>
+                <div className="flex items-center justify-between border-l border-gray-200 px-6">
+                    <Skeleton className="h-14 w-32 rounded-full" />
+                    <Skeleton className="h-14 w-36 rounded-full" />
+                    <Skeleton className="h-8 w-8" />
+                </div>
+            </div>
+        </div>
+        <div className="block lg:hidden p-6">
+            <div className="flex items-start justify-between">
+                <div className="flex items-center gap-4">
+                    <Skeleton className="w-6 h-6 rounded-full" />
+                    <Skeleton className="h-6 w-32" />
+                </div>
+                <Skeleton className="h-8 w-8" />
+            </div>
+            <div className="mt-4 space-y-4">
+                <Skeleton className="h-5 w-full" />
+                <div className="grid grid-cols-2 gap-4">
+                    <Skeleton className="h-5 w-full" />
+                    <Skeleton className="h-5 w-full" />
+                </div>
+                <div className="flex gap-4 pt-2">
+                    <Skeleton className="h-12 w-full rounded-full" />
+                    <Skeleton className="h-12 w-full rounded-full" />
+                </div>
+            </div>
+        </div>
+        <div className="px-10">
+            <Separator />
+        </div>
+    </div>
+);
+
 
 const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMultiple, onBulkLevelChange }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void, onBulkLevelChange: (level: string) => void }) => {
     if (selectedCount === 0) return null;
@@ -245,7 +294,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
              <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
                     <Trash2 className="md:mr-2" />
-                    Delete
+                    <span className="hidden md:inline">Delete</span>
                 </Button>
             </AlertDialogTrigger>
         </div>
@@ -432,7 +481,7 @@ export default function LeadsPage() {
              <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
                 <div className="flex flex-col bg-white rounded-[30px] overflow-hidden">
                     {isLoading ? (
-                        <div className="text-center py-10">Loading leads...</div>
+                        Array.from({ length: 3 }).map((_, i) => <LeadCardSkeleton key={i} />)
                     ) : filteredLeads.length > 0 ? (
                         filteredLeads.map((lead, index) => (
                             <div key={lead.leadId}>

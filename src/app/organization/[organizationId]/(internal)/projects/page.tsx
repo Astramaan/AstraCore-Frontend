@@ -28,6 +28,7 @@ import { AvatarWithProgress } from "@/components/avatar-with-progress";
 import { useParams } from 'next/navigation';
 import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // The Project type for the frontend, adapted from the backend response
 export interface FrontendProject {
@@ -42,6 +43,52 @@ export interface FrontendProject {
     progress: number;
     projectType: 'New Construction' | 'Renovation' | 'Interior Design';
 }
+
+const ProjectListItemSkeleton = () => (
+    <div className="flex flex-col">
+        <div className="lg:hidden p-6 md:p-10 gap-4">
+            <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-4 w-full">
+                    <Skeleton className="w-14 h-14 rounded-full" />
+                    <div className="flex-1 space-y-2">
+                        <Skeleton className="h-6 w-3/4" />
+                        <Skeleton className="h-5 w-1/2" />
+                    </div>
+                </div>
+                <Skeleton className="w-8 h-8 rounded-full" />
+            </div>
+            <div className="mt-4 ml-18 grid grid-cols-2 gap-x-4 gap-y-2">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-full" />
+            </div>
+        </div>
+        <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 px-4">
+            <div className="flex items-center gap-4 w-full">
+                <Skeleton className="w-14 h-14 rounded-full" />
+                <div className="flex-1 space-y-2">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-5 w-1/2" />
+                </div>
+            </div>
+            <Separator orientation="vertical" className="self-stretch" />
+            <div className="flex flex-col justify-center gap-2">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-3/4" />
+            </div>
+            <Separator orientation="vertical" className="self-stretch" />
+            <div className="flex justify-between items-center">
+                <div className="space-y-2">
+                    <Skeleton className="h-5 w-28" />
+                    <Skeleton className="h-5 w-20" />
+                </div>
+                <Skeleton className="h-8 w-8" />
+            </div>
+        </div>
+        <Separator />
+    </div>
+);
 
 
 const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId, canManage }: { project: FrontendProject, onEdit: (project: FrontendProject) => void, onDelete: (project: FrontendProject) => void, isFirst?: boolean, isLast?: boolean, organizationId: string, canManage: boolean }) => (
@@ -198,10 +245,12 @@ export default function ProjectsPage() {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const [projectToDelete, setProjectToDelete] = useState<FrontendProject | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
 
     useEffect(() => {
         const fetchProjects = async () => {
+            setIsLoading(true);
             const result = await getProjects();
             if (result.success && result.data) {
                 const formattedProjects = result.data.map((p: any) => ({
@@ -224,6 +273,7 @@ export default function ProjectsPage() {
                     description: result.message || 'Failed to fetch projects'
                 });
             }
+            setIsLoading(false);
         };
         fetchProjects();
     }, [toast]);
@@ -303,7 +353,9 @@ export default function ProjectsPage() {
                 </div>
                 <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 lg:p-6">
-                        {activeProjects.length > 0 ? (
+                        {isLoading ? (
+                            Array.from({length: 3}).map((_, i) => <ProjectListItemSkeleton key={i} />)
+                        ) : activeProjects.length > 0 ? (
                             activeProjects.map((project, index) => (
                                 <ProjectListItem 
                                     key={project.id} 
@@ -330,7 +382,9 @@ export default function ProjectsPage() {
                 <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
                  <Card className="rounded-[40px] md:rounded-[50px]">
                     <CardContent className="p-0 lg:p-6">
-                       {completedProjects.length > 0 ? (
+                       {isLoading ? (
+                            Array.from({length: 1}).map((_, i) => <ProjectListItemSkeleton key={i} />)
+                       ) : completedProjects.length > 0 ? (
                             completedProjects.map((project, index) => (
                                 <ProjectListItem 
                                     key={project.id} 
