@@ -351,7 +351,22 @@ export default function ExistingClientHomePage() {
             <ProjectInfoHeader project={project}/>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4">
+        <div className="p-6 hidden lg:flex justify-between items-end bg-background">
+            <div>
+                <h3 className="text-lg font-semibold text-black text-shadow">Project Manager</h3>
+                <p className="text-black text-shadow">{project.pm}</p>
+            </div>
+            <div className="w-1/3">
+                <div className='flex justify-between items-center'>
+                    <p className="text-black text-right mb-1">Project Progress</p>
+                    <p className="text-black text-right mb-1">{project.progress}%</p>
+                </div>
+                <Progress value={project.progress} className="w-full" />
+            </div>
+        </div>
+
+
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-0">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -413,7 +428,7 @@ export default function ExistingClientHomePage() {
     />
      <ImagePreviewDialog 
         open={previewState.open}
-        onOpenChange={(open) => !open && closeImagePreview()}
+        onOpenChange={(open) => !open && closePreview()}
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"
@@ -433,3 +448,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
