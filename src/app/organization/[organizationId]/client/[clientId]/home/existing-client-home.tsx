@@ -349,73 +349,63 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 md:hidden">
-            <ProjectInfoHeader project={project}>
-                 <div className="p-4 bg-white lg:hidden">
-                    <ClientHeader />
-                 </div>
-            </ProjectInfoHeader>
-        </div>
-        <div className="hidden lg:block sticky top-0 z-10 bg-background mb-8">
-             <div className="p-4 bg-white">
-                <ClientHeader />
-            </div>
-        </div>
-        
+      <div className="relative mb-8 md:hidden">
+        <ProjectInfoHeader project={project} />
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0">
-            {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
-                 <div className="mb-6 flex flex-row gap-4 justify-between">
-                    <Button
-                        variant="outline"
-                        onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
-                    >
-                        Completed Stages
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
-                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
-                    >
-                        Upcoming Stages
-                    </Button>
-                </div>
-                <div className="relative pb-4">
-                    {recentlyCompletedTasks.length > 0 && (
-                        <div className="mb-8">
-                            <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                {recentlyCompletedTasks.map((stage, index) => (
-                                    <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
-                                ))}
-                            </div>
-                            <Separator className="my-8" />
-                        </div>
-                    )}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {timeline.map((stage, index) => (
-                            <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
-                        ))}
-                    </div>
-                </div>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0">
+          {/* Timeline */}
+          <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
+              <div className="mb-6 flex flex-row gap-4 justify-between">
+                  <Button
+                      variant="outline"
+                      onClick={() => setIsCompletedTasksSheetOpen(true)}
+                      className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                  >
+                      Completed Stages
+                  </Button>
+                  <Button
+                      variant="outline"
+                      className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                      onClick={() => setIsUpcomingTasksSheetOpen(true)}
+                  >
+                      Upcoming Stages
+                  </Button>
+              </div>
+              <div className="relative pb-4">
+                  {recentlyCompletedTasks.length > 0 && (
+                      <div className="mb-8">
+                          <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                              {recentlyCompletedTasks.map((stage, index) => (
+                                  <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                              ))}
+                          </div>
+                          <Separator className="my-8" />
+                      </div>
+                  )}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {timeline.map((stage, index) => (
+                          <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                      ))}
+                  </div>
+              </div>
+          </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 md:px-0">
-                 <div className="flex flex-col gap-4">
-                    <PaymentsDialog>
-                       <PaymentCard />
-                    </PaymentsDialog>
-                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                     <SitePhotos 
-                        onViewMore={() => setIsGalleryOpen(true)}
-                        onImageClick={openImagePreview}
-                        siteImages={project.siteImages}
-                    />
-                </div>
-            </aside>
-        </div>
+          <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
+              <div className="flex flex-col gap-4">
+                  <PaymentsDialog>
+                      <PaymentCard />
+                  </PaymentsDialog>
+                  <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                  <SitePhotos 
+                      onViewMore={() => setIsGalleryOpen(true)}
+                      onImageClick={openImagePreview}
+                      siteImages={project.siteImages}
+                  />
+              </div>
+          </aside>
+      </div>
     </main>
     <ImageGallerySheet
         open={isGalleryOpen}
@@ -445,4 +435,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-

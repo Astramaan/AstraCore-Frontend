@@ -52,7 +52,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     
     return (
         <div className="min-h-screen bg-background relative">
-            <header className="hidden lg:block sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+            <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
               <ClientHeader />
             </header>
             <main className={cn(
