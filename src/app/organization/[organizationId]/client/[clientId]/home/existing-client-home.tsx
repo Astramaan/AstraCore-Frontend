@@ -348,13 +348,16 @@ export default function ExistingClientHomePage() {
   return (
     <>
       <main>
-        <div className="relative mb-8">
+        <div className="relative mb-8 md:hidden">
             <ProjectInfoHeader project={project} />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8">
-            {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
+        <div className="hidden md:block bg-background p-6 rounded-[50px] mb-8">
+            <ProjectInfoHeader project={project} />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-5 2xl:grid-cols-6 gap-8">
+            <div className="md:col-span-3 2xl:col-span-4 order-2 md:order-1">
                 <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
@@ -375,7 +378,7 @@ export default function ExistingClientHomePage() {
                     {recentlyCompletedTasks.length > 0 && (
                         <div className="mb-8">
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
                                     <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                                 ))}
@@ -383,7 +386,7 @@ export default function ExistingClientHomePage() {
                             <Separator className="my-8" />
                         </div>
                     )}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                         ))}
@@ -391,7 +394,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
+            <aside className="md:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-1 md:order-2 2xl:w-[420px] 2xl:ml-auto">
                 <div className="flex flex-col gap-4">
                     <PaymentsDialog>
                         <PaymentCard />
@@ -434,5 +437,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-    
