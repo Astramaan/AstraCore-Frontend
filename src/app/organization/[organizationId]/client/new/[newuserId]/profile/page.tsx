@@ -1,6 +1,6 @@
 
 import React, { Suspense } from 'react';
-import ClientProfilePageContent from '@/app/organization/[organizationId]/client/[clientId]/profile/client-profile-page-content';
+import ClientProfilePageContent from '../../../[clientId]/profile/client-profile-page-content';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function NewClientProfilePage() {
