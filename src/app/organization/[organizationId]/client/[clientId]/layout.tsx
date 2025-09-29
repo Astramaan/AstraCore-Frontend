@@ -57,7 +57,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
             </header>
             <main className={cn(
                 "w-full flex-1 bg-background",
-                !isLivePage && "pb-32"
+                !isLivePage && "pb-32",
+                "px-0 sm:px-4"
             )}>
                 {children}
             </main>
