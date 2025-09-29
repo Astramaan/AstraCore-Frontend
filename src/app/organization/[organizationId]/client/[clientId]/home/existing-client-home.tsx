@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -349,7 +348,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 block lg:hidden">
+       <div className="relative mb-8 block md:hidden">
             <ProjectInfoHeader project={project}>
                  <div className="p-4 bg-white">
                     <ClientHeader />
@@ -357,7 +356,7 @@ export default function ExistingClientHomePage() {
             </ProjectInfoHeader>
         </div>
         
-        <div className="hidden lg:flex justify-between items-end p-6 bg-background">
+        <div className="hidden md:flex justify-between items-end p-6 bg-background">
             <div>
                 <h3 className="text-lg font-semibold text-black text-shadow">Project Manager</h3>
                 <p className="text-black text-shadow">{project.pm}</p>
