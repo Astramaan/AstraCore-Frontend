@@ -48,18 +48,6 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
                             <h3 className="text-2xl font-bold text-white text-shadow">{project.name}</h3>
                             <p className="text-white text-shadow">{project.id}</p>
                         </div>
-                         {project.pm && (
-                            <div className="flex items-center gap-2 text-white">
-                                <Avatar className="h-8 w-8">
-                                    <AvatarImage src={project.profileImage} />
-                                    <AvatarFallback>{pmInitials}</AvatarFallback>
-                                </Avatar>
-                                <div className="text-right">
-                                    <p className="text-xs">Project Manager</p>
-                                    <p className="font-semibold text-sm">{project.pm}</p>
-                                </div>
-                            </div>
-                        )}
                     </div>
                      <div className="bg-black/20 backdrop-blur-sm p-3 rounded-full">
                         <div className="flex items-center gap-4">
@@ -72,3 +60,4 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
         </div>
     );
 };
+
