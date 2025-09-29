@@ -356,14 +356,14 @@ export default function ExistingClientHomePage() {
                  </div>
             </ProjectInfoHeader>
         </div>
-        <div className="hidden md:block sticky top-0 z-10 bg-background mb-8">
+        <div className="hidden md:block sticky top-0 z-10 bg-background mb-8 lg:hidden">
              <div className="p-4 bg-white">
                 <ClientHeader />
             </div>
         </div>
         
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0 md:px-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -445,4 +445,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
 
