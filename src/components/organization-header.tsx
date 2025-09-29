@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
-import { Users, Menu } from 'lucide-react';
+import { Users, Menu, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -19,7 +19,7 @@ export const OrganizationHeader = () => {
     const pathname = usePathname();
     const params = useParams();
     const organizationId = params.organizationId as string;
-    const { user } = useUser();
+    const { user, logout } = useUser();
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     
     const userName = user?.name || 'User';
@@ -108,31 +108,39 @@ export const OrganizationHeader = () => {
                     <SheetHeader>
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
-                    <div className="flex flex-col gap-4 pt-8">
-                        {user?.role !== 'CLIENT' && (
-                            <>
-                                <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
-                                    <Avatar className="h-[54px] w-[54px]">
-                                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                                        <AvatarFallback>{userInitials}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <p className="text-base font-medium">{userName}</p>
-                                        <p className="text-sm text-grey-2">{userTeam}{userRole}</p>
-                                    </div>
-                                </Link>
-                                <Separator />
-                                <Link href={`/organization/${organizationId}/teams`} onClick={() => setIsSheetOpen(false)}>
-                                <Button className={cn(
-                                    "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
-                                    isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
-                                )}>
-                                    <TeamIcon className="mr-2 h-6 w-6"/>
-                                    <span>{teamsButtonText}</span>
-                                </Button>
-                                </Link>
-                            </>
-                        )}
+                    <div className="flex flex-col h-full">
+                        <div className="flex-1 space-y-4 pt-8">
+                            {user?.role !== 'CLIENT' && (
+                                <>
+                                    <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
+                                        <Avatar className="h-[54px] w-[54px]">
+                                            <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                                            <AvatarFallback>{userInitials}</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <p className="text-base font-medium">{userName}</p>
+                                            <p className="text-sm text-grey-2">{userTeam}{userRole}</p>
+                                        </div>
+                                    </Link>
+                                    <Separator />
+                                    <Link href={`/organization/${organizationId}/teams`} onClick={() => setIsSheetOpen(false)}>
+                                    <Button className={cn(
+                                        "rounded-full h-12 w-full justify-start px-4 text-base font-medium flex items-center",
+                                        isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
+                                    )}>
+                                        <TeamIcon className="mr-2 h-6 w-6"/>
+                                        <span>{teamsButtonText}</span>
+                                    </Button>
+                                    </Link>
+                                </>
+                            )}
+                        </div>
+                        <div className="mt-auto">
+                            <Button variant="outline" onClick={logout} className="w-full justify-center rounded-full h-12 text-base text-destructive hover:bg-destructive/10 hover:text-destructive">
+                                <LogOut className="mr-2 h-5 w-5" />
+                                Logout
+                            </Button>
+                        </div>
                     </div>
                 </SheetContent>
             </Sheet>
