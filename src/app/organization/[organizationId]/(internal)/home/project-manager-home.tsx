@@ -99,14 +99,14 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 onClick={onOpenCompletedTasks}
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
             >
-                View Project Completed Tasks
+                Completed Stages
             </Button>
             <Button
                 variant="outline"
                 className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                 onClick={onOpenUpcomingTasks}
             >
-                View Project Upcoming Tasks
+                Upcoming Stages
             </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
@@ -273,7 +273,5 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-    
 
     
