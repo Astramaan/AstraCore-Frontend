@@ -17,6 +17,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
 
     const isLivePage = pathname.includes('/live');
 
+    /*
     useEffect(() => {
         if (!loading && user) {
             if (!isClient) {
@@ -26,6 +27,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
             router.replace('/');
         }
     }, [user, loading, router, isClient]);
+    */
     
     if (loading || !user || !isClient) {
          return (

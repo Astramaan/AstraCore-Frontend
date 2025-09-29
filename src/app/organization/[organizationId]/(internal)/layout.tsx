@@ -13,11 +13,13 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   const { user, loading, isClient } = useUser();
   const router = useRouter();
 
+  /*
   useEffect(() => {
     if (!loading && user && isClient) {
       router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
     }
   }, [user, loading, router, isClient]);
+  */
   
   if (loading || !user || isClient) {
     return (

@@ -13,11 +13,13 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
   const router = useRouter();
   const params = useParams();
   
+  /*
   useEffect(() => {
     if (!loading && user && user.team !== 'New User') {
       router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
     }
   }, [user, loading, router]);
+  */
   
   if (loading || (user && user.team !== 'New User')) {
     return (
