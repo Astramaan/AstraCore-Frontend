@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import * as React from "react";
@@ -9,6 +10,18 @@ import { motion } from 'framer-motion';
 interface ProjectTimelineChartProps {
     data: { name: string; value: number, fill: string }[];
 }
+
+const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="bg-white p-2 border rounded-lg shadow-lg">
+                <p className="font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
+            </div>
+        );
+    }
+    return null;
+};
+
 
 const renderLegend = (props: any) => {
     const { payload } = props;
@@ -60,7 +73,7 @@ export function ProjectTimelineChart({ data }: ProjectTimelineChartProps) {
                                         <Cell key={`cell-${index}`} fill={entry.fill} />
                                     ))}
                                 </Pie>
-                                <Tooltip />
+                                <Tooltip content={<CustomTooltip />} />
                                 <Legend 
                                     content={renderLegend}
                                     verticalAlign="bottom"
