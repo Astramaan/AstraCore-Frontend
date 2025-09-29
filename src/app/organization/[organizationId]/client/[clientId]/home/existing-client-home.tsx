@@ -354,23 +354,23 @@ export default function ExistingClientHomePage() {
             </ProjectInfoHeader>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0 md:px-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
+            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                     >
-                        View Completed Tasks
+                        Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Tasks
+                        Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">
@@ -393,7 +393,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
+            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                  <div className="flex flex-col gap-4">
                     <PaymentsDialog>
                        <PaymentCard />
@@ -436,7 +436,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-    
-
-    
