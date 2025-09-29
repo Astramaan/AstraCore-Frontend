@@ -20,7 +20,8 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
       router.replace('/');
       return;
     }
-
+    
+    // This check is now primarily handled in the UserProvider for robustness
     if (isClient) {
       router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
       return;
@@ -39,9 +40,6 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
         </div>
     );
   }
-  
-  const shouldShowOrgNav = !isClient;
-
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,7 +51,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
         <main className="max-w-[1440px] 2xl:max-w-none w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 py-4 px-4 md:px-8 2xl:px-10 space-y-6">
             {children}
         </main>
-        {shouldShowOrgNav && <OrganizationBottomNav />}
+        <OrganizationBottomNav />
     </div>
   );
 }
