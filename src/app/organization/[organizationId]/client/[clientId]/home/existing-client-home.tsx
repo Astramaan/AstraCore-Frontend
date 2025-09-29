@@ -356,22 +356,16 @@ export default function ExistingClientHomePage() {
                  </div>
             </ProjectInfoHeader>
         </div>
-        
-        <div className="hidden md:flex justify-between items-end p-6 bg-background">
-            <div>
-                <h3 className="text-lg font-semibold text-black text-shadow">Project Manager</h3>
-                <p className="text-black text-shadow">{project.pm}</p>
-            </div>
-            <div className="w-1/3">
-                <div className='flex justify-between items-center'>
-                    <p className="text-black text-right mb-1">Project Progress</p>
-                    <p className="text-black text-right mb-1">{project.progress}%</p>
+        <div className="hidden md:block">
+             <ProjectInfoHeader project={project}>
+                <div className="p-4">
+                    <ClientHeader />
                 </div>
-                <Progress value={project.progress} className="w-full" />
-            </div>
+            </ProjectInfoHeader>
         </div>
+        
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0 md:px-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
