@@ -1,12 +1,9 @@
 
-'use client';
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
 
 const packages = [
     {
@@ -84,10 +81,8 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
     </Card>
 );
 
-export default function PackagesPage() {
-    const params = useParams();
-    const organizationId = params.organizationId as string;
-    const newuserId = params.newuserId as string;
+export default function PackagesPage({ params }: { params: { organizationId: string; newuserId: string } }) {
+    const { organizationId, newuserId } = params;
 
     return (
         <div className="bg-background min-h-screen">
