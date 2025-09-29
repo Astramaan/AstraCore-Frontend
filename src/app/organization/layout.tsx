@@ -9,20 +9,24 @@ function OrganizationLayoutContent({ children }: { children: React.ReactNode }) 
   const { user, loading } = useUser();
   const router = useRouter();
 
+  /*
   useEffect(() => {
     if (!loading && !user) {
       router.replace('/');
     }
   }, [user, loading, router]);
+  */
 
 
   if (loading) {
     return <div>Loading...</div>;
   }
   
+  /*
   if (!user) {
     return null;
   }
+  */
 
   return (
     <div className="min-h-screen bg-background">
