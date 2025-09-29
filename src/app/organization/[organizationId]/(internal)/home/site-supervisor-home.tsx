@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -70,8 +71,8 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-full px-6 py-4 flex justify-between items-center gap-4">
+        <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Project Manager</p>
                 <p className="font-semibold">{project.projectManager}</p>
@@ -83,7 +84,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-full py-4 px-6 flex justify-between items-center gap-4">
+            <div className="bg-white rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -271,4 +272,5 @@ export default function SiteSupervisorHome() {
 
     
 
+    
     
