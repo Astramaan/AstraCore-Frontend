@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { Suspense } from 'react';
@@ -34,7 +35,11 @@ function ClientHomePage() {
       return <NewUserHomePage params={{ organizationId: params.organizationId as string, userId: user.userId }} />;
   }
   
-  return <ExistingClientHomePage />;
+  return (
+    <main className="p-0 md:p-8">
+      <ExistingClientHomePage />
+    </main>
+  );
 }
 
 export default function ClientHomePageWrapper() {

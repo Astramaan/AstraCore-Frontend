@@ -15,7 +15,7 @@ import { Separator } from '@/components/ui/separator';
 import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
-import { StageCard } from '@/components/stage-card';
+import { StageCard, TimelineStage as StageType } from '@/components/stage-card';
 import { useUser } from '@/context/user-context';
 import { RaiseIssueSheet } from '@/components/raise-issue-sheet';
 
@@ -85,8 +85,8 @@ export default function ClientStagesPage() {
         setOpenStageId(prevId => (prevId === stageId ? null : stageId));
     };
 
-    const handleRaiseIssue = (stage: TimelineStage) => {
-        setStageForIssue(stage);
+    const handleRaiseIssue = (stage: StageType) => {
+        setStageForIssue(stage as TimelineStage);
         setIsRaiseIssueSheetOpen(true);
     };
 
@@ -126,9 +126,9 @@ export default function ClientStagesPage() {
                                 {recentlyCompletedTasks.map((stage, index) => (
                                     <StageCard 
                                         key={index} 
-                                        stage={stage} 
-                                        onReopen={handleReopenTask} 
-                                        onRaiseIssue={handleRaiseIssue}
+                                        stage={stage as StageType} 
+                                        onReopen={() => handleReopenTask(stage)}
+                                        onRaiseIssue={() => handleRaiseIssue(stage as StageType)}
                                         isOpen={openStageId === stage.id}
                                         onToggle={() => handleToggleStage(stage.id)}
                                     />
@@ -141,9 +141,9 @@ export default function ClientStagesPage() {
                         {timeline.map((stage, index) => (
                              <StageCard 
                                 key={index} 
-                                stage={stage} 
-                                onReopen={handleReopenTask} 
-                                onRaiseIssue={handleRaiseIssue}
+                                stage={stage as StageType} 
+                                onReopen={() => handleReopenTask(stage)} 
+                                onRaiseIssue={() => handleRaiseIssue(stage as StageType)}
                                 isOpen={openStageId === stage.id}
                                 onToggle={() => handleToggleStage(stage.id)}
                             />
