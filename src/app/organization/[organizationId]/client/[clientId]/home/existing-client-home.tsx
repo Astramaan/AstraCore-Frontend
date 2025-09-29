@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -369,7 +370,6 @@ export default function ExistingClientHomePage() {
                 <Progress value={project.progress} className="w-full" />
             </div>
         </div>
-
 
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
