@@ -21,6 +21,8 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ClientHeader } from '@/components/client-header';
+import { HabiLogo } from '@/components/habi-logo';
 
 
 interface TimelineStage {
@@ -347,11 +349,15 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 block lg:hidden">
-            <ProjectInfoHeader project={project}/>
+       <div className="relative mb-8 block md:hidden">
+            <ProjectInfoHeader project={project}>
+                 <div className="p-4 bg-white md:hidden">
+                    <ClientHeader />
+                 </div>
+            </ProjectInfoHeader>
         </div>
-
-        <div className="p-6 hidden lg:flex justify-between items-end bg-background">
+        
+        <div className="hidden md:flex justify-between items-end p-6 bg-background">
             <div>
                 <h3 className="text-lg font-semibold text-black text-shadow">Project Manager</h3>
                 <p className="text-black text-shadow">{project.pm}</p>
@@ -366,7 +372,7 @@ export default function ExistingClientHomePage() {
         </div>
 
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8">
             {/* Timeline */}
             <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                  <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -428,7 +434,7 @@ export default function ExistingClientHomePage() {
     />
      <ImagePreviewDialog 
         open={previewState.open}
-        onOpenChange={(open) => !open && closePreview()}
+        onOpenChange={(open) => !open && closeImagePreview()}
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"
