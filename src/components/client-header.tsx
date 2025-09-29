@@ -7,10 +7,11 @@ import { useUser } from '@/context/user-context';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { Skeleton } from './ui/skeleton';
 
 export const ClientHeader = () => {
     const pathname = usePathname();
-    const { user } = useUser();
+    const { user, loading } = useUser();
     const [pageTitle, setPageTitle] = useState('');
     
     const userName = user?.name || 'User';
@@ -21,10 +22,10 @@ export const ClientHeader = () => {
             const isNewUser = user.team === 'New User';
             
             if (pathname.includes('/home')) {
-                setPageTitle(isNewUser ? '' : 'Home');
+                setPageTitle(''); // No title for home on mobile
             } else if (pathname.includes('/packages')) {
                 setPageTitle('Packages');
-            } else if (pathname.includes('/project')) {
+            } else if (pathname.includes('/projects')) {
                 setPageTitle('My Project');
             } else if (pathname.includes('/profile')) {
                 setPageTitle('Profile');
@@ -35,6 +36,15 @@ export const ClientHeader = () => {
             }
         }
     }, [user, pathname]);
+
+    if (loading) {
+        return (
+            <div className="flex flex-row justify-between items-center w-full gap-4">
+                <Skeleton className="h-10 w-24" />
+                <Skeleton className="h-12 w-12 rounded-full" />
+            </div>
+        )
+    }
 
 
     return (
@@ -50,27 +60,18 @@ export const ClientHeader = () => {
                     </>
                 )}
             </div>
-
-            <div className="hidden md:flex items-center gap-2 ml-auto">
-                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
+            
+            <div className="flex items-center gap-4 ml-auto">
+                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-12 w-12">
                         <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                     </Avatar>
                 </Link>
-                <div className="text-left">
+                <div className="text-left hidden md:block">
                     <p className="font-semibold">{user?.name}</p>
                     <p className="text-sm text-muted-foreground">{user?.email}</p>
                 </div>
-            </div>
-
-             <div className="md:hidden flex items-center gap-4 ml-auto">
-                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
-                    <Avatar className="h-[54px] w-[54px]">
-                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
-                        <AvatarFallback>{userInitials}</AvatarFallback>
-                    </Avatar>
-                </Link>
             </div>
         </header>
     );
