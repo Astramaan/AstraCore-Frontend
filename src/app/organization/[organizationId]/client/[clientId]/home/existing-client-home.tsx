@@ -281,7 +281,7 @@ export default function ExistingClientHomePage() {
     id: 'RABE0001',
     progress: 70,
     daysLeft: 180,
-    coverImage: 'https://picsum.photos/seed/p-cover/1440/480',
+    coverImage: 'https://images.unsplash.com/photo-1627141234469-24711efb373c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8TW9kZXJuJTIwaG91c2V8ZW58MHx8fHwxNzU5MTI1MDI4fDA&ixlib=rb-4.1.0&q=80&w=1080',
     profileImage: 'https://placehold.co/60x60',
     pmPhoneNumber: '9876543210',
     siteImages: [
@@ -436,3 +436,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    
