@@ -137,7 +137,7 @@ export default function ArchitectHome() {
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
 
-    const canAssignTask = user?.roleType === 'superAdmin';
+    const canAssignTask = user?.role === 'SUPER_ADMIN';
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {

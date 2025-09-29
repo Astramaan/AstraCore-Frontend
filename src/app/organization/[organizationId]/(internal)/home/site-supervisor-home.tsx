@@ -138,7 +138,7 @@ export default function SiteSupervisorHome() {
     const [isSnagListSheetOpen, setIsSnagListSheetOpen] = useState(false);
     const [isAddSnagSheetOpen, setIsAddSnagSheetOpen] = useState(false);
 
-    const canAssignTask = user?.roleType === 'superAdmin';
+    const canAssignTask = user?.role === 'SUPER_ADMIN';
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {

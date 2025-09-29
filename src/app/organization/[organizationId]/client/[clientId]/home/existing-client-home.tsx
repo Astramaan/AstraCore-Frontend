@@ -360,14 +360,14 @@ export default function ExistingClientHomePage() {
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                     >
-                        View Completed Tasks
+                        Completed Stages
                     </Button>
                     <Button
                         variant="outline"
                         className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
-                        View Upcoming Tasks
+                        Upcoming Stages
                     </Button>
                 </div>
                 <div className="relative pb-4">

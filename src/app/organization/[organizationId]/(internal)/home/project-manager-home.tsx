@@ -129,7 +129,7 @@ export default function ProjectManagerHome() {
     const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
     const [sourceSheet, setSourceSheet] = useState<'upcoming' | 'completed' | null>(null);
     
-    const canManageMembers = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
+    const canManageMembers = user?.role === 'SUPER_ADMIN' || user?.team === 'Project Manager';
 
     const handleStageClick = (stage: Stage) => {
         const task: Task = {
