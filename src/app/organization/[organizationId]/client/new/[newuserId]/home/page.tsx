@@ -1,3 +1,4 @@
+
 import React, { Suspense } from 'react';
 import NewUserHomePage from './new-user-home';
 import { Skeleton } from '@/components/ui/skeleton';
