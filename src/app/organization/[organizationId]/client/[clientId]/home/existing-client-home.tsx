@@ -351,9 +351,8 @@ export default function ExistingClientHomePage() {
         <div className="relative mb-8 md:hidden">
             <ProjectInfoHeader project={project} />
         </div>
-        
-        <div className="hidden md:block mb-8">
-            <ProjectInfoHeader project={project} />
+        <div className="hidden md:block bg-background p-6 rounded-[50px] mb-8">
+             <ProjectInfoHeader project={project} />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-5 2xl:grid-cols-6 gap-8">
@@ -378,7 +377,7 @@ export default function ExistingClientHomePage() {
                     {recentlyCompletedTasks.length > 0 && (
                         <div className="mb-8">
                             <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {recentlyCompletedTasks.map((stage, index) => (
                                     <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                                 ))}
@@ -386,7 +385,7 @@ export default function ExistingClientHomePage() {
                             <Separator className="my-8" />
                         </div>
                     )}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
                         {timeline.map((stage, index) => (
                             <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
                         ))}
