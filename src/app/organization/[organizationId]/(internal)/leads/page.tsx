@@ -484,21 +484,20 @@ export default function LeadsPage() {
                         Array.from({ length: 3 }).map((_, i) => <LeadCardSkeleton key={i} />)
                     ) : filteredLeads.length > 0 ? (
                         filteredLeads.map((lead, index) => (
-                            <div key={lead.leadId}>
-                                <LeadCard 
-                                    lead={lead} 
-                                    organizationId={organizationId}
-                                    onSelectionChange={handleSelectionChange}
-                                    isSelected={selectedLeads.includes(lead.leadId)}
-                                    onSingleDelete={handleSingleDelete}
-                                    onContact={handleContact}
-                                    onViewDetails={handleViewDetails}
-                                    onLevelChange={handleLevelChange}
-                                    onEdit={handleEdit}
-                                    isFirst={index === 0}
-                                    isLast={index === filteredLeads.length - 1}
-                                />
-                            </div>
+                            <LeadCard 
+                                key={`${lead.leadId}-${index}`} 
+                                lead={lead} 
+                                organizationId={organizationId}
+                                onSelectionChange={handleSelectionChange}
+                                isSelected={selectedLeads.includes(lead.leadId)}
+                                onSingleDelete={handleSingleDelete}
+                                onContact={handleContact}
+                                onViewDetails={handleViewDetails}
+                                onLevelChange={handleLevelChange}
+                                onEdit={handleEdit}
+                                isFirst={index === 0}
+                                isLast={index === filteredLeads.length - 1}
+                            />
                         ))
                     ) : (
                         <div className="text-center py-10 text-muted-foreground">
