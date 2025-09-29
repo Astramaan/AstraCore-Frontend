@@ -1,19 +1,11 @@
 
-'use client';
-
 import React, { Suspense } from 'react';
-import ExistingClientHomePage from './existing-client-home';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useUser } from '@/context/user-context';
-import NewUserHomePage from './new-user-home';
-import { useParams } from 'next/navigation';
+import ClientHomePageContent from './client-home-page-content';
 
-function ClientHomePageContent() {
-  const { user, loading } = useUser();
-  const params = useParams();
-  
-  if (loading || !user) {
-      return (
+export default function ClientHomePageWrapper() {
+    return (
+        <Suspense fallback={
             <div className="space-y-6 p-4">
                 <Skeleton className="h-80 w-full rounded-b-[50px] md:rounded-[50px]" />
                 <div className="space-y-4">
@@ -28,28 +20,13 @@ function ClientHomePageContent() {
                     </div>
                 </div>
             </div>
-      );
-  }
-  
-  if (user.team === 'New User') {
-      return <NewUserHomePage params={{ organizationId: params.organizationId as string, userId: user.userId }} />;
-  }
-  
-  return (
-      <ExistingClientHomePage />
-  );
-}
-
-export default function ClientHomePageWrapper() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
+        }>
             <ClientHomePageContent />
         </Suspense>
     );
 }
 
 export function generateStaticParams() {
-  // In a real app, you would fetch this data from a database or API
   return [
     { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', clientId: '8c26c0b3032ecc4f' },
     { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', clientId: '1e17e76f2486e270' },

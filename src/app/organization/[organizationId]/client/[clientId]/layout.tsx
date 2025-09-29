@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useEffect } from 'react';
@@ -7,6 +8,7 @@ import { UserProvider, useUser } from '@/context/user-context';
 import { useRouter, usePathname } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { ClientHeader } from '@/components/client-header';
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading, isClient } = useUser();
@@ -50,6 +52,8 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     
     return (
         <div className="min-h-screen bg-background relative">
+            <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+            </header>
             <main className={cn(
                 "w-full flex-1 bg-background",
                 !isLivePage && "pb-32"

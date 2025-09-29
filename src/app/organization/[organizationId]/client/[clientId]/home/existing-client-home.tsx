@@ -348,7 +348,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 md:block hidden lg:hidden">
+       <div className="relative mb-8 md:hidden lg:block">
             <ProjectInfoHeader project={project}/>
         </div>
 
@@ -434,4 +434,6 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+
 
