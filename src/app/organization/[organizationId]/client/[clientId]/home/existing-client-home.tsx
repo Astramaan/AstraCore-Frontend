@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
-import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
@@ -367,9 +366,9 @@ export default function ExistingClientHomePage() {
             </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-0">
+        <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8">
             {/* Timeline */}
-            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
+            <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                 <div className="mb-6 flex flex-row gap-4 justify-between">
                     <Button
                         variant="outline"
@@ -406,7 +405,7 @@ export default function ExistingClientHomePage() {
                 </div>
             </div>
 
-            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
+            <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                 <div className="flex flex-col gap-4">
                     <PaymentsDialog>
                         <PaymentCard />
