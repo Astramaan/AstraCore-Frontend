@@ -349,19 +349,17 @@ export default function ExistingClientHomePage() {
   return (
     <>
     <main>
-       <div className="relative mb-8 block md:hidden">
+       <div className="relative mb-8 md:hidden">
             <ProjectInfoHeader project={project}>
                  <div className="p-4 bg-white">
                     <ClientHeader />
                  </div>
             </ProjectInfoHeader>
         </div>
-        <div className="hidden md:block">
-             <ProjectInfoHeader project={project}>
-                <div className="p-4 bg-white">
-                    <ClientHeader />
-                </div>
-            </ProjectInfoHeader>
+        <div className="hidden md:block sticky top-0 z-10 bg-background mb-8">
+             <div className="p-4 bg-white">
+                <ClientHeader />
+            </div>
         </div>
         
 
