@@ -1,3 +1,4 @@
+
 import React, { Suspense } from 'react';
 import ClientProfilePageContent from '@/app/organization/[organizationId]/client/[clientId]/profile/client-profile-page-content';
 import { Skeleton } from '@/components/ui/skeleton';
