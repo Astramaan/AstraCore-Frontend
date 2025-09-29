@@ -13,7 +13,13 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
   const router = useRouter();
   const params = useParams();
   
-  if (loading) {
+  useEffect(() => {
+    if (!loading && user && user.team !== 'New User') {
+      router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
+    }
+  }, [user, loading, router]);
+  
+  if (loading || (user && user.team !== 'New User')) {
     return (
         <div className="min-h-screen bg-background p-4 2xl:p-10">
             <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">
@@ -24,12 +30,6 @@ export default function NewUserLayout({ children }: { children: React.ReactNode 
             </main>
         </div>
     );
-  }
-
-  // This layout is only for 'New User' team. Redirect if not.
-  if (user && user.team !== 'New User') {
-      router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
-      return null;
   }
 
   return (
