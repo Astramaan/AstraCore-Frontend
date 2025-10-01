@@ -16,13 +16,3 @@ export default function NewUserHomePageWrapper({ params }: { params: { organizat
     );
 }
 
-
-export function generateStaticParams() {
-  return [
-    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', newuserId: 'newUser1' },
-    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', newuserId: 'newUser2' },
-    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', newuserId: '1e17e76f2486e270' },
-    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', newuserId: 'client123' },
-  ];
-}
-

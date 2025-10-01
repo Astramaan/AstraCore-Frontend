@@ -16,10 +16,3 @@ export default function ClientProfilePage() {
         </Suspense>
     );
 }
-
-export function generateStaticParams() {
-  return [
-    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', clientId: '8c26c0b3032ecc4f' },
-    { organizationId: 'ORG-f9705032-d42a-46df-b799-87bcda629142', clientId: '1e17e76f2486e270' },
-  ];
-}
