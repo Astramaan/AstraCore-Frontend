@@ -2,7 +2,9 @@
 import { type NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  experimental: {},
+  experimental: {
+    allowedDevOrigins: ["https://6000-firebase-studio-1755838622226.cluster-nle52mxuvfhlkrzyrq6g2cwb52.cloudworkstations.dev"],
+  },
   transpilePackages: ['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons'],
   images: {
     unoptimized: true,
