@@ -1,6 +1,5 @@
 
-import { NextResponse } from "next/server";
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from 'next/headers';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
@@ -26,9 +25,9 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { projectId: string; meetingId: string } }
+  context: { params: { projectId: string; meetingId: string } }
 ) {
-  const { projectId, meetingId } = params;
+  const { projectId, meetingId } = context.params;
   try {
     const authHeaders = getAuthHeadersFromCookie();
     if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
@@ -71,9 +70,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { projectId: string; meetingId: string } }
+  context: { params: { projectId: string; meetingId: string } }
 ) {
-  const { projectId, meetingId } = params;
+  const { projectId, meetingId } = context.params;
   try {
     const authHeaders = getAuthHeadersFromCookie();
     if (Object.keys(authHeaders).length === 0 || !authHeaders['x-user-id']) {
