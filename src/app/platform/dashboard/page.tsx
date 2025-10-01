@@ -6,7 +6,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare, Bell } from 'lucide-react';
+import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare, Bell, TrendingUp, TrendingDown, Devices } from 'lucide-react';
 import { RevenueChart } from '@/components/charts/revenue-chart';
 import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
@@ -15,7 +15,6 @@ import Link from 'next/link';
 import { InviteUserSheet } from '@/components/invite-user-sheet';
 import NotificationBellIcon from '@/components/icons/notification-bell-icon';
 import { HabiLogo } from '@/components/habi-logo';
-import { DiagramUp, Devices } from 'lucide-react';
 
 const FilterToggle = () => {
   const [active, setActive] = React.useState('Month');
@@ -77,7 +76,7 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
 );
 
 
-export default function DashboardPage({ params }: { params: { organizationId: string } }) {
+export default function DashboardPage({ params: { organizationId } }: { params: { organizationId: string } }) {
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8">
         <header className="flex justify-between items-center mb-8">
@@ -130,7 +129,7 @@ export default function DashboardPage({ params }: { params: { organizationId: st
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
                       <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
-                          <DiagramUp className="h-6 w-6" />
+                          <TrendingUp className="h-6 w-6" />
                       </div>
                       <div>
                           <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Analytics</CardTitle>
@@ -172,7 +171,7 @@ export default function DashboardPage({ params }: { params: { organizationId: st
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
                       <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
-                          <DiagramUp className="h-6 w-6 -scale-y-100"/>
+                          <TrendingDown className="h-6 w-6"/>
                       </div>
                       <div>
                           <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Churn</CardTitle>
@@ -270,4 +269,3 @@ export default function DashboardPage({ params }: { params: { organizationId: st
     </div>
   );
 }
-
