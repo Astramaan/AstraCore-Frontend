@@ -6,7 +6,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare, Bell, TrendingUp, TrendingDown, Devices } from 'lucide-react';
+import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare, Bell, TrendingUp, TrendingDown } from 'lucide-react';
 import { RevenueChart } from '@/components/charts/revenue-chart';
 import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
@@ -76,7 +76,7 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
 );
 
 
-export default function DashboardPage({ params: { organizationId } }: { params: { organizationId: string } }) {
+export default function DashboardPage() {
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8">
         <header className="flex justify-between items-center mb-8">
@@ -203,7 +203,7 @@ export default function DashboardPage({ params: { organizationId } }: { params: 
               <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Lead Management" color="hsl(var(--accent-color-01))" />
                   <QuickLinkCard icon={<HandCoins className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
-                  <QuickLinkCard icon={<Devices className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
+                  <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
                   <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
               </CardContent>
           </Card>
