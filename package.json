@@ -10,7 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "ionic:build": "npm run build",
+    "ionic:build": "next build && npx cap sync",
     "ionic:serve": "npm run dev"
   },
   "dependencies": {
