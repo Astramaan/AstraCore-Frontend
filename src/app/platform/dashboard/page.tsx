@@ -6,7 +6,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare } from 'lucide-react';
+import { Calendar, ArrowRight, Users, HandCoins, UserMinus, FileText, MessagesSquare, Milestone, Plus, Settings, Building2, GanttChartSquare, Bell } from 'lucide-react';
 import { RevenueChart } from '@/components/charts/revenue-chart';
 import { SubscriptionChart } from '@/components/charts/subscription-chart';
 import { ChurnChart } from '@/components/charts/churn-chart';
@@ -14,13 +14,15 @@ import { ExitSurveyChart } from '@/components/charts/exit-survey-chart';
 import Link from 'next/link';
 import { InviteUserSheet } from '@/components/invite-user-sheet';
 import NotificationBellIcon from '@/components/icons/notification-bell-icon';
+import { HabiLogo } from '@/components/habi-logo';
+import { DiagramUp, Devices } from 'lucide-react';
 
 const FilterToggle = () => {
   const [active, setActive] = React.useState('Month');
   return (
-    <div className="relative bg-white rounded-full p-1 flex w-48 text-lg">
+    <div className="relative bg-white rounded-[50px] p-1 flex w-48 text-lg">
       <div 
-        className="absolute top-1 bottom-1 bg-primary transition-all duration-300 rounded-full"
+        className="absolute top-1 bottom-1 bg-primary transition-all duration-300 rounded-[50px]"
         style={{
           width: 'calc(50% - 4px)',
           left: active === 'Month' ? '4px' : 'calc(50% + 2px)',
@@ -47,13 +49,13 @@ const ActiveCustomers = () => {
     return (
         <div className="flex items-center gap-4">
             <div className="flex -space-x-4">
-                {[...Array(5)].map((_, i) => (
-                    <Avatar key={i} className="border-4 border-white">
-                        <AvatarImage src={`https://placehold.co/50x50.png`} data-ai-hint="person portrait" />
+                {[...Array(3)].map((_, i) => (
+                    <Avatar key={i} className="border-4 border-white h-12 w-12">
+                        <AvatarImage src={`https://i.pravatar.cc/50?img=${i+1}`} data-ai-hint="person portrait" />
                         <AvatarFallback>U{i}</AvatarFallback>
                     </Avatar>
                 ))}
-                <Avatar className="border-4 border-white bg-primary text-primary-foreground">
+                <Avatar className="border-4 border-white bg-primary text-primary-foreground h-12 w-12">
                     <AvatarFallback>+6</AvatarFallback>
                 </Avatar>
             </div>
@@ -75,9 +77,33 @@ const QuickLinkCard = ({icon, label, color}: {icon: React.ReactNode, label: stri
 );
 
 
-export default function DashboardPage() {
+export default function DashboardPage({ params }: { params: { organizationId: string } }) {
   return (
     <div className="flex-1 space-y-6 p-4 md:p-8">
+        <header className="flex justify-between items-center mb-8">
+            <div className="flex justify-start items-center gap-4">
+                <HabiLogo className="w-32 h-12"/>
+                 <div className="w-px h-12 bg-stone-300/0"></div>
+                <h1 className="text-black text-4xl font-bold">Dashboard</h1>
+            </div>
+             <div className="flex justify-end items-center gap-6">
+                <Button variant="ghost" size="icon" className="p-3.5 bg-white rounded-[50px]">
+                    <Bell className="relative"/>
+                </Button>
+                <div className="w-px h-12 bg-stone-300/0"></div>
+                 <div className="flex justify-start items-center gap-2">
+                    <Avatar className="h-14 w-14">
+                        <AvatarImage src="https://i.pravatar.cc/55" alt="Balaji Naik"/>
+                        <AvatarFallback>BN</AvatarFallback>
+                    </Avatar>
+                    <div className="inline-flex flex-col justify-start items-start gap-1">
+                        <p className="text-black text-lg font-medium">Balaji Naik</p>
+                        <p className="text-grey-2 text-base font-medium">Super Admin</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
       <div className="flex flex-col md:flex-row items-start justify-between gap-6">
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full">
           <div className="space-y-2 w-full md:w-auto">
@@ -103,8 +129,8 @@ export default function DashboardPage() {
               <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
-                      <div className="p-3.5 rounded-full">
-                          <HandCoins className="h-6 w-6" />
+                      <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
+                          <DiagramUp className="h-6 w-6" />
                       </div>
                       <div>
                           <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Analytics</CardTitle>
@@ -124,7 +150,7 @@ export default function DashboardPage() {
               <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
-                      <div className="p-3.5 rounded-full">
+                      <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                           <HandCoins className="h-6 w-6" />
                       </div>
                       <div>
@@ -145,8 +171,8 @@ export default function DashboardPage() {
               <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-2">
-                      <div className="p-3.5 rounded-full">
-                          <UserMinus className="h-6 w-6" />
+                      <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
+                          <DiagramUp className="h-6 w-6 -scale-y-100"/>
                       </div>
                       <div>
                           <CardTitle className="font-semibold text-xl md:text-2xl">Subscriptions Churn</CardTitle>
@@ -166,7 +192,7 @@ export default function DashboardPage() {
               <CardHeader>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                      <div className="p-3.5 rounded-full">
+                      <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                           <Milestone className="h-6 w-6" />
                       </div>
                       <div>
@@ -176,10 +202,10 @@ export default function DashboardPage() {
                   </div>
               </CardHeader>
               <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <QuickLinkCard icon={<Plus className="h-6 w-6" />} label="Create New Plan" color="hsl(var(--accent-color-01))" />
-                  <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
-                  <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
-                  <QuickLinkCard icon={<NotificationBellIcon className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
+                  <QuickLinkCard icon={<Users className="h-6 w-6" />} label="Lead Management" color="hsl(var(--accent-color-01))" />
+                  <QuickLinkCard icon={<HandCoins className="h-6 w-6" />} label="Payment Attempts" color="hsl(var(--accent-color-02))" />
+                  <QuickLinkCard icon={<Devices className="h-6 w-6" />} label="Onboarding Status" color="hsl(var(--accent-color-03))" />
+                  <QuickLinkCard icon={<MessagesSquare className="h-6 w-6" />} label="Invitation Status" color="hsl(var(--accent-color-05))" />
               </CardContent>
           </Card>
       </div>
@@ -188,7 +214,7 @@ export default function DashboardPage() {
             <CardHeader>
                 <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                     <div className="flex items-center gap-2">
-                        <div className="p-3.5 rounded-full">
+                        <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
                             <FileText className="h-6 w-6" />
                         </div>
                         <CardTitle className="font-semibold text-xl md:text-2xl">Exit Survey</CardTitle>
@@ -207,10 +233,9 @@ export default function DashboardPage() {
                         <ExitSurveyChart />
                     </div>
                     <div className="space-y-4">
-                        {/* Placeholder for list of survey responses */}
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://i.pravatar.cc/40?img=4" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Brick & Bolt</p>
                                     <p className="text-sm text-muted-foreground">Pricing too high</p>
@@ -220,7 +245,7 @@ export default function DashboardPage() {
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://i.pravatar.cc/40?img=5" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Powerplay</p>
                                     <p className="text-sm text-muted-foreground">Missing Features</p>
@@ -230,7 +255,7 @@ export default function DashboardPage() {
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://i.pravatar.cc/40?img=6" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Harish mane</p>
                                     <p className="text-sm text-muted-foreground">Technical issues</p>
@@ -245,3 +270,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+
