@@ -1,7 +1,6 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   transpilePackages: ['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons'],
   images: {
     unoptimized: true,
