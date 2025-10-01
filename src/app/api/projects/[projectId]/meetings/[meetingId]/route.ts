@@ -24,9 +24,16 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     };
 }
 
+interface RouteParams {
+  params: {
+    projectId: string;
+    meetingId: string;
+  };
+}
+
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { projectId: string; meetingId: string } }
+  { params }: RouteParams
 ) {
   const { projectId, meetingId } = params;
   try {
@@ -71,7 +78,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { projectId: string; meetingId: string } }
+  { params }: RouteParams
 ) {
   const { projectId, meetingId } = params;
   try {
