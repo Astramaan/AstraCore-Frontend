@@ -3,13 +3,6 @@ import React, { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import ClientHomePageContent from './client-home-page-content';
 
-export async function generateStaticParams() {
-    // Return an empty array to indicate that no pages should be
-    // pre-built for this dynamic route at build time.
-    // They will be generated on-demand.
-    return [];
-}
-
 export default function ClientHomePageWrapper() {
     return (
         <Suspense fallback={
