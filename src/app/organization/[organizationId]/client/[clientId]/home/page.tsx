@@ -4,8 +4,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ClientHomePageContent from './client-home-page-content';
 
 export async function generateStaticParams() {
-    // This function is required for static export of dynamic routes.
-    // We don't want to pre-build any client pages, so we return an empty array.
+    // Return an empty array to indicate that no pages should be
+    // pre-built for this dynamic route at build time.
+    // They will be generated on-demand.
     return [];
 }
 
