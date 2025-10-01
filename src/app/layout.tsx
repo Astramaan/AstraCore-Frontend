@@ -9,6 +9,7 @@ import { UserProvider } from '@/context/user-context';
 export const metadata: Metadata = {
   title: 'Astramaan',
   description: 'Project Management for the modern age.',
+  manifest: '/manifest.json',
 };
 
 export const viewport: Viewport = {
