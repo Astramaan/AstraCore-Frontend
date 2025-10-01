@@ -1,8 +1,12 @@
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { type NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
   output: 'export',
   experimental: {
+    allowedDevOrigins: [
+      '6000-firebase-studio-1755838622226.cluster-nle52mxuvfhlkrzyrq6g2cwb52.cloudworkstations.dev'
+    ]
   },
   transpilePackages: ['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons'],
   images: {
@@ -31,4 +35,4 @@ const nextConfig = {
   poweredByHeader: false,
 };
 
-module.exports = nextConfig;
+export default nextConfig;

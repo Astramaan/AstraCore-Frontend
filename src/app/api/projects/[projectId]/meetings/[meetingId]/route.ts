@@ -1,5 +1,5 @@
 
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
@@ -15,19 +15,17 @@ function getAuthHeadersFromCookie(): Record<string, string> {
     orgCode: "ABCConstructionsDEL"
   };
 
-  return {
+ return {
     'x-user': JSON.stringify(staticUserData),
     'x-user-id': staticUserData.userId,
     'x-login-id': staticUserData.email,
   };
 }
-
 export async function PATCH(
   req: Request,
   { params }: { params: { projectId: string; meetingId: string } }
 ) {
   const { projectId, meetingId } = params;
-
   try {
     const authHeaders = getAuthHeadersFromCookie();
     if (!authHeaders['x-user-id']) {
