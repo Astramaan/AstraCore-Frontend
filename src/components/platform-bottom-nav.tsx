@@ -1,93 +1,129 @@
-
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { LayoutDashboard, GanttChartSquare, Settings } from 'lucide-react';
-import OrganizationIcon from './icons/organization-icon';
-import { HabiLogo } from './habi-logo';
-
-const DashboardIcon = ({ className }: { className?: string }) => (
-    <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M3.5 7C3.5 5.11438 3.5 4.17157 4.08579 3.58579C4.67157 3 5.61438 3 7.5 3C9.38562 3 10.3284 3 10.9142 3.58579C11.5 4.17157 11.5 5.11438 11.5 7C11.5 8.88562 11.5 9.82843 10.9142 10.4142C10.3284 11 9.38562 11 7.5 11C5.61438 11 4.67157 11 4.08579 10.4142C3.5 9.82843 3.5 8.88562 3.5 7Z" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M14.5 7C14.5 5.11438 14.5 4.17157 15.0858 3.58579C15.6716 3 16.6144 3 18.5 3C20.3856 3 21.3284 3 21.9142 3.58579C22.5 4.17157 22.5 5.11438 22.5 7C22.5 8.88562 22.5 9.82843 21.9142 10.4142C21.3284 11 20.3856 11 18.5 11C16.6144 11 15.6716 11 15.0858 10.4142C14.5 9.82843 14.5 8.88562 14.5 7Z" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M3.5 18C3.5 16.1144 3.5 15.1716 4.08579 14.5858C4.67157 14 5.61438 14 7.5 14C9.38562 14 10.3284 14 10.9142 14.5858C11.5 15.1716 11.5 16.1144 11.5 18C11.5 19.8856 11.5 20.8284 10.9142 21.4142C10.3284 22 9.38562 22 7.5 22C5.61438 22 4.67157 22 4.08579 21.4142C3.5 20.8284 3.5 19.8856 3.5 18Z" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M14.5 18C14.5 16.1144 14.5 15.1716 15.0858 14.5858C15.6716 14 16.6144 14 18.5 14C20.3856 14 21.3284 14 21.9142 14.5858C22.5 15.1716 22.5 16.1144 22.5 18C22.5 19.8856 22.5 20.8284 21.9142 21.4142C21.3284 22 20.3856 22 18.5 22C16.6144 22 15.6716 22 15.0858 21.4142C14.5 20.8284 14.5 19.8856 14.5 18Z" stroke="currentColor" strokeWidth="1.5"/>
-    </svg>
-);
-
-const OnboardingIcon = ({ className }: { className?: string }) => (
-     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path fillRule="evenodd" clipRule="evenodd" d="M5.30078 3.25C4.05814 3.25 3.05078 4.25736 3.05078 5.5C3.05078 6.74264 4.05814 7.75 5.30078 7.75C6.54342 7.75 7.55078 6.74264 7.55078 5.5C7.55078 4.25736 6.54342 3.25 5.30078 3.25ZM1.55078 5.5C1.55078 3.42893 3.22971 1.75 5.30078 1.75C7.37185 1.75 9.05078 3.42893 9.05078 5.5C9.05078 7.57107 7.37185 9.25 5.30078 9.25C3.22971 9.25 1.55078 7.57107 1.55078 5.5ZM10.5508 5.5C10.5508 5.08579 10.8866 4.75 11.3008 4.75H16.4327C19.1839 4.75 20.2302 8.343 17.9091 9.82007L7.49781 16.4454C6.44275 17.1168 6.91835 18.75 8.1689 18.75H11.4901L11.2705 18.5303C10.9776 18.2374 10.9776 17.7626 11.2705 17.4697C11.5633 17.1768 12.0382 17.1768 12.3311 17.4697L13.8311 18.9697C14.124 19.2626 14.124 19.7374 13.8311 20.0303L12.3311 21.5303C12.0382 21.8232 11.5633 21.8232 11.2705 21.5303C10.9776 21.2374 10.9776 20.7626 11.2705 20.4697L11.4901 20.25H8.1689C5.41766 20.25 4.3714 16.657 6.6925 15.1799L17.1038 8.55458C18.1588 7.88318 17.6832 6.25 16.4327 6.25H11.3008C10.8866 6.25 10.5508 5.91421 10.5508 5.5ZM19.3008 17.25C18.0581 17.25 17.0508 18.2574 17.0508 19.5C17.0508 20.7426 18.0581 21.75 19.3008 21.75C20.5434 21.75 21.5508 20.7426 21.5508 19.5C21.5508 18.2574 20.5434 17.25 19.3008 17.25ZM15.5508 19.5C15.5508 17.4289 17.2297 15.75 19.3008 15.75C21.3718 15.75 23.0508 17.4289 23.0508 19.5C23.0508 21.5711 21.3718 23.25 19.3008 23.25C17.2297 23.25 15.5508 21.5711 15.5508 19.5Z" fill="currentColor"/>
-    </svg>
-);
-const SubscriptionIcon = ({ className }: { className?: string }) => (
-    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M19.1016 12.5C19.1016 13.0523 18.6538 13.5 18.1016 13.5C17.5493 13.5 17.1016 13.0523 17.1016 12.5C17.1016 11.9477 17.5493 11.5 18.1016 11.5C18.6538 11.5 19.1016 11.9477 19.1016 12.5Z" fill="currentColor"/>
-        <path fillRule="evenodd" clipRule="evenodd" d="M10.0451 3.75H13.158C14.9957 3.74998 16.4514 3.74997 17.5906 3.90314C18.763 4.06076 19.712 4.39288 20.4603 5.14124C21.3847 6.06563 21.6793 7.30363 21.7862 8.91008C22.3635 9.1641 22.7994 9.7013 22.8474 10.3818C22.8516 10.442 22.8516 10.5069 22.8516 10.567C22.8516 10.5725 22.8516 10.5779 22.8516 10.5833V14.4167C22.8516 14.4221 22.8516 14.4275 22.8516 14.433C22.8516 14.4931 22.8516 14.558 22.8474 14.6182C22.7994 15.2987 22.3635 15.8359 21.7862 16.0899C21.6793 17.6964 21.3847 18.9344 20.4603 19.8588C19.712 20.6071 18.763 20.9392 17.5906 21.0969C16.4514 21.25 14.9957 21.25 13.158 21.25H10.0452C8.20739 21.25 6.75176 21.25 5.61254 21.0969C4.44012 20.9392 3.49117 20.6071 2.74281 19.8588C1.99444 19.1104 1.66233 18.1614 1.5047 16.989C1.35153 15.8498 1.35155 14.3942 1.35156 12.5564V12.4436C1.35155 10.6058 1.35153 9.15019 1.5047 8.01098C1.66233 6.83856 1.99444 5.88961 2.74281 5.14124C3.49117 4.39288 4.44012 4.06076 5.61254 3.90314C6.75175 3.74997 8.20739 3.74998 10.0451 3.75ZM20.2695 16.25H18.3323C16.1871 16.25 14.3516 14.6224 14.3516 12.5C14.3516 10.3776 16.1871 8.75 18.3323 8.75H20.2695C20.1557 7.40855 19.8982 6.70043 19.3997 6.2019C18.9764 5.77869 18.3968 5.52502 17.3907 5.38976C16.3631 5.25159 15.0084 5.25 13.1016 5.25H10.1016C8.19474 5.25 6.84008 5.25159 5.81241 5.38976C4.80632 5.52502 4.22668 5.77869 3.80347 6.2019C3.38026 6.62511 3.12659 7.20476 2.99132 8.21085C2.85316 9.23851 2.85156 10.5932 2.85156 12.5C2.85156 14.4068 2.85316 15.7615 2.99132 16.7892C3.12659 17.7952 3.38026 18.3749 3.80347 18.7981C4.22668 19.2213 4.80632 19.475 5.81241 19.6102C6.84008 19.7484 8.19474 19.75 10.1016 19.75H13.1016C15.0084 19.75 16.363 19.7484 17.3907 19.6102C18.3968 19.475 18.9764 19.2213 19.3997 18.7981C19.8982 18.2996 20.1557 17.5915 20.2695 16.25ZM5.35156 8.5C5.35156 8.08579 5.68735 7.75 6.10156 7.75H10.1016C10.5158 7.75 10.8516 8.08579 10.8516 8.5C10.8516 8.91421 10.5158 9.25 10.1016 9.25H6.10156C5.68735 9.25 5.35156 8.91421 5.35156 8.5ZM21.0251 10.2502C21.0048 10.25 20.9781 10.25 20.9349 10.25H18.3323C16.9089 10.25 15.8516 11.3087 15.8516 12.5C15.8516 13.6913 16.9089 14.75 18.3323 14.75H20.9349C20.9781 14.75 21.0048 14.75 21.0251 14.7498C21.0375 14.7496 21.0442 14.7495 21.0472 14.7493L21.0495 14.7492C21.2556 14.7367 21.3443 14.5976 21.351 14.5139C21.351 14.5139 21.3512 14.5076 21.3513 14.4986C21.3515 14.4808 21.3516 14.4572 21.3516 14.4167V10.5833C21.3516 10.5428 21.3515 10.5192 21.3513 10.5014C21.3512 10.4924 21.351 10.4861 21.351 10.4861C21.3443 10.4024 21.2556 10.2633 21.0495 10.2508C21.0495 10.2508 21.0446 10.2504 21.0251 10.2502Z" fill="currentColor"/>
-    </svg>
-);
-
-const TasksIcon = ({ className }: { className?: string }) => (
-    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path fillRule="evenodd" clipRule="evenodd" d="M12.4426 1.75H12.5574C14.8658 1.74999 16.6748 1.74998 18.0863 1.93975C19.531 2.13399 20.6711 2.53933 21.5659 3.43414C22.4607 4.32895 22.866 5.46897 23.0603 6.91371C23.25 8.32519 23.25 10.1342 23.25 12.4426V12.5574C23.25 14.8658 23.25 16.6748 23.0603 18.0863C22.866 19.531 22.4607 20.6711 21.5659 21.5659C20.6711 22.4607 19.531 22.866 18.0863 23.0603C16.6748 23.25 14.8658 23.25 12.5574 23.25H12.4426C10.1342 23.25 8.32519 23.25 6.91371 23.0603C5.46897 22.866 4.32895 22.4607 3.43414 21.5659C2.53933 20.6711 2.13399 19.531 1.93975 18.0863C1.74998 16.6748 1.74999 14.8658 1.75 12.5574V12.4426C1.74999 10.1342 1.74998 8.32519 1.93975 6.91371C2.13399 5.46897 2.53933 4.32895 3.43414 3.43414C4.32895 2.53933 5.46897 2.13399 6.91371 1.93975C8.32519 1.74998 10.1342 1.74999 12.4426 1.75ZM7.11358 3.42637C5.83517 3.59825 5.06445 3.92514 4.4948 4.4948C3.92514 5.06445 3.59825 5.83517 3.42637 7.11358C3.25159 8.41356 3.25 10.1218 3.25 12.5C3.25 14.8782 3.25159 16.5864 3.42637 17.8864C3.59825 19.1648 3.92514 19.9355 4.4948 20.5052C5.06445 21.0749 5.83517 21.4018 7.11358 21.5736C8.41356 21.7484 10.1218 21.75 12.5 21.75C14.8782 21.75 16.5864 21.7484 17.8864 21.5736C19.1648 21.4018 19.9355 21.0749 20.5052 20.5052C21.0749 19.9355 21.4018 19.1648 21.5736 17.8864C21.7484 16.5864 21.75 14.8782 21.75 12.5C21.75 10.1218 21.7484 8.41356 21.5736 7.11358C21.4018 5.83517 21.0749 5.06445 20.5052 4.4948C19.9355 3.92514 19.1648 3.59825 17.8864 3.42637C16.5864 3.25159 14.8782 3.25 12.5 3.25C10.1218 3.25 8.41356 3.25159 7.11358 3.42637ZM11.0172 6.9569C11.3172 7.24256 11.3288 7.71729 11.0431 8.01724L8.18596 11.0172C8.0444 11.1659 7.84812 11.25 7.64286 11.25C7.4376 11.25 7.24131 11.1659 7.09975 11.0172L5.9569 9.81724C5.67123 9.51729 5.68281 9.04256 5.98276 8.7569C6.28271 8.47123 6.75744 8.48281 7.0431 8.78276L7.64286 9.4125L9.9569 6.98276C10.2426 6.68281 10.7173 6.67123 11.0172 6.9569ZM12.75 9.5C12.75 9.08579 13.0858 8.75 13.5 8.75H18.5C18.9142 8.75 19.25 9.08579 19.25 9.5C19.25 9.91421 18.9142 10.25 18.5 10.25H13.5C13.0858 10.25 12.75 9.91421 12.75 9.5ZM11.0172 13.9569C11.3172 14.2426 11.3288 14.7173 11.0431 15.0172L8.18596 18.0172C8.0444 18.1659 7.84812 18.25 7.64286 18.25C7.4376 18.25 7.24131 18.1659 7.09975 18.0172L5.9569 16.8172C5.67123 16.5173 5.68281 16.0426 5.98276 15.7569C6.28271 15.4712 6.75744 15.4828 7.0431 15.7828L7.64286 16.4125L9.9569 13.9828C10.2426 13.6828 10.7173 13.6712 11.0172 13.9569ZM12.75 16.5C12.75 16.0858 13.0858 15.75 13.5 15.75H18.5C18.9142 15.75 19.25 16.0858 19.25 16.5C19.25 16.9142 18.9142 17.25 18.5 17.25H13.5C13.0858 17.25 12.75 16.9142 12.75 16.5Z" fill="currentColor"/>
-    </svg>
-);
-
-const ProductAnalyticsIcon = ({ className }: { className?: string }) => (
-    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M2.75 2.5C2.75 2.08579 2.41421 1.75 2 1.75C1.58579 1.75 1.25 2.08579 1.25 2.5V12.5574C1.24999 14.8658 1.24998 16.6748 1.43975 18.0863C1.63399 19.531 2.03933 20.6711 2.93414 21.5659C3.82895 22.4607 4.96897 22.866 6.41371 23.0603C7.82519 23.25 9.63423 23.25 11.9426 23.25H22C22.4142 23.25 22.75 22.9142 22.75 22.5C22.75 22.0858 22.4142 21.75 22 21.75H12C9.62178 21.75 7.91356 21.7484 6.61358 21.5736C5.33517 21.4018 4.56445 21.0749 3.9948 20.5052C3.42514 19.9355 3.09825 19.1648 2.92637 17.8864C2.75159 16.5864 2.75 14.8782 2.75 12.5V2.5Z" fill="currentColor"/>
-        <path d="M19.5875 7.96641C19.8451 7.64204 19.791 7.17026 19.4666 6.91267C19.1422 6.65508 18.6704 6.70921 18.4128 7.03359L15.2948 10.96C15.0496 11.2688 14.8887 11.4708 14.7561 11.6162C14.6265 11.7585 14.5657 11.7989 14.538 11.8137C14.3272 11.9264 14.0754 11.9319 13.8599 11.8285C13.8316 11.8149 13.7691 11.7772 13.6333 11.6407C13.4946 11.5011 13.3251 11.3063 13.0666 11.0085L13.0505 10.9898C12.8126 10.7157 12.6098 10.4819 12.4308 10.3018C12.2448 10.1147 12.0414 9.9401 11.7894 9.81918C11.143 9.50898 10.3875 9.52541 9.75518 9.86342C9.50872 9.99518 9.31307 10.1785 9.13536 10.3735C8.96441 10.5612 8.77192 10.8036 8.54619 11.0878L5.41267 15.0336C5.15508 15.3579 5.20921 15.8297 5.53358 16.0873C5.85795 16.3449 6.32973 16.2908 6.58733 15.9664L9.70551 12.04C9.95077 11.7311 10.1116 11.4708 10.2442 11.6163C10.3738 11.7586 10.4347 11.7989 10.4623 11.8137C10.6731 11.9264 10.925 11.9319 11.1404 11.8285C11.1687 11.8149 11.2313 11.7772 11.367 11.6407C11.5057 11.5011 11.6752 11.3064 11.9337 11.0085L11.9498 10.9899C12.1877 10.7157 12.3905 10.4819 12.5695 10.3019C12.7555 10.1147 12.9589 9.94012 13.2109 9.8192C13.8573 9.509 14.6129 9.52543 15.2452 9.86346C15.4916 9.99522 15.6873 10.1785 15.865 10.3736C16.0359 10.5612 16.2284 10.8036 16.4541 11.0879L19.5875 15.0336Z" fill="currentColor"/>
-    </svg>
-);
+import { usePathname, useRouter } from 'next/navigation';
+import { Search, Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { PlatformSidebar } from '@/components/platform-sidebar';
+import NotificationBellIcon from '@/components/icons/notification-bell-icon';
+import { useUser } from '@/context/user-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
-export const PlatformBottomNav = () => {
+const PlatformHeader = () => {
     const pathname = usePathname();
+    let pageTitle = 'Dashboard';
 
-    const navItems = [
-        { href: "/platform/dashboard", icon: DashboardIcon, label: "Dashboard" },
-        { href: "/platform/onboarding", icon: OnboardingIcon, label: "Onboarding Ma.." },
-        { href: "/platform/subscription", icon: SubscriptionIcon, label: "Subscription Ma.." },
-        { href: "/platform/organizations", icon: OrganizationIcon, label: "Organization Ma.." },
-        { href: "/platform/tasks", icon: TasksIcon, label: "Tasks" },
-        { href: "/platform/analytics", icon: ProductAnalyticsIcon, label: "Product Analytics" },
-    ];
-    
-    const middleIndex = Math.floor(navItems.length / 2);
+    if (pathname.startsWith('/platform/organizations')) {
+        pageTitle = 'Organizations';
+    } else if (pathname.startsWith('/platform/all-projects')) {
+        pageTitle = 'All Projects';
+    } else if (pathname.startsWith('/platform/settings')) {
+        pageTitle = 'Settings';
+    }
 
     return (
-        <div className="fixed bottom-0 inset-x-0 z-10 p-4 flex justify-center">
-             <div className="relative w-full max-w-5xl h-28">
-                <div className="absolute left-0 top-0 w-full h-full">
-                    <svg width="100%" height="118" viewBox="0 0 1276 118" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                        <path d="M578.827 0.5H705.789C716.142 0.5 721.25 0.502189 726.212 1.53125C731.174 2.56033 735.86 4.58976 745.359 8.70703L758.058 14.2109C767.521 18.3126 772.315 20.3926 777.4 21.4473C782.485 22.5019 787.712 22.5 798.025 22.5H1228C1254.23 22.5 1275.5 43.7665 1275.5 70C1275.5 96.2335 1254.23 117.5 1228 117.5H48C21.7665 117.5 0.5 96.2335 0.5 70C0.5 43.7665 21.7665 22.5 48 22.5H484.702C494.024 22.5 498.748 22.502 503.367 21.6367C507.987 20.7713 512.39 19.0597 521.08 15.6855L542.812 7.24707C551.535 3.86006 555.839 2.19108 560.347 1.34668C564.854 0.502302 569.47 0.5 578.827 0.5Z" fill="#111111" fillOpacity="0.2" stroke="hsl(var(--grey-1))"/>
-                    </svg>
-                </div>
-                <div className="absolute w-full max-w-5xl mx-auto px-6 top-[37px] flex justify-between items-center">
-                    {navItems.map((item, index) => {
-                        const isActive = pathname.startsWith(item.href);
-                        return (
-                            <React.Fragment key={item.label}>
-                                <Link href={item.href} title={item.label}>
-                                    <div className={cn(
-                                        "flex justify-start items-center gap-2.5 p-5 rounded-[50px]",
-                                        isActive ? "bg-primary text-white" : "bg-white text-black"
-                                    )}>
-                                        <item.icon className="w-6 h-6" />
-                                        <span className="text-lg font-normal">{item.label}</span>
+        <header className="bg-white sticky top-0 z-10 border-b-[0.50px] border-stone-300">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-20">
+                    <div className="flex items-center gap-4">
+                        <div className="md:hidden">
+                             <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                        <Menu className="h-6 w-6" />
+                                    </Button>
+                                </SheetTrigger>
+                                <SheetContent side="left" className="p-0 w-64">
+                                    <PlatformSidebar />
+                                </SheetContent>
+                            </Sheet>
+                        </div>
+                        <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">{pageTitle}</h2>
+                    </div>
+                    
+                    <div className="flex items-center gap-6">
+                         <div className="relative w-80 hidden lg:block">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-stone-400" />
+                            <Input placeholder="Search Task, Meetings, Projects..." className="pl-11 rounded-[10px] border-stone-300"/>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-primary/10 hover:text-primary">
+                                <NotificationBellIcon className="h-6 w-6" />
+                                <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
+                            </Button>
+                            <div className="w-px h-10 bg-stone-300 hidden md:block" />
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <div className="flex items-center gap-2 cursor-pointer">
+                                        <Avatar className="h-10 w-10">
+                                            <AvatarImage src="https://placehold.co/40x40.png" alt="Anil Kumar" data-ai-hint="person portrait"/>
+                                            <AvatarFallback>AK</AvatarFallback>
+                                        </Avatar>
+                                        <div className="hidden md:block">
+                                            <p className="font-medium text-lg">Anil Kumar</p>
+                                            <p className="text-stone-500 text-sm -mt-1">Senior Architect</p>
+                                        </div>
                                     </div>
-                                </Link>
-                                {index === middleIndex - 1 && (
-                                    <div className="w-24 h-[5px] bg-white rounded-3xl" />
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem><Link href="/organization/profile">Profile</Link></DropdownMenuItem>
+                                    <DropdownMenuItem><Link href="/platform/settings">Settings</Link></DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </header>
+    );
+};
+
+
+function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
+    const { user, loading, isSuperAdmin } = useUser();
+    const router = useRouter();
+
+    if (loading) {
+        return (
+             <div className="min-h-screen bg-background p-4 flex">
+                <div className="hidden md:block w-64">
+                    <Skeleton className="h-full w-full" />
+                </div>
+                <div className="flex-1 flex flex-col">
+                    <header className="h-20">
+                         <Skeleton className="h-full w-full" />
+                    </header>
+                    <main className="flex-1 p-4">
+                        <Skeleton className="h-full w-full" />
+                    </main>
+                </div>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="min-h-screen bg-background flex">
+            <div className="flex-1 flex flex-col">
+                <main className="flex-1 overflow-y-auto">
+                {children}
+                </main>
             </div>
         </div>
     );
-};
+}
+
+export default function PlatformLayout({ children }: { children: React.ReactNode }) {
+    return (
+        <PlatformLayoutContent>{children}</PlatformLayoutContent>
+    )
+}
