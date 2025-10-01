@@ -2,10 +2,7 @@
 import { type NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  transpilePackages: ['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons'],
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -30,9 +27,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
   },
-  allowedDevOrigins: [
-      'https://6000-firebase-studio-1755838622226.cluster-nle52mxuvfhlkrzyrq6g2cwb52.cloudworkstations.dev',
-  ],
 };
 
 export default nextConfig;
