@@ -3,6 +3,10 @@ import React, { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import ClientHomePageContent from './client-home-page-content';
 
+export async function generateStaticParams() {
+    return [];
+}
+
 export default function ClientHomePageWrapper() {
     return (
         <Suspense fallback={
