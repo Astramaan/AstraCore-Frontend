@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClientBottomNav } from '@/components/client-bottom-nav';
 import { UserProvider, useUser } from '@/context/user-context';
 import { useRouter, usePathname } from 'next/navigation';
@@ -13,6 +13,14 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading, isClient } = useUser();
     const router = useRouter();
     const pathname = usePathname();
+    const [isNativeApp, setIsNativeApp] = useState(false);
+
+    useEffect(() => {
+      // @ts-ignore
+      if (window.isNativeApp) {
+        setIsNativeApp(true);
+      }
+    }, []);
 
     const isLivePage = pathname.includes('/live');
 
@@ -53,12 +61,15 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     
     return (
         <div className="min-h-screen bg-background relative">
-            <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
-              <ClientHeader />
-            </header>
+            {!isNativeApp && (
+              <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
+                <ClientHeader />
+              </header>
+            )}
             <main className={cn(
                 "w-full flex-1 bg-background",
                 !isLivePage && "pb-32",
+                isNativeApp ? "pt-4" : "", // Add padding top if header is hidden
                 "px-0 sm:px-4 md:px-8"
             )}>
                 {children}
