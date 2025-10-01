@@ -14,6 +14,7 @@ import { PlatformSidebar } from '@/components/platform-sidebar';
 import NotificationBellIcon from '@/components/icons/notification-bell-icon';
 import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PlatformBottomNav } from '@/components/platform-bottom-nav';
 
 
 const PlatformHeader = () => {
@@ -45,7 +46,6 @@ const PlatformHeader = () => {
                                 </SheetContent>
                             </Sheet>
                         </div>
-                        <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">{pageTitle}</h2>
                     </div>
                     
                     <div className="flex items-center gap-6">
@@ -58,7 +58,6 @@ const PlatformHeader = () => {
                                 <NotificationBellIcon className="h-6 w-6" />
                                 <div className="w-[10px] h-[10px] left-[15px] top-[5px] absolute bg-red-500 rounded-full border-2 border-white" />
                             </Button>
-                            <div className="w-px h-10 bg-stone-300 hidden md:block" />
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <div className="flex items-center gap-2 cursor-pointer">
@@ -91,33 +90,13 @@ const PlatformHeader = () => {
 
 
 function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
-    const { user, loading, isSuperAdmin } = useUser();
-    const router = useRouter();
-
-    if (loading) {
-        return (
-             <div className="min-h-screen bg-background p-4 flex">
-                <div className="hidden md:block w-64">
-                    <Skeleton className="h-full w-full" />
-                </div>
-                <div className="flex-1 flex flex-col">
-                    <header className="h-20">
-                         <Skeleton className="h-full w-full" />
-                    </header>
-                    <main className="flex-1 p-4">
-                        <Skeleton className="h-full w-full" />
-                    </main>
-                </div>
-            </div>
-        );
-    }
-    
     return (
         <div className="min-h-screen bg-background flex">
             <div className="flex-1 flex flex-col">
                 <main className="flex-1 overflow-y-auto">
-                {children}
+                    {children}
                 </main>
+                <PlatformBottomNav />
             </div>
         </div>
     );
