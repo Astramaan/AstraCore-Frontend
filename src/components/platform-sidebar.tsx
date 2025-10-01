@@ -4,7 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Building2, GanttChartSquare, Settings } from 'lucide-react';
+import { LayoutDashboard, GanttChartSquare, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HabiLogo } from './habi-logo';
 import OrganizationIcon from './icons/organization-icon';
