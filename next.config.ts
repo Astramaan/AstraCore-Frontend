@@ -1,17 +1,14 @@
 
-import type {NextConfig} from 'next';
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // typescript: {
+  //   ignoreBuildErrors: true,
+  // },
+  // eslint: {
+  //   ignoreDuringBuilds: true,
+  // },
   images: {
     unoptimized: true,
-    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -49,10 +46,4 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 };
 
-/**
- * @type {import('next').NextConfig}
- */
-module.exports = () => {
-  const plugins = [];
-  return plugins.reduce((acc, plugin) => plugin(acc), { ...nextConfig });
-};
+module.exports = nextConfig;
