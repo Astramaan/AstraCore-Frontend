@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -9,8 +8,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { ClientHeader } from '@/components/client-header';
-
-export const dynamicParams = false;
 
 function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading, isClient } = useUser();
