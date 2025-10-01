@@ -2,12 +2,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -30,19 +24,6 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  headers: async () => {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-        ],
-      },
-    ];
   },
   poweredByHeader: false,
 };
