@@ -1,11 +1,9 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   experimental: {
   },
-  allowedDevOrigins: [
-    "*.cloudworkstations.dev",
-  ],
   transpilePackages: ['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons'],
   images: {
     unoptimized: true,

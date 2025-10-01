@@ -26,7 +26,7 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 }
 
 
-export async function GET(req: NextRequest, { params }: { params: Record<string, string> }) {
+export async function GET(req: Request, { params }: { params: { projectId: string } }) {
   const projectId = params.projectId;
   try {
     const authHeaders = getAuthHeadersFromCookie();
@@ -70,7 +70,7 @@ export async function GET(req: NextRequest, { params }: { params: Record<string,
   }
 }
 
-export async function PATCH(req: NextRequest, { params }: { params: Record<string, string> }) {
+export async function PATCH(req: Request, { params }: { params: { projectId: string } }) {
     const projectId = params.projectId;
     try {
         const authHeaders = getAuthHeadersFromCookie();
@@ -117,7 +117,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Record<strin
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: Record<string, string> }) {
+export async function DELETE(req: Request, { params }: { params: { projectId: string } }) {
     const projectId = params.projectId;
     try {
         const authHeaders = getAuthHeadersFromCookie();

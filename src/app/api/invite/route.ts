@@ -1,7 +1,6 @@
 
 import { NextResponse } from "next/server";
 import { cookies } from 'next/headers';
-import type { NextRequest } from 'next/server';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
@@ -25,7 +24,7 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 }
 
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const authHeaders = getAuthHeadersFromCookie();
     
