@@ -24,11 +24,10 @@ function getAuthHeadersFromCookie(): Record<string, string> {
 
 // PATCH /api/projects/:projectId/meetings/:meetingId
 export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Record<string, string> }
+  req: Request,
+  { params }: { params: { projectId: string; meetingId: string } }
 ) {
-  const projectId = params.projectId;
-  const meetingId = params.meetingId;
+  const { projectId, meetingId } = params;
 
   try {
     const authHeaders = getAuthHeadersFromCookie();
@@ -61,11 +60,10 @@ export async function PATCH(
 
 // DELETE /api/projects/:projectId/meetings/:meetingId
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Record<string, string> }
+  req: Request,
+  { params }: { params: { projectId: string; meetingId: string } }
 ) {
-  const projectId = params.projectId;
-  const meetingId = params.meetingId;
+  const { projectId, meetingId } = params;
 
   try {
     const authHeaders = getAuthHeadersFromCookie();

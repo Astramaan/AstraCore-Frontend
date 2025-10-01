@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "ionic:build": "next build && next export",
+    "ionic:build": "next build",
     "ionic:serve": "npm run dev"
   },
   "dependencies": {
