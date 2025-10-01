@@ -4,6 +4,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import ClientHomePageContent from './client-home-page-content';
 
 export async function generateStaticParams() {
+    // We don't want to pre-build any client pages.
+    // This function satisfies the build requirement for "output: export".
     return [];
 }
 
