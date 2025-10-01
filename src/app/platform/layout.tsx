@@ -1,9 +1,9 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,7 +12,6 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { PlatformSidebar } from '@/components/platform-sidebar';
 import NotificationBellIcon from '@/components/icons/notification-bell-icon';
-import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
@@ -91,27 +90,6 @@ const PlatformHeader = () => {
 
 
 function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
-    const { user, loading, isSuperAdmin } = useUser();
-    const router = useRouter();
-
-    if (loading) {
-        return (
-             <div className="min-h-screen bg-background p-4 flex">
-                <div className="hidden md:block w-64">
-                    <Skeleton className="h-full w-full" />
-                </div>
-                <div className="flex-1 flex flex-col">
-                    <header className="h-20">
-                         <Skeleton className="h-full w-full" />
-                    </header>
-                    <main className="flex-1 p-4">
-                        <Skeleton className="h-full w-full" />
-                    </main>
-                </div>
-            </div>
-        );
-    }
-    
     return (
         <div className="min-h-screen bg-background flex">
             <div className="hidden md:block w-64 border-r border-stone-300">
