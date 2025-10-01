@@ -2,6 +2,7 @@
 import { type NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  output: 'export',
   transpilePackages: ['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons'],
   images: {
     unoptimized: true,
@@ -19,7 +20,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
-        protocol: 'https',
+        protocol: 'https' ,
         hostname: 'images.unsplash.com',
         port: '',
         pathname: '/**',
