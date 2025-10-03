@@ -56,7 +56,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  req: Request,
   { params }: { params: { projectId: string; meetingId: string } }
 ) {
   const { projectId, meetingId } = params;
