@@ -1,0 +1,79 @@
+
+apply plugin: "com.android.application"
+
+import com.android.build.api.variant.ApplicationVariant
+import com.facebook.react.utils.copyJsBundleToAssetsIfNeeded
+import com.facebook.react.utils.createBundleJsAndAssetsTask
+import com.facebook.react.utils.getHermesCommand
+import java.io.File
+
+// We declare the signing config that we'll use for our release build.
+// This is all you need to do on this side. Your private signing key details
+// will be stored in a separate gradle.properties file that you will not
+
+// check into version control.
+def keystoreFile = rootProject.file("my-release-key.keystore")
+def keystoreProperties = new Properties()
+if (keystoreFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystoreFile))
+}
+
+android {
+    ndkVersion "26.1.10909125"
+    compileSdk 34
+    namespace "com.astramaannative"
+
+    signingConfigs {
+        release {
+            if (keystoreFile.exists()) {
+                storeFile keystoreFile
+                storePassword keystoreProperties.getProperty("MYAPP_RELEASE_STORE_PASSWORD")
+                keyAlias keystoreProperties.getProperty("MYAPP_RELEASE_KEY_ALIAS")
+                keyPassword keystoreProperties.getProperty("MYAPP_RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.astramaannative"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            // Your app is signed with the release key.
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+// ... rest of the file remains the same
+react {
+    jsBundleDir = "$buildDir/generated/assets/react/release"
+    resourcesDir = "$buildDir/generated/res/react/release"
+}
+
+dependencies {
+    implementation("com.facebook.react:react-android")
+    // Other dependencies here
+}
+
+def isNewArchitectureEnabled() {
+    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+
+android.applicationVariants.all { variant ->
+    def bundleTaskName = "createBundle${variant.name.capitalize()}JsAndAssets"
+    def bundleTask = tasks.create(
+        name: bundleTaskName,
+        type: org.gradle.api.tasks.Exec
+    ) {
+        // Task configuration
+    }
+}
+
+    
