@@ -11,17 +11,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function NewUserLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useUser();
   const router = useRouter();
-  const params = useParams();
   
-  /*
-  useEffect(() => {
-    if (!loading && user && user.team !== 'New User') {
-      router.replace(`/organization/${user.organizationId}/client/${user.userId}/home`);
-    }
-  }, [user, loading, router]);
-  */
-  
-  if (loading || (user && user.team !== 'New User')) {
+  if (loading) {
     return (
         <div className="min-h-screen bg-background p-4 2xl:p-10">
             <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">

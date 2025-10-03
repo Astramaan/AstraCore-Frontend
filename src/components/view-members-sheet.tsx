@@ -60,11 +60,11 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
         
         const result = await requestPasswordReset(null, formData);
 
-        if (result?.error) {
-            toast({
+        if (result?.message) {
+             toast({
                 variant: "destructive",
                 title: "Error",
-                description: result.error,
+                description: result.message,
             });
         } else {
              toast({

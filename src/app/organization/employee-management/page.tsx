@@ -18,7 +18,8 @@ const allRoles: Role[] = [
         bgColor: "bg-red-200/30",
         admin: "Balaji Naik", 
         active: 2, 
-        total: 2 
+        total: 2,
+        members: [],
     },
     { 
         name: "Sales", 
@@ -26,7 +27,8 @@ const allRoles: Role[] = [
         bgColor: "bg-yellow-400/30",
         admin: "Balaji Naik", 
         active: 3, 
-        total: 8
+        total: 8,
+        members: [],
     },
     { 
         name: "Software Development", 
@@ -34,7 +36,8 @@ const allRoles: Role[] = [
         bgColor: "bg-blue-300/30",
         admin: "Balaji Naik", 
         active: 12, 
-        total: 12
+        total: 12,
+        members: [],
     },
     { 
         name: "Design", 
@@ -42,7 +45,8 @@ const allRoles: Role[] = [
         bgColor: "bg-purple-300/30",
         admin: "Balaji Naik", 
         active: 4, 
-        total: 4
+        total: 4,
+        members: [],
     },
     { 
         name: "Support & Feedback", 
@@ -50,7 +54,8 @@ const allRoles: Role[] = [
         bgColor: "bg-green-300/30",
         admin: "Balaji Naik", 
         active: 20, 
-        total: 20
+        total: 20,
+        members: [],
     },
     { 
         name: "Human Resources", 
@@ -58,7 +63,8 @@ const allRoles: Role[] = [
         bgColor: "bg-pink-300/30",
         admin: "Balaji Naik", 
         active: 0, 
-        total: 2
+        total: 2,
+        members: [],
     },
 ];
 

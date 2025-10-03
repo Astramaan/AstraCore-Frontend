@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -19,15 +20,51 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from './ui/button';
-import { ProjectFilesCard } from './project-files-card';
+import { ProjectFilesCard, type Phase } from './project-files-card';
 import { X } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DesignDocumentsDialogProps {
-  files: any; // Using 'any' as it was in ProjectFilesCardProps
+  files: {
+    initial: any[];
+    costing: any[];
+    architecture: any[];
+    structure: any[];
+    sanction: any[];
+    construction: any[];
+  };
 }
+
+const mapFilesToPhases = (files: DesignDocumentsDialogProps['files']): Phase[] => {
+    return [
+        {
+            name: "Initial",
+            stages: [{ name: "Initial Documents", documents: files.initial }]
+        },
+        {
+            name: "Costing",
+            stages: [{ name: "Costing Documents", documents: files.costing }]
+        },
+        {
+            name: "Architecture",
+            stages: [{ name: "Architecture Documents", documents: files.architecture }]
+        },
+        {
+            name: "Structure",
+            stages: [{ name: "Structure Documents", documents: files.structure }]
+        },
+        {
+            name: "Sanction",
+            stages: [{ name: "Sanction Documents", documents: files.sanction }]
+        },
+        {
+            name: "Construction",
+            stages: [{ name: "Construction Documents", documents: files.construction }]
+        },
+    ];
+};
 
 export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => {
     const isMobile = useIsMobile();
@@ -37,6 +74,9 @@ export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => 
     const DialogOrSheetHeader = SheetHeader;
     const DialogOrSheetTitle = SheetTitle;
     const DialogOrSheetClose = SheetClose;
+    
+    const phases = mapFilesToPhases(files);
+
 
   return (
     <DialogOrSheet>
@@ -66,7 +106,7 @@ export const DesignDocumentsDialog = ({ files }: DesignDocumentsDialogProps) => 
         </DialogOrSheetHeader>
          <ScrollArea className="flex-1">
             <div className="p-6">
-                 <ProjectFilesCard files={files} />
+                 <ProjectFilesCard phases={phases} />
             </div>
         </ScrollArea>
       </DialogOrSheetContent>

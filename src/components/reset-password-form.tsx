@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useFormStatus } from "react-dom";
@@ -29,7 +30,7 @@ export default function ResetPasswordForm({ searchParams, onSuccess }: { searchP
     const confirmPassword = formData.get('confirm-password') as string;
 
     if (password !== confirmPassword) {
-      return { error: 'Passwords do not match.' };
+      return { success: false, message: 'Passwords do not match.' };
     }
     
     console.log("Resetting password...");
@@ -41,16 +42,16 @@ export default function ResetPasswordForm({ searchParams, onSuccess }: { searchP
     return createPassword(prevState, formData);
   }
 
-  const [state, dispatch] = useActionState(formAction, undefined);
+  const [state, dispatch] = useActionState(formAction, { success: false, message: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   useEffect(() => {
-    if (state?.error) {
+    if (!state.success && state.message) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: state.error,
+        description: state.message,
       });
     }
   }, [state, toast]);

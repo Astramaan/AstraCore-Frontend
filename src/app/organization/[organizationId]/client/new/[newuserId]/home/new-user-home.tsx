@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -85,7 +86,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                       style={{ border: 0 }}
                       allowFullScreen={false}
                       loading="lazy"
-                      referrerPolicy="no-referrer-downgrade"
+                      referrerPolicy="no-referrer-when-downgrade"
                       className="rounded-3xl"
                     ></iframe>
                     <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>
@@ -102,7 +103,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
     );
 }
 
-export default function NewUserHomePage({ params }: { params: { organizationId: string, userId: string } }) {
+export default function NewUserHomePage({ params }: { params: { organizationId: string; userId: string } }) {
     const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
     const [consultationType, setConsultationType] = useState<'office' | 'home' | 'online' | 'in-person' | null>(null);
     const [appointment, setAppointment] = useState<AppointmentDetails | null>(null);

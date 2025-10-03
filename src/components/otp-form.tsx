@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useRef, useEffect, useActionState } from 'react';
@@ -36,7 +37,7 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
     return verifyOtp(prevState, formData);
   }
   
-  const [state, dispatch] = useActionState(formAction, undefined);
+  const [state, dispatch] = useActionState(formAction, { success: false, message: '' });
   
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
@@ -48,11 +49,11 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (state?.error) {
+    if (!state.success && state.message) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: state.error,
+        description: state.message,
       });
       // Clear OTP on error
       setOtp(new Array(4).fill(""));

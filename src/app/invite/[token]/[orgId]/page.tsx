@@ -11,8 +11,8 @@ export default function VerifyInvitePage({ params }: { params: { token: string; 
     useEffect(() => {
         const handleVerification = async () => {
             const result = await verifyInvite(params.token, params.orgId);
-            if (result?.error) {
-                setError(result.error);
+            if (!result?.success) {
+                setError(result.message);
             }
         };
 

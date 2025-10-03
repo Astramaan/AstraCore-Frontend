@@ -28,7 +28,7 @@ import AssignTaskIcon from "./icons/assign-task-icon";
 
 
 interface AssignTaskFormProps {
-    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
+    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments'>) => void;
     onClose: () => void;
 }
 
@@ -45,7 +45,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
+            setAttachments(prev => [...prev, ...Array.from(event.target.files as FileList)]);
         }
     };
     
@@ -62,7 +62,8 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                 priority,
                 category: category || 'General',
                 project: 'AstraCore App', // Placeholder
-                clientId: 'CL005', // Placeholder
+                clientId: 'CL005', // Placeholder,
+                status: 'Pending'
             });
             onClose();
         } else {
@@ -232,7 +233,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
 
 interface AssignTaskSheetProps {
-    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
+    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments'>) => void;
 }
 
 export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
@@ -240,7 +241,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
     const [showSuccess, setShowSuccess] = useState(false);
     const isMobile = useIsMobile();
 
-    const handleSuccess = (task: Omit<Task, 'id' | 'attachments' | 'status'>) => {
+    const handleSuccess = (task: Omit<Task, 'id' | 'attachments'>) => {
         onTaskAssigned(task);
         setIsOpen(false);
         setShowSuccess(true);

@@ -27,7 +27,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
 }
 
 export default function SignupForm() {
-  const [state, action] = useActionState(signup, undefined);
+  const [state, action] = useActionState(signup, { success: false, message: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -42,11 +42,11 @@ export default function SignupForm() {
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (state?.error) {
+    if (!state.success && state.message) {
       toast({
         variant: "destructive",
         title: "Signup Error",
-        description: state.error,
+        description: state.message,
       });
     }
   }, [state, toast]);
@@ -202,7 +202,7 @@ export default function SignupForm() {
 
       <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
         <div className="mb-4">
-          <SubmitButton disabled={isCheckingEmail} />
+          <SubmitButton disabled={isCheckingEmail || !!emailError} />
         </div>
 
         <div className="text-center text-sm">

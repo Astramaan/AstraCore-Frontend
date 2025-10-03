@@ -1,5 +1,14 @@
 
-import { Member } from "@/components/view-members-sheet";
+export interface Member {
+    id: string;
+    name: string;
+    avatar: string;
+    contact: string;
+    role: string;
+    status: 'Active' | 'Inactive';
+    lastActive: string;
+    email: string;
+}
 
 export interface Project {
     id: string;

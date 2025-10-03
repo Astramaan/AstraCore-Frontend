@@ -8,6 +8,7 @@ import Image from "next/image";
 import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin } from 'lucide-react';
 import React, { useState, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
+import { ClientHeader } from "@/components/client-header";
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center z-10">
@@ -82,7 +83,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                       style={{ border: 0 }}
                       allowFullScreen={false}
                       loading="lazy"
-                      referrerPolicy="no-referrer-downgrade"
+                      referrerPolicy="no-referrer-when-downgrade"
                       className="rounded-3xl"
                     ></iframe>
                     <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>

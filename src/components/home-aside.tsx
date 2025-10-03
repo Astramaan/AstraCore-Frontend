@@ -15,6 +15,7 @@ import GoogleMeetIcon from './icons/google-meet-icon';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useUser } from '@/context/user-context';
+import { ProjectTimelineChart } from './charts/project-timeline-chart';
 
 const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting: Meeting) => void }) => (
     <motion.div
@@ -42,8 +43,8 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
 
 interface HomeAsideProps {
     meetings?: Meeting[];
-    myTasksChartData?: { name: string; value: number }[];
-    assignedTasksChartData?: { name: string; value: number }[];
+    myTasksChartData?: { name: string; value: number, fill?: string }[];
+    assignedTasksChartData?: { name: string; value: number, fill?: string }[];
     projectTasksChartData?: { name: string; value: number, fill: string }[];
     onMeetingClick?: (meeting: Meeting) => void;
     onAddTask?: (task: Omit<Task, 'id' | 'attachments'>) => void;
@@ -85,13 +86,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
                         {projectTasksChartData && (
-                             <Card className="rounded-[50px] relative">
-                                <CardContent className="pt-10">
-                                    <div className="relative">
-                                        <TaskOverviewChart data={projectTasksChartData} title="Project Tasks" />
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            <ProjectTimelineChart data={projectTasksChartData} />
                         )}
                         {myTasksChartData && myTasksChartData.length > 0 && 
                             <Card className="rounded-[50px] relative">

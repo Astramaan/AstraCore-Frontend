@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useFormStatus } from "react-dom";
@@ -39,26 +40,24 @@ export default function SetPasswordForm({ flow, onEmailSubmitted }: { flow: 'set
     const formAction = async (prevState: any, formData: FormData) => {
         if (onEmailSubmitted) {
             const email = formData.get('email') as string;
-            // Here you might want to do a client-side check first if desired
-            // For now, just call the callback
             onEmailSubmitted(email);
             return { success: true };
         }
         return requestPasswordReset(prevState, formData);
     };
 
-  const [state, dispatch] = useActionState(formAction, undefined);
+  const [state, dispatch] = useActionState(formAction, { success: false, message: '' });
   const [email, setEmail] = useState('');
   const { toast } = useToast();
 
   const config = flowConfig[flow];
 
   useEffect(() => {
-    if (state?.error) {
+    if (state?.message && !state.success) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: state.error,
+        description: state.message,
       });
     }
     if (state?.success && !onEmailSubmitted) {

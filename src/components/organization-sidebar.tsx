@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -6,7 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Calendar, GanttChartSquare, Users, FileText, Bot, LogOut, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Logo from './logo';
+import { HabiLogo } from './habi-logo';
 
 const navItems = [
     { href: "/organization/home", icon: Home, label: "Home" },
@@ -40,7 +41,7 @@ export function OrganizationSidebar() {
         <div className="h-full flex flex-col bg-white">
             <div className="p-4 pt-8">
                  <Link href="/platform/dashboard" className="ml-4">
-                    <Logo />
+                    <HabiLogo />
                 </Link>
             </div>
             <nav className="flex-grow px-4 mt-8">

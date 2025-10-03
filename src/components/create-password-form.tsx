@@ -25,16 +25,16 @@ function SubmitButton() {
 export default function CreatePasswordForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined }}) {
   const { toast } = useToast();
 
-  const [state, dispatch] = useActionState(createPassword, undefined);
+  const [state, dispatch] = useActionState(createPassword, { success: false, message: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   useEffect(() => {
-    if (state?.error) {
+    if (!state.success && state.message) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: state.error,
+        description: state.message,
       });
     }
   }, [state, toast]);
