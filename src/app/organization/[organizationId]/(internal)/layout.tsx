@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
-  const { user, loading, isClient } = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
   const [isNativeApp, setIsNativeApp] = useState(false);
 
@@ -29,7 +29,7 @@ function OrganizationInternalLayoutContent({ children }: { children: React.React
   }, [user, loading, router, isClient]);
   */
   
-  if (loading || !user || isClient) {
+  if (loading || !user) {
     return (
        <div className="min-h-screen bg-background p-4 md:p-8 2xl:p-10">
             <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">
