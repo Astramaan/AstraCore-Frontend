@@ -1,4 +1,4 @@
 
 rootProject.name = 'AstramaanNative'
-
+apply from: new File(settingsDir, '../node_modules/@react-native-community/cli-platform-android/native_modules.gradle'); applyNativeModulesSettings(settings)
 include ':app'
