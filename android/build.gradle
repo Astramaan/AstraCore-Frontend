@@ -6,10 +6,7 @@ buildscript {
         minSdkVersion = 21
         compileSdkVersion = 34
         targetSdkVersion = 34
-
-        // We use NDK 23.1.7779620 because Android Gradle Plugin 8.1.1
-        // requires NDK 23.x specified (see AgpVersions.kt AGP_NDK_VERSION_MAX)
-        ndkVersion = "23.1.7779620"
+        ndkVersion = "25.1.8937393"
     }
     repositories {
         google()
@@ -23,6 +20,8 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
+        google()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
@@ -31,7 +30,5 @@ allprojects {
             // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")
         }
-        google()
-        mavenCentral()
     }
 }
