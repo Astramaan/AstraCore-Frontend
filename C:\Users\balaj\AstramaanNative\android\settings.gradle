@@ -1,5 +1,4 @@
 
 rootProject.name = 'AstramaanNative'
 include ':app'
-
-apply from: new File(settingsDir, '../node_modules/react-native/android/include.gradle')
+    
