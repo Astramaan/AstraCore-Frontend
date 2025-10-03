@@ -322,8 +322,8 @@ export default function ProjectsPage() {
         setAllProjects(prev => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
     };
 
-    const canCreateProject = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
-    const canManageProjects = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
+    const canCreateProject = user?.role === 'SUPER_ADMIN' || user?.team === 'Project Manager';
+    const canManageProjects = user?.role === 'SUPER_ADMIN' || user?.team === 'Project Manager';
     
     return (
         <div className="space-y-8">
