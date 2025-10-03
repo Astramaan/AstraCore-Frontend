@@ -1,5 +1,5 @@
 
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
@@ -56,7 +56,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { projectId: string; meetingId: string } }
 ) {
   const { projectId, meetingId } = params;
