@@ -1,4 +1,6 @@
 
 rootProject.name = 'AstramaanNative'
+apply from: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../android/settings.gradle.include")
+apply from: new File(settings.reactNativeDir, "native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
-    
+includeBuild(new File(rootProject.projectDir, '../node_modules/@react-native/gradle-plugin'))
