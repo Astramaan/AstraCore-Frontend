@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { OrganizationHeader } from '@/components/organization-header';
 import { OrganizationBottomNav } from '@/components/organization-bottom-nav';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser, UserProvider } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -12,14 +12,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 function OrganizationInternalLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading } = useUser();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isNativeApp, setIsNativeApp] = useState(false);
 
   useEffect(() => {
     // @ts-ignore
-    if (window.isNativeApp) {
+    if (window.isNativeApp || searchParams.get('isNativeApp') === 'true') {
       setIsNativeApp(true);
     }
-  }, []);
+  }, [searchParams]);
 
   /*
   useEffect(() => {

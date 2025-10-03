@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { ClientBottomNav } from '@/components/client-bottom-nav';
 import { UserProvider, useUser } from '@/context/user-context';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { ClientHeader } from '@/components/client-header';
@@ -13,14 +13,15 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, loading, isClient } = useUser();
     const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     const [isNativeApp, setIsNativeApp] = useState(false);
 
     useEffect(() => {
       // @ts-ignore
-      if (window.isNativeApp) {
+      if (window.isNativeApp || searchParams.get('isNativeApp') === 'true') {
         setIsNativeApp(true);
       }
-    }, []);
+    }, [searchParams]);
 
     const isLivePage = pathname.includes('/live');
 
