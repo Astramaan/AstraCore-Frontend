@@ -112,7 +112,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 if (result.success && result.data) {
                     setName(result.data.fullName || '');
                     setPhone(result.data.phoneNumber || '');
-                    setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${'result.data.siteAddressPinCode'}`: '');
+                    setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${result.data.siteAddressPinCode}`: '');
                 }
             }
         };
@@ -404,8 +404,7 @@ const foundationTemplate: Phase[] = [
                 tasks: [
                     {
                         name: "Digging",
-                        duration: "3",
-                        status: "Not Started"
+                        duration: "3"
                     }
                 ]
             }
@@ -557,13 +556,16 @@ const ProjectTimelineForm = ({
                                                             {stage.tasks.map((task, taskIndex) => (
                                                                 <div key={task.name} className="space-y-2">
                                                                     <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
-                                                                    <Input
-                                                                        name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
-                                                                        type="number"
-                                                                        className="h-12 bg-background rounded-full px-5"
-                                                                        placeholder="Duration (in days)"
-                                                                        defaultValue={task.duration}
-                                                                    />
+                                                                    <div className="flex items-center gap-2">
+                                                                        <Input
+                                                                            name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
+                                                                            type="number"
+                                                                            className="h-12 bg-background rounded-full px-5"
+                                                                            placeholder="Duration"
+                                                                            defaultValue={task.duration}
+                                                                        />
+                                                                        <span className="text-muted-foreground">Days</span>
+                                                                    </div>
                                                                 </div>
                                                             ))}
                                                         </div>
@@ -891,5 +893,6 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
