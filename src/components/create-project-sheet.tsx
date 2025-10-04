@@ -365,15 +365,15 @@ const residentialTemplate: Phase[] = [
     {
         name: "Design",
         stages: [
-            { name: "Architectural Design", tasks: [{ name: "Design Presentation", duration: "3 Days" }, { name: "Concept Approval", duration: "2 Days" }] },
-            { name: "Structural Design", tasks: [{ name: "Analysis Report", duration: "4 Days" }, { name: "Foundation Design", duration: "2 Days" }] }
+            { name: "Architectural Design", tasks: [{ name: "Design Presentation", duration: "3" }, { name: "Concept Approval", duration: "2" }] },
+            { name: "Structural Design", tasks: [{ name: "Analysis Report", duration: "4" }, { name: "Foundation Design", duration: "2" }] }
         ]
     },
     {
         name: "Construction",
         stages: [
-            { name: "Foundation", tasks: [{ name: "Excavation", duration: "5 Days" }, { name: "PCC", duration: "2 Days" }] },
-            { name: "Superstructure", tasks: [{ name: "Framing", duration: "10 Days" }, { name: "Roofing", duration: "7 Days" }] }
+            { name: "Foundation", tasks: [{ name: "Excavation", duration: "5" }, { name: "PCC", duration: "2" }] },
+            { name: "Superstructure", tasks: [{ name: "Framing", duration: "10" }, { name: "Roofing", duration: "7" }] }
         ]
     }
 ];
@@ -382,36 +382,37 @@ const commercialTemplate: Phase[] = [
     {
         name: "Pre-construction",
         stages: [
-            { name: "Site Analysis", tasks: [{ name: "Surveying", duration: "5 Days" }, { name: "Geotechnical Investigation", duration: "7 Days" }] },
-            { name: "Permitting", tasks: [{ name: "Submit plans", duration: "2 Days" }, { name: "Await approval", duration: "30 Days" }] }
+            { name: "Site Analysis", tasks: [{ name: "Surveying", duration: "5" }, { name: "Geotechnical Investigation", duration: "7" }] },
+            { name: "Permitting", tasks: [{ name: "Submit plans", duration: "2" }, { name: "Await approval", duration: "30" }] }
         ]
     },
     {
         name: "Construction",
         stages: [
-            { name: "Foundation", tasks: [{ name: "Heavy Excavation", duration: "10 Days" }, { name: "Reinforcement", duration: "10 Days" }] },
-            { name: "Structure", tasks: [{ name: "Steel Erection", duration: "20 Days" }, { name: "Cladding", duration: "15 Days" }] }
+            { name: "Foundation", tasks: [{ name: "Heavy Excavation", duration: "10" }, { name: "Reinforcement", duration: "10" }] },
+            { name: "Structure", tasks: [{ name: "Steel Erection", duration: "20" }, { name: "Cladding", duration: "15" }] }
         ]
     },
 ];
 
 const foundationTemplate: Phase[] = [
     {
-      name: "Foundation",
-      stages: [
-        {
-          name: "Excavation",
-          tasks: [
+        name: "Foundation",
+        stages: [
             {
-              name: "Digging",
-              duration: "3 Days",
-              status: "Not Started"
+                name: "Excavation",
+                tasks: [
+                    {
+                        name: "Digging",
+                        duration: "3",
+                        status: "Not Started"
+                    }
+                ]
             }
-          ]
-        }
-      ]
+        ]
     }
 ];
+
 
 const templates = [
     { id: 'residential', name: 'Residential Template', phases: residentialTemplate },
@@ -558,8 +559,9 @@ const ProjectTimelineForm = ({
                                                                     <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
                                                                     <Input
                                                                         name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
+                                                                        type="number"
                                                                         className="h-12 bg-background rounded-full px-5"
-                                                                        placeholder="Duration (optional)"
+                                                                        placeholder="Duration (in days)"
                                                                         defaultValue={task.duration}
                                                                     />
                                                                 </div>
@@ -889,4 +891,5 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
