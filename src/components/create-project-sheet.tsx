@@ -112,7 +112,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 if (result.success && result.data) {
                     setName(result.data.fullName || '');
                     setPhone(result.data.phoneNumber || '');
-                    setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${result.data.siteAddressPinCode}`: '');
+                    setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${'result.data.siteAddressPinCode'}`: '');
                 }
             }
         };
@@ -395,9 +395,28 @@ const commercialTemplate: Phase[] = [
     },
 ];
 
+const foundationTemplate: Phase[] = [
+    {
+      name: "Foundation",
+      stages: [
+        {
+          name: "Excavation",
+          tasks: [
+            {
+              name: "Digging",
+              duration: "3 Days",
+              status: "Not Started"
+            }
+          ]
+        }
+      ]
+    }
+];
+
 const templates = [
     { id: 'residential', name: 'Residential Template', phases: residentialTemplate },
-    { id: 'commercial', name: 'Commercial Template', phases: commercialTemplate }
+    { id: 'commercial', name: 'Commercial Template', phases: commercialTemplate },
+    { id: 'foundation', name: 'Foundation Template', phases: foundationTemplate },
 ]
 
 const ProjectTimelineForm = ({
@@ -513,8 +532,9 @@ const ProjectTimelineForm = ({
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem onSelect={() => handleTemplateSelect('residential')}>Residential Template</DropdownMenuItem>
-                                        <DropdownMenuItem onSelect={() => handleTemplateSelect('commercial')}>Commercial Template</DropdownMenuItem>
+                                        {templates.map(template => (
+                                             <DropdownMenuItem key={template.id} onSelect={() => handleTemplateSelect(template.id)}>{template.name}</DropdownMenuItem>
+                                        ))}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 <Button type="button" onClick={() => setIsCustomTimelineDialogOpen(true)} className="h-14 rounded-full px-4 w-full">
@@ -869,3 +889,4 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
