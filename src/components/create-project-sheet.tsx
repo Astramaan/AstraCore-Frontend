@@ -1,4 +1,5 @@
 
+
       
 'use client';
 
@@ -443,6 +444,12 @@ const ProjectTimelineForm = ({
             setTimeline(template.phases);
         }
     };
+    
+    const handleDurationChange = (phaseIndex: number, stageIndex: number, taskIndex: number, value: string) => {
+        const newTimeline = [...timeline];
+        newTimeline[phaseIndex].stages[stageIndex].tasks[taskIndex].duration = value;
+        setTimeline(newTimeline);
+    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -562,9 +569,12 @@ const ProjectTimelineForm = ({
                                                                             type="number"
                                                                             className="h-12 bg-background rounded-full px-5"
                                                                             placeholder="Duration"
-                                                                            defaultValue={task.duration}
+                                                                            value={task.duration}
+                                                                            onChange={(e) => handleDurationChange(phaseIndex, stageIndex, taskIndex, e.target.value)}
                                                                         />
-                                                                        <span className="text-muted-foreground">Days</span>
+                                                                         <span className="text-muted-foreground">
+                                                                            {task.duration === '1' ? 'Day' : 'Days'}
+                                                                        </span>
                                                                     </div>
                                                                 </div>
                                                             ))}
@@ -893,6 +903,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
