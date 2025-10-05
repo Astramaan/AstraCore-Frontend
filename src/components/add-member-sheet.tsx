@@ -209,7 +209,7 @@ export function AddMemberSheet({ isOpen: controlledIsOpen, onOpenChange: control
               <div className="flex items-center justify-between">
                 <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
-                        <Plus className="h-6 w-6"/>
+                        <UserPlusIcon className="h-6 w-6"/>
                     </div>
                     Add New Member
                 </SheetTitle>
