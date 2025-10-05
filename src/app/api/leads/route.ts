@@ -41,7 +41,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/invites`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
             method: 'POST',
             headers: getAuthHeaders(req),
             body: JSON.stringify(body),
