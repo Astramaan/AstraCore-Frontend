@@ -3,8 +3,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
-import { verifyOtp } from '@/app/actions';
+import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '@/components/ui/use-toast';
@@ -12,32 +11,9 @@ import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
-      {pending ? 'Verifying...' : 'Verify & Continue'}
-    </Button>
-  );
-}
-
-export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { searchParams: { [key: string]: string | string[] | undefined }; onVerifySuccess?: (newSearchParams: any) => void; onClose?: () => void; }) {
+export default function OtpForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined }}) {
   const { toast } = useToast();
-  
-  const formAction = async (prevState: any, formData: FormData) => {
-    // In a real app, you would verify the OTP here.
-    // For now, we'll simulate success and call the callback if it exists.
-    if (onVerifySuccess) {
-      const newSearchParams = Object.fromEntries(formData.entries());
-      onVerifySuccess(newSearchParams);
-      return { success: true };
-    }
-    
-    // Fallback to server action if no callback
-    return verifyOtp(prevState, formData);
-  }
-  
-  const [state, dispatch] = useActionState(formAction, { success: false, message: '' });
+  const router = useRouter();
   
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const [timer, setTimer] = useState(28);
@@ -45,21 +21,9 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
   const hasOtp = otp.some(d => d);
   const email = searchParams.email as string || 'user@example.com';
   const flow = searchParams.flow as string || '';
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (!state.success && state.message) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: state.message,
-      });
-      // Clear OTP on error
-      setOtp(new Array(4).fill(""));
-      inputRefs.current[0]?.focus();
-    }
-  }, [state, toast]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -91,14 +55,58 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
     setTimer(28);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const otpValue = otp.join('');
+    if (otpValue.length < 4) {
+        toast({
+            variant: "destructive",
+            title: "Invalid OTP",
+            description: "Please enter a valid 4-digit OTP.",
+        });
+        return;
+    }
+    
+    setIsSubmitting(true);
+    try {
+        const res = await fetch('/api/verify-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, otp: otpValue }),
+        });
+        
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            const params = new URLSearchParams(searchParams as Record<string, string>);
+            if (flow === 'signup') {
+                router.push(`/create-password?${params.toString()}`);
+            } else if (flow === 'forgot-password' || flow === 'change-password') {
+                router.push(`/set-password?${params.toString()}`);
+            }
+        } else {
+             toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: data.message || "Invalid OTP. Please try again.",
+            });
+             setOtp(new Array(4).fill(""));
+             inputRefs.current[0]?.focus();
+        }
+    } catch(error) {
+        console.error('Verify OTP failed', error);
+         toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: "An unexpected error occurred.",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
+  }
+
   return (
-    <form ref={formRef} action={dispatch} className="space-y-6 flex flex-col flex-grow">
-      <input type="hidden" name="email" value={searchParams.email || ''} />
-      <input type="hidden" name="phone" value={searchParams.phone || ''} />
-      <input type="hidden" name="organization" value={searchParams.organization || ''} />
-      <input type="hidden" name="password" value={searchParams.password || ''} />
-      <input type="hidden" name="flow" value={flow || ''} />
-      
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 flex flex-col flex-grow">
         <div className="flex-grow space-y-6">
             <div className="text-lg text-grey-1">
                 Check your inbox at {email}. 
@@ -146,7 +154,9 @@ export default function OtpForm({ searchParams, onVerifySuccess, onClose }: { se
         </div>
         
         <div className='pt-4 mt-auto'>
-            <SubmitButton />
+            <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={isSubmitting}>
+              {isSubmitting ? 'Verifying...' : 'Verify & Continue'}
+            </Button>
         </div>
     </form>
   );

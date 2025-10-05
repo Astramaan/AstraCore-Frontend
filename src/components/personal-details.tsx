@@ -1,18 +1,12 @@
 
+
 'use client';
 
-import React, { useState, useActionState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import Image from 'next/image';
 import { Edit, Save, ShieldAlert, Palette } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,7 +23,6 @@ import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { updateUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import {
   Sheet,
@@ -66,28 +59,8 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
-
-    const [state, formAction] = useActionState(updateUser, null);
-
-    useEffect(() => {
-        if (state?.success) {
-            const updatedUser = { ...user, ...formData };
-            setUser(updatedUser as any);
-            onSave(formData);
-            toast({
-                title: 'Success!',
-                description: state.message,
-            });
-        } else if (state?.message) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
-        }
-    }, [state, onSave, toast, formData, user, setUser]);
-
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -123,25 +96,55 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
         </div>
     );
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formDataObj = new FormData(event.currentTarget);
-        formAction(formDataObj);
+        setIsSubmitting(true);
+        try {
+            const res = await fetch('/api/update-profile', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            if(data.success) {
+                const updatedUser = { ...user, ...formData };
+                setUser(updatedUser as any);
+                onSave(formData);
+                toast({
+                    title: 'Success!',
+                    description: data.message,
+                });
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: data.message,
+                });
+            }
+        } catch(e) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'An unexpected error occurred.',
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
             <input type="hidden" name="id" value={member.id} />
-            <DialogHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
-                <DialogTitle className="flex justify-between items-center">
+            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
+                <SheetTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
-                    <DialogClose asChild>
+                    <SheetClose asChild>
                         <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full" onClick={onCancel}>
                             <X className="h-5 w-5" />
                         </Button>
-                    </DialogClose>
-                </DialogTitle>
-            </DialogHeader>
+                    </SheetClose>
+                </SheetTitle>
+            </SheetHeader>
             <ScrollArea className="flex-1">
                 <div className="p-6 space-y-4 bg-white">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
@@ -171,7 +174,9 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                 </div>
             </ScrollArea>
             <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px] mt-auto shrink-0">
-                <Button type="submit" className="w-full md:w-auto h-14 px-10 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save</Button>
+                <Button type="submit" className="w-full md:w-auto h-14 px-10 rounded-full text-lg" disabled={isSubmitting}>
+                    {isSubmitting ? 'Saving...' : <><Save className="mr-2 h-4 w-4" /> Save</>}
+                </Button>
             </div>
              <AlertDialog open={isRoleChangeConfirmOpen} onOpenChange={setIsRoleChangeConfirmOpen}>
                 <AlertDialogContent className="max-w-md rounded-[50px]">
@@ -203,16 +208,12 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [isBrandingSheetOpen, setIsBrandingSheetOpen] = useState(false);
     
-    // This will hold the member data to display/edit.
-    // If we're viewing another member's profile, we'd fetch their data.
-    // For now, it defaults to the logged-in user's data.
-    const member = user; // Simplified for now.
+    const member = user;
 
     const isOwner = user?.userId === memberId;
     const isSuperAdmin = user?.role === 'SUPER_ADMIN';
 
     const handleSave = (updatedMember: any) => {
-        // Here you would refresh the user context or refetch data if needed
         setIsEditing(false);
     };
     

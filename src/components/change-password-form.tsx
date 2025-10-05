@@ -2,8 +2,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import React, { useState, useEffect, useActionState } from "react";
-import { changePassword } from "@/app/actions";
+import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -25,28 +24,54 @@ function SubmitButton() {
 export function ChangePasswordForm({ email, onSuccess }: { email: string, onSuccess: () => void }) {
   const { toast } = useToast();
 
-  const [state, formAction] = useActionState(changePassword, {success: false, message: ''});
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (state?.message) {
-        if (state.success) {
-            onSuccess();
-        } else {
-             toast({
-                variant: "destructive",
-                title: "Error",
-                description: state.message,
-            });
-        }
-    }
-  }, [state, toast, onSuccess]);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if(newPassword !== confirmPassword) {
+          toast({
+              variant: "destructive",
+              title: "Error",
+              description: "New passwords do not match."
+          });
+          return;
+      }
+      setIsSubmitting(true);
+      try {
+          const res = await fetch('/api/change-password', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, currentPassword, newPassword, confirmPassword })
+          });
+          const data = await res.json();
+          if(data.success) {
+              onSuccess();
+          } else {
+              toast({
+                  variant: 'destructive',
+                  title: 'Error',
+                  description: data.message
+              })
+          }
+      } catch (e) {
+          toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: 'An unexpected error occurred.'
+          })
+      } finally {
+          setIsSubmitting(false);
+      }
+  }
 
   return (
-    <form action={formAction} className="space-y-6 flex-1 flex flex-col">
-      <input type="hidden" name="email" value={email} />
+    <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
       <div className="flex-1">
         <div className="space-y-2">
               <div className="flex justify-between items-center">
@@ -60,6 +85,8 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
                 required 
                 className={`pr-12 rounded-full bg-background h-[54px]`}
                 placeholder="Enter your current password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -81,6 +108,8 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
                 required 
                 className={`pr-12 rounded-full bg-background h-[54px]`}
                 placeholder="Enter new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -102,6 +131,8 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
                 required 
                 className={`pr-12 rounded-full bg-background h-[54px]`}
                 placeholder="Confirm new password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -120,7 +151,9 @@ export function ChangePasswordForm({ email, onSuccess }: { email: string, onSucc
         </div>
       </div>
       <div className="pt-6 mt-auto flex justify-end">
-        <SubmitButton />
+        <Button type="submit" className="w-full md:w-auto md:px-14 h-[54px] rounded-full hover:bg-primary/90" disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : "Save Password"}
+        </Button>
       </div>
     </form>
   );

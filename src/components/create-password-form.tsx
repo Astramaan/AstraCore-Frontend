@@ -1,9 +1,8 @@
 
 "use client";
 
-import { useFormStatus } from "react-dom";
-import React, { useState, useEffect, useActionState } from "react";
-import { createPassword } from "@/app/actions";
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -11,41 +10,68 @@ import { useToast } from "@/components/ui/use-toast";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
-import Link from 'next/link';
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending}>
-      {pending ? "Saving..." : "Save Password"}
-    </Button>
-  );
-}
 
 export default function CreatePasswordForm({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined }}) {
   const { toast } = useToast();
-
-  const [state, dispatch] = useActionState(createPassword, { success: false, message: '' });
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
-  useEffect(() => {
-    if (!state.success && state.message) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: state.message,
-      });
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if(password !== confirmPassword) {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Passwords do not match.",
+        });
+        return;
     }
-  }, [state, toast]);
+    
+    setIsSubmitting(true);
+    const payload = {
+        name: searchParams.name,
+        email: searchParams.email,
+        phone: searchParams.phone,
+        organization: searchParams.organization,
+        password: password,
+    }
+    try {
+        const res = await fetch('/api/create-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        
+        if (data.success) {
+            router.push('/password-success');
+        } else {
+             toast({
+                variant: "destructive",
+                title: "Error",
+                description: data.message || "Failed to create account.",
+            });
+        }
+
+    } catch (error) {
+        console.error("Create password failed:", error);
+         toast({
+            variant: "destructive",
+            title: "Error",
+            description: "An unexpected error occurred.",
+        });
+    } finally {
+        setIsSubmitting(false);
+    }
+  }
 
   return (
-    <form action={dispatch} className="flex-grow flex flex-col">
-       <input type="hidden" name="name" value={searchParams.name || ''} />
-       <input type="hidden" name="email" value={searchParams.email || ''} />
-       <input type="hidden" name="phone" value={searchParams.phone || ''} />
-       <input type="hidden" name="organization" value={searchParams.organization || ''} />
-       <input type="hidden" name="flow" value={searchParams.flow || ''} />
+    <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
       <div className="space-y-6 flex-grow">
         <div className="space-y-2">
             <Label htmlFor="password" className={cn("text-lg font-medium")}>New Password</Label>
@@ -57,6 +83,8 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
                 required 
                 className={`pr-12 rounded-full bg-background h-[54px]`}
                 placeholder="xxxxxxxxxxx"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -78,6 +106,8 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
                 required 
                 className={`pr-12 rounded-full bg-background h-[54px]`}
                 placeholder="xxxxxxxxxxx"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -92,11 +122,11 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
       </div>
       <div className="mt-auto pt-6">
         <div className="mb-4">
-          <SubmitButton />
+          <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : "Save Password"}
+          </Button>
         </div>
       </div>
     </form>
   );
 }
-
-    

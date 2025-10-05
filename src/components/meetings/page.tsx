@@ -60,7 +60,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-base">
                 <div>
-                    <span className="text-grey-2">Contact: </span>
+                    <span className="text-grey-2">Contact: </span> 
                     <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
                 </div>
                 <div className="text-right">
@@ -68,11 +68,11 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
                     <p className="text-zinc-900 font-medium">{meeting.id}</p>
                 </div>
                 <div>
-                    <span className="text-grey-2">Date & Time : </span>
+                    <span className="text-grey-2">Date & Time : </span> 
                     <p className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</p>
                 </div>
                 <div className="flex items-center justify-end gap-2">
-                    <span className="text-grey-2">Link: </span>
+                    <span className="text-grey-2">Link: </span> 
                     <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         <span className="hidden sm:inline">Google Meet</span>
@@ -314,4 +314,3 @@ export default function MeetingsPage() {
         </div>
     );
 }
-

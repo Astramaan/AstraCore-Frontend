@@ -1,18 +1,33 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
-import { verifyInvite } from '@/app/actions';
 import { AlertCircle } from 'lucide-react';
+import { redirect } from 'next/navigation';
 
 export default function VerifyInvitePage({ params }: { params: { token: string; orgId: string } }) {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const handleVerification = async () => {
-            const result = await verifyInvite(params.token, params.orgId);
-            if (!result?.success) {
-                setError(result.message);
+             try {
+                const res = await fetch(`/api/invite?token=${params.token}&orgId=${params.orgId}`);
+                const data = await res.json();
+
+                if (!res.ok || !data.success) {
+                    setError(data.message || "Invalid or expired invite link.");
+                    return;
+                }
+
+                const inviteDetails = data.data;
+                const searchParams = new URLSearchParams({
+                    email: inviteDetails.email,
+                    organization: inviteDetails.organizationName,
+                });
+                
+                redirect(`/signup?${searchParams.toString()}`);
+            } catch (error) {
+                console.error("Invite verification failed:", error);
+                setError("An unexpected error occurred.");
             }
         };
 

@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { addMember } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
@@ -35,21 +34,8 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [role, setRole] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const [state, formAction] = useActionState(addMember, { success: false, message: '' });
-
-    useEffect(() => {
-        if (state.success) {
-            onFormSuccess();
-        } else if (state.message) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
-        }
-    }, [state, onFormSuccess, toast]);
-    
     const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR", "Admin"];
     
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,9 +44,39 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             setName(value);
         }
     };
+    
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const res = await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, phone, role }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                onFormSuccess();
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: data.message,
+                });
+            }
+        } catch(error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: "An unexpected error occurred."
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
-    <form action={formAction}>
+    <form onSubmit={handleSubmit}>
         <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
                 <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} />
@@ -83,8 +99,8 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             </div>
             
             <div className="flex justify-end pt-8">
-                <Button type="submit" className="px-14 h-12 text-lg rounded-full">
-                    Add
+                <Button type="submit" className="px-14 h-12 text-lg rounded-full" disabled={isSubmitting}>
+                    {isSubmitting ? 'Adding...' : 'Add'}
                 </Button>
             </div>
         </div>

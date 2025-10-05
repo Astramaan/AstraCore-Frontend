@@ -9,7 +9,6 @@ import React, { useState, useEffect } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { getProjects } from "@/app/actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,7 +20,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { deleteProject } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { AvatarWithProgress } from "@/components/avatar-with-progress";
@@ -29,20 +27,8 @@ import { useParams } from 'next/navigation';
 import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Project } from "@/lib/data";
 
-// The Project type for the frontend, adapted from the backend response
-export interface FrontendProject {
-    id: string;
-    name: string;
-    city: string;
-    contact: string;
-    startDate: string;
-    status: string;
-    statusColor: string;
-    image: string;
-    progress: number;
-    projectType: 'New Construction' | 'Renovation' | 'Interior Design';
-}
 
 const ProjectListItemSkeleton = () => (
     <div className="flex flex-col">
@@ -91,7 +77,7 @@ const ProjectListItemSkeleton = () => (
 );
 
 
-const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId, canManage }: { project: FrontendProject, onEdit: (project: FrontendProject) => void, onDelete: (project: FrontendProject) => void, isFirst?: boolean, isLast?: boolean, organizationId: string, canManage: boolean }) => (
+const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = false, organizationId, canManage }: { project: Project, onEdit: (project: Project) => void, onDelete: (project: Project) => void, isFirst?: boolean, isLast?: boolean, organizationId: string, canManage: boolean }) => (
     <div className="flex flex-col group">
         {/* Mobile & Tablet View */}
         <div className="lg:hidden p-6 md:p-10 gap-4">
@@ -240,10 +226,10 @@ export default function ProjectsPage() {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string || 'habi123';
-    const [allProjects, setAllProjects] = useState<FrontendProject[]>([]);
-    const [projectToEdit, setProjectToEdit] = useState<FrontendProject | null>(null);
+    const [allProjects, setAllProjects] = useState<Project[]>([]);
+    const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [projectToDelete, setProjectToDelete] = useState<FrontendProject | null>(null);
+    const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
@@ -251,29 +237,43 @@ export default function ProjectsPage() {
     useEffect(() => {
         const fetchProjects = async () => {
             setIsLoading(true);
-            const result = await getProjects();
-            if (result.success && result.data) {
-                const formattedProjects = result.data.map((p: any) => ({
-                    id: p.projectId,
-                    name: p.personalDetails.name,
-                    city: p.projectDetails.state,
-                    contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
-                    startDate: new Date(p.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-                    status: p.projectStatus,
-                    statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
-                    image: "https://placehold.co/59x59",
-                    progress: 50, // Placeholder
-                    projectType: p.projectDetails.projectType || 'New Construction',
-                }));
-                setAllProjects(formattedProjects);
-            } else {
-                toast({
+            try {
+                const res = await fetch(`/api/projects`);
+                if (!res.ok) {
+                    throw new Error('Failed to fetch projects');
+                }
+                const result = await res.json();
+                if (result.success && result.projects) {
+                    const formattedProjects = result.projects.map((p: any) => ({
+                        id: p.projectId,
+                        name: p.personalDetails.name,
+                        city: p.projectDetails.state,
+                        contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
+                        startDate: new Date(p.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        status: p.projectStatus,
+                        statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
+                        image: "https://placehold.co/59x59",
+                        progress: 50, // Placeholder
+                        projectType: p.projectDetails.projectType || 'New Construction',
+                    }));
+                    setAllProjects(formattedProjects);
+                } else {
+                     toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: result.message || 'Failed to fetch projects'
+                    });
+                }
+            } catch (error) {
+                console.error("Fetch projects failed", error);
+                 toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: result.message || 'Failed to fetch projects'
+                    description: 'Failed to fetch projects.'
                 });
+            } finally {
+                setIsLoading(false);
             }
-            setIsLoading(false);
         };
         fetchProjects();
     }, [toast]);
@@ -283,43 +283,56 @@ export default function ProjectsPage() {
     const activeProjects = filteredProjects.filter(p => p.status !== 'Completed');
     const completedProjects = filteredProjects.filter(p => p.status === 'Completed');
 
-    const handleEdit = (project: FrontendProject) => {
+    const handleEdit = (project: Project) => {
         setProjectToEdit(project);
     };
     
-    const handleDeleteClick = (project: FrontendProject) => {
+    const handleDeleteClick = (project: Project) => {
         setProjectToDelete(project);
         setIsDeleteDialogOpen(true);
     };
 
     const confirmDelete = async () => {
         if (projectToDelete) {
-            const result = await deleteProject(projectToDelete.id);
-            if (result.success) {
-                setAllProjects(prev => prev.filter(p => p.id !== projectToDelete.id));
-                toast({
-                    title: 'Success',
-                    description: result.message,
+             try {
+                const res = await fetch(`/api/projects/${projectToDelete.id}`, {
+                    method: 'DELETE',
                 });
-            } else {
-                 toast({
+                const result = await res.json();
+                if (result.success) {
+                    setAllProjects(prev => prev.filter(p => p.id !== projectToDelete!.id));
+                    toast({
+                        title: 'Success',
+                        description: result.message,
+                    });
+                } else {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: result.message,
+                    });
+                }
+            } catch(e) {
+                toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: result.message,
+                    description: 'Failed to delete project',
                 });
             }
+            
             setIsDeleteDialogOpen(false);
             setProjectToDelete(null);
         }
     };
 
 
-    const handleProjectAdded = (newProject: FrontendProject) => {
-        setAllProjects(prev => [...prev, newProject]);
+    const handleProjectAdded = (newProject: Project) => {
+        setAllProjects(prev => [newProject, ...prev]);
     };
 
-    const handleProjectUpdated = (updatedProject: FrontendProject) => {
+    const handleProjectUpdated = (updatedProject: Project) => {
         setAllProjects(prev => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
+        setProjectToEdit(null);
     };
 
     const canCreateProject = user?.role === 'ORG_ADMIN' || user?.team === 'Project Manager';
@@ -343,9 +356,9 @@ export default function ProjectsPage() {
                         </div>
                         {canCreateProject && (
                             <CreateProjectSheet 
-                                onProjectAdded={handleProjectAdded as any} 
-                                projectToEdit={projectToEdit as any}
-                                onProjectUpdated={handleProjectUpdated as any}
+                                onProjectAdded={handleProjectAdded}
+                                projectToEdit={projectToEdit}
+                                onProjectUpdated={handleProjectUpdated}
                                 onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
                             />
                         )}

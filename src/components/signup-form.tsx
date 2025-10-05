@@ -1,9 +1,8 @@
 
 "use client";
 
-import { useFormStatus } from "react-dom";
-import React, { useState, useEffect, useActionState, useRef } from "react";
-import { signup } from "@/app/actions";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -17,39 +16,21 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
 
-function SubmitButton({ disabled }: { disabled: boolean }) {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={pending || disabled}>
-      {pending ? "Signing up..." : "Sign up"}
-    </Button>
-  );
-}
-
 export default function SignupForm() {
-  const [state, action] = useActionState(signup, { success: false, message: '' });
+  const { toast } = useToast();
+  const router = useRouter();
+  
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [organization, setOrganization] = useState('');
   const [password, setPassword] = useState('');
-  const { pending } = useFormStatus();
-  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [emailError, setEmailError] = useState('');
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (!state.success && state.message) {
-      toast({
-        variant: "destructive",
-        title: "Signup Error",
-        description: state.message,
-      });
-    }
-  }, [state, toast]);
 
   const checkEmail = async (emailToCheck: string) => {
     if (!emailToCheck || !/^\S+@\S+\.\S+$/.test(emailToCheck)) {
@@ -72,7 +53,7 @@ export default function SignupForm() {
         }
     } catch (error) {
         console.error("Failed to check email", error);
-        setEmailError(''); // Clear error on API failure
+        setEmailError('');
     } finally {
         setIsCheckingEmail(false);
     }
@@ -89,8 +70,54 @@ export default function SignupForm() {
       }, 500);
   }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if(emailError){
+          toast({
+              variant: "destructive",
+              title: "Email Error",
+              description: emailError,
+          });
+          return;
+      }
+      
+      setIsSubmitting(true);
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get('email');
+      
+      try {
+        const res = await fetch(`/api/send-otp`, {
+            method: "POST",
+            body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: data.message || "Failed to send OTP. Please try again.",
+            });
+        } else {
+            const params = new URLSearchParams(Object.fromEntries(formData.entries()) as Record<string, string>);
+            params.set('flow', 'signup');
+            router.push(`/otp-verification?${params.toString()}`);
+        }
+      } catch (error) {
+          console.error("Signup failed:", error);
+          toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: "An unexpected error occurred.",
+          });
+      } finally {
+          setIsSubmitting(false);
+      }
+  }
+
   return (
-    <form action={action} className="flex flex-col flex-grow">
+    <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
       <div className="space-y-4 flex-grow">
          <div className="space-y-2">
           <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-black')}>Full Name</Label>
@@ -102,7 +129,7 @@ export default function SignupForm() {
               required
               placeholder="Your full name"
               className={`pl-6 rounded-full bg-background h-[54px]`}
-              disabled={pending}
+              disabled={isSubmitting}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -125,7 +152,7 @@ export default function SignupForm() {
                 `pl-20 rounded-full bg-background h-[54px]`,
                 emailError && 'border-destructive'
               )}
-              disabled={pending}
+              disabled={isSubmitting}
               value={email}
               onChange={handleEmailChange}
             />
@@ -146,7 +173,7 @@ export default function SignupForm() {
               required
               placeholder="Your phone number"
               className={`pl-20 rounded-full bg-background h-[54px]`}
-              disabled={pending}
+              disabled={isSubmitting}
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -165,7 +192,7 @@ export default function SignupForm() {
               required
               placeholder="Your organization's name"
               className={`pl-20 rounded-full bg-background h-[54px]`}
-              disabled={pending}
+              disabled={isSubmitting}
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
             />
@@ -183,7 +210,7 @@ export default function SignupForm() {
               type={showPassword ? "text" : "password"} 
               required 
               className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
-              disabled={pending}
+              disabled={isSubmitting}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -192,7 +219,7 @@ export default function SignupForm() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-6 text-foreground"
               aria-label={showPassword ? "Hide password" : "Show password"}
-              disabled={pending}
+              disabled={isSubmitting}
             >
               {showPassword ? <EyeOffIcon className="h-s w-5" /> : <EyeIcon className="h-s w-5" />}
             </button>
@@ -202,7 +229,9 @@ export default function SignupForm() {
 
       <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
         <div className="mb-4">
-          <SubmitButton disabled={isCheckingEmail || !!emailError} />
+           <Button type="submit" className="w-full rounded-full hover:bg-primary/90 h-[54px]" disabled={isSubmitting || isCheckingEmail || !!emailError}>
+              {isSubmitting ? "Signing up..." : "Sign up"}
+            </Button>
         </div>
 
         <div className="text-center text-sm">
@@ -215,5 +244,3 @@ export default function SignupForm() {
     </form>
   );
 }
-
-    

@@ -27,7 +27,6 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
-import { deleteMeeting } from '@/app/actions';
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
@@ -218,14 +217,22 @@ export default function MeetingsPage() {
                 setMeetingToDelete(null);
                 return;
             }
-            const result = await deleteMeeting(projectId, meetingId);
 
-            if (result.success) {
-                setAllMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-                toast({ title: "Success", description: result.message });
-            } else {
-                toast({ variant: 'destructive', title: 'Error', description: result.message });
+            try {
+                const res = await fetch(`/api/projects/${projectId}/meetings/${meetingId}`, {
+                    method: 'DELETE',
+                });
+                const result = await res.json();
+                if (result.success) {
+                    setAllMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
+                    toast({ title: "Success", description: result.message });
+                } else {
+                    toast({ variant: 'destructive', title: 'Error', description: result.message });
+                }
+            } catch (error) {
+                toast({ variant: 'destructive', title: 'Error', description: "Failed to delete meeting" });
             }
+
             setMeetingToDelete(null);
         }
     };

@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useActionState, useEffect, useTransition } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -15,12 +15,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, ShieldAlert } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -28,11 +25,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
-import { addLead } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { ScrollArea } from './ui/scroll-area';
 import UserPlusIcon from './icons/user-plus-icon';
+import { Lead } from './lead-details-sheet';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
@@ -42,9 +39,8 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 );
 
 
-const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
+const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: (lead: Lead) => void }) => {
     const { toast } = useToast();
-    const [state, formAction] = useActionState(addLead, { success: false, message: '' });
     const [isPending, startTransition] = useTransition();
 
     const [fullName, setFullName] = useState('');
@@ -54,14 +50,6 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const [emailError, setEmailError] = useState('');
     const [pincodeError, setPincodeError] = useState('');
     const [backendError, setBackendError] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (state?.success) {
-            onFormSuccess();
-        } else if (state?.message && !state.success) {
-            setBackendError(state.message);
-        }
-    }, [state, onFormSuccess]);
     
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -94,7 +82,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
         }
     };
     
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (emailError) {
             toast({
@@ -112,8 +100,54 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
             });
             return;
         }
-        startTransition(() => {
-            formAction(new FormData(e.currentTarget));
+
+        startTransition(async () => {
+            const payload = {
+                fullName,
+                phoneNumber: phone,
+                email,
+                siteLocationPinCode: pincode,
+            };
+            
+            try {
+                const res = await fetch(`/api/leads`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                if (res.ok) {
+                    const text = await res.text();
+                    const data = text ? JSON.parse(text) : {};
+                    
+                    if(data.success === false) {
+                        setBackendError(data.message || 'An error occurred on the backend.');
+                    } else {
+                         const newLead: Lead = {
+                            organization: "Your Org", // This might need to be dynamic
+                            leadId: data.data?.leadDisplayId || `LEAD${Date.now()}`,
+                            fullName: fullName,
+                            contact: `${email} | ${phone}`,
+                            phone: phone,
+                            email: email,
+                            address: `Pincode: ${pincode}`,
+                            pincode: pincode,
+                            tokenAmount: "0",
+                            level: 'Level 1',
+                            profileImage: "https://placehold.co/94x94.png",
+                            coverImage: "https://placehold.co/712x144.png",
+                            siteImages: [],
+                         };
+                        onFormSuccess(newLead);
+                    }
+                } else {
+                    const data = await res.json().catch(() => ({}));
+                    setBackendError(data.message || 'Failed to create lead.');
+                }
+            } catch (error) {
+                console.error('Add lead failed:', error);
+                setBackendError('An unexpected error occurred.');
+            }
         });
     }
 
@@ -163,14 +197,18 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     );
 };
 
+interface AddLeadSheetProps {
+    onLeadAdded: (lead: Lead) => void;
+}
 
-export function AddLeadSheet() {
+export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    const handleSuccess = () => {
+    const handleSuccess = (newLead: Lead) => {
         setIsOpen(false);
         setShowSuccess(true);
+        onLeadAdded(newLead);
     };
 
     return (

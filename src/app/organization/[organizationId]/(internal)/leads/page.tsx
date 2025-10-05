@@ -317,47 +317,48 @@ export default function LeadsPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        async function fetchLeads() {
-            setIsLoading(true);
-            try {
-                const res = await fetch('/api/leads');
-                const result = await res.json();
+    const fetchLeads = async () => {
+        setIsLoading(true);
+        try {
+            const res = await fetch('/api/leads');
+            const result = await res.json();
 
-                if (result.success) {
-                    const formattedLeads = result.data.map((lead: any) => ({
-                        organization: lead.organizationName || "Organization Name",
-                        leadId: lead.leadDisplayId,
-                        fullName: lead.fullName,
-                        contact: `${lead.email} | ${lead.phoneNumber}`,
-                        phone: lead.phoneNumber,
-                        email: lead.email,
-                        address: lead.siteAddress || "Address missing",
-                        pincode: lead.siteAddressPinCode || lead.siteLocationPinCode || "Pincode missing",
-                        tokenAmount: lead.tokenAmount || "Token missing",
-                        level: lead.level || "Level 1",
-                        profileImage: "https://placehold.co/94x94.png",
-                        coverImage: "https://placehold.co/712x144.png",
-                        siteImages: [],
-                    }));
-                    setAllLeads(formattedLeads);
-                } else {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error fetching leads',
-                        description: result.message,
-                    });
-                }
-            } catch (error) {
-                 toast({
+            if (result.success) {
+                const formattedLeads = result.data.map((lead: any) => ({
+                    organization: lead.organizationName || "Organization Name",
+                    leadId: lead.leadDisplayId,
+                    fullName: lead.fullName,
+                    contact: `${lead.email} | ${lead.phoneNumber}`,
+                    phone: lead.phoneNumber,
+                    email: lead.email,
+                    address: lead.siteAddress || "Address missing",
+                    pincode: lead.siteAddressPinCode || lead.siteLocationPinCode || "Pincode missing",
+                    tokenAmount: lead.tokenAmount || "Token missing",
+                    level: lead.level || "Level 1",
+                    profileImage: "https://placehold.co/94x94.png",
+                    coverImage: "https://placehold.co/712x144.png",
+                    siteImages: [],
+                }));
+                setAllLeads(formattedLeads);
+            } else {
+                toast({
                     variant: 'destructive',
-                    title: 'Network Error',
-                    description: 'Failed to connect to the server.',
+                    title: 'Error fetching leads',
+                    description: result.message,
                 });
-            } finally {
-                setIsLoading(false);
             }
+        } catch (error) {
+             toast({
+                variant: 'destructive',
+                title: 'Network Error',
+                description: 'Failed to connect to the server.',
+            });
+        } finally {
+            setIsLoading(false);
         }
+    }
+
+    useEffect(() => {
         fetchLeads();
     }, [toast]);
 
@@ -462,6 +463,11 @@ export default function LeadsPage() {
         setSelectedLeadDetails(null);
     };
 
+    const onLeadAdded = (newLead: Lead) => {
+        setAllLeads(prev => [newLead, ...prev]);
+        fetchLeads();
+    }
+
 
     return (
         <div className="space-y-8 pb-28">
@@ -475,7 +481,7 @@ export default function LeadsPage() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                 <AddLeadSheet />
+                 <AddLeadSheet onLeadAdded={onLeadAdded} />
             </div>
 
              <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>

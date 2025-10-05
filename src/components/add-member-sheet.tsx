@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useActionState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { addMember } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ScrollArea } from './ui/scroll-area';
@@ -48,20 +47,8 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const [team, setTeam] = useState(() => (isTeamAdmin ? teamValue : ''));
     const [role, setRole] = useState(() => (isTeamAdmin ? 'member' : ''));
     const [emailError, setEmailError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const [state, formAction] = useActionState(addMember, { success: false, message: '' });
-
-    useEffect(() => {
-        if (state.success) {
-            onFormSuccess();
-        } else if (state.message) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: state.message,
-            });
-        }
-    }, [state, onFormSuccess, toast]);
     
     const teams = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
     const roles = ["Admin", "Member"];
@@ -89,12 +76,47 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
             setPhone(value);
         }
     }
+    
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const res = await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    mobileNumber: phone,
+                    team,
+                    roleType: role
+                })
+            });
+            const data = await res.json();
+
+            if(data.success) {
+                onFormSuccess();
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: data.message,
+                });
+            }
+        } catch (error) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'An unexpected error occurred.',
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
 
 
     return (
-    <form action={formAction} className="flex flex-col h-full">
-        <input type="hidden" name="team" value={isTeamAdmin ? teamValue : team} />
-        <input type="hidden" name="roleType" value={isTeamAdmin ? 'member' : role} />
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="space-y-6">
                 <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} required />
@@ -108,7 +130,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                     <>
                         <div className="space-y-2">
                             <Label htmlFor="team-select" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
-                            <Select onValueChange={setTeam} value={team} required>
+                            <Select name="team" onValueChange={setTeam} value={team} required>
                                 <SelectTrigger id="team-select" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a team" />
                                 </SelectTrigger>
@@ -122,7 +144,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
 
                         <div className="space-y-2">
                             <Label htmlFor="role-select" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
-                            <Select onValueChange={setRole} value={role} required>
+                            <Select name="roleType" onValueChange={setRole} value={role} required>
                                 <SelectTrigger id="role-select" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
@@ -139,8 +161,8 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
         </ScrollArea>
         
         <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-end">
-            <Button type="submit" className="w-full h-[54px] text-lg rounded-full md:w-auto md:px-14">
-                Add
+            <Button type="submit" className="w-full h-[54px] text-lg rounded-full md:w-auto md:px-14" disabled={isSubmitting}>
+                {isSubmitting ? 'Adding...' : 'Add'}
             </Button>
         </div>
     </form>

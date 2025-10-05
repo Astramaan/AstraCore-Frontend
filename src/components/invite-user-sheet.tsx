@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import React, { useState, useActionState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -14,29 +15,49 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Users, X } from "lucide-react";
-import { inviteUser } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { SuccessPopup } from './success-popup';
 
 const InviteUserForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
     const { toast } = useToast();
-    const [state, formAction, isPending] = useActionState(inviteUser, null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    useEffect(() => {
-        if (state?.success) {
-            onFormSuccess();
-        } else if (state?.message) {
-            toast({
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        const formData = new FormData(e.currentTarget);
+        const payload = Object.fromEntries(formData.entries());
+
+        try {
+            const res = await fetch('/api/invite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if(data.success) {
+                onFormSuccess();
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: data.message
+                });
+            }
+        } catch (error) {
+             toast({
                 variant: 'destructive',
                 title: 'Error',
-                description: state.message,
+                description: "An unexpected error occurred."
             });
+        } finally {
+            setIsSubmitting(false);
         }
-    }, [state, onFormSuccess, toast]);
+    }
 
     return (
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
             <div className="p-6 space-y-6">
                 <div className="space-y-2">
                     <Label htmlFor="email">Email ID</Label>
@@ -55,8 +76,8 @@ const InviteUserForm = ({ onFormSuccess }: { onFormSuccess: () => void }) => {
                         </SelectContent>
                     </Select>
                 </div>
-                <Button type="submit" className="w-full" disabled={isPending}>
-                    {isPending ? 'Sending...' : 'Send Invitation'}
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending...' : 'Send Invitation'}
                 </Button>
             </div>
         </form>
