@@ -139,13 +139,10 @@ export async function addLead(prevState: any, formData: FormData) {
 
         const data = await res.json().catch(() => ({}));
 
-        // The backend might return 200 OK but still have a failure message.
         if (data.success === false) {
              return { success: false, message: data.message || 'An error occurred on the backend.' };
         }
 
-        // Handle cases where the backend returns 200 OK without a `success` field
-        // but includes a `message`. Treat it as success.
         return { success: true, message: data.message || "Lead added successfully!" };
     } catch (error) {
         console.error('Add lead action failed:', error);
@@ -191,7 +188,7 @@ export async function addProject(projectData: any) {
 
         const data = await res.json();
         
-        if (!res.ok || !data.success) {
+        if (!res.ok) {
             return { success: false, message: data.message || "Failed to create project." };
         }
 

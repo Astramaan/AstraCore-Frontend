@@ -172,12 +172,12 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
-                siteLink: siteLocationLink,
+                siteLocationLink: siteLocationLink,
                 siteAddress: siteAddress
             },
             projectAssign: {
-                architectId: architect,
-                siteSupervisorId: siteSupervisor
+                architect: architect,
+                siteSupervisor: siteSupervisor
             }
         };
         onNext(formData);
@@ -460,6 +460,7 @@ const ProjectTimelineForm = ({
                 ...stage,
                 tasks: stage.tasks.map((task) => ({
                     ...task,
+                    duration: `${task.duration} Days`,
                     status: 'Not Started'
                 }))
             }))
@@ -474,12 +475,21 @@ const ProjectTimelineForm = ({
             return;
         }
 
+        // Construct the final payload to match the curl command
         const fullData = { 
-            ...projectData, 
+            ...projectData,
+            projectAssign: {
+                architect: projectData.projectAssign.architectId,
+                siteSupervisor: projectData.projectAssign.siteSupervisorId,
+            },
             createdBy: user.userId, 
             phases: timelineData, 
             startDate: startDate?.toISOString() 
         };
+        
+        // Remove IDs from the assign object as they are in the nested object now
+        delete fullData.projectAssign.architectId;
+        delete fullData.projectAssign.siteSupervisorId;
         
         startTransition(async () => {
             const action = isEditMode ? updateProject : addProject;
@@ -909,6 +919,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
