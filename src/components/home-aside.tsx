@@ -56,12 +56,10 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
     const organizationId = params.organizationId as string;
     const { user } = useUser();
     
-    const canAssignTask = onAddTask && (user?.roleType === 'superAdmin' || user?.team === 'Project Manager');
-
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
-                {canAssignTask && <AssignTaskSheet onTaskAssigned={onAddTask} />}
+                {onAddTask && <AssignTaskSheet onTaskAssigned={onAddTask} />}
                 {showAddMemberButton && <AddMemberSheet />}
             </div>
 
