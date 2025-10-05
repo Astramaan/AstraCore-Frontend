@@ -4,41 +4,19 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
-
-function getAuthHeaders(): Record<string, string> {
-    const staticUser = {
-        "userId": "8c26c0b3032ecc4f",
-        "name": "saras",
-        "email": "saras@gmail.com",
-        "role": "ORG_ADMIN",
-        "mobileNumber": "9876543210",
-        "city": "Delhi",
-        "organizationId": "ORG-f9705032-d42a-46df-b799-87bcda629142",
-        "orgCode": "ABCConstructionsDEL"
-    };
-    
-    return {
-        'Content-Type': 'application/json',
-        'x-user': JSON.stringify(staticUser),
-        'x-user-id': staticUser.userId,
-        'x-login-id': staticUser.email,
-        'x-organization-id': staticUser.organizationId,
-    };
-}
-
-
 export async function getProjects() {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
-            headers: getAuthHeaders()
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
+            headers: {
+                'Cookie': cookies().toString()
+            }
         });
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
             return { success: false, message: errorData.message || 'Failed to fetch projects' };
         }
         const data = await res.json();
-        return { success: true, data: data.data };
+        return { success: true, data: data.projects };
     } catch (error) {
         console.error('Get projects action failed:', error);
         return { success: false, message: 'An unexpected error occurred while fetching projects.' };
@@ -48,7 +26,7 @@ export async function getProjects() {
 
 export async function verifyInvite(token: string, orgId: string) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/invite/${token}/${orgId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/invite?token=${token}&orgId=${orgId}`);
         const data = await res.json();
 
         if (!res.ok || !data.success) {
@@ -77,9 +55,8 @@ export async function signup(prevState: any, formData: FormData) {
   }
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/send-otp-email`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
     });
 
@@ -102,21 +79,13 @@ export async function signup(prevState: any, formData: FormData) {
 
 export async function addMember(prevState: any, formData: FormData) {
     try {
-        const requestBody = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            mobileNumber: formData.get('mobileNumber'),
-            team: formData.get('team') || "New User",
-            roleType: formData.get('roleType') || "client"
-        };
-        
-        if (!requestBody.name || !requestBody.email || !requestBody.mobileNumber) {
-            return { success: false, message: "Name, email, and mobile number are required." };
-        }
+        const requestBody = Object.fromEntries(formData.entries());
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/invite`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "POST",
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
             body: JSON.stringify(requestBody),
         });
 
@@ -135,20 +104,13 @@ export async function addMember(prevState: any, formData: FormData) {
 
 export async function addLead(prevState: any, formData: FormData) {
     try {
-        const payload = {
-            fullName: formData.get('fullName') as string,
-            phoneNumber: formData.get('phoneNumber') as string,
-            email: formData.get('email') as string,
-            siteLocationPinCode: formData.get('pincode') as string,
-        };
-
-        if (!payload.fullName || !payload.phoneNumber || !payload.email || !payload.siteLocationPinCode) {
-            return { success: false, message: "All fields are required." };
-        }
+        const payload = Object.fromEntries(formData.entries());
         
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/invites`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
             method: 'POST',
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
             body: JSON.stringify(payload),
         });
 
@@ -181,9 +143,11 @@ export async function getLeadByEmail(email: string) {
             return { success: false, message: 'Email is required.', data: null };
         }
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/lead-by-email?email=${encodeURIComponent(email)}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads/by-email?email=${encodeURIComponent(email)}`, {
             method: 'GET',
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
         });
 
         const data = await res.json();
@@ -201,9 +165,11 @@ export async function getLeadByEmail(email: string) {
 
 export async function addProject(projectData: any) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
             method: "POST",
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
             body: JSON.stringify(projectData),
         });
 
@@ -211,14 +177,13 @@ export async function addProject(projectData: any) {
             const errorData = await res.json().catch(() => ({ message: "Failed to create project and parse error" }));
             return { success: false, message: errorData.message || "Failed to create project." };
         }
-
+        
         const text = await res.text();
         if (!text) {
             return { success: true, data: {}, message: "Project created successfully." };
         }
-        
-        const data = JSON.parse(text);
 
+        const data = JSON.parse(text);
         if (data.success === false) {
              return { success: false, message: data.message || 'An error occurred on the backend.' };
         }
@@ -235,9 +200,11 @@ export async function updateProject(projectData: any) {
         if (!projectData.id) {
             return { success: false, message: 'Project ID is required to update.' };
         }
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${projectData.id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectData.id}`, {
             method: "PATCH",
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
             body: JSON.stringify(projectData),
         });
 
@@ -257,9 +224,11 @@ export async function deleteProject(id: string) {
         if (!id) {
             return { success: false, message: 'Project ID is required to delete.' };
         }
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${id}`, {
             method: "DELETE",
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
         });
 
         const data = await res.json();
@@ -274,18 +243,13 @@ export async function deleteProject(id: string) {
 }
 
 export async function inviteUser(prevState: any, formData: FormData) {
-    const email = formData.get('email');
-    const role = formData.get('role');
-
-    if (!email || !role) {
-        return { success: false, message: "Email and role are required." };
-    }
-
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/signuplink`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/invite`, {
             method: "POST",
-            headers: getAuthHeaders(),
-            body: JSON.stringify({ email, role }),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
+            body: JSON.stringify(Object.fromEntries(formData)),
         });
 
         const data = await res.json();
@@ -310,9 +274,8 @@ export async function requestPasswordReset(prevState: any, formData: FormData) {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/send-otp-email`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-otp`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
         });
 
@@ -340,9 +303,8 @@ export async function verifyOtp(prevState: any, formData: FormData) {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/email-verification`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/verify-otp`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp }),
         });
 
@@ -369,17 +331,9 @@ export async function verifyOtp(prevState: any, formData: FormData) {
 }
 
 export async function createPassword(prevState: any, formData: FormData) {
-    const password = formData.get('password') as string;
-    const confirmPassword = formData.get('confirm-password') as string;
-
-    if (password !== confirmPassword) {
-        return { success: false, message: 'Passwords do not match.' };
-    }
-
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/signup`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/create-password`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(Object.fromEntries(formData.entries())),
         });
 
@@ -399,16 +353,12 @@ export async function createPassword(prevState: any, formData: FormData) {
 
 export async function changePassword(prevState: any, formData: FormData) {
     try {
-        const payload = Object.fromEntries(formData.entries()) as Record<string, string>;
-        
-        if (payload.newPassword !== payload.confirmPassword) {
-            return { success: false, message: 'New passwords do not match.' };
-        }
-
-        const res = await fetch(`${API_BASE_URL}/api/v1/update-password`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/change-password`, {
             method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify(payload),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
+            body: JSON.stringify(Object.fromEntries(formData.entries())),
         });
 
         const data = await res.json();
@@ -426,9 +376,11 @@ export async function changePassword(prevState: any, formData: FormData) {
 
 export async function updateUser(prevState: any, formData: FormData) {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/updateProfile`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/update-profile`, {
       method: "PATCH",
-      headers: getAuthHeaders(),
+      headers: {
+          'Cookie': cookies().toString(),
+      },
       body: JSON.stringify(Object.fromEntries(formData)),
     });
     
@@ -436,19 +388,6 @@ export async function updateUser(prevState: any, formData: FormData) {
     
     if (!res.ok || !data.success) {
       return { success: false, message: data.message || "Failed to update user" };
-    }
-
-    const cookieStore = cookies();
-    const userCookie = cookieStore.get('astramaan_user');
-    if(userCookie) {
-        const userData = JSON.parse(userCookie.value);
-        const updatedUserData = { ...userData, ...Object.fromEntries(formData) };
-        cookieStore.set('astramaan_user', JSON.stringify(updatedUserData), {
-            path: '/',
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-        });
     }
     
     return { success: true, message: data.message || "Profile updated successfully" };
@@ -464,9 +403,11 @@ export async function deactivateUser(userId: string) {
     }
     
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/org-users`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/users`, {
             method: "DELETE",
-            headers: getAuthHeaders(),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
             body: JSON.stringify({ userId }),
         });
 
@@ -484,26 +425,13 @@ export async function deactivateUser(userId: string) {
 }
 
 export async function createMeeting(meetingData: any) {
-    const { date, time, ...rest } = meetingData;
-    const combinedDateTime = new Date(date);
-    const [timeValue, period] = time.split(' ');
-    let [hours, minutes] = timeValue.split(':').map(Number);
-    if (period === 'PM' && hours < 12) hours += 12;
-    if (period === 'AM' && hours === 12) hours = 0;
-    combinedDateTime.setHours(hours, minutes, 0, 0);
-
-    const payload = {
-        ...rest,
-        date: combinedDateTime.toISOString().split('T')[0],
-        startTime: combinedDateTime.toISOString(),
-        description: meetingData.description || "No description provided.",
-    };
-
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/meetings`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/meetings`, {
             method: "POST",
-            headers: getAuthHeaders(),
-            body: JSON.stringify(payload),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
+            body: JSON.stringify(meetingData),
         });
 
         const data = await res.json();
@@ -521,15 +449,17 @@ export async function createMeeting(meetingData: any) {
     
   
 export async function updateMeeting(meetingData: any) {
-    const { projectId, meetingId, ...payload } = meetingData;
+    const { projectId, meetingId } = meetingData;
     try {
         if (!projectId || !meetingId) {
             return { success: false, message: 'Project ID and Meeting ID are required for an update.' };
         }
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${projectId}/meetings/${meetingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectId}/meetings/${meetingId}`, {
             method: "PATCH",
-            headers: getAuthHeaders(),
-            body: JSON.stringify(payload),
+            headers: {
+                'Cookie': cookies().toString(),
+            },
+            body: JSON.stringify(meetingData),
         });
 
         if (!res.ok) {
@@ -551,9 +481,11 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         if (!projectId || !meetingId) {
             return { success: false, message: 'Project ID and Meeting ID are required for deletion.' };
         }
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${projectId}/meetings/${meetingId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectId}/meetings/${meetingId}`, {
             method: 'DELETE',
-            headers: getAuthHeaders()
+            headers: {
+                'Cookie': cookies().toString(),
+            }
         });
         
         if (!res.ok) {
@@ -568,5 +500,3 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
-
-    
