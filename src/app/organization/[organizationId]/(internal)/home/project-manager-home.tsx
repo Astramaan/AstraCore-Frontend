@@ -241,6 +241,7 @@ export default function ProjectManagerHome() {
               meetings={meetings}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
+              onAddTask={handleAddTask}
               showAddMemberButton={canManageMembers}
             />
             {selectedTask && (

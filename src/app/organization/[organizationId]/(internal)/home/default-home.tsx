@@ -80,6 +80,24 @@ export default function DefaultHomePage() {
     const filteredMyTasks = useMemo(() => applyFilters(initialTaskData), [activeFilter]);
     const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasksData), [activeFilter]);
 
+    const myTasksChartData = useMemo(() => {
+        const inProgress = initialTaskData.filter(t => t.status === 'In Progress').length;
+        const pending = initialTaskData.filter(t => t.status === 'Pending').length;
+        return [
+            { name: 'In-Progress', value: inProgress, fill: 'hsl(var(--primary))' },
+            { name: 'Pending', value: pending, fill: 'hsl(var(--muted))' }
+        ];
+    }, []);
+
+    const assignedTasksChartData = useMemo(() => {
+        const inProgress = assignedTasksData.filter(t => t.status === 'In Progress').length;
+        const pending = assignedTasksData.filter(t => t.status === 'Pending').length;
+        return [
+            { name: 'In-Progress', value: inProgress, fill: 'hsl(var(--primary))' },
+            { name: 'Pending', value: pending, fill: 'hsl(var(--muted))' }
+        ];
+    }, []);
+
     return (
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
@@ -143,8 +161,8 @@ export default function DefaultHomePage() {
             </main>
             <HomeAside
               meetings={meetings}
-              myTasksChartData={[{ name: 'In-Progress', value: 3 }, { name: 'Pending', value: 1 }]}
-              assignedTasksChartData={[{ name: 'In-Progress', value: 1 }, { name: 'Pending', value: 1 }]}
+              myTasksChartData={myTasksChartData}
+              assignedTasksChartData={assignedTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
               showAddMemberButton={true}
