@@ -132,12 +132,20 @@ export async function addLead(prevState: any, formData: FormData) {
             body: JSON.stringify(payload),
         });
         
+        // The API might return 200 OK with an empty body on success.
+        // We need to handle that case.
         if (!res.ok) {
             const data = await res.json().catch(() => ({}));
             return { success: false, message: data.message || 'Failed to create lead.' };
         }
 
-        const data = await res.json().catch(() => ({}));
+        // Check if there is content to parse
+        const text = await res.text();
+        if (!text) {
+             return { success: true, message: "Lead added successfully!" };
+        }
+        
+        const data = JSON.parse(text);
 
         if (data.success === false) {
              return { success: false, message: data.message || 'An error occurred on the backend.' };
@@ -186,12 +194,22 @@ export async function addProject(projectData: any) {
             body: JSON.stringify(projectData),
         });
 
-        const data = await res.json();
-        
         if (!res.ok) {
-            return { success: false, message: data.message || "Failed to create project." };
+            const errorData = await res.json().catch(() => ({ message: "Failed to create project and parse error" }));
+            return { success: false, message: errorData.message || "Failed to create project." };
         }
 
+        const text = await res.text();
+        if (!text) {
+            return { success: true, data: {}, message: "Project created successfully." };
+        }
+        
+        const data = JSON.parse(text);
+
+        if (data.success === false) {
+             return { success: false, message: data.message || 'An error occurred on the backend.' };
+        }
+        
         return { success: true, data: data.data, message: data.message || "Project created successfully." };
     } catch (error) {
         console.error('Add project action failed:', error);
