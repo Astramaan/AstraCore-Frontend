@@ -14,6 +14,8 @@ import { MeetingDetailsSheet } from '@/components/meeting-details-sheet';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { TaskCard } from '@/components/task-card';
+import { AssignTaskSheet } from '@/components/add-task-sheet';
+import { AddMemberSheet } from '@/components/add-member-sheet';
 
 // Data for Default Home
 const initialTaskData: Task[] = [
@@ -102,10 +104,10 @@ export default function DefaultHomePage() {
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
                 <div>
-                     <div className="lg:hidden flex justify-between items-center w-full mb-4">
+                     <div className="flex justify-between items-center w-full mb-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
+                                <Button variant="outline" className="lg:hidden rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
                                     <SlidersHorizontal className="mr-2 h-4 w-4" />
                                     Filter
                                 </Button>
@@ -126,6 +128,10 @@ export default function DefaultHomePage() {
                                 ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
+                         <div className="flex items-center gap-4">
+                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
+                            <AddMemberSheet />
+                        </div>
                     </div>
 
                     <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
