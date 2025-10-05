@@ -11,14 +11,14 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto h-screen md:h-auto items-stretch">
           
           {/* Image Section */}
-          <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-auto">
+          <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-[507px]">
             <div className="h-full relative md:pl-4">
               <Image 
                   src="/images/logoimage.png"
                   alt="Astramaan construction site"
                   fill
                   priority
-                  className="object-cover rounded-none md:rounded-l-[40px] md:rounded-r-none"
+                  className="object-cover rounded-none md:rounded-l-[40px]"
                   data-ai-hint="construction site company building"
               />
             </div>
