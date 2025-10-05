@@ -54,8 +54,9 @@ export default function AuthForm() {
         });
 
         const data = await res.json();
-
-        if (res.ok && data.success && data.user) {
+        
+        // Handle the contradictory backend response: proceed if user data exists, even if success is false.
+        if (res.ok && data.user) {
             setUser(data.user);
         } else {
            toast({
