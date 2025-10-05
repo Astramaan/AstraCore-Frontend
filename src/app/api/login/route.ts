@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
         const data = await res.json();
 
-        if (res.ok && data.success) {
+        if (res.ok && data.success && data.data) {
             // Return user data directly in the response
             return NextResponse.json({ success: true, user: data.data });
         } else {
