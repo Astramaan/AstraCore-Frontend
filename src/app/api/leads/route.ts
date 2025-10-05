@@ -1,32 +1,33 @@
 
 import { NextResponse } from "next/server";
 import { type NextRequest } from "next/server";
-import { cookies } from 'next/headers';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
-function getAuthHeadersFromCookie(): Record<string, string> {
-    const cookieStore = cookies();
-    const userCookie = cookieStore.get('astramaan_user');
-    if (!userCookie) return {};
+function getAuthHeaders(): Record<string, string> {
+    const staticUser = {
+        "userId": "8c26c0b3032ecc4f",
+        "name": "saras",
+        "email": "saras@gmail.com",
+        "role": "ORG_ADMIN",
+        "mobileNumber": "9876543210",
+        "city": "Delhi",
+        "organizationId": "ORG-f9705032-d42a-46df-b799-87bcda629142",
+        "orgCode": "ABCConstructionsDEL"
+    };
     
-    try {
-        const userData = JSON.parse(userCookie.value);
-        return {
-            'x-user': JSON.stringify(userData),
-            'x-user-id': userData.userId,
-            'x-login-id': userData.email,
-        };
-    } catch (e) {
-        console.error("Failed to parse user cookie", e);
-        return {};
-    }
+    return {
+        'x-user': JSON.stringify(staticUser),
+        'x-user-id': staticUser.userId,
+        'x-login-id': staticUser.email,
+        'x-organization-id': staticUser.organizationId,
+    };
 }
 
 
 export async function GET(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromCookie();
+    const authHeaders = getAuthHeaders();
 
     if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
@@ -66,7 +67,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const authHeaders = getAuthHeadersFromCookie();
+    const authHeaders = getAuthHeaders();
 
     if (Object.keys(authHeaders).length === 0) {
       return NextResponse.json({ success: false, message: "Unauthorized: Missing user data" }, { status: 401 });
