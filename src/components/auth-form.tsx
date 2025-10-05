@@ -56,7 +56,6 @@ export default function AuthForm() {
         const data = await res.json();
 
         if (res.ok && data.success && data.user) {
-            // Set user, which will trigger the useEffect for redirection
             setUser(data.user);
         } else {
            toast({
