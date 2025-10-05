@@ -1,6 +1,5 @@
 
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
@@ -18,12 +17,7 @@ export async function POST(req: Request) {
         const data = await res.json();
 
         if (res.ok && data.success) {
-            cookies().set('astramaan_user', JSON.stringify(data.data), {
-                path: '/',
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax',
-            });
+            // Return user data directly in the response
             return NextResponse.json({ success: true, user: data.data });
         } else {
             return NextResponse.json({ success: false, message: data.message || 'Login failed' }, { status: res.status });
