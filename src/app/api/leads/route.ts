@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ success: false, message: "Invalid JSON in request body" }, { status: 400 });
     }
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/org/invites`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",

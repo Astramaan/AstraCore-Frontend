@@ -117,10 +117,10 @@ export async function addLead(prevState: any, formData: FormData) {
             fullName: formData.get('fullName') as string,
             phoneNumber: formData.get('phoneNumber') as string,
             email: formData.get('email') as string,
-            siteAddressPinCode: formData.get('pincode') as string,
+            siteLocationPinCode: formData.get('pincode') as string,
         };
 
-        if (!payload.fullName || !payload.phoneNumber || !payload.email || !payload.siteAddressPinCode) {
+        if (!payload.fullName || !payload.phoneNumber || !payload.email || !payload.siteLocationPinCode) {
             return { success: false, message: "All fields are required." };
         }
         
