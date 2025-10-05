@@ -102,7 +102,7 @@ export default function DefaultHomePage() {
         <div className="flex flex-col lg:flex-row gap-6">
             <main className="flex-1 space-y-6">
                 <div>
-                     <div className="flex lg:hidden justify-between items-center w-full mb-4">
+                     <div className="lg:hidden flex justify-between items-center w-full mb-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
