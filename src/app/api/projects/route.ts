@@ -31,7 +31,7 @@ export async function GET(req: Request) {
             headers: getAuthHeaders(req),
         });
         const data = await res.json();
-        return NextResponse.json({ success: true, projects: data.data }, { status: 200 });
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error("Get projects proxy failed:", error);
         return NextResponse.json({ success: false, message: "An unexpected error occurred." }, { status: 500 });
