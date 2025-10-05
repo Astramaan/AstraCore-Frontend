@@ -16,9 +16,9 @@ export async function POST(req: Request) {
 
         const data = await res.json();
 
-        if (res.ok && data.success && data.data) {
-            // Return user data directly in the response
-            return NextResponse.json({ success: true, user: data.data });
+        if (res.ok && data.success && data.user) {
+            // The backend returns the user object directly in the 'user' property.
+            return NextResponse.json({ success: true, user: data.user });
         } else {
             return NextResponse.json({ success: false, message: data.message || 'Login failed' }, { status: res.status });
         }
