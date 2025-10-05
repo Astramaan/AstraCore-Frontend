@@ -30,7 +30,7 @@ import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { addProject, getLeadByEmail } from '@/app/actions';
+import { addProject, getLeadByEmail, updateProject } from '@/app/actions';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { Card, CardContent } from './ui/card';
 import { useUser } from '@/context/user-context';
@@ -87,13 +87,13 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
     </div>
 )
 
-const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (data: any) => void, projectToEdit: Project | null, projectData: any }) => {
+const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded, onProjectUpdated }: { onNext: (data: any) => void, projectToEdit: Project | null, projectData: any, onProjectAdded: (project: Project) => void, onProjectUpdated: (project: Project) => void }) => {
     const [name, setName] = useState(projectToEdit?.name || projectData?.customerDetails?.name || '');
     const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
     const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
     const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
     const [projectName, setProjectName] = useState(projectToEdit?.name || projectData?.projectDetails?.projectName || '');
-    const [projectType, setProjectType] = useState(projectData?.projectDetails?.projectType || '');
+    const [projectType, setProjectType] = useState(projectToEdit?.projectType || projectData?.projectDetails?.projectType || '');
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
@@ -176,8 +176,8 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                 siteAddress: siteAddress
             },
             projectAssign: {
-                architect: architect,
-                siteSupervisor: siteSupervisor
+                architectId: architect,
+                siteSupervisorId: siteSupervisor
             }
         };
         onNext(formData);
@@ -250,16 +250,16 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData }: { onNext: (da
                            <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
                                 <FloatingLabelSelect id="project-type" name="project_type" label="Project Type*" value={projectType} onValueChange={setProjectType}>
-                                    <SelectItem value="new-construction">New Construction</SelectItem>
-                                    <SelectItem value="renovation">Renovation</SelectItem>
-                                    <SelectItem value="interior-design">Interior Design</SelectItem>
+                                    <SelectItem value="New Construction">New Construction</SelectItem>
+                                    <SelectItem value="Renovation">Renovation</SelectItem>
+                                    <SelectItem value="Interior Design">Interior Design</SelectItem>
                                 </FloatingLabelSelect>
                             </div>
                             <FloatingLabelInput id="project-cost" name="project_cost" label="Project Cost*" value={projectCost} onChange={handleNumberOnlyChange(setProjectCost)} />
                             <FloatingLabelInput id="dimension" name="dimension" label="Dimension (sq.ft)*" value={dimension} onChange={handleNumberOnlyChange(setDimension)} />
                             <FloatingLabelSelect id="floor" label="Floor*" value={floor} onValueChange={setFloor}>
                                 {Array.from({ length: 8 }, (_, i) => `G+${i + 1}`).map(f => (
-                                    <SelectItem key={f} value={f.toLowerCase()}>{f}</SelectItem>
+                                    <SelectItem key={f} value={f}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
                              <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site Location link*" type="url" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
@@ -426,7 +426,7 @@ const ProjectTimelineForm = ({
     isEditMode,
     projectData,
 }: {
-    onFormSuccess: () => void;
+    onFormSuccess: (project: Project) => void;
     onBack: () => void;
     isEditMode: boolean;
     projectData: any;
@@ -482,14 +482,15 @@ const ProjectTimelineForm = ({
         };
         
         startTransition(async () => {
-            const result = await addProject(fullData);
+            const action = isEditMode ? updateProject : addProject;
+            const result = await action(isEditMode ? { ...fullData, id: projectData.id } : fullData);
             if (result.success) {
-                onFormSuccess();
+                onFormSuccess(result.data);
             } else {
                 toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: result.message || 'Failed to create project.',
+                    description: result.message || `Failed to ${isEditMode ? 'update' : 'create'} project.`,
                 });
             }
         });
@@ -792,6 +793,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
     useEffect(() => {
         if (projectToEdit) {
             setIsOpen(true);
+            setProjectData(projectToEdit);
         }
     }, [projectToEdit]);
 
@@ -804,14 +806,18 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         setIsOpen(open);
     }
     
-    const handleSuccess = () => {
+    const handleSuccess = (newOrUpdatedProject: Project) => {
         setIsOpen(false);
         setShowSuccess(true);
+        if (isEditMode) {
+            onProjectUpdated(newOrUpdatedProject);
+        } else {
+            onProjectAdded(newOrUpdatedProject);
+        }
         setTimeout(() => {
             setStep(1);
             setProjectData(null);
         }, 500); // Reset step after closing
-        // You would call onProjectAdded or onProjectUpdated here with the new/updated project data
     };
 
     const handleNext = (data: any) => {
@@ -873,7 +879,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                     </DialogOrSheetHeader>
                     <div className="flex-1 flex flex-col overflow-hidden">
                         {step === 1 ? (
-                            <CreateProjectForm onNext={handleNext} projectToEdit={projectToEdit} projectData={projectData} />
+                            <CreateProjectForm onNext={handleNext} projectToEdit={projectToEdit} projectData={projectData} onProjectAdded={onProjectAdded} onProjectUpdated={onProjectUpdated} />
                         ) : (
                             <ProjectTimelineForm
                                 onFormSuccess={handleSuccess}
@@ -903,6 +909,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
