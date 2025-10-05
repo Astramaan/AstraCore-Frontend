@@ -1,29 +1,11 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NewUserBottomNav } from '@/components/new-user-bottom-nav';
 import { ClientHeader } from '@/components/client-header';
-import { useUser } from '@/context/user-context';
-import { useParams, useRouter } from 'next/navigation';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export default function NewUserLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useUser();
-  const router = useRouter();
-  
-  if (loading) {
-    return (
-        <div className="min-h-screen bg-background p-4 2xl:p-10">
-            <header className="max-w-[1440px] 2xl:max-w-none mx-auto mb-6">
-                <Skeleton className="h-16 w-full" />
-            </header>
-            <main className="max-w-[1440px] 2xl:max-w-none mx-auto">
-                <Skeleton className="h-96 w-full" />
-            </main>
-        </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">

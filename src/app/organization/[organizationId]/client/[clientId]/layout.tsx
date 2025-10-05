@@ -3,15 +3,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { ClientBottomNav } from '@/components/client-bottom-nav';
-import { UserProvider, useUser } from '@/context/user-context';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/context/user-context';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { ClientHeader } from '@/components/client-header';
 
-function ClientLayoutContent({ children }: { children: React.ReactNode }) {
-    const { user, loading, isClient } = useUser();
-    const router = useRouter();
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
+    const { user } = useUser();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const [isNativeApp, setIsNativeApp] = useState(false);
@@ -24,41 +22,6 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
     }, [searchParams]);
 
     const isLivePage = pathname.includes('/live');
-
-    /*
-    useEffect(() => {
-        if (!loading && user) {
-            if (!isClient) {
-                router.replace(`/organization/${user.organizationId}/home`);
-            }
-        } else if (!loading && !user) {
-            router.replace('/');
-        }
-    }, [user, loading, router, isClient]);
-    */
-    
-    if (loading || !user || !isClient) {
-         return (
-            <div className="space-y-6 p-4">
-                <div className="flex justify-between items-center mb-6">
-                    <Skeleton className="h-10 w-24" />
-                    <Skeleton className="h-10 w-10 rounded-full" />
-                </div>
-                <Skeleton className="h-80 w-full rounded-b-[50px] md:rounded-[50px]" />
-                <div className="space-y-4">
-                     <div className="grid grid-cols-2 gap-4">
-                        <Skeleton className="h-24 w-full rounded-full" />
-                        <Skeleton className="h-24 w-full rounded-full" />
-                     </div>
-                     <div className="space-y-8">
-                         <Skeleton className="h-28 w-full rounded-[20px]" />
-                         <Skeleton className="h-28 w-full rounded-[20px]" />
-                         <Skeleton className="h-28 w-full rounded-[20px]" />
-                    </div>
-                </div>
-            </div>
-        );
-    }
     
     return (
         <div className="min-h-screen bg-background relative">
@@ -75,15 +38,7 @@ function ClientLayoutContent({ children }: { children: React.ReactNode }) {
             )}>
                 {children}
             </main>
-            <ClientBottomNav />
+            { user && user.team !== 'New User' && <ClientBottomNav /> }
         </div>
     );
-}
-
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <UserProvider>
-        <ClientLayoutContent>{children}</ClientLayoutContent>
-    </UserProvider>
-  );
 }
