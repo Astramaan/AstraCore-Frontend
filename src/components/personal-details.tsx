@@ -62,7 +62,7 @@ interface PersonalDetailsProps {
 }
 
 const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any, onSave: (data: any) => void, onCancel: () => void }) => {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
     const [formData, setFormData] = useState(member);
     const [isRoleChangeConfirmOpen, setIsRoleChangeConfirmOpen] = useState(false);
     const [pendingRole, setPendingRole] = useState<string | null>(null);
@@ -72,6 +72,8 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
 
     useEffect(() => {
         if (state?.success) {
+            const updatedUser = { ...user, ...formData };
+            setUser(updatedUser as any);
             onSave(formData);
             toast({
                 title: 'Success!',
@@ -84,7 +86,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                 description: state.message,
             });
         }
-    }, [state, onSave, toast, formData]);
+    }, [state, onSave, toast, formData, user, setUser]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,13 +99,13 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
             setPendingRole(value);
             setIsRoleChangeConfirmOpen(true);
         } else {
-            setFormData(prev => ({...prev, role: value}));
+            setFormData(prev => ({...prev, team: value}));
         }
     }
 
     const confirmRoleChange = () => {
         if(pendingRole) {
-            setFormData(prev => ({ ...prev, role: pendingRole }));
+            setFormData(prev => ({ ...prev, team: pendingRole }));
         }
         setPendingRole(null);
         setIsRoleChangeConfirmOpen(false);
@@ -124,13 +126,6 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formDataObj = new FormData(event.currentTarget);
-        if (user) {
-            Object.entries(user).forEach(([key, value]) => {
-                if(!formDataObj.has(key)) {
-                    formDataObj.append(key, value as string);
-                }
-            });
-        }
         formAction(formDataObj);
     };
 
@@ -327,7 +322,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
             <DialogOrSheetContent
                 side="bottom"
                 className={cn(
-                    "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+                    "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                 )}
             >
                 <EditProfileForm 

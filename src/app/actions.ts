@@ -4,36 +4,9 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
-
-function getAuthHeadersFromCookie(): Record<string, string> {
-    const staticUserData = {
-        "userId": "8c26c0b3032ecc4f",
-        "name": "saras",
-        "email": "saras@gmail.com",
-        "role": "ORG_ADMIN",
-        "mobileNumber": "9876543210",
-        "city": "Delhi",
-        "organizationId": "ORG-f9705032-d42a-46df-b799-87bcda629142",
-        "orgCode": "ABCConstructionsDEL"
-    };
-
-    return {
-        'x-user': JSON.stringify(staticUserData),
-        'x-user-id': staticUserData.userId,
-        'x-login-id': staticUserData.email,
-        'x-organization-id': staticUserData.organizationId,
-    };
-}
-
 export async function getProjects() {
     try {
-        const authHeaders = getAuthHeadersFromCookie();
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
-            headers: {
-                ...authHeaders,
-            },
-        });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`);
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
             return { success: false, message: errorData.message || 'Failed to fetch projects' };
@@ -49,7 +22,7 @@ export async function getProjects() {
 
 export async function verifyInvite(token: string, orgId: string) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1/invite/${token}/${orgId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/invite/${token}/${orgId}`);
         const data = await res.json();
 
         if (!res.ok || !data.success) {
@@ -140,11 +113,6 @@ export async function addMember(prevState: any, formData: FormData) {
 
 export async function addLead(prevState: any, formData: FormData) {
     try {
-        const authHeaders = getAuthHeadersFromCookie();
-        if (Object.keys(authHeaders).length === 0) {
-            return { success: false, message: "Authentication failed. Please log in again." };
-        }
-
         const payload = {
             fullName: formData.get('fullName') as string,
             phoneNumber: formData.get('phoneNumber') as string,
@@ -156,11 +124,10 @@ export async function addLead(prevState: any, formData: FormData) {
             return { success: false, message: "All fields are required." };
         }
         
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/leads`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                ...authHeaders
             },
             body: JSON.stringify(payload),
         });
@@ -206,12 +173,10 @@ export async function getLeadByEmail(email: string) {
 
 export async function addProject(projectData: any) {
     try {
-        const authHeaders = getAuthHeadersFromCookie();
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                ...authHeaders
             },
             body: JSON.stringify(projectData),
         });
@@ -570,7 +535,3 @@ export async function deleteMeeting(projectId: string, meetingId: string) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
-
-    
-
-    

@@ -6,22 +6,21 @@ import { cookies } from 'next/headers';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
 function getAuthHeadersFromCookie(): Record<string, string> {
-    const staticUserData = {
-        "userId": "8c26c0b3032ecc4f",
-        "name": "saras",
-        "email": "saras@gmail.com",
-        "role": "ORG_ADMIN",
-        "mobileNumber": "9876543210",
-        "city": "Delhi",
-        "organizationId": "ORG-f9705032-d42a-46df-b799-87bcda629142",
-        "orgCode": "ABCConstructionsDEL"
-    };
-
-    return {
-        'x-user': JSON.stringify(staticUserData),
-        'x-user-id': staticUserData.userId,
-        'x-login-id': staticUserData.email,
-    };
+    const cookieStore = cookies();
+    const userCookie = cookieStore.get('astramaan_user');
+    if (!userCookie) return {};
+    
+    try {
+        const userData = JSON.parse(userCookie.value);
+        return {
+            'x-user': JSON.stringify(userData),
+            'x-user-id': userData.userId,
+            'x-login-id': userData.email,
+        };
+    } catch (e) {
+        console.error("Failed to parse user cookie", e);
+        return {};
+    }
 }
 
 export async function PATCH(req: NextRequest) {
@@ -48,6 +47,21 @@ export async function PATCH(req: NextRequest) {
     if (!res.ok) {
         return NextResponse.json({ success: false, message: data.message || "Failed to update profile." }, { status: res.status });
     }
+
+    // Also update the cookie
+    const cookieStore = cookies();
+    const userCookie = cookieStore.get('astramaan_user');
+    if(userCookie) {
+        const userData = JSON.parse(userCookie.value);
+        const updatedUserData = { ...userData, ...body };
+        cookieStore.set('astramaan_user', JSON.stringify(updatedUserData), {
+            path: '/',
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+        });
+    }
+
 
     return NextResponse.json(data, { status: res.status });
     

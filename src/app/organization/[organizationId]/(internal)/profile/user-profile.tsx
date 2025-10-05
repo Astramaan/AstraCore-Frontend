@@ -19,7 +19,7 @@ export default function UserProfilePage() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">Personal Details</h2>
-                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex">
+                 <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary">
                     <ChevronLeft className="mr-2 h-4 w-4" />
                     Back
                 </Button>
