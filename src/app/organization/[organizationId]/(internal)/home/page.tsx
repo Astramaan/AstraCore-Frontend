@@ -3,12 +3,12 @@
 
 import React, { Suspense } from 'react';
 import { useUser } from '@/context/user-context';
-import DefaultHomePage from './default-home';
-import ProjectManagerHome from './project-manager-home';
+import DefaultHomePage from '@/app/organization/[organizationId]/home/default-home';
+import ProjectManagerHome from '@/app/organization/[organizationId]/home/project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
-import ArchitectHome from './architect-home';
-import SalesHome from './sales-home';
-import SiteSupervisorHome from './site-supervisor-home';
+import ArchitectHome from '@/app/organization/[organizationId]/home/architect-home';
+import SalesHome from '@/app/organization/[organizationId]/home/sales-home';
+import SiteSupervisorHome from '@/app/organization/[organizationId]/home/site-supervisor-home';
 
 
 function OrganizationHomePageContent() {
@@ -41,7 +41,6 @@ function OrganizationHomePageContent() {
         )
     }
 
-    // Use the user's team to determine which component to render
     if (user.team === 'Project Manager') {
         return <ProjectManagerHome />;
     }
