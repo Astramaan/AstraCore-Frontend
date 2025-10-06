@@ -41,11 +41,11 @@ export async function PATCH(req: Request, { params }: { params: { projectId: str
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { projectId: string, meetingId: string } }) {
+export async function DELETE(request: Request, { params }: { params: { projectId: string, meetingId: string } }) {
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${params.projectId}/meetings/${params.meetingId}`, {
             method: 'DELETE',
-            headers: getAuthHeaders(req),
+            headers: getAuthHeaders(request),
         });
         
         const text = await res.text();
