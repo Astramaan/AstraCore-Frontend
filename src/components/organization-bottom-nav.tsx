@@ -56,7 +56,7 @@ export const OrganizationBottomNav = () => {
                                     "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
                                     "lg:gap-2.5 md:py-3 rounded-full min-w-max",
                                     "h-16 w-16 md:h-12 md:w-auto px-1 md:px-4 lg:h-[54px]",
-                                    isActive ? "bg-primary text-white" : "bg-white text-black hover:bg-white hover:text-primary"
+                                    isActive ? "bg-primary text-white" : "bg-black/20 text-white hover:bg-white/20 hover:text-white"
                                 )}>
                                     <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
                                     <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
