@@ -43,7 +43,7 @@ export const OrganizationBottomNav = () => {
 
 
     return (
-        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-2 flex justify-center">
+        <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
              <div className="relative w-full md:w-auto bg-black/10 rounded-full backdrop-blur-[5px] p-2 md:p-4">
                 <div className="flex items-center justify-around md:justify-center md:gap-4">
                     {visibleNavItems.map((item) => {
