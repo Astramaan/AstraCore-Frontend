@@ -7,8 +7,8 @@ export const HabiLogo = ({ className }: { className?: string }) => (
         <Image
             src="/images/Astramaan_Logo.png"
             alt="Astramaan Logo"
-            width={72}
-            height={24}
+            width={60}
+            height={20}
         />
     </div>
 );
