@@ -48,7 +48,7 @@ export function NotificationPopover() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                 <Button variant="ghost" size="icon" className="bg-black/10 border border-white/20 backdrop-blur-sm rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary relative text-white">
+                 <Button variant="ghost" size="icon" className="bg-black/5 border border-white/20 backdrop-blur-sm rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary relative text-white">
                     <NotificationBellIcon className="h-6 w-6" />
                     <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                 </Button>
