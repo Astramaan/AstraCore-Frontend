@@ -28,7 +28,7 @@ import AssignTaskIcon from "./icons/assign-task-icon";
 
 
 interface AssignTaskFormProps {
-    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments'>) => void;
+    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
     onClose: () => void;
 }
 
@@ -45,7 +45,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setAttachments(prev => [...prev, ...Array.from(event.target.files as FileList)]);
+            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
         }
     };
     
@@ -62,8 +62,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                 priority,
                 category: category || 'General',
                 project: 'AstraCore App', // Placeholder
-                clientId: 'CL005', // Placeholder,
-                status: 'Pending'
+                clientId: 'CL005', // Placeholder
             });
             onClose();
         } else {
@@ -80,15 +79,15 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
             
             <div className="space-y-6">
                 <div className="space-y-2">
-                    <Label htmlFor="task-title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Task Title*</Label>
+                    <Label htmlFor="task-title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Task Title*</Label>
                     <Input id="task-title" className="bg-background rounded-full h-14" value={title} onChange={(e) => setTitle(e.target.value)} />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900')}>Description</Label>
+                    <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Description</Label>
                     <Textarea id="description" className="h-32 bg-background rounded-2xl" value={description} onChange={(e) => setDescription(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900')}>Members*</Label>
+                    <Label htmlFor="members" className={cn("text-lg font-medium", members ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Members*</Label>
                      <Select onValueChange={setMembers}>
                         <SelectTrigger className="h-14 bg-background rounded-full" id="members">
                             <SelectValue placeholder="Add members" />
@@ -103,7 +102,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
             <div className="space-y-6">
                 <div className="space-y-2">
-                    <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Due Date*</Label>
+                    <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Due Date*</Label>
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
@@ -128,7 +127,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                     </Popover>
                 </div>
                  <div className="space-y-2">
-                    <Label htmlFor="category" className={cn("text-lg font-medium", category ? 'text-grey-1' : 'text-zinc-900')}>Category</Label>
+                    <Label htmlFor="category" className={cn("text-lg font-medium", category ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Category</Label>
                     <Select onValueChange={setCategory}>
                         <SelectTrigger id="category" className="h-14 bg-background rounded-full">
                             <SelectValue placeholder="Select category" />
@@ -142,7 +141,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                     </Select>
                 </div>
                  <div className="space-y-4">
-                    <p className="text-lg font-medium mb-2 text-zinc-900">Priority</p>
+                    <p className="text-lg font-medium mb-2 text-zinc-900 dark:text-white">Priority</p>
                     <div className="flex items-center gap-4">
                         <Button 
                             type="button" 
@@ -175,7 +174,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                     </div>
                 </div>
                  <div className="space-y-2">
-                    <Label className="text-lg font-medium text-zinc-900">Attach Files</Label>
+                    <Label className="text-lg font-medium text-zinc-900 dark:text-white">Attach Files</Label>
                     <div
                         className="border border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center bg-background cursor-pointer"
                         onClick={() => fileInputRef.current?.click()}
@@ -187,7 +186,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                             className="hidden"
                             multiple
                         />
-                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center">
                             <UploadCloud className="w-6 h-6 text-gray-500" />
                         </div>
                         <p className="mt-2 text-sm text-gray-500">Click to upload or drag and drop</p>
@@ -198,7 +197,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
                             <p className="text-sm font-medium">Attached files:</p>
                             <div className="space-y-2">
                                 {attachments.map((file, index) => (
-                                    <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-md">
+                                    <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-zinc-800 p-2 rounded-md">
                                         <div className="flex items-center gap-2">
                                             <Paperclip className="h-4 w-4" />
                                             <span className="text-sm truncate">{file.name}</span>
@@ -233,7 +232,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
 
 interface AssignTaskSheetProps {
-    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments'>) => void;
+    onTaskAssigned: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
 }
 
 export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
@@ -241,7 +240,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
     const [showSuccess, setShowSuccess] = useState(false);
     const isMobile = useIsMobile();
 
-    const handleSuccess = (task: Omit<Task, 'id' | 'attachments'>) => {
+    const handleSuccess = (task: Omit<Task, 'id' | 'attachments' | 'status'>) => {
         onTaskAssigned(task);
         setIsOpen(false);
         setShowSuccess(true);
@@ -261,13 +260,13 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
             </SheetTrigger>
             <DialogOrSheetContent
                 side="bottom"
-                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
+                className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
             >
-                <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <DialogHeader className="p-6 border-b rounded-t-[50px]">
                     <div className="flex justify-between items-center">
                         <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                             <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
-                                <AssignTaskIcon className="h-6 w-6 text-black"/>
+                                <AssignTaskIcon className="h-6 w-6"/>
                             </div>
                             Assign task
                         </DialogTitle>
