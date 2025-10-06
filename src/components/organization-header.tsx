@@ -74,10 +74,10 @@ export const OrganizationHeader = () => {
             {user?.role !== 'CLIENT' && (
                 <>
                     <Link href={`/organization/${organizationId}/teams`}>
-                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                        <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                             <Button className={cn(
                                 "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/5 dark:bg-white/10 backdrop-blur-sm text-white dark:text-foreground hover:bg-primary/10",
-                                isTeamsActive ? "bg-primary text-white dark:text-primary-foreground" : ""
+                                isTeamsActive ? "bg-primary text-white dark:text-white" : ""
                             )}>
                                 <TeamIcon className="mr-2 h-6 w-6"/>
                                 <span>{teamsButtonText}</span>
