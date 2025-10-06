@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -9,9 +8,9 @@ export default function OrganizationInternalLayout({ children }: { children: Rea
   
   return (
     <div className="min-h-screen bg-background">
-        <header className="sticky top-4 z-20 px-4">
+        <header className="sticky top-2 z-20 px-2">
           <div className="relative p-px rounded-full bg-gradient-to-b from-white/50 to-white/0">
-            <div className="relative w-full bg-white/10 rounded-full backdrop-blur-[5px] p-4">
+            <div className="relative w-full bg-white/10 rounded-full backdrop-blur-[5px] p-2">
               <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10">
                 <OrganizationHeader />
               </div>
