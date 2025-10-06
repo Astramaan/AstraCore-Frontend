@@ -13,7 +13,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-auto">
             <div className="h-full relative pl-4 md:pl-0">
               <Image 
-                  src="/images/logoimage.png"
+                  src="/images/HeroImage.jpg"
                   alt="Astramaan construction site"
                   fill
                   priority

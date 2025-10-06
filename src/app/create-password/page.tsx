@@ -12,7 +12,7 @@ export default function CreatePasswordPage({ searchParams }: { searchParams: { [
           <div className="relative w-full h-[250px] shrink-0 md:w-[396px] md:h-[507px]">
             <div className="h-full relative pl-4">
               <Image 
-                  src="/images/logoimage.png"
+                  src="/images/HeroImage.jpg"
                   alt="Astramaan construction site"
                   fill
                   priority

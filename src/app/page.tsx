@@ -14,7 +14,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
           <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-[507px]">
             <div className="h-full relative md:pl-4">
               <Image 
-                  src="/images/logoimage.png"
+                  src="/images/HeroImage.jpg"
                   alt="Astramaan construction site"
                   fill
                   priority
