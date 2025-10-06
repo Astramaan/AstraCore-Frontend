@@ -18,11 +18,11 @@ export const SettingsCard = () => {
                 <CardTitle className="text-2xl font-semibold">Settings</CardTitle>
                 <CardDescription>Customize your experience.</CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0 space-y-6">
-                <div>
-                    <Label className="text-lg font-medium text-foreground/80 mb-2 block">Appearance</Label>
+            <CardContent className="p-6 pt-0 space-y-4">
+                <div className="flex justify-between items-center">
+                    <Label className="text-lg font-medium text-foreground/80">Appearance</Label>
                      <Select value={theme} onValueChange={setTheme}>
-                        <SelectTrigger className="w-full h-14 rounded-full bg-background dark:bg-card">
+                        <SelectTrigger className="w-[180px] h-14 rounded-full bg-background dark:bg-card">
                             <div className="flex items-center gap-2">
                                 {theme === 'light' && <Sun className="h-5 w-5 text-muted-foreground"/>}
                                 {theme === 'dark' && <Moon className="h-5 w-5 text-muted-foreground"/>}
@@ -37,10 +37,10 @@ export const SettingsCard = () => {
                         </SelectContent>
                     </Select>
                 </div>
-                 <div>
-                    <Label className="text-lg font-medium text-foreground/80 mb-2 block">Language</Label>
+                 <div className="flex justify-between items-center">
+                    <Label className="text-lg font-medium text-foreground/80">Language</Label>
                      <Select defaultValue="en">
-                        <SelectTrigger className="w-full h-14 rounded-full bg-background dark:bg-card">
+                        <SelectTrigger className="w-[180px] h-14 rounded-full bg-background dark:bg-card">
                             <div className="flex items-center gap-2">
                                 <Languages className="h-5 w-5 text-muted-foreground"/>
                                 <SelectValue placeholder="Select language" />
