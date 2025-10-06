@@ -115,11 +115,11 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                     </Button>
                     </div>
                     <div
-                    className="ml-auto"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }}
+                        className="ml-auto"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }}
                     >
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
