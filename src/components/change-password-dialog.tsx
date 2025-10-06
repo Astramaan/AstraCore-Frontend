@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -35,7 +36,7 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
     }
 
     const defaultTrigger = (
-         <Button variant="outline" className="w-full md:w-56 h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium">
+         <Button variant="outline" className="w-full md:w-56 h-14 px-10 rounded-full bg-card text-foreground hover:bg-muted text-lg font-medium">
             Change Password
         </Button>
     )
@@ -48,7 +49,7 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
             <SheetContent 
                 side="bottom"
                 className={cn(
-                    "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none"
                 )}
             >
                  <SheetHeader className="p-6 border-b">
@@ -71,7 +72,7 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
                               <div className="relative mb-6 flex items-center justify-center">
                                 <div className="w-20 h-20 bg-lime-600/5 rounded-full" />
                                 <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
-                                <div className="w-10 h-10 bg-primary/20 rounded-full absolute flex items-center justify-center">
+                                <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
                                     <Check className="w-8 h-8 text-primary" />
                                 </div>
                             </div>

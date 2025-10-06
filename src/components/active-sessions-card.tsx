@@ -34,7 +34,7 @@ export const ActiveSessionsCard = () => {
         <Card className="rounded-[50px] h-full">
             <CardHeader className="p-6">
                  <div className="flex items-center gap-2">
-                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
+                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                         <Laptop className="h-6 w-6"/>
                     </div>
                     <div>
@@ -47,7 +47,7 @@ export const ActiveSessionsCard = () => {
                 {sessions.map(session => (
                     <div key={session.device} className="flex justify-between items-center py-4 border-b last:border-b-0 last:pb-0">
                         <div className="flex items-center gap-4">
-                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center border">
+                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center border bg-background">
                                 {session.icon}
                             </div>
                             <div>

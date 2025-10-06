@@ -24,9 +24,9 @@ export default function SuperAdminProfilePage() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-medium text-zinc-900 md:hidden">My Profile</h2>
-                <h2 className="text-2xl font-medium text-zinc-900 hidden md:block">Personal Details</h2>
-                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary">
+                <h2 className="text-2xl font-medium text-zinc-900 dark:text-white md:hidden">My Profile</h2>
+                <h2 className="text-2xl font-medium text-zinc-900 dark:text-white hidden md:block">Personal Details</h2>
+                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary">
                     <ChevronLeft className="mr-2 h-4 w-4" />
                     Back
                 </Button>
@@ -43,7 +43,7 @@ export default function SuperAdminProfilePage() {
                     <AppearanceCard />
                     <ActiveSessionsCard />
                     <div className="flex justify-end">
-                        <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive w-full">
+                        <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-card hover:bg-destructive/10 hover:text-destructive w-full">
                            <LogOut className="mr-2 h-5 w-5" />
                            Logout
                         </Button>

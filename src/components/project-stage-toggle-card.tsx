@@ -14,7 +14,7 @@ export const ProjectStageToggleCard = () => {
         <Card className="rounded-[50px]">
              <CardHeader className="flex flex-row items-center justify-between p-6">
                 <div className="flex items-center gap-2">
-                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
+                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                         <GanttChartSquare className="h-6 w-6"/>
                     </div>
                     <div>
@@ -24,7 +24,7 @@ export const ProjectStageToggleCard = () => {
             </CardHeader>
             <CardContent className="p-6 pt-0">
                 <div className="flex items-center justify-between p-4 bg-background rounded-full">
-                    <Label htmlFor="project-stage-toggle" className="text-lg text-black font-medium">
+                    <Label htmlFor="project-stage-toggle" className="text-lg text-foreground font-medium">
                         Show Project Stage
                     </Label>
                     <Switch

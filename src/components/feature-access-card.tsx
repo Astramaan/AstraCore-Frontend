@@ -9,12 +9,12 @@ import { CreateRoleDialog } from './create-role-dialog';
 import { Separator } from './ui/separator';
 
 const allRoles: RoleData[] = [
-    { name: "Sales", icon: <Briefcase className="w-6 h-6 text-black" />, bgColor: "bg-green-200/30" },
-    { name: "Super Admin", icon: <Shield className="w-6 h-6 text-black" />, bgColor: "bg-cyan-200/30" },
-    { name: "Software Development", icon: <Code className="w-6 h-6 text-black" />, bgColor: "bg-blue-300/30" },
-    { name: "Design", icon: <Palette className="w-6 h-6 text-black" />, bgColor: "bg-purple-300/30" },
-    { name: "Support & Feedback", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-red-200/30" },
-    { name: "Human Resources", icon: <Users className="w-6 h-6 text-black" />, bgColor: "bg-pink-300/30" },
+    { name: "Sales", icon: <Briefcase className="w-6 h-6 text-foreground" />, bgColor: "bg-green-200/30 dark:bg-green-500/20" },
+    { name: "Super Admin", icon: <Shield className="w-6 h-6 text-foreground" />, bgColor: "bg-cyan-200/30 dark:bg-cyan-500/20" },
+    { name: "Software Development", icon: <Code className="w-6 h-6 text-foreground" />, bgColor: "bg-blue-300/30 dark:bg-blue-500/20" },
+    { name: "Design", icon: <Palette className="w-6 h-6 text-foreground" />, bgColor: "bg-purple-300/30 dark:bg-purple-500/20" },
+    { name: "Support & Feedback", icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-red-200/30 dark:bg-red-500/20" },
+    { name: "Human Resources", icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-pink-300/30 dark:bg-pink-500/20" },
 ];
 
 export const FeatureAccessCard = () => {
@@ -37,7 +37,7 @@ export const FeatureAccessCard = () => {
             <Card className="rounded-[50px] w-full flex flex-col">
                 <CardHeader className="flex flex-row justify-between items-center p-6">
                     <div className="flex items-center gap-2">
-                        <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
+                        <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                             <Users className="h-6 w-6"/>
                         </div>
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
@@ -53,7 +53,7 @@ export const FeatureAccessCard = () => {
                                 <div className="flex justify-between items-center py-4">
                                     <div className="flex items-center gap-4">
                                         <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                            {role.icon}
+                                            {React.cloneElement(role.icon, { className: "text-foreground" })}
                                         </div>
                                         <p className="text-lg font-medium">{role.name}</p>
                                     </div>

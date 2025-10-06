@@ -91,7 +91,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
     
     const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
         <div className="space-y-2">
-            <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+            <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-foreground')}>{label}</Label>
             <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
         </div>
     );
@@ -135,7 +135,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
     return (
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
             <input type="hidden" name="id" value={member.id} />
-            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
+            <SheetHeader className="p-6 border-b bg-card rounded-t-[50px] shrink-0">
                 <SheetTitle className="flex justify-between items-center">
                     <span className="text-2xl font-semibold">Edit Profile</span>
                     <SheetClose asChild>
@@ -146,7 +146,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                 </SheetTitle>
             </SheetHeader>
             <ScrollArea className="flex-1">
-                <div className="p-6 space-y-4 bg-white">
+                <div className="p-6 space-y-4 bg-card">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                         <div className="space-y-6">
                             <FloatingLabelInput id="name" name="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
@@ -173,7 +173,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                     </div>
                 </div>
             </ScrollArea>
-            <div className="px-6 py-4 border-t flex justify-end gap-2 bg-white rounded-b-[50px] mt-auto shrink-0">
+            <div className="px-6 py-4 border-t flex justify-end gap-2 bg-card rounded-b-[50px] mt-auto shrink-0">
                 <Button type="submit" className="w-full md:w-auto h-14 px-10 rounded-full text-lg" disabled={isSubmitting}>
                     {isSubmitting ? 'Saving...' : <><Save className="mr-2 h-4 w-4" /> Save</>}
                 </Button>
@@ -252,7 +252,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                                     <ChangePasswordDialog 
                                         email={member.email} 
                                         trigger={
-                                            <Button variant="outline" className="md:w-56 h-12 rounded-full bg-background text-black hover:bg-muted text-base font-medium">
+                                            <Button variant="outline" className="md:w-56 h-12 rounded-full bg-card text-foreground hover:bg-muted text-base font-medium">
                                                 Change Password
                                             </Button>
                                         }
@@ -275,15 +275,15 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                         <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8">
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Full Name</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.name}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight truncate">{member.name}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Phone Number</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.mobileNumber}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight truncate">{member.mobileNumber}</p>
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Email Id</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{member.email}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Team</Label>
@@ -291,19 +291,19 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Last Login</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{initialMemberData.lastLogin}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight truncate">{initialMemberData.lastLogin}</p>
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Date Joined</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{initialMemberData.dateJoined}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight truncate">{initialMemberData.dateJoined}</p>
                             </div>
                              <div className="space-y-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Date of Birth</Label>
-                                <p className="text-black text-base md:text-lg leading-tight truncate">{initialMemberData.dob}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight truncate">{initialMemberData.dob}</p>
                             </div>
                              <div className="space-y-1 col-span-2 md:col-span-1">
                                 <Label className="text-sm md:text-base font-medium text-grey-1">Address</Label>
-                                <p className="text-black text-base md:text-lg leading-tight">{initialMemberData.address}</p>
+                                <p className="text-foreground text-base md:text-lg leading-tight">{initialMemberData.address}</p>
                             </div>
                         </div>
                          {isOwner && (
@@ -323,7 +323,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
             <DialogOrSheetContent
                 side="bottom"
                 className={cn(
-                    "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                 )}
             >
                 <EditProfileForm 

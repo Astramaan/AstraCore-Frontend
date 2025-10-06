@@ -17,7 +17,7 @@ export const BrandingWorkflowCard = () => {
                 <CardHeader className="p-6">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1">
+                            <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                                 <Palette className="h-6 w-6"/>
                             </div>
                             <div>
