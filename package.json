@@ -9,8 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "postinstall": "patch-package"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",
@@ -49,9 +48,9 @@
     "lucide-react": "^0.475.0",
     "next": "^15.0.0",
     "next-pwa": "^5.6.0",
-    "next-themes": "0.3.0",
+    "next-themes": "^0.4.0",
     "react": "^19.0.0-rc-f994737d14-20240522",
-    "react-day-picker": "^8.10.1",
+    "react-day-picker": "^9.0.4",
     "react-dom": "^19.0.0-rc-f994737d14-20240522",
     "react-hook-form": "^7.54.2",
     "recharts": "^2.15.1",
@@ -64,7 +63,6 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "genkit-cli": "^1.14.1",
-    "patch-package": "^8.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
