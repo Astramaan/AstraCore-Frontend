@@ -14,7 +14,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
           <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-[507px]">
             <div className="h-full relative md:pl-4">
               <Image 
-                  src="/images/HeroImage.jpg"
+                  src="https://images.unsplash.com/photo-1637525609391-ab1919948bbc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Z3JlZW4lMjBncmFkaWVudHxlbnwwfHx8fDE3NTk3NTM3MTV8MA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Astramaan construction site"
                   fill
                   priority
@@ -25,7 +25,7 @@ export default function LoginPage({ searchParams }: { searchParams: { [key:strin
           </div>
 
           {/* Form Section */}
-          <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-28 md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full flex-1">
+          <div className="bg-card dark:bg-card rounded-t-[50px] px-4 py-8 -mt-28 md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full flex-1">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo />
               <p className="text-lg text-grey-1 dark:text-muted-foreground mt-6 md:mt-8">Log in and let’s get to work on your projects.</p>
