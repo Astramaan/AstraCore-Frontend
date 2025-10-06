@@ -79,7 +79,7 @@ export default function AuthForm() {
     <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
         <div className="space-y-4 flex-grow">
             <div className="space-y-2">
-                <Label htmlFor="email" className={cn("text-lg font-medium", "text-black")}>Email ID</Label>
+                <Label htmlFor="email" className={cn("text-lg font-medium", "text-foreground")}>Email ID</Label>
                 <div className="relative flex items-center">
                     <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
                     <div className="absolute left-14 h-6 w-px bg-grey-2" />
@@ -99,7 +99,7 @@ export default function AuthForm() {
             </div>
             <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                    <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-black')}>Password</Label>
+                    <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-grey-1' : 'text-foreground')}>Password</Label>
                     <Link href="/forgot-password" className="text-sm text-grey-1 hover:text-primary hover:underline">
                         Forgot Password?
                     </Link>
@@ -138,7 +138,7 @@ export default function AuthForm() {
             
             <div className="text-center text-sm">
                 <span className="text-muted-foreground">{"Don't have an account? "}</span>
-                <Link href="/signup" className="font-semibold text-black hover:text-primary hover:underline">
+                <Link href="/signup" className="font-semibold text-foreground hover:text-primary hover:underline">
                     Sign up
                 </Link>
             </div>
