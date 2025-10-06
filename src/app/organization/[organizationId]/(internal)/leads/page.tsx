@@ -68,8 +68,8 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                 {/* Col 2: Contact + ID */}
                 <div className="flex flex-col justify-center gap-2 border-l border-border px-6">
                     <p className="text-lg break-words">
-                        <span className="text-muted-foreground">Email: </span> 
-                        <span className="text-foreground">{lead.email}</span>
+                        <span className="text-muted-foreground">Contact: </span> 
+                        <span className="text-foreground">{lead.email} | {lead.phone}</span>
                     </p>
                 </div>
 
