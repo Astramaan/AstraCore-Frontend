@@ -4,25 +4,23 @@
 
 import React, { useState, useActionState, useEffect } from 'react';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, ChevronRight } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useToast } from './ui/use-toast';
 import { SuccessPopup } from './success-popup';
 import { addMember } from '@/app/actions';
 import { FeatureAccessDialog } from './feature-access-dialog';
 import { ScrollArea } from './ui/scroll-area';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from './ui/sheet';
 
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
@@ -107,7 +105,6 @@ const CreateDepartmentForm = ({ onFormSuccess }: { onFormSuccess: () => void }) 
 
 
 export function CreateDepartmentSheet() {
-  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -116,49 +113,44 @@ export function CreateDepartmentSheet() {
     setShowSuccess(true);
   };
 
-  const TriggerButton = (
-    <Button className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6">
-        <Plus className="md:mr-2"/>
-        <span className="hidden md:inline">Create New Team</span>
-    </Button>
-  );
-
-  const FormComponent = <CreateDepartmentForm onFormSuccess={handleSuccess} />;
-
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger asChild>
-            {TriggerButton}
-          </DialogTrigger>
-          <DialogContent 
-              className="p-0 flex flex-col m-0 bg-white sm:max-w-[452px] rounded-[50px] h-auto"
-          >
-              <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
-                  <div className="flex items-center justify-between">
-                    <DialogTitle className="flex items-center text-2xl font-semibold">
-                        <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
-                            <Plus className="h-6 w-6"/>
-                        </div>
-                        Create New Team
-                    </DialogTitle>
-                    <DialogClose asChild>
-                      <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-muted rounded-full">
-                          <X className="h-6 w-6" />
-                      </Button>
-                    </DialogClose>
-                  </div>
-              </DialogHeader>
-              <div className="flex-grow overflow-y-auto no-scrollbar">
-                {FormComponent}
-              </div>
-          </DialogContent>
-      </Dialog>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+          <Button className="h-[54px] w-[54px] md:w-auto md:h-14 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium p-0 md:px-6">
+            <Plus className="md:mr-2" />
+            <span className="hidden md:inline">Create New Team</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent 
+          side="bottom"
+          className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+        >
+          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+            <div className="flex items-center justify-between">
+              <SheetTitle className="flex items-center text-2xl font-semibold">
+                <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
+                  <Plus className="h-6 w-6"/>
+                </div>
+                Create New Team
+              </SheetTitle>
+              <SheetClose asChild>
+                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-muted rounded-full">
+                  <X className="h-6 w-6" />
+                </Button>
+              </SheetClose>
+            </div>
+          </SheetHeader>
+          <div className="flex-grow overflow-y-auto no-scrollbar">
+            <CreateDepartmentForm onFormSuccess={handleSuccess} />
+          </div>
+        </SheetContent>
+      </Sheet>
       <SuccessPopup 
-          isOpen={showSuccess}
-          onClose={() => setShowSuccess(false)}
-          title="New Team Created"
-          message="The new team has been successfully added."
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="New Team Created"
+        message="The new team has been successfully added."
       />
     </>
   );
