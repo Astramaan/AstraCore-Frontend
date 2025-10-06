@@ -473,8 +473,23 @@ export default function LeadsPage() {
         <div className="space-y-8 pb-28">
              <div className="flex flex-col gap-4">
                 <div className="flex md:hidden flex-col gap-4">
+                    <h2 className="text-xl text-black font-medium">Leads</h2>
                     <div className="flex items-center gap-4 w-full">
                         <div className="relative flex-1">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                            <Input 
+                                placeholder="Search Lead" 
+                                className="pl-12 h-14 rounded-full bg-white text-lg text-left w-full" 
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        <AddLeadSheet onLeadAdded={onLeadAdded} />
+                    </div>
+                </div>
+                 <div className="hidden md:flex justify-end items-center">
+                    <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="relative w-full md:w-64">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                             <Input 
                                 placeholder="Search Lead" 
@@ -483,20 +498,8 @@ export default function LeadsPage() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <AddLeadSheet onLeadAdded={onLeadAdded} />
-                    </div>
-                </div>
-                 <div className="hidden md:flex justify-between items-center">
-                    <div className="relative w-full md:w-64">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
-                        <Input 
-                            placeholder="Search Lead" 
-                            className="pl-12 h-14 rounded-full bg-white text-lg text-left" 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                     <AddLeadSheet onLeadAdded={onLeadAdded} />
+                         <AddLeadSheet onLeadAdded={onLeadAdded} />
+                     </div>
                 </div>
             </div>
 
