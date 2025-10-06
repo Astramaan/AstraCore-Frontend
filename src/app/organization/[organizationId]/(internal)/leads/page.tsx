@@ -472,7 +472,7 @@ export default function LeadsPage() {
     return (
         <div className="space-y-8 pb-28">
             <div className="flex flex-row md:flex-row justify-between items-center gap-4">
-                <div className="relative flex-1 md:flex-grow-0 md:w-96">
+                <div className="relative flex-1">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
                     <Input 
                         placeholder="Search Lead" 
