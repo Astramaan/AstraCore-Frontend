@@ -97,7 +97,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
     const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
     const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
     const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
-    const [siteLocationLink, setSiteLocationLink] = useState(projectToEdit?.city || projectData?.projectDetails?.siteLocationLink || '');
+    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.projectDetails?.siteLocation || '');
     const [siteAddress, setSiteAddress] = useState(projectData?.projectDetails?.siteAddress || '');
     const [architect, setArchitect] = useState(projectData?.projectAssign?.architect || '');
     const [siteSupervisor, setSiteSupervisor] = useState(projectData?.projectAssign?.siteSupervisor || '');
@@ -172,7 +172,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                 projectCost: projectCost,
                 dimension: dimension,
                 floor: floor,
-                siteLocationLink: siteLocationLink,
+                siteLocation: siteLocation,
                 siteAddress: siteAddress
             },
             projectAssign: {
@@ -265,7 +265,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                     <SelectItem key={f} value={f}>{f}</SelectItem>
                                 ))}
                             </FloatingLabelSelect>
-                             <FloatingLabelInput id="site-location-link" name="site_location_link" label="Site Location link*" type="url" value={siteLocationLink} onChange={e => setSiteLocationLink(e.target.value)} />
+                             <FloatingLabelInput id="site-location" name="site_location" label="Site Location link*" type="url" value={siteLocation} onChange={e => setSiteLocation(e.target.value)} />
                             <div className="sm:col-span-2">
                                 <FloatingLabelTextarea id="site-address" name="site_address" label="Site Address" value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} />
                             </div>
@@ -488,15 +488,9 @@ const ProjectTimelineForm = ({
         };
 
         startTransition(async () => {
-            const action = isEditMode ? updateProject : (payload: any) => fetch('/api/projects', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
             try {
                 let result: { success: boolean; data?: any; message?: string; };
-                if(isEditMode) {
+                if (isEditMode) {
                     result = await updateProject({ ...fullData, id: projectData.id });
                 } else {
                     const response = await fetch('/api/projects', {
@@ -504,9 +498,11 @@ const ProjectTimelineForm = ({
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(fullData)
                     });
+                    
                     const resData = await response.json();
-                     if (response.ok) {
-                        result = { success: true, data: resData.data }
+
+                    if (response.ok) {
+                        result = { success: true, data: resData.data, message: resData.message };
                     } else {
                         result = { success: false, message: resData.message || 'Failed to create project.' };
                     }
@@ -943,25 +939,4 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-
-    
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
