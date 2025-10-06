@@ -440,7 +440,7 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
     <>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-            <Button className="rounded-full h-[54px] w-[54px] p-0 md:w-auto md:px-6 bg-primary/10 text-primary dark:text-primary hover:bg-primary/20 border border-primary text-lg font-medium shrink-0">
+            <Button className="rounded-full h-[54px] w-[54px] p-0 md:w-auto md:px-6 bg-primary/10 text-primary dark:text-primary dark:bg-primary/10 border border-primary hover:bg-primary/20 text-lg font-medium shrink-0">
                 <PlusCircle className="h-5 w-5 md:mr-2" />
                 <span className="hidden md:inline">Create</span>
             </Button>

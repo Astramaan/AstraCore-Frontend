@@ -762,7 +762,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                                 </CardContent>
                                             </Card>
                                         ))}
-                                        <Button variant="outline" className="rounded-full" onClick={() => addStage(phaseIndex)}>
+                                        <Button variant="outline" className="rounded-full" onClick={() => addPhase(phaseIndex)}>
                                             <Plus className="mr-2 h-4 w-4" /> Add Stage
                                         </Button>
                                     </div>
@@ -851,7 +851,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         : 'Project Timeline';
         
     const DefaultTrigger = (
-        <Button className="bg-primary/10 text-primary dark:text-primary border border-primary md:h-14 rounded-full h-[54px] hover:bg-primary/20 text-lg px-6 w-[54px] md:w-auto p-0 md:p-2.5">
+        <Button className="bg-primary/10 text-primary dark:text-primary dark:bg-primary/10 border border-primary md:h-14 rounded-full h-[54px] hover:bg-primary/20 text-lg px-6 w-[54px] md:w-auto p-0 md:p-2.5">
             <PlusCircle className="h-5 w-5 md:mr-2" />
             <span className="hidden md:inline">Create project</span>
         </Button>
@@ -920,6 +920,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
