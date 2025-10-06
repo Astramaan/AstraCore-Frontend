@@ -69,15 +69,15 @@ export const OrganizationHeader = () => {
                 </>
              )}
         </div>
-        <div className="hidden md:flex items-center gap-2 lg:gap-4 text-white">
+        <div className="hidden md:flex items-center gap-2 lg:gap-4 text-white dark:text-foreground">
             <NotificationPopover />
             {user?.role !== 'CLIENT' && (
                 <>
                     <Link href={`/organization/${organizationId}/teams`}>
-                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0">
+                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                             <Button className={cn(
-                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/5 backdrop-blur-sm text-white hover:bg-primary/10",
-                                isTeamsActive ? "bg-primary text-white" : ""
+                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/5 dark:bg-white/10 backdrop-blur-sm text-white dark:text-foreground hover:bg-primary/10",
+                                isTeamsActive ? "bg-primary text-white dark:text-primary-foreground" : ""
                             )}>
                                 <TeamIcon className="mr-2 h-6 w-6"/>
                                 <span>{teamsButtonText}</span>
@@ -90,8 +90,8 @@ export const OrganizationHeader = () => {
                             <AvatarFallback>{userInitials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden lg:block">
-                            <p className="text-base lg:text-lg font-medium">{userName}</p>
-                            <p className="text-sm lg:text-base text-white/80">{userTeam}</p>
+                            <p className="text-base lg:text-lg font-medium text-white dark:text-foreground">{userName}</p>
+                            <p className="text-sm lg:text-base text-white/80 dark:text-muted-foreground">{userTeam}</p>
                         </div>
                     </Link>
                 </>
@@ -101,11 +101,11 @@ export const OrganizationHeader = () => {
             <NotificationPopover />
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="bg-white rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary">
+                    <Button variant="ghost" size="icon" className="bg-white dark:bg-card rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary">
                         <Menu className="h-6 w-6" />
                     </Button>
                 </SheetTrigger>
-                <SheetContent className="bg-white">
+                <SheetContent className="bg-card">
                     <SheetHeader>
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
