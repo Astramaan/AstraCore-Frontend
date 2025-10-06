@@ -55,7 +55,7 @@ export default function VendorDetailsPage({ params }: { params: { vendorId: stri
     }
     
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 my-6">
              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-medium">Details</h2>
                 <AddVendorSheet 
@@ -72,8 +72,8 @@ export default function VendorDetailsPage({ params }: { params: { vendorId: stri
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
                 <VendorDetailsCard vendor={vendor} setVendor={setVendor} isEditing={false} />
                 <div className="space-y-6 lg:w-[564px]">
-                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails) => setVendor(v => ({...v, accountDetails: newDetails}))} isEditing={false} />
-                    <VendorMaterialsCard materials={vendor.materials} setMaterials={(newMaterials) => setVendor(v => ({...v, materials: newMaterials}))} isEditing={false} />
+                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails: any) => setVendor((v: any) => ({...v, accountDetails: newDetails}))} isEditing={false} />
+                    <VendorMaterialsCard materials={vendor.materials} setMaterials={(newMaterials: any) => setVendor((v: any) => ({...v, materials: newMaterials}))} isEditing={false} />
                 </div>
             </div>
         </div>
