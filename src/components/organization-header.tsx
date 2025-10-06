@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -77,14 +76,14 @@ export const OrganizationHeader = () => {
                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                              <Button className={cn(
                                 "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-white/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10",
-                                isTeamsActive ? "bg-primary text-white dark:text-primary-foreground" : "text-black dark:text-white"
+                                isTeamsActive ? "bg-primary text-black dark:text-primary-foreground" : "text-black dark:text-white"
                             )}>
                                 <TeamIcon className={cn(
                                     "mr-2 h-6 w-6",
-                                    isTeamsActive ? "text-white dark:text-black" : "text-black dark:text-white"
+                                    isTeamsActive ? "text-black dark:text-black" : "text-black dark:text-white"
                                 )}/>
                                 <span className={cn(
-                                    isTeamsActive ? "text-white dark:text-black" : "text-black dark:text-white"
+                                    isTeamsActive ? "text-black dark:text-black" : "text-black dark:text-white"
                                 )}>{teamsButtonText}</span>
                             </Button>
                         </div>
