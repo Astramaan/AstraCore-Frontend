@@ -57,7 +57,7 @@ export function NotificationPopover() {
             </PopoverTrigger>
             <PopoverContent className="w-80 md:w-96 p-2 rounded-[50px] bg-popover text-popover-foreground border-0" align="center">
                 <div className="p-4 flex items-center gap-2">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-muted border">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center border border-border">
                         <NotificationBellIcon className="w-6 w-6"/>
                     </div>
                     <h3 className="text-xl font-semibold">Notifications</h3>

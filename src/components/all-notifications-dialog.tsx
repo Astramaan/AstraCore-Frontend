@@ -91,7 +91,7 @@ export function AllNotificationsDialog() {
                 <SheetHeader className="p-6 border-b">
                     <SheetTitle className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-2xl font-semibold">
-                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-muted border">
+                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center border border-border">
                                 <NotificationBellIcon className="w-6 w-6"/>
                             </div>
                             Notifications
