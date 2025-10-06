@@ -74,10 +74,33 @@ export default {
         'accent-color-03': 'hsl(var(--accent-color-03))',
         'accent-color-04': 'hsl(var(--accent-color-04))',
         'accent-color-05': 'hsl(var(--accent-color-05))',
+
         'green-light': 'hsl(var(--green-light))',
         'green': 'hsl(var(--green))',
+
         'green-100': 'hsl(var(--green-100))',
+        'green-500': 'hsl(var(--green-500))',
+        'green-600': 'hsl(var(--green-600))',
         'green-700': 'hsl(var(--green-700))',
+        'green-900': 'hsl(var(--green-900))',
+
+        'blue-100': 'hsl(var(--blue-100))',
+        'blue-500': 'hsl(var(--blue-500))',
+        'blue-600': 'hsl(var(--blue-600))',
+        'blue-700': 'hsl(var(--blue-700))',
+        'blue-900': 'hsl(var(--blue-900))',
+
+        'yellow-100': 'hsl(var(--yellow-100))',
+        'yellow-500': 'hsl(var(--yellow-500))',
+        'yellow-600': 'hsl(var(--yellow-600))',
+        'yellow-700': 'hsl(var(--yellow-700))',
+        'yellow-900': 'hsl(var(--yellow-900))',
+        
+        'red-100': 'hsl(var(--red-100))',
+        'red-500': 'hsl(var(--red-500))',
+        'red-600': 'hsl(var(--red-600))',
+        'red-700': 'hsl(var(--red-700))',
+        'red-900': 'hsl(var(--red-900))',
       },
       borderRadius: {
         lg: 'var(--radius)',

@@ -128,7 +128,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
         <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-stretch py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
-                    {role.icon}
+                    {React.cloneElement(role.icon, { className: "w-6 h-6 text-foreground" })}
                 </div>
                 <p className="text-xl font-semibold">{role.name}</p>
             </div>
@@ -144,7 +144,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
             <div className="flex items-center justify-between gap-4">
                  <p className="text-lg"><span className="text-muted-foreground">Total Members: </span><span className="text-foreground font-medium">{String(role.total).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background dark:bg-black text-foreground hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-14 px-10 rounded-full bg-background dark:bg-background text-foreground hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
 
@@ -152,7 +152,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
         <div className="lg:hidden flex flex-col py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
-                    {role.icon}
+                    {React.cloneElement(role.icon, { className: "w-6 h-6 text-foreground" })}
                 </div>
                 <p className="text-2xl font-semibold">{role.name}</p>
             </div>
@@ -166,7 +166,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
                  <div>
                     <p className="text-base text-muted-foreground">Total Members: <span className="text-foreground font-medium block">{String(role.total).padStart(2, '0')}</span></p>
                 </div>
-                <Button className="h-12 px-6 col-span-2 rounded-full bg-background dark:bg-black text-foreground hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-12 px-6 col-span-2 rounded-full bg-background dark:bg-background text-foreground hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator className="last:hidden"/>
