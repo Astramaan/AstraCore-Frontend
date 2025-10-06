@@ -31,7 +31,7 @@ export const ActiveSessionsCard = () => {
     }
 
     return (
-        <Card className="rounded-[50px] h-full">
+        <Card className="rounded-[50px]">
             <CardHeader className="p-6">
                  <div className="flex items-center gap-2">
                     <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
