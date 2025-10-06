@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -92,11 +91,11 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
                            <p className="text-lg font-medium">{member.name}</p>
                         </Link>
                         <div className="md:hidden mt-2 space-y-1 text-sm">
-                            <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
-                            <p><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
-                            <p><span className="text-grey-1">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
-                            <p><span className="text-grey-1">Last Active: </span>
-                                <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-black')}>
+                            <p className="whitespace-nowrap"><span className="text-muted-foreground">Contact: </span><span className="text-foreground font-medium">{member.contact}</span></p>
+                            <p><span className="text-muted-foreground">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
+                            <p><span className="text-muted-foreground">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
+                            <p><span className="text-muted-foreground">Last Active: </span>
+                                <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-foreground')}>
                                     {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
                                 </span>
                             </p>
@@ -105,14 +104,14 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
                 </div>
 
                 <div className="hidden md:flex flex-col gap-2 flex-1">
-                    <p className="text-lg whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{member.contact}</span></p>
-                    <p className="text-lg"><span className="text-grey-1">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
+                    <p className="text-lg whitespace-nowrap"><span className="text-muted-foreground">Contact: </span><span className="text-foreground font-medium">{member.contact}</span></p>
+                    <p className="text-lg"><span className="text-muted-foreground">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
                 </div>
 
                 <div className="hidden md:flex flex-col items-end gap-2 flex-1 text-right">
-                    <p className="text-lg"><span className="text-grey-1">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
-                    <p className="text-lg"><span className="text-grey-1">Last Active: </span>
-                        <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-black')}>
+                    <p className="text-lg"><span className="text-muted-foreground">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
+                    <p className="text-lg"><span className="text-muted-foreground">Last Active: </span>
+                        <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-foreground')}>
                             {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
                         </span>
                     </p>
@@ -202,7 +201,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
 
     return (
         <AlertDialog>
-            <div className="bg-white h-full flex flex-col rounded-t-[50px] overflow-hidden">
+            <div className="bg-card text-card-foreground h-full flex flex-col rounded-t-[50px] overflow-hidden">
                 <SheetHeader className="p-6 border-b shrink-0">
                     <SheetTitle className="flex items-center text-xl font-medium">
                          <div className="flex items-center gap-4">
@@ -213,7 +212,7 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                         </div>
                         <div className="ml-auto">
                             <SheetClose asChild>
-                                <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-black bg-background hover:bg-muted">
+                                <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-foreground bg-background hover:bg-muted">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </SheetClose>
@@ -241,12 +240,12 @@ const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void
                           <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                         </div>
                         <AlertDialogTitle className="text-2xl font-semibold">Deactivate User?</AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
+                        <AlertDialogDescription className="text-lg text-muted-foreground">
                             Are you sure you want to deactivate {memberToDeactivate.name}? They will lose access to the platform.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="flex-row justify-center gap-4 pt-4">
-                        <AlertDialogCancel onClick={() => setMemberToDeactivate(null)} className="w-full md:w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel onClick={() => setMemberToDeactivate(null)} className="w-full md:w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={confirmDeactivation} className="w-full md:w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Deactivate</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -271,7 +270,7 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
              <Sheet open={isOpen} onOpenChange={onClose}>
                 <SheetContent 
                     side={"bottom"}
-                    className="p-0 bg-white border-none shadow-none w-full h-full"
+                    className="p-0 bg-card border-none shadow-none w-full h-full"
                     overlayClassName="bg-transparent"
                 >
                     <ViewMembersContent role={role} onClose={onClose} />
@@ -285,9 +284,9 @@ export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProp
             <SheetContent 
                 side={"bottom"}
                 className={cn(
-                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-[90vh] md:h-[90vh] md:bottom-0 rounded-t-[50px]",
+                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-full md:h-[90vh] md:bottom-0 rounded-t-[50px]",
                 )}
-                overlayClassName={cn("bg-neutral-900/10 backdrop-blur-sm")}
+                overlayClassName={cn("bg-black/20 backdrop-blur-sm")}
             >
               <ViewMembersContent role={role} onClose={onClose} />
             </SheetContent>
