@@ -45,7 +45,7 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
         </DialogHeader>
         <div className="space-y-4 px-6 pb-6">
           <div className="space-y-2">
-            <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-grey-1' : 'text-zinc-900')}>Material</Label>
+            <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-grey-1' : 'text-zinc-900')}>{ "Material"}</Label>
             <Input id="material" value={materialName} readOnly className="h-14 bg-background rounded-full px-5" />
           </div>
           <div className="space-y-2">

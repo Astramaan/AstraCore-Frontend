@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -67,10 +66,10 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                     </div>
 
                     <div className="mt-2 space-y-1 text-sm">
-                        <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                        <p><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                        <p className="whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-foreground font-medium">{vendor.phone} | {vendor.email}</span></p>
+                        <p><span className="text-grey-1">Location: </span><span className="text-foreground font-medium">{vendor.location}</span></p>
                         <div className="pt-6">
-                            <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-[54px] rounded-full bg-primary text-white">Order</Button>
+                            <Button onClick={() => setIsOrderFormOpen(true)} className="w-full h-[54px] rounded-full bg-primary text-primary-foreground">Order</Button>
                         </div>
                     </div>
                 </div>
@@ -92,14 +91,14 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
                     <Separator orientation="vertical" />
                     
                     <div className="flex flex-col justify-center gap-2 px-4">
-                        <p className="text-lg whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-black font-medium">{vendor.phone} | {vendor.email}</span></p>
-                        <p className="text-lg"><span className="text-grey-1">Location: </span><span className="text-black font-medium">{vendor.location}</span></p>
+                        <p className="text-lg whitespace-nowrap"><span className="text-grey-1">Contact: </span><span className="text-foreground font-medium">{vendor.phone} | {vendor.email}</span></p>
+                        <p className="text-lg"><span className="text-grey-1">Location: </span><span className="text-foreground font-medium">{vendor.location}</span></p>
                     </div>
 
                     <Separator orientation="vertical" />
 
                     <div className="flex items-center justify-end gap-4 pl-4">
-                        <Button onClick={() => setIsOrderFormOpen(true)} className="h-12 rounded-full px-6 bg-primary text-white">Order</Button>
+                        <Button onClick={() => setIsOrderFormOpen(true)} className="h-12 rounded-full px-6 bg-primary text-primary-foreground">Order</Button>
                         <StarIcon isFilled={vendor.isFavorite} className="text-yellow-400" />
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -130,7 +129,7 @@ const VendorCard = ({ vendor, materialName }: { vendor: Vendor; materialName: st
 const ViewVendorsContent = ({ material, onClose }: { material: Material; onClose: () => void }) => {
     return (
         <AlertDialog>
-            <div className="bg-white h-full flex flex-col rounded-t-[50px] overflow-hidden">
+            <div className="bg-card text-card-foreground h-full flex flex-col rounded-t-[50px] overflow-hidden">
                 <SheetHeader className="p-6 border-b shrink-0">
                     <SheetTitle className="flex items-center text-xl font-medium">
                          <div className="flex items-center gap-4">
@@ -141,7 +140,7 @@ const ViewVendorsContent = ({ material, onClose }: { material: Material; onClose
                         </div>
                         <div className="ml-auto">
                             <SheetClose asChild>
-                                <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-black bg-background hover:bg-muted">
+                                <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-foreground bg-background hover:bg-muted">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </SheetClose>
@@ -182,7 +181,7 @@ export function ViewVendorsSheet({ isOpen, onClose, material }: ViewVendorsSheet
                 className={cn(
                     "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-full md:h-[90vh] md:bottom-0 rounded-t-[50px]",
                 )}
-                overlayClassName={cn("bg-neutral-900/10 backdrop-blur-sm")}
+                overlayClassName={cn("bg-black/20 backdrop-blur-sm")}
             >
                 <ViewVendorsContent material={material} onClose={onClose} />
             </SheetContent>
