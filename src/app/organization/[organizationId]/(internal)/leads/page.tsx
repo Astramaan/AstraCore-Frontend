@@ -56,9 +56,9 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         <div>
                         <p className="text-xl font-semibold text-foreground">{lead.fullName}</p>
                         <p className="text-lg">
-                            <span className="text-muted-foreground">Pincode: </span> 
+                            <span className="text-muted-foreground">Mobile: </span> 
                             <span className="text-foreground">
-                            {lead.pincode}
+                            {lead.phone}
                             </span>
                         </p>
                         </div>
@@ -68,8 +68,8 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                 {/* Col 2: Contact + ID */}
                 <div className="flex flex-col justify-center gap-2 border-l border-border px-6">
                     <p className="text-lg break-words">
-                        <span className="text-muted-foreground">Contact: </span> 
-                        <span className="text-foreground">{lead.contact}</span>
+                        <span className="text-muted-foreground">Email: </span> 
+                        <span className="text-foreground">{lead.email}</span>
                     </p>
                     <p className="text-lg">
                         <span className="text-muted-foreground">Lead ID: </span> 
@@ -175,10 +175,10 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
             </div>
             <div className="mt-4 ml-0 space-y-2 grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                    <p className="text-base break-words"><span className="text-muted-foreground">Contact: </span><span className="text-foreground">{lead.contact}</span></p>
+                    <p className="text-base break-words"><span className="text-muted-foreground">Contact: </span><span className="text-foreground">{lead.phone}</span></p>
                 </div>
                 <div>
-                     <p className="text-base"><span className="text-muted-foreground">Pincode: </span><span className="text-foreground">{lead.pincode}</span></p>
+                     <p className="text-base"><span className="text-muted-foreground">Email: </span><span className="text-foreground">{lead.email}</span></p>
                 </div>
                 <div>
                      <p className="text-base"><span className="text-muted-foreground">Lead ID: </span><span className="text-foreground">{lead.leadId}</span></p>
@@ -319,10 +319,10 @@ export default function LeadsPage() {
             if (result.success) {
                 const formattedLeads = result.data.map((lead: any) => ({
                     organization: lead.organizationName || "Organization Name",
-                    leadId: lead.leadDisplayId,
-                    fullName: lead.fullName,
-                    contact: `${lead.email} | ${lead.phoneNumber}`,
-                    phone: lead.phoneNumber,
+                    leadId: lead.userId,
+                    fullName: lead.name,
+                    contact: `${lead.email} | ${lead.mobileNumber}`,
+                    phone: lead.mobileNumber,
                     email: lead.email,
                     address: lead.siteAddress || "Address missing",
                     pincode: lead.siteAddressPinCode || lead.siteLocationPinCode || "Pincode missing",
