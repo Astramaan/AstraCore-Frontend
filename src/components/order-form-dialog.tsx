@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { X, Send } from 'lucide-react';
-import type { Vendor } from '@/app/organization/vendors/page';
+import type { Vendor } from '@/app/organization/(internal)/vendors/page';
 import { cn } from '@/lib/utils';
 
 interface OrderFormDialogProps {
@@ -45,11 +45,11 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
         </DialogHeader>
         <div className="space-y-4 px-6 pb-6">
           <div className="space-y-2">
-            <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-grey-1' : 'text-zinc-900')}>{ "Material"}</Label>
+            <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-muted-foreground' : 'text-foreground')}>{ "Material"}</Label>
             <Input id="material" value={materialName} readOnly className="h-14 bg-background rounded-full px-5" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="quantity" className={cn("text-lg font-medium px-2", quantity ? 'text-grey-1' : 'text-zinc-900')}>Quantity</Label>
+            <Label htmlFor="quantity" className={cn("text-lg font-medium px-2", quantity ? 'text-muted-foreground' : 'text-foreground')}>Quantity</Label>
             <Input
               id="quantity"
               value={quantity}
