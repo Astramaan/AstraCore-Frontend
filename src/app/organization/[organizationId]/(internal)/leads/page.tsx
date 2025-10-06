@@ -115,7 +115,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                     </Button>
                     </div>
                     <div
-                    className="ml-auto self-center"
+                    className="ml-auto"
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
