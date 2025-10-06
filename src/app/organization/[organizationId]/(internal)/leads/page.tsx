@@ -352,7 +352,7 @@ export default function LeadsPage() {
     const [isUpdateLevelDialogOpen, setIsUpdateLevelDialogOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLeadDetails, setSelectedLeadDetails] = useState<Lead | null>(null);
-    const [isEditing, setIsEditing] = useState(isEditing);
+    const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchLeads = async () => {
@@ -635,6 +635,3 @@ export default function LeadsPage() {
         </div>
     );
 }
-
-
-    
