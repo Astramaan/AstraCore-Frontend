@@ -850,9 +850,9 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         : 'Project Timeline';
         
     const DefaultTrigger = (
-        <Button className="bg-primary/10 text-primary border border-primary rounded-full h-[54px] hover:bg-primary/20 text-lg px-6">
-            <PlusCircle className="mr-2 h-5 w-5" />
-            Create project
+        <Button className="bg-primary/10 text-primary border border-primary md:h-14 rounded-full h-[54px] hover:bg-primary/20 text-lg px-6 w-[54px] md:w-auto p-0 md:p-2.5">
+            <PlusCircle className="h-5 w-5 md:mr-2" />
+            <span className="hidden md:inline">Create project</span>
         </Button>
     );
 
@@ -919,6 +919,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
