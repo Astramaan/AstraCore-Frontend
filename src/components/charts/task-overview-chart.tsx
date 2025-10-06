@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import * as React from "react";
@@ -16,7 +17,7 @@ const COLORS = ["hsl(var(--chart-2))", "hsl(var(--chart-1))", "hsl(var(--muted))
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-white p-2 border rounded-lg shadow-lg">
+            <div className="bg-white p-2 border rounded-lg shadow-lg z-10 relative">
                 <p className="font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
             </div>
         );
