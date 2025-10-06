@@ -80,10 +80,11 @@ export const OrganizationHeader = () => {
                                 isTeamsActive && "bg-primary text-white"
                             )}>
                                 <TeamIcon className={cn(
-                                    "mr-2 h-6 w-6 text-white",
+                                    "mr-2 h-6 w-6 text-white dark:hover:text-primary",
                                     isTeamsActive && "text-white"
                                 )}/>
                                 <span className={cn(
+                                    "dark:hover:text-primary",
                                     isTeamsActive ? "text-white" : "text-white"
                                 )}>{teamsButtonText}</span>
                             </Button>
