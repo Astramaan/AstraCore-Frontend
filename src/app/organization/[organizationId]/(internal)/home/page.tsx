@@ -3,12 +3,12 @@
 
 import React, { Suspense } from 'react';
 import { useUser } from '@/context/user-context';
-import DefaultHomePage from './default-home.tsx';
-import ProjectManagerHome from './project-manager-home.tsx';
+import DefaultHomePage from '@/app/organization/[organizationId]/(internal)/home/default-home';
+import ProjectManagerHome from '@/app/organization/(internal)/home/project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
-import ArchitectHome from './architect-home.tsx';
-import SalesHome from './sales-home.tsx';
-import SiteSupervisorHome from './site-supervisor-home.tsx';
+import ArchitectHome from '@/app/organization/[organizationId]/(internal)/home/architect-home';
+import SalesHome from '@/app/organization/[organizationId]/(internal)/home/sales-home';
+import SiteSupervisorHome from '@/app/organization/[organizationId]/(internal)/home/site-supervisor-home';
 
 
 function OrganizationHomePageContent() {
