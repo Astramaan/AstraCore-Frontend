@@ -58,7 +58,7 @@ export const OrganizationBottomNav = () => {
                                 )}>
                                     <item.icon className="w-6 h-6 shrink-0" />
                                     <span className={cn(
-                                        "text-sm font-medium whitespace-nowrap transition-all duration-300 ease-in-out",
+                                        "text-xs md:text-sm font-medium whitespace-nowrap transition-all duration-300 ease-in-out",
                                         isActive ? "max-w-xs opacity-100" : "max-w-0 opacity-0"
                                     )}>{item.label}</span>
                                 </div>
