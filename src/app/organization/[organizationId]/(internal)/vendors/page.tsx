@@ -159,7 +159,7 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
 
             <div className="flex items-center justify-between gap-4">
                  <p className="text-lg"><span className="text-muted-foreground">Total Vendors: </span><span className="text-foreground font-medium">{String(material.vendors.length).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background text-foreground hover:bg-muted text-lg font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
+                <Button className="h-14 px-10 rounded-full bg-background text-foreground dark:text-white hover:bg-muted text-lg font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
             </div>
         </div>
 
@@ -178,7 +178,7 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
                     <p className="text-base text-muted-foreground">Total Vendors: <span className="text-foreground font-medium block">{String(material.vendors.length).padStart(2, '0')}</span></p>
                 </div>
                 <div className="col-span-2">
-                    <Button className="h-12 px-6 w-full rounded-full bg-background text-foreground hover:bg-muted text-base font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
+                    <Button className="h-12 px-6 w-full rounded-full bg-background text-foreground dark:text-white hover:bg-muted text-base font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
                 </div>
             </div>
         </div>
