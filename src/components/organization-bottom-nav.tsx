@@ -45,7 +45,7 @@ export const OrganizationBottomNav = () => {
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
              <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0 w-full md:w-auto max-w-lg">
-                <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] p-2 md:p-4">
+                <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] p-2 md:p-4">
                     <div className="flex items-center justify-around md:justify-center md:gap-4">
                         {visibleNavItems.map((item) => {
                             const baseHref = `/organization/${organizationId}${item.href}`;
@@ -59,10 +59,11 @@ export const OrganizationBottomNav = () => {
                                             isActive ? "bg-primary text-white dark:text-black px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10 hover:text-primary"
                                         )}>
                                             <item.icon className="w-6 h-6 shrink-0" />
-                                            <span className={cn(
-                                                "text-xs md:text-base font-medium whitespace-nowrap transition-all duration-300 ease-in-out",
-                                                isActive ? "max-w-xs opacity-100" : "max-w-0 opacity-0"
-                                            )}>{item.label}</span>
+                                            {isActive && (
+                                                <span className={cn(
+                                                    "text-xs md:text-base font-medium whitespace-nowrap"
+                                                )}>{item.label}</span>
+                                            )}
                                         </div>
                                     </div>
                                 </Link>
