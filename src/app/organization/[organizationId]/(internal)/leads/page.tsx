@@ -252,9 +252,7 @@ const LeadCardSkeleton = () => (
 );
 
 
-const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMultiple, onBulkLevelChange }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void, onBulkLevelChange: (level: string) => void }) => {
-    if (selectedCount === 0) return null;
-
+const FloatingActionBar = ({ onSelectAll, allSelected, onDeleteMultiple, onBulkLevelChange, selectedCount }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void, onBulkLevelChange: (level: string) => void }) => {
     return (
         <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[90%] md:max-w-[828px] h-20 bg-card rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-4 md:px-6 z-50">
             <div className="hidden md:flex items-center gap-4">
@@ -275,7 +273,7 @@ const FloatingActionBar = ({ selectedCount, onSelectAll, allSelected, onDeleteMu
                     <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 3')}>Level 3</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-             <AlertDialogTrigger asChild>
+            <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
                     <Trash2 className="md:mr-2" />
                     <span className="hidden md:inline">Delete</span>
@@ -572,6 +570,7 @@ export default function LeadsPage() {
                 startInEditMode={isEditing}
             />
 
+            {selectedLeads.length > 0 && (
                 <FloatingActionBar 
                     selectedCount={selectedLeads.length}
                     onSelectAll={handleSelectAll}
@@ -579,6 +578,7 @@ export default function LeadsPage() {
                     onDeleteMultiple={handleDeleteMultiple}
                     onBulkLevelChange={handleBulkLevelChange}
                 />
+            )}
         </div>
     );
 }
