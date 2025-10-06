@@ -8,7 +8,7 @@ import { ActiveSessionsCard } from '@/components/active-sessions-card';
 import { Button } from '@/components/ui/button';
 import { LogOut, ChevronLeft } from 'lucide-react';
 import { useUser } from '@/context/user-context';
-import { AppearanceCard } from '@/components/appearance-card';
+import { SettingsCard } from '@/components/settings-card';
 
 export default function UserProfilePage() {
     const router = useRouter();
@@ -19,17 +19,17 @@ export default function UserProfilePage() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary">
+                <h2 className="text-2xl font-medium text-zinc-900 dark:text-white">Personal Details</h2>
+                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary hidden md:flex">
                     <ChevronLeft className="mr-2 h-4 w-4" />
                     Back
                 </Button>
-                 <h2 className="text-2xl font-medium text-zinc-900 dark:text-white hidden md:block">Personal Details</h2>
             </div>
             <PersonalDetails memberId={user.userId} />
 
             <div className="grid grid-cols-1 2xl:grid-cols-3 gap-6">
                 <div className="2xl:col-span-2 space-y-6">
-                    <AppearanceCard />
+                    <SettingsCard />
                     <ActiveSessionsCard />
                 </div>
                 <div className="flex justify-end 2xl:items-end">

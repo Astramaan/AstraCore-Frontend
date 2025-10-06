@@ -12,7 +12,7 @@ import { FeatureAccessCard } from '@/components/feature-access-card';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { ProjectStageToggleCard } from '@/components/project-stage-toggle-card';
 import { BrandingSheet } from '@/components/branding-sheet';
-import { AppearanceCard } from '@/components/appearance-card';
+import { SettingsCard } from '@/components/settings-card';
 
 export default function SuperAdminProfilePage() {
     const router = useRouter();
@@ -24,12 +24,11 @@ export default function SuperAdminProfilePage() {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary">
+                <h2 className="text-2xl font-medium text-zinc-900 dark:text-white">Personal Details</h2>
+                <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary hidden md:flex">
                     <ChevronLeft className="mr-2 h-4 w-4" />
                     Back
                 </Button>
-                <h2 className="text-2xl font-medium text-zinc-900 dark:text-white md:hidden">My Profile</h2>
-                <h2 className="text-2xl font-medium text-zinc-900 dark:text-white hidden md:block">Personal Details</h2>
             </div>
             <PersonalDetails memberId={user.userId} />
 
@@ -40,7 +39,7 @@ export default function SuperAdminProfilePage() {
                    <ProjectStageToggleCard />
                 </div>
                 <div className="space-y-6">
-                    <AppearanceCard />
+                    <SettingsCard />
                     <ActiveSessionsCard />
                     <div className="flex justify-end">
                         <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-card hover:bg-destructive/10 hover:text-destructive w-full">
