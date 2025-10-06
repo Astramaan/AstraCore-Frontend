@@ -56,9 +56,9 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         <div>
                         <p className="text-xl font-semibold text-foreground">{lead.fullName}</p>
                         <p className="text-lg">
-                            <span className="text-muted-foreground">Mobile: </span> 
+                            <span className="text-muted-foreground">Pincode: </span> 
                             <span className="text-foreground">
-                            {lead.phone}
+                            {lead.pincode}
                             </span>
                         </p>
                         </div>
