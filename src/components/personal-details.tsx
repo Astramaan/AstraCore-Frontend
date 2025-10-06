@@ -235,7 +235,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
 
     return (
         <DialogOrSheet open={isEditing} onOpenChange={handleOpenChange}>
-            <Card className="rounded-[50px] p-10">
+            <Card className="rounded-[50px] p-10 bg-card">
                 <CardContent className="p-0">
                     <div className="flex flex-col md:flex-col lg:flex-row md:items-start gap-4 md:gap-8">
                         {/* Mobile and Tablet Layout */}
@@ -323,7 +323,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
             <DialogOrSheetContent
                 side="bottom"
                 className={cn(
-                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                 )}
             >
                 <EditProfileForm 
