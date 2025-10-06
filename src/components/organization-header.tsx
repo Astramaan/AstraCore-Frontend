@@ -77,7 +77,7 @@ export const OrganizationHeader = () => {
                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                              <Button className={cn(
                                 "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 text-white dark:text-foreground backdrop-blur-sm hover:bg-primary/10 hover:text-primary",
-                                isTeamsActive ? "bg-primary text-white dark:text-white" : ""
+                                isTeamsActive ? "bg-primary text-white dark:text-white" : "text-black dark:text-white"
                             )}>
                                 <TeamIcon className="mr-2 h-6 w-6"/>
                                 <span>{teamsButtonText}</span>
@@ -90,8 +90,8 @@ export const OrganizationHeader = () => {
                             <AvatarFallback>{userInitials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden lg:block">
-                            <p className="text-base lg:text-lg font-medium text-white dark:text-foreground">{userName}</p>
-                            <p className="text-sm lg:text-base text-white/80 dark:text-muted-foreground">{userTeam}</p>
+                            <p className="text-base lg:text-lg font-medium text-black dark:text-white">{userName}</p>
+                            <p className="text-sm lg:text-base text-black/80 dark:text-white/80">{userTeam}</p>
                         </div>
                     </Link>
                 </>
