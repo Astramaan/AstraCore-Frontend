@@ -20,7 +20,7 @@ const DetailField = ({ label, value, isEditing, onChange, name, placeholder, typ
             <Input name={name} value={value} onChange={onChange} className="h-14 bg-background rounded-full px-5" placeholder={placeholder || label} type={type} />
         ) : (
              <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                <p className="text-black text-base leading-tight truncate">{value}</p>
+                <p className="text-black dark:text-white text-base leading-tight truncate">{value}</p>
             </div>
         )}
     </div>
@@ -34,11 +34,11 @@ const FileField = ({ label, fileName, isEditing, onFileChange, onFileRemove }: {
         <div className="space-y-2">
             <Label className={cn("text-lg font-medium px-2", fileName ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
             <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                <div className="p-2.5 bg-zinc-100 rounded-[15px] flex-1 flex justify-between items-center">
+                <div className="p-2.5 bg-zinc-100 dark:bg-zinc-700 rounded-[15px] flex-1 flex justify-between items-center">
                     {fileName && !isEditing ? (
                         <Dialog>
                             <DialogTrigger asChild>
-                                <button className="text-black text-sm font-normal truncate hover:underline">
+                                <button className="text-black dark:text-white text-sm font-normal truncate hover:underline">
                                     {fileName}
                                 </button>
                             </DialogTrigger>
@@ -57,7 +57,7 @@ const FileField = ({ label, fileName, isEditing, onFileChange, onFileRemove }: {
                             </DialogContent>
                         </Dialog>
                     ) : (
-                         <span className="text-black text-sm font-normal truncate">{fileName || "No file selected"}</span>
+                         <span className="text-black dark:text-white text-sm font-normal truncate">{fileName || "No file selected"}</span>
                     )}
                     {isEditing && (
                         <div className="flex items-center gap-1">
@@ -90,8 +90,8 @@ const DayToggle = ({ day, selectedDays, onDayToggle, isEditing }: { day: string;
             className={cn(
                 "w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0",
                 isActive
-                    ? "bg-primary text-white"
-                    : "bg-zinc-100 text-black",
+                    ? "bg-primary text-white border-primary"
+                    : "bg-input text-foreground border-input",
                 !isEditing && "pointer-events-none"
             )}
             onClick={() => {
@@ -190,8 +190,8 @@ export const VendorDetailsCard = ({ vendor, setVendor, isEditing }: { vendor: an
                         <Label className={cn("text-lg font-medium px-2", vendor.serviceableCities.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Serviceable City</Label>
                         <div className="bg-background p-2 md:min-h-[56px] rounded-[28px] md:rounded-full flex flex-wrap gap-2 items-center">
                              {vendor.serviceableCities.map((city: string) => (
-                                <div key={city} className="flex items-center gap-1 bg-white rounded-full px-2.5 py-[5px]">
-                                    <span className="text-black text-sm font-normal">{city}</span>
+                                <div key={city} className="flex items-center gap-1 bg-white dark:bg-zinc-700 rounded-full px-2.5 py-[5px]">
+                                    <span className="text-black dark:text-white text-sm font-normal">{city}</span>
                                     {isEditing && <button type="button" onClick={() => removeCity(city)}><X className="w-3 h-3 text-red-500"/></button>}
                                 </div>
                             ))}

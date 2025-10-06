@@ -152,14 +152,14 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
             <Separator orientation="vertical" className="self-stretch" />
 
             <div className="flex flex-col justify-center gap-2">
-                <p className="text-lg"><span className="text-grey-1">Top Supplier: </span><span className="text-black font-medium">{material.vendors[0]?.companyName || 'N/A'}</span></p>
+                <p className="text-lg"><span className="text-muted-foreground">Top Supplier: </span><span className="text-foreground font-medium">{material.vendors[0]?.companyName || 'N/A'}</span></p>
             </div>
             
             <Separator orientation="vertical" className="self-stretch" />
 
             <div className="flex items-center justify-between gap-4">
-                 <p className="text-lg"><span className="text-grey-1">Total Vendors: </span><span className="text-black font-medium">{String(material.vendors.length).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background text-black hover:bg-muted text-lg font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
+                 <p className="text-lg"><span className="text-muted-foreground">Total Vendors: </span><span className="text-foreground font-medium">{String(material.vendors.length).padStart(2, '0')}</span></p>
+                <Button className="h-14 px-10 rounded-full bg-background text-foreground hover:bg-muted text-lg font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
             </div>
         </div>
 
@@ -172,13 +172,13 @@ const MaterialCard = ({ material, onViewVendors }: { material: Material; onViewV
             </div>
             <div className="grid grid-cols-2 items-center gap-4 mt-2">
                 <div>
-                    <p className="text-base text-grey-1">Top Supplier: <span className="text-black font-medium block">{material.vendors[0]?.companyName || 'N/A'}</span></p>
+                    <p className="text-base text-muted-foreground">Top Supplier: <span className="text-foreground font-medium block">{material.vendors[0]?.companyName || 'N/A'}</span></p>
                 </div>
                  <div className="text-right">
-                    <p className="text-base text-grey-1">Total Vendors: <span className="text-black font-medium block">{String(material.vendors.length).padStart(2, '0')}</span></p>
+                    <p className="text-base text-muted-foreground">Total Vendors: <span className="text-foreground font-medium block">{String(material.vendors.length).padStart(2, '0')}</span></p>
                 </div>
                 <div className="col-span-2">
-                    <Button className="h-12 px-6 w-full rounded-full bg-background text-black hover:bg-muted text-base font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
+                    <Button className="h-12 px-6 w-full rounded-full bg-background text-foreground hover:bg-muted text-base font-medium" onClick={() => onViewVendors(material)}>View Vendors</Button>
                 </div>
             </div>
         </div>
@@ -244,7 +244,7 @@ export default function VendorsPage() {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <Input 
                         placeholder="Search Vendors..." 
-                        className="pl-12 h-14 rounded-full bg-white text-lg"
+                        className="pl-12 h-14 rounded-full bg-card text-lg"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -252,7 +252,7 @@ export default function VendorsPage() {
                 <div className="flex items-center gap-4 w-full md:w-auto">
                     <Button 
                         variant="outline" 
-                        className={cn("h-[54px] md:h-14 justify-center rounded-full text-lg flex-1 md:flex-initial md:w-auto md:px-4", showFavorites ? "bg-primary text-white" : "bg-white")}
+                        className={cn("h-[54px] md:h-14 justify-center rounded-full text-lg flex-1 md:flex-initial md:w-auto md:px-4 bg-card", showFavorites ? "bg-primary text-white" : "")}
                         onClick={() => setShowFavorites(prev => !prev)}
                     >
                         <StarIcon className="md:mr-2 h-5 w-5" isFilled={showFavorites} />
@@ -260,7 +260,7 @@ export default function VendorsPage() {
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="h-[54px] md:h-14 justify-center rounded-full bg-white text-lg flex-1 md:flex-initial md:w-auto md:px-4">
+                            <Button variant="outline" className="h-[54px] md:h-14 justify-center rounded-full bg-card text-lg flex-1 md:flex-initial md:w-auto md:px-4">
                                 <SlidersHorizontal className="mr-2 h-5 w-5" />
                                 <span className="inline">Filter</span>
                             </Button>
@@ -301,7 +301,3 @@ export default function VendorsPage() {
         </div>
     );
 }
-
-    
-
-    

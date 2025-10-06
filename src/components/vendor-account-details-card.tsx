@@ -4,15 +4,16 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
+import { cn } from '@/lib/utils';
 
 const DetailField = ({ label, value, isEditing, onChange, name, placeholder, type = 'text' }: { label: string; value: string | undefined, isEditing: boolean, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, name: string, placeholder?: string, type?: string }) => (
     <div className="space-y-2">
-        <Label className="text-lg font-medium px-2 text-grey-1">{label}</Label>
+        <Label className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
         {isEditing ? (
             <Input name={name} value={value} onChange={onChange} className="h-14 bg-background rounded-full px-5" placeholder={placeholder || label} type={type} />
         ) : (
             <div className="h-14 flex items-center px-5 rounded-full bg-background">
-                <p className="text-black text-base leading-tight truncate">{value}</p>
+                <p className="text-black dark:text-white text-base leading-tight truncate">{value}</p>
             </div>
         )}
     </div>

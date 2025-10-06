@@ -53,7 +53,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-[25px] my-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-[25px] my-4 bg-background dark:bg-input">
              <div className="flex items-center gap-4">
                 <Image src={editedMaterial.image} width={100} height={100} alt={editedMaterial.name} className="rounded-[25px] border border-stone-300" data-ai-hint="product image"/>
                 <div className="flex-1 space-y-2">

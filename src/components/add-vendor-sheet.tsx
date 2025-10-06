@@ -27,24 +27,24 @@ import { ScrollArea } from './ui/scroll-area';
 
 const FloatingLabelInput = ({ id, label, value, type, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string, type?: string }) => (
     <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Input id={id} type={type} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>{label}</Label>
+        <Input id={id} type={type} className="h-14 bg-background dark:bg-input rounded-full px-5" value={value} {...props} />
     </div>
 );
 
 const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string, value: string }) => (
     <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Textarea id={id} className="h-36 bg-background rounded-3xl p-4" value={value} {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>{label}</Label>
+        <Textarea id={id} className="h-36 bg-background dark:bg-input rounded-3xl p-4" value={value} {...props} />
     </div>
 )
 
 const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: string, id: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, fileName?: string, onRemove?: () => void }) => (
     <div className="space-y-2">
-        <Label htmlFor={id} className={cn("px-2 text-lg whitespace-nowrap", fileName ? "text-grey-1" : "text-zinc-900")}>{label}</Label>
+        <Label htmlFor={id} className={cn("px-2 text-lg whitespace-nowrap", fileName ? "text-grey-1" : "text-zinc-900 dark:text-white")}>{label}</Label>
         <div className="flex flex-col md:flex-row md:items-center rounded-xl md:rounded-full border border-stone-300 md:h-[54px] bg-input p-3 md:px-3 gap-2">
             <div className="flex-1 flex items-center justify-between">
-                <span className="text-sm text-neutral-500 mr-2 truncate flex-1">{fileName || 'No file selected'}</span>
+                <span className="text-sm text-muted-foreground mr-2 truncate flex-1">{fileName || 'No file selected'}</span>
             </div>
             <div className="flex items-center gap-1 md:gap-2 self-end md:self-center">
                 {fileName && onRemove && (
@@ -53,7 +53,7 @@ const FileUploadField = ({ label, id, onChange, fileName, onRemove }: { label: s
                     </Button>
                 )}
                 <div className="border-l border-stone-300 h-6 hidden md:block" />
-                <label htmlFor={id} className="cursor-pointer text-sm text-zinc-900 flex items-center gap-1 pl-1 md:pl-2">
+                <label htmlFor={id} className="cursor-pointer text-sm text-foreground flex items-center gap-1 pl-1 md:pl-2">
                     <Upload className="w-4 h-4" />
                     Upload
                 </label>
@@ -74,7 +74,7 @@ const DayToggle = ({ day, selectedDays, onDayToggle }: { day: string, selectedDa
                 "w-9 h-9 rounded-full text-sm",
                 isActive
                     ? "bg-primary text-white border-primary"
-                    : "bg-input text-black border-input"
+                    : "bg-input text-foreground border-input"
             )}
             onClick={() => onDayToggle(day)}
         >
@@ -107,10 +107,10 @@ const ServiceableCityInput = ({cities, setCities}: ServiceableCityInputProps) =>
 
     return (
         <div className="space-y-2">
-            <Label className={cn("text-lg font-medium px-2", cities.length > 0 || inputValue ? 'text-grey-1' : 'text-zinc-900')}>Serviceable City</Label>
+            <Label className={cn("text-lg font-medium px-2", cities.length > 0 || inputValue ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Serviceable City</Label>
             <div className="bg-input rounded-full p-2 flex flex-wrap gap-2 min-h-[54px] items-center">
                 {cities.map(city => (
-                    <div key={city} className="flex items-center gap-1 bg-white rounded-full px-3 py-1 text-sm">
+                    <div key={city} className="flex items-center gap-1 bg-white dark:bg-zinc-700 rounded-full px-3 py-1 text-sm">
                         {city}
                         <button type="button" onClick={() => removeCity(city)}>
                             <X className="w-3 h-3 text-red-500" />
@@ -235,7 +235,7 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <Label className={cn("text-lg font-medium px-2", selectedDays.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Days</Label>
+                            <Label className={cn("text-lg font-medium px-2", selectedDays.length > 0 ? 'text-grey-1' : 'text-zinc-900 dark:text-white')}>Days</Label>
                             <div className="flex gap-2">
                                 {['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'].map(day => <DayToggle key={day} day={day} selectedDays={selectedDays} onDayToggle={handleDayToggle} />)}
                             </div>
@@ -251,14 +251,14 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
                 <Separator className="my-6" />
 
                 <div className="space-y-6">
-                    <h3 className="text-lg font-medium">Account details</h3>
+                    <h3 className="text-lg font-medium text-foreground">Account details</h3>
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FloatingLabelInput id="bank-name" label="Bank Name*" placeholder="Enter bank name" value={bankName} onChange={handleTextOnlyChange(setBankName)}/>
                         <FloatingLabelInput id="account-holder" label="Account Holder Name*" placeholder="Enter name" value={accountHolder} onChange={handleTextOnlyChange(setAccountHolder)} />
                         <FloatingLabelInput id="account-number" label="Account Number*" placeholder="Enter account number" value={accountNumber} onChange={handleNumberOnlyChange(setAccountNumber)} />
                         <FloatingLabelInput id="confirm-account-number" label="Confirm Account Number*" placeholder="Re-enter account number" value={confirmAccountNumber} onChange={handleNumberOnlyChange(setConfirmAccountNumber)} />
                         <FloatingLabelInput id="ifsc-code" label="IFSC Code*" placeholder="Enter IFSC code" value={ifscCode} onChange={handleAlphanumericChange(setIfscCode)}/>
-                        <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" onChange={(e) => setUpiId(e.target.value)} />
+                        <FloatingLabelInput id="upi-id" label="UPI ID" placeholder="Enter UPI ID" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                     </div>
                 </div>
             </ScrollArea>
@@ -309,7 +309,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
                     <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={handleTextOnlyChange(setProductName)} />
                     <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                     <div className="space-y-2">
-                        <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
+                        <Label htmlFor="description" className="text-zinc-900 dark:text-white text-lg font-medium px-2">Description*</Label>
                         <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
                     </div>
                      <div className="flex gap-2">
@@ -393,7 +393,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
                         </div>
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="product-image" className="text-zinc-900 text-lg font-medium px-2">Product image*</Label>
+                                <Label htmlFor="product-image" className="text-zinc-900 dark:text-white text-lg font-medium px-2">Product image*</Label>
                                 <label htmlFor="product-image-upload" className="w-36 h-36 bg-input rounded-[10px] border border-stone-300 flex items-center justify-center cursor-pointer hover:bg-stone-200">
                                     {productImage ? <Image src={URL.createObjectURL(productImage)} alt="product" width={144} height={144} className="rounded-[10px] object-cover"/> : <Upload className="w-8 h-8 text-zinc-400" />}
                                     <Input id="product-image-upload" type="file" className="hidden" onChange={handleFileChange} />
@@ -402,7 +402,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
                             <FloatingLabelInput id="product-name" label="Product Name*" placeholder="Enter product name" value={productName} onChange={(e) => setProductName(e.target.value)} />
                             <FloatingLabelInput id="price" label="Price" placeholder="Enter price" value={price} onChange={handleNumberOnlyChange(setPrice)} />
                             <div className="space-y-2">
-                                <Label htmlFor="description" className="text-zinc-900 text-lg font-medium px-2">Description*</Label>
+                                <Label htmlFor="description" className="text-zinc-900 dark:text-white text-lg font-medium px-2">Description*</Label>
                                 <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} className="h-36 bg-background rounded-3xl" placeholder="Enter description"/>
                             </div>
                             <Button type="submit" className="rounded-full">
@@ -432,7 +432,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
                     </div>
                 </div>
             </ScrollArea>
-            <div className="p-6 mt-auto border-t flex flex-col-reverse md:flex-row justify-between items-center gap-4 shrink-0 bg-white rounded-b-[20px]">
+            <div className="p-6 mt-auto border-t flex flex-col-reverse md:flex-row justify-between items-center gap-4 shrink-0 bg-card rounded-b-[20px]">
                 <Button type="button" className="w-full md:w-auto h-14 text-lg rounded-full" onClick={onVendorAdded}>
                     Save
                 </Button>
@@ -533,7 +533,7 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
                 <DialogOrSheetContent
                     side="bottom"
                     className={cn(
-                        "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
+                        "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b shrink-0">
@@ -542,7 +542,7 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
                                 {isEditMode ? 'Edit Vendor' : step === 'addVendor' ? 'Add New Vendor' : 'Add Materials'}
                             </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
-                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background dark:bg-input rounded-full">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </DialogOrSheetClose>
@@ -566,10 +566,3 @@ export function AddVendorSheet({ vendorToEdit, onVendorUpdated, triggerButton }:
         </>
     );
 }
-
-    
-
-
-
-
-
