@@ -49,7 +49,7 @@ export async function POST(req: Request) {
             role: 'CLIENT', // Hardcoding as per requirement to invite a client/lead
         };
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/invites`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/invites`, {
             method: 'POST',
             headers: getAuthHeaders(req),
             body: JSON.stringify(payload),
