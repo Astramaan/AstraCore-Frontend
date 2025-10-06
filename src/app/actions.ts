@@ -19,12 +19,12 @@ export async function addProject(payload: any) {
         const text = await res.text();
         const data = text ? JSON.parse(text) : {};
 
-        if (data.success === false) { // Handle backend's structured error
-            return { success: false, message: data.message || 'An error occurred on the backend.' };
+        if (res.status === 201 || res.status === 200) { // Typically 201 for created
+             revalidatePath('/organization/[organizationId]/projects', 'page');
+             return { success: true, data: data.data };
+        } else {
+             return { success: false, message: data.message || 'An error occurred on the backend.' };
         }
-        
-        revalidatePath('/organization/[organizationId]/projects', 'page');
-        return { success: true, data: data.data };
     } catch (error) {
         console.error('Add project action failed:', error);
         return { success: false, message: 'An unexpected error occurred.' };

@@ -224,6 +224,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                                                 value={contact.email}
                                                                 onSelect={(currentValue) => {
                                                                     handleEmailSelect(currentValue);
+                                                                    setEmailComboboxOpen(false);
                                                                 }}
                                                             >
                                                                 <Check className={cn("mr-2 h-4 w-4", email === contact.email ? "opacity-100" : "opacity-0")} />
@@ -476,21 +477,12 @@ const ProjectTimelineForm = ({
             return;
         }
 
-        // Construct the final payload to match the curl command
         const fullData = { 
             ...projectData,
-            projectAssign: {
-                architect: projectData.projectAssign.architectId,
-                siteSupervisor: projectData.projectAssign.siteSupervisorId,
-            },
             createdBy: user.userId, 
             phases: timelineData, 
             startDate: startDate?.toISOString() 
         };
-        
-        // Remove IDs from the assign object as they are in the nested object now
-        delete fullData.projectAssign.architectId;
-        delete fullData.projectAssign.siteSupervisorId;
         
         startTransition(async () => {
             const action = isEditMode ? updateProject : addProject;
@@ -762,7 +754,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                                 </CardContent>
                                             </Card>
                                         ))}
-                                        <Button variant="outline" className="rounded-full" onClick={() => addPhase(phaseIndex)}>
+                                        <Button variant="outline" className="rounded-full" onClick={() => addStage(phaseIndex)}>
                                             <Plus className="mr-2 h-4 w-4" /> Add Stage
                                         </Button>
                                     </div>
@@ -920,6 +912,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
