@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import * as React from "react";
@@ -75,7 +74,7 @@ export function TaskOverviewChart({ data, title }: TaskOverviewChartProps) {
               <Cell key={`cell-${index}`} fill={entry.fill || COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip />} wrapperStyle={{ zIndex: 10 }} />
           <Legend 
               content={renderLegend}
               verticalAlign="bottom"
