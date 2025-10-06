@@ -79,73 +79,66 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
 
                 {/* Col 3: Actions */}
                 <div
-                    className="flex items-center justify-between border-l border-border px-6"
-                    onClick={(e) => e.stopPropagation()}
+                  className="flex items-center justify-end border-l border-border px-6"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                    <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4">
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                      <DropdownMenuTrigger asChild>
                         <Button
-                            variant="outline"
-                            className="h-12 lg:h-14 px-6 rounded-full text-foreground text-base lg:text-lg font-medium w-full lg:w-auto justify-between hover:bg-primary/10 hover:text-primary"
+                          variant="outline"
+                          className="h-12 lg:h-14 px-6 rounded-full text-foreground text-base lg:text-lg font-medium w-full lg:w-auto justify-between hover:bg-primary/10 hover:text-primary"
                         >
-                            {lead.level}
-                            <ChevronDown className="ml-2" />
+                          {lead.level}
+                          <ChevronDown className="ml-2" />
                         </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 1")}>
-                            Level 1
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 2")}>
-                            Level 2
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 3")}>
-                            Level 3
-                        </DropdownMenuItem>
-                        </DropdownMenuContent>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 1")}>Level 1</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 2")}>Level 2</DropdownMenuItem>
+                        <DropdownMenuItem onSelect={() => onLevelChange(lead.leadId, "Level 3")}>Level 3</DropdownMenuItem>
+                      </DropdownMenuContent>
                     </DropdownMenu>
+
                     <Button
-                        onClick={() => onContact(lead)}
-                        variant="outline"
-                        className="h-12 lg:h-14 px-4 rounded-full text-foreground text-base lg:text-lg font-medium hover:bg-primary/10 hover:text-primary"
+                      onClick={() => onContact(lead)}
+                      variant="outline"
+                      className="h-12 lg:h-14 px-4 rounded-full text-foreground text-base lg:text-lg font-medium hover:bg-primary/10 hover:text-primary"
                     >
-                        <Phone className="mr-2 h-4 w-4" />
-                        Contact
+                      <Phone className="mr-2 h-4 w-4" />
+                      Contact
                     </Button>
-                    </div>
-                    <div
-                        className="ml-auto"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }}
-                    >
+                  </div>
+
+                  {/* Pushes the More button to the far right */}
+                  <div className="ml-auto">
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical className="w-6 h-6" />
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="rounded-full hover:bg-muted/60 transition-colors"
+                        >
+                          <MoreVertical className="w-6 h-6 text-foreground" />
                         </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={() => onViewDetails(lead)}>
-                            View Details
-                        </DropdownMenuItem>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
                         <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
                         <AlertDialogTrigger asChild>
-                            <DropdownMenuItem
+                          <DropdownMenuItem
                             className="text-red-600"
                             onSelect={(e) => {
-                                e.preventDefault();
-                                onSingleDelete(lead.leadId);
+                              e.preventDefault();
+                              onSingleDelete(lead.leadId);
                             }}
-                            >
+                          >
                             Delete
-                            </DropdownMenuItem>
+                          </DropdownMenuItem>
                         </AlertDialogTrigger>
-                        </DropdownMenuContent>
+                      </DropdownMenuContent>
                     </DropdownMenu>
-                    </div>
+                  </div>
                 </div>
             </div>
         </div>
