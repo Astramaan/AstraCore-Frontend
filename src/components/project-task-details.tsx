@@ -21,8 +21,8 @@ const DetailRow = ({
       {icon}
     </div>
     <div>
-      <p className="text-base text-stone-500 font-medium">{label}</p>
-      <div className="text-base text-zinc-900 font-semibold mt-1">{value}</div>
+      <p className="text-base text-muted-foreground font-medium">{label}</p>
+      <div className="text-base text-foreground font-semibold mt-1">{value}</div>
     </div>
   </div>
 );
@@ -61,7 +61,7 @@ export const ProjectTaskDetails = ({ task }: { task: Task }) => {
         value={
           <Badge
             variant="outline"
-            className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base"
+            className="bg-zinc-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-800 text-foreground text-base"
           >
             {task.category}
           </Badge>

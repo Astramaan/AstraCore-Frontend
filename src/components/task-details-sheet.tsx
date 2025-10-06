@@ -108,8 +108,8 @@ const DetailRow = ({
       {icon}
     </div>
     <div>
-      <p className="text-base text-stone-500 font-medium">{label}</p>
-      <div className="text-base text-zinc-900 font-semibold mt-1">{value}</div>
+      <p className="text-base text-muted-foreground font-medium">{label}</p>
+      <div className="text-base text-foreground font-semibold mt-1">{value}</div>
     </div>
   </div>
 );
@@ -128,7 +128,7 @@ const PdfPreviewDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+      <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-card text-card-foreground">
         <DialogHeader className="p-4 border-b flex-row items-center justify-between">
           <DialogTitle>{file.name}</DialogTitle>
           <DialogClose asChild>
@@ -182,7 +182,7 @@ const UploadAttachmentsDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md rounded-[50px] p-0">
+      <DialogContent className="sm:max-w-md rounded-[50px] p-0 bg-card text-card-foreground">
         <DialogHeader className="p-6">
           <DialogTitle className="flex justify-between items-center">
             <span className="text-xl">Upload Attachments</span>
@@ -209,7 +209,7 @@ const UploadAttachmentsDialog = ({
               className="hidden"
               multiple
             />
-            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-gray-100 dark:bg-zinc-800 rounded-full flex items-center justify-center">
               <UploadCloud className="w-6 h-6 text-gray-500" />
             </div>
             <p className="mt-2 text-sm text-gray-500">
@@ -224,7 +224,7 @@ const UploadAttachmentsDialog = ({
                 {attachments.map((file, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between bg-gray-50 p-2 rounded-md"
+                    className="flex items-center justify-between bg-gray-50 dark:bg-zinc-800 p-2 rounded-md"
                   >
                     <div className="flex items-center gap-2">
                       <Paperclip className="h-4 w-4" />
@@ -286,7 +286,7 @@ const StandardTaskDetails = ({ task }: { task: Task }) => {
         value={
           <Badge
             variant="outline"
-            className="bg-zinc-100 border-zinc-100 text-zinc-900 text-base"
+            className="bg-zinc-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-800 text-foreground text-base"
           >
             {task.category}
           </Badge>
@@ -483,7 +483,7 @@ const TaskDetailsContent = ({
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6">
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold">{task.title}</h3>
+              <h3 className="text-2xl font-semibold text-foreground">{task.title}</h3>
               <p className="text-muted-foreground">{task.description}</p>
               
               <Separator />
@@ -496,13 +496,13 @@ const TaskDetailsContent = ({
 
               {task.attachments.length > 0 && (
                 <div className="pt-6">
-                  <p className="text-lg text-stone-500 mb-4">Attachment</p>
+                  <p className="text-lg text-muted-foreground mb-4">Attachment</p>
                   <div className="flex gap-4 flex-wrap">
                     {task.attachments.map((file, index) => (
                       <button
                         onClick={() => setSelectedAttachment(file)}
                         key={index}
-                        className="w-20 h-20 rounded-lg border border-stone-300 flex items-center justify-center"
+                        className="w-20 h-20 rounded-lg border border-border flex items-center justify-center bg-background"
                       >
                         {file.type === 'pdf' ? (
                           <PdfIcon className="w-10 h-10" />
@@ -522,15 +522,15 @@ const TaskDetailsContent = ({
               )}
                {task.rework && (
                 <div className="pt-6">
-                  <h4 className="text-lg font-medium text-stone-500 mb-4">Rework Details</h4>
-                  <div className="bg-amber-50 p-4 rounded-xl space-y-4">
-                      <p className="text-sm text-gray-700">{task.rework.comments}</p>
+                  <h4 className="text-lg font-medium text-muted-foreground mb-4">Rework Details</h4>
+                  <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-xl space-y-4">
+                      <p className="text-sm text-amber-900 dark:text-amber-200">{task.rework.comments}</p>
                       {task.rework.attachments.length > 0 && (
                         <div>
-                          <p className="text-sm font-medium mb-2">Attachments:</p>
+                          <p className="text-sm font-medium mb-2 text-amber-900 dark:text-amber-200">Attachments:</p>
                           <div className="flex gap-2 flex-wrap">
                             {task.rework.attachments.map((file, index) => (
-                              <div key={index} className="flex items-center gap-2 bg-white p-2 rounded-md border text-xs">
+                              <div key={index} className="flex items-center gap-2 bg-white dark:bg-zinc-800 p-2 rounded-md border text-xs">
                                 <Paperclip className="h-3 w-3" />
                                 <span>{file.name}</span>
                               </div>
@@ -573,13 +573,13 @@ const TaskDetailsContent = ({
             <AlertDialogTitle className="text-2xl font-semibold">
               Delete this task?
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg text-grey-2">
+            <AlertDialogDescription className="text-lg text-muted-foreground">
               This action cannot be undone. Are you sure you want to
               permanently delete this task?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-            <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">
+            <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
@@ -617,11 +617,11 @@ export function TaskDetailsSheet({
       <DialogOrSheetContent
         side="bottom"
         className={cn(
-          'p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom'
+          'p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom'
         )}
       >
-        <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
-          <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
+        <DialogHeader className="p-6 border-b bg-card rounded-t-[50px]">
+          <DialogTitle className="flex items-center text-2xl font-semibold">
             {task.isProjectTask
               ? 'Project Stage Details'
               : task.isAssigned
@@ -632,7 +632,7 @@ export function TaskDetailsSheet({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-[54px] h-[54px] rounded-full bg-gray-100 hover:bg-gray-200"
+                  className="w-[54px] h-[54px] rounded-full bg-background hover:bg-muted"
                 >
                   <X className="h-6 w-6" />
                 </Button>
@@ -640,7 +640,7 @@ export function TaskDetailsSheet({
             </div>
           </DialogTitle>
         </DialogHeader>
-        <div className="font-gilroy-medium text-[18px] flex-1 flex flex-col overflow-hidden">
+        <div className="text-[18px] flex-1 flex flex-col overflow-hidden">
           <TaskDetailsContent
             task={task}
             onUpdateTask={onUpdateTask}
