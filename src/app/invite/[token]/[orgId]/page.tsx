@@ -3,10 +3,11 @@
 
 import { useEffect, useState } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function VerifyInvitePage({ params }: { params: { token: string; orgId: string } }) {
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const handleVerification = async () => {
@@ -25,7 +26,7 @@ export default function VerifyInvitePage({ params }: { params: { token: string; 
                     organization: inviteDetails.organizationName,
                 });
                 
-                redirect(`/signup?${searchParams.toString()}`);
+                router.push(`/signup?${searchParams.toString()}`);
             } catch (error) {
                 console.error("Invite verification failed:", error);
                 setError("An unexpected error occurred.");
@@ -33,7 +34,7 @@ export default function VerifyInvitePage({ params }: { params: { token: string; 
         };
 
         handleVerification();
-    }, [params.token, params.orgId]);
+    }, [params.token, params.orgId, router]);
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">

@@ -67,3 +67,4 @@ export async function DELETE(req: Request, { params }: { params: { projectId: st
         return NextResponse.json({ success: false, message: "An unexpected error occurred." }, { status: 500 });
     }
 }
+
