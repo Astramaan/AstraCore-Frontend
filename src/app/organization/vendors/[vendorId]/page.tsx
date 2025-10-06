@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Edit, Save } from 'lucide-react';
 import React, { useState } from 'react';
 import { AddVendorSheet } from '@/components/add-vendor-sheet';
+import { useParams, useRouter } from 'next/navigation';
+import { ChevronLeft } from 'lucide-react';
 
 const mockVendor = {
     id: "1",
@@ -43,7 +45,9 @@ const mockVendor = {
     ]
 };
 
-export default function VendorDetailsPage({ params }: { params: { vendorId: string, organizationId: string } }) {
+export default function VendorDetailsPage() {
+    const params = useParams();
+    const router = useRouter();
     // In a real app, you would fetch vendor data based on params.vendorId
     const [vendor, setVendor] = useState(mockVendor);
     const [isEditing, setIsEditing] = useState(false);
@@ -57,6 +61,10 @@ export default function VendorDetailsPage({ params }: { params: { vendorId: stri
     return (
         <div className="space-y-6 my-6">
              <div className="flex justify-between items-center">
+                 <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary hidden md:flex">
+                    <ChevronLeft className="mr-2 h-4 w-4" />
+                    Back
+                </Button>
                 <h2 className="text-2xl font-medium">Details</h2>
                 <AddVendorSheet 
                     vendorToEdit={vendor}
