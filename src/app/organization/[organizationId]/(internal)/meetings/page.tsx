@@ -33,7 +33,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
         <div className="lg:hidden p-6 md:p-10 gap-4" onClick={() => onViewDetails(meeting)}>
             <div className="flex items-start justify-between gap-4">
                 <div>
-                    <p className="text-xl font-semibold text-black">{meeting.title || meeting.name}</p>
+                    <p className="text-xl font-semibold text-foreground">{meeting.title || meeting.name}</p>
                 </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -50,20 +50,20 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
             
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4 text-base">
                 <div>
-                    <span className="text-grey-2">Contact: </span> 
-                    <p className="text-black font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
+                    <span className="text-muted-foreground">Contact: </span> 
+                    <p className="text-foreground font-medium break-words">{meeting.email}<br />{meeting.phone}</p>
                 </div>
                 <div className="text-right">
-                    <span className="text-grey-2">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span>
-                    <p className="text-zinc-900 font-medium">{meeting.id}</p>
+                    <span className="text-muted-foreground">{meeting.type === 'lead' ? 'Lead ID:' : 'Client ID:'} </span>
+                    <p className="text-foreground font-medium">{meeting.id}</p>
                 </div>
                 <div>
-                    <span className="text-grey-2">Date & Time : </span> 
-                    <p className="text-zinc-900 font-medium">{meeting.date}, {meeting.time}</p>
+                    <span className="text-muted-foreground">Date & Time : </span> 
+                    <p className="text-foreground font-medium">{meeting.date}, {meeting.time}</p>
                 </div>
                 <div className="flex items-center justify-end gap-2">
-                    <span className="text-grey-2">Link: </span> 
-                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-zinc-900 font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
+                    <span className="text-muted-foreground">Link: </span> 
+                    <a href={`https://${meeting.link}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-foreground font-medium hover:underline" onClick={(e) => e.stopPropagation()}>
                         <GoogleMeetIcon className="w-6 h-6" />
                         <span className="hidden sm:inline">Google Meet</span>
                     </a>
@@ -72,7 +72,7 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
         </div>
         <div
             className={cn(
-                "hidden lg:block hover:bg-hover-bg py-6 px-10",
+                "hidden lg:block hover:bg-hover-bg dark:hover:bg-muted/50 py-6 px-10",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -85,9 +85,9 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               >
               {/* Company Name & City */}
               <div className="flex flex-col justify-center">
-                  <p className="text-xl font-semibold text-black break-words">{meeting.title || meeting.name}</p>
+                  <p className="text-xl font-semibold text-foreground break-words">{meeting.title || meeting.name}</p>
                   <p className="text-lg">
-                    <span className="text-black">{meeting.name} ({meeting.id})</span>
+                    <span className="text-foreground">{meeting.name} ({meeting.id})</span>
                   </p>
               </div>
 
@@ -97,8 +97,8 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               {/* Contact Info */}
               <div className="flex flex-col justify-center gap-2 lg:border-none border-t border-dashed pt-4 lg:pt-0">
                   <p className="text-lg break-all">
-                  <span className="text-grey-2">Contact: </span> 
-                  <span className="text-black">{meeting.email} | {meeting.phone}</span>
+                  <span className="text-muted-foreground">Contact: </span> 
+                  <span className="text-foreground">{meeting.email} | {meeting.phone}</span>
                   </p>
               </div>
 
@@ -108,14 +108,14 @@ const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, is
               {/* Date & Time + Link */}
               <div className="flex flex-col justify-center gap-2 md:border-t md:border-dashed lg:border-none pt-4 lg:pt-0">
                   <p className="text-lg whitespace-nowrap">
-                  <span className="text-grey-2">Date & Time: </span> 
-                  <span className="text-zinc-900">{meeting.date}, {meeting.time}</span>
+                  <span className="text-muted-foreground">Date & Time: </span> 
+                  <span className="text-foreground">{meeting.date}, {meeting.time}</span>
                   </p>
                   <a
                   href={`https://${meeting.link}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-zinc-900 font-medium hover:underline text-lg"
+                  className="flex items-center gap-1 text-foreground font-medium hover:underline text-lg"
                   onClick={(e) => e.stopPropagation()}
                   >
                   <GoogleMeetIcon className="w-6 h-6" />
@@ -262,26 +262,26 @@ export default function MeetingsPage() {
                     <div className="flex md:hidden flex-col gap-4">
                         <div className="flex items-center gap-4 w-full">
                             <div className="relative flex-1">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <Input 
                                     placeholder="Search Meetings..." 
-                                    className="pl-12 h-14 rounded-full bg-white text-lg" 
+                                    className="pl-12 h-14 rounded-full bg-card text-lg" 
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
                             <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
                         </div>
-                        <h2 className="text-xl text-black font-medium pt-4">{title}</h2>
+                        <h2 className="text-xl text-foreground font-medium pt-4">{title}</h2>
                     </div>
                     <div className="hidden md:flex justify-between items-end">
-                        <h2 className="text-xl text-black font-medium">{title}</h2>
+                        <h2 className="text-xl text-foreground font-medium">{title}</h2>
                         <div className="flex items-center gap-4 w-full md:w-auto">
                             <div className="relative flex-1 md:w-64">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <Input 
                                     placeholder="Search Meetings..." 
-                                    className="pl-12 h-14 rounded-full bg-white text-lg" 
+                                    className="pl-12 h-14 rounded-full bg-card text-lg" 
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -291,10 +291,10 @@ export default function MeetingsPage() {
                     </div>
                 </div>
              ) : (
-                <h2 className="text-xl text-black font-medium">{title}</h2>
+                <h2 className="text-xl text-foreground font-medium">{title}</h2>
              )}
             <div>
-                <Card className="rounded-[50px] bg-white">
+                <Card className="rounded-[50px] bg-card">
                     <CardContent className="p-0 lg:p-6">
                        {meetings.length > 0 ? (
                             meetings.map((meeting, index) => (
@@ -323,7 +323,7 @@ export default function MeetingsPage() {
     return (
         <div className="space-y-8">
             {isLoading ? (
-                 <Card className="rounded-[50px]"><CardContent className="p-6 space-y-4"><Skeleton className="h-20 w-full" /><Skeleton className="h-20 w-full" /></CardContent></Card>
+                 <Card className="rounded-[50px] bg-card"><CardContent className="p-6 space-y-4"><Skeleton className="h-20 w-full" /><Skeleton className="h-20 w-full" /></CardContent></Card>
             ) : (
                 <>
                     {renderMeetingList(clientMeetings, "Client Meetings")}
@@ -341,12 +341,12 @@ export default function MeetingsPage() {
                           <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                         </div>
                         <AlertDialogTitle className="text-2xl font-semibold">Confirm Meeting Deletion?</AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
+                        <AlertDialogDescription className="text-lg text-muted-foreground">
                             Deleting this meeting will permanently remove it from your schedule. This action cannot be undone.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel className="w-40 h-14 px-10 py-3.5 bg-background rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-muted hover:text-foreground">Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={confirmDelete} className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
