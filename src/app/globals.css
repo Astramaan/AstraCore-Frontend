@@ -81,8 +81,8 @@
     --card-foreground: 0 0% 95%;
     --popover: 0 0% 15%;
     --popover-foreground: 0 0% 95%;
-    --primary: 185 86% 40%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 68 96% 44%;
+    --primary-foreground: 0 0% 10%;
     --secondary: 33 100% 70%;
     --secondary-foreground: 0 0% 10%;
     --muted: 0 0% 25%;
@@ -93,23 +93,23 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 25%;
     --input: 0 0% 30%;
-    --ring: 185 86% 40%;
-    --chart-1: 185 86% 40%;
+    --ring: 68 96% 44%;
+    --chart-1: 68 96% 44%;
     --chart-2: 33 100% 70%;
     --chart-3: 138 60% 55%;
     --chart-4: 213 69% 81%;
     --chart-5: 283 69% 81%;
     --sidebar-background: 0 0% 18%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 186 85% 42%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 68 96% 44%;
+    --sidebar-primary-foreground: 0 0% 10%;
     --sidebar-accent: 0 0% 25%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 25%;
-    --sidebar-ring: 186 85% 42%;
+    --sidebar-ring: 68 96% 44%;
     --grey-1: 0 0% 49%; /* #7C7C7C */
     --grey-2: 0 0% 75%; /* #C0C0C0 */
-    --hover-bg: 185 100% 97%; /* #F0FEFF */
+    --hover-bg: 68 100% 97%;
 
     --accent-color-01: 48 94% 75%; /* #FAD994 */
     --accent-color-02: 12 94% 81%; /* #FBC5C0 */
