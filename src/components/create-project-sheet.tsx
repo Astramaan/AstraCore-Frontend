@@ -1,5 +1,4 @@
 
-
       
 'use client';
 
@@ -61,23 +60,23 @@ const allContacts = [...mockClients.map(c => ({...c, type: 'client' as const})),
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-muted-foreground' : 'text-foreground')}>{label}</Label>
+        <Input id={id} className="h-14 bg-background dark:bg-input rounded-full px-5" value={value} {...props} />
     </div>
 );
 
 const FloatingLabelTextarea = ({ id, label, value, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string, value: string }) => (
     <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
-        <Textarea id={id} className="h-28 bg-background rounded-3xl p-5" value={value} {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-muted-foreground' : 'text-foreground')}>{label}</Label>
+        <Textarea id={id} className="h-28 bg-background dark:bg-input rounded-3xl p-5" value={value} {...props} />
     </div>
 )
 
 const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }: { id: string, label: string, value: string, onValueChange: (value: string) => void, children: React.ReactNode, name?: string }) => (
      <div className="space-y-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-grey-1' : 'text-zinc-900')}>{label}</Label>
+        <Label htmlFor={id} className={cn("text-lg font-medium px-2", value ? 'text-muted-foreground' : 'text-foreground')}>{label}</Label>
         <Select name={name || id} value={value} onValueChange={onValueChange}>
-            <SelectTrigger id={id} className="h-14 bg-background rounded-full px-5">
+            <SelectTrigger id={id} className="h-14 bg-background dark:bg-input rounded-full px-5">
                 <SelectValue placeholder={label.replace('*','')} />
             </SelectTrigger>
             <SelectContent>
@@ -188,11 +187,11 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
             <ScrollArea className="flex-1 p-6 no-scrollbar">
                 <div className="space-y-8">
                     <div className="space-y-6">
-                        <h3 className="text-lg text-stone-500">Personal details</h3>
+                        <h3 className="text-lg text-muted-foreground">Personal details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                              <div className="space-y-2 sm:col-span-2">
                                 <div className="flex items-baseline gap-2">
-                                    <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                                    <Label htmlFor="email" className={cn("text-lg font-medium px-2", email ? 'text-muted-foreground' : 'text-foreground')}>Email*</Label>
                                     <span className="text-xs text-muted-foreground">(enter to fetch the personal details.)</span>
                                 </div>
                                 <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
@@ -201,7 +200,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                             id="email"
                                             name="email"
                                             type="email"
-                                            className="h-14 bg-background rounded-full px-5"
+                                            className="h-14 bg-background dark:bg-input rounded-full px-5"
                                             value={email}
                                             onChange={e => setEmail(e.target.value)}
                                             onClick={() => setEmailComboboxOpen(true)}
@@ -245,7 +244,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                     </div>
 
                     <div className="space-y-6">
-                        <h3 className="text-lg text-stone-500">Project details</h3>
+                        <h3 className="text-lg text-muted-foreground">Project details</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                            <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <FloatingLabelInput id="project-name" name="project_name" label="Project Name*" value={projectName} onChange={e => setProjectName(e.target.value)} />
@@ -270,13 +269,13 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                     </div>
 
                     <div className="space-y-6">
-                        <h3 className="text-lg text-stone-500">Project Assign</h3>
+                        <h3 className="text-lg text-muted-foreground">Project Assign</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <Label htmlFor="architect" className={cn("text-lg font-medium px-2", architect ? 'text-grey-1' : 'text-zinc-900')}>Architect*</Label>
+                                <Label htmlFor="architect" className={cn("text-lg font-medium px-2", architect ? 'text-muted-foreground' : 'text-foreground')}>Architect*</Label>
                                 <Popover open={architectOpen} onOpenChange={setArchitectOpen}>
                                     <PopoverTrigger asChild>
-                                        <Button variant="outline" role="combobox" aria-expanded={architectOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                        <Button variant="outline" role="combobox" aria-expanded={architectOpen} className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal">
                                             {architect ? mockArchitects.find(a => a.value === architect)?.label : "Select architect..."}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
@@ -300,10 +299,10 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                 </Popover>
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="site-supervisor" className={cn("text-lg font-medium px-2", siteSupervisor ? 'text-grey-1' : 'text-zinc-900')}>Site Supervisor*</Label>
+                                <Label htmlFor="site-supervisor" className={cn("text-lg font-medium px-2", siteSupervisor ? 'text-muted-foreground' : 'text-foreground')}>Site Supervisor*</Label>
                                 <Popover open={supervisorOpen} onOpenChange={setSupervisorOpen}>
                                     <PopoverTrigger asChild>
-                                        <Button variant="outline" role="combobox" aria-expanded={supervisorOpen} className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal">
+                                        <Button variant="outline" role="combobox" aria-expanded={supervisorOpen} className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal">
                                             {siteSupervisor ? mockSupervisors.find(s => s.value === siteSupervisor)?.label : "Select supervisor..."}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
@@ -517,13 +516,13 @@ const ProjectTimelineForm = ({
                         <div className="space-y-6">
                              <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                                 <div className="space-y-2">
-                                    <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-grey-1' : 'text-zinc-900')}>Start Date*</Label>
+                                    <Label htmlFor="start-date" className={cn("text-lg font-medium px-2", startDate ? 'text-muted-foreground' : 'text-foreground')}>Start Date*</Label>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <Button
                                                 variant={"outline"}
                                                 className={cn(
-                                                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                                                    "w-full justify-start text-left font-normal h-14 bg-background dark:bg-input rounded-full px-5",
                                                     !startDate && "text-muted-foreground"
                                                 )}
                                             >
@@ -563,22 +562,22 @@ const ProjectTimelineForm = ({
 
                             <div className="space-y-4">
                                 {timeline.map((phase, phaseIndex) => (
-                                    <Card key={phase.name} className="rounded-[30px] bg-background">
+                                    <Card key={phase.name} className="rounded-[30px] bg-background dark:bg-input">
                                         <CardContent className="p-6">
                                             <h3 className="text-xl font-semibold mb-4">{phase.name}</h3>
                                             <div className="space-y-4">
                                                 {phase.stages.map((stage, stageIndex) => (
-                                                    <div key={stage.name} className="p-4 rounded-2xl border bg-white">
+                                                    <div key={stage.name} className="p-4 rounded-2xl border bg-card">
                                                         <p className="font-medium text-lg mb-4">{stage.name}</p>
                                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                             {stage.tasks.map((task, taskIndex) => (
                                                                 <div key={task.name} className="space-y-2">
-                                                                    <Label className="text-base font-normal px-2 text-zinc-900">{task.name}</Label>
+                                                                    <Label className="text-base font-normal px-2 text-foreground">{task.name}</Label>
                                                                     <div className="flex items-center gap-2">
                                                                         <Input
                                                                             name={`duration_${phaseIndex}_${stageIndex}_${taskIndex}`}
                                                                             type="number"
-                                                                            className="h-12 bg-background rounded-full px-5"
+                                                                            className="h-12 bg-background dark:bg-input rounded-full px-5"
                                                                             placeholder="Duration"
                                                                             value={task.duration}
                                                                             onChange={(e) => handleDurationChange(phaseIndex, stageIndex, taskIndex, e.target.value)}
@@ -694,14 +693,14 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
     return (
         <DialogComponent open={isOpen} onOpenChange={onClose}>
             <DialogContentComponent className={cn(
-                "p-0 flex flex-col bg-white transition-all m-0",
+                "p-0 flex flex-col bg-card text-card-foreground transition-all m-0",
                 "sm:max-w-4xl rounded-t-[50px] md:rounded-[50px] h-full md:h-auto md:max-h-[90vh] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
             )}>
                 <DialogHeader className="p-6 border-b shrink-0">
                     <DialogTitle className="flex items-center justify-between">
                         <span className="text-2xl font-semibold">{templateToEdit ? 'Edit Timeline Template' : 'Create Custom Timeline'}</span>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="w-9 h-9 bg-background rounded-full">
+                            <Button variant="ghost" size="icon" className="w-9 h-9 bg-background dark:bg-input rounded-full">
                                 <X className="h-6 w-6" />
                             </Button>
                         </DialogClose>
@@ -713,9 +712,9 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                             placeholder="Template Name"
                             value={templateName}
                             onChange={(e) => setTemplateName(e.target.value)}
-                            className="h-14 rounded-full bg-background text-lg"
+                            className="h-14 rounded-full bg-background dark:bg-input text-lg"
                         />
-                         <div className="text-xs text-muted-foreground p-4 bg-background rounded-lg space-y-1">
+                         <div className="text-xs text-muted-foreground p-4 bg-background dark:bg-input rounded-lg space-y-1">
                             <p><strong>Phase:</strong> A major section of the project (e.g., Design, Construction).</p>
                             <p><strong>Stage:</strong> A sub-section within a phase (e.g., Foundation, Framing).</p>
                             <p><strong>Task:</strong> An individual action item within a stage (e.g., Pour concrete, Install windows).</p>
@@ -724,7 +723,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                     <ScrollArea className="flex-1 px-6">
                         <div className="space-y-4">
                         {phases.map((phase, phaseIndex) => (
-                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background">
+                            <Card key={phaseIndex} className="p-4 border rounded-[30px] space-y-4 bg-background dark:bg-input">
                                 <CardContent className="p-0 space-y-4">
                                     <div className="flex items-center gap-2">
                                         <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
@@ -733,7 +732,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                     </div>
                                     <div className="pl-6 space-y-4">
                                         {phase.stages.map((stage, stageIndex) => (
-                                            <Card key={stageIndex} className="p-4 rounded-2xl border bg-white space-y-4">
+                                            <Card key={stageIndex} className="p-4 rounded-2xl border bg-card">
                                                 <CardContent className="p-0 space-y-4">
                                                     <div className="flex items-center gap-2">
                                                         <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
@@ -748,7 +747,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                                                                             placeholder="Task Name"
                                                                             value={task.name}
                                                                             onChange={e => handleInputChange(e.target.value, 'task', {phase: phaseIndex, stage: stageIndex, task: taskIndex})}
-                                                                            className="h-12 bg-background rounded-full px-5"
+                                                                            className="h-12 bg-background dark:bg-input rounded-full px-5"
                                                                         />
                                                                     <Button size="icon" variant="ghost" onClick={() => removeTask(phaseIndex, stageIndex, taskIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                                                                 </div>
@@ -773,7 +772,7 @@ const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isO
                         </Button>
                         </div>
                     </ScrollArea>
-                    <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-white rounded-b-[20px]">
+                    <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-card rounded-b-[20px] mt-auto">
                         <Button onClick={handleSave} className="h-[54px] rounded-full text-lg w-full">Save Template</Button>
                     </div>
                 </div>
@@ -872,7 +871,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                 <DialogOrSheetContent
                     side="bottom"
                     className={cn(
-                        "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
+                        "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
@@ -881,7 +880,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                                 {title}
                             </DialogOrSheetTitle>
                             <DialogOrSheetClose asChild>
-                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                                <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background dark:bg-input rounded-full">
                                     <X className="h-6 w-6" />
                                 </Button>
                             </DialogOrSheetClose>
@@ -919,6 +918,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
