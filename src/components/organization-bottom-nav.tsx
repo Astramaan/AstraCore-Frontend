@@ -56,7 +56,7 @@ export const OrganizationBottomNav = () => {
                                         <div className={cn(
                                             "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
                                             "rounded-full h-[54px] md:h-14",
-                                            isActive ? "bg-primary text-white px-4" : "bg-black/30 text-white w-[54px] md:w-14"
+                                            isActive ? "bg-primary text-white px-4" : "bg-black/20 text-white w-[54px] md:w-14"
                                         )}>
                                             <item.icon className="w-6 h-6 shrink-0" />
                                             <span className={cn(
