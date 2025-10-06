@@ -21,17 +21,21 @@ export const SettingsCard = () => {
             <CardContent className="p-6 pt-0 space-y-6">
                 <div>
                     <Label className="text-lg font-medium text-foreground/80 mb-2 block">Appearance</Label>
-                    <div className="flex items-center justify-between p-2 bg-background dark:bg-card rounded-full">
-                        <Button variant="ghost" size="icon" onClick={() => setTheme('light')} className={cn("rounded-full flex-1 h-12 gap-2", theme === 'light' && 'bg-primary text-white hover:bg-primary hover:text-white')}>
-                            <Sun className="h-5 w-5" />
-                        </Button>
-                        <Button variant="ghost" size="icon" onClick={() => setTheme('dark')} className={cn("rounded-full flex-1 h-12 gap-2", theme === 'dark' && 'bg-primary text-white hover:bg-primary hover:text-white')}>
-                            <Moon className="h-5 w-5" />
-                        </Button>
-                        <Button variant="ghost" size="icon" onClick={() => setTheme('system')} className={cn("rounded-full flex-1 h-12 gap-2", theme === 'system' && 'bg-primary text-white hover:bg-primary hover:text-white')}>
-                            <Monitor className="h-5 w-5" />
-                        </Button>
-                    </div>
+                     <Select value={theme} onValueChange={setTheme}>
+                        <SelectTrigger className="w-full h-14 rounded-full bg-background dark:bg-card">
+                            <div className="flex items-center gap-2">
+                                {theme === 'light' && <Sun className="h-5 w-5 text-muted-foreground"/>}
+                                {theme === 'dark' && <Moon className="h-5 w-5 text-muted-foreground"/>}
+                                {theme === 'system' && <Monitor className="h-5 w-5 text-muted-foreground"/>}
+                                <SelectValue placeholder="Select theme" />
+                            </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="light">Light</SelectItem>
+                            <SelectItem value="dark">Dark</SelectItem>
+                            <SelectItem value="system">System</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
                  <div>
                     <Label className="text-lg font-medium text-foreground/80 mb-2 block">Language</Label>
