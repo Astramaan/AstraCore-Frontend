@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -13,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { PlatformSidebar } from '@/components/platform-sidebar';
 import NotificationBellIcon from '@/components/icons/notification-bell-icon';
+import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
