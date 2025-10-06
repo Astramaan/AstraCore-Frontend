@@ -63,7 +63,7 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="hidden md:block text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-black dark:text-white">
+                    <h2 className="hidden md:block text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white dark:text-white">
                         {pageTitle}
                     </h2>
                 </>
@@ -95,8 +95,8 @@ export const OrganizationHeader = () => {
                             <AvatarFallback>{userInitials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden lg:block">
-                            <p className="text-base lg:text-lg font-medium text-black dark:text-white">{userName}</p>
-                            <p className="text-sm lg:text-base text-black/80 dark:text-white/80">{userTeam}</p>
+                            <p className="text-base lg:text-lg font-medium text-white dark:text-white">{userName}</p>
+                            <p className="text-sm lg:text-base text-white/80 dark:text-white/80">{userTeam}</p>
                         </div>
                     </Link>
                 </>
