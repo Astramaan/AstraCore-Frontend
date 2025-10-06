@@ -18,7 +18,7 @@ export default function OrganizationInternalLayout({ children }: { children: Rea
             </div>
           </div>
         </header>
-        <main className="max-w-[1440px] 2xl:max-w-none w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 pt-8 px-4 md:px-8 2xl:px-10 space-y-6">
+        <main className="max-w-[1440px] 2xl:max-w-none w-full flex-1 overflow-y-auto bg-background pb-32 md:pb-40 pt-16 px-4 md:px-8 2xl:px-10 space-y-6">
             {children}
         </main>
         <OrganizationBottomNav />
