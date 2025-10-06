@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useEffect, useTransition } from 'react';
@@ -198,23 +199,23 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
         <ScrollArea className="flex-1 p-6 no-scrollbar">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-zinc-900')}>Title*</Label>
+                    <Label htmlFor="title" className={cn("text-lg font-medium", title ? 'text-grey-1' : 'text-foreground')}>Title*</Label>
                     <Input id="title" placeholder="Enter meeting title" className="bg-background rounded-full h-14" value={title} onChange={(e) => setTitle(e.target.value)} />
                 </div>
                 
                  <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-zinc-900')}>Description</Label>
+                    <Label htmlFor="description" className={cn("text-lg font-medium", description ? 'text-grey-1' : 'text-foreground')}>Description</Label>
                     <Textarea id="description" placeholder="Enter meeting description" className="bg-background rounded-3xl min-h-[120px]" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
 
                 <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-zinc-900')}>Meeting Link*</Label>
+                    <Label htmlFor="meeting-link" className={cn("text-lg font-medium", meetingLink ? 'text-grey-1' : 'text-foreground')}>Meeting Link*</Label>
                     <Input id="meeting-link" placeholder="Paste meeting link here" className="bg-background rounded-full h-14" value={meetingLink} onChange={handleMeetingLinkChange} />
                     {meetingLinkError && <p className="text-destructive text-sm mt-1 px-4">{meetingLinkError}</p>}
                 </div>
 
                 <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="add-members" className={cn("text-lg font-medium", participants.length > 0 ? 'text-grey-1' : 'text-zinc-900')}>Add Members*</Label>
+                    <Label htmlFor="add-members" className={cn("text-lg font-medium", participants.length > 0 ? 'text-grey-1' : 'text-foreground')}>Add Members*</Label>
                     <Popover open={memberComboboxOpen} onOpenChange={setMemberComboboxOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -266,7 +267,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 </div>
                 
                 <div className="space-y-2">
-                    <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-zinc-900')}>Date*</Label>
+                    <Label className={cn("text-lg font-medium", date ? 'text-grey-1' : 'text-foreground')}>Date*</Label>
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
@@ -292,7 +293,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 </div>
 
                 <div className="space-y-2">
-                    <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-zinc-900')}>Time*</Label>
+                    <Label className={cn("text-lg font-medium", time ? 'text-grey-1' : 'text-foreground')}>Time*</Label>
                     <Select onValueChange={setTime}>
                         <SelectTrigger className="h-14 bg-background rounded-full hover:bg-accent hover:text-accent-foreground">
                             <SelectValue placeholder="Select a time slot" />
@@ -306,7 +307,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 </div>
                 
                 <div className="space-y-2 sm:col-span-2">
-                    <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-zinc-900')}>Client/Lead*</Label>
+                    <Label htmlFor="client-lead-id" className={cn("text-lg font-medium", selectedId ? 'text-grey-1' : 'text-foreground')}>Client/Lead*</Label>
                     <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
                         <PopoverTrigger asChild>
                             <Button
@@ -367,7 +368,7 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                 {(isManual) && (
                     <>
                         <div className="space-y-2">
-                            <Label htmlFor="type-select" className={cn("text-lg font-medium", targetType ? 'text-grey-1' : 'text-zinc-900')}>Type*</Label>
+                            <Label htmlFor="type-select" className={cn("text-lg font-medium", targetType ? 'text-grey-1' : 'text-foreground')}>Type*</Label>
                             <Select value={targetType} onValueChange={(value: 'client' | 'lead' | 'others') => setTargetType(value)}>
                                 <SelectTrigger id="type-select" className="h-14 bg-background rounded-full">
                                     <SelectValue placeholder="Client / Lead / Others" />
@@ -380,15 +381,15 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                             </Select>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-zinc-900')}>Name*</Label>
+                            <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-grey-1' : 'text-foreground')}>Name*</Label>
                             <Input id="name" placeholder="Enter Name" className="bg-background rounded-full h-14" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-zinc-900')}>Email*</Label>
+                            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-foreground')}>Email*</Label>
                             <Input id="email" type="email" placeholder="Enter Email" className="bg-background rounded-full h-14" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-zinc-900')}>Phone*</Label>
+                            <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-grey-1' : 'text-foreground')}>Phone*</Label>
                             <Input id="phone" type="tel" placeholder="Enter Phone" className="bg-background rounded-full h-14" value={phone} onChange={(e) => setPhone(e.target.value)} />
                         </div>
                         
@@ -399,15 +400,15 @@ const CreateMeetingForm = ({ onMeetingCreated, onClose }: { onMeetingCreated: (m
                     <>
                         <div className="space-y-1">
                             <p className="text-sm text-grey-1">Name</p>
-                            <p className="text-lg font-medium text-zinc-900">{name || '-'}</p>
+                            <p className="text-lg font-medium text-foreground">{name || '-'}</p>
                         </div>
                          <div className="space-y-1">
                             <p className="text-sm text-grey-1">Phone</p>
-                            <p className="text-lg font-medium text-zinc-900">{phone || '-'}</p>
+                            <p className="text-lg font-medium text-foreground">{phone || '-'}</p>
                         </div>
                         <div className="space-y-1">
                             <p className="text-sm text-grey-1">Email</p>
-                            <p className="text-lg font-medium text-zinc-900">{email || '-'}</p>
+                            <p className="text-lg font-medium text-foreground">{email || '-'}</p>
                         </div>
                     </>
                 )}
@@ -447,7 +448,7 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
         <SheetContent 
             side="bottom"
             className={cn(
-                "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
+                "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
             )}
             onInteractOutside={(e) => {
               if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
@@ -455,10 +456,10 @@ export function CreateMeetingSheet({ onMeetingCreated }: { onMeetingCreated: (me
               }
             }}
         >
-            <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+            <SheetHeader className="p-6 border-b rounded-t-[50px]">
                 <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
-                        <Plus className="h-6 w-6 text-black"/>
+                        <Plus className="h-6 w-6 text-foreground"/>
                     </div>
                     Create Meeting
                     <div className="flex items-center gap-4 ml-auto">
