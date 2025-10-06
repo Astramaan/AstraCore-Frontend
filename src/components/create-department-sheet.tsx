@@ -115,12 +115,12 @@ export function CreateDepartmentSheet() {
     setShowSuccess(true);
   };
 
-  const DialogOrSheet = isMobile ? Dialog : Dialog;
-  const DialogOrSheetContent = isMobile ? DialogContent : DialogContent;
-  const DialogOrSheetHeader = isMobile ? DialogHeader : DialogHeader;
-  const DialogOrSheetTitle = isMobile ? DialogTitle : DialogTitle;
-  const DialogOrSheetClose = isMobile ? DialogClose : DialogClose;
-  const DialogOrSheetTrigger = isMobile ? DialogTrigger : DialogTrigger;
+  const DialogOrSheet = Dialog;
+  const DialogOrSheetContent = DialogContent;
+  const DialogOrSheetHeader = DialogHeader;
+  const DialogOrSheetTitle = DialogTitle;
+  const DialogOrSheetClose = DialogClose;
+  const DialogOrSheetTrigger = DialogTrigger;
 
   return (
     <>
