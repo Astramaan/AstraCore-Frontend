@@ -44,24 +44,26 @@ export const OrganizationBottomNav = () => {
 
     return (
         <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-             <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0">
-                <div className="relative w-full md:w-auto bg-black/10 rounded-full backdrop-blur-[5px] p-2 md:p-4">
+             <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 w-full md:w-auto max-w-lg">
+                <div className="relative w-full bg-black/10 rounded-full backdrop-blur-[5px] p-2 md:p-4">
                     <div className="flex items-center justify-around md:justify-center md:gap-4">
                         {visibleNavItems.map((item) => {
                             const baseHref = `/organization/${organizationId}${item.href}`;
                             const isActive = pathname.startsWith(baseHref);
                             return (
                                 <Link href={baseHref} key={item.label} title={item.label} className="flex-shrink-0">
-                                    <div className={cn(
-                                        "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
-                                        "rounded-full h-[54px] md:h-14",
-                                        isActive ? "bg-primary text-white px-4" : "bg-black/10 text-white w-[54px] md:w-14"
-                                    )}>
-                                        <item.icon className="w-6 h-6 shrink-0" />
-                                        <span className={cn(
-                                            "text-xs md:text-sm font-medium whitespace-nowrap transition-all duration-300 ease-in-out",
-                                            isActive ? "max-w-xs opacity-100" : "max-w-0 opacity-0"
-                                        )}>{item.label}</span>
+                                    <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0">
+                                        <div className={cn(
+                                            "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
+                                            "rounded-full h-[54px] md:h-14",
+                                            isActive ? "bg-primary text-white px-4" : "bg-black/10 text-white w-[54px] md:w-14"
+                                        )}>
+                                            <item.icon className="w-6 h-6 shrink-0" />
+                                            <span className={cn(
+                                                "text-xs font-medium whitespace-nowrap transition-all duration-300 ease-in-out",
+                                                isActive ? "max-w-xs opacity-100" : "max-w-0 opacity-0"
+                                            )}>{item.label}</span>
+                                        </div>
                                     </div>
                                 </Link>
                             )
