@@ -5,6 +5,11 @@ import React from "react";
 
 export const HabiLogo = ({ className }: { className?: string }) => (
     <div className={cn("flex items-center", className)}>
-        <Image src="/Astramaan_Logo.png" alt="Astramaan Logo" width={120} height={40} />
+        <Image
+            src="/images/Astramaan_Logo.png"
+            alt="Astramaan Logo"
+            width={120}
+            height={40}
+        />
     </div>
 );
