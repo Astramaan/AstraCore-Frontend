@@ -90,10 +90,10 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                         </Avatar>
                     </AvatarWithProgress>
                     <div className="flex-1">
-                        <p className="text-xl font-semibold text-black">{project.name}</p>
+                        <p className="text-xl font-semibold text-foreground">{project.name}</p>
                          <p className="text-lg">
-                            <span className="text-grey-2">Name: </span>
-                            <span className="text-black">{project.name} ({project.id})</span>
+                            <span className="text-muted-foreground">Name: </span>
+                            <span className="text-foreground">{project.name} ({project.id})</span>
                         </p>
                     </div>
                 </Link>
@@ -115,19 +115,19 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             </div>
             <div className="space-y-2 mt-4 ml-18 grid grid-cols-2 gap-x-4 gap-y-2">
                 <div>
-                    <span className="text-grey-2 text-base">Contact: </span> 
-                    <p className="text-black font-medium text-base break-words">{project.contact.split(' | ')[0]}<br />{project.contact.split(' | ')[1]}</p>
+                    <span className="text-muted-foreground text-base">Contact: </span> 
+                    <p className="text-foreground font-medium text-base break-words">{project.contact.split(' | ')[0]}<br />{project.contact.split(' | ')[1]}</p>
                 </div>
                  <div className="text-right">
-                    <span className="text-grey-2 text-base">Project Type: </span> 
-                    <p className="zinc-900 font-medium text-base">{project.projectType}</p>
+                    <span className="text-muted-foreground text-base">Project Type: </span> 
+                    <p className="text-foreground font-medium text-base">{project.projectType}</p>
                 </div>
                  <div>
-                    <span className="text-grey-2 text-base">Started Date: </span> 
-                    <p className="text-zinc-900 font-medium text-base">{project.startDate}</p>
+                    <span className="text-muted-foreground text-base">Started Date: </span> 
+                    <p className="text-foreground font-medium text-base">{project.startDate}</p>
                 </div>
                  <div className="text-right">
-                    <span className="text-grey-2 text-base">Status: </span> 
+                    <span className="text-muted-foreground text-base">Status: </span> 
                     <p className={cn(project.statusColor, 'font-medium text-base')}>{project.status}</p>
                 </div>
             </div>
@@ -137,7 +137,7 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
         <Link href={`/organization/${organizationId}/projects/${project.id}`} className="hidden lg:block">
             <div
             className={cn(
-                "grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
+                "grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg dark:hover:bg-muted/50 px-4",
                 isFirst && "hover:rounded-t-[30px]",
                 isLast && "hover:rounded-b-[30px]"
             )}
@@ -151,10 +151,10 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
                     </Avatar>
                 </AvatarWithProgress>
                 <div className="flex-1">
-                <p className="text-xl font-semibold text-black">{project.name}</p>
+                <p className="text-xl font-semibold text-foreground">{project.name}</p>
                  <p className="text-lg">
-                    <span className="text-grey-2">Name: </span>
-                    <span className="text-black">{project.name} ({project.id})</span>
+                    <span className="text-muted-foreground">Name: </span>
+                    <span className="text-foreground">{project.name} ({project.id})</span>
                 </p>
                 </div>
             </div>
@@ -165,12 +165,12 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             {/* Contact + Client ID */}
             <div className="flex flex-col justify-center gap-2">
                 <p className="text-lg break-all">
-                <span className="text-grey-2">Contact: </span>
-                <span className="text-black">{project.contact}</span>
+                <span className="text-muted-foreground">Contact: </span>
+                <span className="text-foreground">{project.contact}</span>
                 </p>
                 <p className="text-lg">
-                <span className="text-grey-2">Project Type: </span>
-                <span className="zinc-900">{project.projectType}</span>
+                <span className="text-muted-foreground">Project Type: </span>
+                <span className="text-foreground">{project.projectType}</span>
                 </p>
             </div>
 
@@ -181,11 +181,11 @@ const ProjectListItem = ({ project, onEdit, onDelete, isFirst = false, isLast = 
             <div className="flex justify-between items-center">
                 <div className="flex flex-col gap-2">
                 <p className="text-lg">
-                    <span className="text-grey-2">Started Date: </span> 
-                    <span className="text-zinc-900">{project.startDate}</span>
+                    <span className="text-muted-foreground">Started Date: </span> 
+                    <span className="text-foreground">{project.startDate}</span>
                 </p>
                 <p className="text-lg">
-                    <span className="text-grey-2">Status: </span>
+                    <span className="text-muted-foreground">Status: </span>
                     <span className={project.statusColor}>{project.status}</span>
                 </p>
                 </div>
@@ -346,10 +346,10 @@ export default function ProjectsPage() {
                     <div className="flex md:hidden flex-col gap-4">
                          <div className="flex items-center gap-4 w-full">
                             <div className="relative flex-1">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <Input 
                                     placeholder="Search Projects"
-                                    className="pl-12 h-14 rounded-full bg-white text-lg"
+                                    className="pl-12 h-14 rounded-full bg-card text-lg"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -363,16 +363,16 @@ export default function ProjectsPage() {
                                 />
                             )}
                         </div>
-                        <h2 className="text-xl text-black font-medium pt-4">Active Projects</h2>
+                        <h2 className="text-xl text-foreground font-medium pt-4">Active Projects</h2>
                     </div>
                     <div className="hidden md:flex justify-between items-end">
-                        <h2 className="text-xl text-black font-medium">Active Projects</h2>
+                        <h2 className="text-xl text-foreground font-medium">Active Projects</h2>
                         <div className="flex items-center gap-4 w-full md:w-auto">
                             <div className="relative flex-1 md:w-64">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-grey-2" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <Input 
                                     placeholder="Search Projects"
-                                    className="pl-12 h-14 rounded-full bg-white text-lg"
+                                    className="pl-12 h-14 rounded-full bg-card text-lg"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -388,7 +388,7 @@ export default function ProjectsPage() {
                         </div>
                     </div>
                 </div>
-                <Card className="rounded-[40px] md:rounded-[50px]">
+                <Card className="rounded-[40px] md:rounded-[50px] bg-card">
                     <CardContent className="p-0 lg:p-6">
                         {isLoading ? (
                             Array.from({length: 3}).map((_, i) => <ProjectListItemSkeleton key={i} />)
@@ -416,8 +416,8 @@ export default function ProjectsPage() {
             </div>
 
             <div>
-                <h2 className="text-xl text-black font-medium mb-4">Completed Projects</h2>
-                 <Card className="rounded-[40px] md:rounded-[50px]">
+                <h2 className="text-xl text-foreground font-medium mb-4">Completed Projects</h2>
+                 <Card className="rounded-[40px] md:rounded-[50px] bg-card">
                     <CardContent className="p-0 lg:p-6">
                        {isLoading ? (
                             Array.from({length: 1}).map((_, i) => <ProjectListItemSkeleton key={i} />)
@@ -451,12 +451,12 @@ export default function ProjectsPage() {
                             <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                         </div>
                         <AlertDialogTitle className="text-2xl font-semibold">Confirm Project Deletion?</AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
+                        <AlertDialogDescription className="text-lg text-muted-foreground">
                            Deleting project "{projectToDelete?.name}" will permanently remove it. This action cannot be undone.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-muted/80">Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={confirmDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
