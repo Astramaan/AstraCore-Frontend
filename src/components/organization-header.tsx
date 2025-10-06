@@ -76,15 +76,15 @@ export const OrganizationHeader = () => {
                     <Link href={`/organization/${organizationId}/teams`}>
                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                              <Button className={cn(
-                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-white/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 text-white dark:text-white",
-                                isTeamsActive && "bg-primary text-white dark:text-black"
+                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 text-white",
+                                isTeamsActive && "bg-primary text-white"
                             )}>
                                 <TeamIcon className={cn(
-                                    "mr-2 h-6 w-6",
-                                    isTeamsActive ? "text-white dark:text-black" : "text-white"
+                                    "mr-2 h-6 w-6 text-white",
+                                    isTeamsActive && "text-white"
                                 )}/>
                                 <span className={cn(
-                                    isTeamsActive ? "text-white dark:text-black" : "text-white"
+                                    isTeamsActive ? "text-white" : "text-white"
                                 )}>{teamsButtonText}</span>
                             </Button>
                         </div>
@@ -106,8 +106,8 @@ export const OrganizationHeader = () => {
             <NotificationPopover />
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
-                    <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0">
-                        <Button variant="ghost" size="icon" className="bg-black/10 backdrop-blur-sm rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary text-white">
+                    <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                        <Button variant="ghost" size="icon" className="bg-black/10 dark:bg-black/20 backdrop-blur-sm rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary relative text-white">
                             <Menu className="h-6 w-6" />
                         </Button>
                     </div>
