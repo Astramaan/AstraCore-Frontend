@@ -153,7 +153,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
         {/* Mobile View */}
         <div className="block lg:hidden p-6 md:p-10" onClick={() => onViewDetails(lead)}>
             <div className="flex items-start justify-between">
-                <div className="flex flex-col gap-4">
+                <div className="flex-1 flex flex-col gap-4">
                      <Checkbox 
                         id={`select-${lead.leadId}-mobile`} 
                         className="w-6 h-6 rounded-full" 
