@@ -76,15 +76,14 @@ export const OrganizationHeader = () => {
                     <Link href={`/organization/${organizationId}/teams`}>
                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                              <Button className={cn(
-                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20 text-white",
+                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20 text-white dark:hover:text-primary",
                                 isTeamsActive && "bg-primary text-white"
                             )}>
                                 <TeamIcon className={cn(
-                                    "mr-2 h-6 w-6 text-white dark:hover:text-primary",
+                                    "mr-2 h-6 w-6 text-white",
                                     isTeamsActive && "text-white"
                                 )}/>
                                 <span className={cn(
-                                    "dark:hover:text-primary",
                                     isTeamsActive ? "text-white" : "text-white"
                                 )}>{teamsButtonText}</span>
                             </Button>
