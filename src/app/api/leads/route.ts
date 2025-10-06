@@ -41,15 +41,19 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        // The frontend sends fullName, phoneNumber, email. The backend expects name, mobileNumber, email, role: 'CLIENT'
+        
+        // Backend expects the payload to be nested inside `inviteeDetails`
         const payload = {
-            name: body.fullName,
-            email: body.email,
-            mobileNumber: body.phoneNumber,
-            role: 'CLIENT', // Hardcoding as per requirement to invite a client/lead
+            inviteeDetails: {
+                inviteeName: body.fullName,
+                inviteeEmail: body.email,
+                inviteeMobileNumber: body.phoneNumber,
+                inviteeRole: 'LEAD',
+                siteLocationPinCode: body.siteLocationPinCode
+            }
         };
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/users/invite`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/invites`, {
             method: 'POST',
             headers: getAuthHeaders(req),
             body: JSON.stringify(payload),
@@ -60,7 +64,8 @@ export async function POST(req: Request) {
             if (res.ok) {
                  return new NextResponse(JSON.stringify({ success: true, message: "Invitation sent successfully." }), { status: res.status, headers: { 'Content-Type': 'application/json' } });
             }
-            return new NextResponse(null, { status: res.status });
+            // If response is not ok and body is empty, create a generic error response.
+            return NextResponse.json({ success: false, message: "An error occurred on the backend." }, { status: res.status });
         }
         
         const data = JSON.parse(text);
