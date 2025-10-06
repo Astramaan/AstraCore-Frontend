@@ -47,15 +47,15 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
             whileHover={{ scale: 1.03 }}
             transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
         >
-            <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white" onClick={onClick}>
+            <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-card" onClick={onClick}>
                 <div className="flex-1 flex flex-col">
                     <div className="flex justify-between items-start gap-2">
-                        <h3 className="text-lg font-medium text-zinc-900 line-clamp-1">{task.title}</h3>
+                        <h3 className="text-lg font-medium text-card-foreground line-clamp-1">{task.title}</h3>
                         <div className="flex-shrink-0 flex gap-2">
                             <Badge className={priorityColors[task.priority]}>{task.priority}</Badge>
                         </div>
                     </div>
-                    <p className="text-base text-zinc-900 mt-2 truncate flex-grow">{task.description}</p>
+                    <p className="text-base text-card-foreground mt-2 truncate flex-grow">{task.description}</p>
                     {task.status && (task.status === "In Progress" || task.status === "Pending") && (
                         <div className="mt-2 flex justify-end">
                             <Badge className={cn(statusColors[task.status])}>{task.status}</Badge>
