@@ -53,13 +53,15 @@ export const OrganizationBottomNav = () => {
                         return (
                              <Link href={baseHref} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(
-                                    "flex flex-col md:flex-row items-center justify-center text-center gap-0 md:gap-1.5 transition-colors duration-200",
-                                    "lg:gap-2.5 md:py-3 rounded-full min-w-max",
-                                    "h-16 w-16 md:h-12 md:w-auto px-1 md:px-4 lg:h-[54px]",
-                                    isActive ? "bg-primary text-white" : "bg-black/10 text-white hover:bg-white/20 hover:text-white"
+                                    "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
+                                    "rounded-full h-12 md:h-14",
+                                    isActive ? "bg-primary text-white px-4" : "bg-black/10 text-white w-12 md:w-14"
                                 )}>
-                                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 shrink-0" />
-                                    <span className="text-xs font-medium lg:text-lg whitespace-nowrap">{item.label}</span>
+                                    <item.icon className="w-6 h-6 shrink-0" />
+                                    <span className={cn(
+                                        "text-sm font-medium whitespace-nowrap transition-all duration-300 ease-in-out",
+                                        isActive ? "max-w-xs opacity-100" : "max-w-0 opacity-0"
+                                    )}>{item.label}</span>
                                 </div>
                             </Link>
                         )
