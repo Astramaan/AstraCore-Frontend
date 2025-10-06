@@ -163,7 +163,6 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
             setEmail(contact.email);
             setCurrentAddress(contact.address);
         }
-        setEmailComboboxOpen(false);
     };
     
     const handleSubmit = (e: React.FormEvent) => {
@@ -210,7 +209,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                             id="email"
                                             name="email"
                                             type="email"
-                                            className="h-14 bg-background dark:bg-input rounded-full px-5"
+                                            className="h-14 bg-background dark:bg-input rounded-full px-5 focus:shadow-none"
                                             value={email}
                                             onChange={e => setEmail(e.target.value)}
                                             onClick={() => setEmailComboboxOpen(true)}
@@ -234,7 +233,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                                                 value={contact.email}
                                                                 onSelect={(currentValue) => {
                                                                     handleEmailSelect(currentValue);
-                                                                    setEmailComboboxOpen(false);
+                                                                    requestAnimationFrame(() => setEmailComboboxOpen(false));
                                                                 }}
                                                             >
                                                                 <Check className={cn("mr-2 h-4 w-4", email === contact.email ? "opacity-100" : "opacity-0")} />
@@ -955,4 +954,3 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
         </>
     );
 }
-
