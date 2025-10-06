@@ -23,8 +23,6 @@ const nextConfig = {
     ],
   },
   poweredByHeader: false,
-  experimental: {
-  },
 };
 
 module.exports = nextConfig;

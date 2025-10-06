@@ -1,0 +1,49 @@
+diff --git a/node_modules/next-themes/dist/index.js b/node_modules/next-themes/dist/index.js
+index 73158f2d79d71c4d445014c2780e5b38a7c06078..8a56495b95b8d5a1532c28659d7d4982a5c4e4c2 100644
+--- a/node_modules/next-themes/dist/index.js
++++ b/node_modules/next-themes/dist/index.js
+@@ -1,6 +1,6 @@
+ 'use client';
+ 
+-var import_react = require("react");
++var import_react = require("react-18");
+ var import_jsx_runtime = require("react/jsx-runtime");
+ var defaultContext = {
+   theme: void 0,
+diff --git a/node_modules/next-themes/dist/index.mjs b/node_modules/next-themes/dist/index.mjs
+index 99318a8f1064a3501a357997977468bb03b9b4f9..97f2be05e54c6e93892701f5c6b9075775f0a824 100644
+--- a/node_modules/next-themes/dist/index.mjs
++++ b/node_modules/next-themes/dist/index.mjs
+@@ -1,6 +1,6 @@
+ 'use client';
+ 
+-import { useContext, useState, useEffect, useCallback, useMemo, createContext } from "react";
++import { useContext, useState, useEffect, useCallback, useMemo, createContext } from "react-18";
+ import { jsx } from "react/jsx-runtime";
+ var defaultContext = {
+   theme: void 0,
+diff --git a/node_modules/next-themes/package.json b/node_modules/next-themes/package.json
+index 1014e7a83d7a8d56a297920abce6f059c3545806..d72da34e94b238d21272782b8451f2802d3381a6 100644
+--- a/node_modules/next-themes/package.json
++++ b/node_modules/next-themes/package.json
+@@ -62,7 +62,7 @@
+     "access": "public"
+   },
+   "peerDependencies": {
+-    "react": "^16.8 || ^17 || ^18",
+-    "react-dom": "^16.8 || ^17 || ^18"
++    "react": "^16.8 || ^17 || ^18 || ^19",
++    "react-dom": "^16.8 || ^17 || ^18 || ^19"
+   },
+   "engines": {
+     "node": ">=10"
+diff --git a/node_modules/next-themes/dist/types.d.ts b/node_modules/next-themes/dist/types.d.ts
+index c6b92a2a7a40733a763806f71d530f2f0c7931dc..498c4b260e0a5c2763f0d2350ce9ea741fc36021 100644
+--- a/node_modules/next-themes/dist/types.d.ts
++++ b/node_modules/next-themes/dist/types.d.ts
+@@ -1,4 +1,4 @@
+-import type { ReactNode, Dispatch, SetStateAction } from 'react';
++import type { ReactNode, Dispatch, SetStateAction } from 'react-18';
+ export interface ThemeProviderProps {
+     children?: ReactNode;
+     /** List of all available theme names */

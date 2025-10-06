@@ -12,6 +12,7 @@ import { FeatureAccessCard } from '@/components/feature-access-card';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { ProjectStageToggleCard } from '@/components/project-stage-toggle-card';
 import { BrandingSheet } from '@/components/branding-sheet';
+import { AppearanceCard } from '@/components/appearance-card';
 
 export default function SuperAdminProfilePage() {
     const router = useRouter();
@@ -39,6 +40,7 @@ export default function SuperAdminProfilePage() {
                    <ProjectStageToggleCard />
                 </div>
                 <div className="space-y-6">
+                    <AppearanceCard />
                     <ActiveSessionsCard />
                     <div className="flex justify-end">
                         <Button variant="outline" onClick={logout} className="rounded-full h-[54px] px-10 text-lg bg-white hover:bg-destructive/10 hover:text-destructive w-full">

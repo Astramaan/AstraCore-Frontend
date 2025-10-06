@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { gilroy } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { UserProvider } from '@/context/user-context';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Astramaan',
@@ -25,10 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="no-scrollbar md:overflow-y-scroll">
       <body className={cn("antialiased font-sans", gilroy.variable)}>
-        <UserProvider>
-          {children}
-        </UserProvider>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UserProvider>
+            {children}
+          </UserProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
