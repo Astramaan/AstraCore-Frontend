@@ -16,19 +16,19 @@ const notifications = [
         icon: <Users className="w-6 h-6 text-blue-500" />,
         title: "New team member added",
         time: "2 hours ago",
-        bgColor: "bg-blue-100",
+        bgColor: "bg-blue-100 dark:bg-blue-900/50",
     },
     {
         icon: <FileText className="w-6 h-6 text-green-500" />,
         title: "Project plan updated",
         time: "5 hours ago",
-        bgColor: "bg-green-100",
+        bgColor: "bg-green-100 dark:bg-green-900/50",
     },
     {
         icon: <Users className="w-6 h-6 text-yellow-500" />,
         title: "Lead assigned to you",
         time: "Yesterday",
-        bgColor: "bg-yellow-100",
+        bgColor: "bg-yellow-100 dark:bg-yellow-900/50",
     },
 ];
 
@@ -38,8 +38,8 @@ const NotificationItem = ({ notification }: { notification: typeof notifications
             {notification.icon}
         </div>
         <div>
-            <p className="font-medium text-zinc-900">{notification.title}</p>
-            <p className="text-sm text-grey-1">{notification.time}</p>
+            <p className="font-medium text-foreground">{notification.title}</p>
+            <p className="text-sm text-muted-foreground">{notification.time}</p>
         </div>
     </div>
 )
@@ -55,9 +55,9 @@ export function NotificationPopover() {
                     </Button>
                 </div>
             </PopoverTrigger>
-            <PopoverContent className="w-80 md:w-96 p-2 rounded-[50px] bg-white border-0" align="center">
+            <PopoverContent className="w-80 md:w-96 p-2 rounded-[50px] bg-popover text-popover-foreground border-0" align="center">
                 <div className="p-4 flex items-center gap-2">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-muted border">
                         <NotificationBellIcon className="w-6 w-6"/>
                     </div>
                     <h3 className="text-xl font-semibold">Notifications</h3>

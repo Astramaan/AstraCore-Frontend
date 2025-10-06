@@ -2,14 +2,6 @@
 'use client';
 
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import {
   Sheet,
   SheetContent,
   SheetHeader,
@@ -22,57 +14,55 @@ import { Users, FileText, X } from "lucide-react";
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import NotificationBellIcon from "./icons/notification-bell-icon";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
 
 const allNotifications = [
     {
         icon: <Users className="w-6 h-6 text-blue-500" />,
         title: "New team member added",
         time: "2 hours ago",
-        bgColor: "bg-blue-100",
+        bgColor: "bg-blue-100 dark:bg-blue-900/50",
     },
     {
         icon: <FileText className="w-6 h-6 text-green-500" />,
         title: "Project plan updated",
         time: "5 hours ago",
-        bgColor: "bg-green-100",
+        bgColor: "bg-green-100 dark:bg-green-900/50",
     },
     {
         icon: <Users className="w-6 h-6 text-yellow-500" />,
         title: "Lead assigned to you",
         time: "Yesterday",
-        bgColor: "bg-yellow-100",
+        bgColor: "bg-yellow-100 dark:bg-yellow-900/50",
     },
     {
         icon: <Users className="w-6 h-6 text-blue-500" />,
         title: "New team member added",
         time: "3 days ago",
-        bgColor: "bg-blue-100",
+        bgColor: "bg-blue-100 dark:bg-blue-900/50",
     },
     {
         icon: <FileText className="w-6 h-6 text-green-500" />,
         title: "Project milestone achieved",
         time: "4 days ago",
-        bgColor: "bg-green-100",
+        bgColor: "bg-green-100 dark:bg-green-900/50",
     },
     {
         icon: <Users className="w-6 h-6 text-yellow-500" />,
         title: "New lead 'Innovate Inc.'",
         time: "5 days ago",
-        bgColor: "bg-yellow-100",
+        bgColor: "bg-yellow-100 dark:bg-yellow-900/50",
     },
      {
         icon: <FileText className="w-6 h-6 text-red-500" />,
         title: "Task 'Create Mockups' overdue",
         time: "6 days ago",
-        bgColor: "bg-red-100",
+        bgColor: "bg-red-100 dark:bg-red-900/50",
     },
      {
         icon: <Users className="w-6 h-6 text-blue-500" />,
         title: "Welcome to AstraCore!",
         time: "1 week ago",
-        bgColor: "bg-blue-100",
+        bgColor: "bg-blue-100 dark:bg-blue-900/50",
     },
 ];
 
@@ -82,8 +72,8 @@ const NotificationItem = ({ notification }: { notification: typeof allNotificati
             {notification.icon}
         </div>
         <div>
-            <p className="font-medium text-zinc-900">{notification.title}</p>
-            <p className="text-sm text-grey-1">{notification.time}</p>
+            <p className="font-medium text-foreground">{notification.title}</p>
+            <p className="text-sm text-muted-foreground">{notification.time}</p>
         </div>
     </div>
 )
@@ -96,18 +86,18 @@ export function AllNotificationsDialog() {
             </SheetTrigger>
             <SheetContent 
                 side="bottom"
-                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+                className="p-0 m-0 flex flex-col bg-background transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
             >
                 <SheetHeader className="p-6 border-b">
                     <SheetTitle className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-2xl font-semibold">
-                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-gray-100 border border-stone-200">
+                            <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center bg-muted border">
                                 <NotificationBellIcon className="w-6 w-6"/>
                             </div>
                             Notifications
                         </div>
                         <SheetClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full w-[54px] h-[54px] bg-background">
+                            <Button variant="ghost" size="icon" className="rounded-full w-[54px] h-[54px] bg-muted">
                                 <X className="h-6 w-6" />
                             </Button>
                         </SheetClose>
