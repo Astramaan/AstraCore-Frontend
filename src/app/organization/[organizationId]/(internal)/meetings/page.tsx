@@ -272,7 +272,7 @@ export default function MeetingsPage() {
                             </div>
                             <CreateMeetingSheet onMeetingCreated={handleAddNewMeeting}/>
                         </div>
-                        <h2 className="text-xl text-black font-medium">{title}</h2>
+                        <h2 className="text-xl text-black font-medium pt-4">{title}</h2>
                     </div>
                     <div className="hidden md:flex justify-between items-end">
                         <h2 className="text-xl text-black font-medium">{title}</h2>
