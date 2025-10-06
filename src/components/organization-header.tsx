@@ -74,13 +74,15 @@ export const OrganizationHeader = () => {
             {user?.role !== 'CLIENT' && (
                 <>
                     <Link href={`/organization/${organizationId}/teams`}>
-                        <Button className={cn(
-                            "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center",
-                            isTeamsActive ? "bg-primary text-white" : "bg-white text-black hover:bg-primary/10 hover:text-primary"
-                        )}>
-                            <TeamIcon className="mr-2 h-6 w-6"/>
-                            <span>{teamsButtonText}</span>
-                        </Button>
+                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0">
+                            <Button className={cn(
+                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/5 backdrop-blur-sm text-white hover:bg-primary/10",
+                                isTeamsActive ? "bg-primary text-white" : ""
+                            )}>
+                                <TeamIcon className="mr-2 h-6 w-6"/>
+                                <span>{teamsButtonText}</span>
+                            </Button>
+                        </div>
                     </Link>
                     <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
                         <Avatar className="h-[54px] w-[54px]">
