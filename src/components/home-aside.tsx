@@ -24,7 +24,7 @@ const MeetingCard = ({ meeting, onClick }: { meeting: Meeting, onClick: (meeting
         onClick={() => onClick(meeting)}
         className="cursor-pointer hover:shadow-lg rounded-[50px]"
     >
-        <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between">
+        <Card className="w-full h-20 rounded-[50px] py-4 px-6 md:px-10 flex items-center justify-between bg-card">
             <div className="flex-1">
                 <p className="text-base font-medium">{meeting.name}</p>
                 <p className="text-xs text-muted-foreground">{meeting.type === 'lead' ? 'LEAD' : 'CLIENT'} ID: {meeting.id}</p>
@@ -68,7 +68,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                      <div>
                         <div className="flex justify-between items-center mb-3">
                             <h2 className="text-xl font-medium">Meetings</h2>
-                            <Link href={`/organization/${organizationId}/meetings`} className="text-sm text-black hover:text-primary">
+                            <Link href={`/organization/${organizationId}/meetings`} className="text-sm text-black dark:text-white hover:text-primary">
                                 see all meetings
                             </Link>
                         </div>
@@ -87,7 +87,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                             <ProjectTimelineChart data={projectTasksChartData} />
                         )}
                         {myTasksChartData && myTasksChartData.length > 0 && 
-                            <Card className="rounded-[50px] relative">
+                            <Card className="rounded-[50px] relative bg-card">
                                 <CardContent className="pt-10">
                                     <div className="relative">
                                         <TaskOverviewChart data={myTasksChartData} title="My Tasks" />
@@ -97,7 +97,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
                         }
 
                         {assignedTasksChartData && assignedTasksChartData.length > 0 &&
-                            <Card className="rounded-[50px] relative">
+                            <Card className="rounded-[50px] relative bg-card">
                                 <CardContent className="pt-10">
                                     <div className="relative">
                                         <TaskOverviewChart data={assignedTasksChartData} title={<>Assigned<br />Tasks</>} />
@@ -111,3 +111,5 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
         </aside>
     );
 }
+
+    

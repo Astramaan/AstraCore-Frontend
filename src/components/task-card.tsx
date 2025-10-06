@@ -47,7 +47,7 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
             whileHover={{ scale: 1.03 }}
             transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
         >
-            <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-card" onClick={onClick}>
+            <Card className="w-full h-44 rounded-[40px] flex flex-col justify-between p-6 cursor-pointer hover:shadow-lg transition-shadow bg-white dark:bg-card" onClick={onClick}>
                 <div className="flex-1 flex flex-col">
                     <div className="flex justify-between items-start gap-2">
                         <h3 className="text-lg font-medium text-card-foreground line-clamp-1">{task.title}</h3>
@@ -68,7 +68,7 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
                             <Avatar className="w-6 h-6 border-2 border-white dark:border-card"><AvatarImage src="https://picsum.photos/seed/avatar1/25/25" data-ai-hint="person portrait" /></Avatar>
                             <Avatar className="w-6 h-6 border-2 border-white dark:border-card"><AvatarImage src="https://picsum.photos/seed/avatar2/25/25" data-ai-hint="person portrait" /></Avatar>
                         </div>
-                         <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
+                         <Badge variant="outline" className="ml-4 bg-zinc-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-800 text-zinc-900 dark:text-zinc-200">{task.category}</Badge>
                     </div>
                     <div className="text-right flex items-center gap-2">
                          <p className={cn("text-sm font-medium", dateColor)}>Due: {formattedDate}</p>
@@ -78,5 +78,7 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
         </motion.div>
     )
 };
+
+    
 
     

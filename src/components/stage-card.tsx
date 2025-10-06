@@ -82,7 +82,7 @@ export const StageCard = ({
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
                 className={cn(
-                    "rounded-[24px] bg-white transition-shadow p-4 cursor-pointer hover:shadow-lg",
+                    "rounded-[24px] bg-white dark:bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg",
                     className,
                 )}
                 onClick={handleCardClick}
@@ -99,7 +99,7 @@ export const StageCard = ({
                         </div>
                         <div className="flex-1 space-y-1 w-full text-left">
                             <div className="flex justify-between items-start">
-                                <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                                <h3 className="text-foreground text-base font-semibold">{stage.title}</h3>
                                 <Badge className={cn('capitalize', 
                                     stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
                                     stage.status === 'completed' ? 'bg-green-100 text-green-700' :
@@ -110,7 +110,7 @@ export const StageCard = ({
                             <div className="pt-2">
                                 <Progress value={stage.progress} className="h-2" />
                                 <div className="flex justify-between items-center mt-2">
-                                    <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                                    <span className="text-foreground text-xs font-normal">{stage.progress}%</span>
                                     <span className="text-grey-1 text-xs">{stage.date}</span>
                                 </div>
                             </div>
@@ -126,3 +126,5 @@ export const StageCard = ({
         </>
     )
 };
+
+    

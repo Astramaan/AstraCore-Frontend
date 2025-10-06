@@ -72,7 +72,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 2xl:justify-between 2xl:flex">
-            <div className="bg-white rounded-full px-6 py-4 flex flex-row justify-between items-center gap-4 2xl:w-80">
+            <div className="bg-white dark:bg-card rounded-full px-6 py-4 flex flex-row justify-between items-center gap-4 2xl:w-80">
               <div>
                 <p className="text-sm text-muted-foreground">Project Manager</p>
                 <p className="font-semibold">{project.projectManager}</p>
@@ -84,7 +84,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-full py-4 px-6 flex flex-row justify-between items-center gap-4 2xl:w-80">
+            <div className="bg-white dark:bg-card rounded-full py-4 px-6 flex flex-row justify-between items-center gap-4 2xl:w-80">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -101,13 +101,13 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
+                className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
             >
                 Completed Stages
             </Button>
             <Button
                 variant="outline"
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
+                className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                 onClick={onOpenUpcomingTasks}
             >
                 Upcoming Stages
@@ -222,7 +222,7 @@ export default function ArchitectHome() {
                     <h2 className="text-xl font-medium text-left">Project Stage</h2>
                      <div className="w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                            <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
+                            <SelectTrigger className="rounded-full bg-white dark:bg-card h-[54px] px-4 text-lg">
                                 <SelectValue placeholder="Select a Project" />
                             </SelectTrigger>
                             <SelectContent>
@@ -283,6 +283,8 @@ export default function ArchitectHome() {
     );
 }
     
+    
+
     
 
     
