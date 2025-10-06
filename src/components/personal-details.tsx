@@ -244,7 +244,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                             {isOwner && (
                                 <div className="flex flex-col gap-2 md:items-end">
                                     <DialogOrSheetTrigger asChild>
-                                        <Button className="md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20">
+                                        <Button className="md:w-56 h-12 rounded-full text-primary text-base font-medium bg-primary/10 border border-primary hover:bg-primary/20 dark:text-primary dark:bg-primary/10 dark:hover:bg-primary/20">
                                             <Edit className="mr-2 h-4 w-4" />
                                             Edit Profile
                                         </Button>
@@ -309,7 +309,7 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
                          {isOwner && (
                             <div className="hidden lg:flex flex-col space-y-4 lg:pl-8">
                                 <DialogOrSheetTrigger asChild>
-                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20">
+                                    <Button className="w-full md:w-56 h-14 px-10 rounded-full text-primary text-lg font-medium bg-primary/10 border border-primary hover:bg-primary/20 dark:text-primary dark:bg-primary/10 dark:hover:bg-primary/20">
                                         <Edit className="mr-2 h-5 w-5" />
                                         Edit Profile
                                     </Button>
