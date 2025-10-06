@@ -63,20 +63,20 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="hidden md:block text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900 dark:text-white">
+                    <h2 className="hidden md:block text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white dark:text-white">
                         {pageTitle}
                     </h2>
                 </>
              )}
         </div>
-        <div className="hidden md:flex items-center gap-2 lg:gap-4 text-white dark:text-foreground">
+        <div className="hidden md:flex items-center gap-2 lg:gap-4">
             <NotificationPopover />
             {user?.role !== 'CLIENT' && (
                 <>
                     <Link href={`/organization/${organizationId}/teams`}>
                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
-                            <Button className={cn(
-                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/5 dark:bg-white/10 backdrop-blur-sm text-white dark:text-foreground hover:bg-primary/10",
+                             <Button className={cn(
+                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 text-white dark:text-foreground backdrop-blur-sm hover:bg-primary/10",
                                 isTeamsActive ? "bg-primary text-white dark:text-white" : ""
                             )}>
                                 <TeamIcon className="mr-2 h-6 w-6"/>
