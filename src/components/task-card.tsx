@@ -78,3 +78,5 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
         </motion.div>
     )
 };
+
+    

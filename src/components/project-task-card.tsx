@@ -49,7 +49,7 @@ const formatDate = (dateString: string) => {
 export const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
     
     return (
-        <Card className="rounded-[24px] bg-white transition-shadow p-4 cursor-pointer hover:shadow-lg" onClick={() => onStageClick(stage)}>
+        <Card className="rounded-[24px] bg-white dark:bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg" onClick={() => onStageClick(stage)}>
             <div className="flex items-center gap-4">
                 <div className="relative w-24 h-24 shrink-0">
                     <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -77,3 +77,5 @@ export const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStage
         </Card>
     )
 };
+
+    
