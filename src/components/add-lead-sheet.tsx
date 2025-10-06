@@ -33,7 +33,7 @@ import { Lead } from './lead-details-sheet';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className={cn("self-stretch text-lg font-medium", value ? "text-grey-1" : "text-foreground")}>{label}</Label>
+        <Label htmlFor={id} className={cn("self-stretch text-lg font-medium", value ? 'text-grey-1' : 'text-foreground')}>{label}</Label>
         <Input id={id} className="w-full h-14 bg-background rounded-full px-6 text-lg" value={value} {...props} />
     </div>
 );
@@ -116,32 +116,26 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: (lead: Lead) => void })
                     body: JSON.stringify(payload),
                 });
 
+                const data = await res.json().catch(() => ({})); // Catch empty response
+
                 if (res.ok) {
-                    const text = await res.text();
-                    const data = text ? JSON.parse(text) : {};
-                    
-                    if(data.success === false) {
-                        setBackendError(data.message || 'An error occurred on the backend.');
-                    } else {
-                         const newLead: Lead = {
-                            organization: "Your Org", // This might need to be dynamic
-                            leadId: data.data?.leadDisplayId || `LEAD${Date.now()}`,
-                            fullName: fullName,
-                            contact: `${email} | ${phone}`,
-                            phone: phone,
-                            email: email,
-                            address: `Pincode: ${pincode}`,
-                            pincode: pincode,
-                            tokenAmount: "0",
-                            level: 'Level 1',
-                            profileImage: "https://placehold.co/94x94.png",
-                            coverImage: "https://placehold.co/712x144.png",
-                            siteImages: [],
-                         };
-                        onFormSuccess(newLead);
-                    }
+                    const newLead: Lead = {
+                        organization: "Your Org", // This might need to be dynamic
+                        leadId: data.data?.leadDisplayId || `LEAD${Date.now()}`,
+                        fullName: fullName,
+                        contact: `${email} | ${phone}`,
+                        phone: phone,
+                        email: email,
+                        address: `Pincode: ${pincode}`,
+                        pincode: pincode,
+                        tokenAmount: "0",
+                        level: 'Level 1',
+                        profileImage: "https://placehold.co/94x94.png",
+                        coverImage: "https://placehold.co/712x144.png",
+                        siteImages: [],
+                    };
+                    onFormSuccess(newLead);
                 } else {
-                    const data = await res.json().catch(() => ({}));
                     setBackendError(data.message || 'Failed to create lead.');
                 }
             } catch (error) {
@@ -223,6 +217,11 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
                 <SheetContent
                     side="bottom"
                     className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+                    onInteractOutside={(e) => {
+                      if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
+                          e.preventDefault();
+                      }
+                    }}
                 >
                     <SheetHeader className="p-6 border-b">
                         <div className="flex items-center justify-between">
@@ -247,8 +246,8 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
-                title="New Lead Added"
-                message="You can now follow up and manage this lead in AstraCore."
+                title="New Lead Added!"
+                message="Invitation sent successfully. You can now follow up and manage this lead in AstraCore."
             />
         </>
     );

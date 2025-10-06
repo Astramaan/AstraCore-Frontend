@@ -41,15 +41,25 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const res = await fetch(`${API_BASE_URL}/api/v1/org/leads`, {
+        // The frontend sends fullName, phoneNumber, email. The backend expects name, mobileNumber, email, role: 'CLIENT'
+        const payload = {
+            name: body.fullName,
+            email: body.email,
+            mobileNumber: body.phoneNumber,
+            role: 'CLIENT', // Hardcoding as per requirement to invite a client/lead
+        };
+
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/invites`, {
             method: 'POST',
             headers: getAuthHeaders(req),
-            body: JSON.stringify(body),
+            body: JSON.stringify(payload),
         });
         
-        // The backend might return an empty body for success, handle that
         const text = await res.text();
         if (!text) {
+            if (res.ok) {
+                 return new NextResponse(JSON.stringify({ success: true, message: "Invitation sent successfully." }), { status: res.status, headers: { 'Content-Type': 'application/json' } });
+            }
             return new NextResponse(null, { status: res.status });
         }
         
@@ -57,7 +67,7 @@ export async function POST(req: Request) {
         return NextResponse.json(data, { status: res.status });
 
     } catch (error) {
-        console.error("Add lead proxy failed:", error);
+        console.error("Add lead proxy (invite) failed:", error);
         return NextResponse.json({ success: false, message: "An unexpected error occurred." }, { status: 500 });
     }
 }
