@@ -108,32 +108,48 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
 
                   {/* Pushes the More button to the far right */}
                   <div className="ml-auto">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="rounded-full hover:bg-muted/60 transition-colors"
-                        >
-                          <MoreVertical className="w-6 h-6 text-foreground" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
-                        <AlertDialogTrigger asChild>
-                          <DropdownMenuItem
-                            className="text-red-600"
-                            onSelect={(e) => {
-                              e.preventDefault();
-                              onSingleDelete(lead.leadId);
-                            }}
+                    <AlertDialog>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="rounded-full hover:bg-muted/60 transition-colors"
                           >
-                            Delete
-                          </DropdownMenuItem>
-                        </AlertDialogTrigger>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                            <MoreVertical className="w-6 h-6 text-foreground" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
+                          <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem
+                              className="text-red-600"
+                              onSelect={(e) => e.preventDefault()}
+                            >
+                              Delete
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <AlertDialogContent className="max-w-md rounded-[50px]">
+                        <AlertDialogHeader className="items-center text-center">
+                          <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                            <div className="w-full h-full bg-red-600/5 rounded-full" />
+                            <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                            <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                          </div>
+                          <AlertDialogTitle className="text-2xl font-semibold">Confirm Lead Deletion?</AlertDialogTitle>
+                          <AlertDialogDescription className="text-lg text-muted-foreground">
+                            Deleting this lead will permanently remove all associated data from AstraCore. This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                          <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => onSingleDelete(lead.leadId)} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </div>
             </div>
@@ -154,7 +170,8 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         <p className="text-xl font-semibold text-foreground">{lead.fullName}</p>
                     </div>
                 </div>
-                 <DropdownMenu>
+                <AlertDialog>
+                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="w-6 h-6" />
@@ -163,11 +180,29 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                     <DropdownMenuContent>
                         <DropdownMenuItem onSelect={() => onViewDetails(lead)}>View Details</DropdownMenuItem>
                         <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
-                        <AlertDialogTrigger asChild>
-                            <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); onSingleDelete(lead.leadId); }}>Delete</DropdownMenuItem>
+                         <AlertDialogTrigger asChild>
+                            <DropdownMenuItem className="text-red-600" onSelect={(e) => { e.preventDefault(); }}>Delete</DropdownMenuItem>
                         </AlertDialogTrigger>
                     </DropdownMenuContent>
-                </DropdownMenu>
+                  </DropdownMenu>
+                   <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                        <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Confirm Lead Deletion?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-muted-foreground">
+                            Deleting this lead will permanently remove all associated data from AstraCore. This action cannot be undone.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => onSingleDelete(lead.leadId)} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
             </div>
             <div className="mt-4 ml-0 space-y-2 grid grid-cols-2 gap-4">
                 <div className="col-span-2">
@@ -252,36 +287,59 @@ const LeadCardSkeleton = () => (
 );
 
 
-const FloatingActionBar = ({ onSelectAll, allSelected, onDeleteMultiple, onBulkLevelChange, selectedCount }: { selectedCount: number, onSelectAll: (checked: boolean) => void, allSelected: boolean, onDeleteMultiple: () => void, onBulkLevelChange: (level: string) => void }) => {
-    return (
-        <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[90%] md:max-w-[828px] h-20 bg-card rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-4 md:px-6 z-50">
-            <div className="hidden md:flex items-center gap-4">
-                <Checkbox id="select-all-floating" className="w-6 h-6 rounded-full" checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
-                <label htmlFor="select-all-floating" className="text-lg font-medium">{allSelected ? 'Deselect all' : 'Select all'}</label>
-            </div>
-            <p className="text-sm md:text-lg font-medium">{selectedCount} Selected</p>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="h-14 px-4 md:px-6 rounded-full text-muted-foreground text-sm md:text-lg font-medium md:w-48 justify-between hover:bg-primary/10 hover:text-primary">
-                        Lead Level
-                        <ChevronDown className="ml-2"/>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 1')}>Level 1</DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 2')}>Level 2</DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => onBulkLevelChange('Level 3')}>Level 3</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-            <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium" onClick={onDeleteMultiple}>
-                    <Trash2 className="md:mr-2" />
-                    <span className="hidden md:inline">Delete</span>
-                </Button>
-            </AlertDialogTrigger>
-        </div>
-    )
-}
+const FloatingActionBar = ({
+  onSelectAll,
+  allSelected,
+  onBulkLevelChange,
+  selectedCount,
+  deleteTrigger,
+}: {
+  selectedCount: number;
+  onSelectAll: (checked: boolean) => void;
+  allSelected: boolean;
+  onBulkLevelChange: (level: string) => void;
+  deleteTrigger: React.ReactNode;
+}) => {
+  return (
+    <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[90%] md:max-w-[828px] h-20 bg-card rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] flex items-center justify-between px-4 md:px-6 z-50">
+      <div className="hidden md:flex items-center gap-4">
+        <Checkbox
+          id="select-all-floating"
+          className="w-6 h-6 rounded-full"
+          checked={allSelected}
+          onCheckedChange={(checked) => onSelectAll(!!checked)}
+        />
+        <label htmlFor="select-all-floating" className="text-lg font-medium">
+          {allSelected ? "Deselect all" : "Select all"}
+        </label>
+      </div>
+      <p className="text-sm md:text-lg font-medium">{selectedCount} Selected</p>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className="h-14 px-4 md:px-6 rounded-full text-muted-foreground text-sm md:text-lg font-medium md:w-48 justify-between hover:bg-primary/10 hover:text-primary"
+          >
+            Lead Level
+            <ChevronDown className="ml-2" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={() => onBulkLevelChange("Level 1")}>
+            Level 1
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => onBulkLevelChange("Level 2")}>
+            Level 2
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => onBulkLevelChange("Level 3")}>
+            Level 3
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {deleteTrigger}
+    </div>
+  );
+};
 
 
 export default function LeadsPage() {
@@ -290,13 +348,11 @@ export default function LeadsPage() {
     const organizationId = params.organizationId as string;
     const [allLeads, setAllLeads] = useState<Lead[]>([]);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
-    const [leadToDelete, setLeadToDelete] = useState<string[]>([]);
     const [contactedLead, setContactedLead] = useState<Lead | null>(null);
     const [isUpdateLevelDialogOpen, setIsUpdateLevelDialogOpen] = useState(false);
-    const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLeadDetails, setSelectedLeadDetails] = useState<Lead | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isEditing, setIsEditing] = useState(isEditing);
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchLeads = async () => {
@@ -373,24 +429,20 @@ export default function LeadsPage() {
         }
     };
     
-    const handleDelete = () => {
-        setAllLeads(prev => prev.filter(lead => !leadToDelete.includes(lead.leadId)));
-        setSelectedLeads(prev => prev.filter(id => !leadToDelete.includes(id)));
-        setLeadToDelete([]);
-        setIsDeleteConfirmationOpen(false);
-        if (selectedLeadDetails && leadToDelete.includes(selectedLeadDetails.leadId)) {
+    const handleDelete = (leadsToDelete: string[]) => {
+        setAllLeads(prev => prev.filter(lead => !leadsToDelete.includes(lead.leadId)));
+        setSelectedLeads(prev => prev.filter(id => !leadsToDelete.includes(id)));
+        if (selectedLeadDetails && leadsToDelete.includes(selectedLeadDetails.leadId)) {
             setSelectedLeadDetails(null);
         }
     }
 
     const handleSingleDelete = (id: string) => {
-        setLeadToDelete([id]);
-        setIsDeleteConfirmationOpen(true);
+        handleDelete([id]);
     }
     
     const handleDeleteMultiple = () => {
-        setLeadToDelete(selectedLeads);
-        setIsDeleteConfirmationOpen(true);
+        handleDelete(selectedLeads);
     }
 
     const handleContact = (lead: Lead) => {
@@ -439,8 +491,7 @@ export default function LeadsPage() {
     }
 
     const onDeleteFromDetails = (id: string) => {
-        setLeadToDelete([id]);
-        setIsDeleteConfirmationOpen(true);
+        handleDelete([id]);
         setSelectedLeadDetails(null);
     };
 
@@ -482,57 +533,33 @@ export default function LeadsPage() {
                 </div>
             </div>
 
-             <AlertDialog open={isDeleteConfirmationOpen} onOpenChange={setIsDeleteConfirmationOpen}>
-                <div className="flex flex-col bg-card rounded-[30px] overflow-hidden">
-                    {isLoading ? (
-                        Array.from({ length: 3 }).map((_, i) => <LeadCardSkeleton key={i} />)
-                    ) : filteredLeads.length > 0 ? (
-                        filteredLeads.map((lead, index) => (
-                            <LeadCard 
-                                key={`${lead.leadId}-${index}`} 
-                                lead={lead} 
-                                organizationId={organizationId}
-                                onSelectionChange={handleSelectionChange}
-                                isSelected={selectedLeads.includes(lead.leadId)}
-                                onSingleDelete={handleSingleDelete}
-                                onContact={handleContact}
-                                onViewDetails={handleViewDetails}
-                                onLevelChange={handleLevelChange}
-                                onEdit={handleEdit}
-                                isFirst={index === 0}
-                                isLast={index === filteredLeads.length - 1}
-                            />
-                        ))
-                    ) : (
-                        <div className="text-center py-10 text-muted-foreground">
-                            <p>No leads found.</p>
-                            <p>Get started by adding a new lead!</p>
-                        </div>
-                    )}
-                </div>
-                <AlertDialogContent className="max-w-md rounded-[50px]">
-                    <AlertDialogHeader className="items-center text-center">
-                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                          <div className="w-full h-full bg-red-600/5 rounded-full" />
-                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-                        </div>
-                        <AlertDialogTitle className="text-2xl font-semibold">
-                            {leadToDelete.length > 1 ? "Delete Selected Leads?" : "Confirm Lead Deletion?"}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-muted-foreground">
-                            {leadToDelete.length > 1 
-                                ? "The selected leads and all associated data will be permanently removed from AstraCore." 
-                                : "Deleting this lead will permanently remove all associated data from AstraCore. This action cannot be undone."
-                            }
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <div className="flex flex-col bg-card rounded-[30px] overflow-hidden">
+                {isLoading ? (
+                    Array.from({ length: 3 }).map((_, i) => <LeadCardSkeleton key={i} />)
+                ) : filteredLeads.length > 0 ? (
+                    filteredLeads.map((lead, index) => (
+                        <LeadCard 
+                            key={`${lead.leadId}-${index}`} 
+                            lead={lead} 
+                            organizationId={organizationId}
+                            onSelectionChange={handleSelectionChange}
+                            isSelected={selectedLeads.includes(lead.leadId)}
+                            onSingleDelete={handleSingleDelete}
+                            onContact={handleContact}
+                            onViewDetails={handleViewDetails}
+                            onLevelChange={handleLevelChange}
+                            onEdit={handleEdit}
+                            isFirst={index === 0}
+                            isLast={index === filteredLeads.length - 1}
+                        />
+                    ))
+                ) : (
+                    <div className="text-center py-10 text-muted-foreground">
+                        <p>No leads found.</p>
+                        <p>Get started by adding a new lead!</p>
+                    </div>
+                )}
+            </div>
             
             <Dialog open={isUpdateLevelDialogOpen} onOpenChange={setIsUpdateLevelDialogOpen}>
                 <DialogContent className="sm:max-w-sm rounded-3xl p-8">
@@ -571,14 +598,43 @@ export default function LeadsPage() {
             />
 
             {selectedLeads.length > 0 && (
-                <FloatingActionBar 
-                    selectedCount={selectedLeads.length}
-                    onSelectAll={handleSelectAll}
-                    allSelected={allLeadsSelected}
-                    onDeleteMultiple={handleDeleteMultiple}
-                    onBulkLevelChange={handleBulkLevelChange}
-                />
+                <AlertDialog>
+                  <FloatingActionBar 
+                      selectedCount={selectedLeads.length}
+                      onSelectAll={handleSelectAll}
+                      allSelected={allLeadsSelected}
+                      onBulkLevelChange={handleBulkLevelChange}
+                      deleteTrigger={
+                          <AlertDialogTrigger asChild>
+                              <Button variant="destructive" className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-red-600 text-sm md:text-lg font-medium">
+                                  <Trash2 className="md:mr-2" />
+                                  <span className="hidden md:inline">Delete</span>
+                              </Button>
+                          </AlertDialogTrigger>
+                      }
+                  />
+                  <AlertDialogContent className="max-w-md rounded-[50px]">
+                      <AlertDialogHeader className="items-center text-center">
+                           <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                            <div className="w-full h-full bg-red-600/5 rounded-full" />
+                            <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                            <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                          </div>
+                          <AlertDialogTitle className="text-2xl font-semibold">Delete Selected Leads?</AlertDialogTitle>
+                          <AlertDialogDescription className="text-lg text-muted-foreground">
+                              The selected leads and all associated data will be permanently removed from AstraCore.
+                          </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                          <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-muted/80">Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteMultiple} className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Delete</AlertDialogAction>
+                      </AlertDialogFooter>
+                  </AlertDialogContent>
+              </AlertDialog>
             )}
         </div>
     );
 }
+
+
+    
