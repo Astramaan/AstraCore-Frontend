@@ -91,7 +91,7 @@ export const OrganizationHeader = () => {
                     </Link>
                     <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
                         <Avatar className="h-[54px] w-[54px]">
-                            <AvatarImage src="https://images.unsplash.com/photo-1615109398623-88346a601842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxNYW58ZW58MHx8fHwxNzU5NzQ3MTU4fDA&ixlib=rb-4.1.0&q=80&w=1080" data-ai-hint="person portrait" />
+                            <AvatarImage src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8bWFufGVufDB8fHx8MTc1OTY3MDIwOHww&ixlib=rb-4.1.0&q=80&w=1080" data-ai-hint="person portrait" />
                             <AvatarFallback>{userInitials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden lg:block">
@@ -122,7 +122,7 @@ export const OrganizationHeader = () => {
                                 <>
                                     <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
                                         <Avatar className="h-[54px] w-[54px]">
-                                            <AvatarImage src="https://images.unsplash.com/photo-1615109398623-88346a601842?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxNYW58ZW58MHx8fHwxNzU5NzQ3MTU4fDA&ixlib=rb-4.1.0&q=80&w=1080" data-ai-hint="person portrait" />
+                                            <AvatarImage src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8bWFufGVufDB8fHx8MTc1OTY3MDIwOHww&ixlib=rb-4.1.0&q=80&w=1080" data-ai-hint="person portrait" />
                                             <AvatarFallback>{userInitials}</AvatarFallback>
                                         </Avatar>
                                         <div>
