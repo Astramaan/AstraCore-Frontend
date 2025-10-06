@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -41,36 +40,29 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
         </Button>
     )
 
-    const DialogOrSheet = Sheet;
-    const DialogOrSheetTrigger = SheetTrigger;
-    const DialogOrSheetContent = SheetContent;
-    const DialogOrSheetHeader = SheetHeader;
-    const DialogOrSheetTitle = SheetTitle;
-    const DialogOrSheetClose = SheetClose;
-
     return (
-        <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
-            <DialogOrSheetTrigger asChild>
+        <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+            <SheetTrigger asChild>
                 {trigger || defaultTrigger}
-            </DialogOrSheetTrigger>
-            <DialogOrSheetContent 
+            </SheetTrigger>
+            <SheetContent 
                 side="bottom"
                 className={cn(
                     "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none"
                 )}
             >
-                 <DialogOrSheetHeader className="p-6 border-b">
-                    <DialogOrSheetTitle className="flex justify-between items-center">
+                 <SheetHeader className="p-6 border-b">
+                    <SheetTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">
                            Change Password
                         </span>
-                        <DialogOrSheetClose asChild>
+                        <SheetClose asChild>
                             <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background hover:bg-muted rounded-full">
                                 <X />
                             </Button>
-                        </DialogOrSheetClose>
-                    </DialogOrSheetTitle>
-                </DialogOrSheetHeader>
+                        </SheetClose>
+                    </SheetTitle>
+                </SheetHeader>
                 <div className="px-6 pb-6 flex-1 flex flex-col">
                     {!showSuccess ? (
                         <ChangePasswordForm email={email} onSuccess={handlePasswordSuccess} />
@@ -88,7 +80,7 @@ export const ChangePasswordDialog = ({ email, trigger }: { email: string, trigge
                         </div>
                     )}
                 </div>
-            </DialogOrSheetContent>
-        </DialogOrSheet>
+            </SheetContent>
+        </Sheet>
     );
 };
