@@ -144,7 +144,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
 
             <div className="flex items-center justify-between gap-4">
                  <p className="text-lg"><span className="text-muted-foreground">Total Members: </span><span className="text-foreground font-medium">{String(role.total).padStart(2, '0')}</span></p>
-                <Button className="h-14 px-10 rounded-full bg-background dark:bg-zinc-800 text-foreground hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-14 px-10 rounded-full bg-background dark:bg-card text-foreground hover:bg-muted text-lg font-medium" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
 
@@ -166,7 +166,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
                  <div>
                     <p className="text-base text-muted-foreground">Total Members: <span className="text-foreground font-medium block">{String(role.total).padStart(2, '0')}</span></p>
                 </div>
-                <Button className="h-12 px-6 col-span-2 rounded-full bg-background dark:bg-zinc-800 text-foreground hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
+                <Button className="h-12 px-6 col-span-2 rounded-full bg-background dark:bg-card text-foreground hover:bg-muted text-base font-medium self-end" onClick={() => onViewMembers(role)}>View Members</Button>
             </div>
         </div>
         <Separator className="last:hidden"/>
