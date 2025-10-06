@@ -11,7 +11,6 @@ import ProjectsIcon from './icons/projects-icon';
 import VendorsIcon from './icons/vendors-icon';
 import LeadsIcon from './icons/leads-icon';
 import { useUser } from '@/context/user-context';
-import TeamIcon from './icons/team-icon';
 import { GanttChartSquare } from 'lucide-react';
 
 const navItems = [
@@ -54,8 +53,8 @@ export const OrganizationBottomNav = () => {
                              <Link href={baseHref} key={item.label} title={item.label} className="flex-shrink-0">
                                 <div className={cn(
                                     "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
-                                    "rounded-full h-12 md:h-14",
-                                    isActive ? "bg-primary text-white px-4" : "bg-black/10 text-white w-12 md:w-14"
+                                    "rounded-full h-[54px] md:h-14",
+                                    isActive ? "bg-primary text-white px-4" : "bg-black/10 text-white w-[54px] md:w-14"
                                 )}>
                                     <item.icon className="w-6 h-6 shrink-0" />
                                     <span className={cn(
