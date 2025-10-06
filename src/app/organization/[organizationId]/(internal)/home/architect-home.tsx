@@ -282,8 +282,9 @@ export default function ArchitectHome() {
         </div>
     );
 }
-
     
+    
+
     
 
     
