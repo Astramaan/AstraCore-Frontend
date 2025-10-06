@@ -180,8 +180,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Gilroy', sans-serif;
+    @apply bg-background text-foreground font-sans;
   }
   
   body[data-scroll-locked='true'] {
