@@ -2,10 +2,9 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Monitor, Sun, Moon, Languages } from 'lucide-react';
+import { Monitor, Sun, Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
 
@@ -34,22 +33,6 @@ export const SettingsCard = () => {
                             <SelectItem value="light">Light</SelectItem>
                             <SelectItem value="dark">Dark</SelectItem>
                             <SelectItem value="system">System</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                 <div className="flex justify-between items-center">
-                    <Label className="text-lg font-medium text-foreground/80">Language</Label>
-                     <Select defaultValue="en">
-                        <SelectTrigger className="w-[180px] h-14 rounded-full bg-background dark:bg-card">
-                            <div className="flex items-center gap-2">
-                                <Languages className="h-5 w-5 text-muted-foreground"/>
-                                <SelectValue placeholder="Select language" />
-                            </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="en">English</SelectItem>
-                            <SelectItem value="es">Español</SelectItem>
-                            <SelectItem value="fr">Français</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
