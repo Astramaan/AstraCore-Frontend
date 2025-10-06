@@ -6,9 +6,10 @@ import { VendorDetailsCard } from '@/components/vendor-details-card';
 import { VendorAccountDetailsCard } from '@/components/vendor-account-details-card';
 import { VendorMaterialsCard } from '@/components/vendor-materials-card';
 import { Button } from '@/components/ui/button';
-import { Edit, Save } from 'lucide-react';
+import { Edit, Save, ChevronLeft } from 'lucide-react';
 import React, { useState } from 'react';
 import { AddVendorSheet } from '@/components/add-vendor-sheet';
+import { useRouter } from 'next/navigation';
 
 const mockVendor = {
     id: "1",
@@ -43,8 +44,8 @@ const mockVendor = {
     ]
 };
 
-export default function VendorDetailsPage({ params }: { params: { vendorId: string } }) {
-    // In a real app, you would fetch vendor data based on params.vendorId
+export default function VendorDetailsPage({ params }: { params: { vendorId: string, organizationId: string } }) {
+    const router = useRouter();
     const [vendor, setVendor] = useState(mockVendor);
     const [isEditing, setIsEditing] = useState(false);
     
@@ -58,21 +59,27 @@ export default function VendorDetailsPage({ params }: { params: { vendorId: stri
         <div className="space-y-6">
              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-medium">Details</h2>
-                <AddVendorSheet 
-                    vendorToEdit={vendor}
-                    onVendorUpdated={handleUpdate}
-                    triggerButton={
-                         <Button className="h-14 px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
-                            <Edit className="mr-2 h-5 w-5" />
-                            Edit
-                        </Button>
-                    }
-                />
+                <div className="flex items-center gap-4">
+                    <Button variant="outline" onClick={() => router.back()} className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary">
+                        <ChevronLeft className="mr-2 h-4 w-4" />
+                        Back
+                    </Button>
+                    <AddVendorSheet 
+                        vendorToEdit={vendor}
+                        onVendorUpdated={handleUpdate}
+                        triggerButton={
+                            <Button className="h-[54px] px-6 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 text-lg font-medium">
+                                <Edit className="mr-2 h-5 w-5" />
+                                Edit
+                            </Button>
+                        }
+                    />
+                </div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
                 <VendorDetailsCard vendor={vendor} setVendor={setVendor} isEditing={false} />
                 <div className="space-y-6 lg:w-[564px]">
-                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails: any) => setVendor((v: any) => ({...v, accountDetails: newDetails}))} isEditing={false} />
+                    <VendorAccountDetailsCard details={vendor.accountDetails} setDetails={(newDetails) => setVendor((v: any) => ({...v, accountDetails: newDetails}))} isEditing={false} />
                     <VendorMaterialsCard materials={vendor.materials} setMaterials={(newMaterials: any) => setVendor((v: any) => ({...v, materials: newMaterials}))} isEditing={false} />
                 </div>
             </div>
