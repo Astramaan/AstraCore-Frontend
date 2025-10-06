@@ -63,7 +63,7 @@ export const OrganizationHeader = () => {
              {pageTitle && (
                 <>
                     <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                    <h2 className="hidden md:block text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white dark:text-white">
+                    <h2 className="hidden md:block text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white">
                         {pageTitle}
                     </h2>
                 </>
@@ -76,15 +76,15 @@ export const OrganizationHeader = () => {
                     <Link href={`/organization/${organizationId}/teams`}>
                         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                              <Button className={cn(
-                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10",
-                                isTeamsActive ? "bg-primary text-black dark:text-black" : "text-white dark:text-white"
+                                "rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-white/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 text-white dark:text-white",
+                                isTeamsActive && "bg-primary text-white dark:text-black"
                             )}>
                                 <TeamIcon className={cn(
                                     "mr-2 h-6 w-6",
-                                    isTeamsActive ? "text-black dark:text-black" : "text-white dark:text-white"
+                                    isTeamsActive ? "text-white dark:text-black" : "text-white"
                                 )}/>
                                 <span className={cn(
-                                    isTeamsActive ? "text-black dark:text-black" : "text-white dark:text-white"
+                                    isTeamsActive ? "text-white dark:text-black" : "text-white"
                                 )}>{teamsButtonText}</span>
                             </Button>
                         </div>
@@ -95,8 +95,8 @@ export const OrganizationHeader = () => {
                             <AvatarFallback>{userInitials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden lg:block">
-                            <p className="text-base lg:text-lg font-medium text-white dark:text-white">{userName}</p>
-                            <p className="text-sm lg:text-base text-white/80 dark:text-white/80">{userTeam}</p>
+                            <p className="text-base lg:text-lg font-medium text-white">{userName}</p>
+                            <p className="text-sm lg:text-base text-white/80">{userTeam}</p>
                         </div>
                     </Link>
                 </>
@@ -106,9 +106,11 @@ export const OrganizationHeader = () => {
             <NotificationPopover />
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="bg-white dark:bg-card rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary">
-                        <Menu className="h-6 w-6" />
-                    </Button>
+                    <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0">
+                        <Button variant="ghost" size="icon" className="bg-black/10 backdrop-blur-sm rounded-full h-12 w-12 hover:bg-primary/10 hover:text-primary text-white">
+                            <Menu className="h-6 w-6" />
+                        </Button>
+                    </div>
                 </SheetTrigger>
                 <SheetContent className="bg-card">
                     <SheetHeader>
