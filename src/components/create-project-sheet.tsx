@@ -29,7 +29,8 @@ import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { addProject, getLeadByEmail, updateProject } from '@/app/actions';
+import { getLeadByEmail, updateProject } from '@/app/actions';
+import { useRouter } from 'next/navigation';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { Card, CardContent } from './ui/card';
 import { useUser } from '@/context/user-context';
@@ -435,6 +436,8 @@ const ProjectTimelineForm = ({
 }) => {
     const { toast } = useToast();
     const { user } = useUser();
+    const router = useRouter();
+
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [isPending, startTransition] = useTransition();
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
@@ -483,17 +486,47 @@ const ProjectTimelineForm = ({
             phases: timelineData, 
             startDate: startDate?.toISOString() 
         };
-        
+
         startTransition(async () => {
-            const action = isEditMode ? updateProject : addProject;
-            const result = await action(isEditMode ? { ...fullData, id: projectData.id } : fullData);
-            if (result.success) {
-                onFormSuccess(result.data);
-            } else {
-                toast({
+            const action = isEditMode ? updateProject : (payload: any) => fetch('/api/projects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            try {
+                let result: { success: boolean; data?: any; message?: string; };
+                if(isEditMode) {
+                    result = await updateProject({ ...fullData, id: projectData.id });
+                } else {
+                    const response = await fetch('/api/projects', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(fullData)
+                    });
+                    const resData = await response.json();
+                     if (response.ok) {
+                        result = { success: true, data: resData.data }
+                    } else {
+                        result = { success: false, message: resData.message || 'Failed to create project.' };
+                    }
+                }
+                
+                if (result.success) {
+                    onFormSuccess(result.data);
+                    router.refresh();
+                } else {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: result.message || `Failed to ${isEditMode ? 'update' : 'create'} project.`,
+                    });
+                }
+            } catch (error) {
+                 toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: result.message || `Failed to ${isEditMode ? 'update' : 'create'} project.`,
+                    description: 'An unexpected error occurred.',
                 });
             }
         });
@@ -612,7 +645,14 @@ const ProjectTimelineForm = ({
     );
 };
 
-const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: { isOpen: boolean, onClose: () => void, onSave: (template: TimelineTemplate) => void, templateToEdit: TimelineTemplate | null | undefined }) => {
+interface CustomTimelineDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (template: TimelineTemplate) => void;
+  templateToEdit: TimelineTemplate | null;
+}
+
+const CustomTimelineDialog = ({ isOpen, onClose, onSave, templateToEdit }: CustomTimelineDialogProps) => {
     const { toast } = useToast();
     const isMobile = useIsMobile();
     const [templateName, setTemplateName] = useState('');
@@ -912,6 +952,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
