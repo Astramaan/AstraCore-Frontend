@@ -51,14 +51,14 @@ export const OrganizationBottomNav = () => {
                             const baseHref = `/organization/${organizationId}${item.href}`;
                             const isActive = pathname.startsWith(baseHref);
                             return (
-                                <Link href={baseHref} key={item.label} title={item.label} className="flex-shrink-0">
+                                <Link href={baseHref} key={item.label} title={item.label} className="flex-shrink-0 group">
                                     <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                                         <div className={cn(
                                             "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
                                             "rounded-full h-[54px] md:h-14",
-                                            isActive ? "bg-primary text-white dark:text-black px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10 hover:text-primary"
+                                            isActive ? "bg-primary text-white dark:text-black px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10"
                                         )}>
-                                            <item.icon className="w-6 h-6 shrink-0" />
+                                            <item.icon className={cn("w-6 h-6 shrink-0", !isActive && "group-hover:text-primary")} />
                                             {isActive && (
                                                 <span className={cn(
                                                     "text-xs md:text-base font-medium whitespace-nowrap"
