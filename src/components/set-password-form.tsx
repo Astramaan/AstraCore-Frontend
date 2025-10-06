@@ -65,14 +65,14 @@ export default function SetPasswordForm({ flow }: { flow: 'set-password' | 'forg
 
   return (
     <>
-      <h2 className="text-lg text-grey-1 tracking-tight mb-8">{config.title}</h2>
+      <h2 className="text-lg text-muted-foreground tracking-tight mb-8">{config.title}</h2>
       <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
         <div className="flex-grow">
           <div className="space-y-2">
-            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-grey-1' : 'text-black')}>{config.label}</Label>
+            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-muted-foreground' : 'text-foreground')}>{config.label}</Label>
             <div className="relative flex items-center">
               <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
-              <div className="absolute left-14 h-6 w-px bg-grey-2" />
+              <div className="absolute left-14 h-6 w-px bg-border" />
               <Input
                 id="email"
                 name="email"

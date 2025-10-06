@@ -108,7 +108,7 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 flex flex-col flex-grow">
         <div className="flex-grow space-y-6">
-            <div className="text-lg text-grey-1">
+            <div className="text-lg text-muted-foreground">
                 Check your inbox at {email}. 
                 {flow !== 'change-password' && (
                     <>
@@ -121,7 +121,7 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
             </div>
 
             <div className="space-y-2">
-                <Label className={cn("text-lg font-medium", hasOtp ? 'text-grey-1' : 'text-black')}>Enter OTP</Label>
+                <Label className={cn("text-lg font-medium", hasOtp ? 'text-muted-foreground' : 'text-foreground')}>Enter OTP</Label>
                 <div className="flex justify-between gap-2 md:gap-4">
                 {otp.map((data, index) => (
                     <Input
@@ -143,11 +143,11 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
             <div className="flex justify-between items-center text-sm">
                 <div>
                     <span className="text-muted-foreground">Didn’t receive OTP? </span>
-                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-black underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
+                    <button type="button" onClick={handleResend} disabled={timer > 0} className="font-medium text-foreground underline hover:text-primary disabled:text-muted-foreground disabled:no-underline disabled:cursor-not-allowed">
                         Resend
                     </button>
                 </div>
-                <div className="text-black font-mono">
+                <div className="text-foreground font-mono">
                     00:{timer.toString().padStart(2, '0')}
                 </div>
             </div>

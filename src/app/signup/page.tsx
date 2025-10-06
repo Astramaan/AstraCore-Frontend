@@ -27,7 +27,7 @@ export default function SignupPage({ searchParams }: { searchParams: { [key:stri
           <div className="bg-card rounded-t-[50px] px-4 py-8 -mt-[69px] md:mt-0 relative flex flex-col md:py-6 md:pl-10 md:pr-6 md:w-[448px] w-full">
             <div className="mx-auto w-full max-w-md flex flex-col h-full">
               <HabiLogo />
-              <p className="text-lg text-grey-1 mt-6 md:mt-8 mb-6 md:mb-0">Sign up to manage and grow<br className="md:hidden"/> your projects.</p>
+              <p className="text-lg text-muted-foreground mt-6 md:mt-8 mb-6 md:mb-0">Sign up to manage and grow<br className="md:hidden"/> your projects.</p>
               <div className="mt-0 md:mt-8 flex-grow flex flex-col">
                 <SignupForm />
               </div>

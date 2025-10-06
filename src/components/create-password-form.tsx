@@ -74,7 +74,7 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
     <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
       <div className="space-y-6 flex-grow">
         <div className="space-y-2">
-            <Label htmlFor="password" className={cn("text-lg font-medium")}>New Password</Label>
+            <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-muted-foreground' : 'text-foreground')}>New Password</Label>
             <div className="relative flex items-center">
               <Input 
                 id="password" 
@@ -97,7 +97,7 @@ export default function CreatePasswordForm({ searchParams }: { searchParams: { [
             </div>
         </div>
         <div className="space-y-2">
-            <Label htmlFor="confirm-password" className={cn("text-lg font-medium")}>Confirm New Password</Label>
+            <Label htmlFor="confirm-password" className={cn("text-lg font-medium", confirmPassword ? 'text-muted-foreground' : 'text-foreground')}>Confirm New Password</Label>
             <div className="relative flex items-center">
               <Input 
                 id="confirm-password" 
