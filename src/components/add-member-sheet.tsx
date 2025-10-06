@@ -28,7 +28,7 @@ import { useUser } from '@/context/user-context';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-black')}>{label}</Label>
+        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-muted-foreground' : 'text-foreground')}>{label}</Label>
         <Input id={id} className="w-full h-14 bg-input rounded-[50px] px-6 text-lg" value={value} {...props} />
     </div>
 );
@@ -129,7 +129,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                 {!isTeamAdmin && (
                     <>
                         <div className="space-y-2">
-                            <Label htmlFor="team-select" className={cn("text-lg font-medium", team ? 'text-grey-1' : 'text-black')}>Team</Label>
+                            <Label htmlFor="team-select" className={cn("text-lg font-medium", team ? 'text-muted-foreground' : 'text-foreground')}>Team</Label>
                             <Select name="team" onValueChange={setTeam} value={team} required>
                                 <SelectTrigger id="team-select" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a team" />
@@ -143,7 +143,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="role-select" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>Role Type</Label>
+                            <Label htmlFor="role-select" className={cn("text-lg font-medium", role ? 'text-muted-foreground' : 'text-foreground')}>Role Type</Label>
                             <Select name="roleType" onValueChange={setRole} value={role} required>
                                 <SelectTrigger id="role-select" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
                                     <SelectValue placeholder="Select a role" />
@@ -203,9 +203,9 @@ export function AddMemberSheet({ isOpen: controlledIsOpen, onOpenChange: control
       )}
       <SheetContent 
           side="bottom"
-          className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+          className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
       >
-          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <SheetHeader className="p-6 border-b">
               <div className="flex items-center justify-between">
                 <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
