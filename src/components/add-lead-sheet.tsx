@@ -33,7 +33,7 @@ import { Lead } from './lead-details-sheet';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className={cn("self-stretch text-lg font-medium", value ? "text-grey-1" : "text-black")}>{label}</Label>
+        <Label htmlFor={id} className={cn("self-stretch text-lg font-medium", value ? "text-grey-1" : "text-foreground")}>{label}</Label>
         <Input id={id} className="w-full h-14 bg-background rounded-full px-6 text-lg" value={value} {...props} />
     </div>
 );
@@ -222,7 +222,7 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
                 </SheetTrigger>
                 <SheetContent
                     side="bottom"
-                    className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+                    className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
                 >
                     <SheetHeader className="p-6 border-b">
                         <div className="flex items-center justify-between">
