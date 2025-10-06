@@ -222,7 +222,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                                                             <CommandItem
                                                                 key={contact.id}
                                                                 value={contact.email}
-                                                                onSelect={() => handleEmailSelect(contact.email)}
+                                                                onSelect={(currentValue) => {
+                                                                    handleEmailSelect(currentValue);
+                                                                }}
                                                             >
                                                                 <Check className={cn("mr-2 h-4 w-4", email === contact.email ? "opacity-100" : "opacity-0")} />
                                                                 {contact.email}
@@ -918,6 +920,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
 
 
     
+
 
 
 
