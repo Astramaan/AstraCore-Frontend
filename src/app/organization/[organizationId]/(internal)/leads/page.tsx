@@ -71,10 +71,6 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                         <span className="text-muted-foreground">Email: </span> 
                         <span className="text-foreground">{lead.email}</span>
                     </p>
-                    <p className="text-lg">
-                        <span className="text-muted-foreground">Lead ID: </span> 
-                        <span className="text-foreground">{lead.leadId}</span>
-                    </p>
                 </div>
 
                 {/* Col 3: Actions */}
@@ -180,9 +176,6 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                 <div>
                      <p className="text-base"><span className="text-muted-foreground">Email: </span><span className="text-foreground">{lead.email}</span></p>
                 </div>
-                <div>
-                     <p className="text-base"><span className="text-muted-foreground">Lead ID: </span><span className="text-foreground">{lead.leadId}</span></p>
-                </div>
                 <div className="col-span-2 flex flex-col sm:flex-row items-center gap-4 pt-2 w-full">
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -225,7 +218,6 @@ const LeadCardSkeleton = () => (
                 </div>
                 <div className="space-y-2 border-l border-gray-200 px-6">
                     <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-5 w-28" />
                 </div>
                 <div className="flex items-center justify-between border-l border-gray-200 px-6">
                     <Skeleton className="h-14 w-32 rounded-full" />
@@ -245,7 +237,6 @@ const LeadCardSkeleton = () => (
             <div className="mt-4 space-y-4">
                 <Skeleton className="h-5 w-full" />
                 <div className="grid grid-cols-2 gap-4">
-                    <Skeleton className="h-5 w-full" />
                     <Skeleton className="h-5 w-full" />
                 </div>
                 <div className="flex gap-4 pt-2">
@@ -364,8 +355,7 @@ export default function LeadsPage() {
         });
         if (!searchTerm) return leads;
         return leads.filter(lead =>
-            lead.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            lead.leadId.toLowerCase().includes(searchTerm.toLowerCase())
+            lead.fullName.toLowerCase().includes(searchTerm.toLowerCase())
         );
     }, [allLeads, searchTerm]);
 
