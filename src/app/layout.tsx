@@ -2,7 +2,6 @@
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
-import { gilroy } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { UserProvider } from '@/context/user-context';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -25,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="no-scrollbar md:overflow-y-scroll">
-      <body className={cn("antialiased font-sans", gilroy.variable)}>
+      <body className={cn("antialiased font-sans")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

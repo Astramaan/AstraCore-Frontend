@@ -1,24 +1,41 @@
+import type {Metadata, Viewport} from 'next';
+import './globals.css';
+import { Toaster } from "@/components/ui/toaster"
+import { cn } from '@/lib/utils';
+import { UserProvider } from '@/context/user-context';
+import { ThemeProvider } from '@/components/theme-provider';
 
-import localFont from 'next/font/local';
+export const metadata: Metadata = {
+  title: 'Astramaan',
+  description: 'Project Management for the modern age.',
+  manifest: '/manifest.json',
+};
 
-export const gilroy = localFont({
-  src: [
-    {
-      path: '../../public/fonts/Gilroy-Medium.ttf',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/Gilroy-SemiBold.ttf',
-      weight: '600',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/Gilroy-Bold.ttf',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-gilroy',
-  display: 'swap',
-});
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning className="no-scrollbar md:overflow-y-scroll">
+      <body className={cn("antialiased font-sans")}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UserProvider>
+            {children}
+          </UserProvider>
+          <Toaster />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
