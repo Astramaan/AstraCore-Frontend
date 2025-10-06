@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus, GripVertical, Calendar as CalendarIcon } from "lucide-react";
+import { PlusCircle, X, ArrowRight, Check, ChevronsUpDown, Banknote, Trash2, Edit, Plus, GripVertical, Calendar as CalendarIcon, ShieldAlert } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -29,11 +29,20 @@ import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { getLeadByEmail, updateProject } from '@/app/actions';
+import { getLeadByEmail, updateProject, addProject } from '@/app/actions';
 import { useRouter } from 'next/navigation';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { Card, CardContent } from './ui/card';
 import { useUser } from '@/context/user-context';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const mockArchitects = [
     { value: "554cee57f2f634d9", label: "Darshan" },
@@ -493,19 +502,7 @@ const ProjectTimelineForm = ({
                 if (isEditMode) {
                     result = await updateProject({ ...fullData, id: projectData.id });
                 } else {
-                    const response = await fetch('/api/projects', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(fullData)
-                    });
-                    
-                    const resData = await response.json();
-
-                    if (response.ok) {
-                        result = { success: true, data: resData.data, message: resData.message };
-                    } else {
-                        result = { success: false, message: resData.message || 'Failed to create project.' };
-                    }
+                    result = await addProject(fullData);
                 }
                 
                 if (result.success) {
@@ -825,6 +822,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState(1);
     const [projectData, setProjectData] = useState<any>(null);
+    const [backendError, setBackendError] = useState<string | null>(null);
     
 
     const isEditMode = !!projectToEdit;
@@ -930,6 +928,24 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                     </div>
                 </DialogOrSheetContent>
             </DialogOrSheet>
+             <AlertDialog open={!!backendError} onOpenChange={() => setBackendError(null)}>
+                <AlertDialogContent className="max-w-md rounded-[50px]">
+                    <AlertDialogHeader className="items-center text-center">
+                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-semibold">Error Creating Project</AlertDialogTitle>
+                        <AlertDialogDescription className="text-lg text-muted-foreground">
+                            {backendError}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+                        <AlertDialogAction onClick={() => setBackendError(null)} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90">OK</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             <SuccessPopup
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
