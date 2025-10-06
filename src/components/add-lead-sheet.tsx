@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState, useEffect, useTransition } from 'react';
+import React, { useState, useEffect, useTransition, useRef } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -189,7 +189,7 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: (lead: Lead) => void })
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogAction onClick={() => setBackendError(null)} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-white hover:bg-primary/90">OK</AlertDialogAction>
+                        <AlertDialogAction onClick={() => setBackendError(null)} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-black dark:text-black hover:bg-primary/90">OK</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
@@ -215,7 +215,7 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
         <>
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                     <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
+                     <Button className="md:h-14 md:px-10 rounded-full bg-primary/10 text-primary dark:text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-0 md:p-2.5">
                         <UserPlusIcon className="md:mr-2 h-6 w-6"/>
                         <span className="hidden md:inline">Add New Lead</span>
                     </Button>
