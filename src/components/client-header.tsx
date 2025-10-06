@@ -68,7 +68,7 @@ export const ClientHeader = () => {
             <div className="flex items-center gap-4 ml-auto">
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-12 w-12">
-                        <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                        <AvatarImage src="https://picsum.photos/seed/user_avatar/55/55" data-ai-hint="person portrait" />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                     </Avatar>
                 </Link>

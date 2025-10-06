@@ -47,7 +47,7 @@ const initialMemberData = {
     role: "Super Admin",
     lastLogin: "6 hrs ago",
     dateJoined: "22nd June 2025",
-    avatar: "https://placehold.co/156x156"
+    avatar: "https://picsum.photos/seed/balaji/156/156"
 };
 
 interface PersonalDetailsProps {

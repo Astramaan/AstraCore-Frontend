@@ -65,8 +65,8 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
                 <div className="flex justify-between items-center pt-2">
                     <div className="flex items-center">
                         <div className="flex -space-x-2">
-                            <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
-                            <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://placehold.co/25x25" data-ai-hint="person portrait" /></Avatar>
+                            <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://picsum.photos/seed/avatar1/25/25" data-ai-hint="person portrait" /></Avatar>
+                            <Avatar className="w-6 h-6 border-2 border-white"><AvatarImage src="https://picsum.photos/seed/avatar2/25/25" data-ai-hint="person portrait" /></Avatar>
                         </div>
                          <Badge variant="outline" className="ml-4 bg-zinc-100 border-zinc-100 text-zinc-900">{task.category}</Badge>
                     </div>

@@ -50,7 +50,7 @@ const ActiveCustomers = () => {
             <div className="flex -space-x-4">
                 {[...Array(3)].map((_, i) => (
                     <Avatar key={i} className="border-4 border-white h-12 w-12">
-                        <AvatarImage src={`https://i.pravatar.cc/50?img=${i+1}`} data-ai-hint="person portrait" />
+                        <AvatarImage src={`https://picsum.photos/seed/${i+1}/50/50`} data-ai-hint="person portrait" />
                         <AvatarFallback>U{i}</AvatarFallback>
                     </Avatar>
                 ))}
@@ -92,7 +92,7 @@ export default function DashboardPage() {
                 <div className="w-px h-12 bg-stone-300/0"></div>
                  <div className="flex justify-start items-center gap-2">
                     <Avatar className="h-14 w-14">
-                        <AvatarImage src="https://i.pravatar.cc/55" alt="Balaji Naik"/>
+                        <AvatarImage src="https://picsum.photos/seed/user/55/55" alt="Balaji Naik"/>
                         <AvatarFallback>BN</AvatarFallback>
                     </Avatar>
                     <div className="inline-flex flex-col justify-start items-start gap-1">
@@ -234,7 +234,7 @@ export default function DashboardPage() {
                     <div className="space-y-4">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://i.pravatar.cc/40?img=4" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://picsum.photos/seed/logo1/40/40" data-ai-hint="company logo" /><AvatarFallback>BB</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Brick & Bolt</p>
                                     <p className="text-sm text-muted-foreground">Pricing too high</p>
@@ -244,7 +244,7 @@ export default function DashboardPage() {
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://i.pravatar.cc/40?img=5" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://picsum.photos/seed/logo2/40/40" data-ai-hint="company logo" /><AvatarFallback>PP</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Powerplay</p>
                                     <p className="text-sm text-muted-foreground">Missing Features</p>
@@ -254,7 +254,7 @@ export default function DashboardPage() {
                         </div>
                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <div className="flex items-center gap-2">
-                                <Avatar><AvatarImage src="https://i.pravatar.cc/40?img=6" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
+                                <Avatar><AvatarImage src="https://picsum.photos/seed/person1/40/40" data-ai-hint="person portrait" /><AvatarFallback>HM</AvatarFallback></Avatar>
                                 <div>
                                     <p className="font-medium">Harish mane</p>
                                     <p className="text-sm text-muted-foreground">Technical issues</p>

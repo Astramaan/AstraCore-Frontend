@@ -86,7 +86,7 @@ export const OrganizationHeader = () => {
                     </Link>
                     <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2">
                         <Avatar className="h-[54px] w-[54px]">
-                            <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                            <AvatarImage src="https://picsum.photos/seed/user_avatar_2/55/55" data-ai-hint="person portrait" />
                             <AvatarFallback>{userInitials}</AvatarFallback>
                         </Avatar>
                         <div className="hidden lg:block">
@@ -115,7 +115,7 @@ export const OrganizationHeader = () => {
                                 <>
                                     <Link href={`/organization/${organizationId}/profile`} className="flex items-center gap-2" onClick={() => setIsSheetOpen(false)}>
                                         <Avatar className="h-[54px] w-[54px]">
-                                            <AvatarImage src="https://placehold.co/55x55.png" data-ai-hint="person portrait" />
+                                            <AvatarImage src="https://picsum.photos/seed/user_avatar_3/55/55" data-ai-hint="person portrait" />
                                             <AvatarFallback>{userInitials}</AvatarFallback>
                                         </Avatar>
                                         <div>
