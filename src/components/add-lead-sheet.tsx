@@ -105,10 +105,13 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: (lead: Lead) => void })
 
         startTransition(async () => {
             const payload = {
-                fullName,
-                phoneNumber: phone,
-                email,
-                siteLocationPinCode: pincode,
+                inviteeDetails: {
+                    inviteeName: fullName,
+                    inviteeMobileNumber: phone,
+                    inviteeEmail: email,
+                    inviteeRole: 'LEAD',
+                    siteLocationPinCode: pincode,
+                }
             };
             
             try {

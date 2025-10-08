@@ -43,14 +43,9 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         
+        // Correctly access the nested inviteeDetails object
         const payload = {
-            inviteeDetails: {
-                inviteeName: body.fullName,
-                inviteeEmail: body.email,
-                inviteeMobileNumber: body.phoneNumber,
-                inviteeRole: 'LEAD',
-                siteLocationPinCode: body.siteLocationPinCode
-            }
+            inviteeDetails: body.inviteeDetails
         };
 
         console.log("Sending payload to backend:", JSON.stringify(payload, null, 2));
@@ -68,12 +63,10 @@ export async function POST(req: Request) {
             body: text,
         });
 
-        // Handle cases where the backend might return an empty body on success
         if (!text) {
             if (res.ok) {
                  return new NextResponse(JSON.stringify({ success: true, message: "Lead added successfully." }), { status: res.status, headers: { 'Content-Type': 'application/json' } });
             }
-            // If response is not ok and body is empty, create a generic error response.
             return NextResponse.json({ success: false, message: "An error occurred on the backend and it sent no details." }, { status: res.status });
         }
         
