@@ -76,7 +76,7 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
             </div>
             <div className="flex-1 space-y-1 w-full text-left">
             <div className="flex justify-between items-start">
-                <h3 className="text-black text-base font-semibold">
+                <h3 className="text-foreground text-base font-semibold">
                 {stage.title}
                 </h3>
                 <Badge className="bg-gray-100 text-gray-700 capitalize whitespace-nowrap">
@@ -87,8 +87,8 @@ const UpcomingTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: S
             <div className="pt-2">
                 <Progress value={stage.progress || 0} className="h-2 bg-white" />
                 <div className="flex justify-between items-center mt-2">
-                <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
-                <span className="text-grey-1 text-xs">
+                <span className="text-foreground text-xs font-normal">{stage.progress || 0}%</span>
+                <span className="text-muted-foreground text-xs">
                     {formatDate(stage.createdAt)}
                 </span>
                 </div>
@@ -127,7 +127,7 @@ export function ViewUpcomingTasksSheet({ isOpen, onClose, tasks, onTaskClick }: 
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side="bottom"
-        className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
+        className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
