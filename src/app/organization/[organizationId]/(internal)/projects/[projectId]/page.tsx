@@ -142,6 +142,9 @@ export default function ProjectDetailsPage() {
             image: "https://placehold.co/59x59",
             progress: project.progress,
             projectType: project.projectDetails.projectType,
+            personalDetails: project.personalDetails,
+            projectDetails: project.projectDetails,
+            projectAssign: project.projectAssign,
         };
         setProjectToEdit(editData as Project);
     };
@@ -152,8 +155,8 @@ export default function ProjectDetailsPage() {
     };
 
     const confirmDelete = async () => {
-        if (projectToDelete) {
-            const result = await deleteProject(projectToDelete.id);
+        if (projectToDelete && user) {
+            const result = await deleteProject({ projectId: projectToDelete.id, user });
             if (result.success) {
                 toast({
                     title: 'Success',

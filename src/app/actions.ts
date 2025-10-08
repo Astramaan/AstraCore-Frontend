@@ -7,8 +7,11 @@ export async function addProject(payload: any) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-user': JSON.stringify(payload.user)
+            },
+            body: JSON.stringify(payload.data),
         });
 
         if (!res.ok) {
@@ -55,10 +58,13 @@ export async function updateProject(payload: any) {
     }
 }
 
-export async function deleteProject(projectId: string) {
+export async function deleteProject({ projectId, user }: { projectId: string; user: any; }) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectId}`, {
             method: 'DELETE',
+            headers: {
+                'x-user': JSON.stringify(user)
+            }
         });
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to delete project and parse error' }));

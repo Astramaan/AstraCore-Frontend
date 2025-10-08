@@ -57,7 +57,7 @@ export async function PATCH(req: Request, { params }: { params: { projectId: str
 
 export async function DELETE(req: Request, { params }: { params: { projectId: string } }) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/v1-alpha/org/projects/${params.projectId}`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${params.projectId}`, {
             method: 'DELETE',
             headers: getAuthHeaders(req),
         });
