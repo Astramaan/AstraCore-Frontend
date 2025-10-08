@@ -90,7 +90,7 @@ export function NotificationPopover({ userType = 'organization' }: { userType?: 
                     ))}
                 </div>
                 <div className="p-2 border-t mt-2">
-                    <AllNotificationsDialog />
+                    <AllNotificationsDialog userType={userType} />
                 </div>
             </PopoverContent>
         </Popover>

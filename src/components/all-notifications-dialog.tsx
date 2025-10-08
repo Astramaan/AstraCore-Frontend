@@ -10,12 +10,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Users, FileText, X } from "lucide-react";
+import { Users, FileText, X, Banknote, MessageSquare } from "lucide-react";
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import NotificationBellIcon from "./icons/notification-bell-icon";
 
-const allNotifications = [
+const orgNotifications = [
     {
         icon: <Users className="w-6 h-6 text-blue-500" />,
         title: "New team member added",
@@ -66,7 +66,41 @@ const allNotifications = [
     },
 ];
 
-const NotificationItem = ({ notification }: { notification: typeof allNotifications[0] }) => (
+const clientNotifications = [
+     {
+        icon: <FileText className="w-6 h-6 text-green-500" />,
+        title: "Project stage 'Foundation' completed",
+        time: "1 hour ago",
+        bgColor: "bg-green-100 dark:bg-green-900/50",
+    },
+    {
+        icon: <Banknote className="w-6 h-6 text-blue-500" />,
+        title: "New payment due for 'Superstructure'",
+        time: "4 hours ago",
+        bgColor: "bg-blue-100 dark:bg-blue-900/50",
+    },
+    {
+        icon: <MessageSquare className="w-6 h-6 text-yellow-500" />,
+        title: "New message from Project Manager",
+        time: "Yesterday",
+        bgColor: "bg-yellow-100 dark:bg-yellow-900/50",
+    },
+    {
+        icon: <FileText className="w-6 h-6 text-green-500" />,
+        title: "Drawings for 'Electrical' approved",
+        time: "2 days ago",
+        bgColor: "bg-green-100 dark:bg-green-900/50",
+    },
+    {
+        icon: <Banknote className="w-6 h-6 text-blue-500" />,
+        title: "Payment of ₹50,000 received",
+        time: "3 days ago",
+        bgColor: "bg-blue-100 dark:bg-blue-900/50",
+    },
+];
+
+
+const NotificationItem = ({ notification }: { notification: typeof orgNotifications[0] }) => (
     <div className="flex items-start gap-4 p-4 hover:bg-muted/50 rounded-lg cursor-pointer">
         <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${notification.bgColor}`}>
             {notification.icon}
@@ -78,7 +112,8 @@ const NotificationItem = ({ notification }: { notification: typeof allNotificati
     </div>
 )
 
-export function AllNotificationsDialog() {
+export function AllNotificationsDialog({ userType = 'organization' }: { userType?: 'client' | 'organization' }) {
+    const notifications = userType === 'client' ? clientNotifications : orgNotifications;
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -105,7 +140,7 @@ export function AllNotificationsDialog() {
                 </SheetHeader>
                 <ScrollArea className="flex-1">
                     <div className="p-4">
-                        {allNotifications.map((item, index) => (
+                        {notifications.map((item, index) => (
                             <NotificationItem key={index} notification={item} />
                         ))}
                     </div>
