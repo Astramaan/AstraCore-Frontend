@@ -26,15 +26,21 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     return (
         <div className="min-h-screen bg-background relative">
             {!isNativeApp && (
-              <header className="sticky top-0 z-20 bg-background/80 backdrop-blur-sm p-4">
-                <ClientHeader />
+              <header className="sticky top-2 z-20 px-2">
+                <div className="relative p-px rounded-full bg-gradient-to-b from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                  <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] p-4">
+                    <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10">
+                      <ClientHeader />
+                    </div>
+                  </div>
+                </div>
               </header>
             )}
             <main className={cn(
                 "w-full flex-1 bg-background",
                 !isLivePage && "pb-32",
-                isNativeApp ? "pt-4" : "", // Add padding top if header is hidden
-                "px-0 sm:px-4 md:px-8"
+                isNativeApp ? "pt-4" : "pt-8", // Add padding top if header is hidden
+                "px-4 sm:px-4 md:px-8 2xl:px-10"
             )}>
                 {children}
             </main>
