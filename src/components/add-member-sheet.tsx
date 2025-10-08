@@ -50,7 +50,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     
-    const teams = ["Sales", "Developer", "Design", "Support & Feedback", "HR"];
+    const teams = ["Sales", "Developer", "Design", "Support & Feedback", "HR", "Architect", "Site Supervisor"];
     const roles = ["Admin", "Member"];
     
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,27 +80,33 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
+        const payload = {
+            inviteeDetails: {
+                inviteeName: name,
+                inviteeEmail: email,
+                inviteeMobileNumber: phone,
+                inviteeRole: team, // Backend expects team as role
+            }
+        };
+
         try {
-            const res = await fetch('/api/users', {
+            const res = await fetch('/api/invite', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    mobileNumber: phone,
-                    team,
-                    roleType: role
-                })
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'x-user': JSON.stringify(user)
+                },
+                body: JSON.stringify(payload),
             });
             const data = await res.json();
 
-            if(data.success) {
+            if(data.success || res.status === 201) {
                 onFormSuccess();
             } else {
                  toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: data.message,
+                    description: data.message || "Failed to send invitation.",
                 });
             }
         } catch (error) {
@@ -136,7 +142,7 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                                 </SelectTrigger>
                                 <SelectContent>
                                     {teams.map(r => (
-                                        <SelectItem key={r} value={r}>{r}</SelectItem>
+                                        <SelectItem key={r} value={r.toUpperCase().replace(/\s/g, '_')}>{r}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>

@@ -50,7 +50,9 @@ export async function POST(req: Request) {
             body: JSON.stringify(body),
         });
 
-        const data = await res.json();
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : {};
+        
         return NextResponse.json(data, { status: res.status });
     } catch (error) {
         console.error("Invite user proxy failed:", error);
