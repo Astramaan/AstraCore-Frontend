@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -348,6 +347,7 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
+      <div className="relative">
         <div className="absolute top-0 left-0 w-full h-[50vh] -z-10">
             <Image
                 src={project.coverImage}
@@ -356,12 +356,15 @@ export default function ExistingClientHomePage() {
                 objectFit="cover"
                 className="object-top"
                 data-ai-hint="modern house"
+                priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
         <main className="relative z-10">
-            <ProjectInfoHeader project={project} />
-            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-64">
+            <div className="p-4 md:p-6">
+                 <ProjectInfoHeader project={project} />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-4 px-4 md:px-8">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                      <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -416,33 +419,32 @@ export default function ExistingClientHomePage() {
                 </aside>
             </div>
         </main>
-        <ImageGallerySheet
-            open={isGalleryOpen}
-            onOpenChange={setIsGalleryOpen}
-            images={project.siteImages}
-            title="Recent Site Photos"
-        />
-        <ImagePreviewDialog 
-            open={previewState.open}
-            onOpenChange={(open) => !open && closePreview()}
-            images={project.siteImages}
-            startIndex={previewState.startIndex}
-            title="Site Photo"
-        />
-        <ViewUpcomingTasksSheet 
-            isOpen={isUpcomingTasksSheetOpen}
-            onClose={() => setIsUpcomingTasksSheetOpen(false)}
-            tasks={upcomingTasks as any}
-            onTaskClick={(task) => console.log('task clicked', task)}
-        />
-        <ViewCompletedTasksSheet
-            isOpen={isCompletedTasksSheetOpen}
-            onClose={() => setIsCompletedTasksSheetOpen(false)}
-            tasks={completedTasks as any}
-            onTaskClick={(task) => console.log('task clicked', task)}
-        />
+    </div>
+    <ImageGallerySheet
+        open={isGalleryOpen}
+        onOpenChange={setIsGalleryOpen}
+        images={project.siteImages}
+        title="Recent Site Photos"
+    />
+     <ImagePreviewDialog 
+        open={previewState.open}
+        onOpenChange={(open) => !open && closeImagePreview()}
+        images={project.siteImages}
+        startIndex={previewState.startIndex}
+        title="Site Photo"
+    />
+    <ViewUpcomingTasksSheet 
+        isOpen={isUpcomingTasksSheetOpen}
+        onClose={() => setIsUpcomingTasksSheetOpen(false)}
+        tasks={upcomingTasks as any}
+        onTaskClick={(task) => console.log('task clicked', task)}
+    />
+    <ViewCompletedTasksSheet
+        isOpen={isCompletedTasksSheetOpen}
+        onClose={() => setIsCompletedTasksSheetOpen(false)}
+        tasks={completedTasks as any}
+        onTaskClick={(task) => console.log('task clicked', task)}
+    />
     </>
   );
 }
-
-    
