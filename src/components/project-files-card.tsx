@@ -80,7 +80,11 @@ const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File 
                         <p className="text-xs text-muted-foreground">{file.date}</p>
                     </div>
                 </div>
-                {file.version && <Badge variant="outline" className="font-mono">{file.version}</Badge>}
+                {file.version && (
+                    <button onClick={() => onFileClick(file)} className="p-0 m-0 bg-transparent hover:bg-transparent">
+                        <Badge variant="outline" className="font-mono cursor-pointer hover:bg-accent">{file.version}</Badge>
+                    </button>
+                )}
                 {file.history && file.history.length > 0 ? (
                     <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:text-primary" />
                 ) : (
@@ -93,13 +97,15 @@ const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File 
                 <AccordionContent>
                     <div className="pl-10 space-y-2 border-l ml-3">
                         {file.history.map((version, index) => (
-                            <div key={index} className="flex items-center gap-4 py-2 cursor-pointer group pl-4" onClick={() => onFileClick(version)}>
-                                <div className="flex-1">
+                            <div key={index} className="flex items-center gap-4 py-2 cursor-pointer group pl-4">
+                                <div className="flex-1" onClick={() => onFileClick(version)}>
                                     <p className="text-sm text-foreground font-medium group-hover:text-primary">{version.name}</p>
                                     <p className="text-xs text-muted-foreground">{version.date}</p>
                                 </div>
-                                <Badge variant="outline" className="font-mono">{version.version}</Badge>
-                                <div className="p-2">
+                                <button onClick={() => onFileClick(version)} className="p-0 m-0 bg-transparent hover:bg-transparent">
+                                    <Badge variant="outline" className="font-mono cursor-pointer hover:bg-accent">{version.version}</Badge>
+                                </button>
+                                <div className="p-2" onClick={() => onFileClick(version)}>
                                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
                                 </div>
                             </div>
