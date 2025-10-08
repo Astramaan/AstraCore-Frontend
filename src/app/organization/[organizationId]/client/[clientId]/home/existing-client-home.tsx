@@ -372,9 +372,9 @@ export default function ExistingClientHomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
         <main className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-24 px-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-24 sm:px-4 md:px-8 2xl:px-10">
                 {/* Timeline */}
-                <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
+                <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
                      <div className="mb-6 flex flex-row gap-4 justify-between">
                         <Button
                             variant="outline"
@@ -411,26 +411,26 @@ export default function ExistingClientHomePage() {
                     </div>
                 </div>
 
-                <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
+                <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                      <div className="flex flex-col gap-4">
-                        <Card className="rounded-[50px] p-6 bg-transparent">
+                        <Card className="rounded-[50px] bg-transparent">
                             <CardContent className="p-0">
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <h3 className="text-2xl font-bold text-foreground text-shadow">{project.name}</h3>
-                                        <p className="text-foreground text-shadow">{project.id}</p>
+                                        <h3 className="text-2xl font-bold text-white text-shadow">{project.name}</h3>
+                                        <p className="text-white text-shadow">{project.id}</p>
                                     </div>
                                     {project.pm && (
                                          <div className="text-right">
-                                            <p className="text-sm text-muted-foreground">Project Manager</p>
-                                            <p className="text-base font-semibold text-foreground">{project.pm}</p>
+                                            <p className="text-sm text-white/80">Project Manager</p>
+                                            <p className="text-base font-semibold text-white">{project.pm}</p>
                                         </div>
                                     )}
                                 </div>
-                                 <div className="bg-background/20 backdrop-blur-sm p-3 rounded-full mt-4">
+                                 <div className="bg-black/20 backdrop-blur-sm p-3 rounded-full mt-4">
                                     <div className="flex items-center gap-4">
                                         <Progress value={project.progress} className="h-2 flex-1" />
-                                        <span className="text-foreground font-semibold text-sm">{project.progress}% completed</span>
+                                        <span className="text-white font-semibold text-sm">{project.progress}% completed</span>
                                     </div>
                                 </div>
                             </CardContent>
@@ -478,5 +478,3 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
-
-    
