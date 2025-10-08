@@ -31,11 +31,11 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
     const priorityColors: { [key: string]: string } = {
         "Low": "bg-cyan-500/10 text-cyan-500",
         "Medium": "bg-yellow-500/10 text-yellow-500",
-        "High": "bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-500",
+        "High": 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-500',
     }
     
     const statusColors: { [key: string]: string } = {
-        "In Progress": "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300",
+        "In Progress": "bg-blue-500/10 text-blue-500",
         "Pending": "bg-orange-500/10 text-orange-500",
     }
 
@@ -82,3 +82,4 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
     
 
     
+
