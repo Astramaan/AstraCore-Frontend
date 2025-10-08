@@ -900,6 +900,11 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                     className={cn(
                         "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
                     )}
+                     onInteractOutside={(e) => {
+                        if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
+                            e.preventDefault();
+                        }
+                    }}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
                         <div className="flex justify-between items-center">
