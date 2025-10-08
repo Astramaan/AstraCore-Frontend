@@ -176,19 +176,53 @@ export default function MeetingsPage() {
                 }
                 const result = await res.json();
                 if (result.success) {
-                    const formattedMeetings = result.data.map((m: any) => ({
-                        id: m.meetingId || m.id,
-                        projectId: m.projectId,
-                        type: m.targetType.type,
-                        title: m.title,
-                        name: m.manualDetails.name,
-                        city: m.manualDetails.location,
-                        date: new Date(m.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
-                        time: m.startTime,
-                        link: m.meetingLink,
-                        email: m.manualDetails.email,
-                        phone: m.manualDetails.phoneNumber,
-                    }));
+                    const formattedMeetings = result.data.map((m: any) => {
+                        const type = m.targetType?.type || m.manualDetails?.type || 'others';
+                        
+                        let name = m.title;
+                        let city = 'N/A';
+                        let email = 'N/A';
+                        let phone = 'N/A';
+                        
+                        if (m.manualDetails) {
+                            name = m.manualDetails.name || m.title;
+                            city = m.manualDetails.location || 'N/A';
+                            email = m.manualDetails.email || 'N/A';
+                            phone = m.manualDetails.phoneNumber || 'N/A';
+                        }
+                        
+                        let date = 'N/A';
+                        if (m.date) {
+                            try {
+                                date = new Date(m.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                            } catch (e) {
+                                console.error("Invalid date format from backend:", m.date);
+                            }
+                        }
+
+                        let time = m.startTime || 'N/A';
+                        if (m.startTime && m.startTime.includes('GMT')) {
+                           try {
+                             time = new Date(m.startTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                           } catch(e) {
+                             // Keep original if parsing fails
+                           }
+                        }
+                        
+                        return {
+                            id: m.meetingId || m._id || `gen_${Math.random()}`,
+                            projectId: m.projectId,
+                            type: type,
+                            title: m.title,
+                            name: name,
+                            city: city,
+                            date: date,
+                            time: time,
+                            link: m.meetingLink || '',
+                            email: email,
+                            phone: phone,
+                        };
+                    });
                     setAllMeetings(formattedMeetings);
                 } else {
                     toast({ variant: 'destructive', title: 'Error', description: result.message });
@@ -229,11 +263,12 @@ export default function MeetingsPage() {
             try {
                 const res = await fetch(`/api/projects/${projectId}/meetings/${meetingId}`, {
                     method: 'DELETE',
+                    headers: { 'x-user': JSON.stringify(user) }
                 });
                 const result = await res.json();
-                if (result.success) {
+                if (result.success || res.ok) {
                     setAllMeetings(prev => prev.filter(m => m.id !== meetingToDelete.id));
-                    toast({ title: "Success", description: result.message });
+                    toast({ title: "Success", description: result.message || "Meeting deleted." });
                 } else {
                     toast({ variant: 'destructive', title: 'Error', description: result.message });
                 }
