@@ -77,9 +77,13 @@ const mockProjects: Project[] = [
     },
 ];
 
-export async function getProjects(): Promise<{ success: boolean; data?: any; message?: string }> {
+export async function getProjects(user: any): Promise<{ success: boolean; data?: any; message?: string }> {
     try {
-        const res = await fetch(`/api/projects`);
+        const res = await fetch(`/api/projects`, {
+            headers: {
+                'x-user': JSON.stringify(user)
+            }
+        });
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
             return { success: false, message: errorData.message || 'Failed to fetch projects' };

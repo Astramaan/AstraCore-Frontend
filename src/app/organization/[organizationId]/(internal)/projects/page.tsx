@@ -235,9 +235,10 @@ export default function ProjectsPage() {
     const { toast } = useToast();
 
     useEffect(() => {
+        if (!user) return;
         const fetchProjects = async () => {
             setIsLoading(true);
-            const result = await fetchProjectsSsr();
+            const result = await fetchProjectsSsr(user);
             if (result.success && result.data) {
                 const formattedProjects = result.data.map((p: any) => ({
                     id: p.projectId,
@@ -262,7 +263,7 @@ export default function ProjectsPage() {
             setIsLoading(false);
         };
         fetchProjects();
-    }, [toast]);
+    }, [toast, user]);
 
     const filteredProjects = allProjects.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
     
