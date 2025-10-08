@@ -68,12 +68,12 @@ export const ClientHeader = () => {
             
             <div className="flex items-center gap-4 ml-auto">
                 <NotificationPopover userType="client" />
-                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`} className="flex items-center gap-2">
+                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`} className="hidden md:flex items-center gap-2">
                     <Avatar className="h-12 w-12">
                         <AvatarImage src="https://picsum.photos/seed/user_avatar/55/55" data-ai-hint="person portrait" />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                     </Avatar>
-                    <div className="text-left hidden md:block">
+                    <div className="text-left hidden lg:block">
                         <p className="font-semibold text-white">{user?.name}</p>
                         <p className="text-sm text-white/80">{user?.email}</p>
                     </div>
