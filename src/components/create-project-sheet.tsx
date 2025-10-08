@@ -1,5 +1,4 @@
 
-      
 'use client';
 
 import React, { useState, useEffect, useTransition, useRef } from 'react';
@@ -97,19 +96,20 @@ const FloatingLabelSelect = ({ id, label, value, onValueChange, children, name }
 )
 
 const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded, onProjectUpdated }: { onNext: (data: any) => void, projectToEdit: Project | null, projectData: any, onProjectAdded: (project: Project) => void, onProjectUpdated: (project: Project) => void }) => {
-    const [name, setName] = useState(projectToEdit?.name || projectData?.customerDetails?.name || '');
-    const [phone, setPhone] = useState(projectToEdit?.contact.split(' | ')[1] || projectData?.customerDetails?.phoneNumber || '');
-    const [email, setEmail] = useState(projectToEdit?.contact.split(' | ')[0] || projectData?.customerDetails?.email || '');
-    const [currentAddress, setCurrentAddress] = useState(projectData?.customerDetails?.currentAddress || '');
-    const [projectName, setProjectName] = useState(projectToEdit?.name || projectData?.projectDetails?.projectName || '');
+    const [name, setName] = useState(projectToEdit?.personalDetails?.name || projectData?.personalDetails?.name || '');
+    const [phone, setPhone] = useState(projectToEdit?.personalDetails?.phoneNumber || projectData?.personalDetails?.phoneNumber || '');
+    const [email, setEmail] = useState(projectToEdit?.personalDetails?.email || projectData?.personalDetails?.email || '');
+    const [currentAddress, setCurrentAddress] = useState(projectToEdit?.personalDetails?.currentAddress || projectData?.personalDetails?.currentAddress || '');
+    
+    const [projectName, setProjectName] = useState(projectToEdit?.projectDetails?.projectName || projectToEdit?.name || projectData?.projectDetails?.projectName || '');
     const [projectType, setProjectType] = useState(projectToEdit?.projectType || projectData?.projectDetails?.projectType || '');
-    const [projectCost, setProjectCost] = useState(projectData?.projectDetails?.projectCost || '');
-    const [dimension, setDimension] = useState(projectData?.projectDetails?.dimension || '');
-    const [floor, setFloor] = useState(projectData?.projectDetails?.floor || '');
-    const [siteLocation, setSiteLocation] = useState(projectToEdit?.city || projectData?.projectDetails?.siteLocation || '');
-    const [siteAddress, setSiteAddress] = useState(projectData?.projectDetails?.siteAddress || '');
-    const [architect, setArchitect] = useState(projectData?.projectAssign?.architect || '');
-    const [siteSupervisor, setSiteSupervisor] = useState(projectData?.projectAssign?.siteSupervisor || '');
+    const [projectCost, setProjectCost] = useState(projectToEdit?.projectDetails?.projectCost || projectData?.projectDetails?.projectCost || '');
+    const [dimension, setDimension] = useState(projectToEdit?.projectDetails?.dimension || projectData?.projectDetails?.dimension || '');
+    const [floor, setFloor] = useState(projectToEdit?.projectDetails?.floor || projectData?.projectDetails?.floor || '');
+    const [siteLocation, setSiteLocation] = useState(projectToEdit?.projectDetails?.siteLocationLink || projectData?.projectDetails?.siteLocation || '');
+    const [siteAddress, setSiteAddress] = useState(projectToEdit?.projectDetails?.siteAddress || projectData?.projectDetails?.siteAddress || '');
+    const [architect, setArchitect] = useState(projectToEdit?.projectAssign?.architect || projectData?.projectAssign?.architect || '');
+    const [siteSupervisor, setSiteSupervisor] = useState(projectToEdit?.projectAssign?.siteSupervisor || projectData?.projectAssign?.siteSupervisor || '');
     const [architectOpen, setArchitectOpen] = useState(false);
     const [supervisorOpen, setSupervisorOpen] = useState(false);
     const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
@@ -122,7 +122,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                 if (result.success && result.data) {
                     setName(result.data.fullName || '');
                     setPhone(result.data.phoneNumber || '');
-                    setSiteAddress(result.data.siteAddressPinCode ? `Pincode: ${result.data.siteAddressPinCode}`: '');
+                    if (result.data.siteLocationPinCode) {
+                        setSiteAddress(prev => prev ? `${prev}, Pincode: ${result.data.siteLocationPinCode}` : `Pincode: ${result.data.siteLocationPinCode}`);
+                    }
                 }
             }
         };
@@ -132,7 +134,9 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
         }
 
         debounceTimeout.current = setTimeout(() => {
-            fetchLeadData();
+            if(!projectToEdit) { // Only fetch if not in edit mode
+                fetchLeadData();
+            }
         }, 500); 
 
         return () => {
@@ -140,7 +144,7 @@ const CreateProjectForm = ({ onNext, projectToEdit, projectData, onProjectAdded,
                 clearTimeout(debounceTimeout.current);
             }
         };
-    }, [email]);
+    }, [email, projectToEdit]);
 
 
     const handleTextOnlyChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -446,10 +450,10 @@ const ProjectTimelineForm = ({
     const { user } = useUser();
     const router = useRouter();
 
-    const [startDate, setStartDate] = useState<Date | undefined>();
+    const [startDate, setStartDate] = useState<Date | undefined>(projectData?.startDate ? new Date(projectData.startDate) : undefined);
     const [isPending, startTransition] = useTransition();
     const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] = useState(false);
-    const [timeline, setTimeline] = useState<Phase[]>([]);
+    const [timeline, setTimeline] = useState<Phase[]>(projectData?.phases || []);
     
     const handleTemplateSelect = (templateId: string) => {
         const template = templates.find(t => t.id === templateId);
@@ -473,7 +477,7 @@ const ProjectTimelineForm = ({
                 ...stage,
                 tasks: stage.tasks.map((task) => ({
                     ...task,
-                    duration: `${task.duration} Days`,
+                    duration: `${task.duration}`,
                     status: 'Not Started'
                 }))
             }))
@@ -499,7 +503,7 @@ const ProjectTimelineForm = ({
             try {
                 let result: { success: boolean; data?: any; message?: string; };
                 if (isEditMode) {
-                    result = await updateProject({ ...fullData, id: projectData.id });
+                    result = await updateProject({ id: projectData.id, data: fullData, user });
                 } else {
                     result = await addProject(fullData);
                 }
@@ -900,6 +904,11 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                     className={cn(
                         "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                     )}
+                     onInteractOutside={(e) => {
+                      if ((e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')) {
+                          e.preventDefault();
+                      }
+                    }}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
                         <div className="flex justify-between items-center">

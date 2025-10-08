@@ -35,8 +35,11 @@ export async function updateProject(payload: any) {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${payload.id}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-user': JSON.stringify(payload.user) // Pass user data in header
+            },
+            body: JSON.stringify(payload.data), // Only send the project data in the body
         });
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to update project and parse error' }));
@@ -201,5 +204,3 @@ export async function updateMeeting(meetingData: any) {
         return { success: false, message: 'An unexpected error occurred.' };
     }
 }
-
-    
