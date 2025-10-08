@@ -359,7 +359,7 @@ export default function ExistingClientHomePage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
-        <main className="relative z-10 pt-28">
+        <main className="relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8 mt-24">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
@@ -369,14 +369,14 @@ export default function ExistingClientHomePage() {
                             onClick={() => setIsCompletedTasksSheetOpen(true)}
                             className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                         >
-                            View Completed Tasks
+                            Completed Tasks
                         </Button>
                         <Button
                             variant="outline"
                             className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                             onClick={() => setIsUpcomingTasksSheetOpen(true)}
                         >
-                            View Upcoming Tasks
+                            Upcoming Tasks
                         </Button>
                     </div>
                     <div className="relative pb-4">
