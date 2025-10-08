@@ -53,6 +53,8 @@ export async function POST(req: Request) {
             }
         };
 
+        console.log("Sending payload to backend:", JSON.stringify(payload, null, 2));
+
         const res = await fetch(`${API_BASE_URL}/api/v1/leads`, {
             method: 'POST',
             headers: getAuthHeaders(req),
@@ -60,6 +62,12 @@ export async function POST(req: Request) {
         });
         
         const text = await res.text();
+        console.log("Received response from backend:", {
+            status: res.status,
+            statusText: res.statusText,
+            body: text,
+        });
+
         // Handle cases where the backend might return an empty body on success
         if (!text) {
             if (res.ok) {
