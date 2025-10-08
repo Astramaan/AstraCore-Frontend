@@ -28,13 +28,14 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <div className="relative min-h-screen w-full bg-background">
             <div className="absolute top-0 left-0 right-0 h-[50vh] -z-0">
                 <Image
-                    src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=2512&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfGFsbHx8fHx8fHx8fDE3NTk2OTg5MDl8"
+                    src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NTk4NDU5ODR8MA"
                     alt="background"
                     layout="fill"
                     objectFit="cover"
-                    objectPosition="top"
+                    objectPosition="center"
                     className=""
-                    data-ai-hint="background image"
+                    data-ai-hint="modern house"
+                    priority
                 />
             </div>
 
