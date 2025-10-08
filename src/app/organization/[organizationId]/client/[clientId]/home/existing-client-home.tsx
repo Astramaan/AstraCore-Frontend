@@ -221,7 +221,7 @@ const PaymentCard = () => (
                 </div>
                 <div className="flex gap-1">
                     {[...Array(7)].map((_, i) => (
-                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200 dark:bg-zinc-700")}></div>
+                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-primary" : "bg-muted")}></div>
                     ))}
                 </div>
             </div>
