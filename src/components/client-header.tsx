@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Skeleton } from './ui/skeleton';
+import { NotificationPopover } from './notification-popover';
 
 export const ClientHeader = () => {
     const pathname = usePathname();
@@ -58,7 +59,7 @@ export const ClientHeader = () => {
                 {pageTitle && (
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900 dark:text-white">
+                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white dark:text-white">
                            {pageTitle}
                         </h2>
                     </>
@@ -66,6 +67,7 @@ export const ClientHeader = () => {
             </div>
             
             <div className="flex items-center gap-4 ml-auto">
+                <NotificationPopover />
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-12 w-12">
                         <AvatarImage src="https://picsum.photos/seed/user_avatar/55/55" data-ai-hint="person portrait" />
@@ -73,8 +75,8 @@ export const ClientHeader = () => {
                     </Avatar>
                 </Link>
                 <div className="text-left hidden md:block">
-                    <p className="font-semibold text-foreground">{user?.name}</p>
-                    <p className="text-sm text-muted-foreground">{user?.email}</p>
+                    <p className="font-semibold text-white">{user?.name}</p>
+                    <p className="text-sm text-white/80">{user?.email}</p>
                 </div>
             </div>
         </header>
