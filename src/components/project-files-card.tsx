@@ -80,16 +80,21 @@ const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File 
                         <p className="text-xs text-muted-foreground">{file.date}</p>
                     </div>
                 </div>
-                {file.version && (
-                    <button onClick={() => onFileClick(file)} className="p-0 m-0 bg-transparent hover:bg-transparent">
-                        <Badge variant="outline" className="font-mono cursor-pointer hover:bg-accent">{file.version}</Badge>
-                    </button>
-                )}
+
                 {file.history && file.history.length > 0 ? (
-                    <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:text-primary" />
+                    <AccordionTrigger className="p-2 hover:no-underline [&[data-state=open]>svg]:text-primary flex items-center gap-2">
+                        {file.version && (
+                            <Badge variant="outline" className="font-mono cursor-pointer hover:bg-accent">{file.version}</Badge>
+                        )}
+                    </AccordionTrigger>
                 ) : (
-                    <div onClick={() => onFileClick(file)} className="cursor-pointer p-2">
-                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
+                    <div className="flex items-center gap-2">
+                         {file.version && (
+                            <Badge variant="outline" className="font-mono cursor-pointer hover:bg-accent" onClick={() => onFileClick(file)}>{file.version}</Badge>
+                        )}
+                        <div onClick={() => onFileClick(file)} className="cursor-pointer p-2">
+                            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
+                        </div>
                     </div>
                 )}
             </div>
