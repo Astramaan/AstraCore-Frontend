@@ -136,7 +136,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                       <AlertDialogContent className="max-w-md rounded-[50px]">
                         <AlertDialogHeader className="items-center text-center">
                           <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                            <div className="w-full h-full bg-red-600/5 rounded-full" />
+                            <div className="w-full h-full bg-red-600/10 rounded-full" />
                             <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
                             <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                           </div>
@@ -189,7 +189,7 @@ const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingl
                    <AlertDialogContent className="max-w-md rounded-[50px]">
                     <AlertDialogHeader className="items-center text-center">
                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                          <div className="w-full h-full bg-red-600/5 rounded-full" />
+                          <div className="w-full h-full bg-red-600/10 rounded-full" />
                           <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
                           <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                         </div>
@@ -625,7 +625,7 @@ export default function LeadsPage() {
                   <AlertDialogContent className="max-w-md rounded-[50px]">
                       <AlertDialogHeader className="items-center text-center">
                            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                            <div className="w-full h-full bg-red-600/5 rounded-full" />
+                            <div className="w-full h-full bg-red-600/10 rounded-full" />
                             <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
                             <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                           </div>
