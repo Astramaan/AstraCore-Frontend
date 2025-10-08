@@ -191,7 +191,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
     return (
-        <Card className="rounded-[50px] w-full">
+        <Card className="rounded-[50px] w-full hidden md:block">
             <CardContent className="p-6 md:pb-10 space-y-4">
                 <div className="flex justify-between items-center">
                     <p className="text-black text-base font-normal">Recent Site Photos</p>
@@ -357,7 +357,7 @@ export default function ExistingClientHomePage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
-        <main className="relative z-10 pt-8">
+        <main className="relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8 mt-48">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
@@ -418,9 +418,9 @@ export default function ExistingClientHomePage() {
             images={project.siteImages}
             title="Recent Site Photos"
         />
-         <ImagePreviewDialog 
+        <ImagePreviewDialog 
             open={previewState.open}
-            onOpenChange={(open) => !open && closePreview()}
+            onOpenChange={(open) => !open && closeImagePreview()}
             images={project.siteImages}
             startIndex={previewState.startIndex}
             title="Site Photo"
