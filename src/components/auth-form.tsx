@@ -17,7 +17,7 @@ import { useUser } from "@/context/user-context";
 
 export default function AuthForm() {
   const router = useRouter();
-  const { user, loading, setUser } = useUser();
+  const { loading, setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
