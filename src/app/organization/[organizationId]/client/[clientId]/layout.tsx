@@ -42,7 +42,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                 "w-full flex-1",
                 !isLivePage && "pb-32",
                 isNativeApp ? "pt-4" : "pt-8", 
-                "px-4 sm:px-4 md:px-8 2xl:px-10"
+                "px-4"
             )}>
                 {children}
             </main>
