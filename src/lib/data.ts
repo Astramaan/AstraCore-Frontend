@@ -79,7 +79,7 @@ const mockProjects: Project[] = [
 
 export async function getProjects(): Promise<{ success: boolean; data?: any; message?: string }> {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects`);
+        const res = await fetch(`/api/projects`);
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({ message: 'Failed to fetch projects and parse error' }));
             return { success: false, message: errorData.message || 'Failed to fetch projects' };
@@ -94,15 +94,16 @@ export async function getProjects(): Promise<{ success: boolean; data?: any; mes
 
 export async function getProjectDetails(projectId: string) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${projectId}`);
+        const res = await fetch(`/api/projects/${projectId}`);
         if (!res.ok) {
-            console.error(`Failed to fetch project details for ${projectId}`);
+            console.error(`Failed to fetch project details for ${projectId}, status: ${res.status}`);
             return null;
         }
         const data = await res.json();
         if (data.success) {
             return data.data;
         }
+        console.error(`API returned success:false for project ${projectId}`, data.message);
         return null;
 
     } catch (error) {

@@ -35,16 +35,16 @@ import { Skeleton } from '@/components/ui/skeleton';
 const mockFilesAndVisuals = {
     visuals: {
         "3d": [
-            "https://placehold.co/68x68",
-            "https://placehold.co/69x68",
-            "https://placehold.co/69x68",
-            "https://placehold.co/69x68",
+            "https://picsum.photos/seed/3d1/68/68",
+            "https://picsum.photos/seed/3d2/68/68",
+            "https://picsum.photos/seed/3d3/68/68",
+            "https://picsum.photos/seed/3d4/68/68",
         ],
-        gallery: Array(24).fill("https://placehold.co/68x68"),
+        gallery: Array(24).fill(null).map((_, i) => `https://picsum.photos/seed/gallery${i}/68/68`),
     },
     materials: Array(6).fill({
         name: "Tata Steel",
-        image: "https://placehold.co/67x67",
+        image: "https://picsum.photos/seed/steel/67/67",
         description: "Brand: TATA, Diameter: 32 mm & above, Single Piece Length: 12 meter...",
     }),
     files: {
@@ -121,10 +121,10 @@ export default function ProjectDetailsPage() {
     
     if (!project) {
         return (
-            <div className="flex flex-col justify-center items-center h-full text-center">
+            <div className="flex flex-col justify-center items-center h-full text-center py-20">
                 <h2 className="text-2xl font-bold">Project Not Found</h2>
-                <p className="text-muted-foreground">The project you are looking for does not exist or you do not have permission to view it.</p>
-                <Button onClick={() => router.back()} className="mt-4">Go Back</Button>
+                <p className="text-muted-foreground mt-2">The project you are looking for does not exist or you do not have permission to view it.</p>
+                <Button onClick={() => router.back()} className="mt-6 rounded-full">Go Back</Button>
             </div>
         );
     }
@@ -180,7 +180,7 @@ export default function ProjectDetailsPage() {
 
     const projectInfoHeaderData = {
         name: project.personalDetails.name,
-        coverImage: "https://placehold.co/1216x144",
+        coverImage: "https://picsum.photos/seed/cover/1216/144",
         progress: project.progress,
         pm: "Yaswanth", // Placeholder
         id: project.projectId,

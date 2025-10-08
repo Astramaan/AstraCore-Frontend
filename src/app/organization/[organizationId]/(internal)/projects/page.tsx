@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical, ShieldAlert, Search } from "lucide-react";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -27,7 +27,7 @@ import { useParams } from 'next/navigation';
 import { useUser } from "@/context/user-context";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Project } from "@/lib/data";
+import { Project, getProjects as fetchProjectsSsr } from "@/lib/data";
 
 
 const ProjectListItemSkeleton = () => (
@@ -237,43 +237,29 @@ export default function ProjectsPage() {
     useEffect(() => {
         const fetchProjects = async () => {
             setIsLoading(true);
-            try {
-                const res = await fetch(`/api/projects`);
-                if (!res.ok) {
-                    throw new Error('Failed to fetch projects');
-                }
-                const result = await res.json();
-                if (result.success && result.projects) {
-                    const formattedProjects = result.projects.map((p: any) => ({
-                        id: p.projectId,
-                        name: p.personalDetails.name,
-                        city: p.projectDetails.state,
-                        contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
-                        startDate: new Date(p.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-                        status: p.projectStatus,
-                        statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
-                        image: "https://placehold.co/59x59",
-                        progress: 50, // Placeholder
-                        projectType: p.projectDetails.projectType || 'New Construction',
-                    }));
-                    setAllProjects(formattedProjects);
-                } else {
-                     toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: result.message || 'Failed to fetch projects'
-                    });
-                }
-            } catch (error) {
-                console.error("Fetch projects failed", error);
+            const result = await fetchProjectsSsr();
+            if (result.success && result.data) {
+                const formattedProjects = result.data.map((p: any) => ({
+                    id: p.projectId,
+                    name: p.personalDetails.name,
+                    city: p.projectDetails.state,
+                    contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
+                    startDate: new Date(p.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+                    status: p.projectStatus,
+                    statusColor: p.projectStatus === "In Progress" ? "text-green-600" : "text-red-600",
+                    image: "https://placehold.co/59x59",
+                    progress: 50, // Placeholder
+                    projectType: p.projectDetails.projectType || 'New Construction',
+                }));
+                setAllProjects(formattedProjects);
+            } else {
                  toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: 'Failed to fetch projects.'
+                    description: result.message || 'Failed to fetch projects'
                 });
-            } finally {
-                setIsLoading(false);
             }
+            setIsLoading(false);
         };
         fetchProjects();
     }, [toast]);

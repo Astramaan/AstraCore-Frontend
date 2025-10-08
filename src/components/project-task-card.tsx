@@ -39,7 +39,12 @@ const statusColors = {
 
 const formatDate = (dateString: string) => {
     try {
-        return new Date(dateString).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            // If date is invalid, return the original string or a placeholder
+            return dateString;
+        }
+        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
     } catch (e) {
         return dateString;
     }

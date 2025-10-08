@@ -31,7 +31,8 @@ export async function GET(req: Request) {
             headers: getAuthHeaders(req),
         });
         const data = await res.json();
-        return NextResponse.json(data, { status: res.status });
+        // The page component expects the data property to be the array of projects
+        return NextResponse.json({ success: true, data: data.projects }, { status: res.status });
     } catch (error) {
         console.error("Get projects proxy failed:", error);
         return NextResponse.json({ success: false, message: "An unexpected error occurred." }, { status: 500 });
