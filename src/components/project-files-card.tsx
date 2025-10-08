@@ -47,7 +47,7 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-card text-card-foreground">
                 <DialogPrimitiveHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogPrimitiveTitle>{file.name}</DialogPrimitiveTitle>
                     <DialogClose asChild>
@@ -119,7 +119,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
     
     return (
         <>
-            <Card className="rounded-[50px] p-6 md:p-10">
+            <Card className="rounded-[50px] p-6 md:p-10 bg-card text-card-foreground">
                  <CardHeader className="p-0 mb-6">
                     <CardTitle className="text-xl font-medium">Design & Documents</CardTitle>
                 </CardHeader>
@@ -130,7 +130,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
                              if (totalFiles === 0) return null;
 
                             return (
-                                <AccordionItem key={phase.name} value={phase.name} className="bg-background rounded-[24px] border-none">
+                                <AccordionItem key={phase.name} value={phase.name} className="bg-background dark:bg-zinc-800 rounded-[24px] border-none">
                                     <AccordionTrigger className="px-6 text-lg font-medium text-foreground hover:no-underline">
                                         <div className="flex items-center gap-3">
                                             <span>{phase.name}</span>
