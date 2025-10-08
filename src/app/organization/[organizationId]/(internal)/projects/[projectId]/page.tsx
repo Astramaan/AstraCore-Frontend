@@ -80,9 +80,10 @@ export default function ProjectDetailsPage() {
     const router = useRouter();
 
     useEffect(() => {
+        if (!user) return;
         const fetchProject = async () => {
             setIsLoading(true);
-            const projectDetails = await getProjectDetails(id);
+            const projectDetails = await getProjectDetails(id, user);
             if (projectDetails) {
                  const displayProject = { 
                      ...projectDetails, 
@@ -96,7 +97,7 @@ export default function ProjectDetailsPage() {
             setIsLoading(false);
         };
         fetchProject();
-    }, [id]);
+    }, [id, user]);
 
     const canManageProject = user?.roleType === 'superAdmin' || user?.userId === project?.createdBy;
 

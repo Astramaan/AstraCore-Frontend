@@ -22,8 +22,9 @@ export interface Project {
     progress: number;
     projectType: 'New Construction' | 'Renovation' | 'Interior Design';
     createdBy?: string;
-    personalInfo?: any;
-    projectInfo?: any;
+    personalDetails?: any;
+    projectDetails?: any;
+    projectId?: string; // from backend
 }
 
 const mockProjects: Project[] = [
@@ -96,9 +97,13 @@ export async function getProjects(user: any): Promise<{ success: boolean; data?:
     }
 }
 
-export async function getProjectDetails(projectId: string) {
+export async function getProjectDetails(projectId: string, user: any) {
     try {
-        const res = await fetch(`/api/projects/${projectId}`);
+        const res = await fetch(`/api/projects/${projectId}`, {
+            headers: {
+                'x-user': JSON.stringify(user)
+            }
+        });
         if (!res.ok) {
             console.error(`Failed to fetch project details for ${projectId}, status: ${res.status}`);
             return null;
