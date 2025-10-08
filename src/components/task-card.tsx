@@ -35,8 +35,8 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
     }
     
     const statusColors: { [key: string]: string } = {
-        "In Progress": "bg-blue-100 text-blue-800",
-        "Pending": "bg-yellow-100 text-yellow-800",
+        "In Progress": "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300",
+        "Pending": "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300",
     }
 
     const formattedDate = new Date(task.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: '2-digit' }).replace(/ /g, ' ');
