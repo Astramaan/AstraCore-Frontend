@@ -70,7 +70,7 @@ export const OrganizationHeader = () => {
              )}
         </div>
         <div className="hidden md:flex items-center gap-2 lg:gap-4">
-            <NotificationPopover />
+            <NotificationPopover userType="organization" />
             {user?.role !== 'CLIENT' && (
                 <>
                     <Link href={`/organization/${organizationId}/teams`}>
@@ -103,7 +103,7 @@ export const OrganizationHeader = () => {
             )}
         </div>
          <div className="md:hidden flex items-center gap-2">
-            <NotificationPopover />
+            <NotificationPopover userType="organization" />
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
                     <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">

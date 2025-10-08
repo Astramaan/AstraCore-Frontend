@@ -67,7 +67,7 @@ export const ClientHeader = () => {
             </div>
             
             <div className="flex items-center gap-4 ml-auto">
-                <NotificationPopover />
+                <NotificationPopover userType="client" />
                 <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}>
                     <Avatar className="h-12 w-12">
                         <AvatarImage src="https://picsum.photos/seed/user_avatar/55/55" data-ai-hint="person portrait" />
