@@ -58,7 +58,7 @@ export const ClientHeader = () => {
                 {pageTitle && (
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900">
+                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-zinc-900 dark:text-white">
                            {pageTitle}
                         </h2>
                     </>
@@ -73,7 +73,7 @@ export const ClientHeader = () => {
                     </Avatar>
                 </Link>
                 <div className="text-left hidden md:block">
-                    <p className="font-semibold">{user?.name}</p>
+                    <p className="font-semibold text-foreground">{user?.name}</p>
                     <p className="text-sm text-muted-foreground">{user?.email}</p>
                 </div>
             </div>

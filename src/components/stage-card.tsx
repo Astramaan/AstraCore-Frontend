@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { useUser } from '@/context/user-context';
+import { Card } from './ui/card';
 
 export interface TimelineStage {
     id: number;
@@ -82,7 +83,7 @@ export const StageCard = ({
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
                 className={cn(
-                    "rounded-[24px] bg-white dark:bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg",
+                    "rounded-[24px] bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg",
                     className,
                 )}
                 onClick={handleCardClick}
@@ -106,7 +107,7 @@ export const StageCard = ({
                                     'bg-gray-100 text-gray-600'
                                 )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
                             </div>
-                            <p className="text-sm">{stage.subtitle}</p>
+                            <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
                             <div className="pt-2">
                                 <Progress value={stage.progress} className="h-2" />
                                 <div className="flex justify-between items-center mt-2">
@@ -126,5 +127,3 @@ export const StageCard = ({
         </>
     )
 };
-
-    
