@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card } from "@/components/ui/card";
@@ -35,7 +34,7 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
     }
     
     const statusColors: { [key: string]: string } = {
-        "In Progress": "bg-blue-500/10 text-blue-500",
+        "In Progress": "bg-blue-500/10 text-blue-500 dark:bg-blue-500/10 dark:text-blue-500",
         "Pending": "bg-orange-500/10 text-orange-500",
     }
 
@@ -82,4 +81,3 @@ export const TaskCard = ({ task, onClick }: { task: Task, onClick: () => void })
     
 
     
-
