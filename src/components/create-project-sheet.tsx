@@ -898,7 +898,7 @@ export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onP
                 <DialogOrSheetContent
                     side="bottom"
                     className={cn(
-                        "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
+                        "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none"
                     )}
                 >
                     <DialogOrSheetHeader className="p-6 border-b">
