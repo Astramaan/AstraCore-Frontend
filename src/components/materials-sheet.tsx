@@ -32,7 +32,7 @@ export const MaterialsSheet = ({ open, onOpenChange, materials }: MaterialsSheet
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent 
           side="bottom"
-          className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
+          className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none"
       >
         <SheetHeader className="p-4 border-b flex-row items-center justify-between">
           <SheetTitle>All Materials</SheetTitle>
@@ -47,10 +47,10 @@ export const MaterialsSheet = ({ open, onOpenChange, materials }: MaterialsSheet
             {materials.map((material, index) => (
               <React.Fragment key={index}>
                 <div className="flex gap-4">
-                    <Image src={material.image} alt={material.name} width={80} height={80} className="rounded-[10px] border border-stone-300" data-ai-hint="construction material" />
+                    <Image src={material.image} alt={material.name} width={80} height={80} className="rounded-[10px] border border-border" data-ai-hint="construction material" />
                     <div className="flex-1">
-                        <p className="text-lg font-medium">{material.name}</p>
-                        <p className="text-sm text-stone-500">{material.description}</p>
+                        <p className="text-lg font-medium text-foreground">{material.name}</p>
+                        <p className="text-sm text-muted-foreground">{material.description}</p>
                     </div>
                 </div>
                 {index < materials.length - 1 && <Separator />}
