@@ -43,10 +43,8 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         
-        // Correctly access the nested inviteeDetails object
-        const payload = {
-            inviteeDetails: body.inviteeDetails
-        };
+        // Correctly pass the body which already has the inviteeDetails object
+        const payload = body;
 
         console.log("Sending payload to backend:", JSON.stringify(payload, null, 2));
 
