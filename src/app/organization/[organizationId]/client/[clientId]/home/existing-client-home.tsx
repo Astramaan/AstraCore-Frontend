@@ -175,8 +175,8 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     )
 };
 
-const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <Card className="rounded-full">
+const ChatCard = ({ pmPhoneNumber, className }: { pmPhoneNumber: string, className?: string }) => (
+    <Card className={cn("rounded-full", className)}>
         <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 gap-2">
             <div className="text-left">
                 <p className="text-black text-sm font-normal">Chat with our Executive</p>
@@ -189,9 +189,9 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
     </Card>
 );
 
-const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
+const SitePhotos = ({ onViewMore, onImageClick, siteImages, className }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[], className?: string }) => {
     return (
-        <Card className="rounded-[50px] w-full hidden md:block">
+        <Card className={cn("rounded-[50px] w-full", className)}>
             <CardContent className="p-6 md:pb-10 space-y-4">
                 <div className="flex justify-between items-center">
                     <p className="text-black text-base font-normal">Recent Site Photos</p>
@@ -357,7 +357,7 @@ export default function ExistingClientHomePage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
-        <main className="relative z-10">
+        <main className="relative z-10 pt-28">
             <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8 mt-48">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
@@ -402,11 +402,12 @@ export default function ExistingClientHomePage() {
                         <PaymentsDialog>
                            <PaymentCard />
                         </PaymentsDialog>
-                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} className="hidden md:block"/>
                          <SitePhotos 
                             onViewMore={() => setIsGalleryOpen(true)}
                             onImageClick={openImagePreview}
                             siteImages={project.siteImages}
+                            className="hidden md:block"
                         />
                     </div>
                 </aside>
@@ -420,7 +421,7 @@ export default function ExistingClientHomePage() {
         />
         <ImagePreviewDialog 
             open={previewState.open}
-            onOpenChange={(open) => !open && closeImagePreview()}
+            onOpenChange={(open) => !open && closePreview()}
             images={project.siteImages}
             startIndex={previewState.startIndex}
             title="Site Photo"
