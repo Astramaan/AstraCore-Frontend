@@ -136,97 +136,93 @@ export default function SignupForm() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-                <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-muted-foreground' : 'text-foreground')}>Email ID</Label>
-                <div className="relative flex items-center">
-                    <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
-                    <div className="absolute left-14 h-6 w-px bg-border" />
-                    <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    placeholder="name@company.com"
-                    className={cn(
-                        `pl-20 rounded-full bg-background h-[54px]`,
-                        emailError && 'border-destructive'
-                    )}
-                    disabled={isSubmitting}
-                    value={email}
-                    onChange={handleEmailChange}
-                    />
-                </div>
-                {isCheckingEmail && <p className="text-sm text-muted-foreground px-4">Checking...</p>}
-                {emailError && <p className="text-sm text-destructive px-4">{emailError}</p>}
+        <div className="space-y-2">
+            <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-muted-foreground' : 'text-foreground')}>Email ID</Label>
+            <div className="relative flex items-center">
+                <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
+                <div className="absolute left-14 h-6 w-px bg-border" />
+                <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder="name@company.com"
+                className={cn(
+                    `pl-20 rounded-full bg-background h-[54px]`,
+                    emailError && 'border-destructive'
+                )}
+                disabled={isSubmitting}
+                value={email}
+                onChange={handleEmailChange}
+                />
             </div>
+            {isCheckingEmail && <p className="text-sm text-muted-foreground px-4">Checking...</p>}
+            {emailError && <p className="text-sm text-destructive px-4">{emailError}</p>}
+        </div>
 
-            <div className="space-y-2">
-                <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-muted-foreground' : 'text-foreground')}>Phone Number</Label>
-                <div className="relative flex items-center">
-                    <PhoneIcon className="absolute left-6 h-5 w-5 text-foreground" />
-                    <div className="absolute left-14 h-6 w-px bg-border" />
-                    <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    placeholder="Your phone number"
-                    className={`pl-20 rounded-full bg-background h-[54px]`}
-                    disabled={isSubmitting}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    />
-                </div>
+        <div className="space-y-2">
+            <Label htmlFor="phone" className={cn("text-lg font-medium", phone ? 'text-muted-foreground' : 'text-foreground')}>Phone Number</Label>
+            <div className="relative flex items-center">
+                <PhoneIcon className="absolute left-6 h-5 w-5 text-foreground" />
+                <div className="absolute left-14 h-6 w-px bg-border" />
+                <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                placeholder="Your phone number"
+                className={`pl-20 rounded-full bg-background h-[54px]`}
+                disabled={isSubmitting}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                />
             </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-                <Label htmlFor="organization" className={cn("text-lg font-medium", organization ? 'text-muted-foreground' : 'text-foreground')}>Organization Name</Label>
-                <div className="relative flex items-center">
-                    <OrganizationIcon className="absolute left-6 h-5 w-5 text-foreground" />
-                    <div className="absolute left-14 h-6 w-px bg-border" />
-                    <Input
-                    id="organization"
-                    name="organization"
-                    type="text"
-                    required
-                    placeholder="Your organization's name"
-                    className={`pl-20 rounded-full bg-background h-[54px]`}
-                    disabled={isSubmitting}
-                    value={organization}
-                    onChange={(e) => setOrganization(e.target.value)}
-                    />
-                </div>
+        <div className="space-y-2">
+            <Label htmlFor="organization" className={cn("text-lg font-medium", organization ? 'text-muted-foreground' : 'text-foreground')}>Organization Name</Label>
+            <div className="relative flex items-center">
+                <OrganizationIcon className="absolute left-6 h-5 w-5 text-foreground" />
+                <div className="absolute left-14 h-6 w-px bg-border" />
+                <Input
+                id="organization"
+                name="organization"
+                type="text"
+                required
+                placeholder="Your organization's name"
+                className={`pl-20 rounded-full bg-background h-[54px]`}
+                disabled={isSubmitting}
+                value={organization}
+                onChange={(e) => setOrganization(e.target.value)}
+                />
             </div>
+        </div>
 
-            <div className="space-y-2">
-                <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-muted-foreground' : 'text-foreground')}>Create Password</Label>
-                <div className="relative flex items-center">
-                    <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
-                    <div className="absolute left-14 h-6 w-px bg-border" />
-                    <Input 
-                    id="password" 
-                    name="password" 
-                    type={showPassword ? "text" : "password"} 
-                    required 
-                    className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
-                    disabled={isSubmitting}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-6 text-foreground"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    disabled={isSubmitting}
-                    >
-                    {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-                    </button>
-                </div>
+        <div className="space-y-2">
+            <Label htmlFor="password" className={cn("text-lg font-medium", password ? 'text-muted-foreground' : 'text-foreground')}>Create Password</Label>
+            <div className="relative flex items-center">
+                <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
+                <div className="absolute left-14 h-6 w-px bg-border" />
+                <Input 
+                id="password" 
+                name="password" 
+                type={showPassword ? "text" : "password"} 
+                required 
+                className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
+                disabled={isSubmitting}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-6 text-foreground"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                disabled={isSubmitting}
+                >
+                {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                </button>
             </div>
         </div>
       </div>
