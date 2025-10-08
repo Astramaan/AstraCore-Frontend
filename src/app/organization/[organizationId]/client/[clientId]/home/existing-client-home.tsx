@@ -372,7 +372,7 @@ export default function ExistingClientHomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
         <main className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-64 sm:px-4 md:px-8 2xl:px-10">
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-56 sm:px-4 md:px-8 2xl:px-10">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
                      <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -413,7 +413,7 @@ export default function ExistingClientHomePage() {
 
                 <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                      <div className="flex flex-col gap-4">
-                        <Card className="rounded-[50px] bg-transparent p-6">
+                        <Card className="rounded-[50px] bg-transparent p-0">
                             <CardContent className="p-0">
                                 <div className="flex justify-between items-end">
                                     <div>
