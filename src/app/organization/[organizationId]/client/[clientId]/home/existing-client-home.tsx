@@ -357,12 +357,7 @@ export default function ExistingClientHomePage() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
-        <main className="relative z-10">
-             <div className="p-4 md:p-8 -mt-48 md:-mt-40 2xl:-mt-48">
-                <Card className="w-full rounded-[50px] bg-background/80 dark:bg-card/80 backdrop-blur-md p-6">
-                    <ProjectInfoHeader project={project} />
-                </Card>
-            </div>
+        <main className="relative z-10 pt-8">
             <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 px-4 md:px-8 mt-8">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
