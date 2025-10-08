@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Laptop, Smartphone, Tablet, X, ShieldAlert } from 'lucide-react';
@@ -18,9 +19,9 @@ import {
 import { useState } from 'react';
 
 const initialSessions = [
-    { device: 'Windows', icon: <Laptop className="w-6 h-6 text-grey-1" />, browser: 'Chrome', lastActive: '6 hrs ago' },
-    { device: 'Android', icon: <Smartphone className="w-6 h-6 text-grey-1" />, browser: 'Opera', lastActive: 'Yesterday' },
-    { device: 'iPhone', icon: <Tablet className="w-6 h-6 text-grey-1" />, browser: 'Safari', lastActive: '03/05/2025' },
+    { device: 'Windows', icon: <Laptop className="w-6 h-6 text-muted-foreground" />, browser: 'Chrome', lastActive: '6 hrs ago' },
+    { device: 'Android', icon: <Smartphone className="w-6 h-6 text-muted-foreground" />, browser: 'Opera', lastActive: 'Yesterday' },
+    { device: 'iPhone', icon: <Tablet className="w-6 h-6 text-muted-foreground" />, browser: 'Safari', lastActive: '03/05/2025' },
 ]
 
 export const ActiveSessionsCard = () => {
@@ -52,7 +53,7 @@ export const ActiveSessionsCard = () => {
                             </div>
                             <div>
                                 <p className="text-lg font-medium">{session.device}</p>
-                                <p className="text-base text-grey-2">{session.browser} • {session.lastActive}</p>
+                                <p className="text-base text-muted-foreground">{session.browser} • {session.lastActive}</p>
                             </div>
                         </div>
                         <AlertDialog>
@@ -72,12 +73,12 @@ export const ActiveSessionsCard = () => {
                                         <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
                                     </div>
                                     <AlertDialogTitle className="text-2xl font-semibold">Remove this device?</AlertDialogTitle>
-                                    <AlertDialogDescription className="text-lg text-grey-2">
+                                    <AlertDialogDescription className="text-lg text-muted-foreground">
                                         You will be logged out from this device and will need to sign in again.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter className="flex-row justify-center items-center gap-4 pt-4">
-                                    <AlertDialogCancel className="flex-1 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none bg-zinc-100 hover:bg-zinc-200 hover:text-black">Cancel</AlertDialogCancel>
+                                    <AlertDialogCancel className="flex-1 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none bg-zinc-100 hover:bg-zinc-200 hover:text-black">Cancel</AlertDialogCancel>
                                     <AlertDialogAction onClick={() => handleRemove(session.device)} className="flex-1 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Remove</AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>

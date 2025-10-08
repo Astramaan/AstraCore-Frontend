@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -93,7 +94,7 @@ const FeatureSectionEdit = ({ title, features, searchTerm, defaultEnabled = fals
                                 htmlFor={`${title}-${feature}`}
                                 className={cn(
                                     "ml-2 text-sm font-medium leading-none", 
-                                    isChecked ? 'text-black' : 'text-muted-foreground',
+                                    isChecked ? 'text-foreground' : 'text-muted-foreground',
                                     !isEnabled ? 'cursor-not-allowed' : 'cursor-pointer'
                                 )}
                             >
@@ -135,7 +136,7 @@ export const FeatureAccessDialog = ({ isOpen, onClose, category, roleName, isEdi
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white flex flex-col h-auto max-h-[90vh]">
+            <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-card flex flex-col h-auto max-h-[90vh]">
                  <DialogHeader className="p-6 border-b">
                     <DialogTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">{roleName} {category}</span>

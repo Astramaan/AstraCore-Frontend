@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState } from 'react';
@@ -55,7 +56,7 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
     return (
         <>
             <Dialog open={isOpen} onOpenChange={onClose}>
-                <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-white flex flex-col h-auto max-h-[90vh]">
+                <DialogContent className="sm:max-w-md p-0 rounded-[50px] bg-card flex flex-col h-auto max-h-[90vh]">
                     <DialogHeader className="p-6 border-b">
                         <DialogTitle className="flex justify-between items-center">
                             <div className="flex items-center gap-4">

@@ -107,7 +107,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
 
     return (
         <Sheet open={isOpen} onOpenChange={onOpenChange}>
-            <SheetContent className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-4xl md:mx-auto rounded-t-[50px] border-none md:max-h-[90vh]">
+            <SheetContent className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-4xl md:mx-auto rounded-t-[50px] border-none md:max-h-[90vh]">
                 <SheetHeader className="p-6 border-b shrink-0">
                     <SheetTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">Branding & Workflow</span>
@@ -134,7 +134,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                 </label>
                             </div>
                             <div className="flex items-center gap-4">
-                                <h4 className="text-lg font-medium text-grey-1">Theme Colors</h4>
+                                <h4 className="text-lg font-medium text-muted-foreground">Theme Colors</h4>
                                 <ColorInput label="Primary" color={primaryColor} setColor={setPrimaryColor} disabled={false}/>
                             </div>
                         </div>
@@ -162,7 +162,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             <Label className="text-lg font-medium">Marketing Bullet Points (Max 8)</Label>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {bulletPoints.map((point, index) => (
-                                    <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full" />
+                                    <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full bg-background dark:bg-input" />
                                 ))}
                             </div>
                         </div>
@@ -175,12 +175,12 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                 </Button>
                             </div>
                             {faqs.map((faq, index) => (
-                                <div key={index} className="space-y-2 p-4 border rounded-2xl relative">
+                                <div key={index} className="space-y-2 p-4 border rounded-2xl relative bg-background dark:bg-input">
                                     <Button size="icon" variant="ghost" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeFaq(index)}>
                                         <Trash2 className="h-4 w-4 text-destructive" />
                                     </Button>
-                                    <Input placeholder="Question" value={faq.question} onChange={(e) => handleFaqChange(index, 'question', e.target.value)} className="h-12 rounded-full font-semibold"/>
-                                    <Textarea placeholder="Answer" value={faq.answer} onChange={(e) => handleFaqChange(index, 'answer', e.target.value)} className="min-h-[60px] rounded-xl"/>
+                                    <Input placeholder="Question" value={faq.question} onChange={(e) => handleFaqChange(index, 'question', e.target.value)} className="h-12 rounded-full font-semibold bg-background dark:bg-input"/>
+                                    <Textarea placeholder="Answer" value={faq.answer} onChange={(e) => handleFaqChange(index, 'answer', e.target.value)} className="min-h-[60px] rounded-xl bg-background dark:bg-input"/>
                                 </div>
                             ))}
                         </div>
@@ -189,7 +189,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             <Label htmlFor="video-url" className="text-lg font-medium">Company Profile Video</Label>
                             <div className="relative">
                                 <Youtube className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                <Input id="video-url" placeholder="Enter YouTube video URL" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="pl-12 h-14 rounded-full"/>
+                                <Input id="video-url" placeholder="Enter YouTube video URL" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="pl-12 h-14 rounded-full bg-background dark:bg-input"/>
                             </div>
                         </div>
                     </div>

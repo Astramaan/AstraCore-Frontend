@@ -91,7 +91,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
     
     const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
         <div className="space-y-2">
-            <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-foreground')}>{label}</Label>
+            <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-muted-foreground' : 'text-foreground')}>{label}</Label>
             <Input id={id} className="h-14 bg-background rounded-full px-5" value={value} {...props} />
         </div>
     );
@@ -156,7 +156,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                         <div className="space-y-6">
                             <FloatingLabelInput id="phone" name="mobileNumber" label="Phone Number" value={formData.mobileNumber} onChange={handleInputChange} />
                             <div className="space-y-2">
-                                <Label className={cn("text-lg font-medium", 'text-grey-1')}>Team</Label>
+                                <Label className={cn("text-lg font-medium", 'text-muted-foreground')}>Team</Label>
                                 <Select name="team" value={formData.team} onValueChange={handleRoleChange}>
                                     <SelectTrigger className="h-14 bg-background rounded-full px-5">
                                         <SelectValue placeholder="Select a role" />
@@ -187,12 +187,12 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
                             <ShieldAlert className="w-8 h-8 text-yellow-600 absolute" />
                         </div>
                         <AlertDialogTitle className="text-2xl font-semibold">Confirm Role Change</AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-grey-2">
+                        <AlertDialogDescription className="text-lg text-muted-foreground">
                             Changing the role of a Super Admin can have significant security implications. Are you sure you want to proceed?
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                        <AlertDialogCancel onClick={cancelRoleChange} className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-black border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel onClick={cancelRoleChange} className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
                         <AlertDialogAction onClick={confirmRoleChange} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-white hover:bg-primary/90">Confirm</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -274,35 +274,35 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
 
                         <div className="flex-1 w-full grid grid-cols-2 gap-y-4 gap-x-4 md:gap-x-8">
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Full Name</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Full Name</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight truncate">{member.name}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Phone Number</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Phone Number</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight truncate">{member.mobileNumber}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Email Id</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Email Id</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight truncate">{member.email}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Team</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Team</Label>
                                 <p className="text-primary text-base md:text-lg leading-tight truncate">{member.team}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Last Login</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Last Login</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight truncate">{initialMemberData.lastLogin}</p>
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Date Joined</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Date Joined</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight truncate">{initialMemberData.dateJoined}</p>
                             </div>
                              <div className="space-y-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Date of Birth</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Date of Birth</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight truncate">{initialMemberData.dob}</p>
                             </div>
                              <div className="space-y-1 col-span-2 md:col-span-1">
-                                <Label className="text-sm md:text-base font-medium text-grey-1">Address</Label>
+                                <Label className="text-sm md:text-base font-medium text-muted-foreground">Address</Label>
                                 <p className="text-foreground text-base md:text-lg leading-tight">{initialMemberData.address}</p>
                             </div>
                         </div>
