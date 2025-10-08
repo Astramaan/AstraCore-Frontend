@@ -24,23 +24,19 @@ export default function AuthForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    // This effect handles redirection after the user state has been updated.
-    if (!loading && user) {
-        let targetPath;
-        if (user.role === 'SUPER_ADMIN') {
-            targetPath = '/platform/dashboard';
-        } else if (user.team === 'New User') {
-            targetPath = `/organization/${user.organizationId}/client/new/${user.userId}/home`;
-        } else if (user.role === 'CLIENT') {
-            targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
-        } else {
-            targetPath = `/organization/${user.organizationId}/home`;
-        }
-        router.push(targetPath);
+  const redirectToDashboard = (userData: any) => {
+    let targetPath;
+    if (userData.role === 'SUPER_ADMIN') {
+        targetPath = '/platform/dashboard';
+    } else if (userData.team === 'New User') {
+        targetPath = `/organization/${userData.organizationId}/client/new/${userData.userId}/home`;
+    } else if (userData.role === 'CLIENT') {
+        targetPath = `/organization/${userData.organizationId}/client/${userData.userId}/home`;
+    } else {
+        targetPath = `/organization/${userData.organizationId}/home`;
     }
-  }, [user, loading, router]);
-
+    router.push(targetPath);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,9 +51,9 @@ export default function AuthForm() {
 
         const data = await res.json();
         
-        // Handle the contradictory backend response: proceed if user data exists, even if success is false.
         if (res.ok && data.user) {
             setUser(data.user);
+            redirectToDashboard(data.user);
         } else {
            toast({
             variant: "destructive",

@@ -65,29 +65,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const isSuperAdmin = user?.role === 'SUPER_ADMIN';
   const isClient = user?.role === 'CLIENT';
 
-  /*
-  useEffect(() => {
-    if (!loading && !pathname.startsWith('/invite')) {
-      const isAuthPage = pathname === '/' || pathname.startsWith('/signup') || pathname.startsWith('/otp-verification') || pathname.startsWith('/create-password') || pathname.startsWith('/forgot-password') || pathname.startsWith('/password-success');
-      
-      if (user && isAuthPage) {
-        let targetPath;
-        if (isSuperAdmin) {
-            targetPath = '/platform/dashboard';
-        } else if (isClient) {
-            targetPath = `/organization/${user.organizationId}/client/${user.userId}/home`;
-        } else {
-            targetPath = `/organization/${user.organizationId}/home`;
-        }
-        router.replace(targetPath);
-      } else if (!user && !isAuthPage) {
-        router.replace('/');
-      }
-    }
-  }, [user, loading, pathname, router, isClient, isSuperAdmin]);
-  */
-
-
   return (
     <UserContext.Provider value={{ user, loading, isSuperAdmin, isClient, setUser, logout }}>
       {children}
