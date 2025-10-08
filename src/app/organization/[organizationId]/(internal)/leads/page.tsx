@@ -35,6 +35,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/context/user-context';
 
 const LeadCard = ({ lead, organizationId, onSelectionChange, isSelected, onSingleDelete, onContact, onViewDetails, onLevelChange, onEdit, isFirst, isLast }: { lead: Lead, organizationId: string, onSelectionChange: (id: string, checked: boolean) => void, isSelected: boolean, onSingleDelete: (id: string) => void, onContact: (lead: Lead) => void, onViewDetails: (lead: Lead) => void, onLevelChange: (leadId: string, level: string) => void, onEdit: (lead: Lead) => void, isFirst?: boolean, isLast?: boolean }) => (
     <div className="flex flex-col group">
@@ -345,6 +346,7 @@ const FloatingActionBar = ({
 export default function LeadsPage() {
     const params = useParams();
     const { toast } = useToast();
+    const { user } = useUser();
     const organizationId = params.organizationId as string;
     const [allLeads, setAllLeads] = useState<Lead[]>([]);
     const [selectedLeads, setSelectedLeads] = useState<string[]>([]);
@@ -356,9 +358,14 @@ export default function LeadsPage() {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchLeads = async () => {
+        if (!user) return;
         setIsLoading(true);
         try {
-            const res = await fetch('/api/leads');
+            const res = await fetch('/api/leads', {
+                headers: {
+                    'x-user': JSON.stringify(user)
+                }
+            });
             const result = await res.json();
 
             if (result.success) {
@@ -397,8 +404,10 @@ export default function LeadsPage() {
     }
 
     useEffect(() => {
-        fetchLeads();
-    }, [toast]);
+        if(user) {
+            fetchLeads();
+        }
+    }, [user, toast]);
 
 
     const filteredLeads = useMemo(() => {
