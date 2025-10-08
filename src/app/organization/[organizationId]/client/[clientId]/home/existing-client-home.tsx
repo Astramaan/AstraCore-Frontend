@@ -360,7 +360,7 @@ export default function ExistingClientHomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
         <main className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-48">
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-64">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                      <div className="mb-6 flex flex-row gap-4 justify-between">
