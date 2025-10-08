@@ -28,8 +28,8 @@ import { Separator } from './ui/separator';
 import { Project } from '@/lib/data';
 import { ScrollArea } from './ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { getLeadByEmail, updateProject, addProject } from '@/app/actions';
-import { useRouter } from 'next/navigation';
+import { getLeadByEmail } from '@/app/actions';
+import { useRouter, useParams } from 'next/navigation';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
 import { Card, CardContent } from './ui/card';
 import { useUser } from '@/context/user-context';
@@ -449,6 +449,7 @@ const ProjectTimelineForm = ({
     const { toast } = useToast();
     const { user } = useUser();
     const router = useRouter();
+    const params = useParams();
 
     const [startDate, setStartDate] = useState<Date | undefined>(projectData?.startDate ? new Date(projectData.startDate) : undefined);
     const [isPending, startTransition] = useTransition();
@@ -468,7 +469,7 @@ const ProjectTimelineForm = ({
         setTimeline(newTimeline);
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
         const timelineData: Phase[] = timeline.map((phase) => ({
@@ -496,17 +497,34 @@ const ProjectTimelineForm = ({
             ...projectData,
             createdBy: user.userId, 
             phases: timelineData, 
-            startDate: startDate?.toISOString() 
+            startDate: startDate?.toISOString(),
+            organizationId: params.organizationId,
         };
 
         startTransition(async () => {
             try {
                 let result: { success: boolean; data?: any; message?: string; };
+                let response;
                 if (isEditMode) {
-                    result = await updateProject({ id: projectData.id, data: fullData, user });
+                    response = await fetch(`/api/projects/${projectData.id}`, {
+                        method: 'PATCH',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-user': JSON.stringify(user)
+                        },
+                        body: JSON.stringify(fullData),
+                    });
                 } else {
-                    result = await addProject(fullData);
+                     response = await fetch('/api/projects', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-user': JSON.stringify(user)
+                        },
+                        body: JSON.stringify(fullData),
+                    });
                 }
+                result = await response.json();
                 
                 if (result.success) {
                     onFormSuccess(result.data);
@@ -820,7 +838,6 @@ interface CreateProjectSheetProps {
 }
 
 export function CreateProjectSheet({ trigger, onProjectAdded, projectToEdit, onProjectUpdated, onOpenChange }: CreateProjectSheetProps) {
-    const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [step, setStep] = useState(1);

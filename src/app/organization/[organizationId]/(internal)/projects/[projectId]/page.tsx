@@ -22,7 +22,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { deleteProject } from "@/app/actions";
 import { ShieldAlert, Eye, ChevronLeft } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import { DesignDocumentsDialog } from '@/components/design-documents-dialog';
@@ -75,7 +74,6 @@ export default function ProjectDetailsPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-    const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
     const { toast } = useToast();
     const router = useRouter();
 
@@ -150,29 +148,42 @@ export default function ProjectDetailsPage() {
     };
     
     const handleDeleteClick = () => {
-        setProjectToDelete(project as Project);
         setIsDeleteDialogOpen(true);
     };
 
     const confirmDelete = async () => {
-        if (projectToDelete && user) {
-            const result = await deleteProject({ projectId: projectToDelete.id, user });
-            if (result.success) {
+        if (!project || !user) return;
+
+        try {
+            const res = await fetch(`/api/projects/${project.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'x-user': JSON.stringify(user)
+                }
+            });
+            const result = await res.json();
+            if (res.ok && result.success) {
                 toast({
                     title: 'Success',
-                    description: result.message,
+                    description: result.message || "Project deleted successfully.",
                 });
                 router.push(`/organization/${params.organizationId}/projects`);
+                router.refresh();
             } else {
                  toast({
                     variant: 'destructive',
                     title: 'Error',
-                    description: result.message,
+                    description: result.message || 'Failed to delete project.',
                 });
             }
-            setIsDeleteDialogOpen(false);
-            setProjectToDelete(null);
+        } catch(e) {
+             toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'An unexpected error occurred.',
+            });
         }
+        setIsDeleteDialogOpen(false);
     };
 
     const handleProjectUpdated = (updatedProject: Project) => {
@@ -273,7 +284,7 @@ export default function ProjectDetailsPage() {
                         </div>
                         <AlertDialogTitle className="text-2xl font-semibold">Confirm Project Deletion?</AlertDialogTitle>
                         <AlertDialogDescription className="text-lg text-grey-2">
-                           Deleting project "{projectToDelete?.name}" will permanently remove it. This action cannot be undone.
+                           Deleting project "{project?.name}" will permanently remove it. This action cannot be undone.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
