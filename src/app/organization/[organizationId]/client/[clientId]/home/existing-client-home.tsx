@@ -95,7 +95,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                         <div className="flex justify-between items-start">
                                             <h3 className="text-foreground text-base font-semibold">{stage.title}</h3>
                                             <Badge className={cn('capitalize', 
-                                                stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
+                                                stage.status === 'On Going' ? 'bg-green-100 text-green-700' : 
                                                 stage.status === 'completed' ? 'bg-green-100 text-green-700' :
                                                 'bg-gray-100 text-gray-600'
                                             )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
