@@ -11,7 +11,7 @@ import { useUser } from '@/context/user-context';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
-import { Dialog, DialogHeader, DialogTitle, DialogClose, DialogContent } from '@/components/ui/dialog';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from '@/components/ui/sheet';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { X, Download } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -43,21 +43,25 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
     const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
-                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
-                    <DialogTitle>{file.name}</DialogTitle>
-                    <DialogClose asChild>
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <SheetContent 
+                side="bottom"
+                className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
+                overlayClassName="bg-black/20 backdrop-blur-sm"
+            >
+                <SheetHeader className="p-4 border-b flex-row items-center justify-between">
+                    <SheetTitle>{file.name}</SheetTitle>
+                    <SheetClose asChild>
                         <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
                             <X className="h-5 w-5" />
                         </Button>
-                    </DialogClose>
-                </DialogHeader>
+                    </SheetClose>
+                </SheetHeader>
                 <div className="flex-1">
                     <iframe src={dummyPdfUrl} className="w-full h-full" title={file.name} />
                 </div>
-            </DialogContent>
-        </Dialog>
+            </SheetContent>
+        </Sheet>
     );
 };
 
@@ -231,16 +235,20 @@ const PaymentCard = () => (
 
 const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title }: { open: boolean, onOpenChange: (open: boolean) => void, images: string[], startIndex?: number, title: string }) => {
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-background">
-                <DialogHeader className="p-4 border-b flex-row items-center justify-between">
-                    <DialogTitle>{title}</DialogTitle>
-                    <DialogClose asChild>
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <SheetContent 
+                side="bottom"
+                className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
+                overlayClassName="bg-black/20 backdrop-blur-sm"
+            >
+                <SheetHeader className="p-4 border-b flex-row items-center justify-between">
+                    <SheetTitle>{title}</SheetTitle>
+                    <SheetClose asChild>
                         <Button variant="ghost" size="icon" className="rounded-full">
                             <X className="h-4 w-4" />
                         </Button>
-                    </DialogClose>
-                </DialogHeader>
+                    </SheetClose>
+                </SheetHeader>
                 <div className="flex-1 p-6 flex items-center justify-center">
                     <Carousel
                         opts={{
@@ -262,8 +270,8 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
                         <CarouselNext />
                     </Carousel>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </SheetContent>
+        </Sheet>
     );
 };
 
@@ -348,7 +356,7 @@ export default function ExistingClientHomePage() {
   return (
     <>
       <main>
-        <div className="relative mb-8 md:hidden">
+        <div className="relative md:hidden">
             <ProjectInfoHeader project={project} />
         </div>
         <div className="hidden md:block bg-card rounded-[50px] mb-8">

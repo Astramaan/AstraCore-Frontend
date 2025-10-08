@@ -7,9 +7,10 @@ import { Button } from './ui/button';
 import { X, ArrowRight } from 'lucide-react';
 import { Separator } from './ui/separator';
 import PdfIcon from './icons/pdf-icon';
-import { Dialog, DialogContent, DialogHeader as DialogPrimitiveHeader, DialogTitle as DialogPrimitiveTitle, DialogClose } from './ui/dialog';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from './ui/sheet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { Badge } from './ui/badge';
+import { cn } from '@/lib/utils';
 
 interface FileVersion {
     name: string;
@@ -46,21 +47,25 @@ const PdfViewerDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenCh
     const dummyPdfUrl = `https://docs.google.com/gview?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf&embedded=true`;
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-card text-card-foreground">
-                <DialogPrimitiveHeader className="p-4 border-b flex-row items-center justify-between">
-                    <DialogPrimitiveTitle>{file.name}</DialogPrimitiveTitle>
-                    <DialogClose asChild>
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <SheetContent 
+                side="bottom" 
+                className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
+                overlayClassName="bg-black/20 backdrop-blur-sm"
+            >
+                <SheetHeader className="p-4 border-b flex-row items-center justify-between">
+                    <SheetTitle>{file.name}</SheetTitle>
+                    <SheetClose asChild>
                         <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full bg-background">
                             <X className="h-5 w-5" />
                         </Button>
-                    </DialogClose>
-                </DialogPrimitiveHeader>
+                    </SheetClose>
+                </SheetHeader>
                 <div className="flex-1">
                     <iframe src={dummyPdfUrl} className="w-full h-full" title={file.name} />
                 </div>
-            </DialogContent>
-        </Dialog>
+            </SheetContent>
+        </Sheet>
     );
 };
 
@@ -130,7 +135,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
                              if (totalFiles === 0) return null;
 
                             return (
-                                <AccordionItem key={phase.name} value={phase.name} className="bg-background dark:bg-zinc-800 rounded-[24px] border-none">
+                                <AccordionItem key={phase.name} value={phase.name} className="bg-background dark:bg-input rounded-[24px] border-none">
                                     <AccordionTrigger className="px-6 text-lg font-medium text-foreground hover:no-underline">
                                         <div className="flex items-center gap-3">
                                             <span>{phase.name}</span>
