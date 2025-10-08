@@ -20,22 +20,10 @@ import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
 import { ScrollArea } from './ui/scroll-area';
+import type { Lead } from '@/lib/data';
 
-export interface Lead {
-    organization: string;
-    leadId: string;
-    fullName: string;
-    contact: string;
-    phone: string;
-    email: string;
-    address: string;
-    pincode: string;
-    tokenAmount: string;
-    level: string;
-    profileImage: string;
-    coverImage: string;
-    siteImages: string[];
-}
+export type { Lead };
+
 
 interface LeadDetailsSheetProps {
     isOpen: boolean;

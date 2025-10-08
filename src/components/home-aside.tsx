@@ -45,7 +45,7 @@ interface HomeAsideProps {
     meetings?: Meeting[];
     myTasksChartData?: { name: string; value: number, fill?: string }[];
     assignedTasksChartData?: { name: string; value: number, fill?: string }[];
-    projectTasksChartData?: { name: string; value: number, fill: string }[];
+    projectTasksChartData?: { name: string; value: number; fill: string; }[];
     onMeetingClick?: (meeting: Meeting) => void;
     onAddTask?: (task: Omit<Task, 'id' | 'attachments'>) => void;
     showAddMemberButton?: boolean;

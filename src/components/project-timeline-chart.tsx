@@ -1,10 +1,9 @@
 
-
 'use client';
 
 import * as React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 
 interface ProjectTimelineChartProps {
@@ -90,5 +89,3 @@ export function ProjectTimelineChart({ data }: ProjectTimelineChartProps) {
         </motion.div>
     );
 }
-
-    

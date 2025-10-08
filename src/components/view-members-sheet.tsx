@@ -19,7 +19,6 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ChangePasswordDialog } from './change-password-dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
-import { deactivateUser, requestPasswordReset } from '@/app/actions';
 import { useToast } from './ui/use-toast';
 import { ScrollArea } from './ui/scroll-area';
 import { useUser } from '@/context/user-context';
@@ -54,23 +53,23 @@ const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamNa
     const organizationId = params.organizationId as string;
     
     const handlePasswordReset = async () => {
-        const formData = new FormData();
-        formData.append('email', member.email);
+        // const formData = new FormData();
+        // formData.append('email', member.email);
         
-        const result = await requestPasswordReset(null, formData);
+        // const result = await requestPasswordReset(null, formData);
 
-        if (result?.message) {
-             toast({
-                variant: "destructive",
-                title: "Error",
-                description: result.message,
-            });
-        } else {
-             toast({
-                title: "Success",
-                description: "Password reset link sent successfully.",
-            });
-        }
+        // if (result?.message) {
+        //      toast({
+        //         variant: "destructive",
+        //         title: "Error",
+        //         description: result.message,
+        //     });
+        // } else {
+        //      toast({
+        //         title: "Success",
+        //         description: "Password reset link sent successfully.",
+        //     });
+        // }
     };
     
     const canManage = user?.roleType === 'superAdmin';

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -64,7 +63,7 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev: any) => ({ ...prev, [name]: value }));
     };
 
     const handleRoleChange = (value: string) => {
@@ -72,13 +71,13 @@ const EditProfileForm = React.memo(({ member, onSave, onCancel }: { member: any,
             setPendingRole(value);
             setIsRoleChangeConfirmOpen(true);
         } else {
-            setFormData(prev => ({...prev, team: value}));
+            setFormData((prev: any) => ({...prev, team: value}));
         }
     }
 
     const confirmRoleChange = () => {
         if(pendingRole) {
-            setFormData(prev => ({ ...prev, team: pendingRole }));
+            setFormData((prev: any) => ({ ...prev, team: pendingRole }));
         }
         setPendingRole(null);
         setIsRoleChangeConfirmOpen(false);
