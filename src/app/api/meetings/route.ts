@@ -6,24 +6,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-
 function getAuthHeaders(req: Request): Record<string, string> {
     const userHeader = req.headers.get('x-user');
     if (!userHeader) {
-        // Fallback to static user if header is not present
-        const staticUser = {
-            "userId": "8c26c0b3032ecc4f",
-            "name": "saras",
-            "email": "saras@gmail.com",
-            "role": "ORG_ADMIN",
-            "mobileNumber": "9876543210",
-            "city": "Delhi",
-            "organizationId": "ORG-f9705032-d42a-46df-b799-87bcda629142",
-            "orgCode": "ABCConstructionsDEL"
-        };
-        return {
-            'Content-Type': 'application/json',
-            'x-user': JSON.stringify(staticUser),
-            'x-user-id': staticUser.userId,
-            'x-login-id': staticUser.email,
-            'x-organization-id': staticUser.organizationId,
-        };
+        console.warn("x-user header is missing in request to /api/meetings");
+        return { 'Content-Type': 'application/json' };
     }
     
     try {
@@ -37,7 +21,6 @@ function getAuthHeaders(req: Request): Record<string, string> {
         };
     } catch (error) {
         console.error("Failed to parse x-user header:", error);
-        // Return headers with a default/error state if parsing fails
         return { 'Content-Type': 'application/json' };
     }
 }
