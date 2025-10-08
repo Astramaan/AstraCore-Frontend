@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
+import { ClientHeader } from '@/components/client-header';
 import { Badge } from '@/components/ui/badge';
 import { PaymentsDialog } from '@/components/payments-dialog';
 import { ImageGallerySheet } from '@/components/image-gallery-sheet';
@@ -19,8 +20,8 @@ import PdfIcon from '@/components/icons/pdf-icon';
 import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
+import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ClientHeader } from '@/components/client-header';
 import { motion } from 'framer-motion';
 
 
@@ -377,9 +378,9 @@ export default function ExistingClientHomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
         <main className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-56 sm:px-4 md:px-8 2xl:px-10">
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-8 mt-56 sm:px-4 md:px-8 2xl:px-10">
                 {/* Timeline */}
-                <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1 px-4 md:px-0">
+                <div className="md:col-span-3 lg:col-span-4 2xl:col-span-6 order-2 md:order-1 px-4 md:px-0">
                      <div className="mb-6 flex flex-row gap-4 justify-between">
                         <Button
                             variant="outline"
@@ -416,9 +417,9 @@ export default function ExistingClientHomePage() {
                     </div>
                 </div>
 
-                <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
+                <aside className="md:col-span-2 lg:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                      <div className="flex flex-col gap-4">
-                        <Card className="rounded-[50px] p-6 border-none shadow-none bg-transparent">
+                        <Card className="rounded-[50px] p-0 border-none shadow-none bg-transparent">
                             <CardContent className="p-0">
                                 <div className="flex justify-between items-end">
                                     <div>
@@ -435,7 +436,7 @@ export default function ExistingClientHomePage() {
                                  <div className="bg-black/20 backdrop-blur-sm p-3 rounded-full mt-4">
                                     <div className="flex items-center gap-4">
                                         <Progress value={project.progress} className="h-2 flex-1" />
-                                        <span className="text-white font-semibold text-sm">{project.progress}% completed</span>
+                                        <span className="text-white font-semibold text-sm">{project.progress}%</span>
                                     </div>
                                 </div>
                             </CardContent>
