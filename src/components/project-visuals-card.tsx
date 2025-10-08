@@ -91,7 +91,7 @@ const ImageGrid = ({ images, title, onViewMoreClick, onImageClick }: { images: s
         <div>
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">{title}</h3>
-                <Button variant="link" className="text-cyan-500 p-0 h-auto" onClick={onViewMoreClick}>
+                <Button variant="link" className="text-primary p-0 h-auto" onClick={onViewMoreClick}>
                     View more <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
             </div>
