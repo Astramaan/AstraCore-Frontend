@@ -25,16 +25,18 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     const isLivePage = pathname.includes('/live');
     
     return (
-        <div className="relative min-h-screen w-full">
-            <Image
-                src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=2512&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfGFsbHx8fHx8fHx8fDE3NTk2OTg5MDl8"
-                alt="background"
-                layout="fill"
-                objectFit="cover"
-                objectPosition="top"
-                className="-z-10"
-                data-ai-hint="background image"
-            />
+        <div className="relative min-h-screen w-full bg-background">
+            <div className="absolute top-0 left-0 right-0 h-[50vh] -z-0">
+                <Image
+                    src="https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=2512&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfGFsbHx8fHx8fHx8fDE3NTk2OTg5MDl8"
+                    alt="background"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="top"
+                    className=""
+                    data-ai-hint="background image"
+                />
+            </div>
 
             <div className="min-h-screen relative">
                 {!isNativeApp && (
