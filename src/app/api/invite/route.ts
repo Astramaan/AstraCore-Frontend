@@ -4,24 +4,32 @@ import { NextResponse } from 'next/server';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
 function getAuthHeaders(req: Request): Record<string, string> {
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+    };
+    
     const userHeader = req.headers.get('x-user');
+    const authHeader = req.headers.get('authorization');
+
+    if (authHeader) {
+        headers['Authorization'] = authHeader;
+    }
+
     if (!userHeader) {
         console.warn("x-user header is missing in request to /api/invite");
-        return { 'Content-Type': 'application/json' };
+        return headers;
     }
     
     try {
         const user = JSON.parse(userHeader);
-        return {
-            'Content-Type': 'application/json',
-            'x-user': userHeader,
-            'x-user-id': user.userId,
-            'x-login-id': user.email,
-            'x-organization-id': user.organizationId,
-        };
+        headers['x-user'] = userHeader;
+        headers['x-user-id'] = user.userId;
+        headers['x-login-id'] = user.email;
+        headers['x-organization-id'] = user.organizationId;
+        return headers;
     } catch (error) {
         console.error("Failed to parse x-user header:", error);
-        return { 'Content-Type': 'application/json' };
+        return headers;
     }
 }
 
