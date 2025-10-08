@@ -384,13 +384,13 @@ export default function ExistingClientHomePage() {
                         <Button
                             variant="outline"
                             onClick={() => setIsCompletedTasksSheetOpen(true)}
-                            className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                            className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                         >
                             Completed Tasks
                         </Button>
                         <Button
                             variant="outline"
-                            className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                            className="rounded-full bg-white dark:bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                             onClick={() => setIsUpcomingTasksSheetOpen(true)}
                         >
                             Upcoming Tasks
@@ -418,7 +418,7 @@ export default function ExistingClientHomePage() {
 
                 <aside className="md:col-span-2 lg:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                      <div className="flex flex-col gap-4">
-                        <Card className="rounded-[50px] p-0 border-none shadow-none bg-transparent">
+                        <Card className="rounded-[50px] p-6 border-none shadow-none bg-transparent">
                             <CardContent className="p-0">
                                 <div className="flex justify-between items-end">
                                     <div>
