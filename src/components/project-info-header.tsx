@@ -22,7 +22,7 @@ interface ProjectInfoHeaderProps {
 
 export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps) => {
     return (
-        <div className="relative w-full h-80 md:h-64">
+        <div className="relative w-full h-80 md:h-64 md:rounded-b-[50px] overflow-hidden">
             <Image 
                 src={project.coverImage} 
                 layout="fill" 
@@ -30,14 +30,14 @@ export const ProjectInfoHeader = ({ project, children }: ProjectInfoHeaderProps)
                 objectPosition="center"
                 alt={`${project.name} cover`} 
                 data-ai-hint="abstract background" 
-                className="z-0 md:rounded-b-[50px]"
+                className="z-0"
                 sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10 md:rounded-b-[50px]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
             
             <div className="relative z-20 h-full flex flex-col justify-between p-6">
-                <div>
-                    {/* The ClientHeader is now in the layout, so we don't render it here */}
+                <div className="hidden md:block">
+                    <ClientHeader />
                 </div>
                 
                 <div className="space-y-4">
