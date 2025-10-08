@@ -1,10 +1,8 @@
 
-
 "use client";
 
 import { useFormStatus } from "react-dom";
 import React, { useState, useEffect, useActionState } from "react";
-import { createPassword } from "@/app/actions";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -12,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -25,39 +24,11 @@ function SubmitButton() {
 export default function ResetPasswordForm({ searchParams, onSuccess }: { searchParams: { [key: string]: string | string[] | undefined }, onSuccess: () => void }) {
   const { toast } = useToast();
 
-  const formAction = async (prevState: any, formData: FormData) => {
-    const password = formData.get('password') as string;
-    const confirmPassword = formData.get('confirm-password') as string;
-
-    if (password !== confirmPassword) {
-      return { success: false, message: 'Passwords do not match.' };
-    }
-    
-    console.log("Resetting password...");
-    if (onSuccess) {
-        onSuccess();
-        return { success: true };
-    }
-
-    return createPassword(prevState, formData);
-  }
-
-  const [state, dispatch] = useActionState(formAction, { success: false, message: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
-  useEffect(() => {
-    if (!state.success && state.message) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: state.message,
-      });
-    }
-  }, [state, toast]);
-
   return (
-    <form action={dispatch} className="flex-grow flex flex-col">
+    <form action={() => {}} className="flex-grow flex flex-col">
        <input type="hidden" name="email" value={searchParams.email || ''} />
       <div className="space-y-6">
         <div className="space-y-2">

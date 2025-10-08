@@ -16,8 +16,21 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from ".
 import { cn } from "@/lib/utils";
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { Meeting } from './edit-meeting-sheet';
 import GoogleMeetIcon from './icons/google-meet-icon';
+
+export interface Meeting {
+    id: string;
+    projectId?: string;
+    type: 'client' | 'lead' | 'others';
+    title?: string;
+    name: string;
+    city: string;
+    date: string;
+    time: string;
+    link: string;
+    email: string;
+    phone: string;
+}
 
 interface MeetingDetailsSheetProps {
   isOpen: boolean;

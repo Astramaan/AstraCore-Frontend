@@ -189,6 +189,9 @@ export default function MeetingsPage() {
                             city = m.manualDetails.location || 'N/A';
                             email = m.manualDetails.email || 'N/A';
                             phone = m.manualDetails.phoneNumber || 'N/A';
+                        } else if (m.targetType) {
+                            // In a real app, you would fetch lead/client details based on targetType.id
+                            name = m.title;
                         }
                         
                         let date = 'N/A';
