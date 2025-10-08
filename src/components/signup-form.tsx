@@ -119,7 +119,7 @@ export default function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
       <div className="space-y-4 flex-grow">
-         <div className="space-y-2">
+        <div className="space-y-2">
           <Label htmlFor="name" className={cn("text-lg font-medium", name ? 'text-muted-foreground' : 'text-foreground')}>Full Name</Label>
           <div className="relative flex items-center">
             <Input
@@ -136,7 +136,7 @@ export default function SignupForm() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
               <Label htmlFor="email" className={cn("text-lg font-medium", email ? 'text-muted-foreground' : 'text-foreground')}>Email ID</Label>
               <div className="relative flex items-center">
@@ -180,9 +180,7 @@ export default function SignupForm() {
                   />
               </div>
           </div>
-        </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
           <div className="space-y-2">
               <Label htmlFor="organization" className={cn("text-lg font-medium", organization ? 'text-muted-foreground' : 'text-foreground')}>Organization Name</Label>
               <div className="relative flex items-center">
