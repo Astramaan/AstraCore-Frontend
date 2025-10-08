@@ -183,7 +183,7 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
                 <p className="text-foreground text-sm font-normal">Chat with our Project Manager</p>
                 <p className="text-grey-1 text-xs">Quick Reply</p>
             </div>
-            <div className="grid place-items-center h-10 w-10 rounded-full bg-white">
+            <div className="grid place-items-center h-10 w-10 rounded-full">
                 <WhatsappIcon className="w-6 h-6" />
             </div>
         </a>
