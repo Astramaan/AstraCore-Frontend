@@ -370,14 +370,14 @@ export default function LeadsPage() {
 
             if (result.success) {
                 const formattedLeads = result.data.map((lead: any) => ({
-                    organization: lead.organizationName || "Organization Name",
-                    leadId: lead.userId,
-                    fullName: lead.name,
-                    contact: `${lead.email} | ${lead.mobileNumber}`,
-                    phone: lead.mobileNumber,
-                    email: lead.email,
-                    address: lead.siteAddress || "Address missing",
-                    pincode: lead.siteAddressPinCode || lead.siteLocationPinCode || "Pincode missing",
+                    organization: lead.organizationId || "Organization Name",
+                    leadId: lead._id,
+                    fullName: lead.inviteeName,
+                    contact: `${lead.inviteeEmail} | ${lead.inviteeMobileNumber}`,
+                    phone: lead.inviteeMobileNumber,
+                    email: lead.inviteeEmail,
+                    address: `Pincode: ${lead.siteLocationPinCode}` || "Address missing",
+                    pincode: lead.siteLocationPinCode || "Pincode missing",
                     tokenAmount: lead.tokenAmount || "Token missing",
                     level: lead.level || "Level 1",
                     profileImage: "https://placehold.co/94x94.png",
