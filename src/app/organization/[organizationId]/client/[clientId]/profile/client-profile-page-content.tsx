@@ -18,7 +18,7 @@ import { AddFamilyMemberSheet } from '@/components/add-family-member-sheet';
 const DetailField = ({ label, value }: { label: string, value: string }) => (
     <div className="space-y-1">
         <label className="text-sm text-muted-foreground">{label}</label>
-        <p className="text-lg">{value}</p>
+        <p className="text-lg text-foreground">{value}</p>
     </div>
 );
 
@@ -50,23 +50,23 @@ const EditProfileForm = ({ profile: initialProfile, onSave, onClose }: { profile
                 <div className="p-6 space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
-                        <Input id="name" name="name" value={profile.name} onChange={handleChange} className="h-[54px] rounded-full" />
+                        <Input id="name" name="name" value={profile.name} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input id="phone" name="phone" value={profile.phone} onChange={handleChange} className="h-[54px] rounded-full" />
+                        <Input id="phone" name="phone" value={profile.phone} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="email">Email ID</Label>
-                        <Input id="email" name="email" type="email" value={profile.email} onChange={handleChange} className="h-[54px] rounded-full" />
+                        <Input id="email" name="email" type="email" value={profile.email} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="pincode">Site location Pin code</Label>
-                        <Input id="pincode" name="pincode" value={profile.pincode} onChange={handleChange} className="h-[54px] rounded-full" />
+                        <Input id="pincode" name="pincode" value={profile.pincode} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="address">Current Address</Label>
-                        <Textarea id="address" name="address" value={profile.address} onChange={handleChange} className="rounded-3xl" />
+                        <Textarea id="address" name="address" value={profile.address} onChange={handleChange} className="rounded-3xl bg-input" />
                     </div>
                 </div>
             </ScrollArea>
@@ -113,9 +113,9 @@ export default function ClientProfilePageContent() {
     const isExistingClient = user?.team !== 'New User';
 
     return (
-        <div className="bg-zinc-100 min-h-screen">
+        <div className="bg-background min-h-screen">
             <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8 pb-32">
-                 <Card className="rounded-[50px] p-6 md:p-10">
+                 <Card className="rounded-[50px] p-6 md:p-10 bg-card">
                     <CardContent className="p-0">
                         <div className="flex items-center justify-between gap-4 mb-6">
                             <div className="flex items-center gap-4">
@@ -129,7 +129,7 @@ export default function ClientProfilePageContent() {
                                         Edit
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none">
+                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-card transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none">
                                      <EditProfileForm profile={profile} onSave={handleSave} onClose={() => setIsEditing(false)} />
                                 </SheetContent>
                             </Sheet>
@@ -142,14 +142,14 @@ export default function ClientProfilePageContent() {
                             <DetailField label="Site location Pin code" value={profile.pincode} />
                             <div className="col-span-1 md:col-span-2 space-y-1">
                                 <label className="text-sm text-muted-foreground">Current Address</label>
-                                <p className="text-lg">{profile.address}</p>
+                                <p className="text-lg text-foreground">{profile.address}</p>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
                 {isExistingClient && (
-                    <Card className="rounded-[50px] p-6 md:p-8">
+                    <Card className="rounded-[50px] p-6 md:p-8 bg-card">
                         <div className="flex justify-between items-center">
                             <div>
                                 <p className="text-lg font-semibold">Add Family Member</p>

@@ -24,8 +24,8 @@ import UserPlusIcon from './icons/user-plus-icon';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-black')}>{label}</Label>
-        <Input id={id} className="w-full h-14 bg-input rounded-[50px] px-6 text-lg" value={value} {...props} />
+        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-muted-foreground' : 'text-foreground')}>{label}</Label>
+        <Input id={id} className="w-full h-14 bg-input rounded-full px-6 text-lg" value={value} {...props} />
     </div>
 );
 
@@ -113,9 +113,9 @@ export function AddFamilyMemberSheet({ isOpen: controlledIsOpen, onOpenChange: c
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent 
           side="bottom"
-          className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+          className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
       >
-          <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
+          <SheetHeader className="p-6 border-b">
               <div className="flex items-center justify-between">
                 <SheetTitle className="flex items-center text-2xl font-semibold">
                     <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
