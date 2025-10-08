@@ -54,7 +54,7 @@ export async function POST(req: Request) {
             }
         };
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/invites`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/invite`, {
             method: 'POST',
             headers: getAuthHeaders(req),
             body: JSON.stringify(payload),
