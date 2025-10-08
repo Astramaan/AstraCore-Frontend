@@ -85,7 +85,9 @@ const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, 
                 inviteeName: name,
                 inviteeEmail: email,
                 inviteeMobileNumber: phone,
-                inviteeRole: team, // Backend expects team as role
+                inviteeRole: "ORG",
+                team: team,
+                roleType: role.toUpperCase(),
             }
         };
 
