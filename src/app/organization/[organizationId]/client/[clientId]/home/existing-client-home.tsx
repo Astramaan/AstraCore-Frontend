@@ -21,6 +21,7 @@ import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import { ProjectInfoHeader } from '@/components/project-info-header';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ClientHeader } from '@/components/client-header';
 
 
 interface TimelineStage {
@@ -349,6 +350,15 @@ export default function ExistingClientHomePage() {
   return (
     <>
       <div className="relative">
+        <header className="sticky top-2 z-20 px-2">
+            <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] px-4 py-2">
+                    <div className="max-w-[1440px] 2xl:max-w-none mx-auto">
+                        <ClientHeader />
+                    </div>
+                </div>
+            </div>
+        </header>
         <div className="absolute top-0 left-0 w-full h-[50vh] -z-10">
             <Image
                 src={project.coverImage}
@@ -362,7 +372,7 @@ export default function ExistingClientHomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
         <main className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-64 px-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 gap-8 mt-24 px-4">
                 {/* Timeline */}
                 <div className="md:col-span-3 lg:col-span-4 order-2 md:order-1">
                      <div className="mb-6 flex flex-row gap-4 justify-between">
@@ -403,7 +413,7 @@ export default function ExistingClientHomePage() {
 
                 <aside className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 order-1 md:order-2">
                      <div className="flex flex-col gap-4">
-                        <Card className="rounded-[50px] p-6">
+                        <Card className="rounded-[50px] p-6 bg-transparent">
                             <CardContent className="p-0">
                                 <div className="flex justify-between items-end">
                                     <div>
@@ -468,3 +478,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+
+    

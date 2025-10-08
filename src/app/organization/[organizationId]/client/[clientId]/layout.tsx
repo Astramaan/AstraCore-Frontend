@@ -40,8 +40,8 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             )}
             <main className={cn(
                 "w-full flex-1",
-                !isLivePage && "pb-32",
-                isHomePage ? 'p-0' : 'px-4'
+                !isLivePage && "pb-32 px-4",
+                isHomePage && "p-0"
             )}>
                 {children}
             </main>
@@ -49,3 +49,5 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </div>
     );
 }
+
+    
