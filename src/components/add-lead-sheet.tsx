@@ -30,6 +30,7 @@ import { SuccessPopup } from './success-popup';
 import { ScrollArea } from './ui/scroll-area';
 import UserPlusIcon from './icons/user-plus-icon';
 import { Lead } from './lead-details-sheet';
+import { useUser } from '@/context/user-context';
 
 const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
     <div className="relative flex flex-col justify-start items-start gap-2">
@@ -41,6 +42,7 @@ const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttri
 
 const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: (lead: Lead) => void }) => {
     const { toast } = useToast();
+    const { user } = useUser();
     const [isPending, startTransition] = useTransition();
 
     const [fullName, setFullName] = useState('');
@@ -112,7 +114,10 @@ const AddLeadForm = ({ onFormSuccess }: { onFormSuccess: (lead: Lead) => void })
             try {
                 const res = await fetch(`/api/leads`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-user': JSON.stringify(user)
+                    },
                     body: JSON.stringify(payload),
                 });
 
