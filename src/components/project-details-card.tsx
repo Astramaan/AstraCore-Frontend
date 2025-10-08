@@ -21,8 +21,8 @@ const DetailField = ({ label, value, fullWidth = false, icon }: DetailFieldProps
     <div className={cn("flex items-center gap-4", fullWidth ? 'col-span-2' : '')}>
         {icon && <div className="w-12 h-12 rounded-full bg-background flex items-center justify-center text-primary">{icon}</div>}
         <div className="space-y-1">
-            <Label className="text-sm md:text-base font-medium text-grey-1">{label}</Label>
-            <div className={cn("text-black text-base md:text-lg leading-tight", !fullWidth && "truncate")}>{value}</div>
+            <Label className="text-sm md:text-base font-medium text-muted-foreground">{label}</Label>
+            <div className={cn("text-foreground text-base md:text-lg leading-tight", !fullWidth && "truncate")}>{value}</div>
         </div>
     </div>
 );
@@ -76,7 +76,7 @@ export const ProjectDetailsCard = ({ personalInfo, projectInfo, onEdit, onDelete
                     {personalInfo && (
                         <>
                             <div className="space-y-6">
-                                <h4 className="text-lg font-medium text-stone-500 mb-4">Personal details</h4>
+                                <h4 className="text-lg font-medium text-muted-foreground mb-4">Personal details</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
                                     <DetailField label="Name" value={personalInfo.name} />
                                     <DetailField label="Client ID" value={personalInfo.clientId} />

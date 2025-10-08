@@ -25,7 +25,7 @@ export const ProjectMaterialsCard = ({ materials }: ProjectMaterialsCardProps) =
 
     return (
         <>
-            <Card className="rounded-[50px] p-10 border-0">
+            <Card className="rounded-[50px] p-10 border-0 bg-card">
                 <CardHeader className="p-0">
                      <div className="flex justify-between items-center">
                         <h3 className="text-xl font-medium">Materials</h3>
@@ -38,10 +38,10 @@ export const ProjectMaterialsCard = ({ materials }: ProjectMaterialsCardProps) =
                     {materials.slice(0, 3).map((material, index) => (
                          <React.Fragment key={index}>
                             <div className="flex gap-4">
-                                <Image src={material.image} alt={material.name} width={67} height={67} className="rounded-[10px] border border-stone-300" data-ai-hint="construction material" />
+                                <Image src={material.image} alt={material.name} width={67} height={67} className="rounded-[10px] border border-border" data-ai-hint="construction material" />
                                 <div className="flex-1">
                                     <p className="text-lg font-medium">{material.name}</p>
-                                    <p className="text-sm text-stone-400 line-clamp-3">{material.description}</p>
+                                    <p className="text-sm text-muted-foreground line-clamp-3">{material.description}</p>
                                 </div>
                             </div>
                             {index < materials.slice(0, 3).length - 1 && <Separator />}

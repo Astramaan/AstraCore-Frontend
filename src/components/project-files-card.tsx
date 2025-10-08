@@ -71,8 +71,8 @@ const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File 
                 <div className="flex items-center gap-4 flex-1 cursor-pointer" onClick={() => onFileClick(file)}>
                     <PdfIcon className="w-6 h-6 shrink-0" />
                     <div className="flex-1">
-                        <p className="text-base text-black font-medium group-hover:text-primary">{file.name}</p>
-                        <p className="text-xs text-stone-400">{file.date}</p>
+                        <p className="text-base text-foreground font-medium group-hover:text-primary">{file.name}</p>
+                        <p className="text-xs text-muted-foreground">{file.date}</p>
                     </div>
                 </div>
                 {file.version && <Badge variant="outline" className="font-mono">{file.version}</Badge>}
@@ -90,8 +90,8 @@ const FileItem = ({ file, onFileClick }: { file: File, onFileClick: (file: File 
                         {file.history.map((version, index) => (
                             <div key={index} className="flex items-center gap-4 py-2 cursor-pointer group pl-4" onClick={() => onFileClick(version)}>
                                 <div className="flex-1">
-                                    <p className="text-sm text-black font-medium group-hover:text-primary">{version.name}</p>
-                                    <p className="text-xs text-stone-400">{version.date}</p>
+                                    <p className="text-sm text-foreground font-medium group-hover:text-primary">{version.name}</p>
+                                    <p className="text-xs text-muted-foreground">{version.date}</p>
                                 </div>
                                 <Badge variant="outline" className="font-mono">{version.version}</Badge>
                                 <div className="p-2">
@@ -131,7 +131,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
 
                             return (
                                 <AccordionItem key={phase.name} value={phase.name} className="bg-background rounded-[24px] border-none">
-                                    <AccordionTrigger className="px-6 text-lg font-medium text-black hover:no-underline">
+                                    <AccordionTrigger className="px-6 text-lg font-medium text-foreground hover:no-underline">
                                         <div className="flex items-center gap-3">
                                             <span>{phase.name}</span>
                                             <span className="text-sm font-normal text-muted-foreground">({totalFiles} files)</span>

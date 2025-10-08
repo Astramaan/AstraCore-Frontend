@@ -62,7 +62,7 @@ const ImageGallerySheet = ({ open, onOpenChange, images, title, onImageClick }: 
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent 
                 side="bottom"
-                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
+                className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
             >
                 <SheetHeader className="p-4 border-b flex-row items-center justify-between">
                     <SheetTitle>{title}</SheetTitle>
@@ -129,7 +129,7 @@ export const ProjectVisualsCard = ({ visuals }: ProjectVisualsCardProps) => {
 
     return (
         <>
-            <Card className="rounded-[50px]">
+            <Card className="rounded-[50px] bg-card">
                 <CardContent className="p-10 flex flex-col gap-8">
                     <ImageGrid
                         images={visuals['3d']}
