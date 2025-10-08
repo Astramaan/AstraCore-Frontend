@@ -75,7 +75,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
     return (
         <>
              <Collapsible asChild>
-                <Card className={cn("rounded-[24px] bg-white transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}>
+                <Card className={cn("rounded-[24px] bg-card transition-shadow p-4", className, hasAttachments ? "cursor-pointer" : "")}>
                     <CollapsibleTrigger asChild disabled={!hasAttachments}>
                          <div className={cn("w-full")}>
                             <div className="flex items-center gap-4">
@@ -89,18 +89,18 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                 </div>
                                 <div className="flex-1 space-y-1 w-full text-left">
                                     <div className="flex justify-between items-start">
-                                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                                        <h3 className="text-foreground text-base font-semibold">{stage.title}</h3>
                                         <Badge className={cn('capitalize', 
                                             stage.status === 'On Going' ? 'bg-blue-100 text-blue-700' : 
                                             stage.status === 'completed' ? 'bg-green-100 text-green-700' :
                                             'bg-gray-100 text-gray-600'
                                         )}>{stage.status === 'completed' ? 'Completed' : stage.status}</Badge>
                                     </div>
-                                    <p className="text-sm">{stage.subtitle}</p>
+                                    <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
                                     <div className="pt-2">
                                         <Progress value={stage.progress} className="h-2" />
                                         <div className="flex justify-between items-center mt-2">
-                                            <span className="text-black text-xs font-normal">{stage.progress}%</span>
+                                            <span className="text-foreground text-xs font-normal">{stage.progress}%</span>
                                             <span className="text-grey-1 text-xs">{stage.date}</span>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                         <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 py-2 cursor-pointer -mx-2 px-2 rounded-lg hover:bg-muted">
                                             <PdfIcon className="w-6 h-6 shrink-0"/>
                                             <div className="flex-1">
-                                                <p className="text-base text-black font-medium">{doc.name}</p>
+                                                <p className="text-base text-foreground font-medium">{doc.name}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -150,7 +150,7 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
                                                 <div key={index} onClick={(e) => handlePdfClick(e, doc)} className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted">
                                                     <PdfIcon className="w-6 h-6 shrink-0"/>
                                                     <div className="flex-1">
-                                                        <p className="text-base text-black font-medium">{doc.name}</p>
+                                                        <p className="text-base text-foreground font-medium">{doc.name}</p>
                                                     </div>
                                                 </div>
                                             ))}
@@ -177,10 +177,10 @@ const StageCard = ({ stage, onReopen, className }: { stage: TimelineStage, onReo
 };
 
 const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
-    <Card className="rounded-full">
+    <Card className="rounded-full bg-card">
         <a href={`https://wa.me/91${pmPhoneNumber}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 px-6 gap-2">
             <div className="text-left">
-                <p className="text-black text-sm font-normal">Chat with our Project Manager</p>
+                <p className="text-foreground text-sm font-normal">Chat with our Project Manager</p>
                 <p className="text-grey-1 text-xs">Quick Reply</p>
             </div>
             <div className="grid place-items-center h-10 w-10 rounded-full bg-white">
@@ -192,10 +192,10 @@ const ChatCard = ({ pmPhoneNumber }: { pmPhoneNumber: string }) => (
 
 const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () => void, onImageClick: (index: number) => void, siteImages: string[] }) => {
     return (
-        <Card className="rounded-[50px] w-full hidden md:block">
+        <Card className="rounded-[50px] w-full hidden md:block bg-card">
             <CardContent className="p-6 md:pb-10 space-y-4">
                 <div className="flex justify-between items-center">
-                    <p className="text-black text-base font-normal">Recent Site Photos</p>
+                    <p className="text-foreground text-base font-normal">Recent Site Photos</p>
                     <Button variant="link" className="text-cyan-500 text-sm p-0 h-auto" onClick={onViewMore}>view more</Button>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -212,16 +212,16 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages }: { onViewMore: () =
 
 
 const PaymentCard = () => (
-    <Card className="rounded-full cursor-pointer">
+    <Card className="rounded-full cursor-pointer bg-card">
         <CardContent className="p-4 px-6 w-full">
             <div className="flex items-center justify-between gap-4">
                  <div className="flex-1">
-                    <p className="text-black text-sm font-normal">Payment</p>
+                    <p className="text-foreground text-sm font-normal">Payment</p>
                     <p className="text-grey-1 text-xs">Due on 05 June</p>
                 </div>
                 <div className="flex gap-1">
                     {[...Array(7)].map((_, i) => (
-                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200")}></div>
+                        <div key={i} className={cn("w-3 h-6 rounded-[3px]", i === 0 ? "bg-cyan-500" : "bg-zinc-200 dark:bg-zinc-700")}></div>
                     ))}
                 </div>
             </div>
@@ -351,7 +351,7 @@ export default function ExistingClientHomePage() {
         <div className="relative mb-8 md:hidden">
             <ProjectInfoHeader project={project} />
         </div>
-        <div className="hidden md:block bg-background rounded-[50px] mb-8">
+        <div className="hidden md:block bg-card rounded-[50px] mb-8">
              <ProjectInfoHeader project={project} />
         </div>
         
@@ -361,13 +361,13 @@ export default function ExistingClientHomePage() {
                     <Button
                         variant="outline"
                         onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
+                        className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                     >
                         Completed Stages
                     </Button>
                     <Button
                         variant="outline"
-                        className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
+                        className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
                         onClick={() => setIsUpcomingTasksSheetOpen(true)}
                     >
                         Upcoming Stages
