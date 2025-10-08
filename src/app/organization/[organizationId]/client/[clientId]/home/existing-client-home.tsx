@@ -355,66 +355,62 @@ export default function ExistingClientHomePage() {
 
   return (
     <>
-      <main>
-        <div className="relative md:hidden">
+        <div className="relative">
             <ProjectInfoHeader project={project} />
         </div>
-        <div className="hidden md:block bg-card rounded-[50px] mb-8">
-             <ProjectInfoHeader project={project} />
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-5 2xl:grid-cols-6 gap-8">
-            <div className="md:col-span-3 2xl:col-span-4 order-2 md:order-1">
-                <div className="mb-6 flex flex-row gap-4 justify-between">
-                    <Button
-                        variant="outline"
-                        onClick={() => setIsCompletedTasksSheetOpen(true)}
-                        className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
-                    >
-                        Completed Stages
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
-                        onClick={() => setIsUpcomingTasksSheetOpen(true)}
-                    >
-                        Upcoming Stages
-                    </Button>
-                </div>
-                <div className="relative pb-4">
-                    {recentlyCompletedTasks.length > 0 && (
-                        <div className="mb-8">
-                            <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
-                            <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
-                                {recentlyCompletedTasks.map((stage, index) => (
-                                    <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
-                                ))}
+        <main className="bg-background rounded-t-[50px] -mt-12 pt-8 relative z-10">
+            <div className="grid grid-cols-1 md:grid-cols-5 2xl:grid-cols-6 gap-8">
+                <div className="md:col-span-3 2xl:col-span-4 order-2 md:order-1">
+                    <div className="mb-6 flex flex-row gap-4 justify-between">
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsCompletedTasksSheetOpen(true)}
+                            className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
+                        >
+                            Completed Stages
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1 2xl:flex-none 2xl:w-64"
+                            onClick={() => setIsUpcomingTasksSheetOpen(true)}
+                        >
+                            Upcoming Stages
+                        </Button>
+                    </div>
+                    <div className="relative pb-4">
+                        {recentlyCompletedTasks.length > 0 && (
+                            <div className="mb-8">
+                                <h3 className="text-xl font-semibold mb-4">Recently Completed</h3>
+                                <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
+                                    {recentlyCompletedTasks.map((stage, index) => (
+                                        <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                                    ))}
+                                </div>
+                                <Separator className="my-8" />
                             </div>
-                            <Separator className="my-8" />
+                        )}
+                        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
+                            {timeline.map((stage, index) => (
+                                <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
+                            ))}
                         </div>
-                    )}
-                    <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
-                        {timeline.map((stage, index) => (
-                            <StageCard key={index} stage={stage} onReopen={handleReopenTask} />
-                        ))}
                     </div>
                 </div>
-            </div>
 
-            <aside className="md:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-1 md:order-2 2xl:w-[420px] 2xl:ml-auto">
-                <div className="flex flex-col gap-4">
-                    <PaymentsDialog>
-                        <PaymentCard />
-                    </PaymentsDialog>
-                    <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
-                    <SitePhotos 
-                        onViewMore={() => setIsGalleryOpen(true)}
-                        onImageClick={openImagePreview}
-                        siteImages={project.siteImages}
-                    />
-                </div>
-            </aside>
-        </div>
+                <aside className="md:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-1 md:order-2 2xl:w-[420px] 2xl:ml-auto">
+                    <div className="flex flex-col gap-4">
+                        <PaymentsDialog>
+                            <PaymentCard />
+                        </PaymentsDialog>
+                        <ChatCard pmPhoneNumber={project.pmPhoneNumber} />
+                        <SitePhotos 
+                            onViewMore={() => setIsGalleryOpen(true)}
+                            onImageClick={openImagePreview}
+                            siteImages={project.siteImages}
+                        />
+                    </div>
+                </aside>
+            </div>
       </main>
       <ImageGallerySheet
           open={isGalleryOpen}
