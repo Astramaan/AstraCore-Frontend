@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/context/user-context';
 
 const MeetingListItem = ({ meeting, onEdit, onDelete, onViewDetails, isFirst, isLast }: { meeting: Meeting, onEdit: (meeting: Meeting) => void, onDelete: (meeting: Meeting) => void, onViewDetails: (meeting: Meeting) => void, isFirst?: boolean, isLast?: boolean }) => (
      <div className="flex flex-col group">
@@ -150,6 +151,7 @@ export default function MeetingsPage() {
     const params = useParams();
     const organizationId = params.organizationId as string;
     const { toast } = useToast();
+    const { user } = useUser();
     const [searchTerm, setSearchTerm] = useState('');
     const [allMeetings, setAllMeetings] = useState<Meeting[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -159,10 +161,16 @@ export default function MeetingsPage() {
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
 
     useEffect(() => {
+        if (!user) return;
         const fetchMeetings = async () => {
             setIsLoading(true);
             try {
-                const res = await fetch('/api/meetings');
+                const res = await fetch('/api/meetings', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-user': JSON.stringify(user),
+                    }
+                });
                 if (!res.ok) {
                     throw new Error('Failed to fetch meetings');
                 }
@@ -193,7 +201,7 @@ export default function MeetingsPage() {
         };
 
         fetchMeetings();
-    }, [toast]);
+    }, [toast, user]);
 
     const handleAddNewMeeting = (newMeeting: Omit<Meeting, 'id'>) => {
         const meetingWithId = { ...newMeeting, id: `NEW${Date.now()}`};
