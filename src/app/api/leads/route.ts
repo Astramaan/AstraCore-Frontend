@@ -43,7 +43,6 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         
-        // Backend expects the payload to be nested inside `inviteeDetails`
         const payload = {
             inviteeDetails: {
                 inviteeName: body.fullName,
@@ -54,26 +53,27 @@ export async function POST(req: Request) {
             }
         };
 
-        const res = await fetch(`${API_BASE_URL}/api/v1/invite`, {
+        const res = await fetch(`${API_BASE_URL}/api/v1/leads`, {
             method: 'POST',
             headers: getAuthHeaders(req),
             body: JSON.stringify(payload),
         });
         
         const text = await res.text();
+        // Handle cases where the backend might return an empty body on success
         if (!text) {
             if (res.ok) {
-                 return new NextResponse(JSON.stringify({ success: true, message: "Invitation sent successfully." }), { status: res.status, headers: { 'Content-Type': 'application/json' } });
+                 return new NextResponse(JSON.stringify({ success: true, message: "Lead added successfully." }), { status: res.status, headers: { 'Content-Type': 'application/json' } });
             }
             // If response is not ok and body is empty, create a generic error response.
-            return NextResponse.json({ success: false, message: "An error occurred on the backend." }, { status: res.status });
+            return NextResponse.json({ success: false, message: "An error occurred on the backend and it sent no details." }, { status: res.status });
         }
         
         const data = JSON.parse(text);
         return NextResponse.json(data, { status: res.status });
 
     } catch (error) {
-        console.error("Add lead proxy (invite) failed:", error);
-        return NextResponse.json({ success: false, message: "An unexpected error occurred." }, { status: 500 });
+        console.error("Add lead proxy failed:", error);
+        return NextResponse.json({ success: false, message: "An unexpected error occurred while adding the lead." }, { status: 500 });
     }
 }
