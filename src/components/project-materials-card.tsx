@@ -29,7 +29,7 @@ export const ProjectMaterialsCard = ({ materials }: ProjectMaterialsCardProps) =
                 <CardHeader className="p-0">
                      <div className="flex justify-between items-center">
                         <h3 className="text-xl font-medium">Materials</h3>
-                        <Button variant="link" className="text-cyan-500 p-0 h-auto" onClick={() => setIsSheetOpen(true)}>
+                        <Button variant="link" className="text-primary p-0 h-auto" onClick={() => setIsSheetOpen(true)}>
                             View more <ArrowRight className="w-4 h-4 ml-1" />
                         </Button>
                     </div>
