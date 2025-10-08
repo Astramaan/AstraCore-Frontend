@@ -1,12 +1,13 @@
 
 'use client';
 
-import { GanttChartSquare, Video, User } from 'lucide-react';
+import { Video, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useUser } from '@/context/user-context';
 import HomeIcon from './icons/home-icon';
+import ProjectsIcon from './icons/projects-icon';
 
 export const ClientBottomNav = () => {
     const pathname = usePathname();
@@ -17,7 +18,7 @@ export const ClientBottomNav = () => {
 
     const navItems = [
         { href: `/organization/${organizationId}/client/${clientId}/home`, icon: HomeIcon, label: "Home" },
-        { href: `/organization/${organizationId}/client/${clientId}/project`, icon: GanttChartSquare, label: "My Project" },
+        { href: `/organization/${organizationId}/client/${clientId}/project`, icon: ProjectsIcon, label: "My Project" },
         { href: `/organization/${organizationId}/client/${clientId}/live`, icon: Video, label: "Live" },
         { href: `/organization/${organizationId}/client/${clientId}/profile`, icon: User, label: "Profile" },
     ];
@@ -41,7 +42,7 @@ export const ClientBottomNav = () => {
                                         <div className={cn(
                                             "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
                                             "rounded-full h-[54px] md:h-14",
-                                            isActive ? "bg-primary text-white dark:bg-primary dark:text-primary-foreground px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10"
+                                            isActive ? "bg-primary text-white dark:text-black px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10"
                                         )}>
                                             <item.icon className={cn("w-6 h-6 shrink-0", !isActive && "group-hover:text-primary")} />
                                             {isActive && (
