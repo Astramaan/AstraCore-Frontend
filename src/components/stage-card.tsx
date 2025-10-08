@@ -36,7 +36,7 @@ const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenC
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white">
+            <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white dark:bg-card">
                 <DialogHeader className="p-4 border-b flex-row items-center justify-between">
                     <DialogTitle>{file.name}</DialogTitle>
                     <DialogClose asChild>
@@ -112,7 +112,7 @@ export const StageCard = ({
                                 <Progress value={stage.progress} className="h-2" />
                                 <div className="flex justify-between items-center mt-2">
                                     <span className="text-foreground text-xs font-normal">{stage.progress}%</span>
-                                    <span className="text-grey-1 text-xs">{stage.date}</span>
+                                    <span className="text-muted-foreground text-xs">{stage.date}</span>
                                 </div>
                             </div>
                         </div>

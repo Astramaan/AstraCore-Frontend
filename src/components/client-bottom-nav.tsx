@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Home, GanttChartSquare, Video, User, Layers } from 'lucide-react';
@@ -36,11 +35,11 @@ export const ClientBottomNav = () => {
                             const isActive = pathname.startsWith(item.href);
                             return (
                                 <Link href={item.href} key={item.label} title={item.label} className="flex-shrink-0 group">
-                                    <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                                    <div className="relative">
                                         <div className={cn(
                                             "flex flex-row items-center justify-center gap-1.5 transition-all duration-300 ease-in-out",
                                             "rounded-full h-[54px] md:h-14",
-                                            isActive ? "bg-primary text-white dark:text-black px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10"
+                                            isActive ? "bg-primary text-white dark:bg-primary dark:text-primary-foreground px-4" : "bg-black/20 dark:bg-black/30 text-white w-[54px] md:w-14 hover:bg-primary/10"
                                         )}>
                                             <item.icon className={cn("w-6 h-6 shrink-0", !isActive && "group-hover:text-primary")} />
                                             {isActive && (

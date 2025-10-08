@@ -59,7 +59,7 @@ export const ClientHeader = () => {
                 {pageTitle && (
                     <>
                         <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white dark:text-white">
+                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white">
                            {pageTitle}
                         </h2>
                     </>
