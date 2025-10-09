@@ -4,7 +4,7 @@
 import React, { useState, useRef } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
-import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles } from 'lucide-react';
+import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles, Award, GanttChartSquare, Shield, DollarSign, Home, User, Laptop, MapPin, Search, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
@@ -14,6 +14,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 
 const ColorInput = ({ label, color, setColor }: { label:string, color: string, setColor: (color: string) => void }) => (
     <div className="space-y-4">
@@ -43,9 +44,26 @@ const initialFaqs = [
     { question: 'How long does it take to build a house?', answer: 'The construction timeline varies depending on the project\'s complexity and size. On average, it takes about 6-9 months.' }
 ];
 
-const initialBulletPoints = [
-    "Unique Design", "Efficient planning", "Disaster Resilient", "1 Year Warranty",
-    "Project Tracking", "50 Year Guarantee", "Structure as per NBC", "Transparent Pricing"
+const icons: { [key: string]: React.ReactNode } = {
+    GanttChartSquare: <GanttChartSquare className="text-white" />,
+    Award: <Award className="text-white" />,
+    Shield: <Shield className="text-white" />,
+    DollarSign: <DollarSign className="text-white" />,
+    Home: <Home className="text-white" />,
+    User: <User className="text-white" />,
+    Laptop: <Laptop className="text-white" />,
+    MapPin: <MapPin className="text-white" />,
+};
+
+const initialBulletPoints: { text: string; icon: string }[] = [
+    { text: "Unique Design", icon: "GanttChartSquare" },
+    { text: "Efficient planning", icon: "GanttChartSquare" },
+    { text: "Disaster Resilient", icon: "Shield" },
+    { text: "1 Year Warranty", icon: "Award" },
+    { text: "Project Tracking", icon: "GanttChartSquare" },
+    { text: "50 Year Guarantee", icon: "Award" },
+    { text: "Structure as per NBC", icon: "Home" },
+    { text: "Transparent Pricing", icon: "DollarSign" },
 ];
 
 export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpenChange: (open: boolean) => void }) => {
@@ -80,7 +98,13 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
 
     const handleBulletPointChange = (index: number, value: string) => {
         const newBulletPoints = [...bulletPoints];
-        newBulletPoints[index] = value;
+        newBulletPoints[index].text = value;
+        setBulletPoints(newBulletPoints);
+    };
+
+    const handleIconChange = (index: number, icon: string) => {
+        const newBulletPoints = [...bulletPoints];
+        newBulletPoints[index].icon = icon;
         setBulletPoints(newBulletPoints);
     };
 
@@ -116,7 +140,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         setIsAiContentLoading(true);
         try {
             const result: ContentSuggestionOutput = await getContentSuggestions({ companyDescription });
-            setBulletPoints(result.bulletPoints);
+            setBulletPoints(result.bulletPoints.map(bp => ({ text: bp, icon: 'GanttChartSquare' })));
             setFaqs(result.faqs);
             toast({
                 title: 'Content Generated!',
@@ -155,7 +179,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                 <SheetHeader className="p-6 border-b shrink-0">
                     <div className="flex justify-between items-start">
                          <div className="space-y-1">
-                            <SheetTitle className="text-2xl font-semibold">Branding &amp; Workflow</SheetTitle>
+                            <SheetTitle className="text-2xl font-semibold">Branding & Workflow</SheetTitle>
                             <SheetDescription className="text-muted-foreground">
                                 These customizations will reflect on the client version of your organization.
                             </SheetDescription>
@@ -231,8 +255,36 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             <div className="space-y-4">
                                 <Label className="text-lg font-medium">Marketing Bullet Points (Max 8)</Label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {bulletPoints.map((point, index) => (
-                                        <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full bg-background" />
+                                     {bulletPoints.map((point, index) => (
+                                        <div key={index} className="flex items-center gap-2">
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Button variant="outline" className="w-14 h-14 rounded-full p-0 flex-shrink-0">
+                                                        {React.cloneElement(icons[point.icon] as React.ReactElement, { className: "text-foreground" })}
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-64 p-2">
+                                                    <div className="grid grid-cols-4 gap-2">
+                                                        {Object.keys(icons).map(iconKey => (
+                                                            <Button
+                                                                key={iconKey}
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="w-12 h-12"
+                                                                onClick={() => handleIconChange(index, iconKey)}
+                                                            >
+                                                                 {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                            </Button>
+                                                        ))}
+                                                    </div>
+                                                </PopoverContent>
+                                            </Popover>
+                                            <Input
+                                                value={point.text}
+                                                onChange={(e) => handleBulletPointChange(index, e.target.value)}
+                                                className="h-12 rounded-full bg-background"
+                                            />
+                                        </div>
                                     ))}
                                 </div>
                             </div>
@@ -253,13 +305,13 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                             placeholder="Question"
                                             value={faq.question}
                                             onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
-                                            className="h-12 rounded-full font-semibold bg-card"
+                                            className="h-12 rounded-full font-semibold bg-card dark:bg-background"
                                         />
                                         <Textarea
                                             placeholder="Answer"
                                             value={faq.answer}
                                             onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
-                                            className="min-h-[60px] rounded-xl bg-card"
+                                            className="min-h-[60px] rounded-xl bg-card dark:bg-background"
                                         />
                                     </div>
                                 ))}
