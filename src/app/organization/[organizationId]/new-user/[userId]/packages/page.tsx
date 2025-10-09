@@ -82,8 +82,8 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
     </Card>
 );
 
-export default function PackagesPage({ params }: { params: { organizationId: string; newuserId: string } }) {
-    const { organizationId, newuserId } = params;
+export default function PackagesPage({ params }: { params: { organizationId: string; userId: string } }) {
+    const { organizationId, userId } = params;
 
     return (
         <div className="bg-background min-h-screen">
@@ -100,7 +100,7 @@ export default function PackagesPage({ params }: { params: { organizationId: str
 
                 <div className="text-center pt-8">
                     <Button asChild className="rounded-full h-[54px] px-8 text-lg">
-                        <Link href={`/organization/${organizationId}/client/new/${newuserId}/home#book-consultation-section`}>
+                        <Link href={`/organization/${organizationId}/new-user/${userId}/home#book-consultation-section`}>
                             Contact Team
                         </Link>
                     </Button>

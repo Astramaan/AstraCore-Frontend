@@ -1,13 +1,17 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
-import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin } from 'lucide-react';
-import React, { useState, useEffect } from "react";
+import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin, Upload } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
-import { ClientHeader } from "@/components/client-header";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
 
 const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
     <div className="flex flex-col items-center gap-4 text-center z-10">
@@ -99,11 +103,13 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
     );
 }
 
-export default function MeetUsPage() {
+export default function NewUserHomePage({ params }: { params: { organizationId: string; userId: string } }) {
     const [isConsultationDialogOpen, setIsConsultationDialogOpen] = useState(false);
     const [consultationType, setConsultationType] = useState<'office' | 'home' | 'online' | 'in-person' | null>(null);
     const [appointment, setAppointment] = useState<AppointmentDetails | null>(null);
     const [isClient, setIsClient] = useState(false);
+    const [siteImage, setSiteImage] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setIsClient(true);
@@ -113,10 +119,22 @@ export default function MeetUsPage() {
         setConsultationType(type);
         setIsConsultationDialogOpen(true);
     }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log("Submitting homeowner form");
+        // Here you would typically handle the form submission
+    };
     
     const handleBookingSuccess = (details: AppointmentDetails) => {
         setAppointment(details);
     }
+
+    const handleSiteImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSiteImage(e.target.files[0]);
+        }
+    };
 
     const faqs = [
         {
@@ -140,7 +158,7 @@ export default function MeetUsPage() {
     return (
         <div className="bg-zinc-100 min-h-screen">
             <main>
-                <div className="max-w-[1240px] mx-auto space-y-8 md:p-8 pb-32">
+                <div className="max-w-[1240px] 2xl:max-w-none mx-auto space-y-8 md:p-8 2xl:px-10">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-card rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
@@ -166,6 +184,53 @@ export default function MeetUsPage() {
                             </>
                         )}
                     </Card>
+
+                     <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px] flex flex-col justify-start items-center">
+                        <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
+                            <h2 className="text-center text-foreground text-xl font-medium leading-tight">Submit Your Project Details</h2>
+                            <p className="text-center text-muted-foreground text-xs font-normal leading-none mt-2 mb-6">Provide us with some basic information about your project.</p>
+                            <form onSubmit={handleSubmit} className="w-full space-y-4">
+                                <div>
+                                    <Label htmlFor="project-type">Project Type</Label>
+                                    <Input id="project-type" placeholder="e.g., New Construction, Renovation" className="h-[54px] rounded-full" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="floor-count">Number of Floors</Label>
+                                    <Input id="floor-count" type="number" placeholder="e.g., G+2" className="h-[54px] rounded-full" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="site-address">Site Address</Label>
+                                    <Textarea id="site-address" placeholder="Enter the full site address" className="min-h-[54px] rounded-3xl" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="site-image">Site Image</Label>
+                                    <div 
+                                        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer"
+                                        onClick={() => fileInputRef.current?.click()}
+                                    >
+                                        <div className="space-y-1 text-center">
+                                            {siteImage ? (
+                                                <Image src={URL.createObjectURL(siteImage)} alt="Site preview" width={100} height={100} className="mx-auto h-24 w-auto" />
+                                            ) : (
+                                                <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                                            )}
+                                            <div className="flex text-sm text-gray-600">
+                                                <p className="pl-1">{siteImage ? siteImage.name : 'Upload a file or drag and drop'}</p>
+                                            </div>
+                                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>
+                                    <Input id="site-image-upload" name="site-image" type="file" className="sr-only" ref={fileInputRef} onChange={handleSiteImageChange} />
+                                </div>
+                                <div className="flex justify-end pt-4">
+                                  <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg">
+                                      Submit Details
+                                  </Button>
+                                </div>
+                            </form>
+                        </CardContent>
+                    </Card>
+
 
                     <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                         <CardContent className="p-0">

@@ -12,13 +12,13 @@ export const NewUserBottomNav = () => {
     const params = useParams();
     const { user } = useUser();
     const organizationId = params.organizationId as string;
-    const userId = user?.userId || (params.newuserId as string);
+    const userId = user?.userId || (params.userId as string);
 
     const navItems = [
-        { href: `/organization/${organizationId}/client/new/${userId}/home`, icon: Home, label: "Home" },
-        { href: `/organization/${organizationId}/client/new/${userId}/packages`, icon: Award, label: "Packages" },
-        { href: `/organization/${organizationId}/client/new/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
-        { href: `/organization/${organizationId}/client/new/${userId}/profile`, icon: User, label: "Profile" },
+        { href: `/organization/${organizationId}/new-user/${userId}/home`, icon: Home, label: "Home" },
+        { href: `/organization/${organizationId}/new-user/${userId}/packages`, icon: Award, label: "Packages" },
+        { href: `/organization/${organizationId}/new-user/${userId}/projects`, icon: GanttChartSquare, label: "Projects" },
+        { href: `/organization/${organizationId}/new-user/${userId}/profile`, icon: User, label: "Profile" },
     ];
 
     return (
