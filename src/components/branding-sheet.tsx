@@ -45,14 +45,14 @@ const initialFaqs = [
 ];
 
 const icons: { [key: string]: React.ReactNode } = {
-    GanttChartSquare: <GanttChartSquare className="text-white" />,
-    Award: <Award className="text-white" />,
-    Shield: <Shield className="text-white" />,
-    DollarSign: <DollarSign className="text-white" />,
-    Home: <Home className="text-white" />,
-    User: <User className="text-white" />,
-    Laptop: <Laptop className="text-white" />,
-    MapPin: <MapPin className="text-white" />,
+    GanttChartSquare: <GanttChartSquare />,
+    Award: <Award />,
+    Shield: <Shield />,
+    DollarSign: <DollarSign />,
+    Home: <Home />,
+    User: <User />,
+    Laptop: <Laptop />,
+    MapPin: <MapPin />,
 };
 
 const initialBulletPoints: { text: string; icon: string }[] = [
