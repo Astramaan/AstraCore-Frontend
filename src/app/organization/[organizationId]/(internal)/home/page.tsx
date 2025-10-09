@@ -4,7 +4,7 @@
 import React, { Suspense } from 'react';
 import { useUser } from '@/context/user-context';
 import DefaultHomePage from '@/app/organization/[organizationId]/(internal)/home/default-home';
-import ProjectManagerHome from '@/app/organization/(internal)/home/project-manager-home';
+import ProjectManagerHome from '@/app/organization/[organizationId]/(internal)/home/project-manager-home';
 import { Skeleton } from '@/components/ui/skeleton';
 import ArchitectHome from '@/app/organization/[organizationId]/(internal)/home/architect-home';
 import SalesHome from '@/app/organization/[organizationId]/(internal)/home/sales-home';
