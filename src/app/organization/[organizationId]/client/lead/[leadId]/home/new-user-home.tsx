@@ -171,7 +171,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-            <main className="relative z-10 mt-[20vh] sm:mt-56">
+            <main className="relative z-10 mt-[20vh] sm:mt-80">
                 <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                         <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
@@ -261,3 +261,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    
