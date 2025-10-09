@@ -25,7 +25,7 @@ const initialSuggestedColors: ColorSuggestion[] = [
     { color: '#FFB969', name: 'Warm Amber', tip: 'Use with dark text for accessibility' },
 ];
 
-const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label:string, color: string, setColor: (color: string) => void, disabled: boolean, onEdit: () => void }) => (
+const ColorInput = ({ label, color, setColor }: { label:string, color: string, setColor: (color: string) => void }) => (
     <div className="space-y-4">
         <div className="flex items-center gap-4">
              <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
@@ -34,7 +34,6 @@ const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label:string
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
                     className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
-                    disabled={disabled}
                 />
             </div>
             <Input 
@@ -43,11 +42,7 @@ const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label:string
                 onChange={(e) => setColor(e.target.value)}
                 className="w-32 h-10 rounded-full"
                 placeholder="#0FB4C3"
-                disabled={disabled}
             />
-            <Button type="button" size="sm" variant="ghost" onClick={onEdit} className="rounded-full">
-                <Edit className="w-4 h-4 mr-2"/> Custom
-            </Button>
         </div>
     </div>
 );
@@ -69,7 +64,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [primaryColor, setPrimaryColor] = useState('#3391FF');
-    const [isColorPickerDisabled, setIsColorPickerDisabled] = useState(true);
     const [suggestedColors, setSuggestedColors] = useState<ColorSuggestion[]>(initialSuggestedColors);
     const [isAiThemeLoading, setIsAiThemeLoading] = useState(false);
     
@@ -205,10 +199,10 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                     "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none",
                 )}
             >
-                 <SheetHeader className="p-6 border-b shrink-0">
+                <SheetHeader className="p-6 border-b shrink-0">
                     <div className="flex justify-between items-start">
-                         <div className="space-y-1">
-                             <SheetTitle className="text-2xl font-semibold">Branding &amp; Workflow</SheetTitle>
+                        <div className="space-y-1">
+                            <SheetTitle className="text-2xl font-semibold">Branding &amp; Workflow</SheetTitle>
                             <SheetDescription className="text-muted-foreground">
                                 These customizations will reflect on the client version of your organization.
                             </SheetDescription>
@@ -242,8 +236,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         label="Primary" 
                                         color={primaryColor} 
                                         setColor={setPrimaryColor} 
-                                        disabled={isColorPickerDisabled}
-                                        onEdit={() => setIsColorPickerDisabled(false)}
                                     />
                                     <div className="flex items-center gap-2">
                                         <p className="text-sm text-muted-foreground mr-2">Suggestions:</p>
