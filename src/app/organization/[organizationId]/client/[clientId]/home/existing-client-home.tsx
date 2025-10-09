@@ -38,6 +38,15 @@ interface TimelineStage {
     documents?: { name: string, url: string }[];
 }
 
+const initialTimeline: TimelineStage[] = [
+    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
+    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
+    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
+    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
+    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
+    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
+];
+
 const PdfPreviewDialog = ({ open, onOpenChange, file }: { open: boolean; onOpenChange: (open: boolean) => void; file: { name: string, url: string } | null }) => {
     if (!file) return null;
     // In a real app, file.url would be used. For this dummy data, we use a placeholder PDF.
@@ -208,7 +217,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages, className }: { onVie
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                     {siteImages.slice(0, 4).map((src, index) => (
-                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={() => onImageClick(index)}>
+                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={()={() => onImageClick(index)}}>
                             <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
                         </div>
                     ))}
@@ -282,6 +291,7 @@ export default function ExistingClientHomePage() {
   const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
   const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
   const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] = useState(false);
+  const [timelineStages, setTimelineStages] = useState<TimelineStage[]>(initialTimeline);
 
 
   const project = {
@@ -303,41 +313,32 @@ export default function ExistingClientHomePage() {
     ]
   };
 
-  const [allStages, setAllStages] = useState<TimelineStage[]>([
-    { title: "Soil Testing", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "completed", progress: 100, category: "Civil", image: "https://picsum.photos/seed/soil/100/100", siteImages: ["https://picsum.photos/seed/soil1/150/150"], approvalDate: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(), documents: [{name: "Soil Test Report.pdf", url: "#"}] },
-    { title: "Slabs", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "On Going", progress: 70, category: "Structure", image: "https://picsum.photos/seed/slabs/100/100", documents: [{name: "Structural Drawing.pdf", url: "#"}, {name: "Beam Layout.pdf", url: "#"}] },
-    { title: "Foundation", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Civil", image: "https://picsum.photos/seed/foundation/100/100" },
-    { title: "IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Design", image: "https://picsum.photos/seed/idk/100/100" },
-    { title: "Stage 06", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "MEP", image: "https://picsum.photos/seed/stage6/100/100" },
-    { title: "Stage IDK", subtitle: "initial stage", date: "25 May 2024 - 26 May 2024", status: "Yet To Begin", progress: 0, category: "Finishing", image: "https://picsum.photos/seed/stageidk/100/100" },
-  ]);
-  
-  const timeline = useMemo(() => allStages.filter(stage => stage.status !== 'completed'), [allStages]);
+  const timeline = useMemo(() => timelineStages.filter(stage => stage.status !== 'completed'), [timelineStages]);
 
   const recentlyCompletedTasks = useMemo(() => {
     const now = new Date();
     const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
 
-    return allStages.filter(stage => {
+    return timelineStages.filter(stage => {
         if (stage.status === 'completed' && stage.approvalDate) {
             const approvalDate = new Date(stage.approvalDate);
             return approvalDate > twentyFourHoursAgo;
         }
         return false;
     });
-  }, [allStages]);
+  }, [timelineStages]);
 
   const completedTasks = useMemo(() => {
     const now = new Date();
     const twentyFourHoursAgo = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-    return allStages.filter(stage => stage.status === 'completed' && (!stage.approvalDate || new Date(stage.approvalDate) <= twentyFourHoursAgo))
-  }, [allStages]);
+    return timelineStages.filter(stage => stage.status === 'completed' && (!stage.approvalDate || new Date(stage.approvalDate) <= twentyFourHoursAgo))
+  }, [timelineStages]);
   
-  const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin'), [allStages]);
+  const upcomingTasks = useMemo(() => timelineStages.filter(stage => stage.status === 'Yet To Begin'), [timelineStages]);
 
   
   const handleReopenTask = (stageToReopen: TimelineStage) => {
-    setAllStages(currentTimeline => 
+    setTimelineStages(currentTimeline => 
         currentTimeline.map(stage => 
             stage.title === stageToReopen.title ? { ...stage, status: 'On Going', progress: 50 } : stage
         )
@@ -484,3 +485,5 @@ export default function ExistingClientHomePage() {
     </>
   );
 }
+    
+    
