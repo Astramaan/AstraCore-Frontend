@@ -125,8 +125,8 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                         </SheetClose>
                     </SheetTitle>
                 </SheetHeader>
-                <div className="flex-1 overflow-y-auto">
-                    <ScrollArea className="h-full">
+                <div className="flex-1 flex flex-col overflow-hidden">
+                    <ScrollArea className="flex-1">
                         <div className="p-6 space-y-8">
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-6">
@@ -202,12 +202,12 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             </div>
                         </div>
                     </ScrollArea>
-                </div>
-                <div className="px-6 py-4 mt-auto border-t">
-                    <Button className="w-full h-14 rounded-full text-lg" onClick={handleSave}>
-                        <Save className="mr-2 h-5 w-5"/>
-                        Save Changes
-                    </Button>
+                    <div className="px-6 py-4 mt-auto border-t flex justify-end">
+                        <Button className="w-auto h-14 rounded-full text-lg px-10" onClick={handleSave}>
+                            <Save className="mr-2 h-5 w-5"/>
+                            Save Changes
+                        </Button>
+                    </div>
                 </div>
             </SheetContent>
         </Sheet>
