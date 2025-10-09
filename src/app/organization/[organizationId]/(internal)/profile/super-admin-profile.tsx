@@ -12,6 +12,7 @@ import { FeatureAccessCard } from '@/components/feature-access-card';
 import { BrandingWorkflowCard } from '@/components/branding-workflow-card';
 import { BrandingSheet } from '@/components/branding-sheet';
 import { SettingsCard } from '@/components/settings-card';
+import { ProjectStageToggleCard } from '@/components/project-stage-toggle-card';
 
 export default function SuperAdminProfilePage() {
     const router = useRouter();
@@ -35,6 +36,7 @@ export default function SuperAdminProfilePage() {
                 <div className="lg:col-span-2 space-y-6">
                    <FeatureAccessCard />
                    <BrandingWorkflowCard />
+                   <ProjectStageToggleCard />
                 </div>
                 <div className="space-y-6">
                     <SettingsCard />
