@@ -13,7 +13,7 @@ import { Separator } from './ui/separator';
 
 export const SettingsCard = () => {
     const { theme, setTheme } = useTheme();
-    const [isProjectStageEnabled, setIsProjectStageEnabled] = useState(true);
+    const [isProjectStageEnabled, setIsProjectStageEnabled] = useState(false);
 
     return (
         <Card className="rounded-[50px]">
