@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -250,6 +249,7 @@ export default function ArchitectHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               showAddMemberButton={true}
+              showAddTaskButton={false}
             />
             {selectedTask && (
                 <TaskDetailsSheet

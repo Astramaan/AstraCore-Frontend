@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -231,6 +230,7 @@ export default function SiteSupervisorHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               showAddMemberButton={true}
+              showAddTaskButton={false}
             />
             {selectedTask && (
                 <TaskDetailsSheet

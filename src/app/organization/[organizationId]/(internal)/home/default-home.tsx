@@ -172,6 +172,7 @@ export default function DefaultHomePage() {
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
               showAddMemberButton={true}
+              showAddTaskButton={true}
             />
             {selectedTask && (
                 <TaskDetailsSheet

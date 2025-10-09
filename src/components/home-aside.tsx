@@ -49,9 +49,10 @@ interface HomeAsideProps {
     onMeetingClick?: (meeting: Meeting) => void;
     onAddTask?: (task: Omit<Task, 'id' | 'attachments'>) => void;
     showAddMemberButton?: boolean;
+    showAddTaskButton?: boolean;
 }
 
-export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, projectTasksChartData, onMeetingClick, onAddTask, showAddMemberButton = false }: HomeAsideProps) {
+export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, projectTasksChartData, onMeetingClick, onAddTask, showAddMemberButton = false, showAddTaskButton = true }: HomeAsideProps) {
     const params = useParams();
     const organizationId = params.organizationId as string;
     const { user } = useUser();
@@ -59,6 +60,7 @@ export function HomeAside({ meetings, myTasksChartData, assignedTasksChartData, 
     return (
         <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">
             <div className="hidden lg:flex flex-wrap lg:flex-nowrap justify-end items-center gap-4">
+                {onAddTask && showAddTaskButton && <AssignTaskSheet onTaskAssigned={onAddTask} />}
                 {showAddMemberButton && <AddMemberSheet />}
             </div>
 

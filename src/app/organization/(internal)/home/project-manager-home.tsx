@@ -337,6 +337,7 @@ export default function ProjectManagerHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               showAddMemberButton={true}
+              showAddTaskButton={false}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -368,4 +369,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
