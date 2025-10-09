@@ -17,10 +17,10 @@ export function Toaster() {
   const { toasts } = useToast()
 
   const icons = {
-    success: <CheckCircle2 className="h-5 w-5 text-green-600" />,
-    destructive: <XCircle className="h-5 w-5 text-red-600" />,
-    info: <Info className="h-5 w-5 text-blue-600" />,
-    warning: <AlertTriangle className="h-5 w-5 text-yellow-600" />,
+    success: <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />,
+    destructive: <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />,
+    info: <Info className="h-5 w-5 text-blue-600 dark:text-blue-400" />,
+    warning: <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />,
     default: null,
   }
 
