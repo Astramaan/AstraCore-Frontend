@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useRef } from "react";
@@ -72,7 +71,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     
     const handleBookingSuccess = (details: AppointmentDetails) => {
         // This function would handle what happens after a booking is successful.
-        // For now, we'll just log it.
+        // for now, we'll just log it.
         console.log('Booking successful:', details);
     }
 
@@ -105,7 +104,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-             <main className="relative z-10 mt-[20vh] md:mt-56">
+             <main className="relative z-10 mt-[30vh] md:mt-56">
                 <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-8 sm:px-4 md:px-8 2xl:px-10">
                     
                     <div className="md:col-span-3 lg:col-span-4 2xl:col-span-6 order-2 md:order-1 px-4 md:px-0 space-y-8">
@@ -175,7 +174,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                              <div className="text-center">
                                 <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">Book your free consultation.</h2>
-                                <p className="text-white/80 font-medium">How would you like to connect?</p>
+                                <p className="text-white/80 font-medium text-sm">How would you like to connect?</p>
                             </div>
                             <div className="flex flex-row gap-4 w-full justify-center mt-4">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
@@ -200,5 +199,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
-    
