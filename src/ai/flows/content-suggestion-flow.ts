@@ -40,10 +40,10 @@ const contentSuggestionFlow = ai.defineFlow(
     outputSchema: ContentSuggestionOutputSchema,
   },
   async (input) => {
-    const prompt = `You are a professional marketing copywriter. Your task is to generate marketing content for a web application based on a brief company description.
+    const prompt = `You are a professional marketing copywriter. Your task is to generate marketing content for a company based on a brief company description.
 
 Generate 8 marketing bullet points. Each bullet point must be very concise, ideally 1 or 2 words, highlighting a key feature or strength.
-Generate 3 relevant frequently asked questions (FAQs) with clear and helpful answers.
+Generate 3 relevant frequently asked questions (FAQs) with clear and helpful answers that are directly related to the company and its services.
 
 Company Description:
 {{{companyDescription}}}
