@@ -4,7 +4,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { useUser } from '@/context/user-context';
 import { Skeleton } from '@/components/ui/skeleton';
-import ExistingClientHomePage from '@/app/organization/[organizationId]/client/[clientId]/home/existing--client-home';
+import ExistingClientHomePage from './existing-client-home';
 import { useRouter } from 'next/navigation';
 import NewUserHomePage from '@/app/organization/[organizationId]/client/lead/[leadId]/home/new-user-home';
 
