@@ -14,7 +14,7 @@ interface ProjectTimelineChartProps {
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-popover text-popover-foreground p-2 border rounded-lg shadow-lg">
+            <div className="bg-background text-popover-foreground p-2 border rounded-lg shadow-lg">
                 <p className="font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
             </div>
         );
