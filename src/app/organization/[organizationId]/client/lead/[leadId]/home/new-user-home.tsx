@@ -13,16 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ClientHeader } from "@/components/client-header";
 
-
-const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) => (
-    <div className="flex flex-col items-center gap-4 text-center z-10">
-        <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-            {icon}
-        </div>
-        <p className="text-foreground text-sm font-normal leading-none max-w-24">{text}</p>
-    </div>
-)
-
 interface AppointmentDetails {
     type: 'office' | 'home' | 'online';
     date: Date;
@@ -159,7 +149,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
     return (
         <div className="relative">
-             <header className="sticky top-2 z-20 px-2">
+            <header className="sticky top-2 z-20 px-2">
                 <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                     <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] px-4 py-2">
                         <div className="max-w-[1440px] 2xl:max-w-none mx-auto">
@@ -180,96 +170,91 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-            <main className="relative z-10">
-                <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8 2xl:px-10 pb-32 mt-56">
-                    <Card id="book-consultation-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
-                        
-                         {appointment ? (
-                            <AppointmentCard appointment={appointment} onReschedule={() => {
-                                setAppointment(null);
-                                openConsultationDialog(appointment.type === 'office' || appointment.type === 'home' ? 'in-person' : appointment.type);
-                            }} />
-                        ) : (
-                            <>
-                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
-                                    <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
-                                    <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                                        <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
-                                            <User className="mr-2 h-5 w-5" />
-                                            In Person
-                                        </Button>
-                                        <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
-                                            <Laptop className="mr-2 h-5 w-5" />
-                                            Online
-                                        </Button>
-                                    </div>
-                                </Card>
-                            </>
-                        )}
-                    </Card>
-
-                   {showProjectDetailsForm && (
-                        <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
-                            <CardContent className="p-0 max-w-xl w-full">
-                                <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">Submit Your Project Details</h2>
-                                <p className="text-center text-muted-foreground text-sm mb-8">Provide us with some basic information about your project.</p>
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="project-type" className="px-4">Project Type</Label>
-                                            <Input id="project-type" placeholder="e.g. Residential, Commercial" className="h-14 rounded-full bg-background dark:bg-input" />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="floor-count" className="px-4">Number of Floors</Label>
-                                            <Input id="floor-count" placeholder="e.g. G+2" className="h-14 rounded-full bg-background dark:bg-input" />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="site-address" className="px-4">Site Address</Label>
-                                        <Textarea id="site-address" placeholder="Enter the full site address" className="rounded-3xl bg-background dark:bg-input min-h-[100px]" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="px-4">Site Image</Label>
-                                        <div className="flex items-center justify-center w-full">
-                                            <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer bg-background hover:bg-muted">
-                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                                                    <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
-                                                    <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
-                                                </div>
-                                                <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageChange} />
-                                            </label>
-                                        </div>
-                                        {siteImage && <p className="text-sm text-muted-foreground px-4">File: {siteImage.name}</p>}
-                                    </div>
-                                    <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
-                                </form>
-                            </CardContent>
+            <main className="relative z-10 mt-[-100px] space-y-8 p-4 md:p-8 2xl:px-10 pb-32">
+                <Card id="book-consultation-section" className="text-card-foreground w-full p-6 md:p-10 rounded-[50px] flex flex-col justify-start items-center bg-transparent border-none shadow-none">
+                    {appointment ? (
+                        <AppointmentCard appointment={appointment} onReschedule={() => {
+                            setAppointment(null);
+                            openConsultationDialog(appointment.type === 'office' || appointment.type === 'home' ? 'in-person' : appointment.type);
+                        }} />
+                    ) : (
+                        <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
+                            <h2 className="text-center text-white text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
+                            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
+                                    <User className="mr-2 h-5 w-5" />
+                                    In Person
+                                </Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
+                                    <Laptop className="mr-2 h-5 w-5" />
+                                    Online
+                                </Button>
+                            </div>
                         </Card>
                     )}
+                </Card>
 
-
-                    <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
-                         <CardContent className="p-0">
-                            <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
-                             <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
-                                {faqs.map((faq, index) => (
-                                <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
-                                    <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
-                                    <span>{`${index + 1}. ${faq.question}`}</span>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
-                                    {faq.answer}
-                                    </AccordionContent>
-                                </AccordionItem>
-                                ))}
-                            </Accordion>
-                            <div className="text-center mt-6">
-                                <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
-                            </div>
+               {showProjectDetailsForm && (
+                    <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
+                        <CardContent className="p-0 max-w-xl w-full">
+                            <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">Submit Your Project Details</h2>
+                            <p className="text-center text-muted-foreground text-sm mb-8">Provide us with some basic information about your project.</p>
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="project-type" className="px-4">Project Type</Label>
+                                        <Input id="project-type" placeholder="e.g. Residential, Commercial" className="h-14 rounded-full bg-background dark:bg-input" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="floor-count" className="px-4">Number of Floors</Label>
+                                        <Input id="floor-count" placeholder="e.g. G+2" className="h-14 rounded-full bg-background dark:bg-input" />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="site-address" className="px-4">Site Address</Label>
+                                    <Textarea id="site-address" placeholder="Enter the full site address" className="rounded-3xl bg-background dark:bg-input min-h-[100px]" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="px-4">Site Image</Label>
+                                    <div className="flex items-center justify-center w-full">
+                                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer bg-background hover:bg-muted">
+                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
+                                                <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                                            </div>
+                                            <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageChange} />
+                                        </label>
+                                    </div>
+                                    {siteImage && <p className="text-sm text-muted-foreground px-4">File: {siteImage.name}</p>}
+                                </div>
+                                <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
+                            </form>
                         </CardContent>
                     </Card>
-                </div>
+                )}
+
+
+                <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
+                     <CardContent className="p-0">
+                        <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
+                         <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
+                            {faqs.map((faq, index) => (
+                            <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
+                                <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
+                                <span>{`${index + 1}. ${faq.question}`}</span>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
+                                {faq.answer}
+                                </AccordionContent>
+                            </AccordionItem>
+                            ))}
+                        </Accordion>
+                        <div className="text-center mt-6">
+                            <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+                        </div>
+                    </CardContent>
+                </Card>
             </main>
             {isClient && <InPersonConsultationDialog 
                 isOpen={isConsultationDialogOpen} 
