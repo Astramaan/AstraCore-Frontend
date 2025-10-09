@@ -14,7 +14,7 @@ interface ProjectTimelineChartProps {
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-white p-2 border rounded-lg shadow-lg">
+            <div className="bg-popover text-popover-foreground p-2 border rounded-lg shadow-lg">
                 <p className="font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
             </div>
         );
@@ -48,7 +48,7 @@ export function ProjectTimelineChart({ data }: ProjectTimelineChartProps) {
 
     return (
         <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}>
-            <Card className="rounded-[50px] w-full">
+            <Card className="rounded-[50px] w-full bg-card">
                 <CardHeader>
                     <CardTitle className="text-base font-semibold">Project Timeline</CardTitle>
                 </CardHeader>
@@ -90,4 +90,3 @@ export function ProjectTimelineChart({ data }: ProjectTimelineChartProps) {
         </motion.div>
     );
 }
-
