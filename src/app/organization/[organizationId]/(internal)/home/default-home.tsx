@@ -140,8 +140,8 @@ export default function DefaultHomePage() {
                                 key={filter}
                                 variant="outline"
                                 className={cn(
-                                    "rounded-full text-muted-foreground bg-card h-[54px] flex-shrink-0 text-lg font-medium",
-                                    activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
+                                    "rounded-full bg-card h-[54px] flex-shrink-0 text-lg font-medium",
+                                    activeFilter === filter as FilterType ? "bg-primary text-primary-foreground hover:bg-primary" : "text-muted-foreground hover:bg-primary/10 hover:text-primary"
                                 )}
                                 onClick={() => handleFilterClick(filter as FilterType)}
                             >
