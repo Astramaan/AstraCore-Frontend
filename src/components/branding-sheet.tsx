@@ -4,7 +4,7 @@
 import React, { useState, useRef } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
-import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles, Award, GanttChartSquare, Shield, DollarSign, Home, User, Laptop, MapPin, Search, ChevronDown, Rocket, Zap, TrendingUp, Star, Heart, ThumbsUp, Clock, Calendar, Briefcase, Settings, Wrench, Package, Truck, Phone, Mail, Globe, Lightbulb, Users as UsersIcon, FileText, ClipboardCheck } from 'lucide-react';
+import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles, Award, GanttChartSquare, Shield, DollarSign, Home, User, Laptop, MapPin, Search, ChevronDown, Rocket, Zap, TrendingUp, Star, Heart, ThumbsUp, Clock, Calendar, Briefcase, Settings, Wrench, Package, Truck, Phone, Mail, Globe, Lightbulb, Users as UsersIcon, FileText, ClipboardCheck, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
@@ -14,6 +14,7 @@ import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
+import { Separator } from './ui/separator';
 
 const initialFaqs = [
     { question: 'Does habi charge an advance payment?', answer: 'Yes. habi collects a booking amount of about 1% of the total home construction cost.' },
@@ -72,6 +73,55 @@ const initialFeatures: { text: string; icon: string }[] = [
     { text: "Transparent Pricing", icon: "DollarSign" },
 ];
 
+const initialPackages = [
+    {
+        name: "Essential",
+        price: "1,750",
+        description: "The essentials for a solid foundation and structure.",
+        features: [
+            "Basic Structural Design",
+            "Standard Quality Materials",
+            "MEP Consultation",
+            "Project Tracking",
+        ],
+        isPopular: false,
+    },
+    {
+        name: "Premium",
+        price: "2,050",
+        description: "A balanced package with premium finishes and features.",
+        features: [
+            "Custom Architectural Design",
+            "Premium Quality Materials",
+            "Smart Home Features",
+            "3D Visualizations",
+            "Dedicated Project Manager",
+        ],
+        isPopular: true,
+    },
+    {
+        name: "Luxury",
+        price: "2,450",
+        description: "The ultimate package for a bespoke, high-end home.",
+        features: [
+            "Advanced Interior Design",
+            "Luxury Brand Materials",
+            "Home Automation",
+            "Landscaping Services",
+            "Post-handover support",
+        ],
+        isPopular: false,
+    },
+];
+
+const initialSocialMediaLinks = {
+    twitter: '',
+    linkedin: '',
+    facebook: '',
+    instagram: '',
+};
+
+
 export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpenChange: (open: boolean) => void }) => {
     const { toast } = useToast();
     
@@ -85,6 +135,8 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     const [featureHighlights, setFeatureHighlights] = useState(initialFeatures);
     const [videoUrl, setVideoUrl] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
     const [loginImages, setLoginImages] = useState<string[]>(['/images/logoimage.png']);
+    const [packages, setPackages] = useState(initialPackages);
+    const [socialMediaLinks, setSocialMediaLinks] = useState(initialSocialMediaLinks);
     const [isAiContentLoading, setIsAiContentLoading] = useState(false);
 
     const handleFaqChange = (index: number, field: 'question' | 'answer', value: string) => {
@@ -169,6 +221,45 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         } finally {
             setIsAiContentLoading(false);
         }
+    };
+    
+    const handlePackageChange = (index: number, field: string, value: string) => {
+        const newPackages = [...packages];
+        (newPackages[index] as any)[field] = value;
+        setPackages(newPackages);
+    };
+
+    const handlePackageFeatureChange = (pkgIndex: number, featIndex: number, value: string) => {
+        const newPackages = [...packages];
+        newPackages[pkgIndex].features[featIndex] = value;
+        setPackages(newPackages);
+    };
+
+    const addPackageFeature = (pkgIndex: number) => {
+        const newPackages = [...packages];
+        newPackages[pkgIndex].features.push('');
+        setPackages(newPackages);
+    };
+
+    const removePackageFeature = (pkgIndex: number, featIndex: number) => {
+        const newPackages = [...packages];
+        newPackages[pkgIndex].features.splice(featIndex, 1);
+        setPackages(newPackages);
+    };
+
+    const setPopularPackage = (index: number) => {
+        const newPackages = packages.map((pkg, i) => ({
+            ...pkg,
+            isPopular: i === index,
+        }));
+        setPackages(newPackages);
+    };
+    
+    const handleSocialMediaChange = (platform: keyof typeof socialMediaLinks, value: string) => {
+        setSocialMediaLinks(prev => ({
+            ...prev,
+            [platform]: value
+        }));
     };
 
 
@@ -353,6 +444,39 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                     ))}
                                 </div>
                             </div>
+                             <Separator />
+
+                            <div className="space-y-4">
+                                <h3 className="text-lg font-medium">Packages</h3>
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    {packages.map((pkg, pkgIndex) => (
+                                        <div key={pkgIndex} className="p-4 border rounded-2xl space-y-4 bg-background dark:bg-input">
+                                            <div className="flex items-center justify-between">
+                                                <Input value={pkg.name} onChange={(e) => handlePackageChange(pkgIndex, 'name', e.target.value)} className="text-xl font-bold bg-transparent border-0 p-0" />
+                                                <Button size="sm" variant={pkg.isPopular ? "secondary" : "outline"} onClick={() => setPopularPackage(pkgIndex)} className="rounded-full text-xs">
+                                                    {pkg.isPopular ? "Popular" : "Set Popular"}
+                                                </Button>
+                                            </div>
+                                             <Input value={pkg.price} onChange={(e) => handlePackageChange(pkgIndex, 'price', e.target.value)} className="bg-card" placeholder="Price" />
+                                             <Textarea value={pkg.description} onChange={(e) => handlePackageChange(pkgIndex, 'description', e.target.value)} className="bg-card" placeholder="Description" />
+                                            <div>
+                                                <Label className="text-sm">Features</Label>
+                                                <div className="space-y-2 mt-1">
+                                                    {pkg.features.map((feature, featIndex) => (
+                                                        <div key={featIndex} className="flex items-center gap-2">
+                                                            <Input value={feature} onChange={(e) => handlePackageFeatureChange(pkgIndex, featIndex, e.target.value)} className="bg-card h-10 rounded-full"/>
+                                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={() => removePackageFeature(pkgIndex, featIndex)}><Trash2 className="w-4 h-4"/></Button>
+                                                        </div>
+                                                    ))}
+                                                    <Button size="sm" variant="outline" className="rounded-full" onClick={() => addPackageFeature(pkgIndex)}><Plus className="w-4 h-4 mr-1"/> Add Feature</Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <Separator />
 
 
                             <div className="space-y-4">
@@ -363,7 +487,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                     </Button>
                                 </div>
                                 {faqs.map((faq, index) => (
-                                    <div key={index} className="space-y-2 p-4 border rounded-2xl relative bg-background">
+                                    <div key={index} className="space-y-2 p-4 border rounded-2xl relative bg-background dark:bg-input">
                                         <Button size="icon" variant="ghost" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeFaq(index)}>
                                             <Trash2 className="h-4 w-4 text-destructive" />
                                         </Button>
@@ -371,17 +495,42 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                             placeholder="Question"
                                             value={faq.question}
                                             onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
-                                            className="h-12 rounded-full font-semibold bg-card"
+                                            className="h-12 rounded-full font-semibold bg-card dark:bg-background"
                                         />
                                         <Textarea
                                             placeholder="Answer"
                                             value={faq.answer}
                                             onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
-                                            className="min-h-[60px] rounded-xl bg-card"
+                                            className="min-h-[60px] rounded-xl bg-card dark:bg-background"
                                         />
                                     </div>
                                 ))}
                             </div>
+
+                            <Separator />
+                            
+                             <div className="space-y-4">
+                                <Label className="text-lg font-medium">Social Media Links</Label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="relative">
+                                        <Twitter className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                        <Input placeholder="Twitter URL" value={socialMediaLinks.twitter} onChange={e => handleSocialMediaChange('twitter', e.target.value)} className="pl-12 h-14 rounded-full bg-background" />
+                                    </div>
+                                    <div className="relative">
+                                        <Linkedin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                        <Input placeholder="LinkedIn URL" value={socialMediaLinks.linkedin} onChange={e => handleSocialMediaChange('linkedin', e.target.value)} className="pl-12 h-14 rounded-full bg-background" />
+                                    </div>
+                                    <div className="relative">
+                                        <Facebook className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                        <Input placeholder="Facebook URL" value={socialMediaLinks.facebook} onChange={e => handleSocialMediaChange('facebook', e.target.value)} className="pl-12 h-14 rounded-full bg-background" />
+                                    </div>
+                                    <div className="relative">
+                                        <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                        <Input placeholder="Instagram URL" value={socialMediaLinks.instagram} onChange={e => handleSocialMediaChange('instagram', e.target.value)} className="pl-12 h-14 rounded-full bg-background" />
+                                    </div>
+                                </div>
+                            </div>
+                            <Separator />
 
                             <div className="space-y-2">
                                 <Label htmlFor="video-url" className="text-lg font-medium">Company Profile Video</Label>
