@@ -25,7 +25,7 @@ const initialSuggestedColors: ColorSuggestion[] = [
     { color: '#FFB969', name: 'Warm Amber', tip: 'Use with dark text for accessibility' },
 ];
 
-const ColorInput = ({ label, color, setColor, disabled, onEdit, onGetAiSuggestions, isAiLoading }: { label:string, color: string, setColor: (color: string) => void, disabled: boolean, onEdit: () => void, onGetAiSuggestions: () => void, isAiLoading: boolean }) => (
+const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label:string, color: string, setColor: (color: string) => void, disabled: boolean, onEdit: () => void }) => (
     <div className="space-y-4">
         <div className="flex items-center gap-4">
              <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
@@ -47,10 +47,6 @@ const ColorInput = ({ label, color, setColor, disabled, onEdit, onGetAiSuggestio
             />
             <Button type="button" size="sm" variant="ghost" onClick={onEdit} className="rounded-full">
                 <Edit className="w-4 h-4 mr-2"/> Custom
-            </Button>
-            <Button type="button" size="sm" variant="outline" onClick={onGetAiSuggestions} className="rounded-full border-primary text-primary hover:bg-primary/10 hover:text-primary" disabled={isAiLoading}>
-                <Sparkles className={cn("w-4 h-4 mr-2", isAiLoading && "animate-spin")} />
-                {isAiLoading ? 'Thinking...' : 'Get AI Suggestions'}
             </Button>
         </div>
     </div>
@@ -106,26 +102,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         setBulletPoints(newBulletPoints);
     };
 
-    const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
-            setLogoFile(file);
-            setLogo(URL.createObjectURL(file));
-        }
-    };
-    
-    const handleLoginImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const files = Array.from(event.target.files);
-            const newImageUrls = files.map(file => URL.createObjectURL(file));
-            setLoginImages(prev => [...prev, ...newImageUrls]);
-        }
-    };
-
-    const removeLoginImage = (index: number) => {
-        setLoginImages(loginImages.filter((_, i) => i !== index));
-    }
-
     const fileToDataUri = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -135,19 +111,10 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         });
     };
 
-    const handleGetAiThemeSuggestions = async () => {
-        if (!logoFile) {
-            toast({
-                variant: 'destructive',
-                title: 'No Logo Uploaded',
-                description: 'Please upload a logo first to get AI-powered color suggestions.',
-            });
-            return;
-        }
-        
+    const handleGetAiThemeSuggestions = async (file: File) => {
         setIsAiThemeLoading(true);
         try {
-            const logoDataUri = await fileToDataUri(logoFile);
+            const logoDataUri = await fileToDataUri(file);
             const suggestions = await getThemeSuggestions({
                 logoDataUri: logoDataUri,
                 colorPreference: primaryColor,
@@ -168,6 +135,27 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
             setIsAiThemeLoading(false);
         }
     };
+
+    const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            setLogoFile(file);
+            setLogo(URL.createObjectURL(file));
+            handleGetAiThemeSuggestions(file);
+        }
+    };
+    
+    const handleLoginImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const files = Array.from(event.target.files);
+            const newImageUrls = files.map(file => URL.createObjectURL(file));
+            setLoginImages(prev => [...prev, ...newImageUrls]);
+        }
+    };
+
+    const removeLoginImage = (index: number) => {
+        setLoginImages(loginImages.filter((_, i) => i !== index));
+    }
 
     const handleGenerateAiContent = async () => {
         if (!companyDescription.trim()) {
@@ -256,8 +244,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         setColor={setPrimaryColor} 
                                         disabled={isColorPickerDisabled}
                                         onEdit={() => setIsColorPickerDisabled(false)}
-                                        onGetAiSuggestions={handleGetAiThemeSuggestions}
-                                        isAiLoading={isAiThemeLoading}
                                     />
                                     <div className="flex items-center gap-2">
                                         <p className="text-sm text-muted-foreground mr-2">Suggestions:</p>
