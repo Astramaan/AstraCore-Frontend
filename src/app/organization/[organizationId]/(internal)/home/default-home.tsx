@@ -107,7 +107,7 @@ export default function DefaultHomePage() {
                      <div className="flex lg:hidden justify-between items-center w-full mb-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="rounded-full bg-white dark:bg-card h-[54px] flex-shrink-0 text-lg font-medium">
+                                <Button variant="outline" className="rounded-full bg-card h-[54px] flex-shrink-0 text-lg font-medium">
                                     <SlidersHorizontal className="mr-2 h-4 w-4" />
                                     Filter
                                 </Button>
@@ -140,7 +140,7 @@ export default function DefaultHomePage() {
                                 key={filter}
                                 variant="outline"
                                 className={cn(
-                                    "rounded-full text-muted-foreground bg-white dark:bg-card h-[54px] flex-shrink-0 text-lg font-medium",
+                                    "rounded-full text-muted-foreground bg-card h-[54px] flex-shrink-0 text-lg font-medium",
                                     activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
                                 )}
                                 onClick={() => handleFilterClick(filter as FilterType)}
@@ -198,5 +198,8 @@ export default function DefaultHomePage() {
     
 
     
+
+    
+
 
     

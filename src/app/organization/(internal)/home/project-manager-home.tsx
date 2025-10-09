@@ -82,7 +82,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-card rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -94,7 +94,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-card rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -111,13 +111,13 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
             >
                 View Project Completed Tasks
             </Button>
             <Button
                 variant="outline"
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                 onClick={onOpenUpcomingTasks}
             >
                 View Project Upcoming Tasks
@@ -245,7 +245,7 @@ export default function ProjectManagerHome() {
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                            <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
+                            <SelectTrigger className="rounded-full bg-card h-[54px] px-4 text-lg">
                                 <SelectValue placeholder="Select a Project" />
                             </SelectTrigger>
                             <SelectContent>
@@ -306,3 +306,5 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
+    
