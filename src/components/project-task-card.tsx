@@ -54,7 +54,7 @@ const formatDate = (dateString: string) => {
 export const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStageClick: (stage: Stage) => void }) => {
     
     return (
-        <Card className="rounded-[24px] bg-white dark:bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg" onClick={() => onStageClick(stage)}>
+        <Card className="rounded-[24px] bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg" onClick={() => onStageClick(stage)}>
             <div className="flex items-center gap-4">
                 <div className="relative w-24 h-24 shrink-0">
                     <Image src={stage.image} width={100} height={100} alt={stage.title} className="rounded-[24px] object-cover w-full h-full" data-ai-hint="construction work" />
@@ -66,15 +66,15 @@ export const ProjectTaskCard = ({ stage, onStageClick }: { stage: Stage, onStage
                 </div>
                 <div className="flex-1 space-y-1 w-full text-left">
                     <div className="flex justify-between items-start">
-                        <h3 className="text-black text-base font-semibold">{stage.title}</h3>
+                        <h3 className="text-foreground text-base font-semibold">{stage.title}</h3>
                         <Badge className={cn('capitalize', statusColors[stage.status])}>{stage.status}</Badge>
                     </div>
-                    <p className="text-sm">{stage.subtitle}</p>
+                    <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
                     <div className="pt-2">
                         <Progress value={stage.progress || 0} className="h-2" />
                         <div className="flex justify-between items-center mt-2">
-                            <span className="text-black text-xs font-normal">{stage.progress || 0}%</span>
-                            <span className="text-grey-1 text-xs">{formatDate(stage.createdAt)}</span>
+                            <span className="text-foreground text-xs font-normal">{stage.progress || 0}%</span>
+                            <span className="text-muted-foreground text-xs">{formatDate(stage.createdAt)}</span>
                         </div>
                     </div>
                 </div>
