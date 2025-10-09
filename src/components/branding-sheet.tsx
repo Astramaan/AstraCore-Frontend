@@ -15,7 +15,6 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { PopoverClose } from '@radix-ui/react-popover';
 
 const initialFaqs = [
     { question: 'Does habi charge an advance payment?', answer: 'Yes. habi collects a booking amount of about 1% of the total home construction cost.' },
@@ -54,11 +53,16 @@ const icons: { [key: string]: React.ReactNode } = {
     ClipboardCheck: <ClipboardCheck />,
 };
 
+const iconKeys = Object.keys(icons);
+
 const initialBulletPoints: { text: string; icon: string }[] = [
     { text: "Unique Design", icon: "GanttChartSquare" },
     { text: "Efficient planning", icon: "GanttChartSquare" },
     { text: "Disaster Resilient", icon: "Shield" },
     { text: "1 Year Warranty", icon: "Award" },
+];
+
+const initialFeatures: { text: string; icon: string }[] = [
     { text: "Project Tracking", icon: "GanttChartSquare" },
     { text: "50 Year Guarantee", icon: "Award" },
     { text: "Structure as per NBC", icon: "Home" },
@@ -75,6 +79,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     const [companyDescription, setCompanyDescription] = useState('');
     const [faqs, setFaqs] = useState(initialFaqs);
     const [bulletPoints, setBulletPoints] = useState(initialBulletPoints);
+    const [featureHighlights, setFeatureHighlights] = useState(initialFeatures);
     const [videoUrl, setVideoUrl] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
     const [loginImages, setLoginImages] = useState<string[]>(['/images/logoimage.png']);
     const [isAiContentLoading, setIsAiContentLoading] = useState(false);
@@ -95,16 +100,20 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         setFaqs(faqs.filter((_, i) => i !== index));
     };
 
-    const handleBulletPointChange = (index: number, value: string) => {
-        const newBulletPoints = [...bulletPoints];
-        newBulletPoints[index].text = value;
-        setBulletPoints(newBulletPoints);
+    const handlePointChange = (setter: React.Dispatch<React.SetStateAction<{ text: string; icon: string }[]>>, index: number, value: string) => {
+        setter(prev => {
+            const newPoints = [...prev];
+            newPoints[index].text = value;
+            return newPoints;
+        });
     };
 
-    const handleIconChange = (index: number, icon: string) => {
-        const newBulletPoints = [...bulletPoints];
-        newBulletPoints[index].icon = icon;
-        setBulletPoints(newBulletPoints);
+    const handleIconChange = (setter: React.Dispatch<React.SetStateAction<{ text: string; icon: string }[]>>, index: number, icon: string) => {
+        setter(prev => {
+            const newPoints = [...prev];
+            newPoints[index].icon = icon;
+            return newPoints;
+        });
     };
 
     const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,16 +283,16 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                         {React.cloneElement(icons[point.icon] as React.ReactElement, { className: "text-foreground" })}
                                                     </Button>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-64 p-0">
+                                                 <PopoverContent className="w-64 p-0">
                                                     <ScrollArea className="h-48">
                                                         <div className="grid grid-cols-4 gap-1 p-2">
-                                                            {Object.keys(icons).map(iconKey => (
+                                                            {iconKeys.map(iconKey => (
                                                                 <Button
                                                                     key={iconKey}
                                                                     variant="ghost"
                                                                     size="icon"
                                                                     className="w-12 h-12"
-                                                                    onClick={() => handleIconChange(index, iconKey)}
+                                                                    onClick={() => handleIconChange(setBulletPoints, index, iconKey)}
                                                                 >
                                                                     {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
                                                                 </Button>
@@ -294,13 +303,53 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                             </Popover>
                                             <Input
                                                 value={point.text}
-                                                onChange={(e) => handleBulletPointChange(index, e.target.value)}
+                                                onChange={(e) => handlePointChange(setBulletPoints, index, e.target.value)}
                                                 className="h-12 rounded-full bg-background"
                                             />
                                         </div>
                                     ))}
                                 </div>
                             </div>
+                            
+                             <div className="space-y-4">
+                                <Label className="text-lg font-medium">Feature Highlights (Max 4)</Label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                     {featureHighlights.map((point, index) => (
+                                        <div key={index} className="flex items-center gap-2">
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <Button variant="outline" className="w-14 h-14 rounded-full p-0 flex-shrink-0" type="button">
+                                                        {React.cloneElement(icons[point.icon] as React.ReactElement, { className: "text-foreground" })}
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                 <PopoverContent className="w-64 p-0">
+                                                    <ScrollArea className="h-48">
+                                                        <div className="grid grid-cols-4 gap-1 p-2">
+                                                            {iconKeys.map(iconKey => (
+                                                                <Button
+                                                                    key={iconKey}
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="w-12 h-12"
+                                                                    onClick={() => handleIconChange(setFeatureHighlights, index, iconKey)}
+                                                                >
+                                                                    {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                                </Button>
+                                                            ))}
+                                                        </div>
+                                                    </ScrollArea>
+                                                </PopoverContent>
+                                            </Popover>
+                                            <Input
+                                                value={point.text}
+                                                onChange={(e) => handlePointChange(setFeatureHighlights, index, e.target.value)}
+                                                className="h-12 rounded-full bg-background"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
 
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
