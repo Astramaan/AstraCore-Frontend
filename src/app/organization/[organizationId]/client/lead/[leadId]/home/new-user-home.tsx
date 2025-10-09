@@ -150,7 +150,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
     return (
         <div className="relative">
-            <header className="sticky top-2 z-20 px-2">
+             <header className="sticky top-2 z-20 px-2">
                 <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                     <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] px-4 py-2">
                         <div className="max-w-[1440px] 2xl:max-w-none mx-auto">
@@ -171,8 +171,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-            <main className="relative z-10 mt-28 md:mt-36 sm:px-4 md:px-8 2xl:px-10">
-                <div className="space-y-8 pb-32">
+             <main className="relative z-10 mt-28 md:mt-36">
+                <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                         
                          {appointment ? (
@@ -269,3 +269,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    
