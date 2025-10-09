@@ -171,7 +171,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
             <main className="relative z-10">
-                <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8 2xl:px-10 pb-32">
+                <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8 2xl:px-10 pb-32 mt-56">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
