@@ -97,11 +97,12 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-            <main className="relative z-10 mt-[30vh] sm:mt-72">
-                <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
+            <main className="relative z-10 mt-[30vh] sm:mt-72 md:mt-96">
+                 <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                         <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
-                            <h2 className="text-center text-white text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
+                            <h2 className="text-center text-white text-3xl font-semibold leading-tight mb-2">Book your free consultation</h2>
+                            <p className="text-center text-white/80 text-lg font-medium leading-tight mb-4">How would you like to connect?</p>
                              <div className="flex flex-row gap-4 w-full justify-center">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                     <User className="mr-2 h-5 w-5" />
