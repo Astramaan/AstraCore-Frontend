@@ -115,12 +115,12 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                     "bottom-0 top-auto translate-y-0"
                 )}
             >
-                <SheetHeader className="p-6 border-b shrink-0">
+                 <SheetHeader className="p-6 border-b shrink-0">
                     <div className="flex justify-between items-start">
                         <div>
                             <SheetTitle className="text-2xl font-semibold">Branding & Workflow</SheetTitle>
                             <SheetDescription className="text-muted-foreground">
-                                These customizations will be reflected on the client version of the application.
+                                These customizations will reflect on the client version of your organization.
                             </SheetDescription>
                         </div>
                         <SheetClose asChild>
@@ -206,8 +206,8 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                         </div>
                     </div>
                 </div>
-                <div className="px-6 py-4 border-t flex justify-end shrink-0">
-                    <Button className="h-14 rounded-full text-lg md:w-auto md:px-10" onClick={handleSave}>
+                 <div className="px-6 py-4 border-t flex justify-end shrink-0">
+                    <Button className="w-full md:w-auto h-14 rounded-full text-lg md:px-10" onClick={handleSave}>
                         <Save className="mr-2 h-5 w-5"/>
                         Save Changes
                     </Button>
