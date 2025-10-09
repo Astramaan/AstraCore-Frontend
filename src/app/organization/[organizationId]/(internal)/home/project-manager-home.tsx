@@ -23,6 +23,7 @@ import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { ProjectTaskCard, Stage } from '@/components/project-task-card';
 import { TaskCard } from '@/components/task-card';
+import { useUser } from '@/context/user-context';
 
 
 const allStages: Stage[] = [
@@ -83,7 +84,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-card rounded-full px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Site Supervisor</p>
                 <p className="font-semibold">{project.siteSupervisor}</p>
@@ -95,7 +96,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                 </a>
               </div>
             </div>
-            <div className="bg-white rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+            <div className="bg-card rounded-full py-4 px-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Architect</p>
                 <p className="font-semibold">{project.architect}</p>
@@ -103,7 +104,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                <div className="flex gap-2 w-full md:w-auto">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
@@ -112,13 +113,13 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
             <Button
                 variant="outline"
                 onClick={onOpenCompletedTasks}
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
             >
                 View Project Completed Tasks
             </Button>
             <Button
                 variant="outline"
-                className="rounded-full bg-white h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
+                className="rounded-full bg-card h-[54px] hover:bg-primary/10 hover:text-primary flex-1"
                 onClick={onOpenUpcomingTasks}
             >
                 View Project Upcoming Tasks
@@ -135,6 +136,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
 
 
 export default function ProjectManagerHome() {
+    const { user } = useUser();
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
     const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
@@ -220,8 +222,8 @@ export default function ProjectManagerHome() {
         const ongoing = selectedProject.tasks.filter(t => t.status === 'ongoing').length;
         const upcoming = selectedProject.tasks.filter(t => t.status === 'upcoming').length;
         return [
-            { name: 'Ongoing', value: ongoing },
-            { name: 'Upcoming', value: upcoming },
+            { name: 'Ongoing', value: ongoing, fill: 'hsl(var(--primary))' },
+            { name: 'Upcoming', value: upcoming, fill: 'hsl(var(--muted))' },
         ];
     }, [selectedProject]);
 
@@ -238,6 +240,8 @@ export default function ProjectManagerHome() {
 
     const filteredMyTasks = useMemo(() => applyFilters(initialTaskData), [activeFilter]);
     const filteredAssignedTasks = useMemo(() => applyFilters(assignedTasksData), [activeFilter]);
+    
+    const canManageMembers = user?.roleType === 'superAdmin' || user?.team === 'Project Manager';
 
     return (
         <div className="flex flex-col lg:flex-row gap-6">
@@ -246,7 +250,7 @@ export default function ProjectManagerHome() {
                     <h2 className="text-xl font-medium text-left">Project Task</h2>
                      <div className="w-full md:w-64">
                          <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
-                            <SelectTrigger className="rounded-full bg-white h-[54px] px-4 text-lg">
+                            <SelectTrigger className="rounded-full bg-card h-[54px] px-4 text-lg">
                                 <SelectValue placeholder="Select a Project" />
                             </SelectTrigger>
                             <SelectContent>
@@ -269,75 +273,13 @@ export default function ProjectManagerHome() {
                     )}
                 </div>
                 
-                <div className="mt-8 space-y-4">
-                    
-                    <div className="flex lg:hidden justify-between items-center w-full mb-4">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="rounded-full bg-white h-[54px] flex-shrink-0 text-lg font-medium">
-                                    <SlidersHorizontal className="mr-2 h-4 w-4" />
-                                    Filter
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                                <DropdownMenuItem onClick={() => handleFilterClick(null)} className={cn(!activeFilter && "bg-accent")}>
-                                    All (exclude completed)
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                {['High Priority', 'In Progress', 'Pending', 'Completed'].map(option => (
-                                    <DropdownMenuItem key={option} onClick={() => handleFilterClick(option as FilterType)} >
-                                        <div className="w-4 mr-2">
-                                        {activeFilter === option && <Check className="h-4 w-4" />}
-                                        </div>
-                                        {option}
-                                        {option === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                         <div className="flex items-center gap-4">
-                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
-                            <AddMemberSheet />
-                        </div>
-                    </div>
-                   
-                    <div>
-                         <div className="hidden lg:flex items-center gap-4 overflow-x-auto -mx-4 px-4 w-full lg:w-auto">
-                            {['High Priority', 'In Progress', 'Pending', 'Completed'].map(filter => (
-                                <Button
-                                    key={filter}
-                                    variant="outline"
-                                    className={cn(
-                                        "rounded-full text-muted-foreground bg-white h-[54px] flex-shrink-0 text-lg font-medium",
-                                        activeFilter === filter as FilterType ? "bg-primary text-white hover:bg-primary" : "hover:bg-primary/10 hover:text-primary"
-                                    )}
-                                    onClick={() => handleFilterClick(filter as FilterType)}
-                                >
-                                    {filter}
-                                    {filter === 'In Progress' && <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">{inProgressCount}</Badge>}
-                                </Button>
-                            ))}
-                        </div>
-                        <h2 className="text-xl font-medium text-left pt-4">My Task</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                        {filteredMyTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-                    </div>
-                </div>
-                <div className="mt-8">
-                    <h2 className="text-xl font-medium mb-4">Assigned Task</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {filteredAssignedTasks.map(task => <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} />)}
-                    </div>
-                </div>
             </main>
             <HomeAside
               meetings={meetings}
-              myTasksChartData={[]}
-              assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
+              showAddMemberButton={canManageMembers}
+              showAddTaskButton={false}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -369,7 +311,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-
-
-    
