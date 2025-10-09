@@ -13,16 +13,7 @@ import { Textarea } from './ui/textarea';
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
-import { getThemeSuggestions, type ColorSuggestion } from '@/ai/flows/theme-suggestion-flow';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
-
-const initialSuggestedColors: ColorSuggestion[] = [
-    { color: '#0FB4C3', name: 'Vibrant Teal', tip: 'Good for light/dark modes' },
-    { color: '#3391FF', name: 'Professional Blue', tip: 'High contrast, safe choice' },
-    { color: '#1AB2B2', name: 'Strong Cyan', tip: 'Works well as an accent' },
-    { color: '#E23D28', name: 'Bold Red', tip: 'Good for alerts, use sparingly' },
-    { color: '#FFB969', name: 'Warm Amber', tip: 'Use with dark text for accessibility' },
-];
 
 const ColorInput = ({ label, color, setColor }: { label:string, color: string, setColor: (color: string) => void }) => (
     <div className="space-y-4">
@@ -63,8 +54,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [primaryColor, setPrimaryColor] = useState('#3391FF');
-    const [suggestedColors, setSuggestedColors] = useState<ColorSuggestion[]>(initialSuggestedColors);
-    const [isAiThemeLoading, setIsAiThemeLoading] = useState(false);
     
     const [companyDescription, setCompanyDescription] = useState('');
     const [faqs, setFaqs] = useState(initialFaqs);
@@ -95,46 +84,11 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         setBulletPoints(newBulletPoints);
     };
 
-    const fileToDataUri = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    };
-
-    const handleGetAiThemeSuggestions = async (file: File) => {
-        setIsAiThemeLoading(true);
-        try {
-            const logoDataUri = await fileToDataUri(file);
-            const result = await getThemeSuggestions({
-                logoDataUri: logoDataUri,
-                colorPreference: primaryColor,
-            });
-            setSuggestedColors(result.suggestions);
-            toast({
-                title: 'Theme Suggestions Updated!',
-                description: 'New colors based on your logo have been generated.',
-            });
-        } catch (error) {
-            console.error('Error getting AI suggestions:', error);
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: 'Could not generate theme suggestions. Please try again.',
-            });
-        } finally {
-            setIsAiThemeLoading(false);
-        }
-    };
-
     const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             setLogoFile(file);
             setLogo(URL.createObjectURL(file));
-            handleGetAiThemeSuggestions(file);
         }
     };
     
@@ -236,31 +190,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         color={primaryColor} 
                                         setColor={setPrimaryColor} 
                                     />
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-sm text-muted-foreground mr-2">Suggestions:</p>
-                                        <TooltipProvider>
-                                            {suggestedColors.map((suggestion) => (
-                                                <Tooltip key={suggestion.name}>
-                                                    <TooltipTrigger asChild>
-                                                        <button
-                                                            type="button"
-                                                            className={cn(
-                                                                "w-6 h-6 rounded-full border-2 transition-all",
-                                                                primaryColor.toLowerCase() === suggestion.color.toLowerCase() ? 'border-ring scale-110' : 'border-transparent'
-                                                            )}
-                                                            style={{ backgroundColor: suggestion.color }}
-                                                            onClick={() => setPrimaryColor(suggestion.color)}
-                                                            aria-label={`Select color ${suggestion.name}`}
-                                                        />
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>
-                                                        <p>{suggestion.name}</p>
-                                                        <p className="text-xs text-muted-foreground">{suggestion.tip}</p>
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            ))}
-                                        </TooltipProvider>
-                                    </div>
                                 </div>
                             </div>
 
