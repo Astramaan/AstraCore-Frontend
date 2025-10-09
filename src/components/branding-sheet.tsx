@@ -278,16 +278,15 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                     <ScrollArea className="h-48">
                                                         <div className="grid grid-cols-4 gap-1 p-2">
                                                             {Object.keys(icons).map(iconKey => (
-                                                                <PopoverClose key={iconKey} asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="icon"
-                                                                        className="w-12 h-12"
-                                                                        onClick={() => handleIconChange(index, iconKey)}
-                                                                    >
-                                                                        {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
-                                                                    </Button>
-                                                                </PopoverClose>
+                                                                <Button
+                                                                    key={iconKey}
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="w-12 h-12"
+                                                                    onClick={() => handleIconChange(index, iconKey)}
+                                                                >
+                                                                    {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                                </Button>
                                                             ))}
                                                         </div>
                                                     </ScrollArea>
