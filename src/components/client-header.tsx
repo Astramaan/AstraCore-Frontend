@@ -21,7 +21,7 @@ export const ClientHeader = () => {
         const isNewUser = user.team === 'New User';
 
         if (pathname.includes('/home')) {
-            return isNewUser ? 'Book your free consultation' : '';
+            return isNewUser ? '' : '';
         } else if (pathname.includes('/packages')) {
             return 'Packages';
         } else if (pathname.includes('/project') && !pathname.includes('/projects')) { // for single project

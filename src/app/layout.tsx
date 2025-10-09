@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={cn("antialiased font-sans")}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
