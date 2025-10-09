@@ -3,7 +3,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from './ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
 import { X, Upload, Palette, Save, Plus, Trash2, Youtube } from 'lucide-react';
 import Image from 'next/image';
@@ -124,6 +124,9 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             </Button>
                         </SheetClose>
                     </SheetTitle>
+                    <SheetDescription>
+                        These customizations will reflect on the client version.
+                    </SheetDescription>
                 </SheetHeader>
                 <div className="flex-1 overflow-y-auto">
                     <div className="p-6 space-y-8">
@@ -169,7 +172,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             <Label className="text-lg font-medium">Marketing Bullet Points (Max 8)</Label>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {bulletPoints.map((point, index) => (
-                                    <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full bg-background dark:bg-input" />
+                                    <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full bg-white dark:bg-input" />
                                 ))}
                             </div>
                         </div>
