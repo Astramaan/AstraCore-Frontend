@@ -12,6 +12,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { ScrollArea } from './ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 const ColorInput = ({ label, color, setColor, disabled }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean }) => (
     <div className="flex items-center gap-2">
@@ -107,7 +108,13 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
 
     return (
         <Sheet open={isOpen} onOpenChange={onOpenChange}>
-            <SheetContent className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-4xl md:mx-auto rounded-t-[50px] border-none md:max-h-[90vh]">
+            <SheetContent 
+                side="bottom"
+                className={cn(
+                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-4xl md:mx-auto rounded-t-[50px] border-none md:max-h-[90vh]",
+                    "bottom-0 top-auto translate-y-0" // Centering and bottom alignment
+                )}
+            >
                 <SheetHeader className="p-6 border-b shrink-0">
                     <SheetTitle className="flex justify-between items-center">
                         <span className="text-2xl font-semibold">Branding & Workflow</span>
