@@ -34,17 +34,8 @@ const ThemeSuggestionOutputSchema = z.object({
 export type ThemeSuggestionOutput = z.infer<typeof ThemeSuggestionOutputSchema>;
 
 export async function getThemeSuggestions(input: ThemeSuggestionInput): Promise<ThemeSuggestionOutput> {
-  return themeSuggestionFlow(input);
-}
-
-const themeSuggestionFlow = ai.defineFlow(
-  {
-    name: 'themeSuggestionFlow',
-    inputSchema: ThemeSuggestionInputSchema,
-    outputSchema: ThemeSuggestionOutputSchema,
-  },
-  async (input) => {
-    const prompt = `You are a professional UI/UX designer and color theorist. Your task is to suggest a theme palette of 5 colors for a web application based on the user's company logo and their preferred primary color.
+  const llmResponse = await ai.generate({
+      prompt: `You are a professional UI/UX designer and color theorist. Your task is to suggest a theme palette of 5 colors for a web application based on the user's company logo and their preferred primary color.
 
 Analyze the provided logo image and the user's color preference. Based on this, generate 5 color suggestions that would work well for a web application theme.
 
@@ -56,16 +47,15 @@ For each color, provide:
     -   Contrast and accessibility for both light and dark modes.
     -   Psychological impact of the color.
 
-User's preferred primary color: {{{colorPreference}}}
+User's preferred primary color: ${input.colorPreference}
 Company Logo: {{media url=logoDataUri}}
 
-Return the response in the specified JSON format.`;
-
-    const llmResponse = await ai.generate({
-      prompt: prompt,
+Return the response in the specified JSON format.`,
       output: { schema: ThemeSuggestionOutputSchema },
-    });
+      context: {
+        logoDataUri: input.logoDataUri,
+      },
+  });
 
-    return llmResponse.output!;
-  }
-);
+  return llmResponse.output!;
+}
