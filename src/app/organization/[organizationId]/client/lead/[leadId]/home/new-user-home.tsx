@@ -231,31 +231,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-
-                    <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
-                        <CardContent className="p-0">
-                             <h2 className="text-center text-foreground text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
-                             <div className="relative">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 dark:bg-gray-700 -z-0"></div>
-                                <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
-                                    <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
-                                    <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
-                                    <FeatureCard icon={<Shield className="text-white"/>} text="Disaster Resilient"/>
-                                    <FeatureCard icon={<Award className="text-white"/>} text="1 Year Warranty"/>
-                                </div>
-                            </div>
-                            <div className="relative mt-16">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 dark:bg-gray-700 -z-0"></div>
-                                <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
-                                    <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
-                                    <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
-                                    <FeatureCard icon={<Home className="text-white"/>} text="Structure as per NBC"/>
-                                    <FeatureCard icon={<DollarSign className="text-white"/>} text="Transparent Pricing"/>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
                     <Card id="faq-section" className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
