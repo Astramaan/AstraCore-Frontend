@@ -73,7 +73,7 @@ export const ClientHeader = () => {
                         <AvatarImage src="https://picsum.photos/seed/user_avatar/55/55" data-ai-hint="person portrait" />
                         <AvatarFallback>{userInitials}</AvatarFallback>
                     </Avatar>
-                    <div className="text-left hidden lg:block">
+                    <div className="text-left hidden md:block">
                         <p className="font-semibold text-white">{user?.name}</p>
                         <p className="text-sm text-white/80">{user?.email}</p>
                     </div>
