@@ -2,7 +2,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
 import { X, Upload, Palette, Save, Plus, Trash2, Youtube } from 'lucide-react';
@@ -115,18 +115,20 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                     "bottom-0 top-auto translate-y-0"
                 )}
             >
-                 <SheetHeader className="p-6 border-b shrink-0">
-                    <SheetTitle className="flex justify-between items-center">
-                        <span className="text-2xl font-semibold">Branding & Workflow</span>
+                <SheetHeader className="p-6 border-b shrink-0">
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <SheetTitle className="text-2xl font-semibold">Branding & Workflow</SheetTitle>
+                            <SheetDescription className="text-muted-foreground">
+                                These customizations will be reflected on the client version of the application.
+                            </SheetDescription>
+                        </div>
                         <SheetClose asChild>
-                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+                            <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full shrink-0">
                                 <X className="h-5 w-5" />
                             </Button>
                         </SheetClose>
-                    </SheetTitle>
-                    <SheetDescription>
-                        These customizations will reflect on the client version.
-                    </SheetDescription>
+                    </div>
                 </SheetHeader>
                 <div className="flex-1 overflow-y-auto">
                     <div className="p-6 space-y-8">
