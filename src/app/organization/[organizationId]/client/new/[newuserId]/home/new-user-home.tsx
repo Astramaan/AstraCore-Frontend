@@ -18,7 +18,7 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
         <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
             {icon}
         </div>
-        <p className="text-black text-sm font-normal leading-none max-w-24">{text}</p>
+        <p className="text-foreground text-sm font-normal leading-none max-w-24">{text}</p>
     </div>
 )
 
@@ -159,7 +159,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         <div className="bg-zinc-100 min-h-screen">
             <main>
                 <div className="max-w-[1240px] 2xl:max-w-none mx-auto space-y-8 md:p-8 2xl:px-10">
-                    <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">
+                    <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-card rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
                             <AppointmentCard appointment={appointment} onReschedule={() => {
@@ -169,7 +169,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         ) : (
                             <>
                                 <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0">
-                                    <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
+                                    <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
                                     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                         <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                             <User className="mr-2 h-5 w-5" />
@@ -185,10 +185,10 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         )}
                     </Card>
 
-                     <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px] flex flex-col justify-start items-center">
+                     <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px] flex flex-col justify-start items-center">
                         <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
-                            <h2 className="text-center text-black text-xl font-medium leading-tight">Submit Your Project Details</h2>
-                            <p className="text-center text-stone-500 text-xs font-normal leading-none mt-2 mb-6">Provide us with some basic information about your project.</p>
+                            <h2 className="text-center text-foreground text-xl font-medium leading-tight">Submit Your Project Details</h2>
+                            <p className="text-center text-muted-foreground text-xs font-normal leading-none mt-2 mb-6">Provide us with some basic information about your project.</p>
                             <form onSubmit={handleSubmit} className="w-full space-y-4">
                                 <div>
                                     <Label htmlFor="project-type">Project Type</Label>
@@ -232,9 +232,9 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     </Card>
 
 
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                         <CardContent className="p-0">
-                             <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
+                             <h2 className="text-center text-foreground text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative">
                                 <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 -z-0"></div>
                                 <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
@@ -256,13 +256,13 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </CardContent>
                     </Card>
 
-                    <Card id="faq-section" className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card id="faq-section" className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                          <CardContent className="p-0">
-                            <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
+                            <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
                              <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
                                 {faqs.map((faq, index) => (
                                 <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
-                                    <AccordionTrigger className="px-6 text-black hover:text-primary hover:no-underline text-left">
+                                    <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
                                     <span>{`${index + 1}. ${faq.question}`}</span>
                                     </AccordionTrigger>
                                     <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
@@ -272,7 +272,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 ))}
                             </Accordion>
                             <div className="text-center mt-6">
-                                <a href="#book-consultation-section" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+                                <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
                             </div>
                         </CardContent>
                     </Card>
@@ -287,3 +287,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    

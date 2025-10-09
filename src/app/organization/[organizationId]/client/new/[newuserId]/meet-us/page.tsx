@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,7 @@ const FeatureCard = ({ icon, text }: { icon: React.ReactNode, text: string }) =>
         <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
             {icon}
         </div>
-        <p className="text-black text-sm font-normal leading-none max-w-24">{text}</p>
+        <p className="text-foreground text-sm font-normal leading-none max-w-24">{text}</p>
     </div>
 )
 
@@ -83,7 +82,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                       style={{ border: 0 }}
                       allowFullScreen={false}
                       loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
+                      referrerPolicy="no-referrer-downgrade"
                       className="rounded-3xl"
                     ></iframe>
                     <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>
@@ -142,7 +141,7 @@ export default function MeetUsPage() {
         <div className="bg-zinc-100 min-h-screen">
             <main>
                 <div className="max-w-[1240px] mx-auto space-y-8 md:p-8 pb-32">
-                    <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-white rounded-[50px] flex flex-col justify-start items-center">
+                    <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-card rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
                             <AppointmentCard appointment={appointment} onReschedule={() => {
@@ -152,7 +151,7 @@ export default function MeetUsPage() {
                         ) : (
                             <>
                                 <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0">
-                                    <h2 className="text-center text-black text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
+                                    <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
                                     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                         <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                             <User className="mr-2 h-5 w-5" />
@@ -168,9 +167,9 @@ export default function MeetUsPage() {
                         )}
                     </Card>
 
-                    <Card className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                         <CardContent className="p-0">
-                             <h2 className="text-center text-black text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
+                             <h2 className="text-center text-foreground text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative">
                                 <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 -z-0"></div>
                                 <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
@@ -192,13 +191,13 @@ export default function MeetUsPage() {
                         </CardContent>
                     </Card>
 
-                    <Card id="faq-section" className="text-card-foreground w-full p-10 bg-white rounded-[50px]">
+                    <Card id="faq-section" className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                          <CardContent className="p-0">
-                            <h2 className="text-center text-black text-lg font-medium mb-8">FAQ’s</h2>
+                            <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
                              <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
                                 {faqs.map((faq, index) => (
                                 <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
-                                    <AccordionTrigger className="px-6 text-black hover:text-primary hover:no-underline text-left">
+                                    <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
                                     <span>{`${index + 1}. ${faq.question}`}</span>
                                     </AccordionTrigger>
                                     <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
@@ -208,7 +207,7 @@ export default function MeetUsPage() {
                                 ))}
                             </Accordion>
                             <div className="text-center mt-6">
-                                <a href="#book-consultation-section" className="text-black hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+                                <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
                             </div>
                         </CardContent>
                     </Card>
@@ -223,3 +222,5 @@ export default function MeetUsPage() {
         </div>
     );
 }
+
+    
