@@ -5,7 +5,7 @@
 import React, { useState, useRef } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
-import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit } from 'lucide-react';
+import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
@@ -14,9 +14,9 @@ import { Textarea } from './ui/textarea';
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { getThemeSuggestions, type ColorSuggestion } from '@/ai/flows/theme-suggestion-flow';
 
-
-const suggestedColors = [
+const initialSuggestedColors: ColorSuggestion[] = [
     { color: '#0FB4C3', name: 'Vibrant Teal', tip: 'Good for light/dark modes' },
     { color: '#3391FF', name: 'Professional Blue', tip: 'High contrast, safe choice' },
     { color: '#1AB2B2', name: 'Strong Cyan', tip: 'Works well as an accent' },
@@ -24,7 +24,7 @@ const suggestedColors = [
     { color: '#FFB969', name: 'Warm Amber', tip: 'Use with dark text for accessibility' },
 ];
 
-const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean, onEdit: () => void }) => (
+const ColorInput = ({ label, color, setColor, disabled, onEdit, onGetAiSuggestions, isAiLoading }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean, onEdit: () => void, onGetAiSuggestions: () => void, isAiLoading: boolean }) => (
     <div className="space-y-4">
         <div className="flex items-center gap-4">
              <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
@@ -47,31 +47,10 @@ const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label: strin
             <Button type="button" size="sm" variant="ghost" onClick={onEdit} className="rounded-full">
                 <Edit className="w-4 h-4 mr-2"/> Custom
             </Button>
-        </div>
-         <div className="flex items-center gap-2">
-             <p className="text-sm text-muted-foreground mr-2">Suggestions:</p>
-            <TooltipProvider>
-                {suggestedColors.map((suggestion) => (
-                    <Tooltip key={suggestion.name}>
-                        <TooltipTrigger asChild>
-                            <button
-                                type="button"
-                                className={cn(
-                                    "w-6 h-6 rounded-full border-2 transition-all",
-                                    color.toLowerCase() === suggestion.color.toLowerCase() ? 'border-ring scale-110' : 'border-transparent'
-                                )}
-                                style={{ backgroundColor: suggestion.color }}
-                                onClick={() => setColor(suggestion.color)}
-                                aria-label={`Select color ${suggestion.name}`}
-                            />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>{suggestion.name}</p>
-                            <p className="text-xs text-muted-foreground">{suggestion.tip}</p>
-                        </TooltipContent>
-                    </Tooltip>
-                ))}
-            </TooltipProvider>
+            <Button type="button" size="sm" variant="outline" onClick={onGetAiSuggestions} className="rounded-full border-primary text-primary hover:bg-primary/10 hover:text-primary" disabled={isAiLoading}>
+                <Sparkles className={cn("w-4 h-4 mr-2", isAiLoading && "animate-spin")} />
+                {isAiLoading ? 'Thinking...' : 'Get AI Suggestions'}
+            </Button>
         </div>
     </div>
 );
@@ -91,8 +70,12 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     const { toast } = useToast();
     
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
-    const [primaryColor, setPrimaryColor] = useState('#0FB4C3');
+    const [logoFile, setLogoFile] = useState<File | null>(null);
+    const [primaryColor, setPrimaryColor] = useState('#3391FF');
     const [isColorPickerDisabled, setIsColorPickerDisabled] = useState(true);
+    const [suggestedColors, setSuggestedColors] = useState<ColorSuggestion[]>(initialSuggestedColors);
+    const [isAiLoading, setIsAiLoading] = useState(false);
+    
     const [faqs, setFaqs] = useState(initialFaqs);
     const [bulletPoints, setBulletPoints] = useState(initialBulletPoints);
     const [videoUrl, setVideoUrl] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
@@ -122,7 +105,9 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
 
     const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
-            setLogo(URL.createObjectURL(event.target.files[0]));
+            const file = event.target.files[0];
+            setLogoFile(file);
+            setLogo(URL.createObjectURL(file));
         }
     };
     
@@ -138,8 +123,50 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         setLoginImages(loginImages.filter((_, i) => i !== index));
     }
 
+    const fileToDataUri = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleGetAiSuggestions = async () => {
+        if (!logoFile) {
+            toast({
+                variant: 'destructive',
+                title: 'No Logo Uploaded',
+                description: 'Please upload a logo first to get AI-powered color suggestions.',
+            });
+            return;
+        }
+        
+        setIsAiLoading(true);
+        try {
+            const logoDataUri = await fileToDataUri(logoFile);
+            const suggestions = await getThemeSuggestions({
+                logoDataUri: logoDataUri,
+                colorPreference: primaryColor,
+            });
+            setSuggestedColors(suggestions.suggestions);
+            toast({
+                title: 'Suggestions Loaded!',
+                description: 'New theme color suggestions have been generated by AI.',
+            });
+        } catch (error) {
+            console.error('Error getting AI suggestions:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'Could not generate AI suggestions. Please try again.',
+            });
+        } finally {
+            setIsAiLoading(false);
+        }
+    };
+
     const handleSave = () => {
-        // Here you would typically save all the branding settings to your backend
         toast({
             title: "Branding Updated",
             description: "Your branding changes have been applied.",
@@ -152,14 +179,13 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
             <SheetContent 
                 side="bottom"
                 className={cn(
-                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-4xl md:mx-auto rounded-t-[50px] border-none md:max-h-[90vh]",
-                    "bottom-0 top-auto translate-y-0"
+                    "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none",
                 )}
             >
                  <SheetHeader className="p-6 border-b shrink-0">
                     <div className="flex justify-between items-start">
                          <div className="space-y-1">
-                            <SheetTitle className="text-2xl font-semibold">Branding & Workflow</SheetTitle>
+                             <SheetTitle className="text-2xl font-semibold">Branding &amp; Workflow</SheetTitle>
                             <SheetDescription className="text-muted-foreground">
                                 These customizations will reflect on the client version of your organization.
                             </SheetDescription>
@@ -177,7 +203,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-6">
                                     <div className="relative w-16 h-16 rounded-full border border-border">
-                                        <Image src={logo ?? ''} alt="Company Logo" layout="fill" className="rounded-full object-cover" />
+                                        {logo && <Image src={logo} alt="Company Logo" layout="fill" className="rounded-full object-cover" />}
                                     </div>
                                     <label htmlFor="logo-upload" className={'cursor-pointer'}>
                                         <div className="flex items-center gap-2 text-primary">
@@ -195,7 +221,34 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         setColor={setPrimaryColor} 
                                         disabled={isColorPickerDisabled}
                                         onEdit={() => setIsColorPickerDisabled(false)}
+                                        onGetAiSuggestions={handleGetAiSuggestions}
+                                        isAiLoading={isAiLoading}
                                     />
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-sm text-muted-foreground mr-2">Suggestions:</p>
+                                        <TooltipProvider>
+                                            {suggestedColors.map((suggestion) => (
+                                                <Tooltip key={suggestion.name}>
+                                                    <TooltipTrigger asChild>
+                                                        <button
+                                                            type="button"
+                                                            className={cn(
+                                                                "w-6 h-6 rounded-full border-2 transition-all",
+                                                                primaryColor.toLowerCase() === suggestion.color.toLowerCase() ? 'border-ring scale-110' : 'border-transparent'
+                                                            )}
+                                                            style={{ backgroundColor: suggestion.color }}
+                                                            onClick={() => setPrimaryColor(suggestion.color)}
+                                                            aria-label={`Select color ${suggestion.name}`}
+                                                        />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>{suggestion.name}</p>
+                                                        <p className="text-xs text-muted-foreground">{suggestion.tip}</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            ))}
+                                        </TooltipProvider>
+                                    </div>
                                 </div>
                             </div>
 
