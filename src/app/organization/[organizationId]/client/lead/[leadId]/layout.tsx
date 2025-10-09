@@ -26,7 +26,7 @@ export default function LeadLayout({ children }: { children: React.ReactNode }) 
         )}
         <main className={cn(
                 "w-full flex-1 overflow-y-auto pb-32",
-                isHomePage ? "bg-transparent" : "bg-background"
+                isHomePage ? "bg-transparent p-0" : "bg-background"
             )}>
             {children}
         </main>
