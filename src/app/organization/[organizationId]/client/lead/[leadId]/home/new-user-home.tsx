@@ -110,6 +110,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     const [isClient, setIsClient] = useState(false);
     const [siteImage, setSiteImage] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [showProjectDetailsForm, setShowProjectDetailsForm] = useState(true);
 
     useEffect(() => {
         setIsClient(true);
@@ -156,10 +157,22 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     ];
 
     return (
-        <div className="bg-background min-h-screen">
-            <main>
-                <div className="max-w-[1240px] 2xl:max-w-none mx-auto space-y-8 md:p-8 2xl:px-10">
-                    <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-card rounded-[50px] flex flex-col justify-start items-center">
+        <div className="relative">
+             <div className="absolute top-0 left-0 w-full h-[50vh] -z-10">
+                <Image
+                    src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NTk4NDU5ODR8MA"
+                    alt="Modern house background"
+                    layout="fill"
+                    objectFit="cover"
+                    className="object-top"
+                    data-ai-hint="modern house"
+                    priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
+            </div>
+            <main className="relative z-10">
+                <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8 2xl:px-10 pb-32">
+                    <Card id="book-consultation-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
                         
                          {appointment ? (
                             <AppointmentCard appointment={appointment} onReschedule={() => {
@@ -168,7 +181,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             }} />
                         ) : (
                             <>
-                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0">
+                                <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
                                     <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
                                     <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                                         <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
@@ -185,45 +198,48 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         )}
                     </Card>
 
-                    <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px] flex flex-col justify-start items-center">
-                        <CardContent className="p-0 max-w-xl w-full">
-                            <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">Submit Your Project Details</h2>
-                            <p className="text-center text-muted-foreground text-sm mb-8">Provide us with some basic information about your project.</p>
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="project-type" className="px-4">Project Type</Label>
-                                        <Input id="project-type" placeholder="e.g. Residential, Commercial" className="h-14 rounded-full bg-background dark:bg-input" />
+                   {showProjectDetailsForm && (
+                        <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
+                            <CardContent className="p-0 max-w-xl w-full">
+                                <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">Submit Your Project Details</h2>
+                                <p className="text-center text-muted-foreground text-sm mb-8">Provide us with some basic information about your project.</p>
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="project-type" className="px-4">Project Type</Label>
+                                            <Input id="project-type" placeholder="e.g. Residential, Commercial" className="h-14 rounded-full bg-background dark:bg-input" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="floor-count" className="px-4">Number of Floors</Label>
+                                            <Input id="floor-count" placeholder="e.g. G+2" className="h-14 rounded-full bg-background dark:bg-input" />
+                                        </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="floor-count" className="px-4">Number of Floors</Label>
-                                        <Input id="floor-count" placeholder="e.g. G+2" className="h-14 rounded-full bg-background dark:bg-input" />
+                                        <Label htmlFor="site-address" className="px-4">Site Address</Label>
+                                        <Textarea id="site-address" placeholder="Enter the full site address" className="rounded-3xl bg-background dark:bg-input min-h-[100px]" />
                                     </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="site-address" className="px-4">Site Address</Label>
-                                    <Textarea id="site-address" placeholder="Enter the full site address" className="rounded-3xl bg-background dark:bg-input min-h-[100px]" />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label className="px-4">Site Image</Label>
-                                    <div className="flex items-center justify-center w-full">
-                                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer bg-background hover:bg-muted">
-                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
-                                                <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
-                                            </div>
-                                            <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageChange} />
-                                        </label>
+                                    <div className="space-y-2">
+                                        <Label className="px-4">Site Image</Label>
+                                        <div className="flex items-center justify-center w-full">
+                                            <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer bg-background hover:bg-muted">
+                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                    <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                                    <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
+                                                    <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                                                </div>
+                                                <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageChange} />
+                                            </label>
+                                        </div>
+                                        {siteImage && <p className="text-sm text-muted-foreground px-4">File: {siteImage.name}</p>}
                                     </div>
-                                    {siteImage && <p className="text-sm text-muted-foreground px-4">File: {siteImage.name}</p>}
-                                </div>
-                                <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
-                            </form>
-                        </CardContent>
-                    </Card>
+                                    <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
+                                </form>
+                            </CardContent>
+                        </Card>
+                    )}
 
-                    <Card id="faq-section" className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
+
+                    <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
                              <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
@@ -254,3 +270,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    
