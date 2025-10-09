@@ -6,13 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
-import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin, Upload } from 'lucide-react';
+import { GanttChartSquare, Award, Shield, DollarSign, Home, User, Laptop, MapPin, Upload, Sparkles } from 'lucide-react';
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ClientHeader } from "@/components/client-header";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 
 interface AppointmentDetails {
     type: 'office' | 'home' | 'online';
@@ -27,6 +31,29 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     const [isClient, setIsClient] = useState(false);
     const [siteImage, setSiteImage] = useState<File | null>(null);
     const [showProjectDetailsForm, setShowProjectDetailsForm] = useState(true);
+    const { toast } = useToast();
+
+    const [companyDescription, setCompanyDescription] = useState('');
+    const [isAiContentLoading, setIsLoading] = useState(false);
+    const [faqs, setFaqs] = useState([
+        {
+            question: "Does habi charge an advance payment?",
+            answer: "Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan."
+        },
+        {
+            question: "What is the cost of building a house with habi?",
+            answer: "The cost depends on the package you choose. We have different packages to suit various budgets and requirements."
+        },
+        {
+            question: "How long does it take to build a house?",
+            answer: "The construction timeline varies depending on the project's complexity and size. On average, it takes about 6-9 months."
+        },
+        {
+            question: "Do you provide architectural and structural designs?",
+            answer: "Yes, we provide comprehensive design services, including architectural and structural plans, as part of our packages."
+        }
+    ]);
+
 
     useEffect(() => {
         setIsClient(true);
@@ -55,25 +82,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         }
     };
 
-    const faqs = [
-        {
-            question: "Does habi charge an advance payment?",
-            answer: "Yes. habi collects a booking amount of about 1% of the total home construction cost. Alongside this, we conduct digital surveys, perform soil tests, and create a floor plan."
-        },
-        {
-            question: "What is the cost of building a house with habi?",
-            answer: "The cost depends on the package you choose. We have different packages to suit various budgets and requirements."
-        },
-        {
-            question: "How long does it take to build a house?",
-            answer: "The construction timeline varies depending on the project's complexity and size. On average, it takes about 6-9 months."
-        },
-        {
-            question: "Do you provide architectural and structural designs?",
-            answer: "Yes, we provide comprehensive design services, including architectural and structural plans, as part of our packages."
-        }
-    ];
-
     return (
         <div className="relative">
              <header className="sticky top-2 z-20 px-2">
@@ -97,13 +105,12 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-            <main className="relative z-10 mt-[30vh] sm:mt-72 md:mt-96">
+             <main className="relative z-10 mt-[30vh] md:mt-[30vh] lg:mt-72">
                  <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                         <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
-                            <h2 className="text-center text-white text-3xl font-semibold leading-tight mb-2">Book your free consultation</h2>
-                            <p className="text-center text-white/80 text-lg font-medium leading-tight mb-4">How would you like to connect?</p>
-                             <div className="flex flex-row gap-4 w-full justify-center">
+                            <h2 className="text-center text-white text-2xl font-semibold leading-tight">Book your free consultation. <span className="text-white/80 text-base font-medium">How would you like to connect?</span></h2>
+                            <div className="flex flex-row gap-4 w-full justify-center mt-4">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                     <User className="mr-2 h-5 w-5" />
                                     In Person
