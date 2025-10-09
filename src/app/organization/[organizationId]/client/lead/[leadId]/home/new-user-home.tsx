@@ -168,7 +168,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     </div>
                 </div>
             </header>
-             <div className="absolute top-0 left-0 w-full h-[50vh] -z-10">
+            <div className="absolute top-0 left-0 w-full h-[50vh] -z-10">
                 <Image
                     src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NTk4NDU5ODR8MA"
                     alt="Modern house background"
@@ -280,5 +280,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
-    
