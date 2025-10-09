@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -12,7 +13,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Popover, PopoverContent, PopoverTrigger, PopoverClose } from './ui/popover';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
 import { Separator } from './ui/separator';
 
@@ -51,6 +52,10 @@ const icons: { [key: string]: React.ReactNode } = {
     Users: <UsersIcon />,
     FileText: <FileText />,
     ClipboardCheck: <ClipboardCheck />,
+    Twitter: <Twitter/>,
+    Linkedin: <Linkedin/>,
+    Facebook: <Facebook/>,
+    Instagram: <Instagram/>,
 };
 
 const iconKeys = Object.keys(icons);
