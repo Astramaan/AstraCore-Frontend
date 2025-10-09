@@ -109,9 +109,14 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                  <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                         <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
-                            <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
-                                Book your free consultation. <span className="text-white/80 font-medium text-base">How would you like to connect?</span>
-                            </h2>
+                            <div className="text-center">
+                                <h2 className="text-white text-2xl font-semibold leading-tight">
+                                    Book your free consultation.
+                                </h2>
+                                <p className="text-white/80 font-medium text-base mt-2">
+                                    How would you like to connect?
+                                </p>
+                            </div>
                             <div className="flex flex-row gap-4 w-full justify-center mt-4">
                                 <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                     <User className="mr-2 h-5 w-5" />
