@@ -4,7 +4,7 @@
 import React, { useState, useRef } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
-import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles, Award, GanttChartSquare, Shield, DollarSign, Home, User, Laptop, MapPin, Search, ChevronDown } from 'lucide-react';
+import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit, Sparkles, Award, GanttChartSquare, Shield, DollarSign, Home, User, Laptop, MapPin, Search, ChevronDown, Rocket, Zap, TrendingUp, Star, Heart, ThumbsUp, Clock, Calendar, Briefcase, Settings, Wrench, Package, Truck, Phone, Mail, Globe, Lightbulb, Users as UsersIcon, FileText, ClipboardCheck } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
@@ -15,28 +15,6 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-
-const ColorInput = ({ label, color, setColor }: { label:string, color: string, setColor: (color: string) => void }) => (
-    <div className="space-y-4">
-        <div className="flex items-center gap-4">
-             <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
-                 <input
-                    type="color"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                    className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
-                />
-            </div>
-            <Input 
-                type="text" 
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                className="w-32 h-10 rounded-full"
-                placeholder="#0FB4C3"
-            />
-        </div>
-    </div>
-);
 
 const initialFaqs = [
     { question: 'Does habi charge an advance payment?', answer: 'Yes. habi collects a booking amount of about 1% of the total home construction cost.' },
@@ -53,6 +31,26 @@ const icons: { [key: string]: React.ReactNode } = {
     User: <User />,
     Laptop: <Laptop />,
     MapPin: <MapPin />,
+    Rocket: <Rocket />,
+    Zap: <Zap />,
+    TrendingUp: <TrendingUp />,
+    Star: <Star />,
+    Heart: <Heart />,
+    ThumbsUp: <ThumbsUp />,
+    Clock: <Clock />,
+    Calendar: <Calendar />,
+    Briefcase: <Briefcase />,
+    Settings: <Settings />,
+    Wrench: <Wrench />,
+    Package: <Package />,
+    Truck: <Truck />,
+    Phone: <Phone />,
+    Mail: <Mail />,
+    Globe: <Globe />,
+    Lightbulb: <Lightbulb />,
+    Users: <UsersIcon />,
+    FileText: <FileText />,
+    ClipboardCheck: <ClipboardCheck />,
 };
 
 const initialBulletPoints: { text: string; icon: string }[] = [
@@ -71,7 +69,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
     const [logoFile, setLogoFile] = useState<File | null>(null);
-    const [primaryColor, setPrimaryColor] = useState('#3391FF');
+    const [primaryColor, setPrimaryColor] = useState('#0FB4C3');
     
     const [companyDescription, setCompanyDescription] = useState('');
     const [faqs, setFaqs] = useState(initialFaqs);
@@ -209,11 +207,23 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                 </div>
                                 <div className="flex flex-col items-start gap-4">
                                     <h4 className="text-lg font-medium text-muted-foreground">Theme Colors</h4>
-                                    <ColorInput 
-                                        label="Primary" 
-                                        color={primaryColor} 
-                                        setColor={setPrimaryColor} 
-                                    />
+                                     <div className="flex items-center gap-4">
+                                        <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: primaryColor }}>
+                                             <input
+                                                type="color"
+                                                value={primaryColor}
+                                                onChange={(e) => setPrimaryColor(e.target.value)}
+                                                className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
+                                            />
+                                        </div>
+                                        <Input 
+                                            type="text" 
+                                            value={primaryColor}
+                                            onChange={(e) => setPrimaryColor(e.target.value)}
+                                            className="w-32 h-10 rounded-full"
+                                            placeholder="#0FB4C3"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -259,24 +269,26 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         <div key={index} className="flex items-center gap-2">
                                             <Popover>
                                                 <PopoverTrigger asChild>
-                                                    <Button variant="outline" className="w-14 h-14 rounded-full p-0 flex-shrink-0">
+                                                    <Button variant="outline" className="w-14 h-14 rounded-full p-0 flex-shrink-0" type="button">
                                                         {React.cloneElement(icons[point.icon] as React.ReactElement, { className: "text-foreground" })}
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-64 p-2">
-                                                    <div className="grid grid-cols-4 gap-2">
-                                                        {Object.keys(icons).map(iconKey => (
-                                                            <Button
-                                                                key={iconKey}
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                className="w-12 h-12"
-                                                                onClick={() => handleIconChange(index, iconKey)}
-                                                            >
-                                                                 {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
-                                                            </Button>
-                                                        ))}
-                                                    </div>
+                                                    <ScrollArea className="h-48">
+                                                        <div className="grid grid-cols-4 gap-2">
+                                                            {Object.keys(icons).map(iconKey => (
+                                                                <Button
+                                                                    key={iconKey}
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="w-12 h-12"
+                                                                    onClick={() => handleIconChange(index, iconKey)}
+                                                                >
+                                                                    {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                                </Button>
+                                                            ))}
+                                                        </div>
+                                                    </ScrollArea>
                                                 </PopoverContent>
                                             </Popover>
                                             <Input
@@ -305,13 +317,13 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                             placeholder="Question"
                                             value={faq.question}
                                             onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
-                                            className="h-12 rounded-full font-semibold bg-card dark:bg-background"
+                                            className="h-12 rounded-full font-semibold bg-card"
                                         />
                                         <Textarea
                                             placeholder="Answer"
                                             value={faq.answer}
                                             onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
-                                            className="min-h-[60px] rounded-xl bg-card dark:bg-background"
+                                            className="min-h-[60px] rounded-xl bg-card"
                                         />
                                     </div>
                                 ))}
