@@ -185,6 +185,44 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         )}
                     </Card>
 
+                    <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px] flex flex-col justify-start items-center">
+                        <CardContent className="p-0 max-w-xl w-full">
+                            <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">Submit Your Project Details</h2>
+                            <p className="text-center text-muted-foreground text-sm mb-8">Provide us with some basic information about your project.</p>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="project-type">Project Type</Label>
+                                        <Input id="project-type" placeholder="e.g. Residential, Commercial" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="floor-count">Number of Floors</Label>
+                                        <Input id="floor-count" placeholder="e.g. G+2" />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="site-address">Site Address</Label>
+                                    <Textarea id="site-address" placeholder="Enter the full site address" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Site Image</Label>
+                                    <div className="flex items-center justify-center w-full">
+                                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-background hover:bg-muted">
+                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
+                                                <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                                            </div>
+                                            <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageChange} />
+                                        </label>
+                                    </div>
+                                    {siteImage && <p className="text-sm text-muted-foreground">File: {siteImage.name}</p>}
+                                </div>
+                                <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
+                            </form>
+                        </CardContent>
+                    </Card>
+
                     <Card id="faq-section" className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>

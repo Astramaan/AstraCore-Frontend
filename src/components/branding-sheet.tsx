@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger, PopoverClose } from './ui/popover';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
 import { Separator } from './ui/separator';
+import { Switch } from './ui/switch';
 
 const initialFaqs = [
     { question: 'Does habi charge an advance payment?', answer: 'Yes. habi collects a booking amount of about 1% of the total home construction cost.' },
@@ -143,6 +144,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     const [packages, setPackages] = useState(initialPackages);
     const [socialMediaLinks, setSocialMediaLinks] = useState(initialSocialMediaLinks);
     const [isAiContentLoading, setIsAiContentLoading] = useState(false);
+    const [showProjectDetailsForm, setShowProjectDetailsForm] = useState(true);
 
     const handleFaqChange = (index: number, field: 'question' | 'answer', value: string) => {
         const newFaqs = [...faqs];
@@ -384,6 +386,21 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                     <Sparkles className={cn("w-4 h-4 mr-2", isAiContentLoading && "animate-spin")} />
                                     {isAiContentLoading ? 'Generating...' : 'Generate AI Content'}
                                 </Button>
+                            </div>
+
+                            <Separator />
+                            
+                             <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <Label className="text-lg font-medium">Project Details Form</Label>
+                                    <Switch
+                                        checked={showProjectDetailsForm}
+                                        onCheckedChange={setShowProjectDetailsForm}
+                                    />
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                    Toggle the visibility of the "Submit Your Project Details" form on the new user homepage.
+                                </p>
                             </div>
 
                              <Separator />
