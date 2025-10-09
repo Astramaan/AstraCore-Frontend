@@ -296,7 +296,6 @@ export default function ProjectManagerHome() {
                             </DropdownMenuContent>
                         </DropdownMenu>
                          <div className="flex items-center gap-4">
-                            <AssignTaskSheet onTaskAssigned={handleAddTask} />
                             <AddMemberSheet />
                         </div>
                     </div>
@@ -337,7 +336,6 @@ export default function ProjectManagerHome() {
               assignedTasksChartData={[]}
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
               showAddMemberButton={true}
             />
             {selectedTask && (
@@ -370,3 +368,4 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
+
