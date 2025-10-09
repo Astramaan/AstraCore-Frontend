@@ -171,10 +171,11 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-            <main className="relative z-10 -mt-20 sm:px-4 md:px-8 2xl:px-10">
+            <main className="relative z-10 mt-28 md:mt-36 sm:px-4 md:px-8 2xl:px-10">
                 <div className="space-y-8 pb-32">
-                    <Card id="book-consultation-section" className="text-card-foreground w-full py-6 md:py-10 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
-                        {appointment ? (
+                    <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
+                        
+                         {appointment ? (
                             <AppointmentCard appointment={appointment} onReschedule={() => {
                                 setAppointment(null);
                                 openConsultationDialog(appointment.type === 'office' || appointment.type === 'home' ? 'in-person' : appointment.type);
