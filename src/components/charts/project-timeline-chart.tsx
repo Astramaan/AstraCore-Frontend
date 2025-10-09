@@ -73,7 +73,7 @@ export function ProjectTimelineChart({ data }: ProjectTimelineChartProps) {
                                         <Cell key={`cell-${index}`} fill={entry.fill} />
                                     ))}
                                 </Pie>
-                                <Tooltip content={<CustomTooltip />} />
+                                <Tooltip content={<CustomTooltip />} wrapperStyle={{ zIndex: 10 }} />
                                 <Legend 
                                     content={renderLegend}
                                     verticalAlign="bottom"
