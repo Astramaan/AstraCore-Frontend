@@ -217,7 +217,7 @@ const SitePhotos = ({ onViewMore, onImageClick, siteImages, className }: { onVie
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                     {siteImages.slice(0, 4).map((src, index) => (
-                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={()={() => onImageClick(index)}}>
+                        <div key={index} className="relative w-full aspect-video cursor-pointer" onClick={() => onImageClick(index)}>
                             <Image className="rounded-[10px] object-cover" src={src} fill alt={`Site photo ${index + 1}`} data-ai-hint="construction building" />
                         </div>
                     ))}
@@ -286,7 +286,6 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
 
 
 export default function ExistingClientHomePage() {
-  const { user } = useUser();
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [previewState, setPreviewState] = useState<{ open: boolean, startIndex: number }>({ open: false, startIndex: 0 });
   const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] = useState(false);
@@ -486,4 +485,6 @@ export default function ExistingClientHomePage() {
   );
 }
     
+    
+
     
