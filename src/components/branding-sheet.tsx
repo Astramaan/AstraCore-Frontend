@@ -5,7 +5,7 @@
 import React, { useState, useRef } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetDescription } from './ui/sheet';
 import { Button } from './ui/button';
-import { X, Upload, Palette, Save, Plus, Trash2, Youtube } from 'lucide-react';
+import { X, Upload, Palette, Save, Plus, Trash2, Youtube, Edit } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
@@ -13,48 +13,65 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { ScrollArea } from './ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+
 
 const suggestedColors = [
-    '#0FB4C3', // primary
-    '#FFB969', // secondary
-    '#1AB2B2', // accent
-    '#3391FF', // another blue
-    '#E23D28', // destructive
+    { color: '#0FB4C3', name: 'Vibrant Teal', tip: 'Good for light/dark modes' },
+    { color: '#3391FF', name: 'Professional Blue', tip: 'High contrast, safe choice' },
+    { color: '#1AB2B2', name: 'Strong Cyan', tip: 'Works well as an accent' },
+    { color: '#E23D28', name: 'Bold Red', tip: 'Good for alerts, use sparingly' },
+    { color: '#FFB969', name: 'Warm Amber', tip: 'Use with dark text for accessibility' },
 ];
 
-const ColorInput = ({ label, color, setColor, disabled }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean }) => (
-    <div className="flex items-center gap-4">
-        <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
-             <input
-                type="color"
+const ColorInput = ({ label, color, setColor, disabled, onEdit }: { label: string, color: string, setColor: (color: string) => void, disabled: boolean, onEdit: () => void }) => (
+    <div className="space-y-4">
+        <div className="flex items-center gap-4">
+             <div className="relative w-8 h-8 rounded-full border" style={{ backgroundColor: color }}>
+                 <input
+                    type="color"
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                    className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
+                    disabled={disabled}
+                />
+            </div>
+            <Input 
+                type="text" 
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                className="w-full h-full opacity-0 cursor-pointer absolute inset-0"
+                className="w-32 h-10 rounded-full"
+                placeholder="#0FB4C3"
                 disabled={disabled}
             />
+            <Button type="button" size="sm" variant="ghost" onClick={onEdit} className="rounded-full">
+                <Edit className="w-4 h-4 mr-2"/> Custom
+            </Button>
         </div>
-        <Input 
-            type="text" 
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-            className="w-32 h-10 rounded-full"
-            placeholder="#0FB4C3"
-            disabled={disabled}
-        />
-        <div className="flex items-center gap-2">
-            {suggestedColors.map((suggestion) => (
-                <button
-                    key={suggestion}
-                    type="button"
-                    className={cn(
-                        "w-6 h-6 rounded-full border-2",
-                        color.toLowerCase() === suggestion.toLowerCase() ? 'border-ring' : 'border-transparent'
-                    )}
-                    style={{ backgroundColor: suggestion }}
-                    onClick={() => setColor(suggestion)}
-                    aria-label={`Select color ${suggestion}`}
-                />
-            ))}
+         <div className="flex items-center gap-2">
+             <p className="text-sm text-muted-foreground mr-2">Suggestions:</p>
+            <TooltipProvider>
+                {suggestedColors.map((suggestion) => (
+                    <Tooltip key={suggestion.name}>
+                        <TooltipTrigger asChild>
+                            <button
+                                type="button"
+                                className={cn(
+                                    "w-6 h-6 rounded-full border-2 transition-all",
+                                    color.toLowerCase() === suggestion.color.toLowerCase() ? 'border-ring scale-110' : 'border-transparent'
+                                )}
+                                style={{ backgroundColor: suggestion.color }}
+                                onClick={() => setColor(suggestion.color)}
+                                aria-label={`Select color ${suggestion.name}`}
+                            />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{suggestion.name}</p>
+                            <p className="text-xs text-muted-foreground">{suggestion.tip}</p>
+                        </TooltipContent>
+                    </Tooltip>
+                ))}
+            </TooltipProvider>
         </div>
     </div>
 );
@@ -75,6 +92,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
     
     const [logo, setLogo] = useState<string | null>('/logo-placeholder.svg');
     const [primaryColor, setPrimaryColor] = useState('#0FB4C3');
+    const [isColorPickerDisabled, setIsColorPickerDisabled] = useState(true);
     const [faqs, setFaqs] = useState(initialFaqs);
     const [bulletPoints, setBulletPoints] = useState(initialBulletPoints);
     const [videoUrl, setVideoUrl] = useState('https://www.youtube.com/embed/dQw4w9WgXcQ');
@@ -153,8 +171,8 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                         </SheetClose>
                     </div>
                 </SheetHeader>
-                <div className="flex-1 min-h-0">
-                    <ScrollArea className="h-full">
+                <div className="flex-1 flex flex-col overflow-hidden">
+                    <ScrollArea className="flex-1">
                         <div className="p-6 space-y-8">
                             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                 <div className="flex items-center gap-6">
@@ -169,9 +187,15 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         <input id="logo-upload" type="file" className="hidden" accept="image/*" onChange={handleLogoUpload} />
                                     </label>
                                 </div>
-                                <div className="flex items-center gap-4">
+                                <div className="flex flex-col items-start gap-4">
                                     <h4 className="text-lg font-medium text-muted-foreground">Theme Colors</h4>
-                                    <ColorInput label="Primary" color={primaryColor} setColor={setPrimaryColor} disabled={false}/>
+                                    <ColorInput 
+                                        label="Primary" 
+                                        color={primaryColor} 
+                                        setColor={setPrimaryColor} 
+                                        disabled={isColorPickerDisabled}
+                                        onEdit={() => setIsColorPickerDisabled(false)}
+                                    />
                                 </div>
                             </div>
 
@@ -232,7 +256,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                     </ScrollArea>
                 </div>
                  <div className="px-6 py-4 border-t flex justify-end shrink-0">
-                    <Button className="w-auto h-14 rounded-full text-lg px-10" onClick={handleSave}>
+                    <Button className="h-14 rounded-full text-lg px-10" onClick={handleSave}>
                         <Save className="mr-2 h-5 w-5"/>
                         Save Changes
                     </Button>
