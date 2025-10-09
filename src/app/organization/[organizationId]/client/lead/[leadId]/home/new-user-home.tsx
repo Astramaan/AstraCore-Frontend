@@ -185,52 +185,6 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         )}
                     </Card>
 
-                     <Card className="text-card-foreground w-full p-10 bg-card rounded-[50px] flex flex-col justify-start items-center">
-                        <CardContent className="p-0 w-full max-w-3xl flex flex-col items-center">
-                            <h2 className="text-center text-foreground text-xl font-medium leading-tight">Submit Your Project Details</h2>
-                            <p className="text-center text-muted-foreground text-xs font-normal leading-none mt-2 mb-6">Provide us with some basic information about your project.</p>
-                            <form onSubmit={handleSubmit} className="w-full space-y-4">
-                                <div>
-                                    <Label htmlFor="project-type">Project Type</Label>
-                                    <Input id="project-type" placeholder="e.g., New Construction, Renovation" className="h-[54px] rounded-full" />
-                                </div>
-                                <div>
-                                    <Label htmlFor="floor-count">Number of Floors</Label>
-                                    <Input id="floor-count" type="number" placeholder="e.g., G+2" className="h-[54px] rounded-full" />
-                                </div>
-                                <div>
-                                    <Label htmlFor="site-address">Site Address</Label>
-                                    <Textarea id="site-address" placeholder="Enter the full site address" className="min-h-[54px] rounded-3xl" />
-                                </div>
-                                <div>
-                                    <Label htmlFor="site-image">Site Image</Label>
-                                    <div 
-                                        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md cursor-pointer"
-                                        onClick={() => fileInputRef.current?.click()}
-                                    >
-                                        <div className="space-y-1 text-center">
-                                            {siteImage ? (
-                                                <Image src={URL.createObjectURL(siteImage)} alt="Site preview" width={100} height={100} className="mx-auto h-24 w-auto" />
-                                            ) : (
-                                                <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                                            )}
-                                            <div className="flex text-sm text-gray-600 dark:text-gray-400">
-                                                <p className="pl-1">{siteImage ? siteImage.name : 'Upload a file or drag and drop'}</p>
-                                            </div>
-                                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                                        </div>
-                                    </div>
-                                    <Input id="site-image-upload" name="site-image" type="file" className="sr-only" ref={fileInputRef} onChange={handleSiteImageChange} />
-                                </div>
-                                <div className="flex justify-end pt-4">
-                                  <Button type="submit" className="w-full md:w-auto md:px-16 h-[54px] rounded-full text-lg">
-                                      Submit Details
-                                  </Button>
-                                </div>
-                            </form>
-                        </CardContent>
-                    </Card>
-
                     <Card id="faq-section" className="text-card-foreground w-full p-10 bg-card rounded-[50px]">
                          <CardContent className="p-0">
                             <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
@@ -262,5 +216,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
-    
