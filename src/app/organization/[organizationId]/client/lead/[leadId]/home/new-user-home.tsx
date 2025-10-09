@@ -78,7 +78,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
             <CardContent className="p-0">
                 <h2 className="text-2xl font-semibold mb-2">We're waiting for you!</h2>
                 <p className="text-lg text-muted-foreground mb-6">{formattedDate} - {appointment.time}</p>
-                <div className="relative w-full h-40 bg-zinc-100 rounded-3xl flex items-center justify-center mb-6 overflow-hidden">
+                <div className="relative w-full h-40 bg-zinc-100 dark:bg-zinc-800 rounded-3xl flex items-center justify-center mb-6 overflow-hidden">
                     <iframe 
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.026949377452!2d77.6433543147193!3d12.97017999085695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae171a5c68f233%3A0x4642b5853a8767e4!2sHabi.one!5e0!3m2!1sen!2sin"
                       width="100%"
@@ -156,7 +156,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
     ];
 
     return (
-        <div className="bg-zinc-100 min-h-screen">
+        <div className="bg-background min-h-screen">
             <main>
                 <div className="max-w-[1240px] 2xl:max-w-none mx-auto space-y-8 md:p-8 2xl:px-10">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-[40px] bg-card rounded-[50px] flex flex-col justify-start items-center">
@@ -205,7 +205,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 <div>
                                     <Label htmlFor="site-image">Site Image</Label>
                                     <div 
-                                        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer"
+                                        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md cursor-pointer"
                                         onClick={() => fileInputRef.current?.click()}
                                     >
                                         <div className="space-y-1 text-center">
@@ -214,7 +214,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                             ) : (
                                                 <Upload className="mx-auto h-12 w-12 text-gray-400" />
                                             )}
-                                            <div className="flex text-sm text-gray-600">
+                                            <div className="flex text-sm text-gray-600 dark:text-gray-400">
                                                 <p className="pl-1">{siteImage ? siteImage.name : 'Upload a file or drag and drop'}</p>
                                             </div>
                                             <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
@@ -236,7 +236,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         <CardContent className="p-0">
                              <h2 className="text-center text-foreground text-lg font-normal leading-tight mb-8">Constructing Dreams with Precision and Care</h2>
                              <div className="relative">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 -z-0"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 dark:bg-gray-700 -z-0"></div>
                                 <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Unique Design"/>
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Efficient planning"/>
@@ -245,7 +245,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                 </div>
                             </div>
                             <div className="relative mt-16">
-                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 -z-0"></div>
+                                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-3xl h-px bg-gray-300 dark:bg-gray-700 -z-0"></div>
                                 <div className="grid grid-cols-4 gap-y-8 gap-x-4 justify-items-center">
                                     <FeatureCard icon={<GanttChartSquare className="text-white"/>} text="Project Tracking"/>
                                     <FeatureCard icon={<Award className="text-white"/>} text="50 Year Guarantee"/>
@@ -287,3 +287,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    
