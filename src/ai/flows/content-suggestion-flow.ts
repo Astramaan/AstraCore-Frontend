@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent for suggesting marketing content.
@@ -21,7 +22,7 @@ const FaqSchema = z.object({
 });
 
 const ContentSuggestionOutputSchema = z.object({
-  bulletPoints: z.array(z.string()).length(8).describe('An array of 8 marketing bullet points.'),
+  bulletPoints: z.array(z.string()).length(8).describe('An array of 8 short (1-2 word) marketing bullet points highlighting company strengths.'),
   faqs: z.array(FaqSchema).length(3).describe('An array of 3 frequently asked questions with answers.'),
 });
 export type ContentSuggestionOutput = z.infer<typeof ContentSuggestionOutputSchema>;
@@ -41,7 +42,7 @@ const contentSuggestionFlow = ai.defineFlow(
   async (input) => {
     const prompt = `You are a professional marketing copywriter. Your task is to generate marketing content for a web application based on a brief company description.
 
-Generate 8 concise, impactful bullet points that highlight the key features or benefits.
+Generate 8 marketing bullet points. Each bullet point must be very concise, ideally 1 or 2 words, highlighting a key feature or strength.
 Generate 3 relevant frequently asked questions (FAQs) with clear and helpful answers.
 
 Company Description:
