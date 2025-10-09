@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -25,8 +26,8 @@ export default function LeadLayout({ children }: { children: React.ReactNode }) 
             </header>
         )}
         <main className={cn(
-                "w-full flex-1 overflow-y-auto pb-32",
-                isHomePage ? "bg-transparent p-0" : "bg-background"
+                "w-full flex-1 overflow-y-auto",
+                isHomePage ? "bg-transparent p-0" : "bg-background pb-32"
             )}>
             {children}
         </main>
@@ -34,3 +35,5 @@ export default function LeadLayout({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+
+    

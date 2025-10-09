@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useRef } from "react";
@@ -83,7 +84,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
     return (
         <div className="relative">
-             <header className="sticky top-2 z-20 px-2">
+            <header className="sticky top-2 z-20 px-2">
                 <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                     <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] px-4 py-2">
                         <div className="max-w-[1440px] 2xl:max-w-none mx-auto">
@@ -104,9 +105,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-             <main className="relative z-10 mt-[30vh] md:mt-56">
-                <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-8 sm:px-4 md:px-8 2xl:px-10">
-                    
+             <main className="relative z-10 mt-[30vh] md:mt-[40vh]">
+                 <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-8 gap-8 sm:px-4 md:px-8 2xl:px-10 pb-32">
                     <div className="md:col-span-3 lg:col-span-4 2xl:col-span-6 order-2 md:order-1 px-4 md:px-0 space-y-8">
                          {showProjectDetailsForm && (
                             <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
@@ -173,15 +173,19 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     <aside className="md:col-span-2 lg:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-1 md:order-2 px-4 md:px-0">
                         <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                              <div className="text-center">
-                                <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">Book your free consultation.</h2>
-                                <p className="text-white/80 font-medium text-sm">How would you like to connect?</p>
+                                <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
+                                    Book your free consultation.
+                                </h2>
+                                <p className="text-white/80 font-medium text-sm">
+                                    How would you like to connect?
+                                </p>
                             </div>
-                            <div className="flex flex-row gap-4 w-full justify-center mt-4">
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
+                            <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mt-4">
+                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                     <User className="mr-2 h-5 w-5" />
                                     In Person
                                 </Button>
-                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
+                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
                                     <Laptop className="mr-2 h-5 w-5" />
                                     Online
                                 </Button>
@@ -199,3 +203,5 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
+
+    
