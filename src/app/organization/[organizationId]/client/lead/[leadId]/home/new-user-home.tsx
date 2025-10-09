@@ -171,30 +171,22 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
             </div>
-             <main className="relative z-10 mt-28 md:mt-36">
+             <main className="relative z-10 mt-56 sm:px-4 md:px-8 2xl:px-10">
                 <div className="max-w-3xl mx-auto space-y-8 pb-32 px-4">
                     <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
-                        
-                         {appointment ? (
-                            <AppointmentCard appointment={appointment} onReschedule={() => {
-                                setAppointment(null);
-                                openConsultationDialog(appointment.type === 'office' || appointment.type === 'home' ? 'in-person' : appointment.type);
-                            }} />
-                        ) : (
-                            <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
-                                <h2 className="text-center text-white text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
-                                <div className="flex flex-row gap-4 w-full md:w-auto">
-                                    <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
-                                        <User className="mr-2 h-5 w-5" />
-                                        In Person
-                                    </Button>
-                                    <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
-                                        <Laptop className="mr-2 h-5 w-5" />
-                                        Online
-                                    </Button>
-                                </div>
-                            </Card>
-                        )}
+                        <Card className="w-full max-w-3xl rounded-[50px] flex flex-col justify-center items-center p-0 bg-transparent border-none shadow-none">
+                            <h2 className="text-center text-white text-lg font-medium leading-tight mb-4">How would you like to connect?</h2>
+                            <div className="flex flex-row gap-4 w-full md:w-auto">
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
+                                    <User className="mr-2 h-5 w-5" />
+                                    In Person
+                                </Button>
+                                <Button className="w-full md:w-64 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
+                                    <Laptop className="mr-2 h-5 w-5" />
+                                    Online
+                                </Button>
+                            </div>
+                        </Card>
                     </Card>
 
                     {showProjectDetailsForm && (
@@ -269,5 +261,3 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
         </div>
     );
 }
-
-    
