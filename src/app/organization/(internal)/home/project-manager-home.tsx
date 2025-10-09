@@ -102,7 +102,7 @@ const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpc
                <div className="flex gap-2 w-full md:w-auto">
                  <Button variant="outline" className="rounded-full" size="icon"><MessageCircle className="h-4 w-4"/></Button>
                  <a href={`tel:${project.architectPhone}`} className="flex-1 md:flex-initial">
-                  <Button variant="outline" className="rounded-full w-full" size="icon"><Phone className="h-4 w-4"/></Button>
+                  <Button variant="outline" className="rounded-full" size="icon"><Phone className="h-4 w-4"/></Button>
                 </a>
               </div>
             </div>
