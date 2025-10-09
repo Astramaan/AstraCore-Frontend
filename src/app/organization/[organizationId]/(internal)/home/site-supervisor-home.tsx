@@ -231,7 +231,7 @@ export default function SiteSupervisorHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={canAssignTask ? handleAddTask : undefined}
-              showAddMemberButton={canAssignTask}
+              showAddMemberButton={true}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -269,14 +269,3 @@ export default function SiteSupervisorHome() {
         </div>
     );
 }
-
-    
-
-    
-    
-
-    
-
-    
-
-    

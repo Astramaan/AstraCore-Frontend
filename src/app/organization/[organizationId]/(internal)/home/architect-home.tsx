@@ -250,7 +250,7 @@ export default function ArchitectHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={canAssignTask ? handleAddTask : undefined}
-              showAddMemberButton={canAssignTask}
+              showAddMemberButton={true}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -282,11 +282,3 @@ export default function ArchitectHome() {
         </div>
     );
 }
-    
-    
-
-    
-
-    
-
-    

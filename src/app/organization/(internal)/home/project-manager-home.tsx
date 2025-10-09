@@ -220,8 +220,8 @@ export default function ProjectManagerHome() {
         const ongoing = selectedProject.tasks.filter(t => t.status === 'ongoing').length;
         const upcoming = selectedProject.tasks.filter(t => t.status === 'upcoming').length;
         return [
-            { name: 'Ongoing', value: ongoing },
-            { name: 'Upcoming', value: upcoming },
+            { name: 'Ongoing', value: ongoing, fill: 'hsl(var(--primary))' },
+            { name: 'Upcoming', value: upcoming, fill: 'hsl(var(--muted))' },
         ];
     }, [selectedProject]);
 
@@ -338,6 +338,7 @@ export default function ProjectManagerHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               onAddTask={handleAddTask}
+              showAddMemberButton={true}
             />
             {selectedTask && (
                 <TaskDetailsSheet
@@ -369,7 +370,3 @@ export default function ProjectManagerHome() {
         </div>
     );
 }
-
-
-
-    
