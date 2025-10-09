@@ -219,7 +219,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                     placeholder="Briefly describe your company and what it does..."
                                     value={companyDescription}
                                     onChange={(e) => setCompanyDescription(e.target.value)}
-                                    className="min-h-[100px] rounded-2xl bg-background dark:bg-input"
+                                    className="min-h-[100px] rounded-2xl bg-background"
                                 />
                                 <Button type="button" onClick={handleGenerateAiContent} disabled={isAiContentLoading} className="rounded-full">
                                     <Sparkles className={cn("w-4 h-4 mr-2", isAiContentLoading && "animate-spin")} />
@@ -232,7 +232,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                 <Label className="text-lg font-medium">Marketing Bullet Points (Max 8)</Label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {bulletPoints.map((point, index) => (
-                                        <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full bg-white dark:bg-input" />
+                                        <Input key={index} value={point} onChange={(e) => handleBulletPointChange(index, e.target.value)} className="h-12 rounded-full bg-background" />
                                     ))}
                                 </div>
                             </div>
@@ -249,8 +249,18 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                         <Button size="icon" variant="ghost" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeFaq(index)}>
                                             <Trash2 className="h-4 w-4 text-destructive" />
                                         </Button>
-                                        <Input placeholder="Question" value={faq.question} onChange={(e) => handleFaqChange(index, 'question', e.target.value)} className="h-12 rounded-full font-semibold bg-white"/>
-                                        <Textarea placeholder="Answer" value={faq.answer} onChange={(e) => handleFaqChange(index, 'answer', e.target.value)} className="min-h-[60px] rounded-xl bg-white"/>
+                                        <Input
+                                            placeholder="Question"
+                                            value={faq.question}
+                                            onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
+                                            className="h-12 rounded-full font-semibold bg-card"
+                                        />
+                                        <Textarea
+                                            placeholder="Answer"
+                                            value={faq.answer}
+                                            onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
+                                            className="min-h-[60px] rounded-xl bg-card"
+                                        />
                                     </div>
                                 ))}
                             </div>
@@ -259,7 +269,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                 <Label htmlFor="video-url" className="text-lg font-medium">Company Profile Video</Label>
                                 <div className="relative">
                                     <Youtube className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                    <Input id="video-url" placeholder="Enter YouTube video URL" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="pl-12 h-14 rounded-full bg-background dark:bg-input"/>
+                                    <Input id="video-url" placeholder="Enter YouTube video URL" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="pl-12 h-14 rounded-full bg-background"/>
                                 </div>
                             </div>
                         </div>
