@@ -8,7 +8,7 @@ import SuperAdminProfilePage from './super-admin-profile';
 import UserProfilePage from './user-profile';
 
 export default function ProfilePage() {
-    const { user, loading, isSuperAdmin } = useUser();
+    const { user, loading } = useUser();
     
     if (loading || !user) {
         return (
@@ -28,7 +28,7 @@ export default function ProfilePage() {
         );
     }
     
-    if (isSuperAdmin) {
+    if (user.team === 'Super Admin') {
         return <SuperAdminProfilePage />;
     }
     
