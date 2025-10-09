@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { getContentSuggestions, type ContentSuggestionOutput } from '@/ai/flows/content-suggestion-flow';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { PopoverClose } from '@radix-ui/react-popover';
 
 const initialFaqs = [
     { question: 'Does habi charge an advance payment?', answer: 'Yes. habi collects a booking amount of about 1% of the total home construction cost.' },
@@ -273,19 +274,20 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                         {React.cloneElement(icons[point.icon] as React.ReactElement, { className: "text-foreground" })}
                                                     </Button>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-64 p-2">
+                                                <PopoverContent className="w-64 p-0">
                                                     <ScrollArea className="h-48">
-                                                        <div className="grid grid-cols-4 gap-2">
+                                                        <div className="grid grid-cols-4 gap-1 p-2">
                                                             {Object.keys(icons).map(iconKey => (
-                                                                <Button
-                                                                    key={iconKey}
-                                                                    variant="ghost"
-                                                                    size="icon"
-                                                                    className="w-12 h-12"
-                                                                    onClick={() => handleIconChange(index, iconKey)}
-                                                                >
-                                                                    {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
-                                                                </Button>
+                                                                <PopoverClose key={iconKey} asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="w-12 h-12"
+                                                                        onClick={() => handleIconChange(index, iconKey)}
+                                                                    >
+                                                                        {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                                    </Button>
+                                                                </PopoverClose>
                                                             ))}
                                                         </div>
                                                     </ScrollArea>
@@ -309,7 +311,7 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                     </Button>
                                 </div>
                                 {faqs.map((faq, index) => (
-                                    <div key={index} className="space-y-2 p-4 border rounded-2xl relative bg-background dark:bg-input">
+                                    <div key={index} className="space-y-2 p-4 border rounded-2xl relative bg-background">
                                         <Button size="icon" variant="ghost" className="absolute top-2 right-2 h-7 w-7" onClick={() => removeFaq(index)}>
                                             <Trash2 className="h-4 w-4 text-destructive" />
                                         </Button>
