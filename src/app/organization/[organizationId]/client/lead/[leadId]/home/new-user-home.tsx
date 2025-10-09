@@ -159,7 +159,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
     return (
         <div className="relative">
-            <header className="sticky top-2 z-20 px-2">
+             <header className="sticky top-2 z-20 px-2">
                 <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                     <div className="relative w-full bg-black/20 rounded-full backdrop-blur-[5px] px-4 py-2">
                         <div className="max-w-[1440px] 2xl:max-w-none mx-auto">
