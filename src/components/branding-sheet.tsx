@@ -247,6 +247,21 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
         setPackages(newPackages);
     };
 
+    const addPackage = () => {
+        setPackages(prev => [...prev, {
+            name: `New Package ${prev.length + 1}`,
+            price: '',
+            description: '',
+            features: [],
+            isPopular: false,
+        }]);
+    };
+    
+    const removePackage = (index: number) => {
+        setPackages(prev => prev.filter((_, i) => i !== index));
+    };
+
+
     const setPopularPackage = (index: number) => {
         const newPackages = packages.map((pkg, i) => ({
             ...pkg,
@@ -382,15 +397,16 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                     <ScrollArea className="h-48">
                                                         <div className="grid grid-cols-4 gap-1 p-2">
                                                             {iconKeys.map(iconKey => (
-                                                              <Button
-                                                                    key={iconKey}
-                                                                    variant="ghost"
-                                                                    size="icon"
-                                                                    className="w-12 h-12"
-                                                                    onClick={() => handleIconChange(setBulletPoints, index, iconKey)}
-                                                                >
-                                                                    {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
-                                                                </Button>
+                                                                <PopoverClose key={iconKey} asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="w-12 h-12"
+                                                                        onClick={() => handleIconChange(setBulletPoints, index, iconKey)}
+                                                                    >
+                                                                        {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                                    </Button>
+                                                                </PopoverClose>
                                                             ))}
                                                         </div>
                                                     </ScrollArea>
@@ -421,15 +437,16 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                     <ScrollArea className="h-48">
                                                         <div className="grid grid-cols-4 gap-1 p-2">
                                                             {iconKeys.map(iconKey => (
-                                                                <Button
-                                                                    key={iconKey}
-                                                                    variant="ghost"
-                                                                    size="icon"
-                                                                    className="w-12 h-12"
-                                                                    onClick={() => handleIconChange(setFeatureHighlights, index, iconKey)}
-                                                                >
-                                                                    {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
-                                                                </Button>
+                                                                <PopoverClose key={iconKey} asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="w-12 h-12"
+                                                                        onClick={() => handleIconChange(setFeatureHighlights, index, iconKey)}
+                                                                    >
+                                                                        {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
+                                                                    </Button>
+                                                                </PopoverClose>
                                                             ))}
                                                         </div>
                                                     </ScrollArea>
@@ -447,16 +464,24 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                              <Separator />
 
                             <div className="space-y-4">
-                                <h3 className="text-lg font-medium">Packages</h3>
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                <div className="flex items-center justify-between">
+                                    <Label className="text-lg font-medium">Packages</Label>
+                                    <Button type="button" size="sm" onClick={addPackage} className="rounded-full">
+                                        <Plus className="mr-2 h-4 w-4" /> Add Package
+                                    </Button>
+                                </div>
+                                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                     {packages.map((pkg, pkgIndex) => (
                                         <div key={pkgIndex} className="p-4 border rounded-2xl space-y-4 bg-background dark:bg-input">
-                                            <div className="flex items-center justify-between">
-                                                <Input value={pkg.name} onChange={(e) => handlePackageChange(pkgIndex, 'name', e.target.value)} className="text-xl font-bold bg-transparent border-0 p-0" />
+                                             <div className="flex items-center justify-between">
                                                 <Button size="sm" variant={pkg.isPopular ? "secondary" : "outline"} onClick={() => setPopularPackage(pkgIndex)} className="rounded-full text-xs">
                                                     {pkg.isPopular ? "Popular" : "Set Popular"}
                                                 </Button>
+                                                <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={() => removePackage(pkgIndex)}>
+                                                    <Trash2 className="w-4 h-4"/>
+                                                </Button>
                                             </div>
+                                            <Input value={pkg.name} onChange={(e) => handlePackageChange(pkgIndex, 'name', e.target.value)} className="text-xl font-bold bg-transparent border-0 p-0" />
                                              <Input value={pkg.price} onChange={(e) => handlePackageChange(pkgIndex, 'price', e.target.value)} className="bg-card" placeholder="Price" />
                                              <Textarea value={pkg.description} onChange={(e) => handlePackageChange(pkgIndex, 'description', e.target.value)} className="bg-card" placeholder="Description" />
                                             <div>
@@ -495,13 +520,13 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                             placeholder="Question"
                                             value={faq.question}
                                             onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
-                                            className="h-12 rounded-full font-semibold bg-card dark:bg-background"
+                                            className="h-12 rounded-full font-semibold bg-card"
                                         />
                                         <Textarea
                                             placeholder="Answer"
                                             value={faq.answer}
                                             onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
-                                            className="min-h-[60px] rounded-xl bg-card dark:bg-background"
+                                            className="min-h-[60px] rounded-xl bg-card"
                                         />
                                     </div>
                                 ))}
