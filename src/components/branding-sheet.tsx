@@ -291,8 +291,8 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                     <ScrollArea className="h-48">
                                                         <div className="grid grid-cols-4 gap-1 p-2">
                                                             {iconKeys.map(iconKey => (
-                                                              <Popover.Close asChild key={iconKey}>
-                                                                <Button
+                                                              <Button
+                                                                    key={iconKey}
                                                                     variant="ghost"
                                                                     size="icon"
                                                                     className="w-12 h-12"
@@ -300,7 +300,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                                 >
                                                                     {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
                                                                 </Button>
-                                                              </Popover.Close>
                                                             ))}
                                                         </div>
                                                     </ScrollArea>
@@ -331,8 +330,8 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                     <ScrollArea className="h-48">
                                                         <div className="grid grid-cols-4 gap-1 p-2">
                                                             {iconKeys.map(iconKey => (
-                                                              <Popover.Close asChild key={iconKey}>
                                                                 <Button
+                                                                    key={iconKey}
                                                                     variant="ghost"
                                                                     size="icon"
                                                                     className="w-12 h-12"
@@ -340,7 +339,6 @@ export const BrandingSheet = ({ isOpen, onOpenChange }: { isOpen: boolean, onOpe
                                                                 >
                                                                     {React.cloneElement(icons[iconKey] as React.ReactElement, { className: "text-foreground" })}
                                                                 </Button>
-                                                              </Popover.Close>
                                                             ))}
                                                         </div>
                                                     </ScrollArea>
