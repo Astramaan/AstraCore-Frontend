@@ -1,15 +1,19 @@
 
 'use client';
 
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Monitor, Sun, Moon } from 'lucide-react';
+import { Monitor, Sun, Moon, GanttChartSquare } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Label } from './ui/label';
+import { Switch } from './ui/switch';
+import { Separator } from './ui/separator';
 
 export const SettingsCard = () => {
     const { theme, setTheme } = useTheme();
+    const [isProjectStageEnabled, setIsProjectStageEnabled] = useState(true);
 
     return (
         <Card className="rounded-[50px]">
@@ -35,6 +39,20 @@ export const SettingsCard = () => {
                             <SelectItem value="system">System</SelectItem>
                         </SelectContent>
                     </Select>
+                </div>
+                <Separator/>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                         <GanttChartSquare className="h-6 w-6 text-muted-foreground"/>
+                        <Label htmlFor="project-stage-toggle" className="text-lg text-foreground font-medium">
+                            Project Stage
+                        </Label>
+                    </div>
+                    <Switch
+                        id="project-stage-toggle"
+                        checked={isProjectStageEnabled}
+                        onCheckedChange={setIsProjectStageEnabled}
+                    />
                 </div>
             </CardContent>
         </Card>
