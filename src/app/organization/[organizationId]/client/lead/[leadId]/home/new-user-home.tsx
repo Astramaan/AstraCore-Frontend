@@ -108,30 +108,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
              <main className="relative z-10 mt-[30vh] md:mt-[40vh]">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-4 md:px-8 2xl:px-10 pb-32">
                     
-                    <div className="md:col-span-1 lg:col-span-1 space-y-8 order-1 md:order-2">
-                        <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
-                             <div className="text-center">
-                                <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
-                                    Book your free consultation.
-                                </h2>
-                                <p className="text-white/80 font-medium text-sm">
-                                    How would you like to connect?
-                                </p>
-                            </div>
-                            <div className="flex flex-row gap-4 w-full justify-center mt-4">
-                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
-                                    <User className="mr-2 h-5 w-5" />
-                                    In Person
-                                </Button>
-                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
-                                    <Laptop className="mr-2 h-5 w-5" />
-                                    Online
-                                </Button>
-                            </div>
-                        </Card>
-                    </div>
-
-                    <div className="md:col-span-1 lg:col-span-2 order-2 md:order-3">
+                    <div className="order-1 md:order-2 md:col-span-1 lg:col-span-2">
                          {showProjectDetailsForm && (
                             <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
                                 <CardContent className="p-0 max-w-xl w-full">
@@ -173,8 +150,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         )}
                     </div>
                     
-                    <div className="md:col-span-1 lg:col-span-1 space-y-8 order-3 md:order-1">
-                        <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
+                    <div className="order-2 md:order-1 md:col-span-1 lg:col-span-1 space-y-8">
+                         <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
                             <CardContent className="p-0">
                                 <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
                                 <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
@@ -193,6 +170,26 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
                                 </div>
                             </CardContent>
+                        </Card>
+                        <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
+                             <div className="text-center">
+                                <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
+                                    Book your free consultation.
+                                </h2>
+                                <p className="text-white/80 font-medium text-sm">
+                                    How would you like to connect?
+                                </p>
+                            </div>
+                            <div className="flex flex-row gap-4 w-full justify-center mt-4">
+                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
+                                    <User className="mr-2 h-5 w-5" />
+                                    In Person
+                                </Button>
+                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
+                                    <Laptop className="mr-2 h-5 w-5" />
+                                    Online
+                                </Button>
+                            </div>
                         </Card>
                     </div>
 
