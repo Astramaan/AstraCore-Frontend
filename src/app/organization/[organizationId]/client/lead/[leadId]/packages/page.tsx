@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
 const packages = [
     {
@@ -83,8 +84,10 @@ const PackageCard = ({ pkg }: { pkg: typeof packages[0] }) => (
     </Card>
 );
 
-export default function PackagesPage({ params }: { params: { organizationId: string; leadId: string } }) {
-    const { organizationId, leadId } = params;
+export default function PackagesPage() {
+    const params = useParams();
+    const organizationId = params.organizationId as string;
+    const leadId = params.leadId as string;
 
     return (
         <div className="bg-background min-h-screen">
@@ -99,7 +102,7 @@ export default function PackagesPage({ params }: { params: { organizationId: str
                     ))}
                 </div>
 
-                <div className="fixed bottom-24 left-0 right-0 p-4 z-10 text-center md:static md:p-0 md:pt-8">
+                <div className="fixed bottom-24 left-0 right-0 p-4 bg-transparent z-10 text-center md:static md:p-0 md:pt-8">
                     <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto shadow-lg">
                         <Link href={`/organization/${organizationId}/client/lead/${leadId}/home#book-consultation-section`}>
                             Contact Team
