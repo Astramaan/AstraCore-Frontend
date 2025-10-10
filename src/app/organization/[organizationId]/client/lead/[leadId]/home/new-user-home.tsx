@@ -107,28 +107,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
             </div>
              <main className="relative z-10 mt-[30vh] md:mt-[40vh]">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-4 md:px-8 2xl:px-10 pb-32">
-                    <div className="md:col-span-1 lg:col-span-1 space-y-8 order-1">
-                        
-                        <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
-                            <CardContent className="p-0">
-                                <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
-                                <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
-                                    {faqs.map((faq, index) => (
-                                    <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
-                                        <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
-                                        <span>{`${index + 1}. ${faq.question}`}</span>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
-                                        {faq.answer}
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                    ))}
-                                </Accordion>
-                                <div className="text-center mt-6">
-                                    <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
-                                </div>
-                            </CardContent>
-                        </Card>
+                    
+                    <div className="md:col-span-1 lg:col-span-1 space-y-8 order-1 md:order-2">
                         <Card id="book-consultation-section" className="text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
                              <div className="text-center">
                                 <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
@@ -151,7 +131,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                         </Card>
                     </div>
 
-                    <div className="md:col-span-1 lg:col-span-2 order-2">
+                    <div className="md:col-span-1 lg:col-span-2 order-2 md:order-3">
                          {showProjectDetailsForm && (
                             <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
                                 <CardContent className="p-0 max-w-xl w-full">
@@ -192,6 +172,30 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                             </Card>
                         )}
                     </div>
+                    
+                    <div className="md:col-span-1 lg:col-span-1 space-y-8 order-3 md:order-1">
+                        <Card id="faq-section" className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
+                            <CardContent className="p-0">
+                                <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
+                                <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
+                                    {faqs.map((faq, index) => (
+                                    <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
+                                        <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
+                                        <span>{`${index + 1}. ${faq.question}`}</span>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
+                                        {faq.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    ))}
+                                </Accordion>
+                                <div className="text-center mt-6">
+                                    <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+
                 </div>
                  {isClient && <InPersonConsultationDialog 
                     isOpen={isConsultationDialogOpen} 
