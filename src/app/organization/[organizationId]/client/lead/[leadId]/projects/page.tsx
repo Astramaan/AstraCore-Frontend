@@ -113,7 +113,7 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
 };
 
 const ProjectCard = ({ project, isCompleted, onImageClick, className }: { project: any, isCompleted: boolean, onImageClick: (images: string[], index: number) => void, className?: string }) => (
-    <div className={cn("bg-card rounded-[50px] p-6 space-y-4", className)}>
+    <div className={cn("bg-card rounded-[50px] p-6 space-y-4 text-card-foreground", className)}>
         <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full md:w-64 h-40 bg-muted rounded-[30px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
@@ -167,7 +167,7 @@ export default function ProjectsPage() {
 
     return (
         <div className="bg-background min-h-screen">
-            <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pt-8">
+            <main className="max-w-none mx-auto p-4 md:p-8 space-y-8 pt-8">
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-left text-foreground">Completed</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
