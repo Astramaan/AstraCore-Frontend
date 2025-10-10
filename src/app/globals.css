@@ -127,6 +127,7 @@
   }
   
   body[data-scroll-locked='true'] {
+      overflow: hidden;
       padding-right: var(--scrollbar-width) !important;
   }
 }
