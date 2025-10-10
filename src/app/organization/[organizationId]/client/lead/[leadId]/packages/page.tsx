@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
@@ -98,7 +100,7 @@ export default function PackagesPage({ params }: { params: { organizationId: str
                 </div>
 
                 <div className="fixed bottom-24 left-0 right-0 p-4 z-10 text-center md:static md:p-0 md:pt-8">
-                    <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto">
+                    <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto shadow-lg">
                         <Link href={`/organization/${organizationId}/client/lead/${leadId}/home#book-consultation-section`}>
                             Contact Team
                         </Link>
