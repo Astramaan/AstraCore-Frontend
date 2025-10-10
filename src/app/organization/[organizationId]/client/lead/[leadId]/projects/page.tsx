@@ -166,7 +166,7 @@ export default function ProjectsPage() {
 
     return (
         <div className="bg-background min-h-screen">
-            <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pb-32 md:pb-8">
+            <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pt-8">
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-left text-foreground">Completed</h2>
                     <div className="space-y-6">
