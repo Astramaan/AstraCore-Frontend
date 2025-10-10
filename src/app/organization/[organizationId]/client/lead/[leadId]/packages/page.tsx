@@ -91,7 +91,7 @@ export default function PackagesPage() {
 
     return (
         <div className="bg-background min-h-screen">
-            <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8 pb-32">
+            <main className="max-w-[1240px] mx-auto p-4 md:p-8 space-y-8 pb-32 md:pb-8">
                 <div className="text-center pt-4 md:pt-0">
                     <p className="text-muted-foreground">Find the perfect plan for your dream home.</p>
                 </div>
@@ -102,7 +102,7 @@ export default function PackagesPage() {
                     ))}
                 </div>
 
-                <div className="fixed bottom-28 left-0 right-0 py-4 z-10 text-center md:static md:p-0 md:pt-8">
+                <div className="fixed bottom-28 left-0 right-0 py-4 px-0 z-10 text-center md:static md:p-0 md:pt-8">
                     <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto drop-shadow-2xl border border-black">
                         <Link href={`/organization/${organizationId}/client/lead/${leadId}/home#book-consultation-section`}>
                             Contact Team
