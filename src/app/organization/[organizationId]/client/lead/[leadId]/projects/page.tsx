@@ -171,7 +171,7 @@ export default function ProjectsPage() {
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-left text-foreground">Completed</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} onImageClick={(images, index) => handleImageClick(images, index, p.name)} className={i === 0 ? "md:col-span-2" : ""} />)}
+                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
                     </div>
                 </div>
 
@@ -180,7 +180,7 @@ export default function ProjectsPage() {
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-left text-foreground">Ongoing</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} onImageClick={(images, index) => handleImageClick(images, index, p.name)} className={i === 0 ? "md:col-span-2" : ""} />)}
+                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
                     </div>
                 </div>
             </main>
