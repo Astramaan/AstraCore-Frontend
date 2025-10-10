@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 const completedProjects = [
     {
@@ -111,8 +112,8 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
     );
 };
 
-const ProjectCard = ({ project, isCompleted, onImageClick }: { project: any, isCompleted: boolean, onImageClick: (images: string[], index: number) => void }) => (
-    <div className="bg-card rounded-[50px] p-6 space-y-4">
+const ProjectCard = ({ project, isCompleted, onImageClick, className }: { project: any, isCompleted: boolean, onImageClick: (images: string[], index: number) => void, className?: string }) => (
+    <div className={cn("bg-card rounded-[50px] p-6 space-y-4", className)}>
         <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full md:w-64 h-40 bg-muted rounded-[30px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
@@ -169,8 +170,8 @@ export default function ProjectsPage() {
             <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pt-8">
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-left text-foreground">Completed</h2>
-                    <div className="space-y-6">
-                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} onImageClick={(images, index) => handleImageClick(images, index, p.name)} className={i === 0 ? "md:col-span-2" : ""} />)}
                     </div>
                 </div>
 
@@ -178,8 +179,8 @@ export default function ProjectsPage() {
 
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-left text-foreground">Ongoing</h2>
-                    <div className="space-y-6">
-                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} onImageClick={(images, index) => handleImageClick(images, index, p.name)} className={i === 0 ? "md:col-span-2" : ""} />)}
                     </div>
                 </div>
             </main>
