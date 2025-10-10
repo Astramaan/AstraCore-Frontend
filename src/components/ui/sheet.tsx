@@ -82,13 +82,6 @@ const SheetContent = React.forwardRef<
     <SheetPrimitive.Content
       ref={ref}
       className={cn(sheetVariants({ side }), className)}
-      onInteractOutside={(e) => {
-        if (
-          (e.target as HTMLElement).closest('[data-radix-popper-content-wrapper]')
-        ) {
-          e.preventDefault();
-        }
-      }}
       {...props}
     >
       {children}
