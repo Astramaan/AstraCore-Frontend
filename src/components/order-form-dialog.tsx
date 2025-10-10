@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { X, Send } from 'lucide-react';
-import type { Vendor } from './view-vendors-sheet';
+import type { Vendor } from './vendor-card';
 import { cn } from '@/lib/utils';
 
 interface OrderFormDialogProps {

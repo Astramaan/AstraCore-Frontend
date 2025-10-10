@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState } from 'react';
@@ -10,13 +8,29 @@ import { CreateRoleDialog } from './create-role-dialog';
 import { Separator } from './ui/separator';
 
 const allRoles: RoleData[] = [
-    { name: "Sales", icon: <Briefcase className="w-6 h-6 text-foreground" />, bgColor: "bg-green-200/30 dark:bg-green-500/20" },
-    { name: "Super Admin", icon: <Shield className="w-6 h-6 text-foreground" />, bgColor: "bg-cyan-200/30 dark:bg-cyan-500/20" },
-    { name: "Software Development", icon: <Code className="w-6 h-6 text-foreground" />, bgColor: "bg-blue-300/30 dark:bg-blue-500/20" },
-    { name: "Design", icon: <Palette className="w-6 h-6 text-foreground" />, bgColor: "bg-purple-300/30 dark:bg-purple-500/20" },
-    { name: "Support & Feedback", icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-red-200/30 dark:bg-red-500/20" },
-    { name: "Human Resources", icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-pink-300/30 dark:bg-pink-500/20" },
+    { name: "Sales", icon: Briefcase, bgColor: "bg-green-200/30 dark:bg-green-500/20" },
+    { name: "Super Admin", icon: Shield, bgColor: "bg-cyan-200/30 dark:bg-cyan-500/20" },
+    { name: "Software Development", icon: Code, bgColor: "bg-blue-300/30 dark:bg-blue-500/20" },
+    { name: "Design", icon: Palette, bgColor: "bg-purple-300/30 dark:bg-purple-500/20" },
+    { name: "Support & Feedback", icon: Users, bgColor: "bg-red-200/30 dark:bg-red-500/20" },
+    { name: "Human Resources", icon: Users, bgColor: "bg-pink-300/30 dark:bg-pink-500/20" },
 ];
+
+const RoleListItem = ({ role, onClick }: { role: RoleData; onClick: () => void }) => (
+    <div className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2" onClick={onClick}>
+        <div className="flex justify-between items-center py-4">
+            <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
+                    <role.icon className="w-6 h-6 text-foreground" />
+                </div>
+                <p className="text-lg font-medium">{role.name}</p>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+        </div>
+        <Separator />
+    </div>
+);
+
 
 export const FeatureAccessCard = () => {
     const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
@@ -44,25 +58,9 @@ export const FeatureAccessCard = () => {
                         <CardTitle className="text-2xl font-semibold">Feature Access</CardTitle>
                     </div>
                 </CardHeader>
-                <CardContent className="px-6 grid grid-cols-1 md:grid-cols-2 gap-x-6 flex-grow">
+                <CardContent className="px-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 flex-grow">
                     {allRoles.map((role) => (
-                        <div key={role.name}>
-                            <div
-                                className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
-                                onClick={() => handleRoleClick(role)}
-                            >
-                                <div className="flex justify-between items-center py-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                            {React.cloneElement(role.icon, { className: "text-foreground" })}
-                                        </div>
-                                        <p className="text-lg font-medium">{role.name}</p>
-                                    </div>
-                                    <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
-                                </div>
-                            </div>
-                            <Separator />
-                        </div>
+                       <RoleListItem key={role.name} role={role} onClick={() => handleRoleClick(role)} />
                     ))}
                 </CardContent>
             </Card>

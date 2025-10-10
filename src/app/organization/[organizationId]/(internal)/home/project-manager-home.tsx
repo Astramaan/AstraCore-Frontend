@@ -197,7 +197,7 @@ export default function ProjectManagerHome() {
 
     const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
-    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
+    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments' | 'status'>) => {
         console.log("New task assigned:", newTask);
     };
 
@@ -279,6 +279,7 @@ export default function ProjectManagerHome() {
               projectTasksChartData={projectTasksChartData}
               onMeetingClick={handleMeetingClick}
               showAddMemberButton={canManageMembers}
+              onAddTask={handleAddTask}
               showAddTaskButton={false}
             />
             {selectedTask && (

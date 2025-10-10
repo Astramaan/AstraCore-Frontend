@@ -44,7 +44,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setAttachments(prev => [...prev, ...Array.from(event.target.files as FileList)]);
+            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
         }
     };
     
@@ -261,7 +261,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                 side="bottom"
                 className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
             >
-                <DialogHeader className="p-6 border-b bg-card rounded-t-[50px]">
+                <DialogHeader className="p-6 border-b rounded-t-[50px] bg-card">
                     <div className="flex justify-between items-center">
                         <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                             <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">

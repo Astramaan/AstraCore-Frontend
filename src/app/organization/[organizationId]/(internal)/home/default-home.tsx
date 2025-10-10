@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -170,7 +169,7 @@ export default function DefaultHomePage() {
               myTasksChartData={myTasksChartData}
               assignedTasksChartData={assignedTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask as any}
+              onAddTask={handleAddTask}
               showAddMemberButton={true}
               showAddTaskButton={true}
             />

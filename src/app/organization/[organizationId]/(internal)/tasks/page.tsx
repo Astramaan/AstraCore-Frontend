@@ -48,7 +48,7 @@ export default function TasksPage() {
         setSelectedTask(null);
     };
     
-    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
+    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments' | 'status'>) => {
         console.log("New task assigned:", newTask);
     };
 

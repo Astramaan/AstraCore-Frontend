@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React, { useState } from 'react';
@@ -11,7 +9,7 @@ import { FeatureAccessDialog } from './feature-access-dialog';
 
 export interface RoleData {
     name: string;
-    icon: React.ReactNode;
+    icon: React.ElementType;
     bgColor: string;
 }
 
@@ -61,7 +59,7 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
                         <DialogTitle className="flex justify-between items-center">
                             <div className="flex items-center gap-4">
                                 <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                    {role.icon}
+                                    <role.icon className="w-6 h-6 text-black" />
                                 </div>
                                 <span className="text-2xl font-semibold">{role.name}</span>
                             </div>

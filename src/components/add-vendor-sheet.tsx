@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React, { useState, useActionState, useEffect } from 'react';
@@ -187,8 +186,8 @@ const AddVendorForm = ({ onNext, vendorToEdit }: { onNext: (vendorName: string) 
     }
 
     const handleDayToggle = (day: string) => {
-        setSelectedDays(prev =>
-            prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+        setSelectedDays((prev: string[]) =>
+            prev.includes(day) ? prev.filter((d: string) => d !== day) : [...prev, day]
         );
     }
 
@@ -286,7 +285,7 @@ const EditMaterialForm = ({ material, onSave, onCancel }: { material: any, onSav
         setter(e.target.value.replace(/\D/g, ''));
     };
 
-    const handleSubmit = (e: React.Event<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         onSave({
             ...material,
@@ -346,7 +345,7 @@ const AddMaterialForm = ({ vendorName, onBack, onVendorAdded, initialMaterials }
         setter(e.target.value.replace(/\D/g, ''));
     };
 
-    const handleAdd = (e: React.Event<HTMLFormElement>) => {
+    const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!productName) return;
         const newMaterial = {

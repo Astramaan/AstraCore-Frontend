@@ -44,7 +44,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setAttachments(prev => [...prev, ...Array.from(event.target.files!)]);
+            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
         }
     };
     
