@@ -180,7 +180,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                                     How would you like to connect?
                                 </p>
                             </div>
-                            <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mt-4">
+                            <div className="flex flex-row gap-4 w-full justify-center mt-4">
                                 <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
                                     <User className="mr-2 h-5 w-5" />
                                     In Person
