@@ -102,8 +102,8 @@ export default function PackagesPage() {
                     ))}
                 </div>
 
-                <div className="fixed bottom-28 left-0 right-0 py-4 bg-transparent z-10 text-center md:static md:p-0 md:pt-8">
-                    <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto drop-shadow-2xl">
+                <div className="fixed bottom-28 left-0 right-0 py-4 z-10 text-center md:static md:p-0 md:pt-8">
+                    <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto drop-shadow-2xl border border-black">
                         <Link href={`/organization/${organizationId}/client/lead/${leadId}/home#book-consultation-section`}>
                             Contact Team
                         </Link>
