@@ -107,92 +107,123 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
             </div>
              <main className="relative z-10 mt-[30vh] md:mt-[40vh]">
                 <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-4 md:px-8 2xl:px-10 pb-32">
-                    
-                    <div className="md:col-span-1 lg:col-span-1 space-y-8 flex flex-col order-1 md:order-1">
-                        <Card id="book-consultation-section" className="order-1 md:order-1 text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
-                            <div className="text-center">
-                                <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
-                                    Book your free consultation.
-                                </h2>
-                                <p className="text-white/80 font-medium text-sm">
-                                    How would you like to connect?
-                                </p>
-                            </div>
-                            <div className="flex flex-row gap-4 w-full justify-center mt-4">
-                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('in-person')}>
-                                    <User className="mr-2 h-5 w-5" />
-                                    In Person
-                                </Button>
-                                <Button className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg" onClick={() => openConsultationDialog('online')}>
-                                    <Laptop className="mr-2 h-5 w-5" />
-                                    Online
-                                </Button>
-                            </div>
-                        </Card>
-                         <Card id="faq-section" className="order-3 md:order-2 text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]">
-                            <CardContent className="p-0">
-                                <h2 className="text-center text-foreground text-lg font-medium mb-8">FAQ’s</h2>
-                                <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto space-y-4">
-                                    {faqs.map((faq, index) => (
-                                    <AccordionItem key={index} value={`item-${index + 1}`} className="bg-primary/10 rounded-[24px] border-none">
-                                        <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
-                                        <span>{`${index + 1}. ${faq.question}`}</span>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
-                                        {faq.answer}
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                    ))}
-                                </Accordion>
-                                <div className="text-center mt-6">
-                                    <a href="#book-consultation-section" className="text-foreground hover:text-primary text-sm font-normal underline leading-none">Still have a questions ?</a>
+
+                  <div className="md:col-span-1 lg:col-span-1 space-y-8 flex flex-col order-1 md:order-1">
+                    <Card
+                      id="book-consultation-section"
+                      className="order-1 md:order-1 text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center"
+                    >
+                      <div className="text-center">
+                        <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
+                          Book your free consultation.
+                        </h2>
+                        <p className="text-white/80 font-medium text-sm">
+                          How would you like to connect?
+                        </p>
+                      </div>
+                      <div className="flex flex-row gap-4 w-full justify-center mt-4">
+                        <Button
+                          className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg"
+                          onClick={() => openConsultationDialog("in-person")}
+                        >
+                          <User className="mr-2 h-5 w-5" />
+                          In Person
+                        </Button>
+                        <Button
+                          className="w-full sm:w-auto flex-1 sm:flex-initial sm:w-44 h-[54px] rounded-full text-lg"
+                          onClick={() => openConsultationDialog("online")}
+                        >
+                          <Laptop className="mr-2 h-5 w-5" />
+                          Online
+                        </Button>
+                      </div>
+                    </Card>
+
+                    <Card
+                      id="faq-section"
+                      className="order-3 md:order-2 text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]"
+                    >
+                      <CardContent className="p-0">
+                        <h2 className="text-center text-foreground text-lg font-medium mb-8">
+                          FAQ’s
+                        </h2>
+                        <Accordion
+                          type="single"
+                          collapsible
+                          className="w-full max-w-3xl mx-auto space-y-4"
+                        >
+                          {faqs.map((faq, index) => (
+                            <AccordionItem
+                              key={index}
+                              value={`item-${index + 1}`}
+                              className="bg-primary/10 rounded-[24px] border-none"
+                            >
+                              <AccordionTrigger className="px-6 text-foreground hover:text-primary hover:no-underline text-left">
+                                <span>{`${index + 1}. ${faq.question}`}</span>
+                              </AccordionTrigger>
+                              <AccordionContent className="px-6 pt-0 text-base text-muted-foreground">
+                                {faq.answer}
+                              </AccordionContent>
+                            </AccordionItem>
+                          ))}
+                        </Accordion>
+                        <div className="text-center mt-6">
+                          <a
+                            href="#book-consultation-section"
+                            className="text-foreground hover:text-primary text-sm font-normal underline leading-none"
+                          >
+                            Still have a question?
+                          </a>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="order-2 md:order-2 md:col-span-1 lg:col-span-2">
+                    {showProjectDetailsForm && (
+                      <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
+                        <CardContent className="p-0 max-w-xl w-full">
+                          <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">
+                            Submit Your Project Details
+                          </h2>
+                          <p className="text-center text-muted-foreground text-sm mb-8">
+                            Provide us with some basic information about your project.
+                          </p>
+                          <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="project-type" className="px-4">Project Type</Label>
+                                    <Input id="project-type" placeholder="e.g. Residential, Commercial" className="h-14 rounded-full bg-background dark:bg-input" />
                                 </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-
-                    <div className="order-2 md:order-2 md:col-span-1 lg:col-span-2">
-                         {showProjectDetailsForm && (
-                            <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
-                                <CardContent className="p-0 max-w-xl w-full">
-                                    <h2 className="text-center text-foreground text-lg font-medium leading-tight mb-4">Submit Your Project Details</h2>
-                                    <p className="text-center text-muted-foreground text-sm mb-8">Provide us with some basic information about your project.</p>
-                                    <form onSubmit={handleSubmit} className="space-y-6">
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="project-type" className="px-4">Project Type</Label>
-                                                <Input id="project-type" placeholder="e.g. Residential, Commercial" className="h-14 rounded-full bg-background dark:bg-input" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="floor-count" className="px-4">Number of Floors</Label>
-                                                <Input id="floor-count" placeholder="e.g. G+2" className="h-14 rounded-full bg-background dark:bg-input" />
-                                            </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="floor-count" className="px-4">Number of Floors</Label>
+                                    <Input id="floor-count" placeholder="e.g. G+2" className="h-14 rounded-full bg-background dark:bg-input" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="site-address" className="px-4">Site Address</Label>
+                                <Textarea id="site-address" placeholder="Enter the full site address" className="rounded-3xl bg-background dark:bg-input min-h-[100px]" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label className="px-4">Site Image</Label>
+                                <div className="flex items-center justify-center w-full">
+                                    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer bg-background hover:bg-muted">
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                            <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
+                                            <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="site-address" className="px-4">Site Address</Label>
-                                            <Textarea id="site-address" placeholder="Enter the full site address" className="rounded-3xl bg-background dark:bg-input min-h-[100px]" />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label className="px-4">Site Image</Label>
-                                            <div className="flex items-center justify-center w-full">
-                                                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-2xl cursor-pointer bg-background hover:bg-muted">
-                                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                                        <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                                                        <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Upload a file</span> or drag and drop</p>
-                                                        <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
-                                                    </div>
-                                                    <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageUpload} />
-                                                </label>
-                                            </div>
-                                            {siteImage && <p className="text-sm text-muted-foreground px-4">File: {siteImage.name}</p>}
-                                        </div>
-                                        <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
-                                    </form>
-                                </CardContent>
-                            </Card>
-                        )}
-                    </div>
-
+                                        <input id="dropzone-file" type="file" className="hidden" onChange={handleSiteImageUpload} />
+                                    </label>
+                                </div>
+                                {siteImage && <p className="text-sm text-muted-foreground px-4">File: {siteImage.name}</p>}
+                            </div>
+                            <Button type="submit" className="w-full h-14 rounded-full text-lg">Submit Details</Button>
+                          </form>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
                 </div>
                  {isClient && <InPersonConsultationDialog 
                     isOpen={isConsultationDialogOpen} 
