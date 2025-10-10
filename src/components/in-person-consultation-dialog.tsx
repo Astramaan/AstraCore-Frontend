@@ -105,7 +105,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
 
     return (
         <>
-            <Dialog open={isOpen} onOpenChange={handleClose}>
+            <Dialog open={isOpen} onOpenChange={handleClose} modal={false}>
                 <DialogContent className="sm:max-w-md bg-card rounded-[50px] p-10">
                     <DialogHeader>
                         <DialogTitle className="sr-only">In-Person Consultation</DialogTitle>
