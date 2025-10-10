@@ -108,10 +108,10 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
              <main className="relative z-10 mt-[30vh] md:mt-[40vh]">
                 <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-4 md:px-8 2xl:px-10 pb-32">
 
-                  <div className="md:col-span-1 lg:col-span-1 space-y-8 flex flex-col order-1 md:order-1">
+                  <div className="md:col-span-1 lg:col-span-1 space-y-8 flex flex-col">
                     <Card
                       id="book-consultation-section"
-                      className="order-1 md:order-1 text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center"
+                      className="order-1 text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center"
                     >
                       <div className="text-center">
                         <h2 className="text-center text-white text-2xl font-semibold leading-tight mb-2">
@@ -141,7 +141,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
 
                     <Card
                       id="faq-section"
-                      className="order-3 md:order-2 text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]"
+                      className="order-3 text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]"
                     >
                       <CardContent className="p-0">
                         <h2 className="text-center text-foreground text-lg font-medium mb-8">
@@ -179,7 +179,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                     </Card>
                   </div>
 
-                  <div className="order-2 md:order-2 md:col-span-1 lg:col-span-2">
+                  <div className="order-2 md:order-none md:col-span-1 lg:col-span-2">
                     {showProjectDetailsForm && (
                       <Card className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px] flex flex-col justify-start items-center">
                         <CardContent className="p-0 max-w-xl w-full">
