@@ -160,7 +160,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
                                     )}
                                     >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : <span>Select date</span>}
+                                    {date ? date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : <span>Select date</span>}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
@@ -187,7 +187,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
                              {date && time && (
                                 <div className="text-center p-4 bg-primary/10 rounded-xl">
                                     <p className="font-semibold">You've selected:</p>
-                                    <p>{date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })} at {time}</p>
+                                    <p>{date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} at {time}</p>
                                 </div>
                             )}
                             
@@ -203,7 +203,7 @@ export function InPersonConsultationDialog({ isOpen, onOpenChange, initialView, 
                 isOpen={showSuccess}
                 onClose={() => setShowSuccess(false)}
                 title="Booking Confirmed!"
-                message={`${getSuccessMessage()} ${date?.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })} at ${time}.`}
+                message={`${getSuccessMessage()} ${date?.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} at ${time}.`}
             />
         </>
     )
