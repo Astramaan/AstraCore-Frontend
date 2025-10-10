@@ -11,9 +11,7 @@ export default function LeadProfilePage() {
                 <Skeleton className="h-14 w-full rounded-full" />
             </div>
         }>
-            <div className="pb-24">
-                <ClientProfilePageContent />
-            </div>
+            <ClientProfilePageContent />
         </Suspense>
     );
 }
