@@ -97,9 +97,8 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 <Image
                     src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb2Rlcm4lMjBob3VzZXxlbnwwfHx8fDE3NTk4NDU5ODR8MA"
                     alt="Modern house background"
-                    layout="fill"
-                    objectFit="cover"
-                    className="object-top"
+                    fill
+                    style={{ objectFit: "cover", objectPosition: "top" }}
                     data-ai-hint="modern house"
                     priority
                 />
@@ -109,7 +108,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                 <div className="flex flex-col md:grid md:grid-cols-2 gap-8 px-4 sm:px-4 md:px-8 2xl:px-10 pb-32">
                   
                   {/* LEFT COLUMN (CTA + Form on desktop) */}
-                  <div className="md:col-span-1 space-y-8 flex flex-col order-1 md:order-1">
+                  <div className="md:col-span-1 space-y-8 flex flex-col">
                     
                     {/* CTA → Mobile order-1, Desktop top-left */}
                     <Card id="book-consultation-section" className="order-1 text-card-foreground w-full p-0 bg-transparent border-none shadow-none flex flex-col justify-start items-center">
@@ -188,7 +187,7 @@ export default function NewUserHomePage({ params }: { params: { organizationId: 
                   </div>
                   
                   {/* RIGHT COLUMN (FAQs) */}
-                  <div className="order-3 md:order-2 md:col-span-1">
+                  <div className="order-3 md:col-span-1">
                     <Card
                       id="faq-section"
                       className="text-card-foreground w-full p-6 md:p-10 bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-[50px]"
