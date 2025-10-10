@@ -19,10 +19,12 @@ import { ViewUpcomingTasksSheet } from '@/components/view-upcoming-tasks-sheet';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
-import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
-import { SnagListSheet, Snag } from '@/components/snag-list-sheet';
+import { StageCard } from '@/components/stage-card';
+import type { TimelineStage as Stage } from '@/components/stage-card';
+import { SnagListSheet } from '@/components/snag-list-sheet';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
 import { useUser } from '@/context/user-context';
+import type { Snag } from '@/components/snag-details-sheet';
 
 const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', date: '25 May 2024', status: 'completed', progress: 100 },
@@ -181,7 +183,7 @@ export default function SiteSupervisorHome() {
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
-    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin' || stage.status === 'pending'), []);
+    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin'), []);
     const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
     const projectTasksChartData = useMemo(() => {
@@ -249,14 +251,14 @@ export default function SiteSupervisorHome() {
            <ViewUpcomingTasksSheet 
                 isOpen={isUpcomingTasksSheetOpen}
                 onClose={() => setIsUpcomingTasksSheetOpen(false)}
-                tasks={upcomingTasks}
-                onTaskClick={handleStageClick}
+                tasks={upcomingTasks as any}
+                onTaskClick={handleStageClick as any}
             />
             <ViewCompletedTasksSheet
                 isOpen={isCompletedTasksSheetOpen}
                 onClose={() => setIsCompletedTasksSheetOpen(false)}
-                tasks={completedTasks}
-                onTaskClick={handleStageClick}
+                tasks={completedTasks as any}
+                onTaskClick={handleStageClick as any}
             />
             <SnagListSheet 
                 isOpen={isSnagListSheetOpen}
@@ -267,5 +269,3 @@ export default function SiteSupervisorHome() {
         </div>
     );
 }
-
-    

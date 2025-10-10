@@ -20,9 +20,9 @@ import { AddMemberSheet } from '@/components/add-member-sheet';
 import { ViewCompletedTasksSheet } from '@/components/view-completed-tasks-sheet';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import { StageCard, TimelineStage as Stage } from '@/components/stage-card';
+import { StageCard } from '@/components/stage-card';
+import type { TimelineStage as Stage } from '@/components/stage-card';
 import { useUser } from '@/context/user-context';
-
 
 const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', date: '25 May 2024', status: 'completed', progress: 100 },
@@ -199,7 +199,7 @@ export default function ArchitectHome() {
     };
 
     const selectedProject = useMemo(() => projectsData.find(p => p.id === selectedProjectId), [selectedProjectId]);
-    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin' || stage.status === 'pending'), []);
+    const upcomingTasks = useMemo(() => allStages.filter(stage => stage.status === 'Yet To Begin'), []);
     const completedTasks = useMemo(() => allStages.filter(stage => stage.status === 'completed'), []);
 
     const projectTasksChartData = useMemo(() => {
@@ -268,17 +268,15 @@ export default function ArchitectHome() {
            <ViewUpcomingTasksSheet 
                 isOpen={isUpcomingTasksSheetOpen}
                 onClose={() => setIsUpcomingTasksSheetOpen(false)}
-                tasks={upcomingTasks}
-                onTaskClick={handleUpcomingTaskClick}
+                tasks={upcomingTasks as any}
+                onTaskClick={handleUpcomingTaskClick as any}
             />
             <ViewCompletedTasksSheet
                 isOpen={isCompletedTasksSheetOpen}
                 onClose={() => setIsCompletedTasksSheetOpen(false)}
-                tasks={completedTasks}
-                onTaskClick={handleCompletedTaskClick}
+                tasks={completedTasks as any}
+                onTaskClick={handleCompletedTaskClick as any}
             />
         </div>
     );
 }
-
-    

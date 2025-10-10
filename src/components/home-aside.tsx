@@ -47,7 +47,7 @@ interface HomeAsideProps {
     assignedTasksChartData?: { name: string; value: number, fill?: string }[];
     projectTasksChartData?: { name: string; value: number; fill: string; }[];
     onMeetingClick?: (meeting: Meeting) => void;
-    onAddTask?: (task: Omit<Task, 'id' | 'attachments'>) => void;
+    onAddTask?: (task: Omit<Task, 'id' | 'attachments' | 'status'>) => void;
     showAddMemberButton?: boolean;
     showAddTaskButton?: boolean;
 }

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import {
@@ -45,7 +44,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
+            setAttachments(prev => [...prev, ...Array.from(event.target.files as FileList)]);
         }
     };
     
@@ -260,13 +259,13 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
             </SheetTrigger>
             <DialogOrSheetContent
                 side="bottom"
-                className="p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
+                className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
             >
-                <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
+                <DialogHeader className="p-6 border-b bg-card rounded-t-[50px]">
                     <div className="flex justify-between items-center">
                         <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                             <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
-                                <AssignTaskIcon className="h-6 w-6 text-black"/>
+                                <AssignTaskIcon className="h-6 w-6"/>
                             </div>
                             Assign task
                         </DialogTitle>

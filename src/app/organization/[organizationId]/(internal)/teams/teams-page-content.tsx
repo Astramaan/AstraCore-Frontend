@@ -14,23 +14,23 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/context/user-context';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 
-const roleIconsAndColors: { [key: string]: { icon: React.ReactNode, bgColor: string } } = {
-    "Super Admin": { icon: <Shield className="w-6 h-6 text-foreground" />, bgColor: "bg-red-200/30" },
-    "Project Manager": { icon: <Briefcase className="w-6 h-6 text-foreground" />, bgColor: "bg-blue-300/30" },
-    "Site Supervisor": { icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-green-300/30" },
-    "Architect": { icon: <Palette className="w-6 h-6 text-foreground" />, bgColor: "bg-purple-300/30" },
-    "Sales": { icon: <Briefcase className="w-6 h-6 text-foreground" />, bgColor: "bg-yellow-400/30" },
-    "Software Development": { icon: <Code className="w-6 h-6 text-foreground" />, bgColor: "bg-blue-300/30" },
-    "Design": { icon: <Palette className="w-6 h-6 text-foreground" />, bgColor: "bg-purple-300/30" },
-    "Support & Feedback": { icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-green-300/30" },
-    "Human Resources": { icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-pink-300/30" },
-    "default": { icon: <Users className="w-6 h-6 text-foreground" />, bgColor: "bg-gray-200/30" }
+const roleIconsAndColors: { [key: string]: { icon: React.FC<any>, bgColor: string } } = {
+    "Super Admin": { icon: Shield, bgColor: "bg-red-200/30" },
+    "Project Manager": { icon: Briefcase, bgColor: "bg-blue-300/30" },
+    "Site Supervisor": { icon: Users, bgColor: "bg-green-300/30" },
+    "Architect": { icon: Palette, bgColor: "bg-purple-300/30" },
+    "Sales": { icon: Briefcase, bgColor: "bg-yellow-400/30" },
+    "Software Development": { icon: Code, bgColor: "bg-blue-300/30" },
+    "Design": { icon: Palette, bgColor: "bg-purple-300/30" },
+    "Support & Feedback": { icon: Users, bgColor: "bg-green-300/30" },
+    "Human Resources": { icon: Users, bgColor: "bg-pink-300/30" },
+    "default": { icon: Users, bgColor: "bg-gray-200/30" }
 };
 
 const allRoles: Role[] = [
     { 
         name: "Super Admin", 
-        icon: <Shield className="w-6 h-6 text-foreground" />, 
+        icon: Shield, 
         bgColor: "bg-red-200/30",
         admin: "Balaji Naik", 
         active: 2, 
@@ -42,7 +42,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Project Manager", 
-        icon: <Briefcase className="w-6 h-6 text-foreground" />, 
+        icon: Briefcase, 
         bgColor: "bg-blue-300/30",
         admin: "Priya", 
         active: 1, 
@@ -53,7 +53,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Site Supervisor", 
-        icon: <Users className="w-6 h-6 text-foreground" />, 
+        icon: Users, 
         bgColor: "bg-green-300/30",
         admin: "Yaswanth", 
         active: 1, 
@@ -64,7 +64,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Architect", 
-        icon: <Palette className="w-6 h-6 text-foreground" />, 
+        icon: Palette, 
         bgColor: "bg-purple-300/30",
         admin: "Darshan", 
         active: 1, 
@@ -75,7 +75,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Sales", 
-        icon: <Briefcase className="w-6 h-6 text-foreground" />, 
+        icon: Briefcase, 
         bgColor: "bg-yellow-400/30",
         admin: "Balaji Naik", 
         active: 3, 
@@ -86,7 +86,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Software Development", 
-        icon: <Code className="w-6 h-6 text-foreground" />, 
+        icon: Code, 
         bgColor: "bg-blue-300/30",
         admin: "Balaji Naik", 
         active: 12, 
@@ -95,7 +95,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Design", 
-        icon: <Palette className="w-6 h-6 text-foreground" />, 
+        icon: Palette, 
         bgColor: "bg-purple-300/30",
         admin: "Balaji Naik", 
         active: 4, 
@@ -104,7 +104,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Support & Feedback", 
-        icon: <Users className="w-6 h-6 text-foreground" />,
+        icon: Users,
         bgColor: "bg-green-300/30",
         admin: "Balaji Naik", 
         active: 20, 
@@ -113,7 +113,7 @@ const allRoles: Role[] = [
     },
     { 
         name: "Human Resources", 
-        icon: <Users className="w-6 h-6 text-foreground" />, 
+        icon: Users, 
         bgColor: "bg-pink-300/30",
         admin: "Balaji Naik", 
         active: 0, 
@@ -122,13 +122,15 @@ const allRoles: Role[] = [
     },
 ];
 
-const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => (
+const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: Role) => void; }) => {
+    const IconComponent = role.icon;
+    return (
     <>
         {/* Desktop & Tablet View */}
         <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-stretch py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
-                    {React.cloneElement(role.icon, { className: "w-6 h-6 text-foreground" })}
+                    <IconComponent className="w-6 h-6 text-foreground" />
                 </div>
                 <p className="text-xl font-semibold">{role.name}</p>
             </div>
@@ -152,7 +154,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
         <div className="lg:hidden flex flex-col py-4 gap-4">
             <div className="flex items-center gap-4">
                 <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}>
-                    {React.cloneElement(role.icon, { className: "w-6 h-6 text-foreground" })}
+                    <IconComponent className="w-6 h-6 text-foreground" />
                 </div>
                 <p className="text-2xl font-semibold">{role.name}</p>
             </div>
@@ -171,7 +173,7 @@ const RoleCard = ({ role, onViewMembers }: { role: Role; onViewMembers: (role: R
         </div>
         <Separator className="last:hidden"/>
     </>
-);
+)};
 
 const RoleCardSkeleton = () => (
     <>

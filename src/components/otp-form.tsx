@@ -132,7 +132,7 @@ export default function OtpForm({ searchParams }: { searchParams: { [key: string
                         onChange={(e) => handleChange(e.target, index)}
                         onKeyDown={(e) => handleKeyDown(e, index)}
                         onFocus={(e) => e.target.select()}
-                        ref={(el: HTMLInputElement | null) => (inputRefs.current[index] = el)}
+                        ref={(el: HTMLInputElement | null) => { inputRefs.current[index] = el; }}
                         className="w-[78px] h-[57px] text-center text-xl font-bold rounded-[15px] bg-background border-border focus:border-primary focus:ring-primary"
                     />
                 ))}

@@ -60,7 +60,7 @@ export default function DefaultHomePage() {
 
     const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
-    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments'>) => {
+    const handleAddTask = (newTask: Omit<Task, 'id' | 'attachments' | 'status'>) => {
         console.log("New task assigned:", newTask);
     };
 
@@ -170,7 +170,7 @@ export default function DefaultHomePage() {
               myTasksChartData={myTasksChartData}
               assignedTasksChartData={assignedTasksChartData}
               onMeetingClick={handleMeetingClick}
-              onAddTask={handleAddTask}
+              onAddTask={handleAddTask as any}
               showAddMemberButton={true}
               showAddTaskButton={true}
             />
@@ -192,14 +192,3 @@ export default function DefaultHomePage() {
         </div>
     );
 }
-
-
-
-    
-
-    
-
-    
-
-
-    

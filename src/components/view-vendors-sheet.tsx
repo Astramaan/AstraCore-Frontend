@@ -22,7 +22,7 @@ import { useToast } from './ui/use-toast';
 import { ScrollArea } from './ui/scroll-area';
 import { OrderFormDialog } from './order-form-dialog';
 import StarIcon from './icons/star-icon';
-import { Vendor } from '@/app/organization/vendors/page';
+import type { Vendor } from './vendor-card';
 
 export interface Material {
     name: string;

@@ -37,7 +37,7 @@ const RaiseIssueForm = ({ stageTitle, onClose, onSubmit }: { stageTitle: string,
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            setAttachments(prev => [...prev, ...Array.from(event.target.files)]);
+            setAttachments(prev => [...prev, ...Array.from(event.target.files as FileList)]);
         }
     };
     

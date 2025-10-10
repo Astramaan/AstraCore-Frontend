@@ -83,7 +83,7 @@ const AppointmentCard = ({ appointment, onReschedule }: { appointment: Appointme
                       style={{ border: 0 }}
                       allowFullScreen={false}
                       loading="lazy"
-                      referrerPolicy="no-referrer-downgrade"
+                      referrerPolicy="no-referrer-when-downgrade"
                       className="rounded-3xl"
                     ></iframe>
                     <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>

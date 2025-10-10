@@ -127,10 +127,7 @@ export default function ClientStagesPage() {
                                     <StageCard 
                                         key={index} 
                                         stage={stage as StageType} 
-                                        onReopen={() => handleReopenTask(stage)}
-                                        onRaiseIssue={() => handleRaiseIssue(stage as StageType)}
-                                        isOpen={openStageId === stage.id}
-                                        onToggle={() => handleToggleStage(stage.id)}
+                                        onCardClick={() => handleRaiseIssue(stage as StageType)}
                                     />
                                 ))}
                             </div>
@@ -142,10 +139,7 @@ export default function ClientStagesPage() {
                              <StageCard 
                                 key={index} 
                                 stage={stage as StageType} 
-                                onReopen={() => handleReopenTask(stage)} 
-                                onRaiseIssue={() => handleRaiseIssue(stage as StageType)}
-                                isOpen={openStageId === stage.id}
-                                onToggle={() => handleToggleStage(stage.id)}
+                                onCardClick={() => handleRaiseIssue(stage as StageType)}
                             />
                         ))}
                     </div>
