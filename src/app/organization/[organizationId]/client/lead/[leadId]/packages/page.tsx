@@ -97,8 +97,8 @@ export default function PackagesPage({ params }: { params: { organizationId: str
                     ))}
                 </div>
 
-                <div className="text-center pt-8">
-                    <Button asChild className="rounded-full h-[54px] px-8 text-lg">
+                <div className="fixed bottom-24 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent z-10 text-center md:static md:bg-transparent md:p-0 md:pt-8">
+                    <Button asChild className="rounded-full h-[54px] px-8 text-lg w-full max-w-xs md:w-auto">
                         <Link href={`/organization/${organizationId}/client/lead/${leadId}/home#book-consultation-section`}>
                             Contact Team
                         </Link>
