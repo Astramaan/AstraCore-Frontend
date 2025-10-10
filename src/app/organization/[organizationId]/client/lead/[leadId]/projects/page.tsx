@@ -112,9 +112,9 @@ const ImagePreviewDialog = ({ open, onOpenChange, images, startIndex = 0, title 
 };
 
 const ProjectCard = ({ project, isCompleted, onImageClick }: { project: any, isCompleted: boolean, onImageClick: (images: string[], index: number) => void }) => (
-    <div className="bg-white rounded-[50px] p-6 space-y-4">
+    <div className="bg-card rounded-[50px] p-6 space-y-4">
         <div className="flex flex-col md:flex-row gap-6">
-            <div className="relative w-full md:w-64 h-40 bg-zinc-100 rounded-[30px] flex items-center justify-center shrink-0">
+            <div className="relative w-full md:w-64 h-40 bg-muted rounded-[30px] flex items-center justify-center shrink-0">
                 {isCompleted ? (
                     <>
                         <Image src={project.videoThumbnail} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="house exterior"/>
@@ -129,8 +129,8 @@ const ProjectCard = ({ project, isCompleted, onImageClick }: { project: any, isC
                     <Image src={project.mainImage} alt={project.name} width={600} height={400} className="object-cover rounded-[30px] w-full h-full" data-ai-hint="modern house"/>
                 )}
             </div>
-            <div className="space-y-1 text-zinc-600">
-                <h3 className="text-xl font-semibold text-black">{project.name}</h3>
+            <div className="space-y-1 text-muted-foreground">
+                <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
                 <p>{project.location}</p>
                 <Separator className="my-2" />
                 <p>{project.area}</p>
@@ -146,7 +146,7 @@ const ProjectCard = ({ project, isCompleted, onImageClick }: { project: any, isC
             ))}
         </div>
         {isCompleted && (
-            <p className="text-zinc-600 pt-2">{project.testimonial}</p>
+            <p className="text-muted-foreground pt-2">{project.testimonial}</p>
         )}
     </div>
 )
@@ -165,7 +165,7 @@ export default function ProjectsPage() {
 
 
     return (
-        <div className="bg-zinc-100 min-h-screen">
+        <div className="bg-background min-h-screen">
             <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pb-32 md:pb-8">
                 <div className="space-y-6">
                     <h2 className="text-2xl font-semibold text-center">Completed</h2>
