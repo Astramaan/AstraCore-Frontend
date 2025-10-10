@@ -168,7 +168,7 @@ export default function ProjectsPage() {
         <div className="bg-background min-h-screen">
             <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-8 pb-32 md:pb-8">
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-semibold text-center">Completed</h2>
+                    <h2 className="text-2xl font-semibold text-left text-foreground">Completed</h2>
                     <div className="space-y-6">
                         {completedProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={true} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
                     </div>
@@ -177,7 +177,7 @@ export default function ProjectsPage() {
                 <Separator className="my-8"/>
 
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-semibold text-center">Ongoing</h2>
+                    <h2 className="text-2xl font-semibold text-left text-foreground">Ongoing</h2>
                     <div className="space-y-6">
                         {ongoingProjects.map((p, i) => <ProjectCard key={i} project={p} isCompleted={false} onImageClick={(images, index) => handleImageClick(images, index, p.name)} />)}
                     </div>
