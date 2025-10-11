@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -6,10 +7,11 @@ import { Button } from './ui/button';
 import { X, ArrowRight } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { FeatureAccessDialog } from './feature-access-dialog';
+import type { LucideProps } from 'lucide-react';
 
 export interface RoleData {
     name: string;
-    icon: React.ElementType;
+    icon: React.ComponentType<LucideProps>;
     bgColor: string;
 }
 
@@ -40,6 +42,8 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
     const [editingCategory, setEditingCategory] = useState<string | null>(null);
 
     if (!role) return null;
+    
+    const Icon = role.icon;
 
     const handleEditClick = (category: string) => {
         setEditingCategory(category);
@@ -59,7 +63,7 @@ const RolePermissionsDialog = ({ isOpen, onClose, role }: { isOpen: boolean, onC
                         <DialogTitle className="flex justify-between items-center">
                             <div className="flex items-center gap-4">
                                 <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                    <role.icon className="w-6 h-6 text-black" />
+                                    <Icon className="w-6 h-6 text-black" />
                                 </div>
                                 <span className="text-2xl font-semibold">{role.name}</span>
                             </div>

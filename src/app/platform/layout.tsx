@@ -4,6 +4,7 @@
 import React, { useEffect } from 'react';
 import { PlatformSidebar } from '@/components/platform-sidebar';
 import { UserProvider } from '@/context/user-context';
+import { PlatformBottomNav } from '@/components/platform-bottom-nav';
 
 
 function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
@@ -17,6 +18,7 @@ function PlatformLayoutContent({ children }: { children: React.ReactNode }) {
                 {children}
                 </main>
             </div>
+            <PlatformBottomNav />
         </div>
     );
 }

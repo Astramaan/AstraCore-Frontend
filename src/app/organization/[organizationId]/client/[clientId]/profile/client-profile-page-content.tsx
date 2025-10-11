@@ -114,7 +114,7 @@ export default function ClientProfilePageContent() {
 
     return (
         <div className="bg-background min-h-screen">
-            <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8 pb-32">
+            <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8">
                  <Card className="rounded-[50px] p-6 md:p-10 bg-card">
                     <CardContent className="p-0">
                         <div className="flex items-center justify-between gap-4 mb-6">
@@ -129,7 +129,7 @@ export default function ClientProfilePageContent() {
                                         Edit
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-card transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none">
+                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none">
                                      <EditProfileForm profile={profile} onSave={handleSave} onClose={() => setIsEditing(false)} />
                                 </SheetContent>
                             </Sheet>

@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/context/user-context';
 import { AddMemberSheet } from '@/components/add-member-sheet';
 
-const roleIconsAndColors: { [key: string]: { icon: React.FC<any>, bgColor: string } } = {
+const roleIconsAndColors: { [key: string]: { icon: React.ElementType, bgColor: string } } = {
     "Super Admin": { icon: Shield, bgColor: "bg-red-200/30" },
     "Project Manager": { icon: Briefcase, bgColor: "bg-blue-300/30" },
     "Site Supervisor": { icon: Users, bgColor: "bg-green-300/30" },

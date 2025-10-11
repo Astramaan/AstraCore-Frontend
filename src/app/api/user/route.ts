@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
   try {
-    const cookieStore = await cookies();
+    const cookieStore = cookies();
     const userDataCookie = cookieStore.get('user-data');
 
     if (!userDataCookie) {

@@ -1,9 +1,9 @@
 
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
 
-function getAuthHeaders(req: Request): Record<string, string> {
+function getAuthHeaders(req: NextRequest): Record<string, string> {
     const userHeader = req.headers.get('x-user');
     if (!userHeader) {
         console.warn("x-user header is missing in request to /api/projects/[projectId]");
@@ -26,7 +26,7 @@ function getAuthHeaders(req: Request): Record<string, string> {
 }
 
 
-export async function GET(req: Request, { params }: { params: { projectId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${params.projectId}`, {
             headers: getAuthHeaders(req),
@@ -39,7 +39,7 @@ export async function GET(req: Request, { params }: { params: { projectId: strin
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { projectId: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const body = await req.json();
         const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${params.projectId}`, {
@@ -55,7 +55,7 @@ export async function PATCH(req: Request, { params }: { params: { projectId: str
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { projectId: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { projectId: string } }) {
     try {
         const res = await fetch(`${API_BASE_URL}/api/v1/org/projects/${params.projectId}`, {
             method: 'DELETE',

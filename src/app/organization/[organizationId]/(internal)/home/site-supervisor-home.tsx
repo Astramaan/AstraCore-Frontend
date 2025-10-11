@@ -24,9 +24,9 @@ import { SnagListSheet } from '@/components/snag-list-sheet';
 import { AddSnagSheet } from '@/components/add-snag-sheet';
 import { useUser } from '@/context/user-context';
 import type { Snag } from '@/components/snag-details-sheet';
-import type { Stage as TimelineStage } from '@/components/project-task-card';
+import type { Stage } from '@/components/project-task-card';
 
-const allStages: TimelineStage[] = [
+const allStages: Stage[] = [
     { id: 1, title: 'Design Presentation', subtitle: 'Architectural Design', category: 'Design', image: 'https://picsum.photos/seed/design/100/100', status: 'completed', progress: 100, duration: '2 Days', type: 'stage', createdBy: 'Admin', createdAt: '2024-01-01', description: 'Present the final architectural designs to the client for approval.', priority: 'Low' },
     { id: 4, title: 'Excavation', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/excavation/100/100', status: 'ongoing', siteImages: ["https://picsum.photos/seed/site1/150/150", "https://picsum.photos/seed/site2/150/150", "https://picsum.photos/seed/site3/150/150", "https://picsum.photos/seed/site4/150/150"], progress: 70, duration: '5 Days', type: 'stage', createdBy: 'Admin', createdAt: '2024-01-01', description: 'Begin excavation as per the approved site plan.', priority: 'High' },
     { id: 5, title: 'Grid Marking', subtitle: 'Excavation Stage', category: 'Civil', image: 'https://picsum.photos/seed/grid/100/100', status: 'upcoming', progress: 0, duration: '2 Days', type: 'stage', createdBy: 'Admin', createdAt: '2024-01-01', description: 'Mark the grid lines for foundation work.', priority: 'Medium' },
@@ -64,7 +64,7 @@ const meetings: Meeting[] = [
     { type: 'lead', name: "Lead Discussion", city: "Bengaluru", id: "LEAD2025", time: "5:00 PM", date: "10 August 2024", link: "https://meet.google.com/def-uvw", email: 'lead@example.com', phone: '0987654321' },
 ];
 
-const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: TimelineStage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
+const ProjectSection = ({ project, onStageClick, onOpenCompletedTasks, onOpenUpcomingTasks }: { project: typeof projectsData[0], onStageClick: (stage: Stage) => void, onOpenCompletedTasks: () => void, onOpenUpcomingTasks: () => void }) => {
     const projectTasks = useMemo(() => {
         return project.tasks.filter(task => task.status !== 'completed');
     }, [project.tasks]);
@@ -140,7 +140,7 @@ export default function SiteSupervisorHome() {
 
     const canAssignTask = user?.role === 'SUPER_ADMIN';
 
-    const handleStageClick = (stage: TimelineStage) => {
+    const handleStageClick = (stage: Stage) => {
         const task: Task = {
             id: stage.id.toString(),
             title: stage.title,
@@ -175,7 +175,7 @@ export default function SiteSupervisorHome() {
       setSelectedTask(updatedTask);
       const stageToUpdate = allStages.find(s => s.id.toString() === updatedTask.id);
         if (stageToUpdate) {
-            stageToUpdate.status = updatedTask.status as TimelineStage['status'];
+            stageToUpdate.status = updatedTask.status as Stage['status'];
             if(updatedTask.rework) {
                 stageToUpdate.rework = updatedTask.rework;
             }
