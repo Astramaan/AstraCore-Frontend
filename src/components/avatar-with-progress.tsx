@@ -1,8 +1,7 @@
+"use client";
 
-'use client';
-
-import { cn } from '@/lib/utils';
-import React from 'react';
+import { cn } from "@/lib/utils";
+import React from "react";
 
 interface AvatarWithProgressProps {
   value: number;
@@ -24,7 +23,10 @@ export const AvatarWithProgress = ({
   const offset = circumference - (value / 100) * circumference;
 
   return (
-    <div className={cn('relative flex items-center justify-center', className)} style={{ width: size, height: size }}>
+    <div
+      className={cn("relative flex items-center justify-center", className)}
+      style={{ width: size, height: size }}
+    >
       <svg
         className="absolute inset-0"
         width={size}
@@ -52,9 +54,9 @@ export const AvatarWithProgress = ({
           cx={size / 2}
           cy={size / 2}
           style={{
-            transform: 'rotate(-90deg)',
-            transformOrigin: '50% 50%',
-            transition: 'stroke-dashoffset 0.3s ease-out',
+            transform: "rotate(-90deg)",
+            transformOrigin: "50% 50%",
+            transition: "stroke-dashoffset 0.3s ease-out",
           }}
         />
       </svg>

@@ -1,14 +1,19 @@
+"use client";
 
-'use client';
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { X, Send } from 'lucide-react';
-import type { Vendor } from './vendor-card';
-import { cn } from '@/lib/utils';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { X, Send } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Vendor } from "./vendor-card";
 
 interface OrderFormDialogProps {
   isOpen: boolean;
@@ -17,14 +22,19 @@ interface OrderFormDialogProps {
   materialName: string;
 }
 
-export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: OrderFormDialogProps) {
-  const [quantity, setQuantity] = useState('');
+export function OrderFormDialog({
+  isOpen,
+  onClose,
+  vendor,
+  materialName,
+}: OrderFormDialogProps) {
+  const [quantity, setQuantity] = useState("");
 
   const handleSendWhatsApp = () => {
     if (!vendor || !quantity) return;
     const message = `Hello ${vendor.companyName},\n\nI would like to place an order for the following material:\n\nMaterial: ${materialName}\nQuantity: ${quantity}\n\nPlease confirm the availability and total cost.\n\nThank you!`;
     const whatsappUrl = `https://wa.me/91${vendor.phone}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, "_blank");
     onClose();
   };
 
@@ -37,19 +47,44 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
           <DialogTitle className="flex justify-between items-center p-6">
             <span className="text-xl">Order from {vendor.companyName}</span>
             <DialogClose asChild>
-                <Button variant="ghost" size="icon" className="rounded-full w-[54px] h-[54px] bg-background">
-                    <X className="h-6 w-6" />
-                </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full w-[54px] h-[54px] bg-background"
+              >
+                <X className="h-6 w-6" />
+              </Button>
             </DialogClose>
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 px-6 pb-6">
           <div className="space-y-2">
-            <Label htmlFor="material" className={cn("text-lg font-medium px-2", materialName ? 'text-muted-foreground' : 'text-foreground')}>{ "Material"}</Label>
-            <Input id="material" value={materialName} readOnly className="h-14 bg-background rounded-full px-5" />
+            <Label
+              htmlFor="material"
+              className={cn(
+                "text-lg font-medium px-2",
+                materialName ? "text-muted-foreground" : "text-foreground",
+              )}
+            >
+              {"Material"}
+            </Label>
+            <Input
+              id="material"
+              value={materialName}
+              readOnly
+              className="h-14 bg-background rounded-full px-5"
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="quantity" className={cn("text-lg font-medium px-2", quantity ? 'text-muted-foreground' : 'text-foreground')}>Quantity</Label>
+            <Label
+              htmlFor="quantity"
+              className={cn(
+                "text-lg font-medium px-2",
+                quantity ? "text-muted-foreground" : "text-foreground",
+              )}
+            >
+              Quantity
+            </Label>
             <Input
               id="quantity"
               value={quantity}
@@ -58,7 +93,10 @@ export function OrderFormDialog({ isOpen, onClose, vendor, materialName }: Order
               className="h-14 bg-background rounded-full px-5"
             />
           </div>
-          <Button onClick={handleSendWhatsApp} className="w-full h-14 rounded-full text-lg">
+          <Button
+            onClick={handleSendWhatsApp}
+            className="w-full h-14 rounded-full text-lg"
+          >
             <Send className="mr-2 h-4 w-4" />
             order now
           </Button>

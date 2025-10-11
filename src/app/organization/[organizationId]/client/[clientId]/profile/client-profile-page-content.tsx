@@ -1,178 +1,262 @@
+"use client";
 
-'use client';
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { ChevronRight, Edit, LogOut, Save, X, UserPlus } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUser } from "@/context/user-context";
+import { AddFamilyMemberSheet } from "@/components/add-family-member-sheet";
 
-import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { ChevronRight, Edit, LogOut, Save, X, UserPlus } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useUser } from '@/context/user-context';
-import { AddFamilyMemberSheet } from '@/components/add-family-member-sheet';
-
-const DetailField = ({ label, value }: { label: string, value: string }) => (
-    <div className="space-y-1">
-        <label className="text-sm text-muted-foreground">{label}</label>
-        <p className="text-lg text-foreground">{value}</p>
-    </div>
+const DetailField = ({ label, value }: { label: string; value: string }) => (
+  <div className="space-y-1">
+    <label className="text-sm text-muted-foreground">{label}</label>
+    <p className="text-lg text-foreground">{value}</p>
+  </div>
 );
 
-const EditProfileForm = ({ profile: initialProfile, onSave, onClose }: { profile: any, onSave: (data: any) => void, onClose: () => void }) => {
-    const [profile, setProfile] = useState(initialProfile);
+const EditProfileForm = ({
+  profile: initialProfile,
+  onSave,
+  onClose,
+}: {
+  profile: any;
+  onSave: (data: any) => void;
+  onClose: () => void;
+}) => {
+  const [profile, setProfile] = useState(initialProfile);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setProfile({ ...profile, [e.target.name]: e.target.value });
-    };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        onSave(profile);
-    }
-    
-    return (
-        <form onSubmit={handleSubmit} className="flex flex-col h-full">
-            <SheetHeader className="p-6 border-b">
-                <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
-                    Edit Profile
-                    <SheetClose asChild>
-                        <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
-                            <X className="h-5 w-5" />
-                        </Button>
-                    </SheetClose>
-                </SheetTitle>
-            </SheetHeader>
-            <ScrollArea className="flex-1">
-                <div className="p-6 space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" name="name" value={profile.name} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number</Label>
-                        <Input id="phone" name="phone" value={profile.phone} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email ID</Label>
-                        <Input id="email" name="email" type="email" value={profile.email} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="pincode">Site location Pin code</Label>
-                        <Input id="pincode" name="pincode" value={profile.pincode} onChange={handleChange} className="h-[54px] rounded-full bg-input" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="address">Current Address</Label>
-                        <Textarea id="address" name="address" value={profile.address} onChange={handleChange} className="rounded-3xl bg-input" />
-                    </div>
-                </div>
-            </ScrollArea>
-            <div className="p-6 mt-auto border-t">
-                <Button type="submit" className="w-full h-14 rounded-full text-lg"><Save className="mr-2 h-4 w-4" /> Save Changes</Button>
-            </div>
-        </form>
-    );
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(profile);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+      <SheetHeader className="p-6 border-b">
+        <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
+          Edit Profile
+          <SheetClose asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="w-[54px] h-[54px] bg-background rounded-full"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </SheetClose>
+        </SheetTitle>
+      </SheetHeader>
+      <ScrollArea className="flex-1">
+        <div className="p-6 space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              name="name"
+              value={profile.name}
+              onChange={handleChange}
+              className="h-[54px] rounded-full bg-input"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number</Label>
+            <Input
+              id="phone"
+              name="phone"
+              value={profile.phone}
+              onChange={handleChange}
+              className="h-[54px] rounded-full bg-input"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email ID</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={profile.email}
+              onChange={handleChange}
+              className="h-[54px] rounded-full bg-input"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="pincode">Site location Pin code</Label>
+            <Input
+              id="pincode"
+              name="pincode"
+              value={profile.pincode}
+              onChange={handleChange}
+              className="h-[54px] rounded-full bg-input"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="address">Current Address</Label>
+            <Textarea
+              id="address"
+              name="address"
+              value={profile.address}
+              onChange={handleChange}
+              className="rounded-3xl bg-input"
+            />
+          </div>
+        </div>
+      </ScrollArea>
+      <div className="p-6 mt-auto border-t">
+        <Button type="submit" className="w-full h-14 rounded-full text-lg">
+          <Save className="mr-2 h-4 w-4" /> Save Changes
+        </Button>
+      </div>
+    </form>
+  );
 };
 
-
 export default function ClientProfilePageContent() {
-    const { user, loading, logout } = useUser();
-    const [isEditing, setIsEditing] = useState(false);
-    const [isAddMemberSheetOpen, setIsAddMemberSheetOpen] = useState(false);
+  const { user, loading, logout } = useUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const [isAddMemberSheetOpen, setIsAddMemberSheetOpen] = useState(false);
 
-    const [profile, setProfile] = useState({
-        name: 'Yash',
-        phone: '+91 9380000839',
-        email: 'yash007@gmail.com',
-        pincode: '560109',
-        address: '43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008',
-    });
-    
-    useEffect(() => {
-        if(user) {
-            setProfile(prev => ({
-                ...prev,
-                name: user.name,
-                email: user.email,
-                phone: user.mobileNumber,
-            }));
-        }
-    }, [user])
-    
-    const handleSave = (updatedProfile: any) => {
-        // Here you would also update the user context or make an API call
-        setProfile(updatedProfile);
-        setIsEditing(false);
+  const [profile, setProfile] = useState({
+    name: "Yash",
+    phone: "+91 9380000839",
+    email: "yash007@gmail.com",
+    pincode: "560109",
+    address:
+      "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
+  });
+
+  useEffect(() => {
+    if (user) {
+      setProfile((prev) => ({
+        ...prev,
+        name: user.name,
+        email: user.email,
+        phone: user.mobileNumber,
+      }));
     }
-    
-    if (loading) return <div>Loading...</div>;
-    
-    const isExistingClient = user?.team !== 'New User';
+  }, [user]);
 
-    return (
-        <div className="bg-background min-h-screen">
-            <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8">
-                 <Card className="rounded-[50px] p-6 md:p-10 bg-card">
-                    <CardContent className="p-0">
-                        <div className="flex items-center justify-between gap-4 mb-6">
-                            <div className="flex items-center gap-4">
-                                <Image src="https://placehold.co/94x94" alt={profile.name} width={72} height={72} className="rounded-full border-2 border-white" data-ai-hint="person portrait"/>
-                                
-                            </div>
-                            <Sheet open={isEditing} onOpenChange={setIsEditing}>
-                                <SheetTrigger asChild>
-                                    <Button variant="outline" className="rounded-full h-[54px] px-6">
-                                        <Edit className="h-5 w-5 mr-2" />
-                                        Edit
-                                    </Button>
-                                </SheetTrigger>
-                                <SheetContent side="bottom" className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none">
-                                     <EditProfileForm profile={profile} onSave={handleSave} onClose={() => setIsEditing(false)} />
-                                </SheetContent>
-                            </Sheet>
-                        </div>
-                        <Separator className="mb-6"/>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                            <DetailField label="Name" value={profile.name} />
-                            <DetailField label="Phone Number" value={profile.phone} />
-                            <DetailField label="Email ID" value={profile.email} />
-                            <DetailField label="Site location Pin code" value={profile.pincode} />
-                            <div className="col-span-1 md:col-span-2 space-y-1">
-                                <label className="text-sm text-muted-foreground">Current Address</label>
-                                <p className="text-lg text-foreground">{profile.address}</p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
+  const handleSave = (updatedProfile: any) => {
+    // Here you would also update the user context or make an API call
+    setProfile(updatedProfile);
+    setIsEditing(false);
+  };
 
-                {isExistingClient && (
-                    <Card className="rounded-[50px] p-6 md:p-8 bg-card">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <p className="text-lg font-semibold">Add Family Member</p>
-                                <p className="text-sm text-muted-foreground">Give project access to your family members.</p>
-                            </div>
-                            <Button
-                                onClick={() => setIsAddMemberSheetOpen(true)}
-                                className="rounded-full h-[54px] px-6"
-                            >
-                                <UserPlus className="mr-2 h-5 w-5" />
-                                Add
-                            </Button>
-                        </div>
-                    </Card>
-                )}
+  if (loading) return <div>Loading...</div>;
 
+  const isExistingClient = user?.team !== "New User";
 
-                <Button onClick={logout} variant="outline" className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none">
-                    <LogOut className="w-5 h-5 mr-2" />
-                    Logout
-                </Button>
+  return (
+    <div className="bg-background min-h-screen">
+      <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-8">
+        <Card className="rounded-[50px] p-6 md:p-10 bg-card">
+          <CardContent className="p-0">
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <div className="flex items-center gap-4">
+                <Image
+                  src="https://placehold.co/94x94"
+                  alt={profile.name}
+                  width={72}
+                  height={72}
+                  className="rounded-full border-2 border-white"
+                  data-ai-hint="person portrait"
+                />
+              </div>
+              <Sheet open={isEditing} onOpenChange={setIsEditing}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="rounded-full h-[54px] px-6"
+                  >
+                    <Edit className="h-5 w-5 mr-2" />
+                    Edit
+                  </Button>
+                </SheetTrigger>
+                <SheetContent
+                  side="bottom"
+                  className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+                >
+                  <EditProfileForm
+                    profile={profile}
+                    onSave={handleSave}
+                    onClose={() => setIsEditing(false)}
+                  />
+                </SheetContent>
+              </Sheet>
             </div>
-            {isExistingClient && <AddFamilyMemberSheet isOpen={isAddMemberSheetOpen} onOpenChange={setIsAddMemberSheetOpen}/>}
-        </div>
-    );
+            <Separator className="mb-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              <DetailField label="Name" value={profile.name} />
+              <DetailField label="Phone Number" value={profile.phone} />
+              <DetailField label="Email ID" value={profile.email} />
+              <DetailField
+                label="Site location Pin code"
+                value={profile.pincode}
+              />
+              <div className="col-span-1 md:col-span-2 space-y-1">
+                <label className="text-sm text-muted-foreground">
+                  Current Address
+                </label>
+                <p className="text-lg text-foreground">{profile.address}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {isExistingClient && (
+          <Card className="rounded-[50px] p-6 md:p-8 bg-card">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-lg font-semibold">Add Family Member</p>
+                <p className="text-sm text-muted-foreground">
+                  Give project access to your family members.
+                </p>
+              </div>
+              <Button
+                onClick={() => setIsAddMemberSheetOpen(true)}
+                className="rounded-full h-[54px] px-6"
+              >
+                <UserPlus className="mr-2 h-5 w-5" />
+                Add
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        <Button
+          onClick={logout}
+          variant="outline"
+          className="w-full h-14 bg-card rounded-full flex items-center justify-center text-destructive hover:bg-destructive/10 hover:text-destructive border-none"
+        >
+          <LogOut className="w-5 h-5 mr-2" />
+          Logout
+        </Button>
+      </div>
+      {isExistingClient && (
+        <AddFamilyMemberSheet
+          isOpen={isAddMemberSheetOpen}
+          onOpenChange={setIsAddMemberSheetOpen}
+        />
+      )}
+    </div>
+  );
 }

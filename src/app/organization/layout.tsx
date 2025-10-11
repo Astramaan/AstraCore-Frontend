@@ -1,8 +1,9 @@
+import React from "react";
 
-import React from 'react';
-
-export default function OrganizationLayout({ children }: { children: React.ReactNode }) {
-  return (
-      <>{children}</>
-  )
+export default function OrganizationLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
 }

@@ -1,8 +1,7 @@
+"use client";
 
-"use client"
-
-import * as React from "react"
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts"
+import * as React from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const data = [
   { name: "Pricing too high", value: 40 },
@@ -10,14 +9,14 @@ const data = [
   { name: "Switched to another platform", value: 31 },
   { name: "Technical issues or bugs", value: 33 },
   { name: "No longer needed", value: 5 },
-]
+];
 
 const COLORS = [
-    "hsl(var(--accent-color-01))", 
-    "hsl(var(--accent-color-02))",
-    "hsl(var(--accent-color-03))",
-    "hsl(var(--accent-color-04))",
-    "hsl(var(--accent-color-05))"
+  "hsl(var(--accent-color-01))",
+  "hsl(var(--accent-color-02))",
+  "hsl(var(--accent-color-03))",
+  "hsl(var(--accent-color-04))",
+  "hsl(var(--accent-color-05))",
 ];
 
 export function ExitSurveyChart() {
@@ -43,5 +42,5 @@ export function ExitSurveyChart() {
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
-  )
+  );
 }

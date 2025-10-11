@@ -1,8 +1,6 @@
+"use client";
 
-
-'use client';
-
-import React, { useState, useActionState, useEffect } from 'react';
+import React, { useState, useActionState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,98 +14,173 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Plus, X, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useToast } from './ui/use-toast';
-import { SuccessPopup } from './success-popup';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { useToast } from "./ui/use-toast";
+import { SuccessPopup } from "./success-popup";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
-const FloatingLabelInput = ({ id, label, value, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string, value: string }) => (
-    <div className="relative flex flex-col justify-start items-start gap-2">
-        <Label htmlFor={id} className={cn("text-lg font-medium", value ? 'text-grey-1' : 'text-black')}>{label}</Label>
-        <Input id={id} className="w-full h-14 bg-input rounded-[50px] px-6 text-lg" value={value} {...props} />
-    </div>
+const FloatingLabelInput = ({
+  id,
+  label,
+  value,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & {
+  label: string;
+  value: string;
+}) => (
+  <div className="relative flex flex-col justify-start items-start gap-2">
+    <Label
+      htmlFor={id}
+      className={cn(
+        "text-lg font-medium",
+        value ? "text-grey-1" : "text-black",
+      )}
+    >
+      {label}
+    </Label>
+    <Input
+      id={id}
+      className="w-full h-14 bg-input rounded-[50px] px-6 text-lg"
+      value={value}
+      {...props}
+    />
+  </div>
 );
 
+const AddMemberForm = ({
+  onFormSuccess,
+  onClose,
+}: {
+  onFormSuccess: () => void;
+  onClose: () => void;
+}) => {
+  const { toast } = useToast();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const AddMemberForm = ({ onFormSuccess, onClose }: { onFormSuccess: () => void, onClose: () => void }) => {
-    const { toast } = useToast();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [role, setRole] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const roles = [
+    "Sales",
+    "Developer",
+    "Design",
+    "Support & Feedback",
+    "HR",
+    "Admin",
+  ];
 
-    const roles = ["Sales", "Developer", "Design", "Support & Feedback", "HR", "Admin"];
-    
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        if (/^[a-zA-Z\s]*$/.test(value)) {
-            setName(value);
-        }
-    };
-    
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const res = await fetch('/api/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, phone, role }),
-            });
-            const data = await res.json();
-            if (data.success) {
-                onFormSuccess();
-            } else {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: data.message,
-                });
-            }
-        } catch(error) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: "An unexpected error occurred."
-            });
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      setName(value);
+    }
+  };
 
-    return (
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, role }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        onFormSuccess();
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.message,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An unexpected error occurred.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
     <form onSubmit={handleSubmit}>
-        <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                <FloatingLabelInput id="member-name" name="name" label="Full Name" value={name} onChange={handleNameChange} />
-                <FloatingLabelInput id="member-email" name="email" type="email" label="Email ID" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <FloatingLabelInput id="member-phone" name="phone" type="tel" label="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} />
+      <div className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)] no-scrollbar">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+          <FloatingLabelInput
+            id="member-name"
+            name="name"
+            label="Full Name"
+            value={name}
+            onChange={handleNameChange}
+          />
+          <FloatingLabelInput
+            id="member-email"
+            name="email"
+            type="email"
+            label="Email ID"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <FloatingLabelInput
+            id="member-phone"
+            name="phone"
+            type="tel"
+            label="Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
 
-                <div className="space-y-2">
-                    <Label htmlFor="role" className={cn("text-lg font-medium", role ? 'text-grey-1' : 'text-black')}>{ "Role"}</Label>
-                    <Select name="role" onValueChange={setRole}>
-                        <SelectTrigger id="role" className="w-full h-14 bg-input rounded-[50px] px-6 text-lg">
-                            <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                             {roles.map(r => (
-                                <SelectItem key={r} value={r}>{r}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-            </div>
-            
-            <div className="flex justify-end pt-8">
-                <Button type="submit" className="px-14 h-12 text-lg rounded-full" disabled={isSubmitting}>
-                    {isSubmitting ? 'Adding...' : 'Add'}
-                </Button>
-            </div>
+          <div className="space-y-2">
+            <Label
+              htmlFor="role"
+              className={cn(
+                "text-lg font-medium",
+                role ? "text-grey-1" : "text-black",
+              )}
+            >
+              {"Role"}
+            </Label>
+            <Select name="role" onValueChange={setRole}>
+              <SelectTrigger
+                id="role"
+                className="w-full h-14 bg-input rounded-[50px] px-6 text-lg"
+              >
+                <SelectValue placeholder="Select a role" />
+              </SelectTrigger>
+              <SelectContent>
+                {roles.map((r) => (
+                  <SelectItem key={r} value={r}>
+                    {r}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-    </form>
-    );
-};
 
+        <div className="flex justify-end pt-8">
+          <Button
+            type="submit"
+            className="px-14 h-12 text-lg rounded-full"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Adding..." : "Add"}
+          </Button>
+        </div>
+      </div>
+    </form>
+  );
+};
 
 export function AddMemberSheet() {
   const [isOpen, setIsOpen] = useState(false);
@@ -117,47 +190,52 @@ export function AddMemberSheet() {
     setIsOpen(false);
     setShowSuccess(true);
   };
-  
+
   const handleClose = () => setIsOpen(false);
 
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button className="h-14 px-10 rounded-full bg-white text-lg font-medium">
-            <Plus className="mr-2"/>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button className="h-14 px-10 rounded-full bg-white text-lg font-medium">
+            <Plus className="mr-2" />
             Add New Team
-        </Button>
-      </DialogTrigger>
-      <DialogContent 
-          className="p-0 flex flex-col m-0 bg-white sm:max-w-2xl rounded-[50px]"
-      >
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="p-0 flex flex-col m-0 bg-white sm:max-w-2xl rounded-[50px]">
           <DialogHeader className="p-6 border-b bg-white rounded-t-[50px]">
-              <div className="flex items-center justify-between">
-                <DialogTitle className="flex items-center text-2xl font-semibold">
-                    <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
-                        <Plus className="h-6 w-6"/>
-                    </div>
-                    Add New Team
-                </DialogTitle>
-                <DialogClose asChild>
-                  <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
-                      <X className="h-6 w-6" />
-                  </Button>
-                </DialogClose>
-              </div>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="flex items-center text-2xl font-semibold">
+                <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
+                  <Plus className="h-6 w-6" />
+                </div>
+                Add New Team
+              </DialogTitle>
+              <DialogClose asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-[54px] h-[54px] bg-background rounded-full"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </DialogClose>
+            </div>
           </DialogHeader>
           <div className="flex-grow overflow-y-auto no-scrollbar">
-            <AddMemberForm onFormSuccess={handleSuccess} onClose={handleClose} />
+            <AddMemberForm
+              onFormSuccess={handleSuccess}
+              onClose={handleClose}
+            />
           </div>
-      </DialogContent>
-    </Dialog>
-    <SuccessPopup 
+        </DialogContent>
+      </Dialog>
+      <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
         title="Invitation Sent"
         message="The new member has been invited and will receive an email to set up their account."
-    />
+      />
     </>
   );
 }

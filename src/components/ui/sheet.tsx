@@ -1,52 +1,56 @@
+"use client";
 
-"use client"
+import * as React from "react";
+import * as SheetPrimitive from "@radix-ui/react-dialog";
+import { cva, type VariantProps } from "class-variance-authority";
+import { X } from "lucide-react";
 
-import * as React from "react"
-import * as SheetPrimitive from "@radix-ui/react-dialog"
-import { cva, type VariantProps } from "class-variance-authority"
-import { X } from "lucide-react"
-
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const Sheet = ({ onOpenChange, ...props }: SheetPrimitive.DialogProps) => {
-    const handleOpenChange = (open: boolean) => {
-        if (open) {
-            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
-            document.body.setAttribute('data-scroll-locked', 'true');
-        } else {
-            setTimeout(() => {
-                document.body.removeAttribute('data-scroll-locked');
-                document.body.style.removeProperty('--scrollbar-width');
-            }, 300);
-        }
-        onOpenChange?.(open);
-    };
-    return <SheetPrimitive.Root onOpenChange={handleOpenChange} {...props} />
-}
+  const handleOpenChange = (open: boolean) => {
+    if (open) {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.setProperty(
+        "--scrollbar-width",
+        `${scrollbarWidth}px`,
+      );
+      document.body.setAttribute("data-scroll-locked", "true");
+    } else {
+      setTimeout(() => {
+        document.body.removeAttribute("data-scroll-locked");
+        document.body.style.removeProperty("--scrollbar-width");
+      }, 300);
+    }
+    onOpenChange?.(open);
+  };
+  return <SheetPrimitive.Root onOpenChange={handleOpenChange} {...props} />;
+};
 
+const SheetTrigger = SheetPrimitive.Trigger;
 
-const SheetTrigger = SheetPrimitive.Trigger
+const SheetClose = SheetPrimitive.Close;
 
-const SheetClose = SheetPrimitive.Close
-
-const SheetPortal = SheetPrimitive.Portal
+const SheetPortal = SheetPrimitive.Portal;
 
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay> & { overlayClassName?: string }
+  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay> & {
+    overlayClassName?: string;
+  }
 >(({ className, overlayClassName, ...props }, ref) => (
   <SheetPrimitive.Overlay
     ref={ref}
     className={cn(
       "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
-      overlayClassName
+      overlayClassName,
     )}
     {...props}
   />
-))
-SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
+));
+SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
   "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
@@ -64,32 +68,36 @@ const sheetVariants = cva(
     defaultVariants: {
       side: "right",
     },
-  }
-)
+  },
+);
 
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {
-        overlayClassName?: string
-    }
+  overlayClassName?: string;
+}
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
->(({ side = "right", className, children, overlayClassName, ...props }, ref) => (
-  <SheetPortal>
-    <SheetOverlay overlayClassName={overlayClassName} />
-    <SheetPrimitive.Content
-      ref={ref}
-      className={cn(sheetVariants({ side }), className)}
-      {...props}
-    >
-      {children}
-      
-    </SheetPrimitive.Content>
-  </SheetPortal>
-))
-SheetContent.displayName = SheetPrimitive.Content.displayName
+>(
+  (
+    { side = "right", className, children, overlayClassName, ...props },
+    ref,
+  ) => (
+    <SheetPortal>
+      <SheetOverlay overlayClassName={overlayClassName} />
+      <SheetPrimitive.Content
+        ref={ref}
+        className={cn(sheetVariants({ side }), className)}
+        {...props}
+      >
+        {children}
+      </SheetPrimitive.Content>
+    </SheetPortal>
+  ),
+);
+SheetContent.displayName = SheetPrimitive.Content.displayName;
 
 const SheetHeader = ({
   className,
@@ -98,12 +106,12 @@ const SheetHeader = ({
   <div
     className={cn(
       "flex flex-col space-y-2 text-center sm:text-left",
-      className
+      className,
     )}
     {...props}
   />
-)
-SheetHeader.displayName = "SheetHeader"
+);
+SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = ({
   className,
@@ -112,12 +120,12 @@ const SheetFooter = ({
   <div
     className={cn(
       "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
+      className,
     )}
     {...props}
   />
-)
-SheetFooter.displayName = "SheetFooter"
+);
+SheetFooter.displayName = "SheetFooter";
 
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
@@ -128,8 +136,8 @@ const SheetTitle = React.forwardRef<
     className={cn("text-lg font-semibold text-foreground", className)}
     {...props}
   />
-))
-SheetTitle.displayName = SheetPrimitive.Title.displayName
+));
+SheetTitle.displayName = SheetPrimitive.Title.displayName;
 
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
@@ -140,8 +148,8 @@ const SheetDescription = React.forwardRef<
     className={cn("text-sm text-muted-foreground", className)}
     {...props}
   />
-))
-SheetDescription.displayName = SheetPrimitive.Description.displayName
+));
+SheetDescription.displayName = SheetPrimitive.Description.displayName;
 
 export {
   Sheet,
@@ -154,4 +162,4 @@ export {
   SheetFooter,
   SheetTitle,
   SheetDescription,
-}
+};

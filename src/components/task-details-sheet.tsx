@@ -1,7 +1,6 @@
+"use client";
 
-'use client';
-
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from "react";
 import {
   Sheet,
   SheetContent,
@@ -24,22 +23,22 @@ import {
   CheckCircle2,
   Send,
   MessageSquare,
-} from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
+} from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogClose,
-} from './ui/dialog';
-import { cn } from '@/lib/utils';
-import { Badge } from './ui/badge';
-import PdfIcon from './icons/pdf-icon';
-import Image from 'next/image';
-import { ScrollArea } from './ui/scroll-area';
-import { useUser } from '@/context/user-context';
-import { ReworkTaskSheet } from './rework-task-sheet';
+} from "./ui/dialog";
+import { cn } from "@/lib/utils";
+import { Badge } from "./ui/badge";
+import PdfIcon from "./icons/pdf-icon";
+import Image from "next/image";
+import { ScrollArea } from "./ui/scroll-area";
+import { useUser } from "@/context/user-context";
+import { ReworkTaskSheet } from "./rework-task-sheet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -49,29 +48,29 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { ShieldAlert } from 'lucide-react';
-import { useToast } from './ui/use-toast';
-import { Textarea } from './ui/textarea';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Separator } from './ui/separator';
-import { ProjectTaskDetails } from './project-task-details';
+} from "@/components/ui/alert-dialog";
+import { ShieldAlert } from "lucide-react";
+import { useToast } from "./ui/use-toast";
+import { Textarea } from "./ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Separator } from "./ui/separator";
+import { ProjectTaskDetails } from "./project-task-details";
 
 export interface ReworkInfo {
-    comments: string;
-    attachments: File[];
+  comments: string;
+  attachments: File[];
 }
 export interface Task {
   id: string;
   title: string;
   date: string;
   description: string;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: "Low" | "Medium" | "High";
   status: string;
   category: string;
   project: string;
   clientId: string;
-  attachments: { type: 'pdf' | 'image'; name: string; url: string }[];
+  attachments: { type: "pdf" | "image"; name: string; url: string }[];
   completedDate?: string;
   isProjectTask?: boolean;
   subtitle?: string;
@@ -109,7 +108,9 @@ const DetailRow = ({
     </div>
     <div>
       <p className="text-base text-muted-foreground font-medium">{label}</p>
-      <div className="text-base text-foreground font-semibold mt-1">{value}</div>
+      <div className="text-base text-foreground font-semibold mt-1">
+        {value}
+      </div>
     </div>
   </div>
 );
@@ -258,14 +259,14 @@ const UploadAttachmentsDialog = ({
 };
 
 const formatDate = (dateString: string) => {
-  if (!dateString) return 'N/A';
+  if (!dateString) return "N/A";
   try {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
+    return date.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
   } catch (e) {
     return dateString;
@@ -274,9 +275,9 @@ const formatDate = (dateString: string) => {
 
 const StandardTaskDetails = ({ task }: { task: Task }) => {
   const priorityColors: { [key: string]: string } = {
-    Low: 'bg-cyan-500/10 text-cyan-500',
-    Medium: 'bg-yellow-500/10 text-yellow-500',
-    High: 'bg-red-500/10 text-red-500',
+    Low: "bg-cyan-500/10 text-cyan-500",
+    Medium: "bg-yellow-500/10 text-yellow-500",
+    High: "bg-red-500/10 text-red-500",
   };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -302,13 +303,13 @@ const StandardTaskDetails = ({ task }: { task: Task }) => {
         label="Priority"
         value={
           <Badge
-            className={cn(priorityColors[task.priority], 'text-base py-1 px-4')}
+            className={cn(priorityColors[task.priority], "text-base py-1 px-4")}
           >
             {task.priority}
           </Badge>
         }
       />
-      {task.status === 'Completed' && task.completedDate && (
+      {task.status === "Completed" && task.completedDate && (
         <DetailRow
           icon={<CheckCircle2 className="w-5 h-5" />}
           label="Completed Date"
@@ -332,23 +333,27 @@ const TaskDetailsContent = ({
   const { toast } = useToast();
 
   const [selectedAttachment, setSelectedAttachment] = useState<
-    Task['attachments'][0] | null
+    Task["attachments"][0] | null
   >(null);
   const [isReworkSheetOpen, setIsReworkSheetOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
   const handleStartTask = () => {
-    onUpdateTask({ ...task, status: 'In Progress' });
+    onUpdateTask({ ...task, status: "In Progress" });
   };
 
   const handleCompleteTask = () => {
     const today = new Date();
     const day = String(today.getDate());
-    const month = today.toLocaleString('default', { month: 'long' });
+    const month = today.toLocaleString("default", { month: "long" });
     const year = today.getFullYear();
     const completedDate = `${day} ${month} ${year}`;
-    onUpdateTask({ ...task, status: 'Completed', completedDate: completedDate });
+    onUpdateTask({
+      ...task,
+      status: "Completed",
+      completedDate: completedDate,
+    });
   };
 
   const handleApprove = () => {
@@ -360,37 +365,37 @@ const TaskDetailsContent = ({
   };
 
   const handleDelete = () => {
-    console.log('Deleting task:', task.id);
+    console.log("Deleting task:", task.id);
     setIsDeleteDialogOpen(false);
     onClose(); // Close sheet after deletion
   };
 
   const handleAttachmentsUploaded = (files: File[]) => {
-    console.log('Uploaded files:', files);
+    console.log("Uploaded files:", files);
     toast({
-      title: 'Attachments Uploaded',
+      title: "Attachments Uploaded",
       description: `${files.length} file(s) have been attached to the task.`,
     });
   };
 
   const handleReworkSubmit = (reworkInfo: ReworkInfo) => {
-    onUpdateTask({ ...task, status: 'Rework', rework: reworkInfo });
+    onUpdateTask({ ...task, status: "Rework", rework: reworkInfo });
     setIsReworkSheetOpen(false);
     toast({
-      title: 'Rework Requested',
+      title: "Rework Requested",
       description: `The task "${task.title}" has been sent back for rework.`,
     });
   };
 
-  const isProjectManager = user?.team === 'Project Manager';
-  const isArchitect = user?.team === 'Architect';
+  const isProjectManager = user?.team === "Project Manager";
+  const isArchitect = user?.team === "Architect";
 
   const renderCtas = () => {
     const canStartTask =
       !task.isAssigned &&
-      task.status !== 'In Progress' &&
-      task.status !== 'Completed' &&
-      task.status !== 'ongoing' &&
+      task.status !== "In Progress" &&
+      task.status !== "Completed" &&
+      task.status !== "ongoing" &&
       !isProjectManager;
 
     if (canStartTask) {
@@ -407,7 +412,7 @@ const TaskDetailsContent = ({
     }
 
     if (
-      (task.status === 'In Progress' || task.status === 'ongoing') &&
+      (task.status === "In Progress" || task.status === "ongoing") &&
       !isProjectManager
     ) {
       return (
@@ -429,7 +434,7 @@ const TaskDetailsContent = ({
       );
     }
 
-    if (isProjectManager && task.isProjectTask && task.status === 'ongoing') {
+    if (isProjectManager && task.isProjectTask && task.status === "ongoing") {
       return (
         <div className="flex gap-4">
           <Button
@@ -451,7 +456,7 @@ const TaskDetailsContent = ({
 
     if (task.isAssigned) {
       const showApproveDelete =
-        user?.roleType === 'superAdmin' || isProjectManager || isArchitect;
+        user?.roleType === "superAdmin" || isProjectManager || isArchitect;
       if (showApproveDelete) {
         return (
           <div className="flex gap-4">
@@ -483,9 +488,11 @@ const TaskDetailsContent = ({
         <ScrollArea className="flex-1 no-scrollbar">
           <div className="p-6">
             <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-foreground">{task.title}</h3>
+              <h3 className="text-2xl font-semibold text-foreground">
+                {task.title}
+              </h3>
               <p className="text-muted-foreground">{task.description}</p>
-              
+
               <Separator />
 
               {task.isProjectTask ? (
@@ -496,7 +503,9 @@ const TaskDetailsContent = ({
 
               {task.attachments.length > 0 && (
                 <div className="pt-6">
-                  <p className="text-lg text-muted-foreground mb-4">Attachment</p>
+                  <p className="text-lg text-muted-foreground mb-4">
+                    Attachment
+                  </p>
                   <div className="flex gap-4 flex-wrap">
                     {task.attachments.map((file, index) => (
                       <button
@@ -504,7 +513,7 @@ const TaskDetailsContent = ({
                         key={index}
                         className="w-20 h-20 rounded-lg border border-border flex items-center justify-center bg-background"
                       >
-                        {file.type === 'pdf' ? (
+                        {file.type === "pdf" ? (
                           <PdfIcon className="w-10 h-10" />
                         ) : (
                           <Image
@@ -520,24 +529,33 @@ const TaskDetailsContent = ({
                   </div>
                 </div>
               )}
-               {task.rework && (
+              {task.rework && (
                 <div className="pt-6">
-                  <h4 className="text-lg font-medium text-muted-foreground mb-4">Rework Details</h4>
+                  <h4 className="text-lg font-medium text-muted-foreground mb-4">
+                    Rework Details
+                  </h4>
                   <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-xl space-y-4">
-                      <p className="text-sm text-amber-900 dark:text-amber-200">{task.rework.comments}</p>
-                      {task.rework.attachments.length > 0 && (
-                        <div>
-                          <p className="text-sm font-medium mb-2 text-amber-900 dark:text-amber-200">Attachments:</p>
-                          <div className="flex gap-2 flex-wrap">
-                            {task.rework.attachments.map((file, index) => (
-                              <div key={index} className="flex items-center gap-2 bg-white dark:bg-zinc-800 p-2 rounded-md border text-xs">
-                                <Paperclip className="h-3 w-3" />
-                                <span>{file.name}</span>
-                              </div>
-                            ))}
-                          </div>
+                    <p className="text-sm text-amber-900 dark:text-amber-200">
+                      {task.rework.comments}
+                    </p>
+                    {task.rework.attachments.length > 0 && (
+                      <div>
+                        <p className="text-sm font-medium mb-2 text-amber-900 dark:text-amber-200">
+                          Attachments:
+                        </p>
+                        <div className="flex gap-2 flex-wrap">
+                          {task.rework.attachments.map((file, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center gap-2 bg-white dark:bg-zinc-800 p-2 rounded-md border text-xs"
+                            >
+                              <Paperclip className="h-3 w-3" />
+                              <span>{file.name}</span>
+                            </div>
+                          ))}
                         </div>
-                      )}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -549,7 +567,7 @@ const TaskDetailsContent = ({
         </div>
       </div>
       <PdfPreviewDialog
-        open={!!(selectedAttachment && selectedAttachment.type === 'pdf')}
+        open={!!(selectedAttachment && selectedAttachment.type === "pdf")}
         onOpenChange={(open) => !open && setSelectedAttachment(null)}
         file={selectedAttachment}
       />
@@ -574,8 +592,8 @@ const TaskDetailsContent = ({
               Delete this task?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-lg text-muted-foreground">
-              This action cannot be undone. Are you sure you want to
-              permanently delete this task?
+              This action cannot be undone. Are you sure you want to permanently
+              delete this task?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
@@ -606,7 +624,6 @@ export function TaskDetailsSheet({
   task,
   onUpdateTask,
 }: TaskDetailsSheetProps) {
-
   if (!task) return null;
 
   const DialogOrSheet = Sheet;
@@ -617,16 +634,16 @@ export function TaskDetailsSheet({
       <DialogOrSheetContent
         side="bottom"
         className={cn(
-          'p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom'
+          "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
         )}
       >
         <DialogHeader className="p-6 border-b bg-card rounded-t-[50px]">
           <DialogTitle className="flex items-center text-2xl font-semibold">
             {task.isProjectTask
-              ? 'Project Stage Details'
+              ? "Project Stage Details"
               : task.isAssigned
-              ? 'Assigned Task Details'
-              : 'Task Details'}
+                ? "Assigned Task Details"
+                : "Task Details"}
             <div className="flex items-center gap-4 ml-auto">
               <SheetClose asChild>
                 <Button

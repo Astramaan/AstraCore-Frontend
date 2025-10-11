@@ -1,84 +1,97 @@
+"use client";
 
-'use client';
-
-import React, { useMemo } from 'react';
-import { usePathname } from 'next/navigation';
-import { HabiLogo } from '@/components/habi-logo';
-import { useUser } from '@/context/user-context';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { Skeleton } from './ui/skeleton';
-import { NotificationPopover } from './notification-popover';
+import React, { useMemo } from "react";
+import { usePathname } from "next/navigation";
+import { HabiLogo } from "@/components/habi-logo";
+import { useUser } from "@/context/user-context";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Link from "next/link";
+import { Button } from "./ui/button";
+import { Skeleton } from "./ui/skeleton";
+import { NotificationPopover } from "./notification-popover";
 
 export const ClientHeader = () => {
-    const pathname = usePathname();
-    const { user, loading } = useUser();
-    
-    const pageTitle = useMemo(() => {
-        if (!user) return '';
+  const pathname = usePathname();
+  const { user, loading } = useUser();
 
-        const isNewUser = user.team === 'New User';
+  const pageTitle = useMemo(() => {
+    if (!user) return "";
 
-        if (pathname.includes('/home')) {
-            return isNewUser ? '' : '';
-        } else if (pathname.includes('/packages')) {
-            return 'Packages';
-        } else if (pathname.includes('/project') && !pathname.includes('/projects')) { // for single project
-            return 'My Project';
-        } else if (pathname.includes('/projects')) { // for projects list
-            return 'Our Projects';
-        } else if (pathname.includes('/profile')) {
-            return 'Profile';
-        } else if (pathname.includes('/meet-us')) {
-            return 'Meet Us';
-        } else if (pathname.includes('/live')) {
-            return 'Live';
-        } else if (pathname.includes('/stages')) {
-            return 'Stages';
-        }
-        return '';
-    }, [user, pathname]);
+    const isNewUser = user.team === "New User";
 
-    if (loading) {
-        return (
-            <div className="flex flex-row justify-between items-center w-full gap-4">
-                <Skeleton className="h-10 w-24" />
-                <Skeleton className="h-12 w-12 rounded-full" />
-            </div>
-        )
+    if (pathname.includes("/home")) {
+      return isNewUser ? "" : "";
+    } else if (pathname.includes("/packages")) {
+      return "Packages";
+    } else if (
+      pathname.includes("/project") &&
+      !pathname.includes("/projects")
+    ) {
+      // for single project
+      return "My Project";
+    } else if (pathname.includes("/projects")) {
+      // for projects list
+      return "Our Projects";
+    } else if (pathname.includes("/profile")) {
+      return "Profile";
+    } else if (pathname.includes("/meet-us")) {
+      return "Meet Us";
+    } else if (pathname.includes("/live")) {
+      return "Live";
+    } else if (pathname.includes("/stages")) {
+      return "Stages";
     }
+    return "";
+  }, [user, pathname]);
 
-    const userName = user?.name || 'User';
-    const userInitials = userName.split(' ').map(n => n[0]).join('');
-
+  if (loading) {
     return (
-        <header className="flex flex-row justify-between items-center w-full gap-4">
-            <div className="flex items-center gap-4">
-                <HabiLogo />
-                {pageTitle && (
-                    <>
-                        <div className="w-px h-8 bg-stone-300 hidden md:block" />
-                        <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white">
-                           {pageTitle}
-                        </h2>
-                    </>
-                )}
-            </div>
-            
-            <div className="flex items-center gap-4 ml-auto">
-                <NotificationPopover userType="client" />
-                <Link href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`} className="hidden md:flex items-center gap-2">
-                    <Avatar className="h-12 w-12">
-                        <AvatarImage src="https://picsum.photos/seed/user_avatar/55/55" data-ai-hint="person portrait" />
-                        <AvatarFallback>{userInitials}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-left hidden md:block">
-                        <p className="font-semibold text-white">{user?.name}</p>
-                        <p className="text-sm text-white/80">{user?.email}</p>
-                    </div>
-                </Link>
-            </div>
-        </header>
+      <div className="flex flex-row justify-between items-center w-full gap-4">
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-12 w-12 rounded-full" />
+      </div>
     );
+  }
+
+  const userName = user?.name || "User";
+  const userInitials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
+
+  return (
+    <header className="flex flex-row justify-between items-center w-full gap-4">
+      <div className="flex items-center gap-4">
+        <HabiLogo />
+        {pageTitle && (
+          <>
+            <div className="w-px h-8 bg-stone-300 hidden md:block" />
+            <h2 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white">
+              {pageTitle}
+            </h2>
+          </>
+        )}
+      </div>
+
+      <div className="flex items-center gap-4 ml-auto">
+        <NotificationPopover userType="client" />
+        <Link
+          href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}
+          className="hidden md:flex items-center gap-2"
+        >
+          <Avatar className="h-12 w-12">
+            <AvatarImage
+              src="https://picsum.photos/seed/user_avatar/55/55"
+              data-ai-hint="person portrait"
+            />
+            <AvatarFallback>{userInitials}</AvatarFallback>
+          </Avatar>
+          <div className="text-left hidden md:block">
+            <p className="font-semibold text-white">{user?.name}</p>
+            <p className="text-sm text-white/80">{user?.email}</p>
+          </div>
+        </Link>
+      </div>
+    </header>
+  );
 };

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -28,11 +28,7 @@ export default function LeadCard({
   isLast?: boolean;
 }) {
   return (
-    <div
-      className={cn(
-        "flex flex-col group"
-      )}
-    >
+    <div className={cn("flex flex-col group")}>
       {/* ✅ Mobile & Tablet View */}
       <div className="md:hidden p-4 gap-4">
         <div className="flex items-start justify-between gap-4">
@@ -42,7 +38,9 @@ export default function LeadCard({
           >
             <Checkbox />
             <div>
-              <p className="text-xl font-semibold text-black">{lead.fullName}</p>
+              <p className="text-xl font-semibold text-black">
+                {lead.fullName}
+              </p>
               <p className="text-lg">
                 <span className="text-grey-2">Location: </span>
                 <span className="text-black">
@@ -59,7 +57,9 @@ export default function LeadCard({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => onEdit(lead)}>
+                  Edit
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onSelect={() => onDelete(lead)}
                   className="text-red-500"
@@ -87,7 +87,7 @@ export default function LeadCard({
         className={cn(
           "hidden md:grid md:grid-cols-[1.2fr_1.5fr_1fr] items-stretch py-6 gap-x-6 cursor-pointer hover:bg-hover-bg px-4",
           isFirst && "hover:rounded-t-[30px]",
-          isLast && "hover:rounded-b-[30px]"
+          isLast && "hover:rounded-b-[30px]",
         )}
       >
         {/* Col 1: Name + Location */}
@@ -146,7 +146,9 @@ export default function LeadCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onSelect={() => onEdit(lead)}>Edit</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => onEdit(lead)}>
+                Edit
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => onDelete(lead)}
                 className="text-red-500"

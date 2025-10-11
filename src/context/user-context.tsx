@@ -1,19 +1,24 @@
+"use client";
 
-'use client';
-
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 interface User {
-    userId: string;
-    name: string;
-    email: string;
-    role: string;
-    mobileNumber: string;
-    organizationId: string;
-    orgCode: string;
-    team?: string;
-    roleType?: string;
+  userId: string;
+  name: string;
+  email: string;
+  role: string;
+  mobileNumber: string;
+  organizationId: string;
+  orgCode: string;
+  team?: string;
+  roleType?: string;
 }
 
 interface UserContextType {
@@ -55,18 +60,20 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       localStorage.removeItem("astramaan_user");
     }
   };
-  
+
   const logout = () => {
     localStorage.removeItem("astramaan_user");
     setUserState(null);
-    window.location.href = '/';
-  }
+    window.location.href = "/";
+  };
 
-  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
-  const isClient = user?.role === 'CLIENT';
+  const isSuperAdmin = user?.role === "SUPER_ADMIN";
+  const isClient = user?.role === "CLIENT";
 
   return (
-    <UserContext.Provider value={{ user, loading, isSuperAdmin, isClient, setUser, logout }}>
+    <UserContext.Provider
+      value={{ user, loading, isSuperAdmin, isClient, setUser, logout }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -75,7 +82,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

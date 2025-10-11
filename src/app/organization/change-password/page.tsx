@@ -1,10 +1,9 @@
+"use client";
 
-'use client';
-
-import { ChangePasswordDialog } from '@/components/change-password-dialog';
-import { HabiLogo } from '@/components/habi-logo';
-import { useUser } from '@/context/user-context';
-import Image from 'next/image';
+import { ChangePasswordDialog } from "@/components/change-password-dialog";
+import { HabiLogo } from "@/components/habi-logo";
+import { useUser } from "@/context/user-context";
+import Image from "next/image";
 
 export default function ChangePasswordPage() {
   const { user } = useUser();

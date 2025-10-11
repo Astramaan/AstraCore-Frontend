@@ -1,7 +1,6 @@
+"use client";
 
-'use client';
-
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -12,90 +11,102 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
-import { ScrollArea } from './ui/scroll-area';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { Badge } from './ui/badge';
-import { Card } from './ui/card';
-import { Progress } from './ui/progress';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { motion } from 'framer-motion';
-
+import { ScrollArea } from "./ui/scroll-area";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Badge } from "./ui/badge";
+import { Card } from "./ui/card";
+import { Progress } from "./ui/progress";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { motion } from "framer-motion";
 
 interface Stage {
-    id: number;
-    title: string;
-    subtitle: string;
-    category: string;
-    image: string;
-    duration: string;
-    status: 'ongoing' | 'upcoming' | 'completed' | 'pending';
-    type: 'stage' | 'payment';
-    siteImages?: string[];
-    snagCount?: number;
-    createdBy: string;
-    createdAt: string;
-    description: string;
-    priority: 'Low' | 'Medium' | 'High';
-    progress?: number;
+  id: number;
+  title: string;
+  subtitle: string;
+  category: string;
+  image: string;
+  duration: string;
+  status: "ongoing" | "upcoming" | "completed" | "pending";
+  type: "stage" | "payment";
+  siteImages?: string[];
+  snagCount?: number;
+  createdBy: string;
+  createdAt: string;
+  description: string;
+  priority: "Low" | "Medium" | "High";
+  progress?: number;
 }
 
 const formatDate = (dateString: string) => {
-    if (!dateString || isNaN(new Date(dateString).getTime())) return "Invalid Date";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  if (!dateString || isNaN(new Date(dateString).getTime()))
+    return "Invalid Date";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 };
 
-const CompletedTaskCard = ({ stage, onClick }: { stage: Stage, onClick: (stage: Stage) => void }) => {
+const CompletedTaskCard = ({
+  stage,
+  onClick,
+}: {
+  stage: Stage;
+  onClick: (stage: Stage) => void;
+}) => {
   return (
     <motion.div
-        whileHover={{ scale: 1.03 }}
-        transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
     >
-        <Card
+      <Card
         className="w-full h-auto rounded-[24px] p-4 cursor-pointer hover:shadow-lg transition-shadow bg-background"
         onClick={() => onClick(stage)}
-        >
+      >
         <div className="flex items-center gap-4">
-            <div className="relative w-24 h-24 shrink-0">
+          <div className="relative w-24 h-24 shrink-0">
             <Image
-                src={stage.image}
-                width={100}
-                height={100}
-                alt={stage.title}
-                className="rounded-[24px] object-cover w-full h-full"
-                data-ai-hint="construction work"
+              src={stage.image}
+              width={100}
+              height={100}
+              alt={stage.title}
+              className="rounded-[24px] object-cover w-full h-full"
+              data-ai-hint="construction work"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-                <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+              <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
                 <span className="text-white text-sm font-semibold">
-                    {stage.category}
+                  {stage.category}
                 </span>
-                </div>
+              </div>
             </div>
-            </div>
-            <div className="flex-1 space-y-1 w-full text-left">
+          </div>
+          <div className="flex-1 space-y-1 w-full text-left">
             <div className="flex justify-between items-start">
-                <h3 className="text-foreground text-base font-semibold">
+              <h3 className="text-foreground text-base font-semibold">
                 {stage.title}
-                </h3>
-                <Badge className="bg-green-100 text-green-700 capitalize">
+              </h3>
+              <Badge className="bg-green-100 text-green-700 capitalize">
                 Completed
-                </Badge>
+              </Badge>
             </div>
             <p className="text-sm">{stage.subtitle}</p>
             <div className="pt-2">
-                <Progress value={100} className="h-2" />
-                <div className="flex justify-between items-center mt-2">
-                <span className="text-foreground text-xs font-normal">100%</span>
-                <span className="text-muted-foreground text-xs">
-                    {formatDate(stage.createdAt)}
+              <Progress value={100} className="h-2" />
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-foreground text-xs font-normal">
+                  100%
                 </span>
-                </div>
+                <span className="text-muted-foreground text-xs">
+                  {formatDate(stage.createdAt)}
+                </span>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-        </Card>
+      </Card>
     </motion.div>
   );
 };
@@ -107,21 +118,27 @@ interface ViewCompletedTasksSheetProps {
   onTaskClick: (task: Stage) => void;
 }
 
-export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }: ViewCompletedTasksSheetProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+export function ViewCompletedTasksSheet({
+  isOpen,
+  onClose,
+  tasks,
+  onTaskClick,
+}: ViewCompletedTasksSheetProps) {
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredTasks = useMemo(() => {
     if (!searchTerm) return tasks;
-    return tasks.filter(task => 
-      task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      task.subtitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      task.category.toLowerCase().includes(searchTerm.toLowerCase())
+    return tasks.filter(
+      (task) =>
+        task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.subtitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.category.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [tasks, searchTerm]);
-  
+
   const handleTaskClickAndClose = (task: Stage) => {
     onTaskClick(task);
-  }
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -131,14 +148,20 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
-            <span className="text-2xl font-semibold">Project Completed Stages</span>
+            <span className="text-2xl font-semibold">
+              Project Completed Stages
+            </span>
             <SheetClose asChild>
-              <Button variant="ghost" size="icon" className="w-[54px] h-[54px] bg-background rounded-full">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-[54px] h-[54px] bg-background rounded-full"
+              >
                 <X className="h-6 w-6" />
               </Button>
             </SheetClose>
           </SheetTitle>
-           <div className="relative pt-4">
+          <div className="relative pt-4">
             <Search className="absolute left-4 top-1/2 -translate-y-0.5 h-5 w-5 text-gray-400" />
             <Input
               placeholder="Search completed stages..."
@@ -150,13 +173,19 @@ export function ViewCompletedTasksSheet({ isOpen, onClose, tasks, onTaskClick }:
         </SheetHeader>
         <ScrollArea className="flex-1">
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-             {filteredTasks.length > 0 ? (
-                 filteredTasks.map((task, index) => (
-                    <CompletedTaskCard key={`${task.id}-${index}`} stage={task} onClick={handleTaskClickAndClose} />
-                ))
-             ) : (
-                <p className="text-muted-foreground col-span-full text-center py-10">No completed stages match your search.</p>
-             )}
+            {filteredTasks.length > 0 ? (
+              filteredTasks.map((task, index) => (
+                <CompletedTaskCard
+                  key={`${task.id}-${index}`}
+                  stage={task}
+                  onClick={handleTaskClickAndClose}
+                />
+              ))
+            ) : (
+              <p className="text-muted-foreground col-span-full text-center py-10">
+                No completed stages match your search.
+              </p>
+            )}
           </div>
         </ScrollArea>
       </SheetContent>

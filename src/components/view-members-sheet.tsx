@@ -1,7 +1,6 @@
+"use client";
 
-'use client';
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Sheet,
   SheetContent,
@@ -14,281 +13,414 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { MoreVertical, ShieldAlert, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { ChangePasswordDialog } from './change-password-dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
-import { useToast } from './ui/use-toast';
-import { ScrollArea } from './ui/scroll-area';
-import { useUser } from '@/context/user-context';
-import { useParams } from 'next/navigation';
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { ChangePasswordDialog } from "./change-password-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
+import { useToast } from "./ui/use-toast";
+import { ScrollArea } from "./ui/scroll-area";
+import { useUser } from "@/context/user-context";
+import { useParams } from "next/navigation";
 
 export interface Member {
-    id: string;
-    name: string;
-    avatar: string;
-    contact: string;
-    role: string;
-    status: 'Active' | 'Inactive';
-    lastActive: string;
-    email: string;
+  id: string;
+  name: string;
+  avatar: string;
+  contact: string;
+  role: string;
+  status: "Active" | "Inactive";
+  lastActive: string;
+  email: string;
 }
 
 export interface Role {
-    name: string;
-    icon: React.ReactNode;
-    bgColor: string;
-    admin: string;
-    active: number;
-    total: number;
-    members: Member[];
+  name: string;
+  icon: React.ReactNode;
+  bgColor: string;
+  admin: string;
+  active: number;
+  total: number;
+  members: Member[];
 }
 
-const MemberCard = ({ member, teamName, onDeactivate }: { member: Member; teamName: string; onDeactivate: (member: Member) => void; }) => {
-    const { toast } = useToast();
-    const { user } = useUser();
-    const params = useParams();
-    const organizationId = params.organizationId as string;
-    
-    const handlePasswordReset = async () => {
-        // const formData = new FormData();
-        // formData.append('email', member.email);
-        
-        // const result = await requestPasswordReset(null, formData);
+const MemberCard = ({
+  member,
+  teamName,
+  onDeactivate,
+}: {
+  member: Member;
+  teamName: string;
+  onDeactivate: (member: Member) => void;
+}) => {
+  const { toast } = useToast();
+  const { user } = useUser();
+  const params = useParams();
+  const organizationId = params.organizationId as string;
 
-        // if (result?.message) {
-        //      toast({
-        //         variant: "destructive",
-        //         title: "Error",
-        //         description: result.message,
-        //     });
-        // } else {
-        //      toast({
-        //         title: "Success",
-        //         description: "Password reset link sent successfully.",
-        //     });
-        // }
-    };
-    
-    const canManage = user?.roleType === 'superAdmin';
+  const handlePasswordReset = async () => {
+    // const formData = new FormData();
+    // formData.append('email', member.email);
+    // const result = await requestPasswordReset(null, formData);
+    // if (result?.message) {
+    //      toast({
+    //         variant: "destructive",
+    //         title: "Error",
+    //         description: result.message,
+    //     });
+    // } else {
+    //      toast({
+    //         title: "Success",
+    //         description: "Password reset link sent successfully.",
+    //     });
+    // }
+  };
 
+  const canManage = user?.roleType === "superAdmin";
 
-    return (
-        <>
-            <div className="flex justify-between items-start py-4 gap-4">
-                <div className="flex items-center gap-4 flex-1">
-                     <Link href={`/organization/${organizationId}/teams/${member.id}`} className="flex items-center gap-4 cursor-pointer">
-                        <Avatar className="w-12 h-12">
-                            <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
-                            <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                     </Link>
-                    <div className="flex-1">
-                        <Link href={`/organization/${organizationId}/teams/${member.id}`} className="cursor-pointer">
-                           <p className="text-lg font-medium">{member.name}</p>
-                        </Link>
-                        <div className="md:hidden mt-2 space-y-1 text-sm">
-                            <p className="whitespace-nowrap"><span className="text-muted-foreground">Contact: </span><span className="text-foreground font-medium">{member.contact}</span></p>
-                            <p><span className="text-muted-foreground">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
-                            <p><span className="text-muted-foreground">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
-                            <p><span className="text-muted-foreground">Last Active: </span>
-                                <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-foreground')}>
-                                    {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="hidden md:flex flex-col gap-2 flex-1">
-                    <p className="text-lg whitespace-nowrap"><span className="text-muted-foreground">Contact: </span><span className="text-foreground font-medium">{member.contact}</span></p>
-                    <p className="text-lg"><span className="text-muted-foreground">Role: </span><span className="text-primary font-medium">{member.role}</span></p>
-                </div>
-
-                <div className="hidden md:flex flex-col items-end gap-2 flex-1 text-right">
-                    <p className="text-lg"><span className="text-muted-foreground">Status: </span><span className={cn("font-medium", member.status === 'Active' ? "text-green-600" : "text-red-600")}>{member.status}</span></p>
-                    <p className="text-lg"><span className="text-muted-foreground">Last Active: </span>
-                        <span className={cn("font-medium", member.status === 'Inactive' ? 'text-red-600' : 'text-foreground')}>
-                            {member.status === 'Inactive' ? 'Deactivated' : member.lastActive}
-                        </span>
-                    </p>
-                </div>
-                
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                            <MoreVertical className="w-6 h-6" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                         <DropdownMenuItem asChild><Link href={`/organization/${organizationId}/teams/${member.id}`}>View Details</Link></DropdownMenuItem>
-                         {canManage && (
-                             <>
-                                <DropdownMenuItem onSelect={handlePasswordReset}>Change Password</DropdownMenuItem>
-                                <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem className="text-destructive" onSelect={(e) => { e.preventDefault(); onDeactivate(member); }}>Deactivate user</DropdownMenuItem>
-                                </AlertDialogTrigger>
-                             </>
-                         )}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+  return (
+    <>
+      <div className="flex justify-between items-start py-4 gap-4">
+        <div className="flex items-center gap-4 flex-1">
+          <Link
+            href={`/organization/${organizationId}/teams/${member.id}`}
+            className="flex items-center gap-4 cursor-pointer"
+          >
+            <Avatar className="w-12 h-12">
+              <AvatarImage src={member.avatar} data-ai-hint="person portrait" />
+              <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+          </Link>
+          <div className="flex-1">
+            <Link
+              href={`/organization/${organizationId}/teams/${member.id}`}
+              className="cursor-pointer"
+            >
+              <p className="text-lg font-medium">{member.name}</p>
+            </Link>
+            <div className="md:hidden mt-2 space-y-1 text-sm">
+              <p className="whitespace-nowrap">
+                <span className="text-muted-foreground">Contact: </span>
+                <span className="text-foreground font-medium">
+                  {member.contact}
+                </span>
+              </p>
+              <p>
+                <span className="text-muted-foreground">Role: </span>
+                <span className="text-primary font-medium">{member.role}</span>
+              </p>
+              <p>
+                <span className="text-muted-foreground">Status: </span>
+                <span
+                  className={cn(
+                    "font-medium",
+                    member.status === "Active"
+                      ? "text-green-600"
+                      : "text-red-600",
+                  )}
+                >
+                  {member.status}
+                </span>
+              </p>
+              <p>
+                <span className="text-muted-foreground">Last Active: </span>
+                <span
+                  className={cn(
+                    "font-medium",
+                    member.status === "Inactive"
+                      ? "text-red-600"
+                      : "text-foreground",
+                  )}
+                >
+                  {member.status === "Inactive"
+                    ? "Deactivated"
+                    : member.lastActive}
+                </span>
+              </p>
             </div>
-            <Separator className="last:hidden"/>
-        </>
-    );
+          </div>
+        </div>
+
+        <div className="hidden md:flex flex-col gap-2 flex-1">
+          <p className="text-lg whitespace-nowrap">
+            <span className="text-muted-foreground">Contact: </span>
+            <span className="text-foreground font-medium">
+              {member.contact}
+            </span>
+          </p>
+          <p className="text-lg">
+            <span className="text-muted-foreground">Role: </span>
+            <span className="text-primary font-medium">{member.role}</span>
+          </p>
+        </div>
+
+        <div className="hidden md:flex flex-col items-end gap-2 flex-1 text-right">
+          <p className="text-lg">
+            <span className="text-muted-foreground">Status: </span>
+            <span
+              className={cn(
+                "font-medium",
+                member.status === "Active" ? "text-green-600" : "text-red-600",
+              )}
+            >
+              {member.status}
+            </span>
+          </p>
+          <p className="text-lg">
+            <span className="text-muted-foreground">Last Active: </span>
+            <span
+              className={cn(
+                "font-medium",
+                member.status === "Inactive"
+                  ? "text-red-600"
+                  : "text-foreground",
+              )}
+            >
+              {member.status === "Inactive" ? "Deactivated" : member.lastActive}
+            </span>
+          </p>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MoreVertical className="w-6 h-6" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+              <Link href={`/organization/${organizationId}/teams/${member.id}`}>
+                View Details
+              </Link>
+            </DropdownMenuItem>
+            {canManage && (
+              <>
+                <DropdownMenuItem onSelect={handlePasswordReset}>
+                  Change Password
+                </DropdownMenuItem>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem
+                    className="text-destructive"
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      onDeactivate(member);
+                    }}
+                  >
+                    Deactivate user
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <Separator className="last:hidden" />
+    </>
+  );
 };
 
-const ViewMembersContent = ({ role, onClose }: { role: Role; onClose: () => void }) => {
-    const [members, setMembers] = useState<Member[]>(role.members || []);
-    const [memberToDeactivate, setMemberToDeactivate] = useState<Member | null>(null);
-    const { toast } = useToast();
-    const { user } = useUser();
+const ViewMembersContent = ({
+  role,
+  onClose,
+}: {
+  role: Role;
+  onClose: () => void;
+}) => {
+  const [members, setMembers] = useState<Member[]>(role.members || []);
+  const [memberToDeactivate, setMemberToDeactivate] = useState<Member | null>(
+    null,
+  );
+  const { toast } = useToast();
+  const { user } = useUser();
 
-    useEffect(() => {
-        setMembers(role.members || []);
-    }, [role.members]);
+  useEffect(() => {
+    setMembers(role.members || []);
+  }, [role.members]);
 
-    const handleDeactivateClick = (member: Member) => {
-        setMemberToDeactivate(member);
-    };
+  const handleDeactivateClick = (member: Member) => {
+    setMemberToDeactivate(member);
+  };
 
-    const handleStatusChange = (memberId: string, status: 'Active' | 'Inactive') => {
-        setMembers(prevMembers =>
-            prevMembers.map(m =>
-                m.id === memberId ? { ...m, status } : m
-            )
-        );
-    };
-
-    const confirmDeactivation = async () => {
-        if (memberToDeactivate && user) {
-            
-            try {
-                const res = await fetch('/api/users', {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId: memberToDeactivate.id })
-                });
-
-                const result = await res.json();
-
-                if (result.success) {
-                    handleStatusChange(memberToDeactivate.id, 'Inactive');
-                    toast({
-                        title: 'Success',
-                        description: result.message,
-                    });
-                } else {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: result.message,
-                    });
-                }
-            } catch (error) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: "An unexpected error occurred."
-                });
-            }
-            setMemberToDeactivate(null);
-        }
-    };
-
-    return (
-        <AlertDialog>
-            <div className="bg-card text-card-foreground h-full flex flex-col rounded-t-[50px] overflow-hidden">
-                <SheetHeader className="p-6 border-b shrink-0">
-                    <SheetTitle className="flex items-center text-xl font-medium">
-                         <div className="flex items-center gap-4">
-                            <div className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}>
-                                {role.icon}
-                            </div>
-                            <h2 className="text-2xl font-semibold">{role.name}</h2>
-                        </div>
-                        <div className="ml-auto">
-                            <SheetClose asChild>
-                                <Button variant="ghost" onClick={onClose} className="rounded-full h-14 w-14 p-0 text-foreground bg-background hover:bg-muted">
-                                    <X className="h-6 w-6" />
-                                </Button>
-                            </SheetClose>
-                        </div>
-                    </SheetTitle>
-                </SheetHeader>
-                <ScrollArea className="flex-1">
-                    <div className="p-6">
-                        {members.length > 0 ? (
-                            members.map((member) => <MemberCard key={member.id} member={member} teamName={role.name} onDeactivate={handleDeactivateClick} />)
-                        ) : (
-                            <div className="text-center text-muted-foreground py-10">
-                                No members in this role yet.
-                            </div>
-                        )}
-                    </div>
-                </ScrollArea>
-            </div>
-            {memberToDeactivate && (
-                 <AlertDialogContent className="max-w-md rounded-[50px]">
-                    <AlertDialogHeader className="items-center text-center">
-                         <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                          <div className="w-full h-full bg-red-600/5 rounded-full" />
-                          <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                          <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-                        </div>
-                        <AlertDialogTitle className="text-2xl font-semibold">Deactivate User?</AlertDialogTitle>
-                        <AlertDialogDescription className="text-lg text-muted-foreground">
-                            Are you sure you want to deactivate {memberToDeactivate.name}? They will lose access to the platform.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="flex-row justify-center gap-4 pt-4">
-                        <AlertDialogCancel onClick={() => setMemberToDeactivate(null)} className="w-full md:w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={confirmDeactivation} className="w-full md:w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700">Deactivate</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            )}
-        </AlertDialog>
+  const handleStatusChange = (
+    memberId: string,
+    status: "Active" | "Inactive",
+  ) => {
+    setMembers((prevMembers) =>
+      prevMembers.map((m) => (m.id === memberId ? { ...m, status } : m)),
     );
+  };
+
+  const confirmDeactivation = async () => {
+    if (memberToDeactivate && user) {
+      try {
+        const res = await fetch("/api/users", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: memberToDeactivate.id }),
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+          handleStatusChange(memberToDeactivate.id, "Inactive");
+          toast({
+            title: "Success",
+            description: result.message,
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: result.message,
+          });
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An unexpected error occurred.",
+        });
+      }
+      setMemberToDeactivate(null);
+    }
+  };
+
+  return (
+    <AlertDialog>
+      <div className="bg-card text-card-foreground h-full flex flex-col rounded-t-[50px] overflow-hidden">
+        <SheetHeader className="p-6 border-b shrink-0">
+          <SheetTitle className="flex items-center text-xl font-medium">
+            <div className="flex items-center gap-4">
+              <div
+                className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}
+              >
+                {role.icon}
+              </div>
+              <h2 className="text-2xl font-semibold">{role.name}</h2>
+            </div>
+            <div className="ml-auto">
+              <SheetClose asChild>
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  className="rounded-full h-14 w-14 p-0 text-foreground bg-background hover:bg-muted"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </SheetClose>
+            </div>
+          </SheetTitle>
+        </SheetHeader>
+        <ScrollArea className="flex-1">
+          <div className="p-6">
+            {members.length > 0 ? (
+              members.map((member) => (
+                <MemberCard
+                  key={member.id}
+                  member={member}
+                  teamName={role.name}
+                  onDeactivate={handleDeactivateClick}
+                />
+              ))
+            ) : (
+              <div className="text-center text-muted-foreground py-10">
+                No members in this role yet.
+              </div>
+            )}
+          </div>
+        </ScrollArea>
+      </div>
+      {memberToDeactivate && (
+        <AlertDialogContent className="max-w-md rounded-[50px]">
+          <AlertDialogHeader className="items-center text-center">
+            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+              <div className="w-full h-full bg-red-600/5 rounded-full" />
+              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold">
+              Deactivate User?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg text-muted-foreground">
+              Are you sure you want to deactivate {memberToDeactivate.name}?
+              They will lose access to the platform.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-row justify-center gap-4 pt-4">
+            <AlertDialogCancel
+              onClick={() => setMemberToDeactivate(null)}
+              className="w-full md:w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary"
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeactivation}
+              className="w-full md:w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700"
+            >
+              Deactivate
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      )}
+    </AlertDialog>
+  );
 };
 
 interface ViewMembersSheetProps {
-    isOpen: boolean;
-    onClose: () => void;
-    role: Role | null;
+  isOpen: boolean;
+  onClose: () => void;
+  role: Role | null;
 }
 
-export function ViewMembersSheet({ isOpen, onClose, role }: ViewMembersSheetProps) {
-    const isMobile = useIsMobile();
+export function ViewMembersSheet({
+  isOpen,
+  onClose,
+  role,
+}: ViewMembersSheetProps) {
+  const isMobile = useIsMobile();
 
-    if (!role) return null;
+  if (!role) return null;
 
-    if (isMobile) {
-        return (
-             <Sheet open={isOpen} onOpenChange={onClose}>
-                <SheetContent 
-                    side={"bottom"}
-                    className="p-0 bg-card border-none shadow-none w-full h-full"
-                    overlayClassName="bg-transparent"
-                >
-                    <ViewMembersContent role={role} onClose={onClose} />
-                </SheetContent>
-            </Sheet>
-        )
-    }
-
+  if (isMobile) {
     return (
-        <Sheet open={isOpen} onOpenChange={onClose}>
-            <SheetContent 
-                side={"bottom"}
-                className={cn(
-                    "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-full md:h-[90vh] md:bottom-0 rounded-t-[50px]",
-                )}
-                overlayClassName={cn("bg-black/20 backdrop-blur-sm")}
-            >
-              <ViewMembersContent role={role} onClose={onClose} />
-            </SheetContent>
-        </Sheet>
+      <Sheet open={isOpen} onOpenChange={onClose}>
+        <SheetContent
+          side={"bottom"}
+          className="p-0 bg-card border-none shadow-none w-full h-full"
+          overlayClassName="bg-transparent"
+        >
+          <ViewMembersContent role={role} onClose={onClose} />
+        </SheetContent>
+      </Sheet>
     );
+  }
+
+  return (
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent
+        side={"bottom"}
+        className={cn(
+          "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-full md:h-[90vh] md:bottom-0 rounded-t-[50px]",
+        )}
+        overlayClassName={cn("bg-black/20 backdrop-blur-sm")}
+      >
+        <ViewMembersContent role={role} onClose={onClose} />
+      </SheetContent>
+    </Sheet>
+  );
 }
