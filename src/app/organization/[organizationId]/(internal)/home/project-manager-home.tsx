@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -33,7 +32,6 @@ const allStages: Stage[] = [
     type: "stage",
     createdBy: "Anil Kumar",
     createdAt: "25 May 2024",
-    date: "25 May 2024",
     description:
       "Present the final architectural designs to the client for approval.",
     priority: "Low",
@@ -57,7 +55,6 @@ const allStages: Stage[] = [
     snagCount: 3,
     createdBy: "Site Supervisor",
     createdAt: new Date().toISOString(),
-    date: new Date().toISOString(),
     description: "Begin excavation as per the approved site plan.",
     priority: "High",
     progress: 70,
@@ -75,9 +72,6 @@ const allStages: Stage[] = [
     createdAt: new Date(
       new Date().setDate(new Date().getDate() + 1),
     ).toISOString(),
-    date: new Date(
-      new Date().setDate(new Date().getDate() + 1),
-    ).toISOString(),
     description: "Mark the grid lines for foundation work.",
     priority: "Low",
     progress: 0,
@@ -93,7 +87,6 @@ const allStages: Stage[] = [
     type: "stage",
     createdBy: "Site Supervisor",
     createdAt: "30 May 2024",
-    date: "30 May 2024",
     description: "Lay the foundation for the structure.",
     priority: "High",
     progress: 0,
@@ -109,7 +102,6 @@ const allStages: Stage[] = [
     type: "stage",
     createdBy: "Site Supervisor",
     createdAt: "05 June 2024",
-    date: "05 June 2024",
     description: "Erect the building frame.",
     priority: "Medium",
     progress: 0,
@@ -330,9 +322,9 @@ export default function ProjectManagerHome() {
   const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
   const handleAddTask = (
-    newTask: Omit<Task, "id" | "attachments" | "status">,
+    _newTask: Omit<Task, "id" | "attachments" | "status">,
   ) => {
-    console.log("New task assigned:", newTask);
+    // console.log("New task assigned:", newTask);
   };
 
   const handleUpdateTask = (updatedTask: Task) => {

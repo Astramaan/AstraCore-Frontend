@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -72,7 +71,6 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
         }),
         description,
         priority,
-        status: "Pending", // Default status
         category: category || "General",
         project: "AstraCore App", // Placeholder
         clientId: "CL005", // Placeholder

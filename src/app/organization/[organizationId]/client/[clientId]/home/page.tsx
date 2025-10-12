@@ -23,9 +23,7 @@ function ClientHomePageContent({
 
   if (user.team === "New User") {
     return (
-      <NewUserHomePage
-        params={{ organizationId: user.organizationId, userId: user.userId }}
-      />
+      <NewUserHomePage />
     );
   }
 

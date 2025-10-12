@@ -12,6 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -31,8 +32,8 @@ const EditProfileForm = ({
   profile: initialProfile,
   onSave,
 }: {
-  profile: Record<string, string>;
-  onSave: (data: Record<string, string>) => void;
+  profile: { name: string, phone: string, email: string, pincode: string, address: string };
+  onSave: (data: { name: string, phone: string, email: string, pincode: string, address: string }) => void;
 }) => {
   const [profile, setProfile] = useState(initialProfile);
 
@@ -152,7 +153,7 @@ export default function ClientProfilePageContent() {
     }
   }, [user]);
 
-  const handleSave = (updatedProfile: Record<string, string>) => {
+  const handleSave = (updatedProfile: { name: string, phone: string, email: string, pincode: string, address: string }) => {
     // Here you would also update the user context or make an API call
     setProfile(updatedProfile);
     setIsEditing(false);
