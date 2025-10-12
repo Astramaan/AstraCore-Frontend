@@ -12,7 +12,9 @@ export default function LeadProfilePage() {
         </div>
       }
     >
-      <ClientProfilePageContent />
+      <div className="pb-24">
+        <ClientProfilePageContent />
+      </div>
     </Suspense>
   );
 }

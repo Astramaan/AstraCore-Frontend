@@ -18,7 +18,6 @@ import {
   Check,
   ChevronsUpDown,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -40,7 +39,6 @@ import {
 import { ScrollArea } from "./ui/scroll-area";
 import { updateMeeting } from "@/app/actions";
 import { useToast } from "./ui/use-toast";
-import { SuccessPopup } from "./success-popup";
 
 export interface Meeting {
   id: string;

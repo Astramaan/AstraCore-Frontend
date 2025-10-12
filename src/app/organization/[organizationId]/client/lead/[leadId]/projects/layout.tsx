@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import LeadLayout from "../layout";
 
 export default function ProjectsLayout({
   children,

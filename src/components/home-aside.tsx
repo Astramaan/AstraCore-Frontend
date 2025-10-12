@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { AssignTaskSheet } from "@/components/add-task-sheet";
 import { AddMemberSheet } from "@/components/add-member-sheet";
 import RedirectionArrowIcon from "@/components/icons/redirection-arrow-icon";

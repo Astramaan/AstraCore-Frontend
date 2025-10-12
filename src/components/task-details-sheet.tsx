@@ -5,6 +5,8 @@ import {
   Sheet,
   SheetContent,
   SheetClose,
+  SheetHeader,
+  SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +46,7 @@ import {
 import { ShieldAlert } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import { ProjectTaskDetails } from "./project-task-details";
+import { Separator } from "./ui/separator";
 
 export interface ReworkInfo {
   comments: string;
@@ -611,8 +614,8 @@ export function TaskDetailsSheet({
           "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
         )}
       >
-        <DialogHeader className="p-6 border-b bg-card rounded-t-[50px]">
-          <DialogTitle className="flex items-center text-2xl font-semibold">
+        <SheetHeader className="p-6 border-b bg-card rounded-t-[50px]">
+          <SheetTitle className="flex items-center text-2xl font-semibold">
             {task.isProjectTask
               ? "Project Stage Details"
               : task.isAssigned
@@ -629,8 +632,8 @@ export function TaskDetailsSheet({
                 </Button>
               </SheetClose>
             </div>
-          </DialogTitle>
-        </DialogHeader>
+          </SheetTitle>
+        </SheetHeader>
         <div className="text-[18px] flex-1 flex flex-col overflow-hidden">
           <TaskDetailsContent
             task={task}
