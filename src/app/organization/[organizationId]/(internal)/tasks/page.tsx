@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { TaskDetailsSheet, Task } from "@/components/task-details-sheet";
@@ -14,9 +14,9 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { TaskCard } from "@/components/task-card";
-import { AssignTaskSheet } from "@/components/add-task-sheet";
 import { HomeAside } from "@/components/home-aside";
 import { useUser } from "@/context/user-context";
+import { AddTaskSheet } from "@/components/add-task-sheet";
 
 // Data for Default Home
 const initialTaskData: Task[] = [
@@ -155,7 +155,7 @@ export default function TasksPage() {
   };
 
   const handleAddTask = (
-    newTask: Omit<Task, "id" | "attachments" | "status">,
+    newTask: Omit<Task, "id" | "attachments">,
   ) => {
     console.log("New task assigned:", newTask);
   };
@@ -165,23 +165,26 @@ export default function TasksPage() {
     // Here you would typically update the actual data source
   };
 
-  const applyFilters = (tasks: Task[]) => {
-    if (activeFilter) {
-      return tasks.filter((task) => {
-        if (activeFilter === "High Priority") return task.priority === "High";
-        return task.status === activeFilter;
-      });
-    }
-    return tasks.filter((task) => task.status !== "Completed");
-  };
+  const applyFilters = useCallback(
+    (tasks: Task[]) => {
+      if (activeFilter) {
+        return tasks.filter((task) => {
+          if (activeFilter === "High Priority") return task.priority === "High";
+          return task.status === activeFilter;
+        });
+      }
+      return tasks.filter((task) => task.status !== "Completed");
+    },
+    [activeFilter],
+  );
 
   const filteredMyTasks = useMemo(
     () => applyFilters(initialTaskData),
-    [activeFilter],
+    [applyFilters],
   );
   const filteredAssignedTasks = useMemo(
     () => applyFilters(assignedTasksData),
-    [activeFilter],
+    [applyFilters],
   );
 
   const myTasksChartData = useMemo(() => {
@@ -209,9 +212,6 @@ export default function TasksPage() {
       { name: "Pending", value: pending, fill: "hsl(var(--muted))" },
     ];
   }, []);
-
-  const canManageMembers =
-    user?.roleType === "superAdmin" || user?.team === "Project Manager";
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">

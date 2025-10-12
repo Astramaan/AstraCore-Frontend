@@ -152,7 +152,7 @@ const UploadAttachmentsDialog = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setAttachments((prev) => [...prev, ...Array.from(event.target.files as FileList)]);
+      setAttachments((prev) => [...prev, ...Array.from(event.target.files)]);
     }
   };
 
@@ -603,12 +603,9 @@ export function TaskDetailsSheet({
 }: TaskDetailsSheetProps) {
   if (!task) return null;
 
-  const DialogOrSheet = Sheet;
-  const DialogOrSheetContent = SheetContent;
-
   return (
-    <DialogOrSheet open={isOpen} onOpenChange={onClose}>
-      <DialogOrSheetContent
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent
         side="bottom"
         className={cn(
           "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-xl md:mx-auto rounded-t-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
@@ -641,7 +638,7 @@ export function TaskDetailsSheet({
             onClose={onClose}
           />
         </div>
-      </DialogOrSheetContent>
-    </DialogOrSheet>
+      </SheetContent>
+    </Sheet>
   );
 }

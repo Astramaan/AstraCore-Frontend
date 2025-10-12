@@ -34,9 +34,7 @@ import {
 import AssignTaskIcon from "./icons/assign-task-icon";
 
 interface AssignTaskFormProps {
-  onTaskAssigned: (
-    task: Omit<Task, "id" | "attachments" | "status">,
-  ) => void;
+  onTaskAssigned: (task: Omit<Task, "id" | "attachments">) => void;
   onClose: () => void;
 }
 
@@ -73,6 +71,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
         }),
         description,
         priority,
+        status: "Pending", // Default status
         category: category || "General",
         project: "AstraCore App", // Placeholder
         clientId: "CL005", // Placeholder
@@ -315,36 +314,29 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 };
 
 interface AssignTaskSheetProps {
-  onTaskAssigned: (
-    task: Omit<Task, "id" | "attachments" | "status">,
-  ) => void;
+  onTaskAssigned: (task: Omit<Task, "id" | "attachments">) => void;
 }
 
 export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSuccess = (
-    task: Omit<Task, "id" | "attachments" | "status">,
-  ) => {
+  const handleSuccess = (task: Omit<Task, "id" | "attachments">) => {
     onTaskAssigned(task);
     setIsOpen(false);
     setShowSuccess(true);
   };
 
-  const DialogOrSheet = Sheet;
-  const DialogOrSheetContent = SheetContent;
-
   return (
     <>
-      <DialogOrSheet open={isOpen} onOpenChange={setIsOpen}>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button className="md:flex-none rounded-full h-[54px] bg-primary text-primary-foreground hover:bg-primary/90 md:text-lg w-[54px] md:w-auto p-0 md:px-6">
             <AssignTaskIcon className="w-5 h-5 md:mr-2" />
             <span className="hidden md:inline">Assign task</span>
           </Button>
         </SheetTrigger>
-        <DialogOrSheetContent
+        <SheetContent
           side="bottom"
           className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
         >
@@ -373,8 +365,8 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
               onClose={() => setIsOpen(false)}
             />
           </div>
-        </DialogOrSheetContent>
-      </DialogOrSheet>
+        </SheetContent>
+      </Sheet>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}

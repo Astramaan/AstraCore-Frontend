@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { AssignTaskSheet } from "@/components/add-task-sheet";
+import { AddTaskSheet } from "@/components/add-task-sheet";
 import { AddMemberSheet } from "@/components/add-member-sheet";
 import RedirectionArrowIcon from "@/components/icons/redirection-arrow-icon";
 import { TaskOverviewChart } from "@/components/charts/task-overview-chart";
@@ -52,7 +52,7 @@ interface HomeAsideProps {
   assignedTasksChartData?: { name: string; value: number; fill?: string }[];
   projectTasksChartData?: { name: string; value: number; fill: string }[];
   onMeetingClick?: (meeting: Meeting) => void;
-  onAddTask?: (task: Omit<Task, "id" | "attachments" | "status">) => void;
+  onAddTask?: (task: Omit<Task, "id" | "attachments">) => void;
   showAddMemberButton?: boolean;
   showAddTaskButton?: boolean;
 }

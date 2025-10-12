@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
@@ -33,11 +33,10 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "./ui/scroll-area";
-import { useUser } from "@/context/user-context";
+import { useUser, type User } from "@/context/user-context";
 import { BrandingSheet } from "./branding-sheet";
 
 const initialMemberData = {
@@ -63,8 +62,8 @@ const EditProfileForm = React.memo(
     onSave,
     onCancel,
   }: {
-    member: any;
-    onSave: (data: any) => void;
+    member: User;
+    onSave: (data: Partial<User>) => void;
     onCancel: () => void;
   }) => {
     const { user, setUser } = useUser();
@@ -77,21 +76,27 @@ const EditProfileForm = React.memo(
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      setFormData((prev: any) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleRoleChange = (value: string) => {
-      if (value !== formData.role && member.role === "Super Admin") {
-        setPendingRole(value);
-        setIsRoleChangeConfirmOpen(true);
-      } else {
-        setFormData((prev: any) => ({ ...prev, team: value }));
-      }
-    };
+    const handleRoleChange = useCallback(
+      (value: string) => {
+        if (
+          value !== formData.role &&
+          formData.role?.toUpperCase() === "SUPER ADMIN"
+        ) {
+          setPendingRole(value);
+          setIsRoleChangeConfirmOpen(true);
+        } else {
+          setFormData((prev) => ({ ...prev, team: value }));
+        }
+      },
+      [formData.role],
+    );
 
     const confirmRoleChange = () => {
       if (pendingRole) {
-        setFormData((prev: any) => ({ ...prev, team: pendingRole }));
+        setFormData((prev) => ({ ...prev, team: pendingRole }));
       }
       setPendingRole(null);
       setIsRoleChangeConfirmOpen(false);
@@ -141,8 +146,8 @@ const EditProfileForm = React.memo(
         });
         const data = await res.json();
         if (data.success) {
-          const updatedUser = { ...user, ...formData };
-          setUser(updatedUser as any);
+          const updatedUser = { ...user, ...formData } as User;
+          setUser(updatedUser);
           onSave(formData);
           toast({
             title: "Success!",
@@ -168,7 +173,7 @@ const EditProfileForm = React.memo(
 
     return (
       <form onSubmit={handleSubmit} className="flex flex-col h-full">
-        <input type="hidden" name="id" value={member.id} />
+        <input type="hidden" name="id" value={member.userId} />
         <SheetHeader className="p-6 border-b bg-card rounded-t-[50px] shrink-0">
           <SheetTitle className="flex justify-between items-center">
             <span className="text-2xl font-semibold">Edit Profile</span>
@@ -207,7 +212,7 @@ const EditProfileForm = React.memo(
                   id="dob"
                   name="dob"
                   label="Date of Birth"
-                  value={formData.dob}
+                  value={initialMemberData.dob} // Assuming DOB is not editable from user object
                   onChange={handleInputChange}
                 />
               </div>
@@ -247,7 +252,7 @@ const EditProfileForm = React.memo(
                   id="address"
                   name="address"
                   label="Address"
-                  value={formData.address}
+                  value={initialMemberData.address} // Assuming address is not editable from user object
                   onChange={handleInputChange}
                 />
               </div>
@@ -321,7 +326,9 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
   const isOwner = user?.userId === memberId;
   const isSuperAdmin = user?.role === "SUPER_ADMIN";
 
-  const handleSave = (updatedMember: any) => {
+  const handleSave = (updatedData: Partial<User>) => {
+    // Here you would typically call an action to save the data
+    console.log("Updated Member Data:", updatedData);
     setIsEditing(false);
   };
 
