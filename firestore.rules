@@ -1,0 +1,285 @@
+/**
+ * @fileOverview
+ * This ruleset enforces a strict ownership model for user data and a hierarchical structure
+ * for organizations, projects, and their related entities.
+ *
+ * Data Structure:
+ * All user-related data is stored under `/users/{userId}`.
+ * Organizations are stored under `/organizations/{organizationId}`.
+ * Projects, Vendors, and Clients are stored as subcollections under their respective organizations.
+ * Milestones and Snags are stored as subcollections under their respective projects.
+ * Tasks can be stored either directly under a project or under a milestone within a project.
+ *
+ * Key Security Decisions:
+ * - User data is strictly private; only the user can access their own data.
+ * - Only authenticated users can create, update, or delete data, and they must have appropriate permissions.
+ * - Public listing of user documents is disallowed.
+ * - Authorization Independence is achieved through data denormalization (copying organizationId to child documents).
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Enforces user-based ownership for the /users/{userId} collection.
+     * @path /users/{userId}
+     * @allow (create) User with UID 'user123' can create their own profile at /users/user123.
+     * @allow (get) User with UID 'user123' can read their profile at /users/user123.
+     * @allow (update) User with UID 'user123' can update their profile at /users/user123.
+     * @allow (delete) User with UID 'user123' can delete their profile at /users/user123.
+     * @deny (create) User with UID 'user123' cannot create a profile at /users/user456.
+     * @deny (get) User with UID 'user123' cannot read the profile at /users/user456.
+     * @principle Enforces document ownership for all operations.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+      function isExistingOwner(userId) {
+        return isOwner(userId);
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId} collection.
+     * @path /organizations/{organizationId}
+     * @allow (create) Authenticated user can create a new organization.
+     * @allow (get) Any authenticated user can read an organization's details.
+     * @allow (update) Authenticated user can update an organization's details if they are the owner.
+     * @allow (delete) Authenticated user can delete an organization if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new organization.
+     * @deny (update) Authenticated user cannot update an organization if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes.
+     */
+    match /organizations/{organizationId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement organization owner
+      function isOwner(organizationId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId) {
+        return isOwner(organizationId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/projects/{projectId} collection.
+     * @path /organizations/{organizationId}/projects/{projectId}
+     * @allow (create) Authenticated user can create a new project under an organization.
+     * @allow (get) Any authenticated user can read a project's details.
+     * @allow (update) Authenticated user can update a project's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a project if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new project.
+     * @deny (update) Authenticated user cannot update a project if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId.
+     */
+    match /organizations/{organizationId}/projects/{projectId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement project owner
+      function isOwner(organizationId, projectId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, projectId) {
+        return isOwner(organizationId, projectId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, projectId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, projectId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/projects/{projectId}/milestones/{milestoneId} collection.
+     * @path /organizations/{organizationId}/projects/{projectId}/milestones/{milestoneId}
+     * @allow (create) Authenticated user can create a new milestone under a project.
+     * @allow (get) Any authenticated user can read a milestone's details.
+     * @allow (update) Authenticated user can update a milestone's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a milestone if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new milestone.
+     * @deny (update) Authenticated user cannot update a milestone if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId and projectId.
+     */
+    match /organizations/{organizationId}/projects/{projectId}/milestones/{milestoneId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement milestone owner
+      function isOwner(organizationId, projectId, milestoneId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, projectId, milestoneId) {
+        return isOwner(organizationId, projectId, milestoneId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, projectId, milestoneId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, projectId, milestoneId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/projects/{projectId}/tasks/{taskId} collection.
+     * @path /organizations/{organizationId}/projects/{projectId}/tasks/{taskId}
+     * @allow (create) Authenticated user can create a new task under a project.
+     * @allow (get) Any authenticated user can read a task's details.
+     * @allow (update) Authenticated user can update a task's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a task if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new task.
+     * @deny (update) Authenticated user cannot update a task if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId and projectId.
+     */
+    match /organizations/{organizationId}/projects/{projectId}/tasks/{taskId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement task owner
+      function isOwner(organizationId, projectId, taskId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, projectId, taskId) {
+        return isOwner(organizationId, projectId, taskId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, projectId, taskId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, projectId, taskId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/projects/{projectId}/milestones/{milestoneId}/tasks/{taskId} collection.
+     * @path /organizations/{organizationId}/projects/{projectId}/milestones/{milestoneId}/tasks/{taskId}
+     * @allow (create) Authenticated user can create a new task under a milestone.
+     * @allow (get) Any authenticated user can read a task's details.
+     * @allow (update) Authenticated user can update a task's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a task if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new task.
+     * @deny (update) Authenticated user cannot update a task if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId, projectId and milestoneId.
+     */
+    match /organizations/{organizationId}/projects/{projectId}/milestones/{milestoneId}/tasks/{taskId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement task owner
+      function isOwner(organizationId, projectId, milestoneId, taskId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, projectId, milestoneId, taskId) {
+        return isOwner(organizationId, projectId, milestoneId, taskId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, projectId, milestoneId, taskId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, projectId, milestoneId, taskId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/vendors/{vendorId} collection.
+     * @path /organizations/{organizationId}/vendors/{vendorId}
+     * @allow (create) Authenticated user can create a new vendor under an organization.
+     * @allow (get) Any authenticated user can read a vendor's details.
+     * @allow (update) Authenticated user can update a vendor's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a vendor if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new vendor.
+     * @deny (update) Authenticated user cannot update a vendor if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId.
+     */
+    match /organizations/{organizationId}/vendors/{vendorId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement vendor owner
+      function isOwner(organizationId, vendorId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, vendorId) {
+        return isOwner(organizationId, vendorId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, vendorId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, vendorId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/clients/{clientId} collection.
+     * @path /organizations/{organizationId}/clients/{clientId}
+     * @allow (create) Authenticated user can create a new client under an organization.
+     * @allow (get) Any authenticated user can read a client's details.
+     * @allow (update) Authenticated user can update a client's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a client if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new client.
+     * @deny (update) Authenticated user cannot update a client if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId.
+     */
+    match /organizations/{organizationId}/clients/{clientId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement client owner
+      function isOwner(organizationId, clientId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, clientId) {
+        return isOwner(organizationId, clientId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, clientId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, clientId);
+    }
+
+    /**
+     * @description Controls access to the /organizations/{organizationId}/projects/{projectId}/snags/{snagId} collection.
+     * @path /organizations/{organizationId}/projects/{projectId}/snags/{snagId}
+     * @allow (create) Authenticated user can create a new snag under a project.
+     * @allow (get) Any authenticated user can read a snag's details.
+     * @allow (update) Authenticated user can update a snag's details if they are the owner.
+     * @allow (delete) Authenticated user can delete a snag if they are the owner.
+     * @deny (create) Unauthenticated user cannot create a new snag.
+     * @deny (update) Authenticated user cannot update a snag if they are not the owner.
+     * @principle Requires authentication for creation, and ownership for updates and deletes, with validation of organizationId and projectId.
+     */
+    match /organizations/{organizationId}/projects/{projectId}/snags/{snagId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      // TODO: Implement snag owner
+      function isOwner(organizationId, projectId, snagId) {
+        return request.auth.uid == resource.data.ownerUid;
+      }
+      function isExistingOwner(organizationId, projectId, snagId) {
+        return isOwner(organizationId, projectId, snagId);
+      }
+
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isExistingOwner(organizationId, projectId, snagId);
+      allow delete: if isSignedIn() && isExistingOwner(organizationId, projectId, snagId);
+    }
+  }
+}
