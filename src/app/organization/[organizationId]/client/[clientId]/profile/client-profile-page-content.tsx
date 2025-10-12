@@ -11,7 +11,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
@@ -31,11 +30,9 @@ const DetailField = ({ label, value }: { label: string; value: string }) => (
 const EditProfileForm = ({
   profile: initialProfile,
   onSave,
-  onClose,
 }: {
-  profile: any;
-  onSave: (data: any) => void;
-  onClose: () => void;
+  profile: Record<string, string>;
+  onSave: (data: Record<string, string>) => void;
 }) => {
   const [profile, setProfile] = useState(initialProfile);
 
@@ -141,7 +138,7 @@ export default function ClientProfilePageContent() {
     email: "yash007@gmail.com",
     pincode: "560109",
     address:
-      "43, Second Floor, Leela Palace Rd, behind The Leela Palace, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
+      "#3, Ganigarapalya, Thalaghattpura post, Bengaluru, Karnataka 560008",
   });
 
   useEffect(() => {
@@ -155,7 +152,7 @@ export default function ClientProfilePageContent() {
     }
   }, [user]);
 
-  const handleSave = (updatedProfile: any) => {
+  const handleSave = (updatedProfile: Record<string, string>) => {
     // Here you would also update the user context or make an API call
     setProfile(updatedProfile);
     setIsEditing(false);
@@ -198,7 +195,6 @@ export default function ClientProfilePageContent() {
                   <EditProfileForm
                     profile={profile}
                     onSave={handleSave}
-                    onClose={() => setIsEditing(false)}
                   />
                 </SheetContent>
               </Sheet>

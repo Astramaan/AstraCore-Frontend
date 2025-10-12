@@ -7,7 +7,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export interface User {
   userId: string;
@@ -35,7 +35,6 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUserState] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -69,6 +68,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const isSuperAdmin = user?.role === "SUPER_ADMIN";
   const isClient = user?.role === "CLIENT";
+  
+  // A simple auth guard. In a real app, this would be more robust.
+  useEffect(() => {
+    if (!loading && !user && pathname !== '/' && !pathname.startsWith('/signup') && !pathname.startsWith('/forgot-password') && !pathname.startsWith('/otp-verification')) {
+        window.location.href = "/";
+    }
+  }, [loading, user, pathname]);
 
   return (
     <UserContext.Provider

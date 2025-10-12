@@ -7,29 +7,26 @@ import { revalidatePath } from "next/cache";
 // We are only using this file for Next.js-specific server functions like revalidatePath if needed.
 
 export async function addMember(
-  prevState: unknown,
-  formData: FormData,
+  _prevState: unknown,
+  _formData: FormData,
 ): Promise<{ success: boolean; message: string }> {
   // This is a placeholder. The actual logic is in the AddMemberSheet component for now.
   // In a real app, you would handle form submission to your backend here.
-  console.log(prevState, formData);
   return { success: true, message: "Member added (placeholder action)." };
 }
 
 export async function createPassword(
-  prevState: unknown,
-  formData: FormData,
+  _prevState: unknown,
+  _formData: FormData,
 ): Promise<{ success: boolean; message: string }> {
-  console.log(prevState, formData);
   return { success: true, message: "Password created (placeholder action)." };
 }
 
 export async function requestPasswordReset(
-  prevState: unknown,
+  _prevState: unknown,
   formData: FormData,
 ): Promise<{ success: boolean; message: string }> {
   const email = formData.get("email");
-  console.log(prevState, `Requesting password reset for ${email}`);
   // In a real app, you'd send a reset link to this email
   return {
     success: true,
@@ -38,11 +35,10 @@ export async function requestPasswordReset(
 }
 
 export async function deactivateUser(
-  prevState: unknown,
+  _prevState: unknown,
   formData: FormData,
 ): Promise<{ success: boolean; message: string }> {
   const userId = formData.get("userId");
-  console.log(prevState, `Deactivating user ${userId}`);
   return { success: true, message: `User ${userId} deactivated.` };
 }
 
@@ -61,7 +57,7 @@ export async function createMeeting(formData: Record<string, unknown>) {
     }
     revalidatePath("/meetings");
     return { success: true, data: await res.json() };
-  } catch (e) {
+  } catch (e: unknown) {
     return { success: false, message: "An unexpected error occurred." };
   }
 }
@@ -83,7 +79,7 @@ export async function updateMeeting(formData: Record<string, unknown>) {
     }
     revalidatePath(`/meetings`);
     return { success: true, data: await res.json() };
-  } catch (e) {
+  } catch (e: unknown) {
     return { success: false, message: "An unexpected error occurred." };
   }
 }
@@ -102,7 +98,7 @@ export async function getLeadByEmail(email: string) {
     }
     const data = await res.json();
     return { success: data.success, data: data.data };
-  } catch (error) {
+  } catch (error: unknown) {
     return { success: false, message: "An unexpected network error occurred." };
   }
 }

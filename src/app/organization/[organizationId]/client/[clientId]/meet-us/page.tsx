@@ -62,7 +62,7 @@ const AppointmentCard = ({
       <Card className="w-full max-w-sm rounded-[50px] p-6 text-center">
         <CardContent className="p-0">
           <h2 className="text-2xl font-semibold mb-2">
-            We're coming to meet you.
+            We&apos;re coming to meet you.
           </h2>
           <p className="text-lg text-muted-foreground mb-6">
             {formattedDate} - {appointment.time}
@@ -72,7 +72,7 @@ const AppointmentCard = ({
               className="w-full h-14 rounded-full text-lg bg-zinc-200 hover:bg-zinc-200/90 text-black"
               disabled
             >
-              We're coming
+              We&apos;re coming
             </Button>
             <Button
               variant="outline"
@@ -117,7 +117,7 @@ const AppointmentCard = ({
   return (
     <Card className="w-full max-w-sm rounded-[50px] p-6 text-center">
       <CardContent className="p-0">
-        <h2 className="text-2xl font-semibold mb-2">We're waiting for you!</h2>
+        <h2 className="text-2xl font-semibold mb-2">We&apos;re waiting for you!</h2>
         <p className="text-lg text-muted-foreground mb-6">
           {formattedDate} - {appointment.time}
         </p>
@@ -135,7 +135,7 @@ const AppointmentCard = ({
           <div className="absolute inset-0 bg-black/10 rounded-3xl pointer-events-none"></div>
           <div className="absolute flex flex-col items-center text-white pointer-events-none">
             <MapPin className="w-8 h-8" />
-            <span className="font-semibold mt-1">Office's Location</span>
+            <span className="font-semibold mt-1">Office&apos;s Location</span>
           </div>
         </div>
         <Button
@@ -329,7 +329,7 @@ export default function MeetUsPage() {
                   href="#book-consultation-section"
                   className="text-foreground hover:text-primary text-sm font-normal underline leading-none"
                 >
-                  Still have a questions ?
+                  Still have a question?
                 </a>
               </div>
             </CardContent>

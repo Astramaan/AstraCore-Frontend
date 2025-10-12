@@ -18,7 +18,7 @@ export default function ClientLayout({
   const [isNativeApp, setIsNativeApp] = useState(false);
 
   useEffect(() => {
-    // @ts-expect-error
+    // @ts-expect-error This is a custom property injected by the native app wrapper.
     if (window.isNativeApp || searchParams.get("isNativeApp") === "true") {
       setIsNativeApp(true);
     }

@@ -6,26 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const Sheet = ({ onOpenChange, ...props }: SheetPrimitive.DialogProps) => {
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.setProperty(
-        "--scrollbar-width",
-        `${scrollbarWidth}px`,
-      );
-      document.body.setAttribute("data-scroll-locked", "true");
-    } else {
-      setTimeout(() => {
-        document.body.removeAttribute("data-scroll-locked");
-        document.body.style.removeProperty("--scrollbar-width");
-      }, 300);
-    }
-    onOpenChange?.(open);
-  };
-  return <SheetPrimitive.Root onOpenChange={handleOpenChange} {...props} />;
-};
+const Sheet = SheetPrimitive.Root;
 
 const SheetTrigger = SheetPrimitive.Trigger;
 

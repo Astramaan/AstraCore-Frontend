@@ -184,9 +184,9 @@ export default function DefaultHomePage() {
   const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
   const handleAddTask = (
-    newTask: Omit<Task, "id" | "attachments" | "status">,
+    _newTask: Omit<Task, "id" | "attachments" | "status">,
   ) => {
-    console.log("New task assigned:", newTask);
+    // console.log("New task assigned:", newTask);
   };
 
   const handleUpdateTask = (updatedTask: Task) => {
@@ -194,15 +194,18 @@ export default function DefaultHomePage() {
     // Here you would typically update the actual data source
   };
 
-  const applyFilters = useCallback((tasks: Task[]) => {
-    if (activeFilter) {
-      return tasks.filter((task) => {
-        if (activeFilter === "High Priority") return task.priority === "High";
-        return task.status === activeFilter;
-      });
-    }
-    return tasks.filter((task) => task.status !== "Completed");
-  }, [activeFilter]);
+  const applyFilters = useCallback(
+    (tasks: Task[]) => {
+      if (activeFilter) {
+        return tasks.filter((task) => {
+          if (activeFilter === "High Priority") return task.priority === "High";
+          return task.status === activeFilter;
+        });
+      }
+      return tasks.filter((task) => task.status !== "Completed");
+    },
+    [activeFilter],
+  );
 
   const filteredMyTasks = useMemo(
     () => applyFilters(initialTaskData),
