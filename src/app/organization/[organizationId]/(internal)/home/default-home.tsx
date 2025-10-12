@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { TaskCard } from "@/components/task-card";
-import { AssignTaskSheet } from "@/components/add-task-sheet";
+import { AddTaskSheet } from "@/components/add-task-sheet";
 import { AddMemberSheet } from "@/components/add-member-sheet";
 
 // Data for Default Home
@@ -285,7 +285,7 @@ export default function DefaultHomePage() {
               </DropdownMenuContent>
             </DropdownMenu>
             <div className="flex items-center gap-4">
-              <AssignTaskSheet onTaskAssigned={handleAddTask} />
+              <AddTaskSheet onTaskAssigned={handleAddTask} />
               <AddMemberSheet />
             </div>
           </div>
