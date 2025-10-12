@@ -29,8 +29,9 @@ function getAuthHeaders(req: NextRequest): Record<string, string> {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { projectId: string } },
+  context: { params: { projectId: string } },
 ) {
+  const { params } = context;
   try {
     const res = await fetch(
       `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
@@ -51,8 +52,9 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { projectId: string } },
+  context: { params: { projectId: string } },
 ) {
+  const { params } = context;
   try {
     const body = await req.json();
     const res = await fetch(
@@ -76,8 +78,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { projectId: string } },
+  context: { params: { projectId: string } },
 ) {
+  const { params } = context;
   try {
     const res = await fetch(
       `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
