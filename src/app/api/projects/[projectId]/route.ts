@@ -1,4 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server";
+
+import { type NextRequest, NextResponse } from "next/server";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
@@ -29,9 +30,8 @@ function getAuthHeaders(req: NextRequest): Record<string, string> {
 
 export async function GET(
   req: NextRequest,
-  context: { params: { projectId: string } },
+  { params }: { params: { projectId: string } },
 ) {
-  const { params } = context;
   try {
     const res = await fetch(
       `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
@@ -52,9 +52,8 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  context: { params: { projectId: string } },
+  { params }: { params: { projectId: string } },
 ) {
-  const { params } = context;
   try {
     const body = await req.json();
     const res = await fetch(
@@ -78,9 +77,8 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { projectId: string } },
+  { params }: { params: { projectId: string } },
 ) {
-  const { params } = context;
   try {
     const res = await fetch(
       `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
