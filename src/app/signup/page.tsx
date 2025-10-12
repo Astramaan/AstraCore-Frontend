@@ -2,11 +2,7 @@ import SignupForm from "@/components/signup-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
-export default function SignupPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function SignupPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Combined Layout */}

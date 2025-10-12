@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Image from "next/image";
 import {
   GanttChartSquare,
   Award,
@@ -21,7 +20,6 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
-import { ClientHeader } from "@/components/client-header";
 
 const FeatureCard = ({
   icon,

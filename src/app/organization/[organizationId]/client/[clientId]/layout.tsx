@@ -6,7 +6,6 @@ import { useUser } from "@/context/user-context";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ClientHeader } from "@/components/client-header";
-import Image from "next/image";
 
 export default function ClientLayout({
   children,
@@ -19,7 +18,7 @@ export default function ClientLayout({
   const [isNativeApp, setIsNativeApp] = useState(false);
 
   useEffect(() => {
-    // @ts-ignore
+    // @ts-expect-error
     if (window.isNativeApp || searchParams.get("isNativeApp") === "true") {
       setIsNativeApp(true);
     }

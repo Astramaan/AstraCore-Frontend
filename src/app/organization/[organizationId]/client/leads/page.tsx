@@ -2,7 +2,6 @@
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -14,14 +13,12 @@ import {
 import {
   MoreVertical,
   Search,
-  Plus,
   Phone,
   ChevronDown,
   Trash2,
   ShieldAlert,
   RefreshCw,
   X,
-  Edit,
 } from "lucide-react";
 import { AddLeadSheet } from "@/components/add-lead-sheet";
 import {
@@ -43,10 +40,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { LeadDetailsSheet, type Lead } from "@/components/lead-details-sheet";
-import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -54,7 +48,6 @@ import { useUser } from "@/context/user-context";
 
 const LeadCard = ({
   lead,
-  organizationId,
   onSelectionChange,
   isSelected,
   onSingleDelete,
@@ -62,11 +55,9 @@ const LeadCard = ({
   onViewDetails,
   onLevelChange,
   onEdit,
-  isFirst,
   isLast,
 }: {
   lead: Lead;
-  organizationId: string;
   onSelectionChange: (id: string, checked: boolean) => void;
   isSelected: boolean;
   onSingleDelete: (id: string) => void;
@@ -74,7 +65,6 @@ const LeadCard = ({
   onViewDetails: (lead: Lead) => void;
   onLevelChange: (leadId: string, level: string) => void;
   onEdit: (lead: Lead) => void;
-  isFirst?: boolean;
   isLast?: boolean;
 }) => (
   <div className="flex flex-col group">
