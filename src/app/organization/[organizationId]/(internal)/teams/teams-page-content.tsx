@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useMemo, useEffect, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,8 +13,8 @@ import {
   Shield,
   Users,
   ChevronLeft,
+  LucideProps,
 } from "lucide-react";
-import React, { useState, useMemo, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import {
   ViewMembersSheet,
@@ -24,21 +25,6 @@ import { CreateDepartmentSheet } from "@/components/create-department-sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/context/user-context";
 import { AddMemberSheet } from "@/components/add-member-sheet";
-
-const roleIconsAndColors: {
-  [key: string]: { icon: React.ElementType; bgColor: string };
-} = {
-  "Super Admin": { icon: Shield, bgColor: "bg-red-200/30" },
-  "Project Manager": { icon: Briefcase, bgColor: "bg-blue-300/30" },
-  "Site Supervisor": { icon: Users, bgColor: "bg-green-300/30" },
-  Architect: { icon: Palette, bgColor: "bg-purple-300/30" },
-  Sales: { icon: Briefcase, bgColor: "bg-yellow-400/30" },
-  "Software Development": { icon: Code, bgColor: "bg-blue-300/30" },
-  Design: { icon: Palette, bgColor: "bg-purple-300/30" },
-  "Support & Feedback": { icon: Users, bgColor: "bg-green-300/30" },
-  "Human Resources": { icon: Users, bgColor: "bg-pink-300/30" },
-  default: { icon: Users, bgColor: "bg-gray-200/30" },
-};
 
 const allRoles: Role[] = [
   {
@@ -196,7 +182,7 @@ const RoleCard = ({
   role: Role;
   onViewMembers: (role: Role) => void;
 }) => {
-  const IconComponent = role.icon as React.ElementType;
+  const IconComponent = role.icon as React.ElementType<LucideProps>;
   return (
     <>
       {/* Desktop & Tablet View */}
@@ -326,10 +312,8 @@ const RoleCardSkeleton = () => (
 );
 
 export default function TeamsPageContent() {
-  const params = useParams();
-  const organizationId = params.organizationId as string;
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
@@ -430,7 +414,9 @@ export default function TeamsPageContent() {
               <div className="text-center py-10 text-muted-foreground">
                 <p>No teams found.</p>
                 {user?.roleType === "superAdmin" && (
-                  <p>Click "Create New Team" to add one.</p>
+                  <p>
+                    Click &ldquo;Create New Team&rdquo; to add one.
+                  </p>
                 )}
               </div>
             )}
