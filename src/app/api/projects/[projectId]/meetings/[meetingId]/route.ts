@@ -53,7 +53,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: NextRequest,
+  req: NextRequest,
   { params }: { params: { projectId: string; meetingId: string } },
 ) {
   try {
@@ -61,7 +61,7 @@ export async function DELETE(
       `${API_BASE_URL}/api/v1/org/projects/${params.projectId}/meetings/${params.meetingId}`,
       {
         method: "DELETE",
-        headers: getAuthHeaders(request),
+        headers: getAuthHeaders(req),
       },
     );
 

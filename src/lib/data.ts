@@ -1,3 +1,5 @@
+import type { User } from "@/context/user-context";
+
 export interface Member {
   id: string;
   name: string;
@@ -43,9 +45,8 @@ export interface Lead {
   siteImages: string[];
 }
 
-
 export async function getProjects(
-  user: any,
+  user: User,
 ): Promise<{ success: boolean; data?: any[]; message?: string }> {
   try {
     const res = await fetch(`/api/projects`, {
@@ -73,7 +74,7 @@ export async function getProjects(
   }
 }
 
-export async function getProjectDetails(projectId: string, user: any) {
+export async function getProjectDetails(projectId: string, user: User) {
   try {
     const res = await fetch(`/api/projects/${projectId}`, {
       headers: {

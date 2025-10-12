@@ -13,22 +13,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
-  PlusCircle,
   X,
   Plus,
   Calendar as CalendarIcon,
   Check,
   ChevronsUpDown,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-  DialogTrigger,
-} from "./ui/dialog";
+
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -136,7 +127,6 @@ const CreateMeetingForm = ({
   onMeetingCreated: (meeting: Omit<Meeting, "id">) => void;
   onClose: () => void;
 }) => {
-  const { user } = useUser();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = React.useState<Date>();
@@ -703,7 +693,7 @@ export function CreateMeetingSheet({
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button className="rounded-full h-[54px] w-[54px] p-0 md:w-auto md:px-6 bg-primary/10 text-primary dark:text-primary dark:bg-primary/10 border border-primary hover:bg-primary/20 text-lg font-medium shrink-0">
-            <PlusCircle className="h-5 w-5 md:mr-2" />
+            <Plus className="h-5 w-5 md:mr-2" />
             <span className="hidden md:inline">Create</span>
           </Button>
         </SheetTrigger>

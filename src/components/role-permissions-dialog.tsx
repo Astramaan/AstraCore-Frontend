@@ -9,7 +9,7 @@ import {
   DialogClose,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { X, ArrowRight, LucideProps } from "lucide-react";
+import { X, ArrowRight, type LucideProps } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { FeatureAccessDialog } from "./feature-access-dialog";
 

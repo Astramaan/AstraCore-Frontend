@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -12,14 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X, Upload, Trash2, Edit, ArrowRight } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "./ui/dialog";
+import { Plus, X, Upload, Trash2, ArrowRight } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { Textarea } from "./ui/textarea";
 import Image from "next/image";
@@ -347,7 +341,7 @@ const AddVendorForm = ({
     };
 
   const handleDayToggle = (day: string) => {
-    setSelectedDays((prev: string[]) =>
+    setSelectedDays((prev) =>
       prev.includes(day)
         ? prev.filter((d: string) => d !== day)
         : [...prev, day],
@@ -939,7 +933,6 @@ export function AddVendorSheet({
     setIsOpen(false);
     if (isEditMode && onVendorUpdated) {
       // onVendorUpdated(updatedData); // You'd pass the updated data here
-      // Don't show success popup on edit for now, or use a different one
     } else {
       setShowSuccess(true);
     }
@@ -963,12 +956,6 @@ export function AddVendorSheet({
     else setIsOpen(true);
   };
 
-  const DialogOrSheet = Sheet;
-  const DialogOrSheetContent = SheetContent;
-  const DialogOrSheetHeader = SheetHeader;
-  const DialogOrSheetTitle = SheetTitle;
-  const DialogOrSheetClose = SheetClose;
-
   const Trigger = triggerButton ? (
     <div onClick={() => setIsOpen(true)}>{triggerButton}</div>
   ) : (
@@ -980,24 +967,24 @@ export function AddVendorSheet({
 
   return (
     <>
-      <DialogOrSheet open={isOpen} onOpenChange={handleOpenChange}>
+      <Sheet open={isOpen} onOpenChange={handleOpenChange}>
         <SheetTrigger asChild>{Trigger}</SheetTrigger>
-        <DialogOrSheetContent
+        <SheetContent
           side="bottom"
           className={cn(
             "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
           )}
         >
-          <DialogOrSheetHeader className="p-6 border-b shrink-0">
+          <SheetHeader className="p-6 border-b shrink-0">
             <div className="flex items-center justify-between">
-              <DialogOrSheetTitle className="text-2xl font-semibold">
+              <SheetTitle className="text-2xl font-semibold">
                 {isEditMode
                   ? "Edit Vendor"
                   : step === "addVendor"
                     ? "Add New Vendor"
                     : "Add Materials"}
-              </DialogOrSheetTitle>
-              <DialogOrSheetClose asChild>
+              </SheetTitle>
+              <SheetClose asChild>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -1005,9 +992,9 @@ export function AddVendorSheet({
                 >
                   <X className="h-6 w-6" />
                 </Button>
-              </DialogOrSheetClose>
+              </SheetClose>
             </div>
-          </DialogOrSheetHeader>
+          </SheetHeader>
           <div className="flex-1 flex flex-col overflow-hidden">
             {step === "addVendor" ? (
               <AddVendorForm onNext={handleNext} vendorToEdit={vendorToEdit} />
@@ -1020,8 +1007,8 @@ export function AddVendorSheet({
               />
             )}
           </div>
-        </DialogOrSheetContent>
-      </DialogOrSheet>
+        </SheetContent>
+      </Sheet>
       {!isEditMode && (
         <SuccessPopup
           isOpen={showSuccess}
