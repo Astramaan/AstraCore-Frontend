@@ -52,7 +52,7 @@ export default function SetPasswordForm({
           description: data.message,
         });
       }
-    } catch (err) {
+    } catch (err: any) {
       toast({
         variant: "destructive",
         title: "Error",

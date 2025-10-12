@@ -1,23 +1,13 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  PlusCircle,
   Calendar as CalendarIcon,
   UploadCloud,
   X,
-  Plus,
   Paperclip,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -41,7 +31,6 @@ import {
   SheetTrigger,
   SheetClose,
 } from "./ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
 import AssignTaskIcon from "./icons/assign-task-icon";
 
 interface AssignTaskFormProps {
@@ -331,7 +320,7 @@ interface AssignTaskSheetProps {
   ) => void;
 }
 
-export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
+export function AddTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -359,14 +348,14 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
           side="bottom"
           className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
         >
-          <DialogHeader className="p-6 border-b rounded-t-[50px] bg-card">
+          <SheetHeader className="p-6 border-b rounded-t-[50px] bg-card">
             <div className="flex justify-between items-center">
-              <DialogTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
+              <SheetTitle className="flex items-center text-2xl font-semibold gilroy-semibold">
                 <div className="w-[54px] h-[54px] rounded-full border border-stone-300 flex items-center justify-center mr-3">
                   <AssignTaskIcon className="h-6 w-6" />
                 </div>
                 Assign task
-              </DialogTitle>
+              </SheetTitle>
               <SheetClose asChild>
                 <Button
                   variant="ghost"
@@ -377,7 +366,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
                 </Button>
               </SheetClose>
             </div>
-          </DialogHeader>
+          </SheetHeader>
           <div className="font-gilroy-medium text-[18px] flex-1 flex flex-col overflow-hidden">
             <AssignTaskForm
               onTaskAssigned={handleSuccess}

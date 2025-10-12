@@ -1,7 +1,5 @@
 "use server";
 
-import type { User } from "@/context/user-context";
-
 // This file is intentionally sparse.
 // All data fetching and mutations are handled by API proxy routes in /src/app/api.
 // We are only using this file for Next.js-specific server functions like revalidatePath if needed.
@@ -46,7 +44,7 @@ export async function createMeeting(formData: any) {
       return { success: false, message: error.message };
     }
     return { success: true, data: await res.json() };
-  } catch (e) {
+  } catch (e: any) {
     return { success: false, message: "An unexpected error occurred." };
   }
 }
@@ -67,7 +65,7 @@ export async function updateMeeting(formData: any) {
       return { success: false, message: error.message };
     }
     return { success: true, data: await res.json() };
-  } catch (e) {
+  } catch (e: any) {
     return { success: false, message: "An unexpected error occurred." };
   }
 }

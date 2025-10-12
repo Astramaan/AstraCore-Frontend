@@ -10,16 +10,14 @@ import { cn } from "@/lib/utils";
 
 export default function ResetPasswordForm({
   searchParams,
-  onSuccess,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
-  onSuccess: () => void;
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <form action={onSuccess}>
+    <form>
       <input type="hidden" name="email" value={searchParams.email || ""} />
       <div className="space-y-6">
         <div className="space-y-2">

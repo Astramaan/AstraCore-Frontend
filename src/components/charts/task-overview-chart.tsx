@@ -9,8 +9,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { motion } from "framer-motion";
 
 interface TaskOverviewChartProps {
   data: { name: string; value: number; fill?: string }[];
@@ -23,7 +21,7 @@ const COLORS = [
   "hsl(var(--muted))",
 ];
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-2 border rounded-lg shadow-lg z-10 relative">
