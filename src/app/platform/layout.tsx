@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { PlatformSidebar } from "@/components/platform-sidebar";
 import { UserProvider } from "@/context/user-context";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";

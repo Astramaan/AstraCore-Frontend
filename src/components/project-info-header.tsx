@@ -2,10 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { ClientHeader } from "./client-header";
 import { Progress } from "./ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface ProjectInfoHeaderProps {
   project: {
@@ -14,14 +12,11 @@ interface ProjectInfoHeaderProps {
     progress: number;
     pm?: string;
     id: string;
-    profileImage?: string;
   };
-  children?: React.ReactNode;
 }
 
 export const ProjectInfoHeader = ({
   project,
-  children,
 }: ProjectInfoHeaderProps) => {
   return (
     <div className="relative w-full h-80 md:h-64 md:rounded-b-[50px] overflow-hidden">

@@ -1,7 +1,6 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -53,7 +52,7 @@ export default function SetPasswordForm({
           description: data.message,
         });
       }
-    } catch (error) {
+    } catch (err) {
       toast({
         variant: "destructive",
         title: "Error",

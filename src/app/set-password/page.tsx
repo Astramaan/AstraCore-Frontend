@@ -2,11 +2,7 @@ import SetPasswordForm from "@/components/set-password-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
-export default function SetPasswordPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function SetPasswordPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Combined Layout */}

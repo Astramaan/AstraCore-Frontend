@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { Card } from "@/components/ui/card";
+import React, { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { HomeAside } from "@/components/home-aside";
@@ -10,7 +9,6 @@ import { SlidersHorizontal, Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Meeting } from "@/components/meeting-details-sheet";
 import { MeetingDetailsSheet } from "@/components/meeting-details-sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -196,7 +194,7 @@ export default function DefaultHomePage() {
     // Here you would typically update the actual data source
   };
 
-  const applyFilters = (tasks: Task[]) => {
+  const applyFilters = useCallback((tasks: Task[]) => {
     if (activeFilter) {
       return tasks.filter((task) => {
         if (activeFilter === "High Priority") return task.priority === "High";
@@ -204,15 +202,15 @@ export default function DefaultHomePage() {
       });
     }
     return tasks.filter((task) => task.status !== "Completed");
-  };
+  }, [activeFilter]);
 
   const filteredMyTasks = useMemo(
     () => applyFilters(initialTaskData),
-    [activeFilter],
+    [activeFilter, applyFilters],
   );
   const filteredAssignedTasks = useMemo(
     () => applyFilters(assignedTasksData),
-    [activeFilter],
+    [activeFilter, applyFilters],
   );
 
   const myTasksChartData = useMemo(() => {

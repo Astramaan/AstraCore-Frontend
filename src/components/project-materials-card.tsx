@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { Separator } from "./ui/separator";
@@ -26,7 +26,7 @@ export const ProjectMaterialsCard = ({
   return (
     <>
       <Card className="rounded-[50px] p-10 border-0 bg-card">
-        <CardHeader className="p-0">
+        <CardContent className="p-0">
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-medium">Materials</h3>
             <Button
@@ -37,7 +37,7 @@ export const ProjectMaterialsCard = ({
               View more <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
-        </CardHeader>
+        </CardContent>
         <CardContent className="p-0 mt-6 space-y-4">
           {materials.slice(0, 3).map((material, index) => (
             <React.Fragment key={index}>

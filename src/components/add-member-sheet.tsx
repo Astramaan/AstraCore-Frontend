@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
 import {
@@ -23,7 +23,6 @@ import {
   SelectValue,
 } from "./ui/select";
 import { ScrollArea } from "./ui/scroll-area";
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Sheet,
   SheetContent,
@@ -66,10 +65,8 @@ const FloatingLabelInput = ({
 
 const AddMemberForm = ({
   onFormSuccess,
-  onClose,
 }: {
   onFormSuccess: () => void;
-  onClose: () => void;
 }) => {
   const { toast } = useToast();
   const { user } = useUser();
@@ -299,7 +296,6 @@ export function AddMemberSheet({
   isOpen: controlledIsOpen,
   onOpenChange: controlledOnOpenChange,
 }: AddMemberSheetProps) {
-  const { user } = useUser();
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -311,8 +307,6 @@ export function AddMemberSheet({
     onOpenChange(false);
     setShowSuccess(true);
   };
-
-  const handleClose = () => onOpenChange(false);
 
   return (
     <>
@@ -351,7 +345,6 @@ export function AddMemberSheet({
           <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
             <AddMemberForm
               onFormSuccess={handleSuccess}
-              onClose={handleClose}
             />
           </div>
         </SheetContent>

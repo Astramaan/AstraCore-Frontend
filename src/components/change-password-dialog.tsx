@@ -1,19 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import {
-  Dialog,
-  DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "./ui/dialog";
+} from "@/components/ui/dialog";
 import { X, Check } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import { ChangePasswordForm } from "./change-password-form";
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Sheet,
   SheetContent,

@@ -7,11 +7,7 @@ import Image from "next/image";
 import { Check } from "lucide-react";
 import Link from "next/link";
 
-export default function PasswordSuccessPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function PasswordSuccessPage() {
   const router = useRouter();
   const [countdown, setCountdown] = useState(5);
 
@@ -62,7 +58,7 @@ export default function PasswordSuccessPage({
                   Password Created Successfully
                 </h1>
                 <p className="text-lg text-grey-2">
-                  You're all set! You can now Login
+                  You are all set! You can now Login
                   <br />
                   with your new password.
                 </p>
@@ -71,7 +67,7 @@ export default function PasswordSuccessPage({
             <div className="text-grey-1 text-sm pb-[env(safe-area-inset-bottom)]">
               <p>
                 Redirecting you to the login page in {countdown} seconds. If it
-                doesn't happen automatically,{" "}
+                does not happen automatically,{" "}
                 <Link href="/" className="underline text-primary">
                   click here
                 </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useActionState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X, UserPlus } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
 import { SuccessPopup } from "./success-popup";
@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Plus } from 'lucide-react';
 
 const FloatingLabelInput = ({
   id,
@@ -54,10 +55,9 @@ const FloatingLabelInput = ({
 
 const AddMemberForm = ({
   onFormSuccess,
-  onClose,
 }: {
   onFormSuccess: () => void;
-  onClose: () => void;
+
 }) => {
   const { toast } = useToast();
   const [name, setName] = useState("");
@@ -191,7 +191,6 @@ export function AddMemberSheet() {
     setShowSuccess(true);
   };
 
-  const handleClose = () => setIsOpen(false);
 
   return (
     <>
@@ -225,7 +224,6 @@ export function AddMemberSheet() {
           <div className="flex-grow overflow-y-auto no-scrollbar">
             <AddMemberForm
               onFormSuccess={handleSuccess}
-              onClose={handleClose}
             />
           </div>
         </DialogContent>

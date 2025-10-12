@@ -69,7 +69,7 @@ const RoleListItem = ({
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}
           >
-            <Icon className="w-6 h-6 text-foreground" />
+           <Icon className="w-6 h-6 text-foreground" />
           </div>
           <p className="text-lg font-medium">{role.name}</p>
         </div>

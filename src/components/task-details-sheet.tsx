@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -14,17 +12,11 @@ import {
   UploadCloud,
   Paperclip,
   Trash2,
-  Edit,
   Calendar,
   Star,
   GanttChartSquare,
-  Layers,
-  FolderKanban,
-  CheckCircle2,
-  Send,
-  MessageSquare,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+
 import {
   Dialog,
   DialogContent,
@@ -51,9 +43,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ShieldAlert } from "lucide-react";
 import { useToast } from "./ui/use-toast";
-import { Textarea } from "./ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Separator } from "./ui/separator";
 import { ProjectTaskDetails } from "./project-task-details";
 
 export interface ReworkInfo {
@@ -76,14 +65,6 @@ export interface Task {
   subtitle?: string;
   isAssigned?: boolean;
   rework?: ReworkInfo;
-}
-
-interface Comment {
-  id: string;
-  author: string;
-  avatar: string;
-  text: string;
-  timestamp: string;
 }
 
 interface TaskDetailsSheetProps {
@@ -168,7 +149,7 @@ const UploadAttachmentsDialog = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setAttachments((prev) => [...prev, ...Array.from(event.target.files!)]);
+      setAttachments((prev) => [...prev, ...Array.from(event.target.files as FileList)]);
     }
   };
 
@@ -268,7 +249,7 @@ const formatDate = (dateString: string) => {
       month: "long",
       year: "numeric",
     });
-  } catch (e) {
+  } catch (err) {
     return dateString;
   }
 };
@@ -309,13 +290,6 @@ const StandardTaskDetails = ({ task }: { task: Task }) => {
           </Badge>
         }
       />
-      {task.status === "Completed" && task.completedDate && (
-        <DetailRow
-          icon={<CheckCircle2 className="w-5 h-5" />}
-          label="Completed Date"
-          value={formatDate(task.completedDate)}
-        />
-      )}
     </div>
   );
 };

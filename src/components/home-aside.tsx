@@ -2,8 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { AssignTaskSheet } from "@/components/add-task-sheet";
 import { AddMemberSheet } from "@/components/add-member-sheet";
 import RedirectionArrowIcon from "@/components/icons/redirection-arrow-icon";
@@ -13,7 +12,6 @@ import type { Task } from "@/components/task-details-sheet";
 import GoogleMeetIcon from "./icons/google-meet-icon";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { useUser } from "@/context/user-context";
 import { ProjectTimelineChart } from "./charts/project-timeline-chart";
 
 const MeetingCard = ({
@@ -54,7 +52,7 @@ interface HomeAsideProps {
   assignedTasksChartData?: { name: string; value: number; fill?: string }[];
   projectTasksChartData?: { name: string; value: number; fill: string }[];
   onMeetingClick?: (meeting: Meeting) => void;
-  onAddTask: (task: Omit<Task, "id" | "attachments" | "status">) => void;
+  onAddTask?: (task: Omit<Task, "id" | "attachments" | "status">) => void;
   showAddMemberButton?: boolean;
   showAddTaskButton?: boolean;
 }
@@ -71,7 +69,6 @@ export function HomeAside({
 }: HomeAsideProps) {
   const params = useParams();
   const organizationId = params.organizationId as string;
-  const { user } = useUser();
 
   return (
     <aside className="w-full lg:w-[420px] space-y-6 flex-shrink-0">

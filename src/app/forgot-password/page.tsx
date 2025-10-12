@@ -2,11 +2,7 @@ import SetPasswordForm from "@/components/set-password-form";
 import { HabiLogo } from "@/components/habi-logo";
 import Image from "next/image";
 
-export default function ForgotPasswordPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto md:h-auto items-center">

@@ -9,7 +9,6 @@ import {
   GanttChartSquare,
   Users,
   FileText,
-  Bot,
   LogOut,
   Briefcase,
 } from "lucide-react";

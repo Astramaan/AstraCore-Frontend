@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -17,7 +16,6 @@ import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
 import { ScrollArea } from "./ui/scroll-area";
 import { SuccessPopup } from "./success-popup";
-import UserPlusIcon from "./icons/user-plus-icon";
 
 const FloatingLabelInput = ({
   id,
@@ -161,8 +159,6 @@ export function AddFamilyMemberSheet({
     onOpenChange(false);
     setShowSuccess(true);
   };
-
-  const handleClose = () => onOpenChange(false);
 
   return (
     <>

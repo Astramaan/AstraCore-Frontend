@@ -1,7 +1,6 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -11,18 +10,6 @@ import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      type="submit"
-      className="w-full md:w-auto md:px-14 h-[54px] rounded-full hover:bg-primary/90"
-      disabled={pending}
-    >
-      {pending ? "Saving..." : "Save Password"}
-    </Button>
-  );
-}
 
 export function ChangePasswordForm({
   email,
@@ -73,7 +60,7 @@ export function ChangePasswordForm({
           description: data.message,
         });
       }
-    } catch (e) {
+    } catch (err) {
       toast({
         variant: "destructive",
         title: "Error",

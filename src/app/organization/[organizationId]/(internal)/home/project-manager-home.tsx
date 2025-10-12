@@ -1,28 +1,18 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
-import { Card } from "@/components/ui/card";
+import React, { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { HomeAside } from "@/components/home-aside";
 import {
   TaskDetailsSheet,
   Task,
-  ReworkInfo,
 } from "@/components/task-details-sheet";
 import {
-  ChevronsUpDown,
-  User,
   MessageCircle,
   Phone,
-  SlidersHorizontal,
-  Check,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import type { Meeting } from "@/components/meeting-details-sheet";
 import { MeetingDetailsSheet } from "@/components/meeting-details-sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
@@ -30,21 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
-import { AssignTaskSheet } from "@/components/add-task-sheet";
-import { AddMemberSheet } from "@/components/add-member-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
 import { ProjectTaskCard, Stage } from "@/components/project-task-card";
-import { TaskCard } from "@/components/task-card";
 import { useUser } from "@/context/user-context";
 
 const allStages: Stage[] = [
@@ -181,116 +159,6 @@ const meetings: Meeting[] = [
   },
 ];
 
-// Data for Default Home
-const initialTaskData: Task[] = [
-  {
-    id: "TSK001",
-    title: "Product Weekly update",
-    date: "25 May 2024",
-    description:
-      "This week, our team made significant progress on the new feature development, hitting all key milestones. We also addressed several critical bugs and are on track for the upcoming sprint review.",
-    priority: "Low",
-    status: "In Progress",
-    category: "Meetings",
-    project: "AstraCore App",
-    clientId: "CL001",
-    attachments: [
-      {
-        type: "pdf",
-        name: "update.pdf",
-        url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      },
-      {
-        type: "image",
-        name: "screenshot.png",
-        url: "https://placehold.co/600x400",
-      },
-    ],
-  },
-  {
-    id: "TSK002",
-    title: "New Landing Page Design",
-    date: "26 May 2024",
-    description:
-      "Create mockups for the new landing page, focusing on a clean, modern aesthetic and improved user experience. The design should be responsive and optimized for both desktop and mobile devices.",
-    priority: "High",
-    status: "In Progress",
-    category: "Design",
-    project: "Website Redesign",
-    clientId: "CL002",
-    attachments: [
-      {
-        type: "image",
-        name: "moodboard.png",
-        url: "https://placehold.co/800x600",
-      },
-    ],
-  },
-  {
-    id: "TSK003",
-    title: "API Integration",
-    date: "27 May 2024",
-    description:
-      "Integrate with the new payment gateway API. This includes implementing authentication, handling payment requests, and processing transaction responses. Ensure robust error handling is in place.",
-    priority: "Low",
-    status: "In Progress",
-    category: "Development",
-    project: "E-commerce Platform",
-    clientId: "CL003",
-    attachments: [],
-  },
-  {
-    id: "TSK004",
-    title: "User Testing Feedback",
-    date: new Date().toISOString(),
-    description:
-      "Review and categorize user feedback from the latest testing session. Identify common themes, prioritize issues, and create actionable tickets for the development team.",
-    priority: "Low",
-    status: "Pending",
-    category: "QA",
-    project: "Mobile App Beta",
-    clientId: "CL004",
-    attachments: [],
-  },
-];
-const assignedTasksData: Task[] = [
-  {
-    id: "TSK005",
-    title: "Database Migration",
-    date: "30 May 2024",
-    description:
-      "Plan and execute the migration of the user database from the legacy system to the new cloud infrastructure. Ensure data integrity and minimal downtime.",
-    priority: "High",
-    status: "In Progress",
-    category: "Backend",
-    project: "Infrastructure Upgrade",
-    clientId: "CL005",
-    attachments: [],
-    isAssigned: true,
-  },
-  {
-    id: "TSK006",
-    title: "Onboarding Tutorial",
-    date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
-    description:
-      "Create an interactive tutorial for new users to guide them through the main features of the application. Include tooltips and guided steps.",
-    priority: "Medium",
-    status: "Pending",
-    category: "UX",
-    project: "AstraCore App",
-    clientId: "CL001",
-    attachments: [],
-    isAssigned: true,
-  },
-];
-
-type FilterType =
-  | "High Priority"
-  | "In Progress"
-  | "Pending"
-  | "Completed"
-  | null;
-
 const ProjectSection = ({
   project,
   onStageClick,
@@ -385,13 +253,7 @@ export default function ProjectManagerHome() {
   const [selectedProjectId, setSelectedProjectId] = useState<string>(
     projectsData[0].id,
   );
-  const [activeFilter, setActiveFilter] = useState<FilterType>(null);
-  const inProgressCount = useMemo(
-    () =>
-      projectsData.flatMap((p) => p.tasks).filter((t) => t.status === "ongoing")
-        .length,
-    [],
-  );
+
   const [isUpcomingTasksSheetOpen, setIsUpcomingTasksSheetOpen] =
     useState(false);
   const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] =
@@ -400,11 +262,7 @@ export default function ProjectManagerHome() {
     "upcoming" | "completed" | null
   >(null);
 
-  const handleFilterClick = (filter: FilterType) => {
-    setActiveFilter(activeFilter === filter ? null : filter);
-  };
-
-  const handleStageClick = (stage: Stage) => {
+  const handleStageClick = useCallback((stage: Stage) => {
     const task: Task = {
       id: stage.id.toString(),
       title: stage.title,
@@ -427,9 +285,9 @@ export default function ProjectManagerHome() {
     };
     setSelectedTask(task);
     setIsSheetOpen(true);
-  };
+  }, [selectedProject]);
 
-  const handleSheetClose = () => {
+  const handleSheetClose = useCallback(() => {
     setIsSheetOpen(false);
     setSelectedTask(null);
     if (sourceSheet === "upcoming") {
@@ -438,19 +296,19 @@ export default function ProjectManagerHome() {
       setIsCompletedTasksSheetOpen(true);
     }
     setSourceSheet(null);
-  };
+  },[sourceSheet]);
 
-  const handleUpcomingTaskClick = (stage: Stage) => {
+  const handleUpcomingTaskClick = useCallback((stage: Stage) => {
     setIsUpcomingTasksSheetOpen(false);
     setSourceSheet("upcoming");
     handleStageClick(stage);
-  };
+  }, [handleStageClick]);
 
-  const handleCompletedTaskClick = (stage: Stage) => {
+  const handleCompletedTaskClick = useCallback((stage: Stage) => {
     setIsCompletedTasksSheetOpen(false);
     setSourceSheet("completed");
     handleStageClick(stage);
-  };
+  }, [handleStageClick]);
 
   const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
@@ -503,25 +361,6 @@ export default function ProjectManagerHome() {
       { name: "Upcoming", value: upcoming, fill: "hsl(var(--muted))" },
     ];
   }, [selectedProject]);
-
-  const applyFilters = (tasks: Task[]) => {
-    if (activeFilter) {
-      return tasks.filter((task) => {
-        if (activeFilter === "High Priority") return task.priority === "High";
-        return task.status === activeFilter;
-      });
-    }
-    return tasks.filter((task) => task.status !== "Completed");
-  };
-
-  const filteredMyTasks = useMemo(
-    () => applyFilters(initialTaskData),
-    [activeFilter],
-  );
-  const filteredAssignedTasks = useMemo(
-    () => applyFilters(assignedTasksData),
-    [activeFilter],
-  );
 
   const canManageMembers =
     user?.roleType === "superAdmin" || user?.team === "Project Manager";

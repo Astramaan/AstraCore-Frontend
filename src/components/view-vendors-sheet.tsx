@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -11,8 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { MoreVertical, ShieldAlert, X, Phone } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { MoreVertical, X } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,19 +19,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { useToast } from "./ui/use-toast";
 import { ScrollArea } from "./ui/scroll-area";
 import { OrderFormDialog } from "./order-form-dialog";
 import StarIcon from "./icons/star-icon";
@@ -50,7 +39,6 @@ const VendorCard = ({
   vendor: Vendor;
   materialName: string;
 }) => {
-  const { toast } = useToast();
   const [isOrderFormOpen, setIsOrderFormOpen] = useState(false);
 
   return (
@@ -276,10 +264,8 @@ export function ViewVendorsSheet({
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side={"bottom"}
-        className={cn(
-          "p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-full md:h-[90vh] md:bottom-0 rounded-t-[50px]",
-        )}
-        overlayClassName={cn("bg-black/20 backdrop-blur-sm")}
+        className="p-0 bg-transparent border-none shadow-none w-full md:max-w-5xl md:mx-auto h-full md:h-[90vh] md:bottom-0 rounded-t-[50px]"
+        overlayClassName="bg-black/20 backdrop-blur-sm"
       >
         <ViewVendorsContent material={material} onClose={onClose} />
       </SheetContent>

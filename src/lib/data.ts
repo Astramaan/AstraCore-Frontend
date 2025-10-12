@@ -43,60 +43,10 @@ export interface Lead {
   siteImages: string[];
 }
 
-const mockProjects: Project[] = [
-  {
-    id: "CHA2024",
-    name: "Charan Project",
-    city: "Mysuru",
-    contact: "admin@abc.com | +91 1234567890",
-    startDate: "21st Sept 2024",
-    status: "On Going",
-    statusColor: "text-green-600",
-    image: "https://placehold.co/59x59",
-    progress: 75,
-    projectType: "New Construction",
-  },
-  {
-    id: "YAS2024",
-    name: "Yash Project",
-    city: "Mysuru",
-    contact: "admin@abc.com | +91 1234567890",
-    startDate: "21st Sept 2024",
-    status: "Delay",
-    statusColor: "text-red-600",
-    image: "https://placehold.co/59x59",
-    progress: 25,
-    projectType: "Renovation",
-  },
-  {
-    id: "CHA2024-2",
-    name: "Charan Project",
-    city: "Mysuru",
-    contact: "admin@abc.com | +91 1234567890",
-    startDate: "21st Sept 2024",
-    status: "On Going",
-    statusColor: "text-green-600",
-    image: "https://placehold.co/59x59",
-    progress: 50,
-    projectType: "Interior Design",
-  },
-  {
-    id: "CHA2024-3",
-    name: "Charan Project",
-    city: "Mysuru",
-    contact: "admin@abc.com | +91 1234567890",
-    startDate: "21st Sept 2024",
-    status: "Completed",
-    statusColor: "text-cyan-500",
-    image: "https://placehold.co/59x59",
-    progress: 100,
-    projectType: "New Construction",
-  },
-];
 
 export async function getProjects(
   user: any,
-): Promise<{ success: boolean; data?: any; message?: string }> {
+): Promise<{ success: boolean; data?: any[]; message?: string }> {
   try {
     const res = await fetch(`/api/projects`, {
       headers: {

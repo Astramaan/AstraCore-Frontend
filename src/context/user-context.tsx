@@ -7,7 +7,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { useRouter, usePathname } from "next/navigation";
 
 interface User {
   userId: string;
@@ -35,8 +34,6 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUserState] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     try {
@@ -52,10 +49,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const setUser = (user: User | null) => {
-    setUserState(user);
-    if (user) {
-      localStorage.setItem("astramaan_user", JSON.stringify(user));
+  const setUser = (userObject: User | null) => {
+    setUserState(userObject);
+    if (userObject) {
+      localStorage.setItem("astramaan_user", JSON.stringify(userObject));
     } else {
       localStorage.removeItem("astramaan_user");
     }

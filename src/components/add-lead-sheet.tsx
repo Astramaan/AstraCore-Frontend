@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useTransition, useRef } from "react";
+import React, { useState, useTransition, useRef } from "react";
 import {
   Sheet,
   SheetContent,

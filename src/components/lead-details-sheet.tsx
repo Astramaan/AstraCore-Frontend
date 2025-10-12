@@ -9,15 +9,8 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, MoreVertical, Save, Edit, Trash2, UploadCloud } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "./ui/dialog";
+import { X, MoreVertical, Save, Trash2, UploadCloud } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import {
@@ -37,6 +30,8 @@ import {
 import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import type { Lead } from "@/lib/data";
+import { Edit } from 'lucide-react';
+
 
 export type { Lead };
 
@@ -97,7 +92,6 @@ const DetailField = ({
 
 const LeadDetailsContent = ({
   lead: initialLead,
-  onClose,
   onDelete,
   startInEditMode,
 }: {
