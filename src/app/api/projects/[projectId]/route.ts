@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
@@ -86,6 +86,11 @@ export async function DELETE(
         headers: getAuthHeaders(req),
       },
     );
+
+    if (res.status === 204 || !res.body) {
+      return new NextResponse(null, { status: 204 });
+    }
+
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch (error) {

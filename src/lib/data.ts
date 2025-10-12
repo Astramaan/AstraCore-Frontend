@@ -23,9 +23,25 @@ export interface Project {
   progress: number;
   projectType: "New Construction" | "Renovation" | "Interior Design";
   createdBy?: string;
-  personalDetails?: any;
-  projectDetails?: any;
-  projectAssign?: any;
+  personalDetails?: {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    currentAddress: string;
+  };
+  projectDetails?: {
+    projectName: string;
+    projectType: string;
+    projectCost: string;
+    dimension: string;
+    floor: string;
+    siteLocation: string;
+    siteAddress: string;
+  };
+  projectAssign?: {
+    architect: string;
+    siteSupervisor: string;
+  };
   projectId?: string; // from backend
 }
 
@@ -47,7 +63,7 @@ export interface Lead {
 
 export async function getProjects(
   user: User,
-): Promise<{ success: boolean; data?: any[]; message?: string }> {
+): Promise<{ success: boolean; data?: Project[]; message?: string }> {
   try {
     const res = await fetch(`/api/projects`, {
       headers: {
@@ -74,7 +90,10 @@ export async function getProjects(
   }
 }
 
-export async function getProjectDetails(projectId: string, user: User) {
+export async function getProjectDetails(
+  projectId: string,
+  user: User,
+): Promise<Project | null> {
   try {
     const res = await fetch(`/api/projects/${projectId}`, {
       headers: {
