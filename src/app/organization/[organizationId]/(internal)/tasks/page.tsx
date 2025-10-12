@@ -16,6 +16,7 @@ import {
 import { TaskCard } from "@/components/task-card";
 import { HomeAside } from "@/components/home-aside";
 import { AddTaskSheet } from "@/components/add-task-sheet";
+import { useUser } from "@/context/user-context";
 
 // Data for Default Home
 const initialTaskData: Task[] = [
@@ -128,6 +129,7 @@ type FilterType =
   | null;
 
 export default function TasksPage() {
+  const { user } = useUser();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
@@ -313,7 +315,7 @@ export default function TasksPage() {
         myTasksChartData={myTasksChartData}
         assignedTasksChartData={assignedTasksChartData}
         onAddTask={handleAddTask}
-        showAddMemberButton={false}
+        showAddMemberButton={user?.role === 'ORG_ADMIN'}
         showAddTaskButton={true}
       />
       {selectedTask && (

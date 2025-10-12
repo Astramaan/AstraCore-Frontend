@@ -16,7 +16,7 @@ interface ProjectTimelineChartProps {
   data: { name: string; value: number; fill: string }[];
 }
 
-const CustomTooltip = ({ active, payload }: { active?: boolean, payload?: Record<string, unknown>[]}) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-background text-popover-foreground p-2 border rounded-lg shadow-lg">
@@ -27,12 +27,12 @@ const CustomTooltip = ({ active, payload }: { active?: boolean, payload?: Record
   return null;
 };
 
-const renderLegend = (props: {payload: Record<string, unknown>[]}) => {
+const renderLegend = (props: any) => {
   const { payload } = props;
 
   return (
     <div className="flex justify-center items-center gap-4 mt-4">
-      {payload.map((entry: Record<string, unknown>, index: number) => (
+      {payload.map((entry: any, index: number) => (
         <div key={`item-${index}`} className="flex items-center gap-2">
           <span
             className="w-2.5 h-2.5 rounded-full"

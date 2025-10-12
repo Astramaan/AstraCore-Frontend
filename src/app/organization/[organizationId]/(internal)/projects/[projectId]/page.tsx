@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { ProjectDetailsCard } from "@/components/project-details-card";
-import { ProjectFilesCard } from "@/components/project-files-card";
 import { ProjectVisualsCard } from "@/components/project-visuals-card";
 import { ProjectInfoHeader } from "@/components/project-info-header";
 import { ProjectMaterialsCard } from "@/components/project-materials-card";
@@ -21,11 +20,10 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { ShieldAlert, Eye, ChevronLeft } from "lucide-react";
+import { ShieldAlert, ChevronLeft } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { DesignDocumentsDialog } from "@/components/design-documents-dialog";
 import { useUser } from "@/context/user-context";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -229,15 +227,15 @@ export default function ProjectDetailsPage() {
           "x-user": JSON.stringify(user),
         },
       });
-      const result = await res.json();
-      if (res.ok && result.success) {
+      if (res.ok) {
         toast({
           title: "Success",
-          description: result.message || "Project deleted successfully.",
+          description: "Project deleted successfully.",
         });
         router.push(`/organization/${params.organizationId}/projects`);
         router.refresh();
       } else {
+        const result = await res.json();
         toast({
           variant: "destructive",
           title: "Error",
@@ -347,7 +345,7 @@ export default function ProjectDetailsPage() {
           projectToEdit={projectToEdit}
           onProjectUpdated={handleProjectUpdated}
           onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
-          onProjectAdded={function (project: Project): void {
+          onProjectAdded={() => {
             throw new Error("Function not implemented.");
           }}
         />
@@ -368,7 +366,7 @@ export default function ProjectDetailsPage() {
               Confirm Project Deletion?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-lg text-grey-2">
-              Deleting project "{project?.name}" will permanently remove it.
+              Deleting project &quot;{project?.name}&quot; will permanently remove it.
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>

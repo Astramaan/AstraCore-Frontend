@@ -93,7 +93,7 @@ export async function getProjects(
 export async function getProjectDetails(
   projectId: string,
   user: User,
-): Promise<Project | null> {
+): Promise<any | null> {
   try {
     const res = await fetch(`/api/projects/${projectId}`, {
       headers: {
@@ -106,7 +106,7 @@ export async function getProjectDetails(
       );
       return null;
     }
-    const data = (await res.json()) as { success: boolean; data: Project; message?: string };
+    const data = await res.json() as { success: boolean; data: any; message?: string };
     if (data.success) {
       return data.data;
     }

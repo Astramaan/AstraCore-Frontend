@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -11,30 +11,16 @@ import {
 } from "@/components/ui/accordion";
 import Image from "next/image";
 import {
-  GanttChartSquare,
-  Award,
-  Shield,
-  DollarSign,
-  Home,
+  Upload,
   User,
   Laptop,
-  MapPin,
-  Upload,
-  Sparkles,
 } from "lucide-react";
 import { InPersonConsultationDialog } from "@/components/in-person-consultation-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ClientHeader } from "@/components/client-header";
-import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  getContentSuggestions,
-  type ContentSuggestionOutput,
-} from "@/ai/flows/content-suggestion-flow";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 
 interface AppointmentDetails {
   type: "office" | "home" | "online";
@@ -43,11 +29,7 @@ interface AppointmentDetails {
   address?: string;
 }
 
-export default function NewUserHomePage({
-  params,
-}: {
-  params: { organizationId: string; userId: string };
-}) {
+export default function NewUserHomePage() {
   const [isConsultationDialogOpen, setIsConsultationDialogOpen] =
     useState(false);
   const [consultationType, setConsultationType] = useState<
@@ -55,12 +37,10 @@ export default function NewUserHomePage({
   >(null);
   const [isClient, setIsClient] = useState(false);
   const [siteImage, setSiteImage] = useState<File | null>(null);
-  const [showProjectDetailsForm, setShowProjectDetailsForm] = useState(true);
+  const [showProjectDetailsForm] = useState(true);
   const { toast } = useToast();
 
-  const [companyDescription, setCompanyDescription] = useState("");
-  const [isAiContentLoading, setIsLoading] = useState(false);
-  const [faqs, setFaqs] = useState([
+  const [faqs] = useState([
     {
       question: "Does habi charge an advance payment?",
       answer:
@@ -97,7 +77,10 @@ export default function NewUserHomePage({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Submitting homeowner form");
-    // Here you would typically handle the form submission
+    toast({
+        title: "Details Submitted",
+        description: "Your project details have been successfully submitted.",
+    })
   };
 
   const handleBookingSuccess = (details: AppointmentDetails) => {

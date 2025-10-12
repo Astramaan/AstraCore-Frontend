@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { useUser } from "@/context/user-context";
 import { ClientHeader } from "@/components/client-header";
 import { Badge } from "@/components/ui/badge";
 import { PaymentsDialog } from "@/components/payments-dialog";
@@ -25,19 +24,19 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { X, Download } from "lucide-react";
+import { X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import PdfIcon from "@/components/icons/pdf-icon";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
 import { WhatsappIcon } from "@/components/icons/whatsapp-icon";
-import { ProjectInfoHeader } from "@/components/project-info-header";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { motion } from "framer-motion";
+import { useUser } from "@/context/user-context";
 
 interface TimelineStage {
   title: string;
@@ -317,7 +316,7 @@ const StageCard = ({
                             src={img}
                             width={100}
                             height={100}
-                            alt={`Site image ${"index + 1"}`}
+                            alt={`Site image ${index + 1}`}
                             className="rounded-[15px] object-cover aspect-square"
                             data-ai-hint="construction site photo"
                           />
@@ -750,7 +749,7 @@ export default function ExistingClientHomePage() {
       />
       <ImagePreviewDialog
         open={previewState.open}
-        onOpenChange={(open) => !open && closeImagePreview()}
+        onOpenChange={(open) => !open && closePreview()}
         images={project.siteImages}
         startIndex={previewState.startIndex}
         title="Site Photo"

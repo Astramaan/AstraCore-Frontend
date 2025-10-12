@@ -1,28 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
-import { Card } from "@/components/ui/card";
+import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { HomeAside } from "@/components/home-aside";
-import {
-  TaskDetailsSheet,
-  Task,
-  ReworkInfo,
-} from "@/components/task-details-sheet";
-import {
-  ChevronsUpDown,
-  User,
-  MessageCircle,
-  Phone,
-  SlidersHorizontal,
-  Check,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { MessageCircle, Phone } from "lucide-react";
 import type { Meeting } from "@/components/meeting-details-sheet";
 import { MeetingDetailsSheet } from "@/components/meeting-details-sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
@@ -30,21 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
-import { AddMemberSheet } from "@/components/add-member-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
 import { StageCard } from "@/components/stage-card";
 import type { Stage } from "@/components/project-task-card";
 import { useUser } from "@/context/user-context";
+import { HomeAside } from "@/components/home-aside";
+import { Task, TaskDetailsSheet } from "@/components/task-details-sheet";
 
 const allStages: Stage[] = [
   {
@@ -277,6 +251,11 @@ export default function ArchitectHome() {
 
   const canAssignTask = user?.role === "SUPER_ADMIN";
 
+  const selectedProject = useMemo(
+    () => projectsData.find((p) => p.id === selectedProjectId),
+    [selectedProjectId],
+  );
+
   const handleStageClick = (stage: Stage) => {
     const task: Task = {
       id: stage.id.toString(),
@@ -329,6 +308,7 @@ export default function ArchitectHome() {
 
   const handleAddTask = (newTask: Omit<Task, "id" | "attachments">) => {
     console.log("New task assigned:", newTask);
+    console.log(canAssignTask);
   };
 
   const handleUpdateTask = (updatedTask: Task) => {
@@ -345,10 +325,6 @@ export default function ArchitectHome() {
     }
   };
 
-  const selectedProject = useMemo(
-    () => projectsData.find((p) => p.id === selectedProjectId),
-    [selectedProjectId],
-  );
   const upcomingTasks = useMemo(
     () =>
       allStages.filter(
@@ -415,7 +391,7 @@ export default function ArchitectHome() {
         projectTasksChartData={projectTasksChartData}
         onMeetingClick={handleMeetingClick}
         showAddMemberButton={true}
-        onAddTask={(task) => console.log(task)}
+        onAddTask={handleAddTask}
         showAddTaskButton={false}
       />
       {selectedTask && (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, ReactNode } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,11 +15,10 @@ import {
   ChevronLeft,
   LucideProps,
 } from "lucide-react";
-import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   ViewMembersSheet,
   type Role,
-  type Member,
 } from "@/components/view-members-sheet";
 import { CreateDepartmentSheet } from "@/components/create-department-sheet";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,7 +28,7 @@ import { AddMemberSheet } from "@/components/add-member-sheet";
 const allRoles: Role[] = [
   {
     name: "Super Admin",
-    icon: Shield,
+    icon: Shield as React.ElementType<LucideProps>,
     bgColor: "bg-red-200/30",
     admin: "Balaji Naik",
     active: 2,
@@ -59,7 +58,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Project Manager",
-    icon: Briefcase,
+    icon: Briefcase as React.ElementType<LucideProps>,
     bgColor: "bg-blue-300/30",
     admin: "Priya",
     active: 1,
@@ -79,7 +78,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Site Supervisor",
-    icon: Users,
+    icon: Users as React.ElementType<LucideProps>,
     bgColor: "bg-green-300/30",
     admin: "Yaswanth",
     active: 1,
@@ -99,7 +98,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Architect",
-    icon: Palette,
+    icon: Palette as React.ElementType<LucideProps>,
     bgColor: "bg-purple-300/30",
     admin: "Darshan",
     active: 1,
@@ -119,7 +118,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Sales",
-    icon: Briefcase,
+    icon: Briefcase as React.ElementType<LucideProps>,
     bgColor: "bg-yellow-400/30",
     admin: "Balaji Naik",
     active: 3,
@@ -139,7 +138,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Software Development",
-    icon: Code,
+    icon: Code as React.ElementType<LucideProps>,
     bgColor: "bg-blue-300/30",
     admin: "Balaji Naik",
     active: 12,
@@ -148,7 +147,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Design",
-    icon: Palette,
+    icon: Palette as React.ElementType<LucideProps>,
     bgColor: "bg-purple-300/30",
     admin: "Balaji Naik",
     active: 4,
@@ -157,7 +156,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Support & Feedback",
-    icon: Users,
+    icon: Users as React.ElementType<LucideProps>,
     bgColor: "bg-green-300/30",
     admin: "Balaji Naik",
     active: 20,
@@ -166,7 +165,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Human Resources",
-    icon: Users,
+    icon: Users as React.ElementType<LucideProps>,
     bgColor: "bg-pink-300/30",
     admin: "Balaji Naik",
     active: 0,
@@ -239,7 +238,7 @@ const RoleCard = ({
           </div>
           <p className="text-2xl font-semibold">{role.name}</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-2">
+        <div className="grid grid-cols-2 items-center gap-4 mt-2">
           <div>
             <p className="text-base text-muted-foreground">
               Admin:{" "}
@@ -265,7 +264,7 @@ const RoleCard = ({
             </p>
           </div>
           <Button
-            className="h-12 px-6 col-span-2 rounded-full bg-background dark:bg-background text-foreground hover:bg-muted text-base font-medium self-end"
+            className="h-12 px-6 col-span-2 rounded-full bg-background dark:bg-background text-foreground dark:text-white hover:bg-muted text-base font-medium self-end"
             onClick={() => onViewMembers(role)}
           >
             View Members

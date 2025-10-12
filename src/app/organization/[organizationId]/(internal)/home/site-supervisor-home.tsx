@@ -1,28 +1,18 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { HomeAside } from "@/components/home-aside";
 import {
   TaskDetailsSheet,
   Task,
-  ReworkInfo,
 } from "@/components/task-details-sheet";
 import {
-  ChevronsUpDown,
-  User,
   MessageCircle,
   Phone,
-  SlidersHorizontal,
-  Check,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import type { Meeting } from "@/components/meeting-details-sheet";
 import { MeetingDetailsSheet } from "@/components/meeting-details-sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
@@ -30,22 +20,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
-import { AddMemberSheet } from "@/components/add-member-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
-import { Separator } from "@/components/ui/separator";
 import { StageCard } from "@/components/stage-card";
 import { SnagListSheet } from "@/components/snag-list-sheet";
-import { AddSnagSheet } from "@/components/add-snag-sheet";
 import { useUser } from "@/context/user-context";
-import type { Snag } from "@/components/snag-details-sheet";
 import type { Stage } from "@/components/project-task-card";
 
 const allStages: Stage[] = [
@@ -272,9 +251,13 @@ export default function SiteSupervisorHome() {
   const [isCompletedTasksSheetOpen, setIsCompletedTasksSheetOpen] =
     useState(false);
   const [isSnagListSheetOpen, setIsSnagListSheetOpen] = useState(false);
-  const [isAddSnagSheetOpen, setIsAddSnagSheetOpen] = useState(false);
 
   const canAssignTask = user?.role === "SUPER_ADMIN";
+
+  const selectedProject = useMemo(
+    () => projectsData.find((p) => p.id === selectedProjectId),
+    [selectedProjectId],
+  );
 
   const handleStageClick = (stage: Stage) => {
     const task: Task = {
@@ -310,6 +293,7 @@ export default function SiteSupervisorHome() {
 
   const handleAddTask = (newTask: Omit<Task, "id" | "attachments">) => {
     console.log("New task assigned:", newTask);
+    console.log(canAssignTask);
   };
 
   const handleUpdateTask = (updatedTask: Task) => {
@@ -325,10 +309,6 @@ export default function SiteSupervisorHome() {
     }
   };
 
-  const selectedProject = useMemo(
-    () => projectsData.find((p) => p.id === selectedProjectId),
-    [selectedProjectId],
-  );
   const upcomingTasks = useMemo(
     () =>
       allStages.filter(
@@ -395,7 +375,7 @@ export default function SiteSupervisorHome() {
         projectTasksChartData={projectTasksChartData}
         onMeetingClick={handleMeetingClick}
         showAddMemberButton={true}
-        onAddTask={(task) => console.log(task)}
+        onAddTask={handleAddTask}
         showAddTaskButton={false}
       />
       {selectedTask && (
