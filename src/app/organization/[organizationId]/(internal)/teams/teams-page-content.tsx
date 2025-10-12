@@ -220,7 +220,7 @@ const RoleCard = ({
             </span>
           </p>
           <Button
-            className="h-14 px-10 rounded-full bg-background dark:bg-background text-foreground hover:bg-muted text-lg font-medium"
+            className="h-14 px-10 rounded-full bg-background dark:bg-background text-foreground dark:text-white hover:bg-muted text-lg font-medium"
             onClick={() => onViewMembers(role)}
           >
             View Members
