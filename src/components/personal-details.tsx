@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useCallback } from "react";
@@ -34,6 +35,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "./ui/scroll-area";
 import { useUser, type User } from "@/context/user-context";
