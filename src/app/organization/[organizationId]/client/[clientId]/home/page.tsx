@@ -1,10 +1,9 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { useUser } from "@/context/user-context";
 import { Skeleton } from "@/components/ui/skeleton";
 import ExistingClientHomePage from "./existing-client-home";
-import { useRouter } from "next/navigation";
 import NewUserHomePage from "@/app/organization/[organizationId]/client/lead/[leadId]/home/new-user-home";
 
 function ClientHomePageContent({
@@ -13,16 +12,6 @@ function ClientHomePageContent({
   params: { organizationId: string; clientId: string };
 }) {
   const { user, loading } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && user && user.team === "New User") {
-      // This user is a lead, redirect to the lead homepage
-      router.replace(
-        `/organization/${user.organizationId}/client/lead/${user.userId}/home`,
-      );
-    }
-  }, [user, loading, router]);
 
   if (loading) {
     return <HomePageSkeleton />;
@@ -30,6 +19,14 @@ function ClientHomePageContent({
 
   if (!user) {
     return null; // Or some other fallback/error state
+  }
+
+  if (user.team === "New User") {
+    return (
+      <NewUserHomePage
+        params={{ organizationId: user.organizationId, userId: user.userId }}
+      />
+    );
   }
 
   // For existing clients
