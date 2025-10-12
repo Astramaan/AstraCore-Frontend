@@ -206,11 +206,11 @@ export default function DefaultHomePage() {
 
   const filteredMyTasks = useMemo(
     () => applyFilters(initialTaskData),
-    [activeFilter, applyFilters],
+    [applyFilters, initialTaskData],
   );
   const filteredAssignedTasks = useMemo(
     () => applyFilters(assignedTasksData),
-    [activeFilter, applyFilters],
+    [applyFilters, assignedTasksData],
   );
 
   const myTasksChartData = useMemo(() => {

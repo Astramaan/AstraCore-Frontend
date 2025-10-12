@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TaskCard } from "@/components/task-card";
 import { HomeAside } from "@/components/home-aside";
-import { useUser } from "@/context/user-context";
 import { AddTaskSheet } from "@/components/add-task-sheet";
 
 // Data for Default Home
@@ -129,7 +128,6 @@ type FilterType =
   | null;
 
 export default function TasksPage() {
-  const { user } = useUser();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
@@ -155,7 +153,7 @@ export default function TasksPage() {
   };
 
   const handleAddTask = (
-    newTask: Omit<Task, "id" | "attachments">,
+    newTask: Omit<Task, "id" | "attachments" | "status">,
   ) => {
     console.log("New task assigned:", newTask);
   };
@@ -180,11 +178,11 @@ export default function TasksPage() {
 
   const filteredMyTasks = useMemo(
     () => applyFilters(initialTaskData),
-    [applyFilters],
+    [applyFilters, initialTaskData],
   );
   const filteredAssignedTasks = useMemo(
     () => applyFilters(assignedTasksData),
-    [applyFilters],
+    [applyFilters, assignedTasksData],
   );
 
   const myTasksChartData = useMemo(() => {

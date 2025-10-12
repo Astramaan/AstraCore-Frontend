@@ -79,8 +79,8 @@ export async function getProjects(
         message: errorData.message || "Failed to fetch projects",
       };
     }
-    const data = (await res.json()) as { success: boolean; projects: Project[] };
-    return { success: true, data: data.projects };
+    const data = (await res.json()) as { success: boolean; data: Project[] };
+    return { success: true, data: data.data };
   } catch (error) {
     console.error("Get projects action failed:", error);
     return {

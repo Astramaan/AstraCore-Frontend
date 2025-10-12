@@ -33,12 +33,12 @@ import {
 } from "./ui/sheet";
 import AssignTaskIcon from "./icons/assign-task-icon";
 
-interface AssignTaskFormProps {
+interface AddTaskFormProps {
   onTaskAssigned: (task: Omit<Task, "id" | "attachments" | "status">) => void;
   onClose: () => void;
 }
 
-const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
+const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
   const [date, setDate] = useState<Date>();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -359,7 +359,7 @@ export function AddTaskSheet({ onTaskAssigned }: AddTaskSheetProps) {
             </div>
           </SheetHeader>
           <div className="font-gilroy-medium text-[18px] flex-1 flex flex-col overflow-hidden">
-            <AssignTaskForm
+            <AddTaskForm
               onTaskAssigned={handleSuccess}
               onClose={() => setIsOpen(false)}
             />

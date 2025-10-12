@@ -61,7 +61,7 @@ export async function createMeeting(formData: Record<string, unknown>) {
     }
     revalidatePath("/meetings");
     return { success: true, data: await res.json() };
-  } catch (e: unknown) {
+  } catch (e) {
     return { success: false, message: "An unexpected error occurred." };
   }
 }
@@ -83,7 +83,7 @@ export async function updateMeeting(formData: Record<string, unknown>) {
     }
     revalidatePath(`/meetings`);
     return { success: true, data: await res.json() };
-  } catch (e: unknown) {
+  } catch (e) {
     return { success: false, message: "An unexpected error occurred." };
   }
 }
@@ -102,7 +102,7 @@ export async function getLeadByEmail(email: string) {
     }
     const data = await res.json();
     return { success: data.success, data: data.data };
-  } catch (error: unknown) {
+  } catch (error) {
     return { success: false, message: "An unexpected network error occurred." };
   }
 }
