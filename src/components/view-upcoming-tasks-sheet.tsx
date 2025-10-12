@@ -12,31 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
 import { Progress } from "./ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
-
-interface Stage {
-  id: number;
-  title: string;
-  subtitle: string;
-  category: string;
-  image: string;
-  duration: string;
-  status: "ongoing" | "upcoming" | "completed" | "pending";
-  type: "stage" | "payment";
-  siteImages?: string[];
-  snagCount?: number;
-  createdBy: string;
-  createdAt: string;
-  description: string;
-  priority: "Low" | "Medium" | "High";
-  progress?: number;
-}
+import type { Stage } from "./project-task-card";
 
 const formatDate = (dateString: string) => {
   if (!dateString || isNaN(new Date(dateString).getTime()))

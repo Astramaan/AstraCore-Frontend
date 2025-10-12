@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/select";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
-import { StageCard } from "@/components/stage-card";
-import type { Stage, TimelineStage } from "@/components/project-task-card";
+import { StageCard, TimelineStage } from "@/components/stage-card";
+import type { Stage } from "@/components/project-task-card";
 import { useUser } from "@/context/user-context";
 import { HomeAside } from "@/components/home-aside";
 import { Task, TaskDetailsSheet } from "@/components/task-details-sheet";
@@ -36,7 +36,6 @@ const allStages: Stage[] = [
     description:
       "Present the final architectural designs to the client for approval.",
     priority: "Low",
-    date: "2024-01-01",
   },
   {
     id: 4,
@@ -58,7 +57,6 @@ const allStages: Stage[] = [
     createdAt: "2024-01-01",
     description: "Begin excavation as per the approved site plan.",
     priority: "High",
-    date: "2024-01-01",
   },
   {
     id: 5,
@@ -74,7 +72,6 @@ const allStages: Stage[] = [
     createdAt: "2024-01-01",
     description: "Mark the grid lines for foundation work.",
     priority: "Medium",
-    date: "2024-01-01",
   },
   {
     id: 6,
@@ -90,7 +87,6 @@ const allStages: Stage[] = [
     createdAt: "2024-01-01",
     description: "Lay the foundation for the structure.",
     priority: "High",
-    date: "2024-01-01",
   },
   {
     id: 7,
@@ -106,7 +102,6 @@ const allStages: Stage[] = [
     createdAt: "2024-01-01",
     description: "Erect the building frame.",
     priority: "Medium",
-    date: "2024-01-01",
   },
 ];
 
@@ -167,7 +162,7 @@ const ProjectSection = ({
   onOpenUpcomingTasks,
 }: {
   project: (typeof projectsData)[0];
-  onStageClick: (stage: TimelineStage) => void;
+  onStageClick: (stage: Stage) => void;
   onOpenCompletedTasks: () => void;
   onOpenUpcomingTasks: () => void;
 }) => {
@@ -231,7 +226,7 @@ const ProjectSection = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
         {projectTasks.map((stage) => (
-          <StageCard key={stage.id} stage={stage as TimelineStage} onCardClick={onStageClick} />
+          <StageCard key={stage.id} stage={stage as TimelineStage} onCardClick={() => onStageClick(stage)} />
         ))}
       </div>
     </div>
@@ -311,7 +306,7 @@ export default function ArchitectHome() {
 
   const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
-  const handleAddTask = (newTask: Omit<Task, "id" | "attachments" | 'status'>) => {
+  const handleAddTask = (newTask: Omit<Task, "id" | "attachments" | "status">) => {
     console.log("New task assigned:", newTask);
     console.log(canAssignTask);
   };

@@ -321,7 +321,7 @@ export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSuccess = (task: Omit<Task, "id" | "attachments" | "status">) => {
-    onTaskAssigned(task);
+    onTaskAssigned({ ...task, status: "Pending" });
     setIsOpen(false);
     setShowSuccess(true);
   };

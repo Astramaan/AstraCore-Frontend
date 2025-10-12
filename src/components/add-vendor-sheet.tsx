@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X, Upload, Trash2, ArrowRight } from "lucide-react";
+import { Plus, X, Upload, Trash2, ArrowRight, Edit } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Textarea } from "./ui/textarea";
@@ -341,7 +341,7 @@ const AddVendorForm = ({
     };
 
   const handleDayToggle = (day: string) => {
-    setSelectedDays((prev) =>
+    setSelectedDays((prev: string[]) =>
       prev.includes(day)
         ? prev.filter((d: string) => d !== day)
         : [...prev, day],

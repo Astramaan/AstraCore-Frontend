@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
-import { StageCard } from "@/components/stage-card";
+import { StageCard, TimelineStage } from "@/components/stage-card";
 import { SnagListSheet } from "@/components/snag-list-sheet";
 import { useUser } from "@/context/user-context";
 import type { Stage } from "@/components/project-task-card";
@@ -231,7 +231,7 @@ const ProjectSection = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
         {projectTasks.map((stage) => (
-          <StageCard key={stage.id} stage={stage} onCardClick={onStageClick} />
+          <StageCard key={stage.id} stage={stage as TimelineStage} onCardClick={() => onStageClick(stage)} />
         ))}
       </div>
     </div>
@@ -291,7 +291,7 @@ export default function SiteSupervisorHome() {
 
   const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
-  const handleAddTask = (newTask: Omit<Task, "id" | "attachments">) => {
+  const handleAddTask = (newTask: Omit<Task, "id" | "attachments" | "status">) => {
     console.log("New task assigned:", newTask);
     console.log(canAssignTask);
   };
