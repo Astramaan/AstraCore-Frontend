@@ -21,7 +21,7 @@ const COLORS = [
   "hsl(var(--muted))",
 ];
 
-const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] }) => {
+const CustomTooltip = ({ active, payload }: { active?: boolean, payload?: Record<string, unknown>[]}) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-2 border rounded-lg shadow-lg z-10 relative">
@@ -32,18 +32,18 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: any[] 
   return null;
 };
 
-const renderLegend = (props: any) => {
+const renderLegend = (props: {payload: Record<string, unknown>[]}) => {
   const { payload } = props;
 
   return (
     <div className="flex justify-center items-center gap-4 mt-4">
-      {payload.map((entry: any, index: number) => (
+      {payload.map((entry: Record<string, unknown>, index: number) => (
         <div key={`item-${index}`} className="flex items-center gap-2">
           <span
             className="w-2.5 h-2.5 rounded-full"
-            style={{ backgroundColor: entry.color }}
+            style={{ backgroundColor: entry.color as string }}
           />
-          <span className="text-sm text-muted-foreground">{entry.value}</span>
+          <span className="text-sm text-muted-foreground">{entry.value as string}</span>
         </div>
       ))}
     </div>

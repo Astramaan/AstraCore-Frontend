@@ -10,7 +10,6 @@ import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-
 export function ChangePasswordForm({
   email,
   onSuccess,
@@ -60,7 +59,7 @@ export function ChangePasswordForm({
           description: data.message,
         });
       }
-    } catch (err) {
+    } catch (err: unknown) {
       toast({
         variant: "destructive",
         title: "Error",

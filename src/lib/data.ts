@@ -1,4 +1,3 @@
-
 import type { User } from "@/context/user-context";
 
 export interface Member {
@@ -72,7 +71,7 @@ export async function getProjects(
       },
     });
     if (!res.ok) {
-      const errorData = await res
+      const errorData: { message?: string } = await res
         .json()
         .catch(() => ({ message: "Failed to fetch projects and parse error" }));
       return {

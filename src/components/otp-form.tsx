@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useActionState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "./ui/label";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 export default function OtpForm({
   searchParams,

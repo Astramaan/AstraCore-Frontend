@@ -21,8 +21,8 @@ const MaterialItem = ({
   onEdit,
   onDelete,
 }: {
-  material: any;
-  onEdit: (material: any) => void;
+  material: Record<string, any>;
+  onEdit: (material: Record<string, any>) => void;
   onDelete: (id: string) => void;
 }) => (
   <div className="flex items-center gap-4">
@@ -69,8 +69,8 @@ const EditMaterialForm = ({
   onSave,
   onCancel,
 }: {
-  material: any;
-  onSave: (updatedMaterial: any) => void;
+  material: Record<string, any>;
+  onSave: (updatedMaterial: Record<string, any>) => void;
   onCancel: () => void;
 }) => {
   const [editedMaterial, setEditedMaterial] = useState(material);
@@ -79,7 +79,7 @@ const EditMaterialForm = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setEditedMaterial((prev: any) => ({ ...prev, [name]: value }));
+    setEditedMaterial((prev: Record<string, any>) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -155,14 +155,12 @@ const EditMaterialForm = ({
 export const VendorMaterialsCard = ({
   materials,
   setMaterials,
-  isEditing,
 }: {
-  materials: any[];
-  setMaterials: Function;
-  isEditing: boolean;
+  materials: Record<string, any>[];
+  setMaterials: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingMaterial, setEditingMaterial] = useState<any | null>(null);
+  const [editingMaterial, setEditingMaterial] = useState<Record<string, any> | null>(null);
 
   const filteredMaterials = useMemo(() => {
     if (!searchTerm) {
@@ -179,11 +177,11 @@ export const VendorMaterialsCard = ({
     setMaterials(materials.filter((m) => m.id !== id));
   };
 
-  const handleEdit = (material: any) => {
+  const handleEdit = (material: Record<string, any>) => {
     setEditingMaterial(material);
   };
 
-  const handleSaveEdit = (updatedMaterial: any) => {
+  const handleSaveEdit = (updatedMaterial: Record<string, any>) => {
     setMaterials(
       materials.map((m) => (m.id === updatedMaterial.id ? updatedMaterial : m)),
     );

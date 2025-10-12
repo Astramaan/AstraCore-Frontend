@@ -199,21 +199,21 @@ export const VendorDetailsCard = ({
   setVendor,
   isEditing,
 }: {
-  vendor: any;
-  setVendor: Function;
+  vendor: Record<string, any>;
+  setVendor: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   isEditing: boolean;
 }) => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setVendor((prev: any) => ({ ...prev, [name]: value }));
+    setVendor((prev: Record<string, any>) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange =
     (name: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
-        setVendor((prev: any) => ({
+        setVendor((prev: Record<string, any>) => ({
           ...prev,
           [name]: e.target.files![0].name,
         }));
@@ -221,7 +221,7 @@ export const VendorDetailsCard = ({
     };
 
   const handleFileRemove = (name: string) => () => {
-    setVendor((prev: any) => ({ ...prev, [name]: "" }));
+    setVendor((prev: Record<string, any>) => ({ ...prev, [name]: "" }));
   };
 
   const handleCityKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -229,7 +229,7 @@ export const VendorDetailsCard = ({
       e.preventDefault();
       const city = e.currentTarget.value.trim();
       if (city && !vendor.serviceableCities.includes(city)) {
-        setVendor((prev: any) => ({
+        setVendor((prev: Record<string, any>) => ({
           ...prev,
           serviceableCities: [...prev.serviceableCities, city],
         }));
@@ -239,7 +239,7 @@ export const VendorDetailsCard = ({
   };
 
   const removeCity = (cityToRemove: string) => {
-    setVendor((prev: any) => ({
+    setVendor((prev: Record<string, any>) => ({
       ...prev,
       serviceableCities: prev.serviceableCities.filter(
         (city: string) => city !== cityToRemove,
@@ -251,14 +251,14 @@ export const VendorDetailsCard = ({
     const newDays = vendor.availability.days.includes(day)
       ? vendor.availability.days.filter((d: string) => d !== day)
       : [...vendor.availability.days, day];
-    setVendor((prev: any) => ({
+    setVendor((prev: Record<string, any>) => ({
       ...prev,
       availability: { ...prev.availability, days: newDays },
     }));
   };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVendor((prev: any) => ({
+    setVendor((prev: Record<string, any>) => ({
       ...prev,
       availability: { ...prev.availability, time: e.target.value },
     }));

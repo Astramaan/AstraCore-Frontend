@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Label } from "./ui/label";
@@ -54,13 +55,13 @@ export const VendorAccountDetailsCard = ({
   setDetails,
   isEditing,
 }: {
-  details: any;
-  setDetails: Function;
+  details: Record<string, string>;
+  setDetails: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   isEditing: boolean;
 }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setDetails((prev: any) => ({ ...prev, [name]: value }));
+    setDetails((prev: Record<string, string>) => ({ ...prev, [name]: value }));
   };
 
   return (

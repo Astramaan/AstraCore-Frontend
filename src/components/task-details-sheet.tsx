@@ -14,9 +14,6 @@ import {
   UploadCloud,
   Paperclip,
   Trash2,
-  Calendar,
-  Star,
-  GanttChartSquare,
 } from "lucide-react";
 
 import {
@@ -27,7 +24,6 @@ import {
   DialogClose,
 } from "./ui/dialog";
 import { cn } from "@/lib/utils";
-import { Badge } from "./ui/badge";
 import PdfIcon from "./icons/pdf-icon";
 import Image from "next/image";
 import { ScrollArea } from "./ui/scroll-area";
@@ -47,6 +43,7 @@ import { ShieldAlert } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import { ProjectTaskDetails } from "./project-task-details";
 import { Separator } from "./ui/separator";
+import { StandardTaskDetails } from "./standard-task-details";
 
 export interface ReworkInfo {
   comments: string;
@@ -76,28 +73,6 @@ interface TaskDetailsSheetProps {
   task: Task | null;
   onUpdateTask: (task: Task) => void;
 }
-
-const DetailRow = ({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: React.ReactNode;
-}) => (
-  <div className="flex items-start gap-4">
-    <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center text-muted-foreground mt-1">
-      {icon}
-    </div>
-    <div>
-      <p className="text-base text-muted-foreground font-medium">{label}</p>
-      <div className="text-base text-foreground font-semibold mt-1">
-        {value}
-      </div>
-    </div>
-  </div>
-);
 
 const PdfPreviewDialog = ({
   open,
@@ -239,61 +214,6 @@ const UploadAttachmentsDialog = ({
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
-
-const formatDate = (dateString: string) => {
-  if (!dateString) return "N/A";
-  try {
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-  } catch (err) {
-    return dateString;
-  }
-};
-
-const StandardTaskDetails = ({ task }: { task: Task }) => {
-  const priorityColors: { [key: string]: string } = {
-    Low: "bg-cyan-500/10 text-cyan-500",
-    Medium: "bg-yellow-500/10 text-yellow-500",
-    High: "bg-red-500/10 text-red-500",
-  };
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <DetailRow
-        icon={<GanttChartSquare className="w-5 h-5" />}
-        label="Category"
-        value={
-          <Badge
-            variant="outline"
-            className="bg-zinc-100 dark:bg-zinc-800 border-zinc-100 dark:border-zinc-800 text-foreground text-base"
-          >
-            {task.category}
-          </Badge>
-        }
-      />
-      <DetailRow
-        icon={<Calendar className="w-5 h-5" />}
-        label="Due Date"
-        value={formatDate(task.date)}
-      />
-      <DetailRow
-        icon={<Star className="w-5 h-5" />}
-        label="Priority"
-        value={
-          <Badge
-            className={cn(priorityColors[task.priority], "text-base py-1 px-4")}
-          >
-            {task.priority}
-          </Badge>
-        }
-      />
-    </div>
   );
 };
 

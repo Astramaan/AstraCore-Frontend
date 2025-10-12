@@ -82,8 +82,8 @@ const EditProfileForm = React.memo(
     const handleRoleChange = useCallback(
       (value: string) => {
         if (
-          value !== formData.role &&
-          formData.role?.toUpperCase() === "SUPER ADMIN"
+          value !== formData.team &&
+          formData.team?.toUpperCase() === "SUPER ADMIN"
         ) {
           setPendingRole(value);
           setIsRoleChangeConfirmOpen(true);
@@ -91,7 +91,7 @@ const EditProfileForm = React.memo(
           setFormData((prev) => ({ ...prev, team: value }));
         }
       },
-      [formData.role],
+      [formData.team],
     );
 
     const confirmRoleChange = () => {
@@ -141,7 +141,10 @@ const EditProfileForm = React.memo(
       try {
         const res = await fetch("/api/update-profile", {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-user": JSON.stringify(user),
+          },
           body: JSON.stringify(formData),
         });
         const data = await res.json();
@@ -160,7 +163,7 @@ const EditProfileForm = React.memo(
             description: data.message,
           });
         }
-      } catch (e) {
+      } catch (e: unknown) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -326,11 +329,10 @@ export function PersonalDetails({ memberId }: PersonalDetailsProps) {
   const isOwner = user?.userId === memberId;
   const isSuperAdmin = user?.role === "SUPER_ADMIN";
 
-  const handleSave = (updatedData: Partial<User>) => {
+  const handleSave = useCallback(() => {
     // Here you would typically call an action to save the data
-    console.log("Updated Member Data:", updatedData);
     setIsEditing(false);
-  };
+  },[]);
 
   const handleOpenChange = (open: boolean) => {
     setIsEditing(open);
