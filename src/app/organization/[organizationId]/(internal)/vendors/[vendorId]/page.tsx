@@ -139,7 +139,6 @@ export default function VendorDetailsPage({
             setMaterials={(newMaterials: any) =>
               setVendor((v: any) => ({ ...v, materials: newMaterials }))
             }
-            isEditing={false}
           />
         </div>
       </div>

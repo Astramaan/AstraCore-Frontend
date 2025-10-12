@@ -289,8 +289,8 @@ const LeadCard = ({
                 Confirm Lead Deletion?
               </AlertDialogTitle>
               <AlertDialogDescription className="text-lg text-muted-foreground">
-                Deleting this lead will permanently remove all associated data
-                from AstraCore. This action cannot be undone.
+                Deleting this lead will permanently remove all associated
+                data from AstraCore. This action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
@@ -499,7 +499,7 @@ export default function LeadsPage() {
       });
       const result = await res.json();
 
-      if (result.success) {
+      if (result.success && Array.isArray(result.data)) {
         const formattedLeads = result.data.map((lead: any) => ({
           organization: lead.organizationId || "Organization Name",
           leadId: lead._id,
@@ -507,9 +507,9 @@ export default function LeadsPage() {
           contact: `${lead.inviteeEmail} | ${lead.inviteeMobileNumber}`,
           phone: lead.inviteeMobileNumber,
           email: lead.inviteeEmail,
-          address: `Pincode: ${lead.siteLocationPinCode}` || "Address missing",
-          pincode: lead.siteLocationPinCode || "Pincode missing",
-          tokenAmount: lead.tokenAmount || "Token missing",
+          address: `Pincode: ${lead.siteLocationPinCode || 'N/A'}`,
+          pincode: lead.siteLocationPinCode || "N/A",
+          tokenAmount: lead.tokenAmount || "0",
           level: lead.level || "Level 1",
           profileImage: "https://placehold.co/94x94.png",
           coverImage: "https://placehold.co/712x144.png",
@@ -520,8 +520,9 @@ export default function LeadsPage() {
         toast({
           variant: "destructive",
           title: "Error fetching leads",
-          description: result.message,
+          description: result.message || "Could not fetch lead data.",
         });
+        setAllLeads([]); // Ensure allLeads is an array
       }
     } catch (error) {
       toast({
@@ -529,6 +530,7 @@ export default function LeadsPage() {
         title: "Network Error",
         description: "Failed to connect to the server.",
       });
+      setAllLeads([]); // Ensure allLeads is an array on error
     } finally {
       setIsLoading(false);
     }
@@ -560,7 +562,7 @@ export default function LeadsPage() {
 
   const allLeadsSelected = useMemo(
     () =>
-      selectedLeads.length === filteredLeads.length && filteredLeads.length > 0,
+      filteredLeads.length > 0 && selectedLeads.length === filteredLeads.length,
     [selectedLeads.length, filteredLeads.length],
   );
 
@@ -701,7 +703,6 @@ export default function LeadsPage() {
               onViewDetails={handleViewDetails}
               onLevelChange={handleLevelChange}
               onEdit={handleEdit}
-              isFirst={index === 0}
               isLast={index === filteredLeads.length - 1}
             />
           ))

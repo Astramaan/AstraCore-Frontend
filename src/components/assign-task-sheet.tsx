@@ -313,7 +313,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 };
 
 interface AssignTaskSheetProps {
-  onTaskAssigned: (task: Omit<Task, "id" | "attachments" | "status">) => void;
+  onTaskAssigned: (task: Omit<Task, "id" | "attachments">) => void;
 }
 
 export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {

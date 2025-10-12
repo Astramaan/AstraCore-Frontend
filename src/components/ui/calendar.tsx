@@ -24,12 +24,12 @@ function Calendar({
         month: "space-y-4 bg-popover rounded-md p-4",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
-        button_previous: cn(
+        nav_button_previous: cn(
           buttonVariants({ variant: "outline" }),
           "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
           "absolute left-1",
         ),
-        button_next: cn(
+        nav_button_next: cn(
           buttonVariants({ variant: "outline" }),
           "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
           "absolute right-1",

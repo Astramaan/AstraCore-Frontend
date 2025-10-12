@@ -305,7 +305,7 @@ const CreateProjectForm = ({
       "",
   );
   const [siteLocation, setSiteLocation] = useState(
-    projectToEdit?.projectDetails?.siteLocationLink ||
+    projectToEdit?.projectDetails?.siteLocation ||
       projectData?.projectDetails?.siteLocation ||
       "",
   );

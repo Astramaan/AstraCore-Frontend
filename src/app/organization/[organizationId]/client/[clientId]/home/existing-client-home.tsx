@@ -30,6 +30,7 @@ import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet
 import { WhatsappIcon } from "@/components/icons/whatsapp-icon";
 import { useUser } from "@/context/user-context";
 import { StageCard, TimelineStage } from "@/components/stage-card";
+import type { Stage } from "@/components/project-task-card";
 
 const initialTimeline: TimelineStage[] = [
   {
@@ -474,13 +475,13 @@ export default function ExistingClientHomePage() {
       <ViewUpcomingTasksSheet
         isOpen={isUpcomingTasksSheetOpen}
         onClose={() => setIsUpcomingTasksSheetOpen(false)}
-        tasks={upcomingTasks}
+        tasks={upcomingTasks as unknown as Stage[]}
         onTaskClick={(task) => console.log("task clicked", task)}
       />
       <ViewCompletedTasksSheet
         isOpen={isCompletedTasksSheetOpen}
         onClose={() => setIsCompletedTasksSheetOpen(false)}
-        tasks={completedTasks}
+        tasks={completedTasks as unknown as Stage[]}
         onTaskClick={(task) => console.log("task clicked", task)}
       />
     </>

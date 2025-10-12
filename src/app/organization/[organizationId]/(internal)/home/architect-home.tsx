@@ -172,6 +172,17 @@ const ProjectSection = ({
     );
   }, [project.tasks]);
 
+  const toTimelineStage = (stage: Stage): TimelineStage => ({
+    id: stage.id,
+    title: stage.title,
+    subtitle: stage.subtitle,
+    category: stage.category,
+    image: stage.image,
+    status: stage.status as TimelineStage['status'],
+    progress: stage.progress || 0,
+    date: stage.createdAt,
+  });
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 2xl:justify-between 2xl:flex">
@@ -226,7 +237,7 @@ const ProjectSection = ({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
         {projectTasks.map((stage) => (
-          <StageCard key={stage.id} stage={stage as TimelineStage} onCardClick={() => onStageClick(stage)} />
+          <StageCard key={stage.id} stage={toTimelineStage(stage)} onCardClick={() => onStageClick(stage)} />
         ))}
       </div>
     </div>
