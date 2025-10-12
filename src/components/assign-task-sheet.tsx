@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,7 @@ import {
 import AssignTaskIcon from "./icons/assign-task-icon";
 
 interface AssignTaskFormProps {
-  onTaskAssigned: (task: Omit<Task, "id" | "attachments">) => void;
+  onTaskAssigned: (task: Omit<Task, "id" | "attachments" | "status">) => void;
   onClose: () => void;
 }
 
@@ -52,7 +53,7 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setAttachments((prev) => [...prev, ...Array.from(event.target.files)]);
+      setAttachments((prev) => [...prev, ...Array.from(event.target.files!)]);
     }
   };
 
@@ -314,14 +315,14 @@ const AssignTaskForm = ({ onTaskAssigned, onClose }: AssignTaskFormProps) => {
 };
 
 interface AssignTaskSheetProps {
-  onTaskAssigned: (task: Omit<Task, "id" | "attachments">) => void;
+  onTaskAssigned: (task: Omit<Task, "id" | "attachments" | "status">) => void;
 }
 
 export function AssignTaskSheet({ onTaskAssigned }: AssignTaskSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSuccess = (task: Omit<Task, "id" | "attachments">) => {
+  const handleSuccess = (task: Omit<Task, "id" | "attachments" | "status">) => {
     onTaskAssigned(task);
     setIsOpen(false);
     setShowSuccess(true);

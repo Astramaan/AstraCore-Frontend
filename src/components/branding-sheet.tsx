@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -13,12 +14,10 @@ import { Button } from "./ui/button";
 import {
   X,
   Upload,
-  Palette,
   Save,
   Plus,
   Trash2,
   Youtube,
-  Edit,
   Sparkles,
   Award,
   GanttChartSquare,
@@ -28,8 +27,6 @@ import {
   User,
   Laptop,
   MapPin,
-  Search,
-  ChevronDown,
   Rocket,
   Zap,
   TrendingUp,
@@ -62,12 +59,6 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  PopoverClose,
-} from "./ui/popover";
 import {
   getContentSuggestions,
   type ContentSuggestionOutput,
@@ -127,8 +118,6 @@ const icons: { [key: string]: React.ReactNode } = {
   Facebook: <Facebook />,
   Instagram: <Instagram />,
 };
-
-const iconKeys = Object.keys(icons);
 
 const initialBulletPoints: { text: string; icon: string }[] = [
   { text: "Unique Design", icon: "GanttChartSquare" },
@@ -244,34 +233,6 @@ export const BrandingSheet = ({
 
   const removeFaq = (index: number) => {
     setFaqs(faqs.filter((_, i) => i !== index));
-  };
-
-  const handlePointChange = (
-    setter: React.Dispatch<
-      React.SetStateAction<{ text: string; icon: string }[]>
-    >,
-    index: number,
-    value: string,
-  ) => {
-    setter((prev) => {
-      const newPoints = [...prev];
-      newPoints[index].text = value;
-      return newPoints;
-    });
-  };
-
-  const handleIconChange = (
-    setter: React.Dispatch<
-      React.SetStateAction<{ text: string; icon: string }[]>
-    >,
-    index: number,
-    icon: string,
-  ) => {
-    setter((prev) => {
-      const newPoints = [...prev];
-      newPoints[index].icon = icon;
-      return newPoints;
-    });
   };
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

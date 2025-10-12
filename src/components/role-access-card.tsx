@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -21,32 +22,32 @@ import { FeatureAccessDialog } from "./feature-access-dialog";
 const allRoles: RoleData[] = [
   {
     name: "Super Admin",
-    icon: Shield,
+    Icon: Shield,
     bgColor: "bg-red-200/30 dark:bg-red-500/20",
   },
   {
     name: "Sales",
-    icon: Briefcase,
+    Icon: Briefcase,
     bgColor: "bg-yellow-400/30",
   },
   {
     name: "Software Development",
-    icon: Code,
+    Icon: Code,
     bgColor: "bg-blue-300/30 dark:bg-blue-500/20",
   },
   {
     name: "Design",
-    icon: Palette,
+    Icon: Palette,
     bgColor: "bg-purple-300/30 dark:bg-purple-500/20",
   },
   {
     name: "Support & Feedback",
-    icon: Users,
+    Icon: Users,
     bgColor: "bg-green-300/30 dark:bg-green-500/20",
   },
   {
     name: "Human Resources",
-    icon: Users,
+    Icon: Users,
     bgColor: "bg-pink-300/30 dark:bg-pink-500/20",
   },
 ];
@@ -58,7 +59,7 @@ const RoleListItem = ({
   role: RoleData;
   onClick: () => void;
 }) => {
-  const Icon = role.icon;
+  const Icon = role.Icon;
   return (
     <div
       className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"

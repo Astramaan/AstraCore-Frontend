@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -13,7 +14,6 @@ import {
   Shield,
   Users,
   ChevronLeft,
-  LucideProps,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
@@ -276,40 +276,6 @@ const RoleCard = ({
   );
 };
 
-const RoleCardSkeleton = () => (
-  <>
-    <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
-      <div className="flex items-center gap-4">
-        <Skeleton className="w-14 h-14 rounded-full" />
-        <Skeleton className="h-8 w-40" />
-      </div>
-      <Separator orientation="vertical" className="h-14" />
-      <div className="space-y-2">
-        <Skeleton className="h-5 w-32" />
-        <Skeleton className="h-5 w-36" />
-      </div>
-      <Separator orientation="vertical" className="h-14" />
-      <div className="flex items-center justify-between gap-4">
-        <Skeleton className="h-5 w-36" />
-        <Skeleton className="h-14 w-40 rounded-full" />
-      </div>
-    </div>
-    <div className="lg:hidden flex flex-col py-4 gap-4">
-      <div className="flex items-center gap-4">
-        <Skeleton className="w-14 h-14 rounded-full" />
-        <Skeleton className="h-8 w-40" />
-      </div>
-      <div className="grid grid-cols-2 gap-4 mt-2">
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full rounded-full" />
-      </div>
-    </div>
-    <Separator className="last:hidden" />
-  </>
-);
-
 export default function TeamsPageContent() {
   const router = useRouter();
 
@@ -431,3 +397,37 @@ export default function TeamsPageContent() {
     </div>
   );
 }
+
+const RoleCardSkeleton = () => (
+  <>
+    <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1fr_auto_1fr] items-center py-4 gap-4">
+      <div className="flex items-center gap-4">
+        <Skeleton className="w-14 h-14 rounded-full" />
+        <Skeleton className="h-8 w-40" />
+      </div>
+      <Separator orientation="vertical" className="h-14" />
+      <div className="space-y-2">
+        <Skeleton className="h-5 w-32" />
+        <Skeleton className="h-5 w-36" />
+      </div>
+      <Separator orientation="vertical" className="h-14" />
+      <div className="flex items-center justify-between gap-4">
+        <Skeleton className="h-5 w-36" />
+        <Skeleton className="h-14 w-40 rounded-full" />
+      </div>
+    </div>
+    <div className="lg:hidden flex flex-col py-4 gap-4">
+      <div className="flex items-center gap-4">
+        <Skeleton className="w-14 h-14 rounded-full" />
+        <Skeleton className="h-8 w-40" />
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-2">
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-12 w-full rounded-full" />
+      </div>
+    </div>
+    <Separator className="last:hidden" />
+  </>
+);
