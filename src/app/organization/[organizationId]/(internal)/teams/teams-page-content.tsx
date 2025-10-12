@@ -28,7 +28,7 @@ import { AddMemberSheet } from "@/components/add-member-sheet";
 const allRoles: Role[] = [
   {
     name: "Super Admin",
-    icon: Shield as React.ElementType<LucideProps>,
+    Icon: Shield,
     bgColor: "bg-red-200/30",
     admin: "Balaji Naik",
     active: 2,
@@ -58,7 +58,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Project Manager",
-    icon: Briefcase as React.ElementType<LucideProps>,
+    Icon: Briefcase,
     bgColor: "bg-blue-300/30",
     admin: "Priya",
     active: 1,
@@ -78,7 +78,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Site Supervisor",
-    icon: Users as React.ElementType<LucideProps>,
+    Icon: Users,
     bgColor: "bg-green-300/30",
     admin: "Yaswanth",
     active: 1,
@@ -98,7 +98,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Architect",
-    icon: Palette as React.ElementType<LucideProps>,
+    Icon: Palette,
     bgColor: "bg-purple-300/30",
     admin: "Darshan",
     active: 1,
@@ -118,7 +118,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Sales",
-    icon: Briefcase as React.ElementType<LucideProps>,
+    Icon: Briefcase,
     bgColor: "bg-yellow-400/30",
     admin: "Balaji Naik",
     active: 3,
@@ -138,7 +138,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Software Development",
-    icon: Code as React.ElementType<LucideProps>,
+    Icon: Code,
     bgColor: "bg-blue-300/30",
     admin: "Balaji Naik",
     active: 12,
@@ -147,7 +147,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Design",
-    icon: Palette as React.ElementType<LucideProps>,
+    Icon: Palette,
     bgColor: "bg-purple-300/30",
     admin: "Balaji Naik",
     active: 4,
@@ -156,7 +156,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Support & Feedback",
-    icon: Users as React.ElementType<LucideProps>,
+    Icon: Users,
     bgColor: "bg-green-300/30",
     admin: "Balaji Naik",
     active: 20,
@@ -165,7 +165,7 @@ const allRoles: Role[] = [
   },
   {
     name: "Human Resources",
-    icon: Users as React.ElementType<LucideProps>,
+    Icon: Users,
     bgColor: "bg-pink-300/30",
     admin: "Balaji Naik",
     active: 0,
@@ -181,7 +181,7 @@ const RoleCard = ({
   role: Role;
   onViewMembers: (role: Role) => void;
 }) => {
-  const IconComponent = role.icon as React.ElementType<LucideProps>;
+  const IconComponent = role.Icon;
   return (
     <>
       {/* Desktop & Tablet View */}

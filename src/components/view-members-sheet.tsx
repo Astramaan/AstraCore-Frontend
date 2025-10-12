@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ChangePasswordDialog } from "./change-password-dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,7 +50,7 @@ export interface Member {
 
 export interface Role {
   name: string;
-  icon: React.ReactNode;
+  Icon: React.ElementType;
   bgColor: string;
   admin: string;
   active: number;
@@ -247,6 +246,7 @@ const ViewMembersContent = ({
   );
   const { toast } = useToast();
   const { user } = useUser();
+  const Icon = role.Icon;
 
   useEffect(() => {
     setMembers(role.members || []);
@@ -309,7 +309,7 @@ const ViewMembersContent = ({
               <div
                 className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}
               >
-                {role.icon}
+                <Icon className="w-6 h-6" />
               </div>
               <h2 className="text-2xl font-semibold">{role.name}</h2>
             </div>

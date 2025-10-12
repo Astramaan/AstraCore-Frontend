@@ -16,36 +16,37 @@ import {
 } from "lucide-react";
 import { CreateRoleDialog } from "./create-role-dialog";
 import { Separator } from "./ui/separator";
+import { FeatureAccessDialog } from "./feature-access-dialog";
 
 const allRoles: RoleData[] = [
   {
-    name: "Sales",
-    icon: Briefcase,
-    bgColor: "bg-green-200/30 dark:bg-green-500/20",
+    name: "Super Admin",
+    Icon: Shield,
+    bgColor: "bg-red-200/30 dark:bg-red-500/20",
   },
   {
-    name: "Super Admin",
-    icon: Shield,
-    bgColor: "bg-cyan-200/30 dark:bg-cyan-500/20",
+    name: "Sales",
+    Icon: Briefcase,
+    bgColor: "bg-yellow-400/30",
   },
   {
     name: "Software Development",
-    icon: Code,
+    Icon: Code,
     bgColor: "bg-blue-300/30 dark:bg-blue-500/20",
   },
   {
     name: "Design",
-    icon: Palette,
+    Icon: Palette,
     bgColor: "bg-purple-300/30 dark:bg-purple-500/20",
   },
   {
     name: "Support & Feedback",
-    icon: Users,
-    bgColor: "bg-red-200/30 dark:bg-red-500/20",
+    Icon: Users,
+    bgColor: "bg-green-300/30 dark:bg-green-500/20",
   },
   {
     name: "Human Resources",
-    icon: Users,
+    Icon: Users,
     bgColor: "bg-pink-300/30 dark:bg-pink-500/20",
   },
 ];
@@ -56,38 +57,51 @@ const RoleListItem = ({
 }: {
   role: RoleData;
   onClick: () => void;
-}) => (
-  <div
-    className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
-    onClick={onClick}
-  >
-    <div className="flex justify-between items-center py-4">
-      <div className="flex items-center gap-4">
-        <div
-          className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}
-        >
-          <role.icon className="w-6 h-6 text-foreground" />
+}) => {
+  const Icon = role.Icon;
+  return (
+    <div
+      className="group cursor-pointer hover:bg-muted/50 rounded-lg -mx-2 px-2"
+      onClick={onClick}
+    >
+      <div className="flex justify-between items-center py-4">
+        <div className="flex items-center gap-4">
+          <div
+            className={`w-14 h-14 rounded-full flex items-center justify-center ${role.bgColor}`}
+          >
+           <Icon className="w-6 h-6 text-foreground" />
+          </div>
+          <p className="text-lg font-medium">{role.name}</p>
         </div>
-        <p className="text-lg font-medium">{role.name}</p>
+        <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
       </div>
-      <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+      <Separator />
     </div>
-    <Separator />
-  </div>
-);
+  );
+};
 
 export const FeatureAccessCard = () => {
   const [selectedRole, setSelectedRole] = useState<RoleData | null>(null);
   const [isPermissionsDialogOpen, setIsPermissionsDialogOpen] = useState(false);
   const [isCreateRoleDialogOpen, setIsCreateRoleDialogOpen] = useState(false);
+  const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
 
   const handleRoleClick = (role: RoleData) => {
     setSelectedRole(role);
-    setIsPermissionsDialogOpen(true);
+    if (role.name === "Super Admin") {
+      setIsFeatureDialogOpen(true);
+    } else {
+      setIsPermissionsDialogOpen(true);
+    }
   };
 
   const closePermissionsDialog = () => {
     setIsPermissionsDialogOpen(false);
+    setSelectedRole(null);
+  };
+
+  const closeFeatureDialog = () => {
+    setIsFeatureDialogOpen(false);
     setSelectedRole(null);
   };
 
@@ -104,7 +118,7 @@ export const FeatureAccessCard = () => {
             </CardTitle>
           </div>
         </CardHeader>
-        <CardContent className="px-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 flex-grow">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 px-6 pb-6 flex-grow">
           {allRoles.map((role) => (
             <RoleListItem
               key={role.name}
@@ -123,6 +137,14 @@ export const FeatureAccessCard = () => {
         isOpen={isCreateRoleDialogOpen}
         onOpenChange={setIsCreateRoleDialogOpen}
       />
+      {selectedRole && (
+        <FeatureAccessDialog
+          isOpen={isFeatureDialogOpen}
+          onClose={closeFeatureDialog}
+          category={"Admin"}
+          roleName={selectedRole.name}
+        />
+      )}
     </>
   );
 };

@@ -15,7 +15,7 @@ import { FeatureAccessDialog } from "./feature-access-dialog";
 
 export interface RoleData {
   name: string;
-  icon: React.ElementType;
+  Icon: React.ElementType;
   bgColor: string;
 }
 
@@ -67,7 +67,7 @@ const RolePermissionsDialog = ({
 
   if (!role) return null;
 
-  const Icon = role.icon;
+  const Icon = role.Icon;
 
   const handleEditClick = (category: string) => {
     setEditingCategory(category);
