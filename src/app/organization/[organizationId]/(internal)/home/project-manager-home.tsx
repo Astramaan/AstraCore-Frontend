@@ -1,16 +1,11 @@
+
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { HomeAside } from "@/components/home-aside";
-import {
-  TaskDetailsSheet,
-  Task,
-} from "@/components/task-details-sheet";
-import {
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { TaskDetailsSheet, type Task } from "@/components/task-details-sheet";
+import { MessageCircle, Phone } from "lucide-react";
 import type { Meeting } from "@/components/meeting-details-sheet";
 import { MeetingDetailsSheet } from "@/components/meeting-details-sheet";
 import {
@@ -22,8 +17,9 @@ import {
 } from "@/components/ui/select";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
-import { ProjectTaskCard, Stage } from "@/components/project-task-card";
+import { ProjectTaskCard, type Stage } from "@/components/project-task-card";
 import { useUser } from "@/context/user-context";
+import { type ReworkInfo } from "@/components/task-details-sheet";
 
 const allStages: Stage[] = [
   {
@@ -37,6 +33,7 @@ const allStages: Stage[] = [
     type: "stage",
     createdBy: "Anil Kumar",
     createdAt: "25 May 2024",
+    date: "25 May 2024",
     description:
       "Present the final architectural designs to the client for approval.",
     priority: "Low",
@@ -60,6 +57,7 @@ const allStages: Stage[] = [
     snagCount: 3,
     createdBy: "Site Supervisor",
     createdAt: new Date().toISOString(),
+    date: new Date().toISOString(),
     description: "Begin excavation as per the approved site plan.",
     priority: "High",
     progress: 70,
@@ -77,6 +75,9 @@ const allStages: Stage[] = [
     createdAt: new Date(
       new Date().setDate(new Date().getDate() + 1),
     ).toISOString(),
+    date: new Date(
+      new Date().setDate(new Date().getDate() + 1),
+    ).toISOString(),
     description: "Mark the grid lines for foundation work.",
     priority: "Low",
     progress: 0,
@@ -92,6 +93,7 @@ const allStages: Stage[] = [
     type: "stage",
     createdBy: "Site Supervisor",
     createdAt: "30 May 2024",
+    date: "30 May 2024",
     description: "Lay the foundation for the structure.",
     priority: "High",
     progress: 0,
@@ -107,6 +109,7 @@ const allStages: Stage[] = [
     type: "stage",
     createdBy: "Site Supervisor",
     createdAt: "05 June 2024",
+    date: "05 June 2024",
     description: "Erect the building frame.",
     priority: "Medium",
     progress: 0,
@@ -262,30 +265,38 @@ export default function ProjectManagerHome() {
     "upcoming" | "completed" | null
   >(null);
 
-  const handleStageClick = useCallback((stage: Stage) => {
-    const task: Task = {
-      id: stage.id.toString(),
-      title: stage.title,
-      subtitle: stage.subtitle,
-      description: stage.description,
-      date: stage.createdAt,
-      priority: stage.priority,
-      status: stage.status,
-      category: stage.category,
-      project: selectedProject?.name || "Unknown Project",
-      clientId: selectedProject?.id || "Unknown",
-      attachments:
-        stage.siteImages?.map((img) => ({
-          type: "image",
-          name: "site-image.png",
-          url: img,
-        })) || [],
-      isProjectTask: true,
-      rework: stage.rework,
-    };
-    setSelectedTask(task);
-    setIsSheetOpen(true);
-  }, [selectedProject]);
+  const selectedProject = useMemo(
+    () => projectsData.find((p) => p.id === selectedProjectId),
+    [selectedProjectId],
+  );
+
+  const handleStageClick = useCallback(
+    (stage: Stage) => {
+      const task: Task = {
+        id: stage.id.toString(),
+        title: stage.title,
+        subtitle: stage.subtitle,
+        description: stage.description,
+        date: stage.createdAt,
+        priority: stage.priority,
+        status: stage.status,
+        category: stage.category,
+        project: selectedProject?.name || "Unknown Project",
+        clientId: selectedProject?.id || "Unknown",
+        attachments:
+          stage.siteImages?.map((img) => ({
+            type: "image",
+            name: "site-image.png",
+            url: img,
+          })) || [],
+        isProjectTask: true,
+        rework: stage.rework,
+      };
+      setSelectedTask(task);
+      setIsSheetOpen(true);
+    },
+    [selectedProject],
+  );
 
   const handleSheetClose = useCallback(() => {
     setIsSheetOpen(false);
@@ -296,19 +307,25 @@ export default function ProjectManagerHome() {
       setIsCompletedTasksSheetOpen(true);
     }
     setSourceSheet(null);
-  },[sourceSheet]);
+  }, [sourceSheet]);
 
-  const handleUpcomingTaskClick = useCallback((stage: Stage) => {
-    setIsUpcomingTasksSheetOpen(false);
-    setSourceSheet("upcoming");
-    handleStageClick(stage);
-  }, [handleStageClick]);
+  const handleUpcomingTaskClick = useCallback(
+    (stage: Stage) => {
+      setIsUpcomingTasksSheetOpen(false);
+      setSourceSheet("upcoming");
+      handleStageClick(stage);
+    },
+    [handleStageClick],
+  );
 
-  const handleCompletedTaskClick = useCallback((stage: Stage) => {
-    setIsCompletedTasksSheetOpen(false);
-    setSourceSheet("completed");
-    handleStageClick(stage);
-  }, [handleStageClick]);
+  const handleCompletedTaskClick = useCallback(
+    (stage: Stage) => {
+      setIsCompletedTasksSheetOpen(false);
+      setSourceSheet("completed");
+      handleStageClick(stage);
+    },
+    [handleStageClick],
+  );
 
   const handleMeetingClick = (meeting: Meeting) => setSelectedMeeting(meeting);
 
@@ -327,15 +344,11 @@ export default function ProjectManagerHome() {
     if (stageToUpdate) {
       stageToUpdate.status = updatedTask.status as Stage["status"];
       if (updatedTask.rework) {
-        stageToUpdate.rework = updatedTask.rework;
+        stageToUpdate.rework = updatedTask.rework as ReworkInfo;
       }
     }
   };
 
-  const selectedProject = useMemo(
-    () => projectsData.find((p) => p.id === selectedProjectId),
-    [selectedProjectId],
-  );
   const upcomingTasks = useMemo(
     () =>
       allStages.filter(
@@ -392,6 +405,7 @@ export default function ProjectManagerHome() {
         <div className="space-y-4">
           {selectedProject && (
             <ProjectSection
+              key={selectedProject.id}
               project={selectedProject}
               onStageClick={handleStageClick}
               onOpenCompletedTasks={() => setIsCompletedTasksSheetOpen(true)}

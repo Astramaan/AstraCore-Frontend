@@ -1,16 +1,11 @@
+
 "use client";
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Play,
-  Pause,
   Maximize,
   Minimize,
-  Rewind,
-  FastForward,
-  Volume2,
-  VolumeX,
   Camera,
   Video as VideoIcon,
   PanelRightOpen,
@@ -18,7 +13,6 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
@@ -50,22 +44,6 @@ const cameraFeeds = {
 
 type CameraType = "Onsite Camera" | "Drones";
 
-const MetricCard = ({
-  title,
-  value,
-  footer,
-}: {
-  title: string;
-  value: string;
-  footer: string;
-}) => (
-  <Card className="rounded-[50px] relative bg-white/20 backdrop-blur-lg border-white/30 text-white p-6">
-    <p className="text-sm text-white/80">{title}</p>
-    <p className="text-4xl font-bold">{value}</p>
-    <p className="text-sm text-white/80 mt-2">{footer}</p>
-  </Card>
-);
-
 export default function LivePage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -78,15 +56,15 @@ export default function LivePage() {
     cameraFeeds[activeCameraType][0],
   );
 
-  let controlsTimeout: NodeJS.Timeout;
-
-  const handleMouseMove = () => {
-    setIsControlsVisible(true);
-    clearTimeout(controlsTimeout);
-    controlsTimeout = setTimeout(() => setIsControlsVisible(false), 3000);
-  };
-
   useEffect(() => {
+    let controlsTimeout: NodeJS.Timeout;
+
+    const handleMouseMove = () => {
+      setIsControlsVisible(true);
+      clearTimeout(controlsTimeout);
+      controlsTimeout = setTimeout(() => setIsControlsVisible(false), 3000);
+    };
+
     const container = containerRef.current;
     if (container) {
       container.addEventListener("mousemove", handleMouseMove);
@@ -104,7 +82,7 @@ export default function LivePage() {
       }
       clearTimeout(controlsTimeout);
     };
-  }, [isControlsVisible]);
+  }, []);
 
   const toggleFullScreen = () => {
     const elem = document.documentElement;

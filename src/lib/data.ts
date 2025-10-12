@@ -1,3 +1,4 @@
+
 import type { User } from "@/context/user-context";
 
 export interface Member {
@@ -79,7 +80,7 @@ export async function getProjects(
         message: errorData.message || "Failed to fetch projects",
       };
     }
-    const data = await res.json();
+    const data = (await res.json()) as { success: boolean; projects: Project[] };
     return { success: true, data: data.projects };
   } catch (error) {
     console.error("Get projects action failed:", error);
@@ -106,7 +107,7 @@ export async function getProjectDetails(
       );
       return null;
     }
-    const data = await res.json();
+    const data = (await res.json()) as { success: boolean; data: Project; message?: string };
     if (data.success) {
       return data.data;
     }
