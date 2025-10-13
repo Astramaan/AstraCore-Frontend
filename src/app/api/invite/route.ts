@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
@@ -54,7 +55,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const res = await fetch(`${API_BASE_URL}/api/v1/invite`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/invites`, {
       method: "POST",
       headers: getAuthHeaders(req),
       body: JSON.stringify(body),
