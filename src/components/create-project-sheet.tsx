@@ -637,14 +637,11 @@ const CreateProjectForm = ({
                           {mockArchitects.map((a) => (
                             <CommandItem
                               key={a.value}
-                              value={a.label}
+                              value={a.value}
                               onSelect={(currentValue) => {
-                                const selected = mockArchitects.find(
-                                  (arch) =>
-                                    arch.label.toLowerCase() ===
-                                    currentValue,
+                                setArchitect(
+                                  currentValue === architect ? "" : currentValue,
                                 );
-                                setArchitect(selected ? selected.value : "");
                                 setArchitectOpen(false);
                               }}
                             >
@@ -705,15 +702,10 @@ const CreateProjectForm = ({
                           {mockSupervisors.map((s) => (
                             <CommandItem
                               key={s.value}
-                              value={s.label}
+                              value={s.value}
                               onSelect={(currentValue) => {
-                                const selected = mockSupervisors.find(
-                                  (sup) =>
-                                    sup.label.toLowerCase() ===
-                                    currentValue,
-                                );
                                 setSiteSupervisor(
-                                  selected ? selected.value : "",
+                                  currentValue === siteSupervisor ? "" : currentValue,
                                 );
                                 setSupervisorOpen(false);
                               }}
