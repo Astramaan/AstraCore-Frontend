@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useTransition, useRef } from "react";
@@ -1040,7 +1039,7 @@ const ProjectTimelineForm = ({
                         mode="single"
                         selected={startDate}
                         onSelect={(date) => {
-                          setStartDate(date);
+                          setStartDate(date as Date);
                           setDatePickerOpen(false);
                         }}
                         initialFocus
@@ -1674,4 +1673,3 @@ export function CreateProjectSheet({
     </>
   );
 }
-

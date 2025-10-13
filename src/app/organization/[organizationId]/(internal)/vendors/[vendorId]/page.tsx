@@ -96,7 +96,7 @@ export default function VendorDetailsPage({
   params: { vendorId: string };
 }) {
   // In a real app, you would fetch vendor data based on params.vendorId
-  const [vendor, setVendor] = useState(mockVendor);
+  const [vendor, setVendor] = useState<Record<string, any>>(mockVendor);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleUpdate = (updatedVendor: any) => {
