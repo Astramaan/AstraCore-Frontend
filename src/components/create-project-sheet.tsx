@@ -1040,7 +1040,7 @@ const ProjectTimelineForm = ({
                         mode="single"
                         selected={startDate}
                         onSelect={(date) => {
-                          setStartDate(date);
+                          setStartDate(date as Date);
                           setDatePickerOpen(false);
                         }}
                         initialFocus
