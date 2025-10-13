@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useTransition } from "react";
@@ -39,12 +40,14 @@ import {
 import { ScrollArea } from "./ui/scroll-area";
 import { updateMeeting } from "@/app/actions";
 import { useToast } from "./ui/use-toast";
+import { Textarea } from "./ui/textarea";
 
 export interface Meeting {
   id: string;
   projectId?: string;
   type: "client" | "lead" | "others";
   title?: string;
+  description?: string;
   name: string;
   city: string;
   date: string;
@@ -52,6 +55,7 @@ export interface Meeting {
   link: string;
   email: string;
   phone: string;
+  participants?: { userId: string; name: string }[];
 }
 
 interface EditMeetingSheetProps {
@@ -146,6 +150,7 @@ const EditMeetingForm = ({
   const [isPending, startTransition] = useTransition();
 
   const [title, setTitle] = useState(meeting.title || "");
+  const [description, setDescription] = useState(meeting.description || "");
   const [date, setDate] = useState<Date | undefined>(
     meeting.date
       ? new Date(meeting.date.replace(/(\d+)(st|nd|rd|th)/, "$1"))
@@ -155,7 +160,9 @@ const EditMeetingForm = ({
   const [selectedType, setSelectedType] = useState<
     "client" | "lead" | "others"
   >(meeting.type);
-  const [participants, setParticipants] = useState(["member1"]); // Mock
+  const [participants, setParticipants] = useState<string[]>(
+    meeting.participants?.map((p) => p.userId) || [],
+  );
   const [time, setTime] = useState(meeting.time);
   const [name, setName] = useState(meeting.name);
   const [city, setCity] = useState(meeting.city);
@@ -190,6 +197,7 @@ const EditMeetingForm = ({
         projectId: meeting.projectId || selectedId,
         meetingId: meeting.id,
         title,
+        description,
         name,
         city,
         email,
@@ -205,7 +213,7 @@ const EditMeetingForm = ({
         },
         participants: participants.map((pId) => ({
           userId: pId,
-          participantRole: "MEMBER",
+          name: mockMembers.find((m) => m.id === pId)?.name || "",
         })),
         manualDetails: {
           name,
@@ -239,6 +247,14 @@ const EditMeetingForm = ({
     }
   };
 
+  const toggleMember = (memberId: string) => {
+    setParticipants((prev) =>
+      prev.includes(memberId)
+        ? prev.filter((id) => id !== memberId)
+        : [...prev, memberId],
+    );
+  };
+
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1 p-6 no-scrollbar">
@@ -259,6 +275,25 @@ const EditMeetingForm = ({
               className="bg-background rounded-full h-14"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <Label
+              htmlFor="description"
+              className={cn(
+                "text-lg font-medium",
+                description ? "text-grey-1" : "text-foreground",
+              )}
+            >
+              Description
+            </Label>
+            <Textarea
+              id="description"
+              placeholder="Enter meeting description"
+              className="bg-background rounded-3xl min-h-[120px]"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
@@ -318,14 +353,7 @@ const EditMeetingForm = ({
                         <CommandItem
                           key={member.id}
                           value={member.id}
-                          onSelect={() => {
-                            const newParticipants = participants.includes(
-                              member.id,
-                            )
-                              ? participants.filter((p) => p !== member.id)
-                              : [...participants, member.id];
-                            setParticipants(newParticipants);
-                          }}
+                          onSelect={() => toggleMember(member.id)}
                         >
                           <Check
                             className={cn(
