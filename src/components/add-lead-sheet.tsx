@@ -143,6 +143,7 @@ const AddLeadForm = ({
           headers: {
             "Content-Type": "application/json",
             "x-user": JSON.stringify(user),
+            Authorization: `Bearer ${user?.userId}`,
           },
           body: JSON.stringify(payload),
         });
