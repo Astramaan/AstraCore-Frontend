@@ -236,7 +236,7 @@ const FloatingLabelSelect = ({
     <Select name={name || id} value={value} onValueChange={onValueChange}>
       <SelectTrigger
         id={id}
-        className="h-14 bg-background dark:bg-input rounded-full px-5"
+        className="h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer"
       >
         <SelectValue placeholder={label.replace("*", "")} />
       </SelectTrigger>
@@ -338,7 +338,7 @@ const CreateProjectForm = ({
           setName(result.data.fullName || "");
           setPhone(result.data.phoneNumber || "");
           if (result.data.siteLocationPinCode) {
-            setSiteAddress((prev) =>
+            setSiteAddress((prev: any) =>
               prev
                 ? `${prev}, Pincode: ${result.data.siteLocationPinCode}`
                 : `Pincode: ${result.data.siteLocationPinCode}`,
@@ -619,7 +619,7 @@ const CreateProjectForm = ({
                       variant="outline"
                       role="combobox"
                       aria-expanded={architectOpen}
-                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal"
+                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal cursor-pointer"
                     >
                       {architect
                         ? mockArchitects.find((a) => a.value === architect)
@@ -637,11 +637,14 @@ const CreateProjectForm = ({
                           {mockArchitects.map((a) => (
                             <CommandItem
                               key={a.value}
-                              value={a.value}
+                              value={a.label}
                               onSelect={(currentValue) => {
-                                setArchitect(
-                                  currentValue === architect ? "" : currentValue,
+                                const selected = mockArchitects.find(
+                                  (arch) =>
+                                    arch.label.toLowerCase() ===
+                                    currentValue,
                                 );
+                                setArchitect(selected ? selected.value : "");
                                 setArchitectOpen(false);
                               }}
                             >
@@ -683,7 +686,7 @@ const CreateProjectForm = ({
                       variant="outline"
                       role="combobox"
                       aria-expanded={supervisorOpen}
-                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal"
+                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal cursor-pointer"
                     >
                       {siteSupervisor
                         ? mockSupervisors.find(
@@ -702,12 +705,15 @@ const CreateProjectForm = ({
                           {mockSupervisors.map((s) => (
                             <CommandItem
                               key={s.value}
-                              value={s.value}
+                              value={s.label}
                               onSelect={(currentValue) => {
+                                const selected = mockSupervisors.find(
+                                  (sup) =>
+                                    sup.label.toLowerCase() ===
+                                    currentValue,
+                                );
                                 setSiteSupervisor(
-                                  currentValue === siteSupervisor
-                                    ? ""
-                                    : currentValue,
+                                  selected ? selected.value : "",
                                 );
                                 setSupervisorOpen(false);
                               }}
