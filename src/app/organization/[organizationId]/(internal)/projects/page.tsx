@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical, ShieldAlert, Search } from "lucide-react";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import {
   DropdownMenu,
@@ -302,43 +302,44 @@ export default function ProjectsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  useEffect(() => {
+  const fetchProjects = useCallback(async () => {
     if (!user) return;
-    const fetchProjects = async () => {
-      setIsLoading(true);
-      const result = await fetchProjectsSsr(user);
-      if (result.success && result.data) {
-        const formattedProjects = result.data.map((p: any) => ({
-          id: p.projectId,
-          name: p.personalDetails.name,
-          city: p.projectDetails.state,
-          contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
-          startDate: new Date(p.startDate).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          }),
-          status: p.projectStatus,
-          statusColor:
-            p.projectStatus === "In Progress"
-              ? "text-green-600"
-              : "text-red-600",
-          image: "https://placehold.co/59x59",
-          progress: 50, // Placeholder
-          projectType: p.projectDetails.projectType || "New Construction",
-        }));
-        setAllProjects(formattedProjects);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: result.message || "Failed to fetch projects",
-        });
-      }
-      setIsLoading(false);
-    };
+    setIsLoading(true);
+    const result = await fetchProjectsSsr(user);
+    if (result.success && result.data) {
+      const formattedProjects = result.data.map((p: any) => ({
+        id: p.projectId,
+        name: p.personalDetails.name,
+        city: p.projectDetails.state,
+        contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
+        startDate: new Date(p.startDate).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        status: p.projectStatus,
+        statusColor:
+          p.projectStatus === "In Progress"
+            ? "text-green-600"
+            : "text-red-600",
+        image: "https://placehold.co/59x59",
+        progress: 50, // Placeholder
+        projectType: p.projectDetails.projectType || "New Construction",
+      }));
+      setAllProjects(formattedProjects);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: result.message || "Failed to fetch projects",
+      });
+    }
+    setIsLoading(false);
+  }, [user, toast]);
+
+  useEffect(() => {
     fetchProjects();
-  }, [toast, user]);
+  }, [fetchProjects]);
 
   const filteredProjects = allProjects.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase()),
