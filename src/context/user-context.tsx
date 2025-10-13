@@ -62,17 +62,26 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("astramaan_user");
+    document.cookie =
+      "astramaan_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setUserState(null);
     window.location.href = "/";
   };
 
   const isSuperAdmin = user?.role === "SUPER_ADMIN";
   const isClient = user?.role === "CLIENT";
-  
+
   // A simple auth guard. In a real app, this would be more robust.
   useEffect(() => {
-    if (!loading && !user && pathname !== '/' && !pathname.startsWith('/signup') && !pathname.startsWith('/forgot-password') && !pathname.startsWith('/otp-verification')) {
-        window.location.href = "/";
+    if (
+      !loading &&
+      !user &&
+      pathname !== "/" &&
+      !pathname.startsWith("/signup") &&
+      !pathname.startsWith("/forgot-password") &&
+      !pathname.startsWith("/otp-verification")
+    ) {
+      window.location.href = "/";
     }
   }, [loading, user, pathname]);
 

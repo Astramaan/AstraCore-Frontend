@@ -15,11 +15,29 @@ export async function POST(req: Request) {
       body: JSON.stringify({ email, password }),
     });
 
+    // Check if the response is ok and the content-type is JSON
+    const contentType = res.headers.get("content-type");
+    if (!res.ok || !contentType || !contentType.includes("application/json")) {
+      const errorText = await res.text();
+      console.error("Login proxy failed: Non-JSON response from backend.", {
+        status: res.status,
+        statusText: res.statusText,
+        body: errorText,
+      });
+      return NextResponse.json(
+        {
+          success: false,
+          message: `The server sent an unexpected response. Status: ${res.status}`,
+        },
+        { status: 502 }, // Bad Gateway
+      );
+    }
+
     const data = await res.json();
 
     if (res.ok && data.success && data.user) {
       const cookieStore = cookies();
-      cookieStore.set("user-data", JSON.stringify(data.user), {
+      cookieStore.set("astramaan_user", JSON.stringify(data.user), {
         path: "/",
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
