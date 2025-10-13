@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Users, FileText, Banknote, MessageSquare } from "lucide-react";
 import { AllNotificationsDialog } from "./all-notifications-dialog";
 import NotificationBellIcon from "./icons/notification-bell-icon";
+import { ClientOnly } from "./client-only";
 
 const orgNotifications = [
   {
@@ -78,38 +79,40 @@ export function NotificationPopover({
   const notifications =
     userType === "client" ? clientNotifications : orgNotifications;
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="bg-black/10 dark:bg-black/20 backdrop-blur-sm rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 relative text-white"
-          >
-            <NotificationBellIcon className="h-6 w-6" />
-            <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
-          </Button>
-        </div>
-      </PopoverTrigger>
-      <PopoverContent
-        className="w-80 md:w-96 p-2 rounded-[50px] bg-popover text-popover-foreground border-0"
-        align="center"
-      >
-        <div className="p-4 flex items-center gap-2">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center border border-border">
-            <NotificationBellIcon className="w-6 w-6" />
+    <ClientOnly>
+      <Popover>
+        <PopoverTrigger asChild>
+          <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="bg-black/10 dark:bg-black/20 backdrop-blur-sm rounded-full h-12 w-12 md:h-14 md:w-14 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 relative text-white"
+            >
+              <NotificationBellIcon className="h-6 w-6" />
+              <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
+            </Button>
           </div>
-          <h3 className="text-xl font-semibold">Notifications</h3>
-        </div>
-        <div className="flex flex-col">
-          {notifications.map((item, index) => (
-            <NotificationItem key={index} notification={item} />
-          ))}
-        </div>
-        <div className="p-2 border-t mt-2">
-          <AllNotificationsDialog userType={userType} />
-        </div>
-      </PopoverContent>
-    </Popover>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-80 md:w-96 p-2 rounded-[50px] bg-popover text-popover-foreground border-0"
+          align="center"
+        >
+          <div className="p-4 flex items-center gap-2">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center border border-border">
+              <NotificationBellIcon className="w-6 w-6" />
+            </div>
+            <h3 className="text-xl font-semibold">Notifications</h3>
+          </div>
+          <div className="flex flex-col">
+            {notifications.map((item, index) => (
+              <NotificationItem key={index} notification={item} />
+            ))}
+          </div>
+          <div className="p-2 border-t mt-2">
+            <AllNotificationsDialog userType={userType} />
+          </div>
+        </PopoverContent>
+      </Popover>
+    </ClientOnly>
   );
 }

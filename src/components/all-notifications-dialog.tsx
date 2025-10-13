@@ -13,6 +13,7 @@ import { Users, FileText, X, Banknote, MessageSquare } from "lucide-react";
 import React from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import NotificationBellIcon from "./icons/notification-bell-icon";
+import { ClientOnly } from "./client-only";
 
 const orgNotifications = [
   {
@@ -124,43 +125,45 @@ export function AllNotificationsDialog({
   const notifications =
     userType === "client" ? clientNotifications : orgNotifications;
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="link" className="w-full text-primary">
-          View all notifications
-        </Button>
-      </SheetTrigger>
-      <SheetContent
-        side="bottom"
-        className="p-0 m-0 flex flex-col bg-background transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
-      >
-        <SheetHeader className="p-6 border-b">
-          <SheetTitle className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-2xl font-semibold">
-              <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center border border-border">
-                <NotificationBellIcon className="w-6 w-6" />
+    <ClientOnly>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="link" className="w-full text-primary">
+            View all notifications
+          </Button>
+        </SheetTrigger>
+        <SheetContent
+          side="bottom"
+          className="p-0 m-0 flex flex-col bg-background transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+        >
+          <SheetHeader className="p-6 border-b">
+            <SheetTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-2xl font-semibold">
+                <div className="w-[54px] h-[54px] rounded-full flex items-center justify-center border border-border">
+                  <NotificationBellIcon className="w-6 w-6" />
+                </div>
+                Notifications
               </div>
-              Notifications
+              <SheetClose asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full w-[54px] h-[54px] bg-muted"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </SheetClose>
+            </SheetTitle>
+          </SheetHeader>
+          <ScrollArea className="flex-1">
+            <div className="p-4">
+              {notifications.map((item, index) => (
+                <NotificationItem key={index} notification={item} />
+              ))}
             </div>
-            <SheetClose asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full w-[54px] h-[54px] bg-muted"
-              >
-                <X className="h-6 w-6" />
-              </Button>
-            </SheetClose>
-          </SheetTitle>
-        </SheetHeader>
-        <ScrollArea className="flex-1">
-          <div className="p-4">
-            {notifications.map((item, index) => (
-              <NotificationItem key={index} notification={item} />
-            ))}
-          </div>
-        </ScrollArea>
-      </SheetContent>
-    </Sheet>
+          </ScrollArea>
+        </SheetContent>
+      </Sheet>
+    </ClientOnly>
   );
 }
