@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
@@ -17,6 +18,14 @@ export async function POST(req: Request) {
     const data = await res.json();
 
     if (res.ok && data.success && data.user) {
+      const cookieStore = cookies();
+      cookieStore.set("user-data", JSON.stringify(data.user), {
+        path: "/",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+      });
       // The backend returns the user object directly in the 'user' property.
       return NextResponse.json({ success: true, user: data.user });
     } else {
