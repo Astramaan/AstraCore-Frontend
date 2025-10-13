@@ -898,6 +898,7 @@ const ProjectTimelineForm = ({
   const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] =
     useState(false);
   const [timeline, setTimeline] = useState<Phase[]>(projectData?.phases || []);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const handleTemplateSelect = (templateId: string) => {
     const template = templates.find((t) => t.id === templateId);
@@ -1014,7 +1015,7 @@ const ProjectTimelineForm = ({
                   >
                     Start Date*
                   </Label>
-                  <Popover>
+                  <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
@@ -1035,7 +1036,10 @@ const ProjectTimelineForm = ({
                       <Calendar
                         mode="single"
                         selected={startDate}
-                        onSelect={setStartDate}
+                        onSelect={(date) => {
+                          setStartDate(date);
+                          setDatePickerOpen(false);
+                        }}
                         initialFocus
                       />
                     </PopoverContent>
