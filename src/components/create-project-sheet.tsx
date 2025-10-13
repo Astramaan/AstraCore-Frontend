@@ -1173,12 +1173,136 @@ const ProjectTimelineForm = ({
   );
 };
 
-interface CustomTimelineDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (template: TimelineTemplate) => void;
-  templateToEdit: TimelineTemplate | null;
+export interface Phase {
+  name: string;
+  stages: Stage[];
 }
+
+export interface Stage {
+  name: string;
+  tasks: Task[];
+}
+
+export interface Task {
+  name: string;
+  duration: string;
+}
+
+export interface TimelineTemplate {
+  id: string;
+  name: string;
+  phases: Phase[];
+  isCustom?: boolean;
+}
+
+const residentialTemplate: Phase[] = [
+  {
+    name: "Design",
+    stages: [
+      {
+        name: "Architectural Design",
+        tasks: [
+          { name: "Design Presentation", duration: "3" },
+          { name: "Concept Approval", duration: "2" },
+        ],
+      },
+      {
+        name: "Structural Design",
+        tasks: [
+          { name: "Analysis Report", duration: "4" },
+          { name: "Foundation Design", duration: "2" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Construction",
+    stages: [
+      {
+        name: "Foundation",
+        tasks: [
+          { name: "Excavation", duration: "5" },
+          { name: "PCC", duration: "2" },
+        ],
+      },
+      {
+        name: "Superstructure",
+        tasks: [
+          { name: "Framing", duration: "10" },
+          { name: "Roofing", duration: "7" },
+        ],
+      },
+    ],
+  },
+];
+
+const commercialTemplate: Phase[] = [
+  {
+    name: "Pre-construction",
+    stages: [
+      {
+        name: "Site Analysis",
+        tasks: [
+          { name: "Surveying", duration: "5" },
+          { name: "Geotechnical Investigation", duration: "7" },
+        ],
+      },
+      {
+        name: "Permitting",
+        tasks: [
+          { name: "Submit plans", duration: "2" },
+          { name: "Await approval", duration: "30" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Construction",
+    stages: [
+      {
+        name: "Foundation",
+        tasks: [
+          { name: "Heavy Excavation", duration: "10" },
+          { name: "Reinforcement", duration: "10" },
+        ],
+      },
+      {
+        name: "Structure",
+        tasks: [
+          { name: "Steel Erection", duration: "20" },
+          { name: "Cladding", duration: "15" },
+        ],
+      },
+    ],
+  },
+];
+
+const foundationTemplate: Phase[] = [
+  {
+    name: "Foundation",
+    stages: [
+      {
+        name: "Excavation",
+        tasks: [
+          {
+            name: "Digging",
+            duration: "3",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const templates = [
+  {
+    id: "residential",
+    name: "Residential Template",
+    phases: residentialTemplate,
+  },
+  { id: "commercial", name: "Commercial Template", phases: commercialTemplate },
+  { id: "foundation", name: "Foundation Template", phases: foundationTemplate },
+];
 
 const CustomTimelineDialog = ({
   isOpen,
