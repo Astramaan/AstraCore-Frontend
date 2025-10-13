@@ -58,7 +58,7 @@ import {
 import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
 import { Separator } from "./ui/separator";
-import { Project } from "@/lib/data";
+import { Project, getProjects as fetchProjectsSsr } from "@/lib/data";
 import { ScrollArea } from "./ui/scroll-area";
 import {
   Accordion,
@@ -147,11 +147,6 @@ const mockLeads = [
     type: "lead" as const,
   },
 ];
-const allContacts = [
-  ...mockClients.map((c) => ({ ...c, type: "client" as const })),
-  ...mockLeads.map((l) => ({ ...l, type: "lead" as const })),
-];
-
 const FloatingLabelInput = ({
   id,
   label,
@@ -329,43 +324,14 @@ const CreateProjectForm = ({
   const [supervisorOpen, setSupervisorOpen] = useState(false);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [allContacts, setAllContacts] = useState<(typeof mockClients[0] | typeof mockLeads[0])[]>([]);
 
   useEffect(() => {
-    const fetchLeadData = async () => {
-      if (email && /^\S+@\S+\.\S+$/.test(email)) {
-        const result = await getLeadByEmail(email);
-        if (result.success && result.data) {
-          setName(result.data.fullName || "");
-          setPhone(result.data.phoneNumber || "");
-          if (result.data.siteLocationPinCode) {
-            setSiteAddress((prev: any) =>
-              prev
-                ? `${prev}, Pincode: ${result.data.siteLocationPinCode}`
-                : `Pincode: ${result.data.siteLocationPinCode}`,
-            );
-          }
-        }
-      }
-    };
-
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-    }
-
-    debounceTimeout.current = setTimeout(() => {
-      if (!projectToEdit) {
-        // Only fetch if not in edit mode
-        fetchLeadData();
-      }
-    }, 500);
-
-    return () => {
-      if (debounceTimeout.current) {
-        clearTimeout(debounceTimeout.current);
-      }
-    };
-  }, [email, projectToEdit]);
-
+    // In a real app, this would be a fetch call.
+    // For now, we combine the mock data.
+    setAllContacts([...mockClients, ...mockLeads]);
+  }, []);
+  
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -754,126 +720,12 @@ export interface Stage {
   tasks: Task[];
 }
 
-export interface Task {
-  name: string;
-  duration: string;
-}
-
 export interface TimelineTemplate {
   id: string;
   name: string;
   phases: Phase[];
   isCustom?: boolean;
 }
-
-const residentialTemplate: Phase[] = [
-  {
-    name: "Design",
-    stages: [
-      {
-        name: "Architectural Design",
-        tasks: [
-          { name: "Design Presentation", duration: "3" },
-          { name: "Concept Approval", duration: "2" },
-        ],
-      },
-      {
-        name: "Structural Design",
-        tasks: [
-          { name: "Analysis Report", duration: "4" },
-          { name: "Foundation Design", duration: "2" },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Construction",
-    stages: [
-      {
-        name: "Foundation",
-        tasks: [
-          { name: "Excavation", duration: "5" },
-          { name: "PCC", duration: "2" },
-        ],
-      },
-      {
-        name: "Superstructure",
-        tasks: [
-          { name: "Framing", duration: "10" },
-          { name: "Roofing", duration: "7" },
-        ],
-      },
-    ],
-  },
-];
-
-const commercialTemplate: Phase[] = [
-  {
-    name: "Pre-construction",
-    stages: [
-      {
-        name: "Site Analysis",
-        tasks: [
-          { name: "Surveying", duration: "5" },
-          { name: "Geotechnical Investigation", duration: "7" },
-        ],
-      },
-      {
-        name: "Permitting",
-        tasks: [
-          { name: "Submit plans", duration: "2" },
-          { name: "Await approval", duration: "30" },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Construction",
-    stages: [
-      {
-        name: "Foundation",
-        tasks: [
-          { name: "Heavy Excavation", duration: "10" },
-          { name: "Reinforcement", duration: "10" },
-        ],
-      },
-      {
-        name: "Structure",
-        tasks: [
-          { name: "Steel Erection", duration: "20" },
-          { name: "Cladding", duration: "15" },
-        ],
-      },
-    ],
-  },
-];
-
-const foundationTemplate: Phase[] = [
-  {
-    name: "Foundation",
-    stages: [
-      {
-        name: "Excavation",
-        tasks: [
-          {
-            name: "Digging",
-            duration: "3",
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const templates = [
-  {
-    id: "residential",
-    name: "Residential Template",
-    phases: residentialTemplate,
-  },
-  { id: "commercial", name: "Commercial Template", phases: commercialTemplate },
-  { id: "foundation", name: "Foundation Template", phases: foundationTemplate },
-];
 
 const ProjectTimelineForm = ({
   onFormSuccess,
@@ -899,6 +751,118 @@ const ProjectTimelineForm = ({
     useState(false);
   const [timeline, setTimeline] = useState<Phase[]>(projectData?.phases || []);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [templates, setTemplates] = useState<TimelineTemplate[]>([]);
+
+  useEffect(() => {
+    const residentialTemplate: Phase[] = [
+      {
+        name: "Design",
+        stages: [
+          {
+            name: "Architectural Design",
+            tasks: [
+              { name: "Design Presentation", duration: "3" },
+              { name: "Concept Approval", duration: "2" },
+            ],
+          },
+          {
+            name: "Structural Design",
+            tasks: [
+              { name: "Analysis Report", duration: "4" },
+              { name: "Foundation Design", duration: "2" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Construction",
+        stages: [
+          {
+            name: "Foundation",
+            tasks: [
+              { name: "Excavation", duration: "5" },
+              { name: "PCC", duration: "2" },
+            ],
+          },
+          {
+            name: "Superstructure",
+            tasks: [
+              { name: "Framing", duration: "10" },
+              { name: "Roofing", duration: "7" },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const commercialTemplate: Phase[] = [
+      {
+        name: "Pre-construction",
+        stages: [
+          {
+            name: "Site Analysis",
+            tasks: [
+              { name: "Surveying", duration: "5" },
+              { name: "Geotechnical Investigation", duration: "7" },
+            ],
+          },
+          {
+            name: "Permitting",
+            tasks: [
+              { name: "Submit plans", duration: "2" },
+              { name: "Await approval", duration: "30" },
+            ],
+          },
+        ],
+      },
+      {
+        name: "Construction",
+        stages: [
+          {
+            name: "Foundation",
+            tasks: [
+              { name: "Heavy Excavation", duration: "10" },
+              { name: "Reinforcement", duration: "10" },
+            ],
+          },
+          {
+            name: "Structure",
+            tasks: [
+              { name: "Steel Erection", duration: "20" },
+              { name: "Cladding", duration: "15" },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const foundationTemplate: Phase[] = [
+      {
+        name: "Foundation",
+        stages: [
+          {
+            name: "Excavation",
+            tasks: [
+              {
+                name: "Digging",
+                duration: "3",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    setTemplates([
+      {
+        id: "residential",
+        name: "Residential Template",
+        phases: residentialTemplate,
+      },
+      { id: "commercial", name: "Commercial Template", phases: commercialTemplate },
+      { id: "foundation", name: "Foundation Template", phases: foundationTemplate },
+    ]);
+  }, []);
 
   const handleTemplateSelect = (templateId: string) => {
     const template = templates.find((t) => t.id === templateId);
