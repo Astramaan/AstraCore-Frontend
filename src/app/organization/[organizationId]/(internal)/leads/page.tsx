@@ -209,12 +209,12 @@ const LeadCard = ({
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-                  <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">
+                  <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border hover:bg-muted/80">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => onSingleDelete(lead.leadId)}
-                    className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700"
+                    className="w-40 h-14 px-10 bg-destructive rounded-[50px] text-lg font-medium text-destructive-foreground hover:bg-destructive/90"
                   >
                     Delete
                   </AlertDialogAction>
@@ -294,12 +294,12 @@ const LeadCard = ({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-              <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-primary/10 hover:text-primary">
+              <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border hover:bg-muted/80">
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => onSingleDelete(lead.leadId)}
-                className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700"
+                className="w-40 h-14 px-10 bg-destructive rounded-[50px] text-lg font-medium text-destructive-foreground hover:bg-destructive/90"
               >
                 Delete
               </AlertDialogAction>
@@ -798,12 +798,12 @@ export default function LeadsPage() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-              <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border-none hover:bg-muted/80">
+              <AlertDialogCancel className="w-40 h-14 px-10 rounded-[50px] text-lg font-medium text-foreground border hover:bg-muted/80">
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteMultiple}
-                className="w-40 h-14 px-10 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700"
+                className="w-40 h-14 px-10 bg-destructive rounded-[50px] text-lg font-medium text-destructive-foreground hover:bg-destructive/90"
               >
                 Delete
               </AlertDialogAction>
