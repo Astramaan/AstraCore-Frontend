@@ -138,7 +138,7 @@ const AddLeadForm = ({
       };
 
       try {
-        const res = await fetch(`/api/leads`, {
+        const res = await fetch(`/api/invite`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -343,4 +343,3 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
     </>
   );
 }
-
