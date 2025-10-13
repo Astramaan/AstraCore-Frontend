@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useTransition, useRef } from "react";
@@ -636,9 +637,11 @@ const CreateProjectForm = ({
                           {mockArchitects.map((a) => (
                             <CommandItem
                               key={a.value}
-                              value={a.label}
-                              onSelect={() => {
-                                setArchitect(a.value);
+                              value={a.value}
+                              onSelect={(currentValue) => {
+                                setArchitect(
+                                  currentValue === architect ? "" : currentValue,
+                                );
                                 setArchitectOpen(false);
                               }}
                             >
@@ -671,7 +674,10 @@ const CreateProjectForm = ({
                 >
                   Site Supervisor*
                 </Label>
-                <Popover open={supervisorOpen} onOpenChange={setSupervisorOpen}>
+                <Popover
+                  open={supervisorOpen}
+                  onOpenChange={setSupervisorOpen}
+                >
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
@@ -696,9 +702,13 @@ const CreateProjectForm = ({
                           {mockSupervisors.map((s) => (
                             <CommandItem
                               key={s.value}
-                              value={s.label}
-                              onSelect={() => {
-                                setSiteSupervisor(s.value);
+                              value={s.value}
+                              onSelect={(currentValue) => {
+                                setSiteSupervisor(
+                                  currentValue === siteSupervisor
+                                    ? ""
+                                    : currentValue,
+                                );
                                 setSupervisorOpen(false);
                               }}
                             >
