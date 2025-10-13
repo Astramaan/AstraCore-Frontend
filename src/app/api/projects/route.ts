@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
@@ -31,6 +32,11 @@ export async function GET(req: Request) {
       headers: getAuthHeaders(req),
     });
     const data = await res.json();
+    // The backend returns projects under the 'projects' key.
+    // We remap it to 'data' for the frontend.
+    if (data.success) {
+      return NextResponse.json({ success: true, data: data.projects }, { status: res.status });
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Get projects proxy failed:", error);
