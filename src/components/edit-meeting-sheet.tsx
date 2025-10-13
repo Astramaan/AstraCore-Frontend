@@ -541,6 +541,15 @@ export function EditMeetingSheet({
         className={cn(
           "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none",
         )}
+        onInteractOutside={(e) => {
+          if (
+            (e.target as HTMLElement).closest(
+              "[data-radix-popper-content-wrapper]",
+            )
+          ) {
+            e.preventDefault();
+          }
+        }}
       >
         <SheetHeader className="p-6 border-b bg-white rounded-t-[50px]">
           <SheetTitle className="flex items-center text-2xl font-semibold">

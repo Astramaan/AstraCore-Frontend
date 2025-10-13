@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useTransition, useRef } from "react";
@@ -1015,7 +1014,10 @@ const ProjectTimelineForm = ({
                   >
                     Start Date*
                   </Label>
-                  <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                  <Popover
+                    open={datePickerOpen}
+                    onOpenChange={setDatePickerOpen}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
