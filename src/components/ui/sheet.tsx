@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -70,6 +69,12 @@ const SheetContent = React.forwardRef<
       <SheetOverlay overlayClassName={overlayClassName} />
       <SheetPrimitive.Content
         ref={ref}
+        onInteractOutside={(e) => {
+          const target = e.target as HTMLElement;
+          if (target.closest('[data-radix-popper-content-wrapper]')) {
+            e.preventDefault();
+          }
+        }}
         className={cn(sheetVariants({ side }), className)}
         {...props}
       >
