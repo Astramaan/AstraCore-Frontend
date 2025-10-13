@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -67,7 +68,7 @@ const DetailField = ({
       htmlFor={name}
       className={cn(
         "text-lg font-medium px-2",
-        value ? "text-grey-1" : "text-zinc-900",
+        value ? "text-muted-foreground" : "text-foreground",
       )}
     >
       {label}
@@ -84,7 +85,7 @@ const DetailField = ({
       />
     ) : (
       <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-        <p className="text-black text-base leading-tight truncate">{value}</p>
+        <p className="text-foreground text-base leading-tight truncate">{value}</p>
       </div>
     )}
   </div>
@@ -92,6 +93,7 @@ const DetailField = ({
 
 const LeadDetailsContent = ({
   lead: initialLead,
+  onClose,
   onDelete,
   startInEditMode,
 }: {
@@ -192,18 +194,7 @@ const LeadDetailsContent = ({
                   </Button>
                 </SheetClose>
               </>
-            ) : (
-              <SheetClose asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-[54px] h-[54px] bg-background rounded-full"
-                  onClick={handleCancel}
-                >
-                  <X className="h-5 w-5" />
-                </Button>
-              </SheetClose>
-            )}
+            ) : null}
           </div>
         </SheetTitle>
       </SheetHeader>
@@ -236,11 +227,11 @@ const LeadDetailsContent = ({
               />
 
               <div className="space-y-2">
-                <Label className="text-lg font-medium px-2 text-grey-1">
+                <Label className="text-lg font-medium px-2 text-muted-foreground">
                   Lead ID
                 </Label>
                 <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                  <p className="text-black text-base leading-tight">
+                  <p className="text-foreground text-base leading-tight">
                     {lead.leadId}
                   </p>
                 </div>
@@ -281,7 +272,7 @@ const LeadDetailsContent = ({
                   htmlFor="level"
                   className={cn(
                     "text-lg font-medium px-2",
-                    lead.level ? "text-grey-1" : "text-zinc-900",
+                    lead.level ? "text-muted-foreground" : "text-foreground",
                   )}
                 >
                   Lead Level
@@ -306,7 +297,7 @@ const LeadDetailsContent = ({
                   </Select>
                 ) : (
                   <div className="h-14 flex items-center px-5 border border-transparent rounded-full bg-background">
-                    <p className="text-black text-base leading-tight">
+                    <p className="text-foreground text-base leading-tight">
                       {lead.level}
                     </p>
                   </div>
@@ -373,6 +364,13 @@ const LeadDetailsContent = ({
       </ScrollArea>
       {isEditing ? (
         <div className="p-4 border-t mt-auto flex flex-col md:flex-row justify-end gap-2 shrink-0">
+           <Button
+            variant="outline"
+            onClick={handleCancel}
+            className="w-full md:w-auto rounded-full h-14 px-10 text-lg"
+          >
+            Cancel
+          </Button>
           <Button
             onClick={handleSave}
             className="w-full md:w-auto rounded-full h-14 px-10 text-lg"
