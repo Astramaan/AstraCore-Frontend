@@ -320,17 +320,7 @@ const CreateProjectForm = ({
       projectData?.projectAssign?.siteSupervisor ||
       "",
   );
-  const [architectOpen, setArchitectOpen] = useState(false);
-  const [supervisorOpen, setSupervisorOpen] = useState(false);
-  const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
-  const [allContacts, setAllContacts] = useState<(typeof mockClients[0] | typeof mockLeads[0])[]>([]);
 
-  useEffect(() => {
-    // In a real app, this would be a fetch call.
-    // For now, we combine the mock data.
-    setAllContacts([...mockClients, ...mockLeads]);
-  }, []);
-  
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -346,17 +336,6 @@ const CreateProjectForm = ({
       const value = e.target.value.replace(/\D/g, "");
       setter(value);
     };
-
-  const handleEmailSelect = (contactEmail: string) => {
-    const contact = allContacts.find((c) => c.email === contactEmail);
-    if (contact) {
-      setName(`${contact.name}`);
-      setPhone(contact.phone);
-      setEmail(contact.email);
-      setCurrentAddress(contact.address);
-    }
-    setEmailComboboxOpen(false);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -391,59 +370,15 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-               <div className="space-y-2 sm:col-span-2">
-                <div className="flex items-baseline gap-2">
-                  <Label
-                    htmlFor="email"
-                    className={cn(
-                      "text-lg font-medium px-2",
-                      email ? "text-muted-foreground" : "text-foreground",
-                    )}
-                  >
-                    Email*
-                  </Label>
-                  <span className="text-xs text-muted-foreground">
-                    (enter to fetch personal details)
-                  </span>
-                </div>
-                <Popover open={emailComboboxOpen} onOpenChange={setEmailComboboxOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={emailComboboxOpen}
-                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal"
-                    >
-                      {email || "Select contact..."}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search contact..." />
-                      <CommandList>
-                        <CommandEmpty>No contact found.</CommandEmpty>
-                        <CommandGroup>
-                          {allContacts.map((contact) => (
-                            <CommandItem
-                              key={contact.id}
-                              value={contact.email}
-                              onSelect={() => handleEmailSelect(contact.email)}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  email === contact.email ? "opacity-100" : "opacity-0",
-                                )}
-                              />
-                              {contact.email}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+              <div className="sm:col-span-2">
+                <FloatingLabelInput
+                  id="email"
+                  name="email"
+                  label="Email*"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                />
               </div>
               <FloatingLabelInput
                 id="name"
