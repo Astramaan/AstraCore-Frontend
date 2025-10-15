@@ -256,7 +256,7 @@ const CreateProjectForm = ({
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
-      "Test User",
+      "Megna Gowda",
   );
   const [phone, setPhone] = useState(
     projectToEdit?.personalDetails?.phoneNumber ||
@@ -266,59 +266,59 @@ const CreateProjectForm = ({
   const [email, setEmail] = useState(
     projectToEdit?.personalDetails?.email ||
       projectData?.personalDetails?.email ||
-      "test@example.com",
+      "megna@gmail.com",
   );
   const [currentAddress, setCurrentAddress] = useState(
     projectToEdit?.personalDetails?.currentAddress ||
       projectData?.personalDetails?.currentAddress ||
-      "123 Test Street, Test City",
+      "Mumbai",
   );
 
   const [projectName, setProjectName] = useState(
     projectToEdit?.projectDetails?.projectName ||
       projectToEdit?.name ||
       projectData?.projectDetails?.projectName ||
-      "My Test Project",
+      "Nathvilla",
   );
   const [projectType, setProjectType] = useState(
     projectToEdit?.projectType ||
       projectData?.projectDetails?.projectType ||
-      "New Construction",
+      "Commercial",
   );
   const [projectCost, setProjectCost] = useState(
     projectToEdit?.projectDetails?.projectCost ||
       projectData?.projectDetails?.projectCost ||
-      "5000000",
+      "50,00,000",
   );
   const [dimension, setDimension] = useState(
     projectToEdit?.projectDetails?.dimension ||
       projectData?.projectDetails?.dimension ||
-      "1200",
+      "2000 sq.ft",
   );
   const [floor, setFloor] = useState(
     projectToEdit?.projectDetails?.floor ||
       projectData?.projectDetails?.floor ||
-      "G+1",
-  );
-  const [siteLocation, setSiteLocation] = useState(
-    projectToEdit?.projectDetails?.siteLocation ||
-      projectData?.projectDetails?.siteLocation ||
-      "https://maps.google.com",
+      "2",
   );
   const [siteAddress, setSiteAddress] = useState(
     projectToEdit?.projectDetails?.siteAddress ||
       projectData?.projectDetails?.siteAddress ||
-      "456 Site Avenue, Test City",
+      "Bandra West",
+  );
+  const [siteLocationLink, setSiteLocationLink] = useState(
+    projectToEdit?.projectDetails?.siteLocationLink ||
+      projectData?.projectDetails?.siteLocationLink ||
+      "https://maps.google.com/site-link",
   );
   const [architect, setArchitect] = useState(
     projectToEdit?.projectAssign?.architect ||
       projectData?.projectAssign?.architect ||
-      "Test Architect",
+      "554cee57f2f634d9",
   );
   const [siteSupervisor, setSiteSupervisor] = useState(
     projectToEdit?.projectAssign?.siteSupervisor ||
       projectData?.projectAssign?.siteSupervisor ||
-      "Test Supervisor",
+      "55e79200c1635b37",
   );
 
   const handleTextOnlyChange =
@@ -352,8 +352,8 @@ const CreateProjectForm = ({
         projectCost: projectCost,
         dimension: dimension,
         floor: floor,
-        siteLocation: siteLocation,
         siteAddress: siteAddress,
+        siteLocationLink: siteLocationLink,
       },
       projectAssign: {
         architect: architect,
@@ -462,20 +462,20 @@ const CreateProjectForm = ({
                 ))}
               </FloatingLabelSelect>
               <FloatingLabelInput
-                id="site-location"
-                name="site_location"
-                label="Site Location link*"
-                type="url"
-                value={siteLocation}
-                onChange={(e) => setSiteLocation(e.target.value)}
+                id="site-address"
+                name="site_address"
+                label="Site Address"
+                value={siteAddress}
+                onChange={(e) => setSiteAddress(e.target.value)}
               />
               <div className="sm:col-span-2">
-                <FloatingLabelTextarea
-                  id="site-address"
-                  name="site_address"
-                  label="Site Address"
-                  value={siteAddress}
-                  onChange={(e) => setSiteAddress(e.target.value)}
+                <FloatingLabelInput
+                  id="site-location-link"
+                  name="site_location_link"
+                  label="Site Location link*"
+                  type="url"
+                  value={siteLocationLink}
+                  onChange={(e) => setSiteLocationLink(e.target.value)}
                 />
               </div>
             </div>
@@ -484,7 +484,7 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Project Assign</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <FloatingLabelInput
+              <FloatingLabelInput
                 id="architect"
                 name="architect"
                 label="Architect*"
@@ -719,7 +719,7 @@ const ProjectTimelineForm = ({
       ...projectData,
       createdBy: user.userId,
       phases: timelineData,
-      startDate: startDate,
+      startDate: new Date(startDate).toISOString(),
       organizationId: params.organizationId,
     };
 
