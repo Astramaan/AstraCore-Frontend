@@ -58,7 +58,11 @@ export async function POST(req: Request) {
 
     const text = await res.text();
     if (!text) {
-      return new NextResponse(null, { status: res.status });
+      // Handle cases where backend sends no body on success
+      if (res.ok) {
+        return new NextResponse(null, { status: 201 });
+      }
+      return NextResponse.json({ success: false, message: 'Empty response from server' }, { status: res.status });
     }
 
     const data = JSON.parse(text);
