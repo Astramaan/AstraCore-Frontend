@@ -313,12 +313,12 @@ const CreateProjectForm = ({
   const [architect, setArchitect] = useState(
     projectToEdit?.projectAssign?.architect ||
       projectData?.projectAssign?.architect ||
-      "554cee57f2f634d9",
+      "",
   );
   const [siteSupervisor, setSiteSupervisor] = useState(
     projectToEdit?.projectAssign?.siteSupervisor ||
       projectData?.projectAssign?.siteSupervisor ||
-      "55e79200c1635b37",
+      "",
   );
 
   const handleTextOnlyChange =
@@ -463,7 +463,7 @@ const CreateProjectForm = ({
               </FloatingLabelSelect>
               <FloatingLabelInput
                 id="site-address"
-                name="site_address"
+                name="siteAddress"
                 label="Site Address"
                 value={siteAddress}
                 onChange={(e) => setSiteAddress(e.target.value)}
@@ -471,7 +471,7 @@ const CreateProjectForm = ({
               <div className="sm:col-span-2">
                 <FloatingLabelInput
                   id="site-location-link"
-                  name="site_location_link"
+                  name="siteLocationLink"
                   label="Site Location link*"
                   type="url"
                   value={siteLocationLink}
@@ -540,7 +540,7 @@ const ProjectTimelineForm = ({
   isEditMode,
   projectData,
 }: {
-  onFormSuccess: (project: Project) => void;
+  onFormSuccess: (project: Project, responseData: any) => void;
   onBack: () => void;
   isEditMode: boolean;
   projectData: any;
@@ -667,8 +667,16 @@ const ProjectTimelineForm = ({
         name: "Residential Template",
         phases: residentialTemplate,
       },
-      { id: "commercial", name: "Commercial Template", phases: commercialTemplate },
-      { id: "foundation", name: "Foundation Template", phases: foundationTemplate },
+      {
+        id: "commercial",
+        name: "Commercial Template",
+        phases: commercialTemplate,
+      },
+      {
+        id: "foundation",
+        name: "Foundation Template",
+        phases: foundationTemplate,
+      },
     ]);
   }, []);
 
@@ -749,7 +757,7 @@ const ProjectTimelineForm = ({
         result = await response.json();
 
         if (result.success) {
-          onFormSuccess(result.data);
+          onFormSuccess(result.data, result);
           router.refresh();
         } else {
           toast({
@@ -906,10 +914,10 @@ const ProjectTimelineForm = ({
   );
 };
 interface CustomTimelineDialogProps {
-    isOpen: boolean;
-    onClose: () => void;
-    onSave: (template: TimelineTemplate) => void;
-    templateToEdit: TimelineTemplate | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (template: TimelineTemplate) => void;
+  templateToEdit: TimelineTemplate | null;
 }
 
 const CustomTimelineDialog = ({
@@ -1242,6 +1250,7 @@ export function CreateProjectSheet({
 }: CreateProjectSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [successData, setSuccessData] = useState<any>(null);
   const [step, setStep] = useState(1);
   const [projectData, setProjectData] = useState<any>(null);
   const [backendError, setBackendError] = useState<string | null>(null);
@@ -1264,8 +1273,9 @@ export function CreateProjectSheet({
     setIsOpen(open);
   };
 
-  const handleSuccess = (newOrUpdatedProject: Project) => {
+  const handleSuccess = (newOrUpdatedProject: Project, responseData: any) => {
     setIsOpen(false);
+    setSuccessData(responseData);
     setShowSuccess(true);
     if (isEditMode) {
       onProjectUpdated(newOrUpdatedProject);
@@ -1401,6 +1411,7 @@ export function CreateProjectSheet({
             ? "The project details have been successfully updated."
             : "Congratulations! You have successfully added a new project."
         }
+        responseData={successData}
       />
     </>
   );

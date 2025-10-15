@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -6,6 +7,7 @@ import { Check, X, Copy } from "lucide-react";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 import { Input } from "./ui/input";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface SuccessPopupProps {
   isOpen: boolean;
@@ -13,6 +15,7 @@ interface SuccessPopupProps {
   title: string;
   message: string;
   inviteLink?: string;
+  responseData?: any;
 }
 
 export function SuccessPopup({
@@ -21,17 +24,16 @@ export function SuccessPopup({
   title,
   message,
   inviteLink,
+  responseData,
 }: SuccessPopupProps) {
   const { toast } = useToast();
 
-  const handleCopy = () => {
-    if (inviteLink) {
-      navigator.clipboard.writeText(inviteLink);
-      toast({
-        title: "Copied!",
-        description: "Invite link copied to clipboard.",
-      });
-    }
+  const handleCopy = (textToCopy: string) => {
+    navigator.clipboard.writeText(textToCopy);
+    toast({
+      title: "Copied!",
+      description: "Content copied to clipboard.",
+    });
   };
 
   if (!isOpen) return null;
@@ -65,10 +67,32 @@ export function SuccessPopup({
                 size="icon"
                 variant="ghost"
                 className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full"
-                onClick={handleCopy}
+                onClick={() => handleCopy(inviteLink)}
               >
                 <Copy className="h-4 w-4" />
               </Button>
+            </div>
+          )}
+          {responseData && (
+            <div className="mt-4 w-full text-left">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-sm font-semibold">Server Response:</h3>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() =>
+                    handleCopy(JSON.stringify(responseData, null, 2))
+                  }
+                >
+                  <Copy className="h-4 w-4 mr-2" />
+                  Copy
+                </Button>
+              </div>
+              <ScrollArea className="h-40 w-full rounded-md border bg-muted p-4">
+                <pre className="text-xs">
+                  {JSON.stringify(responseData, null, 2)}
+                </pre>
+              </ScrollArea>
             </div>
           )}
         </div>
