@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useTransition } from "react";
@@ -127,22 +128,28 @@ const CreateMeetingForm = ({
   onMeetingCreated: (meeting: Omit<Meeting, "id">) => void;
   onClose: () => void;
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date, setDate] = React.useState<Date>();
-  const [meetingLink, setMeetingLink] = React.useState("");
+  const [title, setTitle] = useState(
+    `Test Meeting ${Math.floor(Date.now() / 1000)}`,
+  );
+  const [description, setDescription] = useState(
+    "This is a pre-filled description for testing purposes.",
+  );
+  const [date, setDate] = React.useState<Date>(new Date());
+  const [meetingLink, setMeetingLink] = React.useState(
+    "meet.google.com/abc-xyz",
+  );
   const [meetingLinkError, setMeetingLinkError] = useState("");
   const [targetType, setTargetType] = React.useState<
     "client" | "lead" | "others" | ""
-  >("");
-  const [participants, setParticipants] = React.useState<string[]>([]);
-  const [time, setTime] = React.useState("");
+  >("lead");
+  const [participants, setParticipants] = React.useState<string[]>(["USR123"]);
+  const [time, setTime] = React.useState("10:30 AM");
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isManual, setIsManual] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
+  const [selectedId, setSelectedId] = useState("LEAD2024");
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -455,7 +462,7 @@ const CreateMeetingForm = ({
             >
               Time*
             </Label>
-            <Select onValueChange={setTime}>
+            <Select onValueChange={setTime} value={time}>
               <SelectTrigger className="h-14 bg-background rounded-full hover:bg-accent hover:text-accent-foreground">
                 <SelectValue placeholder="Select a time slot" />
               </SelectTrigger>
