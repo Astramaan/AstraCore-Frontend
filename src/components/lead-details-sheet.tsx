@@ -156,7 +156,7 @@ const LeadDetailsContent = ({
 
   return (
     <div className="flex flex-col h-full">
-      <SheetHeader className="p-6 border-b bg-white rounded-t-[50px] shrink-0">
+      <SheetHeader className="p-6 border-b bg-card rounded-t-[50px] shrink-0">
         <SheetTitle className="flex justify-between items-center text-2xl font-semibold">
           <span className="flex-1 text-left">
             {isEditing ? "Edit Lead Details" : "Lead Details"}
@@ -172,6 +172,7 @@ const LeadDetailsContent = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem onClick={() => setIsEditing(true)}>
+                      <Edit className="mr-2 h-4 w-4" />
                       Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -180,6 +181,7 @@ const LeadDetailsContent = ({
                         onDelete(e as any);
                       }}
                     >
+                      <Trash2 className="mr-2 h-4 w-4" />
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -210,13 +212,13 @@ const LeadDetailsContent = ({
               data-ai-hint="person portrait"
             />
             <div>
-              <h3 className="text-2xl font-semibold">{lead.fullName}</h3>
+              <h3 className="text-2xl font-semibold text-foreground">{lead.fullName}</h3>
               <p className="text-muted-foreground">{lead.leadId}</p>
             </div>
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-lg font-medium">Personal Information</h4>
+            <h4 className="text-lg font-medium text-foreground">Personal Information</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <DetailField
                 label="Full Name"
@@ -316,7 +318,7 @@ const LeadDetailsContent = ({
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-medium">Site Images</h4>
+            <h4 className="text-lg font-medium text-foreground">Site Images</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {lead.siteImages.map((img, index) => (
                 <div key={index} className="relative group">
@@ -403,7 +405,7 @@ export function LeadDetailsSheet({
       <SheetContent
         side="bottom"
         className={cn(
-          "p-0 m-0 flex flex-col bg-white transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none",
+          "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-2xl md:mx-auto rounded-t-[50px] border-none",
         )}
         onInteractOutside={(e) => {
           if (
