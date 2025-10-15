@@ -550,14 +550,15 @@ const ProjectTimelineForm = ({
   const router = useRouter();
   const params = useParams();
 
-  const [startDate, setStartDate] = useState<Date | undefined>(
-    projectData?.startDate ? new Date(projectData.startDate) : undefined,
+  const [startDate, setStartDate] = useState<string>(
+    projectData?.startDate
+      ? new Date(projectData.startDate).toISOString().split("T")[0]
+      : "",
   );
   const [isPending, startTransition] = useTransition();
   const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] =
     useState(false);
   const [timeline, setTimeline] = useState<Phase[]>(projectData?.phases || []);
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [templates, setTemplates] = useState<TimelineTemplate[]>([]);
 
   useEffect(() => {
@@ -718,7 +719,7 @@ const ProjectTimelineForm = ({
       ...projectData,
       createdBy: user.userId,
       phases: timelineData,
-      startDate: startDate?.toISOString(),
+      startDate: startDate,
       organizationId: params.organizationId,
     };
 
@@ -776,54 +777,14 @@ const ProjectTimelineForm = ({
           <div className="space-y-8">
             <div className="space-y-6">
               <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="start-date"
-                    className={cn(
-                      "text-lg font-medium px-2",
-                      startDate ? "text-muted-foreground" : "text-foreground",
-                    )}
-                  >
-                    Start Date*
-                  </Label>
-                  <Popover
-                    open={datePickerOpen}
-                    onOpenChange={setDatePickerOpen}
-                  >
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full justify-start text-left font-normal h-14 bg-background dark:bg-input rounded-full px-5",
-                          !startDate && "text-muted-foreground",
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {startDate ? (
-                          startDate.toLocaleDateString()
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={startDate}
-                        onSelect={(date) => {
-                          setStartDate(date as Date);
-                          setDatePickerOpen(false);
-                        }}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <input
-                    type="hidden"
-                    name="startDate"
-                    value={startDate?.toISOString() || ""}
-                  />
-                </div>
+                <FloatingLabelInput
+                  id="start-date"
+                  name="startDate"
+                  label="Start Date*"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  type="date"
+                />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
