@@ -549,130 +549,22 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Project Assign</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="architect"
-                  className={cn(
-                    "text-lg font-medium px-2",
-                    architect ? "text-muted-foreground" : "text-foreground",
-                  )}
-                >
-                  Architect*
-                </Label>
-                <Popover open={architectOpen} onOpenChange={setArchitectOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={architectOpen}
-                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal cursor-pointer"
-                    >
-                      {architect
-                        ? mockArchitects.find((a) => a.value === architect)
-                            ?.label
-                        : "Select architect..."}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search architect..." />
-                      <CommandList>
-                        <CommandEmpty>No architect found.</CommandEmpty>
-                        <CommandGroup>
-                          {mockArchitects.map((a) => (
-                            <CommandItem
-                              key={a.value}
-                              value={a.value}
-                              onSelect={(currentValue) => {
-                                setArchitect(
-                                  currentValue === architect ? "" : currentValue,
-                                );
-                                setArchitectOpen(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  architect === a.value
-                                    ? "opacity-100"
-                                    : "opacity-0",
-                                )}
-                              />
-                              {a.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="space-y-2">
-                <Label
-                  htmlFor="site-supervisor"
-                  className={cn(
-                    "text-lg font-medium px-2",
-                    siteSupervisor
-                      ? "text-muted-foreground"
-                      : "text-foreground",
-                  )}
-                >
-                  Site Supervisor*
-                </Label>
-                <Popover
-                  open={supervisorOpen}
-                  onOpenChange={setSupervisorOpen}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={supervisorOpen}
-                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal cursor-pointer"
-                    >
-                      {siteSupervisor
-                        ? mockSupervisors.find(
-                            (s) => s.value === siteSupervisor,
-                          )?.label
-                        : "Select supervisor..."}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search supervisor..." />
-                      <CommandList>
-                        <CommandEmpty>No supervisor found.</CommandEmpty>
-                        <CommandGroup>
-                          {mockSupervisors.map((s) => (
-                            <CommandItem
-                              key={s.value}
-                              value={s.value}
-                              onSelect={(currentValue) => {
-                                setSiteSupervisor(
-                                  currentValue === siteSupervisor ? "" : currentValue,
-                                );
-                                setSupervisorOpen(false);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  siteSupervisor === s.value
-                                    ? "opacity-100"
-                                    : "opacity-0",
-                                )}
-                              />
-                              {s.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </div>
+            <FloatingLabelInput
+                id="architect"
+                name="architect"
+                label="Architect*"
+                value={architect}
+                onChange={(e) => setArchitect(e.target.value)}
+                placeholder="Enter architect's name"
+              />
+              <FloatingLabelInput
+                id="site-supervisor"
+                name="siteSupervisor"
+                label="Site Supervisor*"
+                value={siteSupervisor}
+                onChange={(e) => setSiteSupervisor(e.target.value)}
+                placeholder="Enter supervisor's name"
+              />
             </div>
           </div>
         </div>
