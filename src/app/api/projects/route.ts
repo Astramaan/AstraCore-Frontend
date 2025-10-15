@@ -26,6 +26,17 @@ function getAuthHeaders(req: Request): Record<string, string> {
   }
 }
 
+function getUserIdFromRequest(req: Request): string | null {
+    const userHeader = req.headers.get("x-user");
+    if (!userHeader) return null;
+    try {
+        const user = JSON.parse(userHeader);
+        return user.userId || null;
+    } catch {
+        return null;
+    }
+}
+
 export async function GET(req: Request) {
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
@@ -50,17 +61,29 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const userId = getUserIdFromRequest(req);
+
+    if (!userId) {
+        return NextResponse.json({ success: false, message: "Unauthorized: User ID is missing." }, { status: 401 });
+    }
+
+    // Add the createdBy field to the payload
+    const payload = {
+        ...body,
+        createdBy: userId,
+    };
+
     const res = await fetch(`${API_BASE_URL}/api/v1/org/projects`, {
       method: "POST",
       headers: getAuthHeaders(req),
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
 
     const text = await res.text();
     if (!text) {
       // Handle cases where backend sends no body on success
       if (res.ok) {
-        return new NextResponse(null, { status: 201 });
+        return new NextResponse(JSON.stringify({ success: true, message: "Project created successfully" }), { status: 201 });
       }
       return NextResponse.json({ success: false, message: 'Empty response from server' }, { status: res.status });
     }
