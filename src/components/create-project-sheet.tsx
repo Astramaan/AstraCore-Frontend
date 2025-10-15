@@ -256,70 +256,77 @@ const CreateProjectForm = ({
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
-      "",
+      "Test User",
   );
   const [phone, setPhone] = useState(
     projectToEdit?.personalDetails?.phoneNumber ||
       projectData?.personalDetails?.phoneNumber ||
-      "",
+      "9876543210",
   );
   const [email, setEmail] = useState(
     projectToEdit?.personalDetails?.email ||
       projectData?.personalDetails?.email ||
-      "",
+      "test@example.com",
   );
   const [currentAddress, setCurrentAddress] = useState(
     projectToEdit?.personalDetails?.currentAddress ||
       projectData?.personalDetails?.currentAddress ||
-      "",
+      "123 Test Street, Test City",
   );
 
   const [projectName, setProjectName] = useState(
     projectToEdit?.projectDetails?.projectName ||
       projectToEdit?.name ||
       projectData?.projectDetails?.projectName ||
-      "",
+      "My Test Project",
   );
   const [projectType, setProjectType] = useState(
     projectToEdit?.projectType ||
       projectData?.projectDetails?.projectType ||
-      "",
+      "New Construction",
   );
   const [projectCost, setProjectCost] = useState(
     projectToEdit?.projectDetails?.projectCost ||
       projectData?.projectDetails?.projectCost ||
-      "",
+      "5000000",
   );
   const [dimension, setDimension] = useState(
     projectToEdit?.projectDetails?.dimension ||
       projectData?.projectDetails?.dimension ||
-      "",
+      "1200",
   );
   const [floor, setFloor] = useState(
     projectToEdit?.projectDetails?.floor ||
       projectData?.projectDetails?.floor ||
-      "",
+      "G+1",
   );
   const [siteLocation, setSiteLocation] = useState(
     projectToEdit?.projectDetails?.siteLocation ||
       projectData?.projectDetails?.siteLocation ||
-      "",
+      "https://maps.google.com",
   );
   const [siteAddress, setSiteAddress] = useState(
     projectToEdit?.projectDetails?.siteAddress ||
       projectData?.projectDetails?.siteAddress ||
-      "",
+      "456 Site Avenue, Test City",
   );
   const [architect, setArchitect] = useState(
     projectToEdit?.projectAssign?.architect ||
       projectData?.projectAssign?.architect ||
-      "",
+      "Test Architect",
   );
   const [siteSupervisor, setSiteSupervisor] = useState(
     projectToEdit?.projectAssign?.siteSupervisor ||
       projectData?.projectAssign?.siteSupervisor ||
-      "",
+      "Test Supervisor",
   );
+  const [startDate, setStartDate] = useState(
+    (projectToEdit?.startDate || projectData?.startDate) ? 
+    new Date(projectToEdit?.startDate || projectData?.startDate).toISOString().split('T')[0] : 
+    new Date().toISOString().split('T')[0]
+  );
+  const [endDate, setEndDate] = useState('');
+
 
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -359,6 +366,8 @@ const CreateProjectForm = ({
         architect: architect,
         siteSupervisor: siteSupervisor,
       },
+      startDate: startDate,
+      endDate: endDate
     };
     onNext(formData);
   };
@@ -469,6 +478,22 @@ const CreateProjectForm = ({
                 value={siteLocation}
                 onChange={(e) => setSiteLocation(e.target.value)}
               />
+               <FloatingLabelInput
+                  id="start-date"
+                  name="startDate"
+                  label="Start Date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  type="date"
+                />
+                <FloatingLabelInput
+                  id="end-date"
+                  name="endDate"
+                  label="End Date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  type="date"
+                />
               <div className="sm:col-span-2">
                 <FloatingLabelTextarea
                   id="site-address"
