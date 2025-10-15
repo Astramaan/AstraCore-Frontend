@@ -323,7 +323,6 @@ const CreateProjectForm = ({
   const [architectOpen, setArchitectOpen] = useState(false);
   const [supervisorOpen, setSupervisorOpen] = useState(false);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
-  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const [allContacts, setAllContacts] = useState<(typeof mockClients[0] | typeof mockLeads[0])[]>([]);
 
   useEffect(() => {
