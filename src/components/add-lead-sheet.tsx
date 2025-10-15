@@ -62,7 +62,7 @@ const FloatingLabelInput = ({
 const AddLeadForm = ({
   onFormSuccess,
 }: {
-  onFormSuccess: (lead: Lead) => void;
+  onFormSuccess: (lead: Lead, inviteLink: string) => void;
 }) => {
   const { toast } = useToast();
   const { user } = useUser();
@@ -142,8 +142,8 @@ const AddLeadForm = ({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-user": JSON.stringify(user),
             Authorization: `Bearer ${user?.userId}`,
+            "x-user": JSON.stringify(user),
           },
           body: JSON.stringify(payload),
         });
@@ -166,7 +166,7 @@ const AddLeadForm = ({
             coverImage: "https://placehold.co/712x144.png",
             siteImages: [],
           };
-          onFormSuccess(newLead);
+          onFormSuccess(newLead, data.inviteLink);
         } else {
           setBackendError(data.message || "Failed to create lead.");
         }
@@ -282,10 +282,12 @@ interface AddLeadSheetProps {
 export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [inviteLink, setInviteLink] = useState("");
 
-  const handleSuccess = (newLead: Lead) => {
+  const handleSuccess = (newLead: Lead, link: string) => {
     setIsOpen(false);
     setShowSuccess(true);
+    setInviteLink(link);
     onLeadAdded(newLead);
   };
 
@@ -340,6 +342,7 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
         onClose={() => setShowSuccess(false)}
         title="New Lead Added!"
         message="Invitation sent successfully. You can now follow up and manage this lead in AstraCore."
+        inviteLink={inviteLink}
       />
     </>
   );
