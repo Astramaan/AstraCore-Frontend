@@ -300,9 +300,9 @@ const CreateProjectForm = ({
       projectData?.projectDetails?.floor ||
       "2",
   );
-  const [siteAddress, setSiteAddress] = useState(
-    projectToEdit?.projectDetails?.siteAddress ||
-      projectData?.projectDetails?.siteAddress ||
+  const [siteLocation, setSiteLocation] = useState(
+    projectToEdit?.projectDetails?.siteLocation ||
+      projectData?.projectDetails?.siteLocation ||
       "Bandra West",
   );
   const [siteLocationLink, setSiteLocationLink] = useState(
@@ -352,7 +352,7 @@ const CreateProjectForm = ({
         projectCost: projectCost,
         dimension: dimension,
         floor: floor,
-        siteAddress: siteAddress,
+        siteLocation: siteLocation,
         siteLocationLink: siteLocationLink,
       },
       projectAssign: {
@@ -462,11 +462,11 @@ const CreateProjectForm = ({
                 ))}
               </FloatingLabelSelect>
               <FloatingLabelInput
-                id="site-address"
-                name="siteAddress"
-                label="Site Address"
-                value={siteAddress}
-                onChange={(e) => setSiteAddress(e.target.value)}
+                id="siteLocation"
+                name="siteLocation"
+                label="Site Location"
+                value={siteLocation}
+                onChange={(e) => setSiteLocation(e.target.value)}
               />
               <div className="sm:col-span-2">
                 <FloatingLabelInput
@@ -708,7 +708,7 @@ const ProjectTimelineForm = ({
         ...stage,
         tasks: stage.tasks.map((task) => ({
           ...task,
-          duration: `${task.duration}`,
+          duration: `${task.duration} Days`,
           status: "Not Started",
         })),
       })),
