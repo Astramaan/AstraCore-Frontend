@@ -125,7 +125,7 @@ const CreateMeetingForm = ({
   onMeetingCreated,
   onClose,
 }: {
-  onMeetingCreated: (meeting: Omit<Meeting, "id">) => void;
+  onMeetingCreated: (meeting: Omit<Meeting, "id">, responseData: any) => void;
   onClose: () => void;
 }) => {
   const [title, setTitle] = useState(
@@ -241,21 +241,24 @@ const CreateMeetingForm = ({
     startTransition(async () => {
       const result = await createMeeting(meetingData);
       if (result.success) {
-        onMeetingCreated({
-          title: meetingData.title,
-          name: meetingData.name,
-          city: meetingData.city,
-          email: meetingData.email,
-          phone: meetingData.phone,
-          type: meetingData.type,
-          date: date.toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          }),
-          time: meetingData.time,
-          link: meetingData.meetingLink,
-        });
+        onMeetingCreated(
+          {
+            title: meetingData.title,
+            name: meetingData.name,
+            city: meetingData.city,
+            email: meetingData.email,
+            phone: meetingData.phone,
+            type: meetingData.type,
+            date: date.toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }),
+            time: meetingData.time,
+            link: meetingData.meetingLink,
+          },
+          result.data,
+        );
         onClose();
       } else {
         toast({
@@ -687,9 +690,14 @@ export function CreateMeetingSheet({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [responseData, setResponseData] = useState<any>(null);
 
-  const handleSuccess = (meeting: Omit<Meeting, "id">) => {
+  const handleSuccess = (
+    meeting: Omit<Meeting, "id">,
+    apiResponse: any,
+  ) => {
     onMeetingCreated(meeting);
+    setResponseData(apiResponse);
     setShowSuccess(true);
   };
 
@@ -751,6 +759,7 @@ export function CreateMeetingSheet({
         onClose={() => setShowSuccess(false)}
         title="Meeting Scheduled!"
         message="The meeting has been successfully created and participants have been notified."
+        responseData={responseData}
       />
     </>
   );
