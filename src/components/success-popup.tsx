@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -45,14 +44,16 @@ export function SuccessPopup({
         </DialogHeader>
         <div className="text-center flex flex-col items-center">
           <div className="relative mb-6 flex items-center justify-center">
-            <div className="w-20 h-20 bg-[#50C878]/5 rounded-full" />
-            <div className="w-14 h-14 bg-[#50C878]/20 rounded-full absolute" />
-            <div className="w-10 h-10 bg-[#50C878]/20 absolute flex items-center justify-center rounded-full">
-              <Check className="w-8 h-8 text-[#50C878]" />
+            <div className="w-20 h-20 bg-green-light rounded-full" />
+            <div className="w-14 h-14 bg-green/20 rounded-full absolute" />
+            <div className="w-10 h-10 bg-green/20 absolute flex items-center justify-center rounded-full">
+              <Check className="w-8 h-8 text-green" />
             </div>
           </div>
-          <h2 className="text-lg font-medium text-zinc-900 mb-2">{title}</h2>
-          <p className="text-sm text-neutral-500 max-w-xs mx-auto">{message}</p>
+          <h2 className="text-lg font-medium text-foreground mb-2">{title}</h2>
+          <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+            {message}
+          </p>
           {inviteLink && (
             <div className="mt-4 w-full relative">
               <Input
