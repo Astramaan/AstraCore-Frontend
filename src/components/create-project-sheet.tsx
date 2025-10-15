@@ -320,13 +320,6 @@ const CreateProjectForm = ({
       projectData?.projectAssign?.siteSupervisor ||
       "Test Supervisor",
   );
-  const [startDate, setStartDate] = useState(
-    (projectToEdit?.startDate || projectData?.startDate) ? 
-    new Date(projectToEdit?.startDate || projectData?.startDate).toISOString().split('T')[0] : 
-    new Date().toISOString().split('T')[0]
-  );
-  const [endDate, setEndDate] = useState('');
-
 
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -366,8 +359,6 @@ const CreateProjectForm = ({
         architect: architect,
         siteSupervisor: siteSupervisor,
       },
-      startDate: startDate,
-      endDate: endDate
     };
     onNext(formData);
   };
@@ -478,22 +469,6 @@ const CreateProjectForm = ({
                 value={siteLocation}
                 onChange={(e) => setSiteLocation(e.target.value)}
               />
-               <FloatingLabelInput
-                  id="start-date"
-                  name="startDate"
-                  label="Start Date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  type="date"
-                />
-                <FloatingLabelInput
-                  id="end-date"
-                  name="endDate"
-                  label="End Date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  type="date"
-                />
               <div className="sm:col-span-2">
                 <FloatingLabelTextarea
                   id="site-address"
