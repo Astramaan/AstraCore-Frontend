@@ -60,7 +60,7 @@ import {
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
 import { Card, CardContent } from "./ui/card";
-import { useUser } from "@/context/user-context";
+import { useUser, User } from "@/context/user-context";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -147,9 +147,13 @@ const CreateProjectForm = ({
 }) => {
   const { user } = useUser();
   const [allContacts, setAllContacts] = useState<Lead[]>([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
-  const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] = useState(false);
+  const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] =
+    useState(false);
   const [floorComboboxOpen, setFloorComboboxOpen] = useState(false);
+  const [architectComboboxOpen, setArchitectComboboxOpen] = useState(false);
+  const [supervisorComboboxOpen, setSupervisorComboboxOpen] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -254,11 +258,47 @@ const CreateProjectForm = ({
     }
   }, [user]);
 
+  const fetchUsers = useCallback(async () => {
+    if (!user) return;
+    try {
+      const res = await fetch("/api/users/org-users", {
+        headers: { "x-user": JSON.stringify(user) },
+      });
+      const result = await res.json();
+      if (result.success && Array.isArray(result.data)) {
+        setAllUsers(result.data);
+      } else {
+        console.error("Failed to fetch users:", result.message);
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  }, [user]);
+
   useEffect(() => {
     if (emailComboboxOpen) {
       fetchLeads();
     }
-  }, [user, emailComboboxOpen, fetchLeads]);
+    if (architectComboboxOpen || supervisorComboboxOpen) {
+      fetchUsers();
+    }
+  }, [
+    user,
+    emailComboboxOpen,
+    architectComboboxOpen,
+    supervisorComboboxOpen,
+    fetchLeads,
+    fetchUsers,
+  ]);
+
+  const architects = useMemo(
+    () => allUsers.filter((u) => u.team === "Architect"),
+    [allUsers],
+  );
+  const siteSupervisors = useMemo(
+    () => allUsers.filter((u) => u.team === "Site Supervisor"),
+    [allUsers],
+  );
 
   const handleContactSelect = (contactId: string) => {
     const contact = allContacts.find((c) => c.leadId === contactId);
@@ -466,7 +506,7 @@ const CreateProjectForm = ({
                         variant="outline"
                         role="combobox"
                         aria-expanded={projectTypeComboboxOpen}
-                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                        className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer hover:bg-accent hover:text-accent-foreground text-left font-normal"
                       >
                         {projectType || "Select project type..."}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -542,7 +582,7 @@ const CreateProjectForm = ({
                       variant="outline"
                       role="combobox"
                       aria-expanded={floorComboboxOpen}
-                      className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer hover:bg-accent hover:text-accent-foreground text-left font-normal"
                     >
                       {floor || "Select floor..."}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -603,22 +643,139 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Project Assign</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <FloatingLabelInput
-                id="architect"
-                name="architect"
-                label="Architect*"
-                value={architect}
-                onChange={(e) => setArchitect(e.target.value)}
-                placeholder="Enter architect's name"
-              />
-              <FloatingLabelInput
-                id="site-supervisor"
-                name="siteSupervisor"
-                label="Site Supervisor*"
-                value={siteSupervisor}
-                onChange={(e) => setSiteSupervisor(e.target.value)}
-                placeholder="Enter supervisor's name"
-              />
+              <div className="space-y-2">
+                <Label
+                  htmlFor="architect"
+                  className={cn(
+                    "text-lg font-medium px-2",
+                    architect ? "text-muted-foreground" : "text-foreground",
+                  )}
+                >
+                  Architect*
+                </Label>
+                <Popover
+                  open={architectComboboxOpen}
+                  onOpenChange={setArchitectComboboxOpen}
+                  modal={true}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={architectComboboxOpen}
+                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal"
+                    >
+                      <span className="truncate">
+                        {architects.find((a) => a.userId === architect)?.name ||
+                          "Select architect..."}
+                      </span>
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <Command>
+                      <CommandInput placeholder="Search architects..." />
+                      <CommandList>
+                        <CommandEmpty>No architects found.</CommandEmpty>
+                        <CommandGroup>
+                          {architects.map((a) => (
+                            <CommandItem
+                              key={a.userId}
+                              value={a.name}
+                              onSelect={() => {
+                                setArchitect(a.userId);
+                                setArchitectComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  architect === a.userId
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {a.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="site-supervisor"
+                  className={cn(
+                    "text-lg font-medium px-2",
+                    siteSupervisor
+                      ? "text-muted-foreground"
+                      : "text-foreground",
+                  )}
+                >
+                  Site Supervisor*
+                </Label>
+                <Popover
+                  open={supervisorComboboxOpen}
+                  onOpenChange={setSupervisorComboboxOpen}
+                  modal={true}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={supervisorComboboxOpen}
+                      className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 text-left font-normal"
+                    >
+                      <span className="truncate">
+                        {siteSupervisors.find((s) => s.userId === siteSupervisor)
+                          ?.name || "Select site supervisor..."}
+                      </span>
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <Command>
+                      <CommandInput placeholder="Search supervisors..." />
+                      <CommandList>
+                        <CommandEmpty>No supervisors found.</CommandEmpty>
+                        <CommandGroup>
+                          {siteSupervisors.map((s) => (
+                            <CommandItem
+                              key={s.userId}
+                              value={s.name}
+                              onSelect={() => {
+                                setSiteSupervisor(s.userId);
+                                setSupervisorComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  siteSupervisor === s.userId
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {s.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
             </div>
           </div>
         </div>
@@ -1482,7 +1639,7 @@ export function CreateProjectSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (target.closest('[data-radix-popper-content-wrapper]')) {
+            if (target.closest("[data-radix-popper-content-wrapper]")) {
               e.preventDefault();
             }
           }}
