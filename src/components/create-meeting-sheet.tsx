@@ -23,13 +23,6 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import type { Meeting } from "./edit-meeting-sheet";
@@ -43,7 +36,6 @@ import {
   CommandList,
 } from "./ui/command";
 import { ScrollArea } from "./ui/scroll-area";
-import { Badge } from "./ui/badge";
 import { createMeeting } from "@/app/actions";
 import { useToast } from "./ui/use-toast";
 import { SuccessPopup } from "./success-popup";
@@ -162,6 +154,8 @@ const CreateMeetingForm = ({
   const [selectedId, setSelectedId] = useState("LEAD2024");
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
+  const [timeComboboxOpen, setTimeComboboxOpen] = useState(false);
+  const [typeComboboxOpen, setTypeComboboxOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
@@ -379,6 +373,7 @@ const CreateMeetingForm = ({
             <Popover
               open={memberComboboxOpen}
               onOpenChange={setMemberComboboxOpen}
+              modal={true}
             >
               <PopoverTrigger asChild>
                 <Button
@@ -412,7 +407,10 @@ const CreateMeetingForm = ({
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+              <PopoverContent
+                className="w-[--radix-popover-trigger-width] p-0"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
                 <Command>
                   <CommandInput placeholder="Search team member..." />
                   <CommandList>
@@ -451,7 +449,7 @@ const CreateMeetingForm = ({
             >
               Date*
             </Label>
-            <Popover>
+            <Popover modal={true}>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -464,7 +462,10 @@ const CreateMeetingForm = ({
                   {date ? date.toLocaleDateString() : <span>Select date</span>}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
+              <PopoverContent
+                className="w-auto p-0"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
                 <Calendar
                   mode="single"
                   selected={date}
@@ -484,18 +485,52 @@ const CreateMeetingForm = ({
             >
               Time*
             </Label>
-            <Select onValueChange={setTime} value={time}>
-              <SelectTrigger className="h-14 bg-background rounded-full hover:bg-accent hover:text-accent-foreground">
-                <SelectValue placeholder="Select a time slot" />
-              </SelectTrigger>
-              <SelectContent>
-                {timeSlots.map((time) => (
-                  <SelectItem key={time} value={time}>
-                    {time}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Popover
+              open={timeComboboxOpen}
+              onOpenChange={setTimeComboboxOpen}
+              modal={true}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={timeComboboxOpen}
+                  className="w-full justify-between h-14 bg-background rounded-full font-normal"
+                >
+                  {time || "Select a time slot"}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-[--radix-popover-trigger-width] p-0"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <Command>
+                  <CommandList>
+                    <CommandGroup>
+                      {timeSlots.map((slot) => (
+                        <CommandItem
+                          key={slot}
+                          value={slot}
+                          onSelect={() => {
+                            setTime(slot);
+                            setTimeComboboxOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              time === slot ? "opacity-100" : "opacity-0",
+                            )}
+                          />
+                          {slot}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="space-y-2 sm:col-span-2">
@@ -508,7 +543,7 @@ const CreateMeetingForm = ({
             >
               Client/Lead*
             </Label>
-            <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+            <Popover open={comboboxOpen} onOpenChange={setComboboxOpen} modal={true}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
@@ -524,7 +559,10 @@ const CreateMeetingForm = ({
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+              <PopoverContent
+                className="w-[--radix-popover-trigger-width] p-0"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
                 <Command>
                   <CommandInput placeholder="Search client or lead..." />
                   <CommandList>
@@ -533,11 +571,9 @@ const CreateMeetingForm = ({
                       {allContacts.map((contact) => (
                         <CommandItem
                           key={contact.id}
-                          value={contact.id}
-                          onSelect={(currentValue) => {
-                            setSelectedId(
-                              currentValue === selectedId ? "" : currentValue,
-                            );
+                          value={`${contact.name} ${contact.id}`}
+                          onSelect={() => {
+                            setSelectedId(contact.id);
                             setComboboxOpen(false);
                           }}
                         >
@@ -587,24 +623,58 @@ const CreateMeetingForm = ({
                 >
                   Type*
                 </Label>
-                <Select
-                  value={targetType}
-                  onValueChange={(value: "client" | "lead" | "others") =>
-                    setTargetType(value)
-                  }
+                <Popover
+                  open={typeComboboxOpen}
+                  onOpenChange={setTypeComboboxOpen}
+                  modal={true}
                 >
-                  <SelectTrigger
-                    id="type-select"
-                    className="h-14 bg-background rounded-full"
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={typeComboboxOpen}
+                      className="w-full justify-between h-14 bg-background rounded-full font-normal"
+                    >
+                      {targetType
+                        ? targetType.charAt(0).toUpperCase() + targetType.slice(1)
+                        : "Client / Lead / Others"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
                   >
-                    <SelectValue placeholder="Client / Lead / Others" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="client">Client</SelectItem>
-                    <SelectItem value="lead">Lead</SelectItem>
-                    <SelectItem value="others">Others</SelectItem>
-                  </SelectContent>
-                </Select>
+                    <Command>
+                      <CommandList>
+                        <CommandGroup>
+                          {(["client", "lead", "others"] as const).map(
+                            (type) => (
+                              <CommandItem
+                                key={type}
+                                value={type}
+                                onSelect={() => {
+                                  setTargetType(type);
+                                  setTypeComboboxOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    targetType === type
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                {type.charAt(0).toUpperCase() + type.slice(1)}
+                              </CommandItem>
+                            ),
+                          )}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div className="space-y-2">
                 <Label

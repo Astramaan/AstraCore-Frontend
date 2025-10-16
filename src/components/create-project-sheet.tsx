@@ -40,13 +40,6 @@ import {
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
 import { SuccessPopup } from "./success-popup";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
@@ -78,6 +71,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Lead } from "./lead-details-sheet";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "./ui/command";
 
 const FloatingLabelInput = ({
   id,
@@ -135,43 +136,6 @@ const FloatingLabelTextarea = ({
   </div>
 );
 
-const FloatingLabelSelect = ({
-  id,
-  label,
-  value,
-  onValueChange,
-  children,
-  name,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onValueChange: (value: string) => void;
-  children: React.ReactNode;
-  name?: string;
-}) => (
-  <div className="space-y-2">
-    <Label
-      htmlFor={id}
-      className={cn(
-        "text-lg font-medium px-2",
-        value ? "text-muted-foreground" : "text-foreground",
-      )}
-    >
-      {label}
-    </Label>
-    <Select name={name || id} value={value} onValueChange={onValueChange}>
-      <SelectTrigger
-        id={id}
-        className="h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer hover:bg-accent hover:text-accent-foreground"
-      >
-        <SelectValue placeholder={label.replace("*", "")} />
-      </SelectTrigger>
-      <SelectContent>{children}</SelectContent>
-    </Select>
-  </div>
-);
-
 const CreateProjectForm = ({
   onNext,
   projectToEdit,
@@ -183,7 +147,10 @@ const CreateProjectForm = ({
 }) => {
   const { user } = useUser();
   const [allContacts, setAllContacts] = useState<Lead[]>([]);
-  const [comboboxOpen, setComboboxOpen] = useState(false);
+  const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
+  const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] = useState(false);
+  const [floorComboboxOpen, setFloorComboboxOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -232,7 +199,7 @@ const CreateProjectForm = ({
   const [floor, setFloor] = useState(
     projectToEdit?.projectDetails?.floor ||
       projectData?.projectDetails?.floor ||
-      "2",
+      "G+2",
   );
   const [siteLocation, setSiteLocation] = useState(
     projectToEdit?.projectDetails?.siteLocation ||
@@ -288,10 +255,10 @@ const CreateProjectForm = ({
   }, [user]);
 
   useEffect(() => {
-    if (comboboxOpen) {
+    if (emailComboboxOpen) {
       fetchLeads();
     }
-  }, [user, comboboxOpen, fetchLeads]);
+  }, [user, emailComboboxOpen, fetchLeads]);
 
   const handleContactSelect = (contactId: string) => {
     const contact = allContacts.find((c) => c.leadId === contactId);
@@ -302,7 +269,7 @@ const CreateProjectForm = ({
       setCurrentAddress(contact.address);
       setSearchQuery(""); // Clear search after selection
     }
-    setComboboxOpen(false);
+    setEmailComboboxOpen(false);
   };
 
   const handleTextOnlyChange =
@@ -349,122 +316,8 @@ const CreateProjectForm = ({
   };
 
   const projectTypes = ["New Construction", "Renovation", "Interior Design"];
+  const floorOptions = Array.from({ length: 8 }, (_, i) => `G+${i + 1}`);
 
-  const ContactSearch = () => {
-    useEffect(() => {
-      if (comboboxOpen && searchInputRef.current) {
-        const timer = setTimeout(() => {
-          searchInputRef.current?.focus();
-        }, 0);
-        return () => clearTimeout(timer);
-      }
-    }, [comboboxOpen]);
-
-    return (
-      <Popover open={comboboxOpen} onOpenChange={setComboboxOpen} modal={true}>
-        <PopoverTrigger asChild>
-          <Button
-            type="button"
-            variant="outline"
-            role="combobox"
-            aria-expanded={comboboxOpen}
-            className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
-          >
-            <span className="truncate">
-              {email || "Select client or lead..."}
-            </span>
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          className="w-[--radix-popover-trigger-width] p-0"
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
-          <div className="p-2">
-            <div className="relative">
-              <Input
-                id="email-search-input"
-                ref={searchInputRef}
-                placeholder="Search by email or name..."
-                value={searchQuery}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setSearchQuery(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  e.stopPropagation();
-                }}
-                onClick={(e) => e.stopPropagation()}
-                className="h-10"
-                autoComplete="off"
-              />
-            </div>
-          </div>
-          <ScrollArea className="max-h-[300px]">
-            <div className="p-2 space-y-1">
-              {allContacts
-                .filter((contact) => {
-                  if (!searchQuery) return true; // Show all if no search
-                  const query = searchQuery.toLowerCase();
-                  return (
-                    contact.email.toLowerCase().includes(query) ||
-                    contact.fullName.toLowerCase().includes(query)
-                  );
-                })
-                .map((contact) => (
-                  <button
-                    key={contact.leadId}
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleContactSelect(contact.leadId);
-                    }}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                    }}
-                    className={cn(
-                      "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
-                      email === contact.email && "bg-accent",
-                    )}
-                  >
-                    <Check
-                      className={cn(
-                        "h-4 w-4 shrink-0",
-                        email === contact.email
-                          ? "opacity-100"
-                          : "opacity-0",
-                      )}
-                    />
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <span className="font-medium truncate">
-                        {contact.email}
-                      </span>
-                      <span className="text-xs text-muted-foreground truncate">
-                        {contact.fullName}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              {allContacts.filter((contact) => {
-                if (!searchQuery) return false;
-                const query = searchQuery.toLowerCase();
-                return (
-                  contact.email.toLowerCase().includes(query) ||
-                  contact.fullName.toLowerCase().includes(query)
-                );
-              }).length === 0 &&
-                searchQuery && (
-                  <div className="text-sm text-muted-foreground text-center py-6">
-                    No contacts found for &quot;{searchQuery}&quot;
-                  </div>
-                )}
-            </div>
-          </ScrollArea>
-        </PopoverContent>
-      </Popover>
-    );
-  };
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       <ScrollArea className="flex-1 p-6 no-scrollbar">
@@ -483,7 +336,73 @@ const CreateProjectForm = ({
                   >
                     Email*
                   </Label>
-                  <ContactSearch />
+                  <Popover
+                    open={emailComboboxOpen}
+                    onOpenChange={setEmailComboboxOpen}
+                    modal={true}
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={emailComboboxOpen}
+                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                      >
+                        <span className="truncate">
+                          {email || "Select client or lead..."}
+                        </span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      onOpenAutoFocus={(e) => {
+                        e.preventDefault();
+                        searchInputRef.current?.focus();
+                      }}
+                    >
+                      <Command>
+                        <CommandInput
+                          ref={searchInputRef}
+                          placeholder="Search by email or name..."
+                          value={searchQuery}
+                          onValueChange={setSearchQuery}
+                        />
+                        <CommandList>
+                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandGroup>
+                            {allContacts.map((contact) => (
+                              <CommandItem
+                                key={contact.leadId}
+                                value={`${contact.fullName} ${contact.email}`}
+                                onSelect={() =>
+                                  handleContactSelect(contact.leadId)
+                                }
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    email === contact.email
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                <div className="flex flex-col">
+                                  <span className="font-medium">
+                                    {contact.fullName}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground">
+                                    {contact.email}
+                                  </span>
+                                </div>
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
 
@@ -526,18 +445,66 @@ const CreateProjectForm = ({
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                 />
-                <FloatingLabelSelect
-                  id="project-type"
-                  label="Project Type*"
-                  value={projectType}
-                  onValueChange={setProjectType}
-                >
-                  {projectTypes.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type}
-                    </SelectItem>
-                  ))}
-                </FloatingLabelSelect>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="project-type"
+                    className={cn(
+                      "text-lg font-medium px-2",
+                      projectType ? "text-muted-foreground" : "text-foreground",
+                    )}
+                  >
+                    Project Type*
+                  </Label>
+                  <Popover
+                    open={projectTypeComboboxOpen}
+                    onOpenChange={setProjectTypeComboboxOpen}
+                    modal={true}
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={projectTypeComboboxOpen}
+                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                      >
+                        {projectType || "Select project type..."}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
+                      <Command>
+                        <CommandList>
+                          <CommandGroup>
+                            {projectTypes.map((type) => (
+                              <CommandItem
+                                key={type}
+                                value={type}
+                                onSelect={() => {
+                                  setProjectType(type);
+                                  setProjectTypeComboboxOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    projectType === type
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                {type}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
               <FloatingLabelInput
                 id="project-cost"
@@ -553,18 +520,66 @@ const CreateProjectForm = ({
                 value={dimension}
                 onChange={(e) => setDimension(e.target.value)}
               />
-              <FloatingLabelSelect
-                id="floor"
-                label="Floor*"
-                value={floor}
-                onValueChange={setFloor}
-              >
-                {Array.from({ length: 8 }, (_, i) => `G+${i + 1}`).map((f) => (
-                  <SelectItem key={f} value={f}>
-                    {f}
-                  </SelectItem>
-                ))}
-              </FloatingLabelSelect>
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="floor"
+                  className={cn(
+                    "text-lg font-medium px-2",
+                    floor ? "text-muted-foreground" : "text-foreground",
+                  )}
+                >
+                  Floor*
+                </Label>
+                <Popover
+                  open={floorComboboxOpen}
+                  onOpenChange={setFloorComboboxOpen}
+                  modal={true}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={floorComboboxOpen}
+                      className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                    >
+                      {floor || "Select floor..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <Command>
+                      <CommandList>
+                        <CommandGroup>
+                          {floorOptions.map((f) => (
+                            <CommandItem
+                              key={f}
+                              value={f}
+                              onSelect={() => {
+                                setFloor(f);
+                                setFloorComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  floor === f ? "opacity-100" : "opacity-0",
+                                )}
+                              />
+                              {f}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
               <FloatingLabelInput
                 id="siteLocation"
                 name="siteLocation"
@@ -670,6 +685,7 @@ const ProjectTimelineForm = ({
   const [timeline, setTimeline] = useState<Phase[]>(projectData?.phases || []);
   const [templates, setTemplates] = useState<TimelineTemplate[]>([]);
   const [backendError, setBackendError] = useState<string | null>(null);
+  const [templateComboboxOpen, setTemplateComboboxOpen] = useState(false);
 
   useEffect(() => {
     const residentialTemplate: Phase[] = [
@@ -895,8 +911,12 @@ const ProjectTimelineForm = ({
                   onChange={(e) => setStartDate(e.target.value)}
                   type="date"
                 />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                <Popover
+                  open={templateComboboxOpen}
+                  onOpenChange={setTemplateComboboxOpen}
+                  modal={true}
+                >
+                  <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className="h-14 rounded-full px-4 w-full"
@@ -904,18 +924,31 @@ const ProjectTimelineForm = ({
                       Template
                       <ChevronsUpDown className="ml-2 h-4 w-4" />
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {templates.map((template) => (
-                      <DropdownMenuItem
-                        key={template.id}
-                        onSelect={() => handleTemplateSelect(template.id)}
-                      >
-                        {template.name}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <Command>
+                      <CommandList>
+                        <CommandGroup>
+                          {templates.map((template) => (
+                            <CommandItem
+                              key={template.id}
+                              value={template.id}
+                              onSelect={() => {
+                                handleTemplateSelect(template.id);
+                                setTemplateComboboxOpen(false);
+                              }}
+                            >
+                              {template.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <Button
                   type="button"
                   onClick={() => setIsCustomTimelineDialogOpen(true)}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -9,18 +10,21 @@ import {
   UploadCloud,
   X,
   Paperclip,
+  Check,
+  ChevronsUpDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "./ui/command";
 import type { Task } from "./task-details-sheet";
 import { SuccessPopup } from "./success-popup";
 import {
@@ -49,6 +53,8 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
   );
   const [attachments, setAttachments] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [membersComboboxOpen, setMembersComboboxOpen] = useState(false);
+  const [categoryComboboxOpen, setCategoryComboboxOpen] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -131,18 +137,58 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
               >
                 Members*
               </Label>
-              <Select onValueChange={setMembers}>
-                <SelectTrigger
-                  className="h-14 bg-background rounded-full"
-                  id="members"
+              <Popover
+                open={membersComboboxOpen}
+                onOpenChange={setMembersComboboxOpen}
+                modal={true}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={membersComboboxOpen}
+                    className="w-full justify-between h-14 bg-background rounded-full font-normal"
+                  >
+                    {members
+                      ? ["Balaji Naik", "Anil Kumar"].find(
+                          (m) => m.toLowerCase() === members,
+                        )
+                      : "Add members"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-[--radix-popover-trigger-width] p-0"
+                  onOpenAutoFocus={(e) => e.preventDefault()}
                 >
-                  <SelectValue placeholder="Add members" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="member1">Balaji Naik</SelectItem>
-                  <SelectItem value="member2">Anil Kumar</SelectItem>
-                </SelectContent>
-              </Select>
+                  <Command>
+                    <CommandList>
+                      <CommandGroup>
+                        {["Balaji Naik", "Anil Kumar"].map((member) => (
+                          <CommandItem
+                            key={member}
+                            value={member}
+                            onSelect={() => {
+                              setMembers(member.toLowerCase());
+                              setMembersComboboxOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                members === member.toLowerCase()
+                                  ? "opacity-100"
+                                  : "opacity-0",
+                              )}
+                            />
+                            {member}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
@@ -156,7 +202,7 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
               >
                 Due Date*
               </Label>
-              <Popover>
+              <Popover modal={true}>
                 <PopoverTrigger asChild>
                   <Button
                     variant={"outline"}
@@ -173,7 +219,10 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent
+                  className="w-auto p-0"
+                  onOpenAutoFocus={(e) => e.preventDefault()}
+                >
                   <Calendar
                     mode="single"
                     selected={date}
@@ -193,20 +242,56 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
               >
                 Category
               </Label>
-              <Select onValueChange={setCategory}>
-                <SelectTrigger
-                  id="category"
-                  className="h-14 bg-background rounded-full"
+              <Popover
+                open={categoryComboboxOpen}
+                onOpenChange={setCategoryComboboxOpen}
+                modal={true}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={categoryComboboxOpen}
+                    className="w-full justify-between h-14 bg-background rounded-full font-normal"
+                  >
+                    {category || "Select category"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-[--radix-popover-trigger-width] p-0"
+                  onOpenAutoFocus={(e) => e.preventDefault()}
                 >
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Meetings">Meetings</SelectItem>
-                  <SelectItem value="Design">Design</SelectItem>
-                  <SelectItem value="Development">Development</SelectItem>
-                  <SelectItem value="QA">QA</SelectItem>
-                </SelectContent>
-              </Select>
+                  <Command>
+                    <CommandList>
+                      <CommandGroup>
+                        {["Meetings", "Design", "Development", "QA"].map(
+                          (cat) => (
+                            <CommandItem
+                              key={cat}
+                              value={cat}
+                              onSelect={() => {
+                                setCategory(cat);
+                                setCategoryComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  category === cat
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {cat}
+                            </CommandItem>
+                          ),
+                        )}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="space-y-4">
               <p className="text-lg font-medium mb-2 text-zinc-900 dark:text-white">
@@ -338,6 +423,15 @@ export function AddTaskSheet({ onTaskAssigned }: AddTaskSheetProps) {
         <SheetContent
           side="bottom"
           className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-4xl md:mx-auto rounded-t-[50px] border-none"
+          onInteractOutside={(e) => {
+            if (
+              (e.target as HTMLElement).closest(
+                "[data-radix-popper-content-wrapper]",
+              )
+            ) {
+              e.preventDefault();
+            }
+          }}
         >
           <SheetHeader className="p-6 border-b rounded-t-[50px] bg-card">
             <div className="flex justify-between items-center">
