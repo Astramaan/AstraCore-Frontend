@@ -251,8 +251,8 @@ const CreateProjectForm = ({
   onNext: (data: any) => void;
   projectToEdit: Project | null;
   projectData: any;
-  onProjectAdded: (project: Project) => void;
-  onProjectUpdated: (project: Project) => void;
+  onProjectAdded: (project: Project, responseData: any) => void;
+  onProjectUpdated: (project: Project, responseData: any) => void;
 }) => {
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState<string>("");
@@ -399,6 +399,7 @@ const CreateProjectForm = ({
                         Email*
                       </Label>
                       <Button
+                        type="button"
                         variant="outline"
                         role="combobox"
                         aria-expanded={comboboxOpen}
@@ -425,8 +426,8 @@ const CreateProjectForm = ({
                             <CommandItem
                               key={contact.id}
                               value={contact.id}
-                              onSelect={(currentValue) => {
-                                handleContactSelect(currentValue);
+                              onSelect={() => {
+                                handleContactSelect(contact.id);
                               }}
                             >
                               <Check
@@ -1347,7 +1348,7 @@ export function CreateProjectSheet({
     if (isEditMode) {
       onProjectUpdated(newOrUpdatedProject);
     } else {
-      onProjectAdded(newOrUpdatedProject);
+      onProjectAdded(newOrUpdatedProject, responseData);
     }
     setTimeout(() => {
       setStep(1);
@@ -1427,8 +1428,8 @@ export function CreateProjectSheet({
                 onNext={handleNext}
                 projectToEdit={projectToEdit}
                 projectData={projectData}
-                onProjectAdded={onProjectAdded}
-                onProjectUpdated={onProjectUpdated}
+                onProjectAdded={handleSuccess}
+                onProjectUpdated={handleSuccess}
               />
             ) : (
               <ProjectTimelineForm
