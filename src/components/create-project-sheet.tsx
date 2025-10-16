@@ -26,6 +26,7 @@ import {
   GripVertical,
   Calendar as CalendarIcon,
   ShieldAlert,
+  Search,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -86,7 +87,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Lead } from "./lead-details-sheet";
-
 
 const FloatingLabelInput = ({
   id,
@@ -181,6 +181,89 @@ const FloatingLabelSelect = ({
   </div>
 );
 
+const ContactSearch = ({
+  allContacts,
+  email,
+  handleContactSelect,
+}: {
+  allContacts: Lead[];
+  email: string;
+  handleContactSelect: (contactId: string) => void;
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Automatically focus the input when the popover opens.
+    inputRef.current?.focus();
+  });
+
+  const filteredContacts = allContacts.filter((contact) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      contact.email.toLowerCase().includes(query) ||
+      contact.fullName.toLowerCase().includes(query)
+    );
+  });
+
+  return (
+    <div
+      onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
+    >
+      <div className="p-2">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            ref={inputRef}
+            id="email-search-input"
+            placeholder="Search by email or name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="h-10 pl-9"
+            autoComplete="off"
+          />
+        </div>
+      </div>
+      <ScrollArea className="max-h-[300px]">
+        <div className="p-2 space-y-1">
+          {filteredContacts.length > 0 ? (
+            filteredContacts.map((contact) => (
+              <button
+                key={contact.leadId}
+                type="button"
+                onClick={() => handleContactSelect(contact.leadId)}
+                className={cn(
+                  "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
+                  email === contact.email && "bg-accent",
+                )}
+              >
+                <Check
+                  className={cn(
+                    "h-4 w-4 shrink-0",
+                    email === contact.email ? "opacity-100" : "opacity-0",
+                  )}
+                />
+                <div className="flex flex-col flex-1 min-w-0">
+                  <span className="font-medium truncate">{contact.email}</span>
+                  <span className="text-xs text-muted-foreground truncate">
+                    {contact.fullName}
+                  </span>
+                </div>
+              </button>
+            ))
+          ) : (
+            <div className="text-sm text-muted-foreground text-center py-6">
+              No contacts found
+            </div>
+          )}
+        </div>
+      </ScrollArea>
+    </div>
+  );
+};
+
 const CreateProjectForm = ({
   onNext,
   projectToEdit,
@@ -197,7 +280,7 @@ const CreateProjectForm = ({
   const { user } = useUser();
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [allContacts, setAllContacts] = useState<Lead[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
@@ -273,7 +356,6 @@ const CreateProjectForm = ({
       setName(contact.fullName);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
-      setSearchQuery("");
     }
     setComboboxOpen(false);
   };
@@ -329,12 +411,6 @@ const CreateProjectForm = ({
       setter(value);
     };
 
-  useEffect(() => {
-    if (comboboxOpen) {
-      setSearchQuery("");
-    }
-  }, [comboboxOpen]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = {
@@ -369,21 +445,21 @@ const CreateProjectForm = ({
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="sm:col-span-2">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="email-combobox"
-                    className={cn(
-                      "text-lg font-medium px-2",
-                      email ? "text-muted-foreground" : "text-foreground",
-                    )}
-                  >
-                    Email*
-                  </Label>
-                  <Popover
-                    open={comboboxOpen}
-                    onOpenChange={setComboboxOpen}
-                    modal={true}
-                  >
+                <Popover
+                  open={comboboxOpen}
+                  onOpenChange={setComboboxOpen}
+                  modal={true}
+                >
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="email-combobox"
+                      className={cn(
+                        "text-lg font-medium px-2",
+                        email ? "text-muted-foreground" : "text-foreground",
+                      )}
+                    >
+                      Email*
+                    </Label>
                     <PopoverTrigger asChild>
                       <Button
                         type="button"
@@ -398,84 +474,18 @@ const CreateProjectForm = ({
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                      className="w-[--radix-popover-trigger-width] p-0"
-                      onOpenAutoFocus={(e) => {
-                        e.preventDefault();
-                        const input = document.querySelector<HTMLInputElement>(
-                          '#email-search-input',
-                        );
-                        if (input) input.focus();
-                      }}
-                    >
-                      <div className="p-2">
-                        <div className="relative">
-                          <Input
-                            id="email-search-input"
-                            placeholder="Search by email or name..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="h-10"
-                            autoComplete="off"
-                          />
-                        </div>
-                      </div>
-                      <ScrollArea className="max-h-[300px]">
-                        <div className="p-2 space-y-1">
-                          {allContacts
-                            .filter((contact) => {
-                              if (!searchQuery) return true;
-                              const query = searchQuery.toLowerCase();
-                              return (
-                                contact.email.toLowerCase().includes(query) ||
-                                contact.fullName.toLowerCase().includes(query)
-                              );
-                            })
-                            .map((contact) => (
-                              <button
-                                key={contact.leadId}
-                                type="button"
-                                onClick={() => handleContactSelect(contact.leadId)}
-                                className={cn(
-                                  "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
-                                  email === contact.email && "bg-accent",
-                                )}
-                              >
-                                <Check
-                                  className={cn(
-                                    "h-4 w-4 shrink-0",
-                                    email === contact.email
-                                      ? "opacity-100"
-                                      : "opacity-0",
-                                  )}
-                                />
-                                <div className="flex flex-col flex-1 min-w-0">
-                                  <span className="font-medium truncate">
-                                    {contact.email}
-                                  </span>
-                                  <span className="text-xs text-muted-foreground truncate">
-                                    {contact.fullName}
-                                  </span>
-                                </div>
-                              </button>
-                            ))}
-                          {allContacts.filter((contact) => {
-                            if (!searchQuery) return false;
-                            const query = searchQuery.toLowerCase();
-                            return (
-                              contact.email.toLowerCase().includes(query) ||
-                              contact.fullName.toLowerCase().includes(query)
-                            );
-                          }).length === 0 && searchQuery && (
-                            <div className="text-sm text-muted-foreground text-center py-6">
-                              No contacts found for "{searchQuery}"
-                            </div>
-                          )}
-                        </div>
-                      </ScrollArea>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                  </div>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <ContactSearch
+                      allContacts={allContacts}
+                      email={email}
+                      handleContactSelect={handleContactSelect}
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <FloatingLabelInput
@@ -1449,7 +1459,7 @@ export function CreateProjectSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (target.closest('[data-radix-popper-content-wrapper]')) {
+            if (target.closest("[data-radix-popper-content-wrapper]")) {
               e.preventDefault();
             }
           }}
@@ -1504,5 +1514,3 @@ export function CreateProjectSheet({
     </>
   );
 }
-
-    
