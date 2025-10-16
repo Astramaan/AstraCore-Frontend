@@ -424,8 +424,10 @@ const CreateProjectForm = ({
                           {allContacts.map((contact) => (
                             <CommandItem
                               key={contact.id}
-                              value={contact.email}
-                              onSelect={() => handleContactSelect(contact.id)}
+                              value={contact.id}
+                              onSelect={(currentValue) => {
+                                handleContactSelect(currentValue);
+                              }}
                             >
                               <Check
                                 className={cn(
