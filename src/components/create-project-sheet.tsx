@@ -255,7 +255,6 @@ const CreateProjectForm = ({
   onProjectUpdated: (project: Project, responseData: any) => void;
 }) => {
   const [comboboxOpen, setComboboxOpen] = useState(false);
-  const [selectedContact, setSelectedContact] = useState<string>("");
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
@@ -343,7 +342,6 @@ const CreateProjectForm = ({
   const handleContactSelect = (contactId: string) => {
     const contact = allContacts.find((c) => c.id === contactId);
     if (contact) {
-      setSelectedContact(contactId);
       setEmail(contact.email);
       setName(contact.name);
       setPhone(contact.phone);
@@ -403,14 +401,10 @@ const CreateProjectForm = ({
                         variant="outline"
                         role="combobox"
                         aria-expanded={comboboxOpen}
-                        className="w-full justify-between h-14 bg-background rounded-full px-5"
+                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
                       >
                         <span className="truncate">
-                          {selectedContact
-                            ? allContacts.find(
-                                (c) => c.id === selectedContact,
-                              )?.email
-                            : "Select client or lead..."}
+                          {email || "Select client or lead..."}
                         </span>
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -425,7 +419,7 @@ const CreateProjectForm = ({
                           {allContacts.map((contact) => (
                             <CommandItem
                               key={contact.id}
-                              value={contact.id}
+                              value={contact.email}
                               onSelect={() => {
                                 handleContactSelect(contact.id);
                               }}
@@ -433,7 +427,7 @@ const CreateProjectForm = ({
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  selectedContact === contact.id
+                                  email === contact.email
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
@@ -628,6 +622,7 @@ const ProjectTimelineForm = ({
     useState(false);
   const [timeline, setTimeline] = useState<Phase[]>(projectData?.phases || []);
   const [templates, setTemplates] = useState<TimelineTemplate[]>([]);
+  const [backendError, setBackendError] = useState<string | null>(null);
 
   useEffect(() => {
     const residentialTemplate: Phase[] = [
@@ -822,26 +817,19 @@ const ProjectTimelineForm = ({
             body: JSON.stringify(fullData),
           });
         }
-        result = await response.json();
+        
+        const text = await response.text();
+        result = text ? JSON.parse(text) : {};
 
-        if (result.success || response.ok) {
+
+        if (response.ok) {
           onFormSuccess(result.data, result);
           router.refresh();
         } else {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description:
-              result.message ||
-              `Failed to ${isEditMode ? "update" : "create"} project.`,
-          });
+          setBackendError(result.message || "An unexpected error occurred.");
         }
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "An unexpected error occurred.",
-        });
+        setBackendError("An unexpected error occurred.");
       }
     });
   };
@@ -972,6 +960,34 @@ const ProjectTimelineForm = ({
           </Button>
         </div>
       </form>
+       <AlertDialog
+        open={!!backendError}
+        onOpenChange={() => setBackendError(null)}
+      >
+        <AlertDialogContent className="max-w-md rounded-[50px]">
+          <AlertDialogHeader className="items-center text-center">
+            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+              <div className="w-full h-full bg-red-600/5 rounded-full" />
+              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold">
+              Error
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg text-muted-foreground">
+              {backendError}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+            <AlertDialogAction
+              onClick={() => setBackendError(null)}
+              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <CustomTimelineDialog
         isOpen={isCustomTimelineDialogOpen}
         onClose={() => setIsCustomTimelineDialogOpen(false)}
@@ -1396,6 +1412,12 @@ export function CreateProjectSheet({
           className={cn(
             "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
           )}
+          onInteractOutside={(e) => {
+            const target = e.target as HTMLElement;
+            if (target.closest("[data-radix-popper-content-wrapper]")) {
+              e.preventDefault();
+            }
+          }}
         >
           <DialogOrSheetHeader className="p-6 border-b">
             <div className="flex justify-between items-center">
@@ -1433,34 +1455,6 @@ export function CreateProjectSheet({
           </div>
         </DialogOrSheetContent>
       </DialogOrSheet>
-      <AlertDialog
-        open={!!backendError}
-        onOpenChange={() => setBackendError(null)}
-      >
-        <AlertDialogContent className="max-w-md rounded-[50px]">
-          <AlertDialogHeader className="items-center text-center">
-            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-              <div className="w-full h-full bg-red-600/5 rounded-full" />
-              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-            </div>
-            <AlertDialogTitle className="text-2xl font-semibold">
-              Error Creating Project
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg text-muted-foreground">
-              {backendError}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-            <AlertDialogAction
-              onClick={() => setBackendError(null)}
-              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              OK
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
