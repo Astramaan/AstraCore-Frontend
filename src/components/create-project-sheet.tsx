@@ -266,7 +266,7 @@ const CreateProjectForm = ({
       "",
   );
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchLeads = async () => {
       if (!user) return;
       try {
@@ -324,7 +324,7 @@ const CreateProjectForm = ({
       setName(contact.fullName);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
-      setSearchQuery(""); // ✅ Clear search after selection
+      setSearchQuery(""); // Clear search after selection
     }
     setComboboxOpen(false);
   };
@@ -334,6 +334,7 @@ const CreateProjectForm = ({
       setSearchQuery("");
     }
   }, [comboboxOpen]);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -369,7 +370,7 @@ const CreateProjectForm = ({
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="sm:col-span-2">
-                 <div className="space-y-2">
+                <div className="space-y-2">
                   <Label
                     htmlFor="email-combobox"
                     className={cn(
@@ -395,52 +396,75 @@ const CreateProjectForm = ({
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                      <Command shouldFilter={false}>
-                        <CommandInput
-                          placeholder="Search by email or name..."
-                          value={searchQuery}
-                          onValueChange={setSearchQuery}
-                        />
-                        <CommandList>
-                          <CommandEmpty>No results found.</CommandEmpty>
-                          <CommandGroup>
-                            {allContacts
-                              .filter((contact) => {
-                                const query = searchQuery.toLowerCase();
-                                return (
-                                  contact.email.toLowerCase().includes(query) ||
-                                  contact.fullName.toLowerCase().includes(query)
-                                );
-                              })
-                              .map((contact) => (
-                                <CommandItem
-                                  key={contact.leadId}
-                                  value={contact.leadId}
-                                  onSelect={() => {
-                                    handleContactSelect(contact.leadId);
-                                  }}
-                                >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      email === contact.email
-                                        ? "opacity-100"
-                                        : "opacity-0",
-                                    )}
-                                  />
-                                  <div className="flex flex-col">
-                                    <span className="font-medium">
-                                      {contact.email}
-                                    </span>
-                                    <span className="text-xs text-muted-foreground">
-                                      {contact.fullName}
-                                    </span>
-                                  </div>
-                                </CommandItem>
-                              ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
+                      <div className="p-2">
+                        <div className="relative">
+                          <Input
+                            placeholder="Search by email or name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="h-10"
+                          />
+                        </div>
+                      </div>
+                      <ScrollArea className="max-h-[300px]">
+                        <div className="p-2 space-y-1">
+                          {allContacts
+                            .filter((contact) => {
+                              const query = searchQuery.toLowerCase();
+                              return (
+                                contact.email
+                                  .toLowerCase()
+                                  .includes(query) ||
+                                contact.fullName
+                                  .toLowerCase()
+                                  .includes(query)
+                              );
+                            })
+                            .map((contact) => (
+                              <button
+                                key={contact.leadId}
+                                type="button"
+                                onClick={() => handleContactSelect(contact.leadId)}
+                                className={cn(
+                                  "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
+                                  email === contact.email && "bg-accent",
+                                )}
+                              >
+                                <Check
+                                  className={cn(
+                                    "h-4 w-4 shrink-0",
+                                    email === contact.email
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                <div className="flex flex-col flex-1 min-w-0">
+                                  <span className="font-medium truncate">
+                                    {contact.email}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground truncate">
+                                    {contact.fullName}
+                                  </span>
+                                </div>
+                              </button>
+                            ))}
+                          {allContacts.filter((contact) => {
+                            const query = searchQuery.toLowerCase();
+                            return (
+                              contact.email
+                                .toLowerCase()
+                                .includes(query) ||
+                              contact.fullName
+                                .toLowerCase()
+                                .includes(query)
+                            );
+                          }).length === 0 && (
+                            <div className="text-sm text-muted-foreground text-center py-6">
+                              No contacts found
+                            </div>
+                          )}
+                        </div>
+                      </ScrollArea>
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -1472,3 +1496,5 @@ export function CreateProjectSheet({
     </>
   );
 }
+
+    
