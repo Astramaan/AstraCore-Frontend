@@ -58,7 +58,7 @@ import {
 import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
 import { Separator } from "./ui/separator";
-import { Project, getProjects as fetchProjectsSsr } from "@/lib/data";
+import { Project } from "@/lib/data";
 import { ScrollArea } from "./ui/scroll-area";
 import {
   Accordion,
@@ -147,6 +147,7 @@ const mockLeads = [
     type: "lead" as const,
   },
 ];
+const allContacts = [...mockClients, ...mockLeads];
 const FloatingLabelInput = ({
   id,
   label,
@@ -253,25 +254,27 @@ const CreateProjectForm = ({
   onProjectAdded: (project: Project) => void;
   onProjectUpdated: (project: Project) => void;
 }) => {
+  const [comboboxOpen, setComboboxOpen] = useState(false);
+  const [selectedContact, setSelectedContact] = useState<string>("");
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
-      `Megna Gowda ${Math.floor(Math.random() * 100)}`,
+      "",
   );
   const [phone, setPhone] = useState(
     projectToEdit?.personalDetails?.phoneNumber ||
       projectData?.personalDetails?.phoneNumber ||
-      `98765${String(Math.floor(Math.random() * 90000) + 10000)}`,
+      "",
   );
   const [email, setEmail] = useState(
     projectToEdit?.personalDetails?.email ||
       projectData?.personalDetails?.email ||
-      `megna${Math.floor(Math.random() * 100)}@gmail.com`,
+      "",
   );
   const [currentAddress, setCurrentAddress] = useState(
     projectToEdit?.personalDetails?.currentAddress ||
       projectData?.personalDetails?.currentAddress ||
-      "Mumbai",
+      "",
   );
 
   const [projectName, setProjectName] = useState(
@@ -337,6 +340,18 @@ const CreateProjectForm = ({
       setter(value);
     };
 
+  const handleContactSelect = (contactId: string) => {
+    const contact = allContacts.find((c) => c.id === contactId);
+    if (contact) {
+      setSelectedContact(contactId);
+      setEmail(contact.email);
+      setName(contact.name);
+      setPhone(contact.phone);
+      setCurrentAddress(contact.address);
+    }
+    setComboboxOpen(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = {
@@ -371,15 +386,65 @@ const CreateProjectForm = ({
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="sm:col-span-2">
-                <FloatingLabelInput
-                  id="email"
-                  name="email"
-                  label="Email*"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                />
+                <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+                  <PopoverTrigger asChild>
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="email-combobox"
+                        className={cn(
+                          "text-lg font-medium px-2",
+                          email ? "text-muted-foreground" : "text-foreground",
+                        )}
+                      >
+                        Email*
+                      </Label>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={comboboxOpen}
+                        className="w-full justify-between h-14 bg-background rounded-full px-5"
+                      >
+                        <span className="truncate">
+                          {selectedContact
+                            ? allContacts.find(
+                                (c) => c.id === selectedContact,
+                              )?.email
+                            : "Select client or lead..."}
+                        </span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search by email..." />
+                      <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup>
+                          {allContacts.map((contact) => (
+                            <CommandItem
+                              key={contact.id}
+                              value={contact.email}
+                              onSelect={() => handleContactSelect(contact.id)}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  selectedContact === contact.id
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {contact.email}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
+
               <FloatingLabelInput
                 id="name"
                 name="name"
@@ -1048,7 +1113,7 @@ const CustomTimelineDialog = ({
     <DialogComponent open={isOpen} onOpenChange={onClose}>
       <DialogContentComponent
         className={cn(
-          "p-0 flex flex-col bg-card text-card-foreground transition-all m-0",
+          "p-0 flex flex-col bg-card text-card-foreground transition-all m-0 border-none",
           "sm:max-w-4xl rounded-t-[50px] md:rounded-[50px] h-full md:h-auto md:max-h-[90vh] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
         )}
       >
