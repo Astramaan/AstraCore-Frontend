@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -522,9 +523,9 @@ export default function MeetingsPage() {
         <AlertDialogContent className="max-w-md rounded-[50px]">
           <AlertDialogHeader className="items-center text-center">
             <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-              <div className="w-full h-full bg-red-600/5 rounded-full" />
-              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+              <div className="w-full h-full bg-destructive/10 rounded-full" />
+              <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-destructive absolute" />
             </div>
             <AlertDialogTitle className="text-2xl font-semibold">
               Confirm Meeting Deletion?
@@ -540,7 +541,7 @@ export default function MeetingsPage() {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
-              className="w-40 h-14 px-10 py-3.5 bg-red-600 rounded-[50px] text-lg font-medium text-white hover:bg-red-700"
+              className="w-40 h-14 px-10 py-3.5 bg-destructive rounded-[50px] text-lg font-medium text-destructive-foreground hover:bg-destructive/90"
             >
               Delete
             </AlertDialogAction>
