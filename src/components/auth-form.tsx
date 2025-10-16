@@ -111,7 +111,7 @@ export default function AuthForm() {
               type="email"
               autoComplete="email"
               required
-              placeholder="name@company.com"
+              placeholder={email ? "" : "name@company.com"}
               className={`pl-20 rounded-full bg-background h-[54px]`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -145,7 +145,7 @@ export default function AuthForm() {
               name="password"
               type={showPassword ? "text" : "password"}
               required
-              placeholder="xxxxxxxxxxx"
+              placeholder={password ? "" : "xxxxxxxxxxx"}
               className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
               value={password}
               onChange={(e) => setPassword(e.target.value)}

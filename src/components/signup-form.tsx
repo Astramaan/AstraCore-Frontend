@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useRef } from "react";
@@ -139,7 +140,7 @@ export default function SignupForm() {
               name="name"
               type="text"
               required
-              placeholder="Your full name"
+              placeholder={name ? "" : "Your full name"}
               className={`pl-6 rounded-full bg-background h-[54px]`}
               disabled={isSubmitting}
               value={name}
@@ -168,7 +169,7 @@ export default function SignupForm() {
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="name@company.com"
+                placeholder={email ? "" : "name@company.com"}
                 className={cn(
                   `pl-20 rounded-full bg-background h-[54px]`,
                   emailError && "border-destructive",
@@ -204,7 +205,7 @@ export default function SignupForm() {
                 name="phone"
                 type="tel"
                 required
-                placeholder="Your phone number"
+                placeholder={phone ? "" : "Your phone number"}
                 className={`pl-20 rounded-full bg-background h-[54px]`}
                 disabled={isSubmitting}
                 value={phone}
@@ -231,7 +232,7 @@ export default function SignupForm() {
                 name="organization"
                 type="text"
                 required
-                placeholder="Your organization's name"
+                placeholder={organization ? "" : "Your organization's name"}
                 className={`pl-20 rounded-full bg-background h-[54px]`}
                 disabled={isSubmitting}
                 value={organization}
@@ -258,6 +259,7 @@ export default function SignupForm() {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 required
+                placeholder={password ? "" : "xxxxxxxxxxx"}
                 className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
                 disabled={isSubmitting}
                 value={password}
