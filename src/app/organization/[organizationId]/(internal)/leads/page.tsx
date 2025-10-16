@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
@@ -773,8 +774,8 @@ export default function LeadsPage() {
             deleteTrigger={
               <AlertDialogTrigger asChild>
                 <Button
-                  variant="destructive"
-                  className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-destructive hover:text-destructive text-sm md:text-lg font-medium"
+                  variant="outline"
+                  className="h-14 px-4 md:px-10 rounded-[50px] bg-background hover:bg-destructive/10 text-foreground hover:text-destructive text-sm md:text-lg font-medium"
                 >
                   <Trash2 className="md:mr-2" />
                   <span className="hidden md:inline">Delete</span>
@@ -814,3 +815,5 @@ export default function LeadsPage() {
     </div>
   );
 }
+
+    
