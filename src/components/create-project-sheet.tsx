@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useTransition, useRef } from "react";
+import React, { useState, useEffect, useTransition, useRef, useCallback } from "react";
 import {
   Sheet,
   SheetContent,
@@ -186,6 +186,7 @@ const CreateProjectForm = ({
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isProjectTypeOpen, setIsProjectTypeOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
@@ -306,7 +307,7 @@ const CreateProjectForm = ({
       setName(contact.fullName);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
-      setSearchQuery("");
+      setSearchQuery(""); // Clear search after selection
     }
     setComboboxOpen(false);
   };
@@ -358,7 +359,7 @@ const CreateProjectForm = ({
 
   const ContactSearch = () => {
     const inputRef = useRef<HTMLInputElement>(null);
-
+  
     useEffect(() => {
       if (comboboxOpen) {
         // We use a short timeout to allow the popover to animate and render before focusing
@@ -368,7 +369,7 @@ const CreateProjectForm = ({
         return () => clearTimeout(timer);
       }
     }, [comboboxOpen]);
-
+  
     return (
       <Popover open={comboboxOpen} onOpenChange={setComboboxOpen} modal={true}>
         <PopoverTrigger asChild>
@@ -387,13 +388,16 @@ const CreateProjectForm = ({
         </PopoverTrigger>
         <PopoverContent
           className="w-[--radix-popover-trigger-width] p-0"
-          onOpenAutoFocus={(e) => e.preventDefault()}
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            searchInputRef.current?.focus();
+          }}
         >
           <div className="p-2">
             <div className="relative">
               <Input
-                ref={inputRef}
                 id="email-search-input"
+                ref={searchInputRef}
                 placeholder="Search by email or name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -407,7 +411,6 @@ const CreateProjectForm = ({
             <div className="p-2 space-y-1">
               {allContacts
                 .filter((contact) => {
-                  if (!searchQuery) return true;
                   const query = searchQuery.toLowerCase();
                   return (
                     contact.email.toLowerCase().includes(query) ||
@@ -420,7 +423,11 @@ const CreateProjectForm = ({
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
+                      e.stopPropagation();
                       handleContactSelect(contact.leadId);
+                    }}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
                     }}
                     className={cn(
                       "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
@@ -446,7 +453,6 @@ const CreateProjectForm = ({
                   </button>
                 ))}
               {allContacts.filter((contact) => {
-                if (!searchQuery) return false;
                 const query = searchQuery.toLowerCase();
                 return (
                   contact.email.toLowerCase().includes(query) ||
@@ -464,7 +470,6 @@ const CreateProjectForm = ({
       </Popover>
     );
   };
-
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       <ScrollArea className="flex-1 p-6 no-scrollbar">
