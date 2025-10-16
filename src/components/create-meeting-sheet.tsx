@@ -47,7 +47,7 @@ import { Badge } from "./ui/badge";
 import { createMeeting } from "@/app/actions";
 import { useToast } from "./ui/use-toast";
 import { SuccessPopup } from "./success-popup";
-import { useUser } from "@/context/user-context";
+import { useUser, User } from "@/context/user-context";
 import { Textarea } from "./ui/textarea";
 import {
   AlertDialog,
@@ -125,12 +125,6 @@ const allContacts = [
   ...mockLeads.map((l) => ({ ...l, type: "lead" as const })),
 ];
 
-const mockMembers = [
-  { id: "USR123", name: "Balaji Naik", role: "ADMIN" },
-  { id: "USR456", name: "Anil Kumar", role: "ENGINEER" },
-  { id: "USR789", name: "Yaswanth", role: "MEMBER" },
-];
-
 const CreateMeetingForm = ({
   onMeetingCreated,
   onClose,
@@ -140,6 +134,8 @@ const CreateMeetingForm = ({
   onClose: () => void;
   setBackendError: (message: string | null) => void;
 }) => {
+  const { user } = useUser();
+  const [members, setMembers] = useState<User[]>([]);
   const [title, setTitle] = useState(
     `Test Meeting ${Math.floor(Date.now() / 1000)}`,
   );
@@ -154,7 +150,9 @@ const CreateMeetingForm = ({
   const [targetType, setTargetType] = React.useState<
     "client" | "lead" | "others" | ""
   >("lead");
-  const [participants, setParticipants] = React.useState<string[]>(["USR123"]);
+  const [participants, setParticipants] = React.useState<string[]>(
+    user ? [user.userId] : [],
+  );
   const [time, setTime] = React.useState("10:30 AM");
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
@@ -166,6 +164,24 @@ const CreateMeetingForm = ({
   const [memberComboboxOpen, setMemberComboboxOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+
+  useEffect(() => {
+    async function fetchOrgUsers() {
+      if (!user) return;
+      try {
+        const res = await fetch("/api/users/org-users", {
+          headers: { "x-user": JSON.stringify(user) },
+        });
+        const data = await res.json();
+        if (data.success) {
+          setMembers(data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch organization users", error);
+      }
+    }
+    fetchOrgUsers();
+  }, [user]);
 
   useEffect(() => {
     if (!selectedId) {
@@ -240,8 +256,7 @@ const CreateMeetingForm = ({
       },
       participants: participants.map((pId) => ({
         userId: pId,
-        participantRole:
-          mockMembers.find((m) => m.id === pId)?.role || "MEMBER",
+        participantRole: members.find((m) => m.userId === pId)?.role || "MEMBER",
       })),
       name,
       city,
@@ -384,10 +399,7 @@ const CreateMeetingForm = ({
                             toggleMember(memberId);
                           }}
                         >
-                          {
-                            mockMembers.find((member) => member.id === memberId)
-                              ?.name
-                          }
+                          {members.find((member) => member.userId === memberId)?.name}
                           <X className="h-3 w-3" />
                         </Badge>
                       ))
@@ -406,16 +418,16 @@ const CreateMeetingForm = ({
                   <CommandList>
                     <CommandEmpty>No member found.</CommandEmpty>
                     <CommandGroup>
-                      {mockMembers.map((member) => (
+                      {members.map((member) => (
                         <CommandItem
-                          key={member.id}
+                          key={member.userId}
                           value={member.name}
-                          onSelect={() => toggleMember(member.id)}
+                          onSelect={() => toggleMember(member.userId)}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              participants.includes(member.id)
+                              participants.includes(member.userId)
                                 ? "opacity-100"
                                 : "opacity-0",
                             )}
