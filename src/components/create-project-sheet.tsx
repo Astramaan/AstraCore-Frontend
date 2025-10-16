@@ -384,18 +384,21 @@ const CreateProjectForm = ({
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="sm:col-span-2">
-                <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
-                  <PopoverTrigger asChild>
-                    <div className="space-y-2">
-                      <Label
-                        htmlFor="email-combobox"
-                        className={cn(
-                          "text-lg font-medium px-2",
-                          email ? "text-muted-foreground" : "text-foreground",
-                        )}
-                      >
-                        Email*
-                      </Label>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="email-combobox"
+                    className={cn(
+                      "text-lg font-medium px-2",
+                      email ? "text-muted-foreground" : "text-foreground",
+                    )}
+                  >
+                    Email*
+                  </Label>
+                  <Popover
+                    open={comboboxOpen}
+                    onOpenChange={setComboboxOpen}
+                  >
+                    <PopoverTrigger asChild>
                       <Button
                         type="button"
                         variant="outline"
@@ -408,38 +411,53 @@ const CreateProjectForm = ({
                         </span>
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search by email..." />
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup>
-                          {allContacts.map((contact) => (
-                            <CommandItem
-                              key={contact.id}
-                              value={contact.email}
-                              onSelect={() => {
-                                handleContactSelect(contact.id);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  email === contact.email
-                                    ? "opacity-100"
-                                    : "opacity-0",
-                                )}
-                              />
-                              {contact.email}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                      <Command shouldFilter={false}>
+                        <CommandInput
+                          placeholder="Search by email..."
+                          value={email}
+                          onValueChange={setEmail}
+                        />
+                        <CommandList>
+                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandGroup>
+                            {allContacts
+                              .filter((contact) =>
+                                contact.email
+                                  .toLowerCase()
+                                  .includes(email.toLowerCase()),
+                              )
+                              .map((contact) => (
+                                <CommandItem
+                                  key={contact.id}
+                                  value={contact.email}
+                                  onSelect={() => {
+                                    handleContactSelect(contact.id);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      email === contact.email
+                                        ? "opacity-100"
+                                        : "opacity-0",
+                                    )}
+                                  />
+                                  <div className="flex flex-col">
+                                    <span>{contact.email}</span>
+                                    <span className="text-xs text-muted-foreground">
+                                      {contact.name}
+                                    </span>
+                                  </div>
+                                </CommandItem>
+                              ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
               <FloatingLabelInput
@@ -1414,7 +1432,7 @@ export function CreateProjectSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (target.closest("[data-radix-popper-content-wrapper]")) {
+            if (target.closest('[data-radix-popper-content-wrapper]')) {
               e.preventDefault();
             }
           }}
