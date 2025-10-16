@@ -756,7 +756,7 @@ const ProjectTimelineForm = ({
         }
         result = await response.json();
 
-        if (result.success) {
+        if (result.success || response.ok) {
           onFormSuccess(result.data, result);
           router.refresh();
         } else {
@@ -1034,7 +1034,7 @@ const CustomTimelineDialog = ({
       indices.stage !== undefined &&
       indices.task !== undefined
     ) {
-      newPhases[indices.phase].stages[stageIndex].tasks[
+      newPhases[phaseIndex].stages[stageIndex].tasks[
         indices.task
       ].duration = value;
     }
