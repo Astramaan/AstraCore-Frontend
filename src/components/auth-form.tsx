@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -13,6 +14,7 @@ import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import Link from "next/link";
 import { useUser } from "@/context/user-context";
+import { Check } from "lucide-react";
 
 export default function AuthForm() {
   const router = useRouter();
@@ -21,6 +23,7 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const { toast } = useToast();
 
   const redirectToDashboard = (userData: any) => {
@@ -52,12 +55,16 @@ export default function AuthForm() {
 
       if (res.ok && data.user) {
         setUser(data.user);
-        redirectToDashboard(data.user);
+        setLoginSuccess(true);
+        setTimeout(() => {
+          redirectToDashboard(data.user);
+        }, 1500);
       } else {
         toast({
           variant: "destructive",
           description: data.message || "An unknown error occurred.",
         });
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Login action failed:", error);
@@ -65,10 +72,25 @@ export default function AuthForm() {
         variant: "destructive",
         description: "An unexpected network error occurred.",
       });
-    } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (loginSuccess) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-center">
+        <div className="relative mb-6 flex items-center justify-center">
+          <div className="w-20 h-20 bg-lime-600/5 rounded-full animate-ping" />
+          <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
+          <div className="w-10 h-10 bg-primary/20 absolute flex items-center justify-center rounded-full">
+            <Check className="w-8 h-8 text-primary" />
+          </div>
+        </div>
+        <h2 className="text-xl font-semibold">Login Successful!</h2>
+        <p className="text-muted-foreground mt-2">Redirecting you now...</p>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
