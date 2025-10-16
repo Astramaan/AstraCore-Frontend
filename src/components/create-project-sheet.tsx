@@ -1102,7 +1102,7 @@ const CustomTimelineDialog = ({
       indices.stage !== undefined &&
       indices.task !== undefined
     ) {
-      newPhases[phaseIndex].stages[stageIndex].tasks[
+      newPhases[indices.phase].stages[indices.stage].tasks[
         indices.task
       ].duration = value;
     }
@@ -1348,7 +1348,7 @@ export function CreateProjectSheet({
     if (isEditMode) {
       onProjectUpdated(newOrUpdatedProject);
     } else {
-      onProjectAdded(newOrUpdatedProject, responseData);
+      onProjectAdded(newOrUpdatedProject);
     }
     setTimeout(() => {
       setStep(1);
@@ -1397,13 +1397,7 @@ export function CreateProjectSheet({
             "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
           )}
           onInteractOutside={(e) => {
-            if (
-              (e.target as HTMLElement).closest(
-                "[data-radix-popper-content-wrapper]",
-              )
-            ) {
-              e.preventDefault();
-            }
+            e.preventDefault();
           }}
         >
           <DialogOrSheetHeader className="p-6 border-b">
