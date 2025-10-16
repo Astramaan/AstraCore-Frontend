@@ -432,7 +432,7 @@ const FloatingActionBar = ({
   deleteTrigger: React.ReactNode;
 }) => {
   return (
-    <div className="fixed bottom-28 left-1/2 -translate-x-1/2 w-full max-w-[90%] md:max-w-[828px] h-20 bg-card rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] dark:shadow-[-5px_-5px_25px_0px_rgba(255,255,255,0.1)] flex items-center justify-between px-4 md:px-6 z-50">
+    <div className="fixed bottom-36 left-1/2 -translate-x-1/2 w-full max-w-[90%] md:max-w-[828px] h-20 bg-card rounded-[50px] shadow-[-5px_-5px_25px_0px_rgba(17,17,17,0.25)] dark:shadow-[-5px_-5px_25px_0px_rgba(255,255,255,0.1)] flex items-center justify-between px-4 md:px-6 z-50">
       <div className="hidden md:flex items-center gap-4">
         <Checkbox
           id="select-all-floating"
