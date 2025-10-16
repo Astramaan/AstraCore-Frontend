@@ -197,9 +197,9 @@ const LeadCard = ({
               <AlertDialogContent className="max-w-md rounded-[50px]">
                 <AlertDialogHeader className="items-center text-center">
                   <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                    <div className="w-full h-full bg-red-600/10 rounded-full" />
-                    <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                    <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                    <div className="w-full h-full bg-destructive/10 rounded-full" />
+                    <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
+                    <ShieldAlert className="w-8 h-8 text-destructive absolute" />
                   </div>
                   <AlertDialogTitle className="text-2xl font-semibold">
                     Confirm Lead Deletion?
@@ -282,9 +282,9 @@ const LeadCard = ({
           <AlertDialogContent className="max-w-md rounded-[50px]">
             <AlertDialogHeader className="items-center text-center">
               <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                <div className="w-full h-full bg-red-600/10 rounded-full" />
-                <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                <div className="w-full h-full bg-destructive/10 rounded-full" />
+                <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
+                <ShieldAlert className="w-8 h-8 text-destructive absolute" />
               </div>
               <AlertDialogTitle className="text-2xl font-semibold">
                 Confirm Lead Deletion?
@@ -786,9 +786,9 @@ export default function LeadsPage() {
           <AlertDialogContent className="max-w-md rounded-[50px]">
             <AlertDialogHeader className="items-center text-center">
               <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                <div className="w-full h-full bg-red-600/10 rounded-full" />
-                <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                <div className="w-full h-full bg-destructive/10 rounded-full" />
+                <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
+                <ShieldAlert className="w-8 h-8 text-destructive absolute" />
               </div>
               <AlertDialogTitle className="text-2xl font-semibold">
                 Delete Selected Leads?
@@ -815,5 +815,3 @@ export default function LeadsPage() {
     </div>
   );
 }
-
-    
