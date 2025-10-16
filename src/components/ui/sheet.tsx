@@ -74,6 +74,7 @@ const SheetContent = React.forwardRef<
           if (target.closest('[data-radix-popper-content-wrapper]')) {
             e.preventDefault();
           }
+          props.onInteractOutside?.(e);
         }}
         className={cn(sheetVariants({ side }), className)}
         {...props}
