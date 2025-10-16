@@ -196,8 +196,8 @@ const CreateProjectForm = ({
 }) => {
   const { user } = useUser();
   const [comboboxOpen, setComboboxOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [allContacts, setAllContacts] = useState<Lead[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
@@ -266,6 +266,18 @@ const CreateProjectForm = ({
       "",
   );
 
+  const handleContactSelect = (contactId: string) => {
+    const contact = allContacts.find((c) => c.leadId === contactId);
+    if (contact) {
+      setEmail(contact.email);
+      setName(contact.fullName);
+      setPhone(contact.phone);
+      setCurrentAddress(contact.address);
+      setSearchQuery("");
+    }
+    setComboboxOpen(false);
+  };
+
   useEffect(() => {
     const fetchLeads = async () => {
       if (!user) return;
@@ -317,24 +329,11 @@ const CreateProjectForm = ({
       setter(value);
     };
 
-  const handleContactSelect = (contactId: string) => {
-    const contact = allContacts.find((c) => c.leadId === contactId);
-    if (contact) {
-      setEmail(contact.email);
-      setName(contact.fullName);
-      setPhone(contact.phone);
-      setCurrentAddress(contact.address);
-      setSearchQuery(""); // Clear search after selection
-    }
-    setComboboxOpen(false);
-  };
-
   useEffect(() => {
     if (comboboxOpen) {
       setSearchQuery("");
     }
   }, [comboboxOpen]);
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -369,128 +368,116 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="sm:col-span-2">
-  <div className="space-y-2">
-    <Label
-      htmlFor="email-combobox"
-      className={cn(
-        "text-lg font-medium px-2",
-        email ? "text-muted-foreground" : "text-foreground",
-      )}
-    >
-      Email*
-    </Label>
-    <Popover open={comboboxOpen} onOpenChange={setComboboxOpen} modal={true}>
-      <PopoverTrigger asChild>
-        <Button
-          type="button"
-          variant="outline"
-          role="combobox"
-          aria-expanded={comboboxOpen}
-          className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
-        >
-          <span className="truncate">
-            {email || "Select client or lead..."}
-          </span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        className="w-[--radix-popover-trigger-width] p-0"
-        onOpenAutoFocus={(e) => {
-          e.preventDefault();
-          // Focus the input after popover opens
-          setTimeout(() => {
-            const input = document.querySelector<HTMLInputElement>(
-              '#email-search-input'
-            );
-            if (input) input.focus();
-          }, 0);
-        }}
-      >
-        <div className="p-2">
-          <div className="relative">
-            <Input
-              id="email-search-input"
-              placeholder="Search by email or name..."
-              value={searchQuery}
-              onChange={(e) => {
-                e.stopPropagation();
-                setSearchQuery(e.target.value);
-              }}
-              onKeyDown={(e) => {
-                e.stopPropagation();
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className="h-10"
-              autoComplete="off"
-            />
-          </div>
-        </div>
-        <ScrollArea className="max-h-[300px]">
-          <div className="p-2 space-y-1">
-            {allContacts
-              .filter((contact) => {
-                if (!searchQuery) return true; // Show all if no search
-                const query = searchQuery.toLowerCase();
-                return (
-                  contact.email.toLowerCase().includes(query) ||
-                  contact.fullName.toLowerCase().includes(query)
-                );
-              })
-              .map((contact) => (
-                <button
-                  key={contact.leadId}
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleContactSelect(contact.leadId);
-                  }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                  }}
-                  className={cn(
-                    "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
-                    email === contact.email && "bg-accent"
-                  )}
-                >
-                  <Check
+              <div className="sm:col-span-2">
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="email-combobox"
                     className={cn(
-                      "h-4 w-4 shrink-0",
-                      email === contact.email
-                        ? "opacity-100"
-                        : "opacity-0",
+                      "text-lg font-medium px-2",
+                      email ? "text-muted-foreground" : "text-foreground",
                     )}
-                  />
-                  <div className="flex flex-col flex-1 min-w-0">
-                    <span className="font-medium truncate">
-                      {contact.email}
-                    </span>
-                    <span className="text-xs text-muted-foreground truncate">
-                      {contact.fullName}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            {allContacts.filter((contact) => {
-              if (!searchQuery) return false;
-              const query = searchQuery.toLowerCase();
-              return (
-                contact.email.toLowerCase().includes(query) ||
-                contact.fullName.toLowerCase().includes(query)
-              );
-            }).length === 0 && searchQuery && (
-              <div className="text-sm text-muted-foreground text-center py-6">
-                No contacts found for "{searchQuery}"
+                  >
+                    Email*
+                  </Label>
+                  <Popover
+                    open={comboboxOpen}
+                    onOpenChange={setComboboxOpen}
+                    modal={true}
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={comboboxOpen}
+                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                      >
+                        <span className="truncate">
+                          {email || "Select client or lead..."}
+                        </span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      onOpenAutoFocus={(e) => {
+                        e.preventDefault();
+                        const input = document.querySelector<HTMLInputElement>(
+                          '#email-search-input',
+                        );
+                        if (input) input.focus();
+                      }}
+                    >
+                      <div className="p-2">
+                        <div className="relative">
+                          <Input
+                            id="email-search-input"
+                            placeholder="Search by email or name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="h-10"
+                            autoComplete="off"
+                          />
+                        </div>
+                      </div>
+                      <ScrollArea className="max-h-[300px]">
+                        <div className="p-2 space-y-1">
+                          {allContacts
+                            .filter((contact) => {
+                              if (!searchQuery) return true;
+                              const query = searchQuery.toLowerCase();
+                              return (
+                                contact.email.toLowerCase().includes(query) ||
+                                contact.fullName.toLowerCase().includes(query)
+                              );
+                            })
+                            .map((contact) => (
+                              <button
+                                key={contact.leadId}
+                                type="button"
+                                onClick={() => handleContactSelect(contact.leadId)}
+                                className={cn(
+                                  "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
+                                  email === contact.email && "bg-accent",
+                                )}
+                              >
+                                <Check
+                                  className={cn(
+                                    "h-4 w-4 shrink-0",
+                                    email === contact.email
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                <div className="flex flex-col flex-1 min-w-0">
+                                  <span className="font-medium truncate">
+                                    {contact.email}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground truncate">
+                                    {contact.fullName}
+                                  </span>
+                                </div>
+                              </button>
+                            ))}
+                          {allContacts.filter((contact) => {
+                            if (!searchQuery) return false;
+                            const query = searchQuery.toLowerCase();
+                            return (
+                              contact.email.toLowerCase().includes(query) ||
+                              contact.fullName.toLowerCase().includes(query)
+                            );
+                          }).length === 0 && searchQuery && (
+                            <div className="text-sm text-muted-foreground text-center py-6">
+                              No contacts found for "{searchQuery}"
+                            </div>
+                          )}
+                        </div>
+                      </ScrollArea>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
-            )}
-          </div>
-        </ScrollArea>
-      </PopoverContent>
-    </Popover>
-  </div>
-</div>
+
               <FloatingLabelInput
                 id="name"
                 name="name"
