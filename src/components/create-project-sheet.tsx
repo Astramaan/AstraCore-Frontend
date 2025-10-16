@@ -380,7 +380,7 @@ const CreateProjectForm = ({
                   >
                     Email*
                   </Label>
-                  <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+                  <Popover open={comboboxOpen} onOpenChange={setComboboxOpen} modal={true}>
                     <PopoverTrigger asChild>
                       <Button
                         type="button"
@@ -395,7 +395,10 @@ const CreateProjectForm = ({
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
                       <div className="p-2">
                         <div className="relative">
                           <Input
@@ -403,6 +406,7 @@ const CreateProjectForm = ({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="h-10"
+                            onKeyDown={(e) => e.stopPropagation()}
                           />
                         </div>
                       </div>
@@ -412,22 +416,26 @@ const CreateProjectForm = ({
                             .filter((contact) => {
                               const query = searchQuery.toLowerCase();
                               return (
-                                contact.email
-                                  .toLowerCase()
-                                  .includes(query) ||
-                                contact.fullName
-                                  .toLowerCase()
-                                  .includes(query)
+                                contact.email.toLowerCase().includes(query) ||
+                                contact.fullName.toLowerCase().includes(query)
                               );
                             })
                             .map((contact) => (
                               <button
                                 key={contact.leadId}
                                 type="button"
-                                onClick={() => handleContactSelect(contact.leadId)}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleContactSelect(contact.leadId);
+                                }}
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
                                 className={cn(
                                   "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
-                                  email === contact.email && "bg-accent",
+                                  email === contact.email && "bg-accent"
                                 )}
                               >
                                 <Check
@@ -451,12 +459,8 @@ const CreateProjectForm = ({
                           {allContacts.filter((contact) => {
                             const query = searchQuery.toLowerCase();
                             return (
-                              contact.email
-                                .toLowerCase()
-                                .includes(query) ||
-                              contact.fullName
-                                .toLowerCase()
-                                .includes(query)
+                              contact.email.toLowerCase().includes(query) ||
+                              contact.fullName.toLowerCase().includes(query)
                             );
                           }).length === 0 && (
                             <div className="text-sm text-muted-foreground text-center py-6">
@@ -1496,5 +1500,3 @@ export function CreateProjectSheet({
     </>
   );
 }
-
-    
