@@ -80,6 +80,48 @@ import {
   CommandList,
 } from "./ui/command";
 
+const mockLeads: Lead[] = [
+  {
+    organization: 'Habi',
+    leadId: 'LEAD001',
+    fullName: 'John Doe',
+    contact: 'john.doe@example.com | 1234567890',
+    phone: '1234567890',
+    email: 'john.doe@example.com',
+    address: 'Pincode: 110011',
+    pincode: '110011',
+    tokenAmount: '1000',
+    level: 'Level 1',
+    profileImage: 'https://placehold.co/94x94.png',
+    coverImage: 'https://placehold.co/712x144.png',
+    siteImages: [],
+  },
+  {
+    organization: 'Habi',
+    leadId: 'LEAD002',
+    fullName: 'Jane Smith',
+    contact: 'jane.smith@example.com | 0987654321',
+    phone: '0987654321',
+    email: 'jane.smith@example.com',
+    address: 'Pincode: 560001',
+    pincode: '560001',
+    tokenAmount: '2000',
+    level: 'Level 2',
+    profileImage: 'https://placehold.co/94x94.png',
+    coverImage: 'https://placehold.co/712x144.png',
+    siteImages: [],
+  },
+];
+
+const mockUsers: User[] = [
+  { userId: 'USR001', name: 'Alice Architect', email: 'alice@habi.one', role: 'ORG_MEMBER', team: 'Architect', mobileNumber: '1111111111', organizationId: '', orgCode: '' },
+  { userId: 'USR002', name: 'Bob Builder', email: 'bob@habi.one', role: 'ORG_MEMBER', team: 'Site Supervisor', mobileNumber: '2222222222', organizationId: '', orgCode: '' },
+  { userId: 'USR003', name: 'Charlie Architect', email: 'charlie@habi.one', role: 'ORG_MEMBER', team: 'Architect', mobileNumber: '3333333333', organizationId: '', orgCode: '' },
+  { userId: 'USR004', name: 'Diana Designer', email: 'diana@habi.one', role: 'ORG_MEMBER', team: 'Design', mobileNumber: '4444444444', organizationId: '', orgCode: '' },
+  { userId: 'USR005', name: 'Sam Supervisor', email: 'sam@habi.one', role: 'ORG_MEMBER', team: 'Site Supervisor', mobileNumber: '5555555555', organizationId: '', orgCode: '' },
+];
+
+
 const FloatingLabelInput = ({
   id,
   label,
@@ -146,8 +188,8 @@ const CreateProjectForm = ({
   projectData: any;
 }) => {
   const { user } = useUser();
-  const [allContacts, setAllContacts] = useState<Lead[]>([]);
-  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [allContacts, setAllContacts] = useState<Lead[]>(mockLeads);
+  const [allUsers, setAllUsers] = useState<User[]>(mockUsers);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
   const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] =
     useState(false);
@@ -225,71 +267,6 @@ const CreateProjectForm = ({
       projectData?.projectAssign?.siteSupervisor ||
       "",
   );
-
-  const fetchLeads = useCallback(async () => {
-    if (!user) return;
-    try {
-      const res = await fetch("/api/leads", {
-        headers: { "x-user": JSON.stringify(user) },
-      });
-      const result = await res.json();
-      if (result.success && Array.isArray(result.data)) {
-        const formattedLeads = result.data.map((lead: any) => ({
-          organization: lead.organizationId,
-          leadId: lead._id,
-          fullName: lead.inviteeName,
-          contact: `${lead.inviteeEmail} | ${lead.inviteeMobileNumber}`,
-          phone: lead.inviteeMobileNumber,
-          email: lead.inviteeEmail,
-          address: `Pincode: ${lead.siteLocationPinCode || "N/A"}`,
-          pincode: lead.siteLocationPinCode || "N/A",
-          tokenAmount: lead.tokenAmount || "0",
-          level: lead.level || "Level 1",
-          profileImage: "https://placehold.co/94x94.png",
-          coverImage: "https://placehold.co/712x144.png",
-          siteImages: [],
-        }));
-        setAllContacts(formattedLeads);
-      } else {
-        console.error("Failed to fetch leads:", result.message);
-      }
-    } catch (error) {
-      console.error("Error fetching leads:", error);
-    }
-  }, [user]);
-
-  const fetchUsers = useCallback(async () => {
-    if (!user) return;
-    try {
-      const res = await fetch("/api/users/org-users", {
-        headers: { "x-user": JSON.stringify(user) },
-      });
-      const result = await res.json();
-      if (result.success && Array.isArray(result.data)) {
-        setAllUsers(result.data);
-      } else {
-        console.error("Failed to fetch users:", result.message);
-      }
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (emailComboboxOpen) {
-      fetchLeads();
-    }
-    if (architectComboboxOpen || supervisorComboboxOpen) {
-      fetchUsers();
-    }
-  }, [
-    user,
-    emailComboboxOpen,
-    architectComboboxOpen,
-    supervisorComboboxOpen,
-    fetchLeads,
-    fetchUsers,
-  ]);
 
   const architects = useMemo(
     () => allUsers.filter((u) => u.team === "Architect"),
