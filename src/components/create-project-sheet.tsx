@@ -28,7 +28,7 @@ import {
   ShieldAlert,
   Search,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+
 import {
   Dialog,
   DialogContent,
@@ -48,14 +48,6 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "./ui/command";
 import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
 import { Separator } from "./ui/separator";
@@ -67,7 +59,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
-import { getLeadByEmail } from "@/app/actions";
 import { useRouter, useParams } from "next/navigation";
 import {
   DropdownMenu,
@@ -172,7 +163,7 @@ const FloatingLabelSelect = ({
     <Select name={name || id} value={value} onValueChange={onValueChange}>
       <SelectTrigger
         id={id}
-        className="h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer"
+        className="h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer hover:bg-accent hover:text-accent-foreground"
       >
         <SelectValue placeholder={label.replace("*", "")} />
       </SelectTrigger>
@@ -183,20 +174,22 @@ const FloatingLabelSelect = ({
 
 const ContactSearch = ({
   allContacts,
-  email,
+  searchQuery,
+  setSearchQuery,
   handleContactSelect,
+  email,
 }: {
   allContacts: Lead[];
-  email: string;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
   handleContactSelect: (contactId: string) => void;
+  email: string;
 }) => {
-  const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Automatically focus the input when the popover opens.
     inputRef.current?.focus();
-  });
+  }, []);
 
   const filteredContacts = allContacts.filter((contact) => {
     if (!searchQuery) return true;
@@ -208,20 +201,20 @@ const ContactSearch = ({
   });
 
   return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      onKeyDown={(e) => e.stopPropagation()}
-    >
+    <div>
       <div className="p-2">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             ref={inputRef}
             id="email-search-input"
             placeholder="Search by email or name..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-10 pl-9"
+            onChange={(e) => {
+              e.stopPropagation();
+              setSearchQuery(e.target.value);
+            }}
+            onClick={(e) => e.stopPropagation()}
+            className="h-10"
             autoComplete="off"
           />
         </div>
@@ -233,7 +226,14 @@ const ContactSearch = ({
               <button
                 key={contact.leadId}
                 type="button"
-                onClick={() => handleContactSelect(contact.leadId)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleContactSelect(contact.leadId);
+                }}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                }}
                 className={cn(
                   "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
                   email === contact.email && "bg-accent",
@@ -255,7 +255,9 @@ const ContactSearch = ({
             ))
           ) : (
             <div className="text-sm text-muted-foreground text-center py-6">
-              No contacts found
+              {searchQuery
+                ? `No contacts found for "${searchQuery}"`
+                : "No contacts found"}
             </div>
           )}
         </div>
@@ -268,18 +270,15 @@ const CreateProjectForm = ({
   onNext,
   projectToEdit,
   projectData,
-  onProjectAdded,
-  onProjectUpdated,
 }: {
   onNext: (data: any) => void;
   projectToEdit: Project | null;
   projectData: any;
-  onProjectAdded: (project: Project, responseData: any) => void;
-  onProjectUpdated: (project: Project, responseData: any) => void;
 }) => {
   const { user } = useUser();
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [allContacts, setAllContacts] = useState<Lead[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
@@ -349,17 +348,6 @@ const CreateProjectForm = ({
       "",
   );
 
-  const handleContactSelect = (contactId: string) => {
-    const contact = allContacts.find((c) => c.leadId === contactId);
-    if (contact) {
-      setEmail(contact.email);
-      setName(contact.fullName);
-      setPhone(contact.phone);
-      setCurrentAddress(contact.address);
-    }
-    setComboboxOpen(false);
-  };
-
   useEffect(() => {
     const fetchLeads = async () => {
       if (!user) return;
@@ -392,8 +380,27 @@ const CreateProjectForm = ({
         console.error("Error fetching leads:", error);
       }
     };
-    fetchLeads();
-  }, [user]);
+    if (comboboxOpen) {
+      fetchLeads();
+    }
+  }, [user, comboboxOpen]);
+
+  useEffect(() => {
+    if (comboboxOpen) {
+      setSearchQuery("");
+    }
+  }, [comboboxOpen]);
+
+  const handleContactSelect = (contactId: string) => {
+    const contact = allContacts.find((c) => c.leadId === contactId);
+    if (contact) {
+      setEmail(contact.email);
+      setName(contact.fullName);
+      setPhone(contact.phone);
+      setCurrentAddress(contact.address);
+    }
+    setComboboxOpen(false);
+  };
 
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -428,6 +435,7 @@ const CreateProjectForm = ({
         floor: floor,
         siteLocation: siteLocation,
         siteLocationLink: siteLocationLink,
+        siteAddress: siteLocation,
       },
       projectAssign: {
         architect: architect,
@@ -445,21 +453,21 @@ const CreateProjectForm = ({
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="sm:col-span-2">
-                <Popover
-                  open={comboboxOpen}
-                  onOpenChange={setComboboxOpen}
-                  modal={true}
-                >
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="email-combobox"
-                      className={cn(
-                        "text-lg font-medium px-2",
-                        email ? "text-muted-foreground" : "text-foreground",
-                      )}
-                    >
-                      Email*
-                    </Label>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="email-combobox"
+                    className={cn(
+                      "text-lg font-medium px-2",
+                      email ? "text-muted-foreground" : "text-foreground",
+                    )}
+                  >
+                    Email*
+                  </Label>
+                  <Popover
+                    open={comboboxOpen}
+                    onOpenChange={setComboboxOpen}
+                    modal={true}
+                  >
                     <PopoverTrigger asChild>
                       <Button
                         type="button"
@@ -474,18 +482,25 @@ const CreateProjectForm = ({
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                  </div>
-                  <PopoverContent
-                    className="w-[--radix-popover-trigger-width] p-0"
-                    onOpenAutoFocus={(e) => e.preventDefault()}
-                  >
-                    <ContactSearch
-                      allContacts={allContacts}
-                      email={email}
-                      handleContactSelect={handleContactSelect}
-                    />
-                  </PopoverContent>
-                </Popover>
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      onOpenAutoFocus={(e) => {
+                        e.preventDefault();
+                      }}
+                      onInteractOutside={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <ContactSearch
+                        allContacts={allContacts}
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
+                        handleContactSelect={handleContactSelect}
+                        email={email}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
 
               <FloatingLabelInput
@@ -555,7 +570,7 @@ const CreateProjectForm = ({
                 name="dimension"
                 label="Dimension (sq.ft)*"
                 value={dimension}
-                onChange={handleNumberOnlyChange(setDimension)}
+                onChange={(e) => setDimension(e.target.value)}
               />
               <FloatingLabelSelect
                 id="floor"
@@ -633,6 +648,11 @@ export interface Phase {
 export interface Stage {
   name: string;
   tasks: Task[];
+}
+
+export interface Task {
+  name: string;
+  duration: string;
 }
 
 export interface TimelineTemplate {
@@ -1056,7 +1076,6 @@ const CustomTimelineDialog = ({
   templateToEdit,
 }: CustomTimelineDialogProps) => {
   const { toast } = useToast();
-  const isMobile = useIsMobile();
   const [templateName, setTemplateName] = useState("");
   const [phases, setPhases] = useState<Phase[]>([
     {
@@ -1170,12 +1189,9 @@ const CustomTimelineDialog = ({
     setPhases(newPhases);
   };
 
-  const DialogComponent = Dialog;
-  const DialogContentComponent = DialogContent;
-
   return (
-    <DialogComponent open={isOpen} onOpenChange={onClose}>
-      <DialogContentComponent
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent
         className={cn(
           "p-0 flex flex-col bg-card text-card-foreground transition-all m-0 border-none",
           "sm:max-w-4xl rounded-t-[50px] md:rounded-[50px] h-full md:h-auto md:max-h-[90vh] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
@@ -1357,8 +1373,8 @@ const CustomTimelineDialog = ({
             </Button>
           </div>
         </div>
-      </DialogContentComponent>
-    </DialogComponent>
+      </DialogContent>
+    </Dialog>
   );
 };
 
@@ -1423,13 +1439,6 @@ export function CreateProjectSheet({
   };
   const handleBack = () => setStep(1);
 
-  const DialogOrSheet = Sheet;
-  const DialogOrSheetContent = SheetContent;
-  const DialogOrSheetHeader = SheetHeader;
-  const DialogOrSheetTitle = SheetTitle;
-  const DialogOrSheetClose = SheetClose;
-  const DialogOrSheetTrigger = SheetTrigger;
-
   const title = isEditMode
     ? "Edit Project"
     : step === 1
@@ -1445,14 +1454,14 @@ export function CreateProjectSheet({
 
   return (
     <>
-      <DialogOrSheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
+      <Sheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
         {!isEditMode && trigger && (
-          <DialogOrSheetTrigger asChild>{trigger}</DialogOrSheetTrigger>
+          <SheetTrigger asChild>{trigger}</SheetTrigger>
         )}
         {!isEditMode && !trigger && (
-          <DialogOrSheetTrigger asChild>{DefaultTrigger}</DialogOrSheetTrigger>
+          <SheetTrigger asChild>{DefaultTrigger}</SheetTrigger>
         )}
-        <DialogOrSheetContent
+        <SheetContent
           side="bottom"
           className={cn(
             "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
@@ -1464,12 +1473,12 @@ export function CreateProjectSheet({
             }
           }}
         >
-          <DialogOrSheetHeader className="p-6 border-b">
+          <SheetHeader className="p-6 border-b">
             <div className="flex justify-between items-center">
-              <DialogOrSheetTitle className="text-2xl font-semibold">
+              <SheetTitle className="text-2xl font-semibold">
                 {title}
-              </DialogOrSheetTitle>
-              <DialogOrSheetClose asChild>
+              </SheetTitle>
+              <SheetClose asChild>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -1477,17 +1486,15 @@ export function CreateProjectSheet({
                 >
                   <X className="h-6 w-6" />
                 </Button>
-              </DialogOrSheetClose>
+              </SheetClose>
             </div>
-          </DialogOrSheetHeader>
+          </SheetHeader>
           <div className="flex-1 flex flex-col overflow-hidden">
             {step === 1 ? (
               <CreateProjectForm
                 onNext={handleNext}
                 projectToEdit={projectToEdit}
                 projectData={projectData}
-                onProjectAdded={handleSuccess}
-                onProjectUpdated={handleSuccess}
               />
             ) : (
               <ProjectTimelineForm
@@ -1498,8 +1505,8 @@ export function CreateProjectSheet({
               />
             )}
           </div>
-        </DialogOrSheetContent>
-      </DialogOrSheet>
+        </SheetContent>
+      </Sheet>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
