@@ -85,69 +85,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Lead } from "./lead-details-sheet";
 
-const mockArchitects = [
-  { value: "554cee57f2f634d9", label: "Darshan" },
-  { value: "anil@habi.one", label: "Anil Kumar" },
-  { value: "yaswanth@habi.one", label: "Yaswanth" },
-];
 
-const mockSupervisors = [
-  { value: "55e79200c1635b37", label: "Supervisor 1" },
-  { value: "supervisor2", label: "Supervisor 2" },
-  { value: "supervisor3", label: "Supervisor 3" },
-];
-
-const mockClients = [
-  {
-    id: "CHA2024",
-    name: "Charan Project",
-    city: "Mysuru",
-    address: "123, Mysore Palace Road, Mysore, Karnataka 570001",
-    email: "admin@abc.com",
-    phone: "+91 1234567890",
-    type: "client" as const,
-  },
-  {
-    id: "DEL2024",
-    name: "Delta Project",
-    city: "Bengaluru",
-    address: "456, MG Road, Bengaluru, Karnataka 560001",
-    email: "contact@delta.com",
-    phone: "+91 9876543210",
-    type: "client" as const,
-  },
-  {
-    id: "GAM2024",
-    name: "Gamma Project",
-    city: "Chennai",
-    address: "789, T Nagar, Chennai, Tamil Nadu 600017",
-    email: "support@gamma.co",
-    phone: "+91 8765432109",
-    type: "client" as const,
-  },
-];
-const mockLeads = [
-  {
-    id: "LEAD2024",
-    name: "Alpha Lead",
-    city: "Hyderabad",
-    address: "101, Hitech City, Hyderabad, Telangana 500081",
-    email: "sales@alpha.io",
-    phone: "+91 7654321098",
-    type: "lead" as const,
-  },
-  {
-    id: "LEAD2024-2",
-    name: "Beta Lead",
-    city: "Mumbai",
-    address: "202, Bandra West, Mumbai, Maharashtra 400050",
-    email: "info@betaleads.com",
-    phone: "+91 6543210987",
-    type: "lead" as const,
-  },
-];
-const allContacts = [...mockClients, ...mockLeads];
 const FloatingLabelInput = ({
   id,
   label,
@@ -254,8 +194,10 @@ const CreateProjectForm = ({
   onProjectAdded: (project: Project, responseData: any) => void;
   onProjectUpdated: (project: Project, responseData: any) => void;
 }) => {
+  const { user } = useUser();
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [allContacts, setAllContacts] = useState<Lead[]>([]);
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
@@ -324,6 +266,41 @@ const CreateProjectForm = ({
       "",
   );
 
+    useEffect(() => {
+    const fetchLeads = async () => {
+      if (!user) return;
+      try {
+        const res = await fetch("/api/leads", {
+          headers: { "x-user": JSON.stringify(user) },
+        });
+        const result = await res.json();
+        if (result.success && Array.isArray(result.data)) {
+          const formattedLeads = result.data.map((lead: any) => ({
+            organization: lead.organizationId,
+            leadId: lead._id,
+            fullName: lead.inviteeName,
+            contact: `${lead.inviteeEmail} | ${lead.inviteeMobileNumber}`,
+            phone: lead.inviteeMobileNumber,
+            email: lead.inviteeEmail,
+            address: `Pincode: ${lead.siteLocationPinCode || "N/A"}`,
+            pincode: lead.siteLocationPinCode || "N/A",
+            tokenAmount: lead.tokenAmount || "0",
+            level: lead.level || "Level 1",
+            profileImage: "https://placehold.co/94x94.png",
+            coverImage: "https://placehold.co/712x144.png",
+            siteImages: [],
+          }));
+          setAllContacts(formattedLeads);
+        } else {
+          console.error("Failed to fetch leads:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching leads:", error);
+      }
+    };
+    fetchLeads();
+  }, [user]);
+
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -341,13 +318,13 @@ const CreateProjectForm = ({
     };
 
   const handleContactSelect = (contactId: string) => {
-    const contact = allContacts.find((c) => c.id === contactId);
+    const contact = allContacts.find((c) => c.leadId === contactId);
     if (contact) {
       setEmail(contact.email);
-      setName(contact.name);
+      setName(contact.fullName);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
-      setSearchQuery("");
+      setSearchQuery(""); // ✅ Clear search after selection
     }
     setComboboxOpen(false);
   };
@@ -392,7 +369,7 @@ const CreateProjectForm = ({
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="sm:col-span-2">
-                <div className="space-y-2">
+                 <div className="space-y-2">
                   <Label
                     htmlFor="email-combobox"
                     className={cn(
@@ -402,10 +379,7 @@ const CreateProjectForm = ({
                   >
                     Email*
                   </Label>
-                  <Popover
-                    open={comboboxOpen}
-                    onOpenChange={setComboboxOpen}
-                  >
+                  <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         type="button"
@@ -434,18 +408,16 @@ const CreateProjectForm = ({
                               .filter((contact) => {
                                 const query = searchQuery.toLowerCase();
                                 return (
-                                  contact.email
-                                    .toLowerCase()
-                                    .includes(query) ||
-                                  contact.name.toLowerCase().includes(query)
+                                  contact.email.toLowerCase().includes(query) ||
+                                  contact.fullName.toLowerCase().includes(query)
                                 );
                               })
                               .map((contact) => (
                                 <CommandItem
-                                  key={contact.id}
-                                  value={contact.id}
+                                  key={contact.leadId}
+                                  value={contact.leadId}
                                   onSelect={() => {
-                                    handleContactSelect(contact.id);
+                                    handleContactSelect(contact.leadId);
                                   }}
                                 >
                                   <Check
@@ -461,7 +433,7 @@ const CreateProjectForm = ({
                                       {contact.email}
                                     </span>
                                     <span className="text-xs text-muted-foreground">
-                                      {contact.name} • {contact.city}
+                                      {contact.fullName}
                                     </span>
                                   </div>
                                 </CommandItem>
@@ -849,10 +821,9 @@ const ProjectTimelineForm = ({
             body: JSON.stringify(fullData),
           });
         }
-        
+
         const text = await response.text();
         result = text ? JSON.parse(text) : {};
-
 
         if (response.ok) {
           onFormSuccess(result.data, result);
@@ -992,7 +963,7 @@ const ProjectTimelineForm = ({
           </Button>
         </div>
       </form>
-       <AlertDialog
+      <AlertDialog
         open={!!backendError}
         onOpenChange={() => setBackendError(null)}
       >
