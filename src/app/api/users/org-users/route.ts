@@ -27,12 +27,14 @@ function getAuthHeaders(req: Request): Record<string, string> {
 }
 
 export async function GET(req: Request) {
+  console.log("Fetching organization users...");
   try {
     const res = await fetch(`${API_BASE_URL}/api/v1/org/users`, {
       headers: getAuthHeaders(req),
     });
 
     const data = await res.json();
+    console.log("Org users response:", data);
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Get org users proxy failed:", error);
