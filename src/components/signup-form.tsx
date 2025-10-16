@@ -8,10 +8,6 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
-import LockIcon from "./icons/lock";
-import EmailIcon from "./icons/email-icon";
-import PhoneIcon from "./icons/phone-icon";
-import OrganizationIcon from "./icons/organization-icon";
 import EyeIcon from "./icons/eye-icon";
 import EyeOffIcon from "./icons/eye-off-icon";
 import { cn } from "@/lib/utils";
@@ -161,8 +157,6 @@ export default function SignupForm() {
               Email ID
             </Label>
             <div className="relative flex items-center">
-              <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
-              <div className="absolute left-14 h-6 w-px bg-border" />
               <Input
                 id="email"
                 name="email"
@@ -171,7 +165,7 @@ export default function SignupForm() {
                 required
                 placeholder={email ? "" : "name@company.com"}
                 className={cn(
-                  `pl-20 rounded-full bg-background h-[54px]`,
+                  `pl-6 rounded-full bg-background h-[54px]`,
                   emailError && "border-destructive",
                 )}
                 disabled={isSubmitting}
@@ -198,15 +192,13 @@ export default function SignupForm() {
               Phone Number
             </Label>
             <div className="relative flex items-center">
-              <PhoneIcon className="absolute left-6 h-5 w-5 text-foreground" />
-              <div className="absolute left-14 h-6 w-px bg-border" />
               <Input
                 id="phone"
                 name="phone"
                 type="tel"
                 required
                 placeholder={phone ? "" : "Your phone number"}
-                className={`pl-20 rounded-full bg-background h-[54px]`}
+                className={`pl-6 rounded-full bg-background h-[54px]`}
                 disabled={isSubmitting}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -225,15 +217,13 @@ export default function SignupForm() {
               Organization Name
             </Label>
             <div className="relative flex items-center">
-              <OrganizationIcon className="absolute left-6 h-5 w-5 text-foreground" />
-              <div className="absolute left-14 h-6 w-px bg-border" />
               <Input
                 id="organization"
                 name="organization"
                 type="text"
                 required
                 placeholder={organization ? "" : "Your organization's name"}
-                className={`pl-20 rounded-full bg-background h-[54px]`}
+                className={`pl-6 rounded-full bg-background h-[54px]`}
                 disabled={isSubmitting}
                 value={organization}
                 onChange={(e) => setOrganization(e.target.value)}
@@ -252,15 +242,13 @@ export default function SignupForm() {
               Create Password
             </Label>
             <div className="relative flex items-center">
-              <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
-              <div className="absolute left-14 h-6 w-px bg-border" />
               <Input
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
                 required
                 placeholder={password ? "" : "xxxxxxxxxxx"}
-                className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
+                className={`pl-6 pr-12 rounded-full bg-background h-[54px]`}
                 disabled={isSubmitting}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
