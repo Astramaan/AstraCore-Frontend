@@ -256,17 +256,17 @@ const CreateProjectForm = ({
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
-      "Megna Gowda",
+      `Megna Gowda ${Math.floor(Math.random() * 100)}`,
   );
   const [phone, setPhone] = useState(
     projectToEdit?.personalDetails?.phoneNumber ||
       projectData?.personalDetails?.phoneNumber ||
-      "9876543210",
+      `98765${String(Math.floor(Math.random() * 90000) + 10000)}`,
   );
   const [email, setEmail] = useState(
     projectToEdit?.personalDetails?.email ||
       projectData?.personalDetails?.email ||
-      "megna@gmail.com",
+      `megna${Math.floor(Math.random() * 100)}@gmail.com`,
   );
   const [currentAddress, setCurrentAddress] = useState(
     projectToEdit?.personalDetails?.currentAddress ||
@@ -278,7 +278,7 @@ const CreateProjectForm = ({
     projectToEdit?.projectDetails?.projectName ||
       projectToEdit?.name ||
       projectData?.projectDetails?.projectName ||
-      "Nathvilla",
+      `Nathvilla ${Math.floor(Math.random() * 100)}`,
   );
   const [projectType, setProjectType] = useState(
     projectToEdit?.projectType ||
