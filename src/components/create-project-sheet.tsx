@@ -255,6 +255,7 @@ const CreateProjectForm = ({
   onProjectUpdated: (project: Project, responseData: any) => void;
 }) => {
   const [comboboxOpen, setComboboxOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
       projectData?.personalDetails?.name ||
@@ -346,9 +347,16 @@ const CreateProjectForm = ({
       setName(contact.name);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
+      setSearchQuery("");
     }
     setComboboxOpen(false);
   };
+
+  useEffect(() => {
+    if (comboboxOpen) {
+      setSearchQuery("");
+    }
+  }, [comboboxOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -415,23 +423,27 @@ const CreateProjectForm = ({
                     <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
                       <Command shouldFilter={false}>
                         <CommandInput
-                          placeholder="Search by email..."
-                          value={email}
-                          onValueChange={setEmail}
+                          placeholder="Search by email or name..."
+                          value={searchQuery}
+                          onValueChange={setSearchQuery}
                         />
                         <CommandList>
                           <CommandEmpty>No results found.</CommandEmpty>
                           <CommandGroup>
                             {allContacts
-                              .filter((contact) =>
-                                contact.email
-                                  .toLowerCase()
-                                  .includes(email.toLowerCase()),
-                              )
+                              .filter((contact) => {
+                                const query = searchQuery.toLowerCase();
+                                return (
+                                  contact.email
+                                    .toLowerCase()
+                                    .includes(query) ||
+                                  contact.name.toLowerCase().includes(query)
+                                );
+                              })
                               .map((contact) => (
                                 <CommandItem
                                   key={contact.id}
-                                  value={contact.email}
+                                  value={contact.id}
                                   onSelect={() => {
                                     handleContactSelect(contact.id);
                                   }}
@@ -445,9 +457,11 @@ const CreateProjectForm = ({
                                     )}
                                   />
                                   <div className="flex flex-col">
-                                    <span>{contact.email}</span>
+                                    <span className="font-medium">
+                                      {contact.email}
+                                    </span>
                                     <span className="text-xs text-muted-foreground">
-                                      {contact.name}
+                                      {contact.name} • {contact.city}
                                     </span>
                                   </div>
                                 </CommandItem>
