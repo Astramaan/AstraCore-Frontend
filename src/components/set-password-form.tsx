@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -89,7 +90,7 @@ export default function SetPasswordForm({
                 type="email"
                 autoComplete="email"
                 required
-                placeholder="name@company.com"
+                placeholder={email ? "" : "name@company.com"}
                 className={`pl-20 rounded-full bg-background h-[54px]`}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

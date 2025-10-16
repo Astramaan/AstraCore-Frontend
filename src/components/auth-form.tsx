@@ -98,7 +98,10 @@ export default function AuthForm() {
         <div className="space-y-2">
           <Label
             htmlFor="email"
-            className={cn("text-lg font-medium", "text-foreground")}
+            className={cn(
+              "text-lg font-medium",
+              email ? "text-muted-foreground" : "text-foreground",
+            )}
           >
             Email ID
           </Label>

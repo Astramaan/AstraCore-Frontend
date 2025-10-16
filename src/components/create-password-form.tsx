@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -92,7 +93,7 @@ export default function CreatePasswordForm({
               type={showPassword ? "text" : "password"}
               required
               className={`pr-12 rounded-full bg-background h-[54px]`}
-              placeholder="xxxxxxxxxxx"
+              placeholder={password ? "" : "xxxxxxxxxxx"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -127,7 +128,7 @@ export default function CreatePasswordForm({
               type={showConfirmPassword ? "text" : "password"}
               required
               className={`pr-12 rounded-full bg-background h-[54px]`}
-              placeholder="xxxxxxxxxxx"
+              placeholder={confirmPassword ? "" : "xxxxxxxxxxx"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
