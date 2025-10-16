@@ -23,7 +23,7 @@ import {
   Trash2,
   Edit,
   Plus,
-  GripVertical,
+  GanttChartSquare,
   Calendar as CalendarIcon,
   ShieldAlert,
   Search,
@@ -172,100 +172,6 @@ const FloatingLabelSelect = ({
   </div>
 );
 
-const ContactSearch = ({
-  allContacts,
-  searchQuery,
-  setSearchQuery,
-  handleContactSelect,
-  email,
-}: {
-  allContacts: Lead[];
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  handleContactSelect: (contactId: string) => void;
-  email: string;
-}) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  const filteredContacts = allContacts.filter((contact) => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      contact.email.toLowerCase().includes(query) ||
-      contact.fullName.toLowerCase().includes(query)
-    );
-  });
-
-  return (
-    <div>
-      <div className="p-2">
-        <div className="relative">
-          <Input
-            ref={inputRef}
-            id="email-search-input"
-            placeholder="Search by email or name..."
-            value={searchQuery}
-            onChange={(e) => {
-              e.stopPropagation();
-              setSearchQuery(e.target.value);
-            }}
-            onClick={(e) => e.stopPropagation()}
-            className="h-10"
-            autoComplete="off"
-          />
-        </div>
-      </div>
-      <ScrollArea className="max-h-[300px]">
-        <div className="p-2 space-y-1">
-          {filteredContacts.length > 0 ? (
-            filteredContacts.map((contact) => (
-              <button
-                key={contact.leadId}
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleContactSelect(contact.leadId);
-                }}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                }}
-                className={cn(
-                  "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
-                  email === contact.email && "bg-accent",
-                )}
-              >
-                <Check
-                  className={cn(
-                    "h-4 w-4 shrink-0",
-                    email === contact.email ? "opacity-100" : "opacity-0",
-                  )}
-                />
-                <div className="flex flex-col flex-1 min-w-0">
-                  <span className="font-medium truncate">{contact.email}</span>
-                  <span className="text-xs text-muted-foreground truncate">
-                    {contact.fullName}
-                  </span>
-                </div>
-              </button>
-            ))
-          ) : (
-            <div className="text-sm text-muted-foreground text-center py-6">
-              {searchQuery
-                ? `No contacts found for "${searchQuery}"`
-                : "No contacts found"}
-            </div>
-          )}
-        </div>
-      </ScrollArea>
-    </div>
-  );
-};
-
 const CreateProjectForm = ({
   onNext,
   projectToEdit,
@@ -279,6 +185,7 @@ const CreateProjectForm = ({
   const [comboboxOpen, setComboboxOpen] = useState(false);
   const [allContacts, setAllContacts] = useState<Lead[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isProjectTypeOpen, setIsProjectTypeOpen] = useState(false);
 
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
@@ -310,7 +217,7 @@ const CreateProjectForm = ({
   const [projectType, setProjectType] = useState(
     projectToEdit?.projectType ||
       projectData?.projectDetails?.projectType ||
-      "Commercial",
+      "New Construction",
   );
   const [projectCost, setProjectCost] = useState(
     projectToEdit?.projectDetails?.projectCost ||
@@ -398,6 +305,7 @@ const CreateProjectForm = ({
       setName(contact.fullName);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
+      setSearchQuery("");
     }
     setComboboxOpen(false);
   };
@@ -445,6 +353,8 @@ const CreateProjectForm = ({
     onNext(formData);
   };
 
+  const projectTypes = ["New Construction", "Renovation", "Interior Design"];
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       <ScrollArea className="flex-1 p-6 no-scrollbar">
@@ -486,18 +396,95 @@ const CreateProjectForm = ({
                       className="w-[--radix-popover-trigger-width] p-0"
                       onOpenAutoFocus={(e) => {
                         e.preventDefault();
+                        const input = document.querySelector<HTMLInputElement>(
+                          '#email-search-input',
+                        );
+                        if (input) input.focus();
                       }}
                       onInteractOutside={(e) => {
                         e.preventDefault();
                       }}
                     >
-                      <ContactSearch
-                        allContacts={allContacts}
-                        searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery}
-                        handleContactSelect={handleContactSelect}
-                        email={email}
-                      />
+                      <div className="p-2">
+                        <div className="relative">
+                          <Input
+                            id="email-search-input"
+                            placeholder="Search by email or name..."
+                            value={searchQuery}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              setSearchQuery(e.target.value);
+                            }}
+                            onKeyDown={(e) => {
+                              e.stopPropagation();
+                            }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="h-10"
+                            autoComplete="off"
+                          />
+                        </div>
+                      </div>
+                      <ScrollArea className="max-h-[300px]">
+                        <div className="p-2 space-y-1">
+                          {allContacts
+                            .filter((contact) => {
+                              if (!searchQuery) return true;
+                              const query = searchQuery.toLowerCase();
+                              return (
+                                contact.email.toLowerCase().includes(query) ||
+                                contact.fullName.toLowerCase().includes(query)
+                              );
+                            })
+                            .map((contact) => (
+                              <button
+                                key={contact.leadId}
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleContactSelect(contact.leadId);
+                                }}
+                                onMouseDown={(e) => {
+                                  e.preventDefault();
+                                }}
+                                className={cn(
+                                  "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent text-left transition-colors",
+                                  email === contact.email && "bg-accent",
+                                )}
+                              >
+                                <Check
+                                  className={cn(
+                                    "h-4 w-4 shrink-0",
+                                    email === contact.email
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                <div className="flex flex-col flex-1 min-w-0">
+                                  <span className="font-medium truncate">
+                                    {contact.email}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground truncate">
+                                    {contact.fullName}
+                                  </span>
+                                </div>
+                              </button>
+                            ))}
+                          {allContacts.filter((contact) => {
+                            if (!searchQuery) return false;
+                            const query = searchQuery.toLowerCase();
+                            return (
+                              contact.email.toLowerCase().includes(query) ||
+                              contact.fullName.toLowerCase().includes(query)
+                            );
+                          }).length === 0 &&
+                            searchQuery && (
+                              <div className="text-sm text-muted-foreground text-center py-6">
+                                No contacts found for "{searchQuery}"
+                              </div>
+                            )}
+                        </div>
+                      </ScrollArea>
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -542,21 +529,60 @@ const CreateProjectForm = ({
                   value={projectName}
                   onChange={(e) => setProjectName(e.target.value)}
                 />
-                <FloatingLabelSelect
-                  id="project-type"
-                  name="project_type"
-                  label="Project Type*"
-                  value={projectType}
-                  onValueChange={setProjectType}
-                >
-                  <SelectItem value="New Construction">
-                    New Construction
-                  </SelectItem>
-                  <SelectItem value="Renovation">Renovation</SelectItem>
-                  <SelectItem value="Interior Design">
-                    Interior Design
-                  </SelectItem>
-                </FloatingLabelSelect>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="project-type"
+                    className={cn(
+                      "text-lg font-medium px-2",
+                      projectType ? "text-muted-foreground" : "text-foreground",
+                    )}
+                  >
+                    Project Type*
+                  </Label>
+                  <Popover
+                    open={isProjectTypeOpen}
+                    onOpenChange={setIsProjectTypeOpen}
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={isProjectTypeOpen}
+                        className="w-full justify-between h-14 bg-background dark:bg-input rounded-full px-5 cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                      >
+                        {projectType || "Select Project Type"}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                      <div className="p-1">
+                        {projectTypes.map((type) => (
+                          <Button
+                            key={type}
+                            type="button"
+                            variant="ghost"
+                            className="w-full justify-start"
+                            onClick={() => {
+                              setProjectType(type);
+                              setIsProjectTypeOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                projectType === type
+                                  ? "opacity-100"
+                                  : "opacity-0",
+                              )}
+                            />
+                            {type}
+                          </Button>
+                        ))}
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
               <FloatingLabelInput
                 id="project-cost"
@@ -1247,7 +1273,7 @@ const CustomTimelineDialog = ({
                 >
                   <CardContent className="p-0 space-y-4">
                     <div className="flex items-center gap-2">
-                      <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                      <GanttChartSquare className="h-5 w-5 text-muted-foreground cursor-grab" />
                       <Input
                         value={phase.name}
                         onChange={(e) =>
@@ -1273,7 +1299,7 @@ const CustomTimelineDialog = ({
                         >
                           <CardContent className="p-0 space-y-4">
                             <div className="flex items-center gap-2">
-                              <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                              <GanttChartSquare className="h-5 w-5 text-muted-foreground cursor-grab" />
                               <Input
                                 value={stage.name}
                                 onChange={(e) =>
@@ -1468,7 +1494,7 @@ export function CreateProjectSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (target.closest("[data-radix-popper-content-wrapper]")) {
+            if (target.closest('[data-radix-popper-content-wrapper]')) {
               e.preventDefault();
             }
           }}
