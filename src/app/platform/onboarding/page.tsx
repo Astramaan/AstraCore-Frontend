@@ -81,7 +81,7 @@ const onboardingTracks = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-4 py-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-emerald-900/0 rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
@@ -110,15 +110,6 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-4">
         <div className="flex-1 relative">
-          <div
-            className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-gray-200 dark:bg-gray-700"
-            aria-hidden="true"
-          />
-          <div
-            className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-green-500 transition-all duration-500"
-            style={{ width: `${track.progress}%` }}
-            aria-hidden="true"
-          />
           <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
             {track.stages.map((stage, index) => (
               <Button
@@ -154,6 +145,7 @@ const EmailAutomationCard = ({
   openRate,
   lastSent,
   isPaused,
+  color,
 }: {
   title: string;
   timing: string;
@@ -161,52 +153,45 @@ const EmailAutomationCard = ({
   openRate: string;
   lastSent: string;
   isPaused?: boolean;
+  color: string;
 }) => (
-  <Card className="rounded-[50px]">
+  <Card className="rounded-[50px] p-0 overflow-hidden">
     <CardContent className="p-6 flex flex-col gap-4">
-      <div className="flex justify-between items-start gap-6">
-        <div className="flex items-center gap-2">
-          <div className="p-2.5 bg-primary rounded-full">
-            <Mail className="text-white" />
-          </div>
-          <div>
-            <p className="text-lg font-medium text-foreground">{title}</p>
-            <p className="text-sm text-muted-foreground">{timing}</p>
-          </div>
+      <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
+        <div
+          className={cn("w-4 h-4 rounded-full mt-1.5", color)}
+        ></div>
+        <div className="flex flex-col">
+          <p className="text-lg font-medium text-foreground">{title}</p>
+          <p className="text-sm text-muted-foreground">{timing}</p>
         </div>
-        <div className="flex items-center">
-          <div className="h-14 px-4 bg-background dark:bg-card rounded-l-[50px] flex items-center">
-            <span className="text-muted-foreground text-lg">Sent: </span>
-            <span className="text-foreground text-lg font-medium ml-1">{sent}</span>
-          </div>
-          <div className="h-14 px-4 bg-background dark:bg-card rounded-r-[50px] border-l border-border flex items-center">
-            <span className="text-muted-foreground text-lg">Open Rate: </span>
-            <span className="text-foreground text-lg font-medium ml-1">{openRate}</span>
-          </div>
+        <div className="flex items-center text-sm text-muted-foreground gap-4">
+          <span>Sent: <span className="font-semibold text-foreground">{sent}</span></span>
+          <span>Open Rate: <span className="font-semibold text-foreground">{openRate}</span></span>
         </div>
       </div>
-      <div className="flex justify-between items-center gap-6">
-        <div className="h-14 px-4 bg-background dark:bg-card rounded-[50px] flex items-center">
-          <span className="text-muted-foreground text-sm">Last sent</span>
-          <span className="text-foreground text-lg font-medium ml-2">{lastSent}</span>
+      <div className="flex justify-between items-center gap-4 pl-8">
+        <div>
+            <p className="text-sm text-muted-foreground">Last sent</p>
+            <p className="text-base font-medium text-foreground">{lastSent}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            className="h-14 px-10 rounded-[50px] bg-background"
+            className="h-12 px-8 rounded-[50px] bg-background text-foreground text-base"
           >
             Preview
           </Button>
           <Button
             variant="outline"
-            className="h-14 px-10 rounded-[50px] bg-background"
+            className="h-12 px-8 rounded-[50px] bg-background text-foreground text-base"
           >
             Edit
           </Button>
           <Button
             variant="outline"
             className={cn(
-              "h-14 px-10 rounded-[50px]",
+              "h-12 px-8 rounded-[50px] text-base",
               isPaused
                 ? "bg-primary/10 text-primary border-primary"
                 : "bg-secondary/10 text-foreground border-secondary",
@@ -322,11 +307,11 @@ export default function OnboardingPage() {
                </div>
             </CardHeader>
             <CardContent className="space-y-4 px-6 pb-6">
-              {onboardingTracks.map((track) => (
-                <div key={track.id}>
+              {onboardingTracks.map((track, index) => (
+                <React.Fragment key={track.id}>
                   <OnboardingTrack track={track} />
-                  <Separator />
-                </div>
+                  {index < onboardingTracks.length -1 && <Separator />}
+                </React.Fragment>
               ))}
             </CardContent>
           </Card>
@@ -342,6 +327,7 @@ export default function OnboardingPage() {
               </div>
               <Button
                 variant="outline"
+                size="icon"
                 className="p-3.5 rounded-full bg-background"
               >
                 <Plus className="h-6 w-6"/>
@@ -354,6 +340,7 @@ export default function OnboardingPage() {
                 sent={124}
                 openRate="76%"
                 lastSent="21 Apr 2025"
+                color="bg-teal-400"
               />
               <EmailAutomationCard
                 title="Account Setup Reminder"
@@ -361,6 +348,15 @@ export default function OnboardingPage() {
                 sent={124}
                 openRate="76%"
                 lastSent="21 Apr 2025"
+                color="bg-teal-400"
+              />
+               <EmailAutomationCard
+                title="Account Setup Reminder"
+                timing="Client setup incomplete – 24hrs."
+                sent={124}
+                openRate="76%"
+                lastSent="21 Apr 2025"
+                color="bg-teal-400"
               />
               <EmailAutomationCard
                 title="Product Walkthrough"
@@ -369,6 +365,7 @@ export default function OnboardingPage() {
                 openRate="06%"
                 lastSent="21 Apr 2025"
                 isPaused
+                color="bg-amber-400"
               />
             </CardContent>
           </Card>
