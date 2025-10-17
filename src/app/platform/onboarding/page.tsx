@@ -132,7 +132,7 @@ const emailAutomations = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4 py-4">
+  <div className="flex items-center gap-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
@@ -207,7 +207,7 @@ const EmailAutomationCard = ({
   color: string;
 }) => (
   <Card className="p-0 overflow-hidden bg-transparent shadow-none border-none">
-    <CardContent className="px-6 flex flex-col gap-4">
+    <CardContent className="px-6 py-4 flex flex-col gap-4">
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
         <div className={cn("w-4 h-4 rounded-full mt-1.5", color)}></div>
         <div className="flex flex-col">
@@ -225,12 +225,12 @@ const EmailAutomationCard = ({
           </span>
         </div>
       </div>
-      <div className="flex justify-between items-center gap-4 pl-8">
+      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 pl-8">
         <div>
           <p className="text-sm text-muted-foreground">Last sent</p>
           <p className="text-base font-medium text-foreground">{lastSent}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch gap-2">
           <Button
             variant="outline"
             className="h-12 px-8 rounded-full bg-background text-foreground text-base"
@@ -469,7 +469,7 @@ export default function OnboardingPage() {
         <div className="space-y-8 flex flex-col">
           <Card className="rounded-[50px] p-6 flex-grow">
             <CardHeader className="p-0 mb-4">
-              <div className="flex justify-between items-start">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
                   <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                     <BarChart2 className="h-6 w-6" />
@@ -481,7 +481,7 @@ export default function OnboardingPage() {
                     </CardDescription>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Tabs defaultValue="month" className="w-auto">
                     <TabsList className="rounded-[50px] p-1 h-12 bg-background">
                       <TabsTrigger
@@ -499,7 +499,7 @@ export default function OnboardingPage() {
                     </TabsList>
                   </Tabs>
                   <Select defaultValue="april-2025">
-                    <SelectTrigger className="w-full h-12 rounded-full text-base bg-background">
+                    <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
                       <div className="flex items-center">
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         <SelectValue placeholder="Select month" />
@@ -545,9 +545,9 @@ export default function OnboardingPage() {
                 total={1000}
               />
 
-              <div className="flex items-center gap-6 pt-6">
+              <div className="flex flex-col sm:flex-row items-center gap-6 pt-6">
                 <DropOffCircle percentage={80} />
-                <div className="space-y-1">
+                <div className="space-y-1 text-center sm:text-left">
                   <h4 className="text-lg font-semibold">Most Drop</h4>
                   <p className="text-lg text-muted-foreground">
                     Step 1 (Account Setup)
