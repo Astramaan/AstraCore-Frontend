@@ -14,6 +14,7 @@ import {
   Shield,
   Users,
   ChevronLeft,
+  LogOut,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
@@ -283,7 +284,7 @@ const RoleCard = ({
 export default function TeamsPageContent() {
   const router = useRouter();
 
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
@@ -371,6 +372,14 @@ export default function TeamsPageContent() {
                     <div className="text-base text-white/80">Super Admin</div>
                   </div>
                 </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:bg-white/10"
+                  onClick={logout}
+                >
+                  <LogOut />
+                </Button>
               </div>
             </div>
           </div>
