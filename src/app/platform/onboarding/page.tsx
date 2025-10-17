@@ -343,7 +343,7 @@ export default function OnboardingPage() {
     .join("");
 
   return (
-    <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
+    <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6 pb-32">
       <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
           <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
