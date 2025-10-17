@@ -39,7 +39,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Progress } from "../ui/progress";
+import { Progress } from "@/components/ui/progress";
 
 const onboardingTracks = [
   {
@@ -89,6 +89,45 @@ const onboardingTracks = [
       { name: "First Project", completed: true },
       { name: "Smart Nudges", completed: false, isCurrent: true },
     ],
+  },
+];
+
+const emailAutomations = [
+  {
+    title: "Welcome Email",
+    timing: "Post subscription – 5 min",
+    sent: 124,
+    openRate: "76%",
+    lastSent: "21 Apr 2025",
+    isPaused: false,
+    color: "bg-teal-400",
+  },
+  {
+    title: "Account Setup Reminder",
+    timing: "Client setup incomplete – 24hrs.",
+    sent: 124,
+    openRate: "76%",
+    lastSent: "21 Apr 2025",
+    isPaused: false,
+    color: "bg-teal-400",
+  },
+  {
+    title: "Account Setup Reminder",
+    timing: "Client setup incomplete – 24hrs.",
+    sent: 124,
+    openRate: "76%",
+    lastSent: "21 Apr 2025",
+    isPaused: false,
+    color: "bg-teal-400",
+  },
+  {
+    title: "Product Walkthrough",
+    timing: "Product Walkthrough – 8hrs.",
+    sent: 124,
+    openRate: "06%",
+    lastSent: "21 Apr 2025",
+    isPaused: true,
+    color: "bg-amber-400",
   },
 ];
 
@@ -167,8 +206,8 @@ const EmailAutomationCard = ({
   isPaused?: boolean;
   color: string;
 }) => (
-  <Card className="rounded-[50px] p-0 overflow-hidden">
-    <CardContent className="p-6 flex flex-col gap-4">
+  <Card className="rounded-[50px] p-0 overflow-hidden bg-transparent shadow-none border-none">
+    <CardContent className="p-0 flex flex-col gap-4">
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
         <div className={cn("w-4 h-4 rounded-full mt-1.5", color)}></div>
         <div className="flex flex-col">
@@ -263,7 +302,7 @@ const DropOffCircle = ({ percentage }: { percentage: number }) => (
   <div className="relative w-40 h-40">
     <svg className="w-full h-full" viewBox="0 0 100 100">
       <circle
-        className="text-gray-200"
+        className="text-gray-200 dark:text-gray-700"
         strokeWidth="10"
         stroke="currentColor"
         fill="transparent"
@@ -414,40 +453,15 @@ export default function OnboardingPage() {
                 <Plus className="h-6 w-6" />
               </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <EmailAutomationCard
-                title="Welcome Email"
-                timing="Post subscription – 5 min"
-                sent={124}
-                openRate="76%"
-                lastSent="21 Apr 2025"
-                color="bg-teal-400"
-              />
-              <EmailAutomationCard
-                title="Account Setup Reminder"
-                timing="Client setup incomplete – 24hrs."
-                sent={124}
-                openRate="76%"
-                lastSent="21 Apr 2025"
-                color="bg-teal-400"
-              />
-              <EmailAutomationCard
-                title="Account Setup Reminder"
-                timing="Client setup incomplete – 24hrs."
-                sent={124}
-                openRate="76%"
-                lastSent="21 Apr 2025"
-                color="bg-teal-400"
-              />
-              <EmailAutomationCard
-                title="Product Walkthrough"
-                timing="Product Walkthrough – 8hrs."
-                sent={124}
-                openRate="06%"
-                lastSent="21 Apr 2025"
-                isPaused
-                color="bg-amber-400"
-              />
+            <CardContent className="p-6">
+              {emailAutomations.map((automation, index) => (
+                <React.Fragment key={index}>
+                  <EmailAutomationCard {...automation} />
+                  {index < emailAutomations.length - 1 && (
+                    <Separator className="my-4" />
+                  )}
+                </React.Fragment>
+              ))}
             </CardContent>
           </Card>
         </div>
