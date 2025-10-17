@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -23,11 +24,12 @@ import { ChurnChart } from "@/components/charts/churn-chart";
 import { ExitSurveyChart } from "@/components/charts/exit-survey-chart";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -90,13 +92,20 @@ const QuickLink = ({
 
 export default function PlatformDashboard() {
   const { user } = useUser();
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    new Date().toLocaleString("default", { month: "long" }),
+  );
 
   const userName = user?.name || "User";
   const userInitials = userName
     .split(" ")
     .map((n) => n[0])
     .join("");
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
@@ -162,35 +171,21 @@ export default function PlatformDashboard() {
             <p className="text-base font-medium text-muted-foreground mb-2">
               Select Month
             </p>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full md:w-[200px] h-14 rounded-[50px] justify-start text-left font-normal text-lg bg-card",
-                    !date && "text-muted-foreground",
-                  )}
-                >
+            <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+              <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
+                <div className="flex items-center">
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? (
-                    date.toLocaleDateString("en-US", {
-                      month: "long",
-                      year: "numeric",
-                    })
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+                  <SelectValue placeholder="Select month" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {months.map((month) => (
+                  <SelectItem key={month} value={month}>
+                    {month}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -395,3 +390,5 @@ export default function PlatformDashboard() {
     </div>
   );
 }
+
+    
