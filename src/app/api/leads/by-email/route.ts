@@ -43,6 +43,12 @@ export async function GET(req: Request) {
     );
 
     const data = await res.json();
+    
+    // Remap the backend's 'lead' key to 'data' for the frontend
+    if (data.success && data.lead) {
+      return NextResponse.json({ success: true, data: data.lead }, { status: res.status });
+    }
+
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Get lead by email proxy failed:", error);
