@@ -132,7 +132,7 @@ const emailAutomations = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4 py-4">
+  <div className="flex items-center gap-4 pb-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-emerald-900/0 rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
@@ -161,7 +161,7 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-4">
         <div className="flex-1 relative">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+          <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
             {track.stages.map((stage, index) => (
               <Button
                 key={index}
@@ -206,7 +206,7 @@ const EmailAutomationCard = ({
   isPaused?: boolean;
   color: string;
 }) => (
-  <Card className="rounded-[50px] p-0 overflow-hidden bg-transparent shadow-none border-none">
+  <Card className="rounded-none p-0 overflow-hidden bg-transparent shadow-none border-none">
     <CardContent className="p-0 flex flex-col gap-4">
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
         <div className={cn("w-4 h-4 rounded-full mt-1.5", color)}></div>
@@ -233,20 +233,20 @@ const EmailAutomationCard = ({
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            className="h-12 px-8 rounded-[50px] bg-background text-foreground text-base"
+            className="h-12 px-8 rounded-full bg-background text-foreground text-base"
           >
             Preview
           </Button>
           <Button
             variant="outline"
-            className="h-12 px-8 rounded-[50px] bg-background text-foreground text-base"
+            className="h-12 px-8 rounded-full bg-background text-foreground text-base"
           >
             Edit
           </Button>
           <Button
             variant="outline"
             className={cn(
-              "h-12 px-8 rounded-[50px] text-base",
+              "h-12 px-8 rounded-full text-base",
               isPaused
                 ? "bg-primary/10 text-primary border-primary"
                 : "bg-secondary/10 text-foreground border-secondary",
@@ -437,7 +437,7 @@ export default function OnboardingPage() {
           </Card>
         </div>
         <div className="space-y-8">
-          <Card className="rounded-[50px]">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
@@ -447,21 +447,22 @@ export default function OnboardingPage() {
               </div>
               <Button
                 variant="outline"
-                size="icon"
                 className="p-3.5 rounded-full bg-background"
               >
                 <Plus className="h-6 w-6" />
               </Button>
             </CardHeader>
             <CardContent className="p-6">
-              {emailAutomations.map((automation, index) => (
-                <React.Fragment key={index}>
-                  <EmailAutomationCard {...automation} />
-                  {index < emailAutomations.length - 1 && (
-                    <Separator className="my-4" />
-                  )}
-                </React.Fragment>
-              ))}
+              <div className="flex flex-col gap-4">
+                {emailAutomations.map((automation, index) => (
+                  <React.Fragment key={index}>
+                    <EmailAutomationCard {...automation} />
+                    {index < emailAutomations.length - 1 && (
+                      <Separator className="my-4" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </div>
