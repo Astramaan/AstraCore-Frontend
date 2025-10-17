@@ -4,7 +4,6 @@ import {
   ArrowUpRight,
   Calendar as CalendarIcon,
   ChevronRight,
-  Bell,
   Users,
   Plus,
 } from "lucide-react";
@@ -36,6 +35,9 @@ import HandCoinsIcon from "@/components/icons/hand-coins-icon";
 import OnboardingIcon from "@/components/icons/onboarding-icon";
 import SupportIcon from "@/components/icons/support-icon";
 import InvitationStatusIcon from "@/components/icons/invitation-status-icon";
+import { NotificationPopover } from "@/components/notification-popover";
+import { HabiLogo } from "@/components/habi-logo";
+import { useUser } from "@/context/user-context";
 
 const churnedCustomers = [
   {
@@ -77,50 +79,70 @@ const QuickLink = ({
       )}
     >
       <CardContent className="p-4 flex items-center gap-2">
-        <div
-          className={cn(
-            "p-2.5 rounded-3xl",
-            "bg-accent-color-01 dark:bg-opacity-20",
-          )}
-        >
+        <div className="p-2.5 rounded-xl bg-white dark:bg-black/20">
           {icon}
         </div>
-        <p className="text-base font-medium">{text}</p>
+        <p className="text-base font-medium text-foreground">{text}</p>
       </CardContent>
     </Card>
   </Link>
 );
 
 export default function PlatformDashboard() {
+  const { user } = useUser();
   const [date, setDate] = useState<Date | undefined>(new Date());
+
+  const userName = user?.name || "User";
+  const userInitials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
+
   return (
-    <div className="bg-background min-h-screen p-4 md:p-8 space-y-6">
+    <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
       <header className="flex justify-between items-center">
-        <div className="hidden md:flex justify-start items-center gap-4">
-          <h1 className="text-4xl font-bold">Dashboard</h1>
+        <div className="flex justify-start items-center gap-4">
+          <HabiLogo />
+          <div className="w-px h-8 bg-border hidden md:block"></div>
+          <h1 className="text-2xl md:text-4xl font-bold text-foreground">Dashboard</h1>
         </div>
-        <div className="hidden md:flex justify-between items-center gap-4">
-          <Button variant="ghost" size="icon" className="bg-card rounded-full">
-            <Bell className="h-6 w-6" />
-          </Button>
+        <div className="flex justify-end items-center gap-4">
+          <NotificationPopover userType="organization" />
           <Button
             variant="outline"
-            className="h-14 px-10 rounded-full bg-card text-lg"
+            className="h-14 px-6 md:px-10 rounded-full bg-card text-lg hidden md:flex"
           >
             <Users className="mr-2 h-6 w-6" />
             Employee Management
           </Button>
+          <div className="w-px h-8 bg-border hidden md:block"></div>
+          <div className="flex justify-start items-center gap-2">
+            <Avatar className="w-14 h-14">
+              <AvatarImage
+                src="https://placehold.co/55x55"
+                alt={userName}
+                data-ai-hint="person portrait"
+              />
+              <AvatarFallback>{userInitials}</AvatarFallback>
+            </Avatar>
+            <div className="hidden md:inline-flex flex-col justify-start items-start gap-1">
+              <div className="text-lg font-medium">{userName}</div>
+              <div className="text-base text-muted-foreground">
+                Super Admin
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
         <div className="flex items-center gap-6">
           <div>
             <p className="text-base font-medium text-muted-foreground mb-2">
               Filter
             </p>
             <Tabs defaultValue="month" className="w-[200px]">
-              <TabsList className="rounded-[50px] p-1 h-14">
+              <TabsList className="rounded-[50px] p-1 h-14 bg-card">
                 <TabsTrigger
                   value="month"
                   className="w-[90px] h-11 rounded-[50px] text-lg"
@@ -173,7 +195,7 @@ export default function PlatformDashboard() {
         </div>
 
         <div>
-          <p className="text-lg font-medium mb-2">Active Customers</p>
+          <p className="text-lg font-medium text-foreground mb-2">Active Customers</p>
           <div className="flex justify-start items-center gap-4">
             <div className="flex items-center">
               <div className="flex -space-x-4">
@@ -210,7 +232,7 @@ export default function PlatformDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="rounded-[50px]">
           <CardHeader className="flex flex-row justify-between items-start">
             <div className="flex items-center gap-2">
               <div className="p-3.5 rounded-full border">
@@ -231,7 +253,7 @@ export default function PlatformDashboard() {
             <SubscriptionChart />
           </CardContent>
         </Card>
-        <Card>
+        <Card className="rounded-[50px]">
           <CardHeader className="flex flex-row justify-between items-start">
             <div className="flex items-center gap-2">
               <div className="p-3.5 rounded-full border">
@@ -254,7 +276,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="rounded-[50px]">
           <CardHeader className="flex flex-row justify-between items-start">
             <div className="flex items-center gap-2">
               <div className="p-3.5 rounded-full border">
@@ -267,7 +289,7 @@ export default function PlatformDashboard() {
             </div>
             <div className="text-right">
               <p className="text-4xl font-bold flex items-center">
-                69 <ArrowUpRight className="h-6 w-6 text-green-500" />
+                69 <ArrowUpRight className="h-6 w-6 text-red-500" />
               </p>
             </div>
           </CardHeader>
@@ -276,7 +298,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="rounded-[50px]">
           <CardHeader>
             <div className="flex items-center gap-2">
               <div className="p-3.5 rounded-full border">
@@ -289,25 +311,25 @@ export default function PlatformDashboard() {
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-4">
             <QuickLink
-              icon={<Users className="h-6 w-6" />}
+              icon={<Users className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-01/30"
               text="Lead Management"
               href="#"
             />
             <QuickLink
-              icon={<Users className="h-6 w-6" />}
+              icon={<Users className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-02/30"
               text="Payment Attempts"
               href="#"
             />
             <QuickLink
-              icon={<OnboardingIcon className="h-6 w-6" />}
+              icon={<OnboardingIcon className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-03/30"
               text="Onboarding Status"
               href="#"
             />
             <QuickLink
-              icon={<InvitationStatusIcon className="h-6 w-6" />}
+              icon={<InvitationStatusIcon className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-05/30"
               text="Invitation Status"
               href="#"
@@ -315,7 +337,7 @@ export default function PlatformDashboard() {
           </CardContent>
         </Card>
       </div>
-      <Card>
+      <Card className="rounded-[50px]">
         <CardHeader className="flex flex-row justify-between items-start">
           <div className="flex items-center gap-2">
             <div className="p-3.5 rounded-full border">
@@ -336,7 +358,7 @@ export default function PlatformDashboard() {
           </div>
           <div>
             {churnedCustomers.map((customer, index) => (
-              <div key={index}>
+              <div key={index} className="flex flex-col">
                 <div className="flex justify-between items-center py-4">
                   <div className="flex items-center gap-2">
                     <Avatar>
@@ -345,16 +367,18 @@ export default function PlatformDashboard() {
                         {customer.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div>
+                    <div className="w-32 inline-flex flex-col justify-start items-start gap-1">
                       <p className="font-medium">{customer.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {customer.reason}
+                      <div className="flex gap-2">
+                        <p className="text-sm text-muted-foreground truncate">
+                          {customer.reason}
+                        </p>
                         {customer.comeback && (
-                          <span className="text-green-500 ml-2">
+                          <p className="text-sm text-green-600">
                             ({customer.comeback})
-                          </span>
+                          </p>
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <Button variant="outline" className="rounded-full">
