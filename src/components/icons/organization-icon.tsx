@@ -1,3 +1,4 @@
+
 import React from "react";
 import { cn } from "@/lib/utils";
 
@@ -26,3 +27,5 @@ const OrganizationIcon = ({ className }: { className?: string }) => (
 );
 
 export default OrganizationIcon;
+
+    
