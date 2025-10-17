@@ -312,7 +312,7 @@ export default function OnboardingPage() {
                     <div className="text-lg font-medium text-white">
                       {userName}
                     </div>
-                    <div className="text-base text-white/80">Super Admin</div>
+                    <div className="text-base text-white/80 whitespace-nowrap">Super Admin</div>
                   </div>
                 </div>
               </div>
@@ -420,3 +420,5 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
+    
