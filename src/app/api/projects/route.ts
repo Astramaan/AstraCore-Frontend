@@ -67,9 +67,13 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: false, message: "Unauthorized: User ID is missing." }, { status: 401 });
     }
 
-    // Add the createdBy field to the payload
+    // Add the createdBy field and ensure siteAddress is included
     const payload = {
         ...body,
+        projectDetails: {
+          ...body.projectDetails,
+          siteAddress: body.projectDetails.siteLocation 
+        },
         createdBy: userId,
     };
 
