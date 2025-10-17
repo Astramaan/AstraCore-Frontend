@@ -373,14 +373,6 @@ export default function TeamsPageContent() {
                     <div className="text-base text-white/80">Super Admin</div>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white hover:bg-white/10"
-                  onClick={logout}
-                >
-                  <LogOut />
-                </Button>
               </div>
             </div>
           </div>
