@@ -7,6 +7,8 @@ import {
   ChevronRight,
   Users,
   Plus,
+  CircleDollarSign,
+  ClipboardList,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -33,8 +35,6 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import HandCoinsIcon from "@/components/icons/hand-coins-icon";
-import OnboardingIcon from "@/components/icons/onboarding-icon";
 import SupportIcon from "@/components/icons/support-icon";
 import InvitationStatusIcon from "@/components/icons/invitation-status-icon";
 import { NotificationPopover } from "@/components/notification-popover";
@@ -321,7 +321,7 @@ export default function PlatformDashboard() {
           <CardHeader className="flex flex-row justify-between items-start">
             <div className="flex items-center gap-2">
               <div className="p-3.5 rounded-full border">
-                <HandCoinsIcon className="h-6 w-6" />
+                <CircleDollarSign className="h-6 w-6" />
               </div>
               <div>
                 <CardTitle>Revenue (MRR/ARR)</CardTitle>
@@ -387,7 +387,7 @@ export default function PlatformDashboard() {
               href="#"
             />
             <QuickLink
-              icon={<OnboardingIcon className="h-6 w-6 text-foreground" />}
+              icon={<ClipboardList className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-03/30"
               text="Onboarding Status"
               href="#"
@@ -461,5 +461,3 @@ export default function PlatformDashboard() {
     </div>
   );
 }
-
-    
