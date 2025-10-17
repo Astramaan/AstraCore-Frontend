@@ -31,7 +31,7 @@ import { NotificationPopover } from "@/components/notification-popover";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import TeamIcon from "@/components/icons/team-icon";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -430,7 +430,9 @@ export default function OnboardingPage() {
               {onboardingTracks.map((track, index) => (
                 <React.Fragment key={track.id}>
                   <OnboardingTrack track={track} />
-                  {index < onboardingTracks.length - 1 && <Separator className="my-0" />}
+                  {index < onboardingTracks.length - 1 && (
+                    <Separator className="my-0" />
+                  )}
                 </React.Fragment>
               ))}
             </CardContent>
