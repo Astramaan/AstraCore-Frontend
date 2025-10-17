@@ -97,7 +97,12 @@ export async function getLeadByEmail(email: string) {
       };
     }
     const data = await res.json();
-    return { success: data.success, data: data.data };
+    // The backend returns the lead object under the 'lead' key.
+    // We remap it to 'data' for the frontend action.
+    if (data.success) {
+      return { success: true, data: data.lead };
+    }
+    return { success: false, message: data.message };
   } catch (error: unknown) {
     return { success: false, message: "An unexpected network error occurred." };
   }

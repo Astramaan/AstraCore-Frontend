@@ -30,8 +30,12 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const email = searchParams.get("email");
 
+    if (!email) {
+        return NextResponse.json({ success: false, message: "Email query parameter is required." }, { status: 400 });
+    }
+
     const res = await fetch(
-      `${API_BASE_URL}/org/lead-by-email?email=${encodeURIComponent(email || "")}`,
+      `${API_BASE_URL}/org/lead-by-email?email=${encodeURIComponent(email)}`,
       {
         method: "GET",
         headers: getAuthHeaders(req),
