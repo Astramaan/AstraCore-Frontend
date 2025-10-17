@@ -69,12 +69,11 @@ const SheetContent = React.forwardRef<
       <SheetOverlay overlayClassName={overlayClassName} />
       <SheetPrimitive.Content
         ref={ref}
-        onInteractOutside={(e) => {
+        onPointerDownOutside={(e) => {
           const target = e.target as HTMLElement;
-          if (target.closest('[data-radix-popper-content-wrapper]')) {
+          if (target.closest("[data-radix-popper-content-wrapper]")) {
             e.preventDefault();
           }
-          props.onInteractOutside?.(e);
         }}
         className={cn(sheetVariants({ side }), className)}
         {...props}
