@@ -81,70 +81,68 @@ const onboardingTracks = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="self-stretch h-32 relative inline-flex justify-center items-center gap-4">
-    <div className="size- relative flex justify-start items-center gap-2.5">
-      <div className="w-24 h-32 bg-gradient-to-r from-white/0 to-emerald-200 rounded-bl-3xl" />
-      <div className="left-[38px] top-[37px] absolute justify-start text-gray-400 text-4xl font-bold">
+  <div className="flex items-center gap-4 py-4">
+    <div className="relative w-24 h-32 bg-gradient-to-r from-white/0 to-emerald-200/50 dark:to-emerald-900/50 rounded-l-3xl flex items-center justify-center shrink-0">
+      <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
-      </div>
+      </p>
     </div>
-    <div className="h-24 inline-flex flex-col justify-center items-center gap-4">
-      <div className="w-[1115px] inline-flex justify-center items-start gap-2.5">
-        <div className="size- flex justify-start items-center gap-2.5">
-          <div className="justify-start text-black text-lg font-semibold">
+
+    <div className="flex-1 flex flex-col gap-4 w-full">
+      <div className="flex justify-between items-start gap-4">
+        <div className="flex items-center gap-2.5">
+          <p className="text-lg font-semibold text-foreground">
             {track.company}
-          </div>
-          <div className="justify-start text-gray-500 text-lg font-medium">
-            {track.plan}
-          </div>
+          </p>
+          <p className="text-lg text-muted-foreground">{track.plan}</p>
         </div>
-        <div className="flex-1 flex justify-end items-center gap-24">
-          <div className="size- flex justify-start items-center gap-4">
-            {track.status && (
-              <div className="text-right justify-start text-red-600 text-lg font-medium">
-                {track.status}
-              </div>
-            )}
-            <div className="text-right justify-start text-gray-500 text-lg font-semibold">
-              {track.stagesCompleted} Completed Stages
-            </div>
-          </div>
-          <div className="text-center justify-start text-gray-500 text-lg font-medium">
+        <div className="flex items-center gap-4 lg:gap-8">
+          {track.status && (
+            <p className="text-lg font-medium text-red-600">{track.status}</p>
+          )}
+          <p className="text-lg font-semibold text-muted-foreground hidden sm:block">
+            {track.stagesCompleted} Completed Stages
+          </p>
+          <p className="text-lg text-muted-foreground hidden md:block">
             {track.date}
-          </div>
+          </p>
         </div>
       </div>
-      <div className="h-14 relative inline-flex justify-center items-start gap-6">
-        <div className="w-[921px] h-0 left-0 top-[29px] absolute outline-dashed outline-gray-200"></div>
-        <div className="w-4 h-0 left-[171px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px] outline-Green"></div>
-        <div className="w-4 h-0 left-[398px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px]"></div>
-        <div className="w-4 h-0 left-[569px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px]"></div>
-        <div className="w-4 h-0 left-[731px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px]"></div>
-        <div className="Stages size- flex justify-start items-center gap-3.5">
-          {track.stages.map((stage, index) => (
-            <Button
-              key={index}
-              className={cn(
-                "h-14 rounded-[50px]",
-                stage.completed
-                  ? "bg-green-500 text-white"
-                  : stage.isCurrent
-                    ? "bg-white text-primary-color outline outline-primary-color"
-                    : "bg-white text-gray-500 outline outline-gray-200",
-              )}
-            >
-              {stage.completed && (
-                <Check className="mr-2" width={20} height={20} />
-              )}
-              {stage.name}
-            </Button>
-          ))}
+      <div className="flex items-center gap-4">
+        <div className="flex-1 relative overflow-hidden">
+          <div
+            className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-gray-200 dark:bg-gray-700"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-green-500 transition-all duration-500"
+            style={{ width: `${track.progress}%` }}
+            aria-hidden="true"
+          />
+          <div className="relative flex justify-between">
+            {track.stages.map((stage, index) => (
+              <Button
+                key={index}
+                className={cn(
+                  "h-14 rounded-full min-w-max px-4 text-base",
+                  stage.completed
+                    ? "bg-green-500 text-white"
+                    : stage.isCurrent
+                      ? "bg-card text-primary border border-primary"
+                      : "bg-card text-muted-foreground border border-border",
+                )}
+              >
+                {stage.completed && <Check className="mr-2" size={20} />}
+                {stage.name}
+              </Button>
+            ))}
+          </div>
         </div>
-        <Button className="h-14 px-10 py-3.5 bg-background rounded-[50px]">
-          <Phone className="mr-2" width={20} height={20} /> Contact
+
+        <Button className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground">
+          <Phone className="mr-2" size={20} /> Contact
         </Button>
       </div>
-      <div className="w-[1229px] h-0 left-0 top-[124px] absolute outline outline-1 outline-stone-300/0"></div>
     </div>
   </div>
 );
@@ -164,77 +162,61 @@ const EmailAutomationCard = ({
   lastSent: string;
   isPaused?: boolean;
 }) => (
-  <Card className="self-stretch flex flex-col justify-start items-start gap-4">
-    <div className="self-stretch inline-flex justify-start items-center gap-6">
-      <div className="size- flex justify-start items-center gap-2">
-        <div className="p-2.5 bg-primary-color rounded-full">
-          <Mail className="text-white" />
-        </div>
-        <div className="size- inline-flex flex-col justify-start items-start gap-1">
-          <div className="justify-start text-black text-lg font-medium">
-            {title}
+  <Card className="rounded-[50px]">
+    <CardContent className="p-6 flex flex-col gap-4">
+      <div className="flex justify-between items-start gap-6">
+        <div className="flex items-center gap-2">
+          <div className="p-2.5 bg-primary rounded-full">
+            <Mail className="text-white" />
           </div>
-          <div className="justify-start text-gray-500 text-sm font-medium">
-            {timing}
+          <div>
+            <p className="text-lg font-medium text-foreground">{title}</p>
+            <p className="text-sm text-muted-foreground">{timing}</p>
           </div>
         </div>
-      </div>
-      <div className="flex-1 flex justify-end items-center">
-        <div className="h-14 p-3.5 bg-white rounded-[50px] flex justify-end items-center gap-2">
-          <div className="justify-start">
-            <span className="text-gray-500 text-lg font-medium">Sent: </span>
-            <span className="text-black text-lg font-medium">{sent}</span>
+        <div className="flex items-center">
+          <div className="h-14 px-4 bg-background dark:bg-card rounded-l-[50px] flex items-center">
+            <span className="text-muted-foreground text-lg">Sent: </span>
+            <span className="text-foreground text-lg font-medium ml-1">{sent}</span>
           </div>
-        </div>
-        <div className="h-14 p-3.5 bg-white rounded-[50px] flex justify-end items-center gap-2">
-          <div className="justify-start">
-            <span className="text-gray-500 text-lg font-medium">
-              Open Rate:{" "}
-            </span>
-            <span className="text-black text-lg font-medium">{openRate}</span>
+          <div className="h-14 px-4 bg-background dark:bg-card rounded-r-[50px] border-l border-border flex items-center">
+            <span className="text-muted-foreground text-lg">Open Rate: </span>
+            <span className="text-foreground text-lg font-medium ml-1">{openRate}</span>
           </div>
         </div>
       </div>
-    </div>
-    <div className="self-stretch inline-flex justify-start items-center gap-6 flex-wrap content-center">
-      <div className="flex-1 flex justify-between items-center">
-        <div className="h-14 p-3.5 bg-white rounded-[50px] flex justify-end items-center gap-2">
-          <div className="justify-start">
-            <span className="text-gray-500 text-sm font-medium">
-              Last sent
-              <br />
-            </span>
-            <span className="text-black text-lg font-medium">{lastSent}</span>
-          </div>
+      <div className="flex justify-between items-center gap-6">
+        <div className="h-14 px-4 bg-background dark:bg-card rounded-[50px] flex items-center">
+          <span className="text-muted-foreground text-sm">Last sent</span>
+          <span className="text-foreground text-lg font-medium ml-2">{lastSent}</span>
         </div>
-        <div className="size- flex justify-start items-center gap-2">
+        <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            className="h-14 px-10 py-3.5 bg-background rounded-[50px]"
+            className="h-14 px-10 rounded-[50px] bg-background"
           >
             Preview
           </Button>
           <Button
             variant="outline"
-            className="h-14 px-10 py-3.5 bg-background rounded-[50px]"
+            className="h-14 px-10 rounded-[50px] bg-background"
           >
             Edit
           </Button>
           <Button
             variant="outline"
             className={cn(
-              "h-14 px-10 py-3.5 rounded-[50px]",
+              "h-14 px-10 rounded-[50px]",
               isPaused
-                ? "bg-primary-10/10 text-primary-color border-primary-color"
-                : "bg-secondary-10/10 text-black border-secondary-color",
+                ? "bg-primary/10 text-primary border-primary"
+                : "bg-secondary/10 text-foreground border-secondary",
             )}
           >
             {isPaused ? "Resume" : "Pause"}
           </Button>
         </div>
       </div>
-    </div>
-    <div className="w-[580px] h-0 outline outline-1 outline-stone-300/0"></div>
+    </CardContent>
   </Card>
 );
 
@@ -250,11 +232,14 @@ const AnalyticsBar = ({
   color: string;
 }) => (
   <div className="flex items-center gap-2">
-    <div className="w-[88px] text-right text-gray-500">{label}</div>
-    <div className="w-96 h-5 rounded-md" style={{ background: color }}>
-      <div
-        className="h-5 bg-gradient-to-r from-red-600/0 to-red-600 rounded-md"
-        style={{ width: `${(1 - value / total) * 100}%`, float: "right" }}
+    <div className="w-24 text-right text-muted-foreground">{label}</div>
+    <div className="flex-1 bg-muted rounded-md h-5 relative">
+       <div
+        className="h-5 rounded-md"
+        style={{
+          background: color,
+          width: `${(value / total) * 100}%`,
+        }}
       />
     </div>
   </div>
@@ -270,7 +255,7 @@ export default function OnboardingPage() {
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
-      <header className="sticky top-2 z-20 px-2">
+      <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
           <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
             <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
@@ -292,7 +277,7 @@ export default function OnboardingPage() {
                       )}
                     >
                       <TeamIcon className={cn("mr-2 h-6 w-6", "text-white")} />
-                      <span className={cn("text-white")}>
+                      <span className={cn("text-white whitespace-nowrap")}>
                         Employee Management
                       </span>
                     </Button>
@@ -323,12 +308,25 @@ export default function OnboardingPage() {
       <main className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="lg:col-span-2">
           <Card className="rounded-[50px]">
-            <CardHeader>
-              <CardTitle>Onboard Tracking</CardTitle>
+            <CardHeader className="flex flex-row justify-between items-center">
+               <div className="flex items-center gap-4">
+                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                  <Bell className="h-6 w-6" />
+                </div>
+                <CardTitle>Onboard Tracking</CardTitle>
+              </div>
+               <div className="flex items-center gap-4">
+                 <div className="text-muted-foreground text-lg">1-3 of 2,958</div>
+                 <Button variant="ghost" size="icon" className="rounded-full bg-background"><ChevronRight className="transform -rotate-180"/></Button>
+                 <Button variant="ghost" size="icon" className="rounded-full bg-background"><ChevronRight/></Button>
+               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 px-6 pb-6">
               {onboardingTracks.map((track) => (
-                <OnboardingTrack key={track.id} track={track} />
+                <div key={track.id}>
+                  <OnboardingTrack track={track} />
+                  <Separator />
+                </div>
               ))}
             </CardContent>
           </Card>
@@ -337,8 +335,8 @@ export default function OnboardingPage() {
           <Card className="rounded-[50px]">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="p-3.5 rounded-full outline outline-1 outline-gray-300">
-                  <Mail />
+                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                  <Mail className="h-6 w-6"/>
                 </div>
                 <CardTitle>Email Automation</CardTitle>
               </div>
@@ -346,7 +344,7 @@ export default function OnboardingPage() {
                 variant="outline"
                 className="p-3.5 rounded-full bg-background"
               >
-                <Plus />
+                <Plus className="h-6 w-6"/>
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -386,31 +384,31 @@ export default function OnboardingPage() {
                 label="Step 1"
                 value={1000}
                 total={1000}
-                color="#e0f2f1"
+                color="hsl(var(--chart-1))"
               />
               <AnalyticsBar
                 label="Step 2"
                 value={800}
                 total={1000}
-                color="#e0f2f1"
+                color="hsl(var(--chart-2))"
               />
               <AnalyticsBar
                 label="Step 3"
                 value={600}
                 total={1000}
-                color="#e0f2f1"
+                color="hsl(var(--chart-3))"
               />
               <AnalyticsBar
                 label="Step 4"
                 value={400}
                 total={1000}
-                color="#e0f2f1"
+                color="hsl(var(--chart-4))"
               />
               <AnalyticsBar
                 label="Step 5"
                 value={200}
                 total={1000}
-                color="#e0f2f1"
+                color="hsl(var(--chart-5))"
               />
             </CardContent>
           </Card>
@@ -420,3 +418,5 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
+    
