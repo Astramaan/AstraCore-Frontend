@@ -132,7 +132,7 @@ const emailAutomations = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4 pb-4">
+  <div className="flex items-center gap-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-emerald-900/0 rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
@@ -466,8 +466,8 @@ export default function OnboardingPage() {
             </CardContent>
           </Card>
         </div>
-        <div className="space-y-8">
-          <Card className="rounded-[50px] p-6">
+        <div className="space-y-8 flex flex-col">
+          <Card className="rounded-[50px] p-6 flex-grow">
             <CardHeader className="p-0 mb-4">
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-4">
