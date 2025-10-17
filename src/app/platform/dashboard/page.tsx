@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -107,43 +108,65 @@ export default function PlatformDashboard() {
     .join("");
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
-  
-  const years = Array.from({ length: 5 }, (_, i) => (currentYear - i).toString());
+
+  const years = Array.from({ length: 5 }, (_, i) =>
+    (currentYear - i).toString(),
+  );
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
-      <header className="flex justify-between items-center">
-        <div className="flex justify-start items-center gap-4">
-          <HabiLogo />
-          <div className="w-px h-8 bg-border hidden md:block"></div>
-          <h1 className="text-2xl md:text-4xl font-bold text-foreground">Dashboard</h1>
-        </div>
-        <div className="flex justify-end items-center gap-4">
-          <NotificationPopover userType="organization" />
-          <Button
-            variant="outline"
-            className="h-14 px-6 md:px-10 rounded-full bg-card text-lg hidden md:flex"
-          >
-            <Users className="mr-2 h-6 w-6" />
-            Employee Management
-          </Button>
-          <div className="w-px h-8 bg-border hidden md:block"></div>
-          <div className="flex justify-start items-center gap-2">
-            <Avatar className="w-14 h-14">
-              <AvatarImage
-                src="https://placehold.co/55x55"
-                alt={userName}
-                data-ai-hint="person portrait"
-              />
-              <AvatarFallback>{userInitials}</AvatarFallback>
-            </Avatar>
-            <div className="hidden md:inline-flex flex-col justify-start items-start gap-1">
-              <div className="text-lg font-medium">{userName}</div>
-              <div className="text-base text-muted-foreground">
-                Super Admin
+      <header className="sticky top-2 z-20 px-2">
+        <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-2">
+            <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
+              <div className="flex justify-start items-center gap-4">
+                <HabiLogo />
+                <div className="w-px h-8 bg-border hidden md:block"></div>
+                <h1 className="text-2xl md:text-4xl font-bold text-white">
+                  Dashboard
+                </h1>
+              </div>
+              <div className="flex justify-end items-center gap-4">
+                <NotificationPopover userType="organization" />
+                <Button
+                  variant="outline"
+                  className="h-14 px-6 md:px-10 rounded-full bg-card text-lg hidden md:flex"
+                >
+                  <Users className="mr-2 h-6 w-6" />
+                  Employee Management
+                </Button>
+                <div className="w-px h-8 bg-border hidden md:block"></div>
+                <div className="flex justify-start items-center gap-2">
+                  <Avatar className="w-14 h-14">
+                    <AvatarImage
+                      src="https://placehold.co/55x55"
+                      alt={userName}
+                      data-ai-hint="person portrait"
+                    />
+                    <AvatarFallback>{userInitials}</AvatarFallback>
+                  </Avatar>
+                  <div className="hidden md:inline-flex flex-col justify-start items-start gap-1">
+                    <div className="text-lg font-medium text-white">
+                      {userName}
+                    </div>
+                    <div className="text-base text-white/80">
+                      Super Admin
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -156,7 +179,11 @@ export default function PlatformDashboard() {
             <p className="text-base font-medium text-muted-foreground mb-2">
               Filter
             </p>
-            <Tabs defaultValue="month" className="w-auto md:w-[200px]" onValueChange={setActiveTab}>
+            <Tabs
+              defaultValue="month"
+              className="w-auto md:w-[200px]"
+              onValueChange={setActiveTab}
+            >
               <TabsList className="rounded-[50px] p-1 h-14 bg-card">
                 <TabsTrigger
                   value="month"
@@ -174,10 +201,10 @@ export default function PlatformDashboard() {
             </Tabs>
           </div>
           <div>
-             <p className="text-base font-medium text-muted-foreground mb-2">
-              Select {activeTab === 'month' ? 'Month' : 'Year'}
+            <p className="text-base font-medium text-muted-foreground mb-2">
+              Select {activeTab === "month" ? "Month" : "Year"}
             </p>
-            {activeTab === 'month' ? (
+            {activeTab === "month" ? (
               <Select value={selectedMonth} onValueChange={setSelectedMonth}>
                 <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
                   <div className="flex items-center">
@@ -196,7 +223,7 @@ export default function PlatformDashboard() {
             ) : (
               <Select value={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
-                   <div className="flex items-center">
+                  <div className="flex items-center">
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     <SelectValue placeholder="Select year" />
                   </div>
@@ -214,7 +241,9 @@ export default function PlatformDashboard() {
         </div>
 
         <div>
-          <p className="text-lg font-medium text-foreground mb-2">Active Customers</p>
+          <p className="text-lg font-medium text-foreground mb-2">
+            Active Customers
+          </p>
           <div className="flex justify-start items-center gap-4">
             <div className="flex items-center">
               <div className="flex -space-x-4">
@@ -348,7 +377,9 @@ export default function PlatformDashboard() {
               href="#"
             />
             <QuickLink
-              icon={<InvitationStatusIcon className="h-6 w-6 text-foreground" />}
+              icon={
+                <InvitationStatusIcon className="h-6 w-6 text-foreground" />
+              }
               bgColor="bg-accent-color-05/30"
               text="Invitation Status"
               href="#"
@@ -414,3 +445,5 @@ export default function PlatformDashboard() {
     </div>
   );
 }
+
+    
