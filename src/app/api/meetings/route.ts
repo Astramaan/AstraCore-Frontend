@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
@@ -27,7 +28,7 @@ function getAuthHeaders(req: Request): Record<string, string> {
 
 export async function GET(req: Request) {
   try {
-    const res = await fetch(`${API_BASE_URL}/org/meetings`, {
+    const res = await fetch(`${API_BASE_URL}/meetings`, {
       headers: getAuthHeaders(req),
     });
     const data = await res.json();
