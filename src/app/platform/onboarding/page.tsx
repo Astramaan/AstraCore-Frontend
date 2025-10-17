@@ -81,7 +81,7 @@ const onboardingTracks = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4 pb-4">
+  <div className="flex items-center gap-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-emerald-900/0 rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
@@ -109,7 +109,7 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
         </div>
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-4">
-        <div className="flex-1 relative overflow-hidden">
+        <div className="flex-1 relative">
           <div
             className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-gray-200 dark:bg-gray-700"
             aria-hidden="true"
