@@ -1027,7 +1027,7 @@ const ProjectTimelineForm = ({
                   >
                     Start Date*
                   </Label>
-                  <Popover>
+                  <Popover modal={true}>
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
@@ -1044,7 +1044,10 @@ const ProjectTimelineForm = ({
                         )}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent
+                      className="w-auto p-0"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
                       <Calendar
                         mode="single"
                         selected={startDate}
@@ -1623,7 +1626,7 @@ export function CreateProjectSheet({
           className={cn(
             "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
           )}
-          onInteractOutside={(e) => {
+          onPointerDownOutside={(e) => {
             const target = e.target as HTMLElement;
             if (target.closest("[data-radix-popper-content-wrapper]")) {
               e.preventDefault();
