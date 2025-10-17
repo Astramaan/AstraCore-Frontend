@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Users,
   Plus,
+  PanelLeft,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -150,17 +151,17 @@ export default function PlatformDashboard() {
             <p className="text-base font-medium text-muted-foreground mb-2">
               Filter
             </p>
-            <Tabs defaultValue="month" className="w-[200px]">
+            <Tabs defaultValue="month" className="w-auto md:w-[200px]">
               <TabsList className="rounded-[50px] p-1 h-14 bg-card">
                 <TabsTrigger
                   value="month"
-                  className="w-[90px] h-11 rounded-[50px] text-lg"
+                  className="w-[90px] h-11 rounded-[50px] text-lg data-[state=active]:bg-primary data-[state=active]:text-white"
                 >
                   Month
                 </TabsTrigger>
                 <TabsTrigger
                   value="year"
-                  className="w-[90px] h-11 rounded-[50px] text-lg"
+                  className="w-[90px] h-11 rounded-[50px] text-lg data-[state=active]:bg-primary data-[state=active]:text-white"
                 >
                   Year
                 </TabsTrigger>
@@ -390,5 +391,3 @@ export default function PlatformDashboard() {
     </div>
   );
 }
-
-    
