@@ -133,7 +133,7 @@ const emailAutomations = [
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
   <div className="flex items-center gap-4">
-    <div className="relative w-24 h-32 bg-gradient-to-r from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
+    <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
       </p>
@@ -161,7 +161,7 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-4">
         <div className="flex-1 relative">
-          <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+          <div className="relative flex flex-wrap gap-2">
             {track.stages.map((stage, index) => (
               <Button
                 key={index}
@@ -206,8 +206,8 @@ const EmailAutomationCard = ({
   isPaused?: boolean;
   color: string;
 }) => (
-  <Card className="rounded-none p-0 overflow-hidden bg-transparent shadow-none border-none">
-    <CardContent className="p-0 flex flex-col gap-4">
+  <Card className="p-0 overflow-hidden bg-transparent shadow-none border-none">
+    <CardContent className="px-6 flex flex-col gap-4">
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
         <div className={cn("w-4 h-4 rounded-full mt-1.5", color)}></div>
         <div className="flex flex-col">
