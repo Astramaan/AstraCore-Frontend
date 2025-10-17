@@ -9,6 +9,7 @@ import {
   Plus,
   CircleDollarSign,
   ClipboardList,
+  MessageSquare,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -35,8 +36,6 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import SupportIcon from "@/components/icons/support-icon";
-import InvitationStatusIcon from "@/components/icons/invitation-status-icon";
 import { NotificationPopover } from "@/components/notification-popover";
 import { HabiLogo } from "@/components/habi-logo";
 import { useUser } from "@/context/user-context";
@@ -381,7 +380,7 @@ export default function PlatformDashboard() {
               href="#"
             />
             <QuickLink
-              icon={<Users className="h-6 w-6 text-foreground" />}
+              icon={<CircleDollarSign className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-02/30"
               text="Payment Attempts"
               href="#"
@@ -394,7 +393,7 @@ export default function PlatformDashboard() {
             />
             <QuickLink
               icon={
-                <InvitationStatusIcon className="h-6 w-6 text-foreground" />
+                <ClipboardList className="h-6 w-6 text-foreground" />
               }
               bgColor="bg-accent-color-05/30"
               text="Invitation Status"
@@ -448,7 +447,7 @@ export default function PlatformDashboard() {
                     </div>
                   </div>
                   <Button variant="outline" className="rounded-full">
-                    <SupportIcon className="h-5 w-5 mr-2" />
+                    <MessageSquare className="h-5 w-5 mr-2" />
                     Contact
                   </Button>
                 </div>
