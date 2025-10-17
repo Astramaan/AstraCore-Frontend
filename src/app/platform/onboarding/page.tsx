@@ -10,6 +10,9 @@ import {
   Phone,
   BarChart2,
   Check,
+  Info,
+  Calendar as CalendarIcon,
+  ArrowUp,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -28,6 +31,15 @@ import { NotificationPopover } from "@/components/notification-popover";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import TeamIcon from "@/components/icons/team-icon";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Progress } from "../ui/progress";
 
 const onboardingTracks = [
   {
@@ -110,7 +122,7 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-4">
         <div className="flex-1 relative">
-          <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
             {track.stages.map((stage, index) => (
               <Button
                 key={index}
@@ -158,22 +170,26 @@ const EmailAutomationCard = ({
   <Card className="rounded-[50px] p-0 overflow-hidden">
     <CardContent className="p-6 flex flex-col gap-4">
       <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
-        <div
-          className={cn("w-4 h-4 rounded-full mt-1.5", color)}
-        ></div>
+        <div className={cn("w-4 h-4 rounded-full mt-1.5", color)}></div>
         <div className="flex flex-col">
           <p className="text-lg font-medium text-foreground">{title}</p>
           <p className="text-sm text-muted-foreground">{timing}</p>
         </div>
         <div className="flex items-center text-sm text-muted-foreground gap-4">
-          <span>Sent: <span className="font-semibold text-foreground">{sent}</span></span>
-          <span>Open Rate: <span className="font-semibold text-foreground">{openRate}</span></span>
+          <span>
+            Sent:{" "}
+            <span className="font-semibold text-foreground">{sent}</span>
+          </span>
+          <span>
+            Open Rate:{" "}
+            <span className="font-semibold text-foreground">{openRate}</span>
+          </span>
         </div>
       </div>
       <div className="flex justify-between items-center gap-4 pl-8">
         <div>
-            <p className="text-sm text-muted-foreground">Last sent</p>
-            <p className="text-base font-medium text-foreground">{lastSent}</p>
+          <p className="text-sm text-muted-foreground">Last sent</p>
+          <p className="text-base font-medium text-foreground">{lastSent}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -207,25 +223,74 @@ const EmailAutomationCard = ({
 
 const AnalyticsBar = ({
   label,
-  value,
+  step,
+  completed,
   total,
-  color,
 }: {
   label: string;
-  value: number;
+  step: string;
+  completed: number;
   total: number;
-  color: string;
-}) => (
-  <div className="flex items-center gap-2">
-    <div className="w-24 text-right text-muted-foreground">{label}</div>
-    <div className="flex-1 bg-muted rounded-md h-5 relative">
-       <div
-        className="h-5 rounded-md"
+}) => {
+  const completedPercentage = (completed / total) * 100;
+  const droppedPercentage = 100 - completedPercentage;
+
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center text-sm">
+        <p className="text-muted-foreground">
+          {label} - <span className="font-medium text-foreground">{step}</span>
+        </p>
+        <p className="text-muted-foreground">
+          Total: <span className="font-medium text-foreground">{total}</span>
+        </p>
+      </div>
+      <div className="flex w-full h-3 rounded-full overflow-hidden bg-muted">
+        <div
+          className="bg-green-500"
+          style={{ width: `${completedPercentage}%` }}
+        />
+        <div
+          className="bg-red-500"
+          style={{ width: `${droppedPercentage}%` }}
+        />
+      </div>
+    </div>
+  );
+};
+
+const DropOffCircle = ({ percentage }: { percentage: number }) => (
+  <div className="relative w-40 h-40">
+    <svg className="w-full h-full" viewBox="0 0 100 100">
+      <circle
+        className="text-gray-200"
+        strokeWidth="10"
+        stroke="currentColor"
+        fill="transparent"
+        r="45"
+        cx="50"
+        cy="50"
+      />
+      <circle
+        className="text-red-500"
+        strokeWidth="10"
+        strokeDasharray="282.743338823"
+        strokeDashoffset={282.743338823 - (percentage / 100) * 282.743338823}
+        strokeLinecap="round"
+        stroke="currentColor"
+        fill="transparent"
+        r="45"
+        cx="50"
+        cy="50"
         style={{
-          background: color,
-          width: `${(value / total) * 100}%`,
+          transform: "rotate(-90deg)",
+          transformOrigin: "50% 50%",
         }}
       />
+    </svg>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <span className="text-3xl font-bold">{percentage}%</span>
+      <ArrowUp className="w-4 h-4 text-red-500" />
     </div>
   </div>
 );
@@ -282,7 +347,9 @@ export default function OnboardingPage() {
                     <div className="text-lg font-medium text-white">
                       {userName}
                     </div>
-                    <div className="text-base text-white/80 whitespace-nowrap">Super Admin</div>
+                    <div className="text-base text-white/80 whitespace-nowrap">
+                      Super Admin
+                    </div>
                   </div>
                 </div>
               </div>
@@ -294,23 +361,37 @@ export default function OnboardingPage() {
         <div className="lg:col-span-2">
           <Card className="rounded-[50px]">
             <CardHeader className="flex flex-row justify-between items-center">
-               <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                   <Bell className="h-6 w-6" />
                 </div>
                 <CardTitle>Onboard Tracking</CardTitle>
               </div>
-               <div className="flex items-center gap-4">
-                 <div className="text-muted-foreground text-lg">1-3 of 2,958</div>
-                 <Button variant="ghost" size="icon" className="rounded-full bg-background"><ChevronRight className="transform -rotate-180"/></Button>
-                 <Button variant="ghost" size="icon" className="rounded-full bg-background"><ChevronRight/></Button>
-               </div>
+              <div className="flex items-center gap-4">
+                <div className="text-muted-foreground text-lg">
+                  1-3 of 2,958
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full bg-background"
+                >
+                  <ChevronRight className="transform -rotate-180" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full bg-background"
+                >
+                  <ChevronRight />
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4 px-6 pb-6">
               {onboardingTracks.map((track, index) => (
                 <React.Fragment key={track.id}>
                   <OnboardingTrack track={track} />
-                  {index < onboardingTracks.length -1 && <Separator />}
+                  {index < onboardingTracks.length - 1 && <Separator />}
                 </React.Fragment>
               ))}
             </CardContent>
@@ -321,7 +402,7 @@ export default function OnboardingPage() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
-                  <Mail className="h-6 w-6"/>
+                  <Mail className="h-6 w-6" />
                 </div>
                 <CardTitle>Email Automation</CardTitle>
               </div>
@@ -330,7 +411,7 @@ export default function OnboardingPage() {
                 size="icon"
                 className="p-3.5 rounded-full bg-background"
               >
-                <Plus className="h-6 w-6"/>
+                <Plus className="h-6 w-6" />
               </Button>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -350,7 +431,7 @@ export default function OnboardingPage() {
                 lastSent="21 Apr 2025"
                 color="bg-teal-400"
               />
-               <EmailAutomationCard
+              <EmailAutomationCard
                 title="Account Setup Reminder"
                 timing="Client setup incomplete – 24hrs."
                 sent={124}
@@ -371,42 +452,98 @@ export default function OnboardingPage() {
           </Card>
         </div>
         <div className="space-y-8">
-          <Card className="rounded-[50px]">
-            <CardHeader>
-              <CardTitle>Onboard Analytics</CardTitle>
-              <CardDescription>Drop-off Rates</CardDescription>
+          <Card className="rounded-[50px] p-6">
+            <CardHeader className="p-0 mb-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-4">
+                  <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <BarChart2 className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <CardTitle>Onboard Analytics</CardTitle>
+                    <CardDescription className="flex items-center gap-1">
+                      Drop-off Rates <Info className="w-3 h-3" />
+                    </CardDescription>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Tabs defaultValue="month" className="w-auto">
+                    <TabsList className="rounded-[50px] p-1 h-12 bg-background">
+                      <TabsTrigger
+                        value="month"
+                        className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                      >
+                        Month
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="year"
+                        className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                      >
+                        Year
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                  <Select defaultValue="april-2025">
+                    <SelectTrigger className="w-full h-12 rounded-full text-base bg-background">
+                      <div className="flex items-center">
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <SelectValue placeholder="Select month" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="april-2025">April 2025</SelectItem>
+                      <SelectItem value="may-2025">May 2025</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-0 space-y-4">
               <AnalyticsBar
                 label="Step 1"
-                value={1000}
+                step="Account Setup"
+                completed={800}
                 total={1000}
-                color="hsl(var(--chart-1))"
               />
               <AnalyticsBar
                 label="Step 2"
-                value={800}
+                step="Subscription preview"
+                completed={600}
                 total={1000}
-                color="hsl(var(--chart-2))"
               />
               <AnalyticsBar
                 label="Step 3"
-                value={600}
+                step="Walkthrough"
+                completed={400}
                 total={1000}
-                color="hsl(var(--chart-3))"
               />
               <AnalyticsBar
                 label="Step 4"
-                value={400}
+                step="First project"
+                completed={300}
                 total={1000}
-                color="hsl(var(--chart-4))"
               />
               <AnalyticsBar
                 label="Step 5"
-                value={200}
+                step="Smart nudges"
+                completed={200}
                 total={1000}
-                color="hsl(var(--chart-5))"
               />
+
+              <div className="flex items-center gap-6 pt-6">
+                <DropOffCircle percentage={80} />
+                <div className="space-y-1">
+                  <h4 className="text-lg font-semibold">Most Drop</h4>
+                  <p className="text-lg text-muted-foreground">
+                    Step 1 (Account Setup)
+                  </p>
+                  <p className="text-sm text-green-500">+5% from March</p>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Suggestion: Consider reducing fields or auto-filling from
+                    past entries.
+                  </p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
