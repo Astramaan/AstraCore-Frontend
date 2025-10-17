@@ -198,7 +198,7 @@ export default function PlatformDashboard() {
             <Tabs
               defaultValue="month"
               className="w-auto md:w-[200px]"
-              onValueChange={setActiveTab}
+              onValueChange={(value) => setActiveTab(value)}
             >
               <TabsList className="rounded-[50px] p-1 h-14 bg-card">
                 <TabsTrigger
@@ -461,5 +461,3 @@ export default function PlatformDashboard() {
     </div>
   );
 }
-
-    
