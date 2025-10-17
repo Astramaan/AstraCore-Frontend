@@ -396,7 +396,7 @@ export default function OnboardingPage() {
           </div>
         </div>
       </header>
-      <main className="flex-grow space-y-6 pb-32">
+      <main className="flex-grow space-y-6 pb-32 mt-6">
         <div className="lg:col-span-2">
           <Card className="rounded-[50px]">
             <CardHeader className="flex flex-row justify-between items-center">
