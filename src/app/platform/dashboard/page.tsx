@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -7,7 +6,6 @@ import {
   ChevronRight,
   Users,
   Plus,
-  PanelLeft,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -93,8 +91,13 @@ const QuickLink = ({
 
 export default function PlatformDashboard() {
   const { user } = useUser();
+  const [activeTab, setActiveTab] = useState("month");
   const [selectedMonth, setSelectedMonth] = useState<string>(
     new Date().toLocaleString("default", { month: "long" }),
+  );
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState<string>(
+    currentYear.toString(),
   );
 
   const userName = user?.name || "User";
@@ -107,6 +110,8 @@ export default function PlatformDashboard() {
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
+  
+  const years = Array.from({ length: 5 }, (_, i) => (currentYear - i).toString());
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
@@ -151,7 +156,7 @@ export default function PlatformDashboard() {
             <p className="text-base font-medium text-muted-foreground mb-2">
               Filter
             </p>
-            <Tabs defaultValue="month" className="w-auto md:w-[200px]">
+            <Tabs defaultValue="month" className="w-auto md:w-[200px]" onValueChange={setActiveTab}>
               <TabsList className="rounded-[50px] p-1 h-14 bg-card">
                 <TabsTrigger
                   value="month"
@@ -169,24 +174,42 @@ export default function PlatformDashboard() {
             </Tabs>
           </div>
           <div>
-            <p className="text-base font-medium text-muted-foreground mb-2">
-              Select Month
+             <p className="text-base font-medium text-muted-foreground mb-2">
+              Select {activeTab === 'month' ? 'Month' : 'Year'}
             </p>
-            <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-              <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
-                <div className="flex items-center">
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  <SelectValue placeholder="Select month" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                {months.map((month) => (
-                  <SelectItem key={month} value={month}>
-                    {month}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            {activeTab === 'month' ? (
+              <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+                <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
+                  <div className="flex items-center">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <SelectValue placeholder="Select month" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {months.map((month) => (
+                    <SelectItem key={month} value={month}>
+                      {month}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <Select value={selectedYear} onValueChange={setSelectedYear}>
+                <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
+                   <div className="flex items-center">
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <SelectValue placeholder="Select year" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {years.map((year) => (
+                    <SelectItem key={year} value={year}>
+                      {year}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
         </div>
 
