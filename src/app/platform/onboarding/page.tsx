@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Bell,
   Mail,
@@ -277,9 +277,9 @@ export default function OnboardingPage() {
               <div className="flex justify-start items-center gap-4">
                 <HabiLogo />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <h1 className="text-[32px] font-semibold text-white">
+                <h2 className="text-[32px] font-semibold text-white">
                   Onboarding Management
-                </h1>
+                </h2>
               </div>
               <div className="flex justify-end items-center gap-4">
                 <NotificationPopover userType="organization" />
@@ -420,5 +420,3 @@ export default function OnboardingPage() {
     </div>
   );
 }
-
-    
