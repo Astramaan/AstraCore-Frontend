@@ -161,7 +161,7 @@ export default function PlatformDashboard() {
                           "text-white group-hover:text-primary dark:group-hover:text-primary",
                         )}
                       >
-                        Teams Management
+                        Employee Management
                       </span>
                     </Button>
                   </div>
@@ -462,3 +462,5 @@ export default function PlatformDashboard() {
     </div>
   );
 }
+
+    
