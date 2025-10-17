@@ -132,8 +132,8 @@ const emailAutomations = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4 py-4">
-    <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
+  <div className="flex items-center gap-4">
+    <div className="relative w-24 h-32 bg-gradient-to-r from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
       </p>
@@ -452,17 +452,15 @@ export default function OnboardingPage() {
                 <Plus className="h-6 w-6" />
               </Button>
             </CardHeader>
-            <CardContent className="p-6">
-              <div className="flex flex-col gap-4">
-                {emailAutomations.map((automation, index) => (
-                  <React.Fragment key={index}>
-                    <EmailAutomationCard {...automation} />
-                    {index < emailAutomations.length - 1 && (
-                      <Separator className="my-4" />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
+            <CardContent className="p-0 flex flex-col gap-4">
+              {emailAutomations.map((automation, index) => (
+                <React.Fragment key={index}>
+                  <EmailAutomationCard {...automation} />
+                  {index < emailAutomations.length - 1 && (
+                    <Separator className="my-4" />
+                  )}
+                </React.Fragment>
+              ))}
             </CardContent>
           </Card>
         </div>
