@@ -162,6 +162,7 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
                   onOpenAutoFocus={(e) => e.preventDefault()}
                 >
                   <Command>
+                    <CommandInput placeholder="Search members..." />
                     <CommandList>
                       <CommandGroup>
                         {["Balaji Naik", "Anil Kumar"].map((member) => (
@@ -263,6 +264,7 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
                   onOpenAutoFocus={(e) => e.preventDefault()}
                 >
                   <Command>
+                    <CommandInput placeholder="Search category..." />
                     <CommandList>
                       <CommandGroup>
                         {["Meetings", "Design", "Development", "QA"].map(
