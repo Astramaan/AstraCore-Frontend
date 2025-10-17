@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astracore-backend.onrender.com/api/v1";
 
 function getAuthHeaders(req: Request): Record<string, string> {
   const headers: Record<string, string> = {
@@ -40,7 +40,7 @@ export async function GET(req: Request) {
     const token = searchParams.get("token");
     const orgId = searchParams.get("orgId");
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/invite/${token}/${orgId}`);
+    const res = await fetch(`${API_BASE_URL}/invite/${token}/${orgId}`);
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
@@ -55,7 +55,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const res = await fetch(`${API_BASE_URL}/api/v1/invites`, {
+    const res = await fetch(`${API_BASE_URL}/invites`, {
       method: "POST",
       headers: getAuthHeaders(req),
       body: JSON.stringify(body),

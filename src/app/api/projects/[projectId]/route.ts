@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astracore-backend.onrender.com/api/v1";
 
 function getAuthHeaders(req: NextRequest): Record<string, string> {
   const userHeader = req.headers.get("x-user");
@@ -33,7 +33,7 @@ export async function GET(
 ) {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
+      `${API_BASE_URL}/org/projects/${params.projectId}`,
       {
         headers: getAuthHeaders(req),
       },
@@ -56,7 +56,7 @@ export async function PATCH(
   try {
     const body = await req.json();
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
+      `${API_BASE_URL}/org/projects/${params.projectId}`,
       {
         method: "PATCH",
         headers: getAuthHeaders(req),
@@ -80,7 +80,7 @@ export async function DELETE(
 ) {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/api/v1/org/projects/${params.projectId}`,
+      `${API_BASE_URL}/org/projects/${params.projectId}`,
       {
         method: "DELETE",
         headers: getAuthHeaders(req),

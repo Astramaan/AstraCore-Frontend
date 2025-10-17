@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astracore-backend.onrender.com/api/v1";
 
 function getAuthHeaders(req: Request): Record<string, string> {
   const userHeader = req.headers.get("x-user");
@@ -28,7 +28,7 @@ function getAuthHeaders(req: Request): Record<string, string> {
 
 export async function GET(req: Request) {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/leads/all-leads`, {
+    const res = await fetch(`${API_BASE_URL}/leads/all-leads`, {
       headers: getAuthHeaders(req),
     });
     const data = await res.json();
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       JSON.stringify(payload, null, 2),
     );
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/leads`, {
+    const res = await fetch(`${API_BASE_URL}/leads`, {
       method: "POST",
       headers: getAuthHeaders(req),
       body: JSON.stringify(payload),

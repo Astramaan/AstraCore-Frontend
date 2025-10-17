@@ -2,14 +2,14 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astramaan-be-1.onrender.com";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://astracore-backend.onrender.com/api/v1";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { email, password } = body;
 
-    const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
+    const res = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
