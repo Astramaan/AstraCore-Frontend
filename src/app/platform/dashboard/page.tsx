@@ -10,6 +10,7 @@ import {
   CircleDollarSign,
   ClipboardList,
   MessageSquare,
+  HandCoins,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -129,7 +130,7 @@ export default function PlatformDashboard() {
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
-      <header className="sticky top-2 z-20 px-2">
+      <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
           <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
             <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
@@ -373,31 +374,31 @@ export default function PlatformDashboard() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <QuickLink
               icon={<Users className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-01/30"
-              text="Lead Management"
+              text="Active Customers"
               href="#"
             />
             <QuickLink
               icon={<CircleDollarSign className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-02/30"
-              text="Payment Attempts"
+              text="Expired Customers"
               href="#"
             />
             <QuickLink
               icon={<ClipboardList className="h-6 w-6 text-foreground" />}
               bgColor="bg-accent-color-03/30"
-              text="Onboarding Status"
+              text="Invoices"
               href="#"
             />
             <QuickLink
               icon={
-                <ClipboardList className="h-6 w-6 text-foreground" />
+                <HandCoins className="h-6 w-6 text-foreground" />
               }
               bgColor="bg-accent-color-05/30"
-              text="Invitation Status"
+              text="Payment Attempts"
               href="#"
             />
           </CardContent>
