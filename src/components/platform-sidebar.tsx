@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, GanttChartSquare, Settings, Users, HandCoins, MessagesSquare } from "lucide-react";
+import { LayoutDashboard, Users, HandCoins, MessagesSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HabiLogo } from "./habi-logo";
 import OrganizationIcon from "./icons/organization-icon";
