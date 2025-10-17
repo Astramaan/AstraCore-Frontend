@@ -793,10 +793,8 @@ const ProjectTimelineForm = ({
   const router = useRouter();
   const params = useParams();
 
-  const [startDate, setStartDate] = useState<string>(
-    projectData?.startDate
-      ? new Date(projectData.startDate).toISOString().split("T")[0]
-      : "",
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    projectData?.startDate ? new Date(projectData.startDate) : new Date(),
   );
   const [isPending, startTransition] = React.useTransition();
   const [isCustomTimelineDialogOpen, setIsCustomTimelineDialogOpen] =
@@ -972,7 +970,7 @@ const ProjectTimelineForm = ({
       ...projectData,
       createdBy: user.userId,
       phases: timelineData,
-      startDate: new Date(startDate).toISOString(),
+      startDate: startDate?.toISOString(),
       organizationId: params.organizationId,
     };
 
@@ -1022,14 +1020,40 @@ const ProjectTimelineForm = ({
           <div className="space-y-8">
             <div className="space-y-6">
               <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-                <FloatingLabelInput
-                  id="start-date"
-                  name="startDate"
-                  label="Start Date*"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  type="date"
-                />
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="start-date"
+                    className="text-lg font-medium px-2"
+                  >
+                    Start Date*
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal h-14 bg-background dark:bg-input rounded-full px-5",
+                          !startDate && "text-muted-foreground",
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {startDate ? (
+                          new Date(startDate).toLocaleDateString("en-GB")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={startDate}
+                        onSelect={setStartDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
                 <Popover
                   open={templateComboboxOpen}
                   onOpenChange={setTemplateComboboxOpen}
