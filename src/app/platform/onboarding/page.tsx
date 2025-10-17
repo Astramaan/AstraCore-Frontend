@@ -116,7 +116,11 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
       </div>
       <div className="h-14 relative inline-flex justify-center items-start gap-6">
         <div className="w-[921px] h-0 left-0 top-[29px] absolute outline-dashed outline-gray-200"></div>
-        <div className="size- flex justify-start items-center gap-3.5">
+        <div className="w-4 h-0 left-[171px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px] outline-Green"></div>
+        <div className="w-4 h-0 left-[398px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px]"></div>
+        <div className="w-4 h-0 left-[569px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px]"></div>
+        <div className="w-4 h-0 left-[731px] top-[29px] absolute outline outline-[5px] outline-offset-[-2.50px]"></div>
+        <div className="Stages size- flex justify-start items-center gap-3.5">
           {track.stages.map((stage, index) => (
             <Button
               key={index}
@@ -273,7 +277,7 @@ export default function OnboardingPage() {
               <div className="flex justify-start items-center gap-4">
                 <HabiLogo />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <h1 className="text-2xl md:text-4xl font-bold text-white">
+                <h1 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white">
                   Onboarding Management
                 </h1>
               </div>
