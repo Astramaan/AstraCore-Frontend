@@ -483,34 +483,36 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Tabs defaultValue="month" className="w-auto">
-                      <TabsList className="rounded-[50px] p-1 h-12 bg-background">
-                        <TabsTrigger
-                          value="month"
-                          className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
-                        >
-                          Month
-                        </TabsTrigger>
-                        <TabsTrigger
-                          value="year"
-                          className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
-                        >
-                          Year
-                        </TabsTrigger>
-                      </TabsList>
-                    </Tabs>
-                    <Select defaultValue="april-2025">
-                      <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
-                        <div className="flex items-center">
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          <SelectValue placeholder="Select month" />
-                        </div>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="april-2025">April 2025</SelectItem>
-                        <SelectItem value="may-2025">May 2025</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="flex flex-col gap-2">
+                      <Tabs defaultValue="month" className="w-auto">
+                        <TabsList className="rounded-[50px] p-1 h-12 bg-background">
+                          <TabsTrigger
+                            value="month"
+                            className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                          >
+                            Month
+                          </TabsTrigger>
+                          <TabsTrigger
+                            value="year"
+                            className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                          >
+                            Year
+                          </TabsTrigger>
+                        </TabsList>
+                      </Tabs>
+                      <Select defaultValue="april-2025">
+                        <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
+                          <div className="flex items-center">
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            <SelectValue placeholder="Select month" />
+                          </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="april-2025">April 2025</SelectItem>
+                          <SelectItem value="may-2025">May 2025</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
               </CardHeader>
