@@ -28,7 +28,7 @@ function getAuthHeaders(req: Request): Record<string, string> {
 export async function PATCH(req: Request) {
   try {
     const body = await req.json();
-    const res = await fetch(`${API_BASE_URL}/updateProfile`, {
+    const res = await fetch(`${API_BASE_URL}/org/updateProfile`, {
       method: "PATCH",
       headers: getAuthHeaders(req),
       body: JSON.stringify(body),
