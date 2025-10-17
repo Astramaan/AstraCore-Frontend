@@ -3,25 +3,27 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, GanttChartSquare, Settings } from "lucide-react";
+import { LayoutDashboard, GanttChartSquare, Settings, Users, HandCoins, MessagesSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { HabiLogo } from "./habi-logo";
 import OrganizationIcon from "./icons/organization-icon";
 
 const navItems = [
   { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/platform/onboarding", icon: Users, label: "Onboarding Ma.." },
+  {
+    href: "/platform/subscription-management",
+    icon: HandCoins,
+    label: "Subscription Ma..",
+  },
   {
     href: "/platform/organizations",
     icon: OrganizationIcon,
-    label: "Organizations",
+    label: "Organization Ma..",
   },
-  {
-    href: "/platform/all-projects",
-    icon: GanttChartSquare,
-    label: "All Projects",
-  },
-  { href: "/platform/settings", icon: Settings, label: "Settings" },
+  { href: "/platform/all-projects", icon: MessagesSquare, label: "Tasks" },
 ];
+
 
 const NavItem = ({ item }: { item: (typeof navItems)[0] }) => {
   const pathname = usePathname();
