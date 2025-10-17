@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useTransition, useRef, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -196,7 +196,6 @@ const CreateProjectForm = ({
   const [floorComboboxOpen, setFloorComboboxOpen] = useState(false);
   const [architectComboboxOpen, setArchitectComboboxOpen] = useState(false);
   const [supervisorComboboxOpen, setSupervisorComboboxOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const [name, setName] = useState(
     projectToEdit?.personalDetails?.name ||
@@ -282,7 +281,6 @@ const CreateProjectForm = ({
       setName(contact.fullName);
       setPhone(contact.phone);
       setCurrentAddress(contact.address);
-      setSearchQuery(""); // Clear search after selection
     }
     setEmailComboboxOpen(false);
   };
@@ -340,50 +338,46 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="sm:col-span-2">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="email-combobox"
-                  className={cn(
-                    "text-lg font-medium px-2",
-                    email ? "text-muted-foreground" : "text-foreground",
-                  )}
-                >
-                  Email*
-                </Label>
-                <Popover
-                  open={emailComboboxOpen}
-                  onOpenChange={setEmailComboboxOpen}
-                  modal={true}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={emailComboboxOpen}
-                      className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
-                    >
-                      <span className="truncate">
-                        {email || "Select client or lead..."}
-                      </span>
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-[--radix-popover-trigger-width] p-0"
-                    onOpenAutoFocus={(e) => e.preventDefault()}
+              <div className="sm:col-span-2">
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="email-combobox"
+                    className={cn(
+                      "text-lg font-medium px-2",
+                      email ? "text-muted-foreground" : "text-foreground",
+                    )}
                   >
-                    <Command shouldFilter={true}>
-                      <CommandInput
-                        placeholder="Search by email or name..."
-                        value={searchQuery}
-                        onValueChange={setSearchQuery}
-                      />
-                      <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup>
-                          {allContacts.map((contact) => (
+                    Email*
+                  </Label>
+                  <Popover
+                    open={emailComboboxOpen}
+                    onOpenChange={setEmailComboboxOpen}
+                    modal={true}
+                  >
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={emailComboboxOpen}
+                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                      >
+                        <span className="truncate">
+                          {email || "Select client or lead..."}
+                        </span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    >
+                      <Command>
+                        <CommandInput placeholder="Search by email or name..." />
+                        <CommandList>
+                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandGroup>
+                            {allContacts.map((contact) => (
                               <CommandItem
                                 key={contact.leadId}
                                 value={`${contact.fullName.toLowerCase()} ${contact.email.toLowerCase()}`}
@@ -407,14 +401,13 @@ const CreateProjectForm = ({
                                 </div>
                               </CommandItem>
                             ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
-            </div>
-
               <FloatingLabelInput
                 id="name"
                 name="name"
