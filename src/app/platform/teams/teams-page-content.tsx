@@ -24,6 +24,7 @@ import { CreateDepartmentSheet } from "@/components/create-department-sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/context/user-context";
 import { AddMemberSheet } from "@/components/add-member-sheet";
+import { HabiLogo } from "@/components/habi-logo";
 
 const allRoles: Role[] = [
   {
@@ -330,7 +331,23 @@ export default function TeamsPageContent() {
   };
 
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-8 p-4 md:p-8">
+      <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
+        <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-2">
+            <div className="max-w-[1440px] 2xl:max-w-none mx-auto flex justify-between items-center">
+              <div className="flex justify-start items-center gap-4">
+                <HabiLogo />
+                <div className="w-px h-8 bg-border hidden md:block"></div>
+                <h1 className="text-2xl md:text-4xl font-bold text-white">
+                  Teams Management
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <Button
