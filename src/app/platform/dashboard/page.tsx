@@ -131,7 +131,7 @@ export default function PlatformDashboard() {
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
       <header className="sticky top-2 z-20 px-2">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
-          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-2">
+          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
             <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
               <div className="flex justify-start items-center gap-4">
                 <HabiLogo />
@@ -268,7 +268,7 @@ export default function PlatformDashboard() {
                     key={i}
                     className="w-12 h-12 border-4 border-background"
                   >
-                    <AvatarImage src={`https://placehold.co/50x50?text=${i}`} />
+                    <AvatarImage src={`https://placehold.co/50x50?text=${'i'}`} />
                     <AvatarFallback>A</AvatarFallback>
                   </Avatar>
                 ))}
@@ -461,5 +461,4 @@ export default function PlatformDashboard() {
       <PlatformBottomNav />
     </div>
   );
-
-    
+}

@@ -345,7 +345,7 @@ export default function TeamsPageContent() {
     <div className="space-y-8 p-4 md:p-8">
       <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
-          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-2">
+          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
             <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
               <div className="flex justify-start items-center gap-4">
                 <HabiLogo />
@@ -479,5 +479,3 @@ const RoleCardSkeleton = () => (
     <Separator className="last:hidden" />
   </>
 );
-
-    
