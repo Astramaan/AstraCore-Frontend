@@ -277,7 +277,7 @@ export default function OnboardingPage() {
               <div className="flex justify-start items-center gap-4">
                 <HabiLogo />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <h1 className="text-xl md:text-2xl lg:text-[32px] lg:leading-[40px] font-semibold text-white">
+                <h1 className="text-[32px] font-semibold text-white">
                   Onboarding Management
                 </h1>
               </div>
@@ -420,3 +420,5 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
+    
