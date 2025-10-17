@@ -28,7 +28,7 @@ function getAuthHeaders(req: Request): Record<string, string> {
 
 export async function GET(req: Request) {
   try {
-    const res = await fetch(`${API_BASE_URL}/leads/all-leads`, {
+    const res = await fetch(`${API_BASE_URL}/org/leads`, {
       headers: getAuthHeaders(req),
     });
     const data = await res.json();
