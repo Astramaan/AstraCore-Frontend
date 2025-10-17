@@ -40,6 +40,7 @@ import { NotificationPopover } from "@/components/notification-popover";
 import { HabiLogo } from "@/components/habi-logo";
 import { useUser } from "@/context/user-context";
 import TeamIcon from "@/components/icons/team-icon";
+import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 
 const churnedCustomers = [
   {
@@ -457,6 +458,7 @@ export default function PlatformDashboard() {
           </div>
         </CardContent>
       </Card>
+      <PlatformBottomNav />
     </div>
   );
 }

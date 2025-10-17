@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -10,7 +11,6 @@ import {
   HandCoins,
   MessagesSquare,
 } from "lucide-react";
-import OrganizationIcon from "./icons/organization-icon";
 
 const navItems = [
   { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -22,7 +22,7 @@ const navItems = [
   },
   {
     href: "/platform/organizations",
-    icon: OrganizationIcon,
+    icon: Users,
     label: "Organization",
   },
   { href: "/platform/all-projects", icon: MessagesSquare, label: "Tasks" },

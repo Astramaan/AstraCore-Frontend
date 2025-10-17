@@ -29,6 +29,7 @@ import { HabiLogo } from "@/components/habi-logo";
 import { NotificationPopover } from "@/components/notification-popover";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 
 const allRoles: Role[] = [
   {
@@ -448,6 +449,7 @@ export default function TeamsPageContent() {
         onClose={handleCloseSheet}
         role={selectedRole}
       />
+      <PlatformBottomNav />
     </div>
   );
 }
