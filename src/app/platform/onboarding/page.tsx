@@ -132,7 +132,7 @@ const emailAutomations = [
 ];
 
 const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-4 py-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
         {track.id}
@@ -343,7 +343,7 @@ export default function OnboardingPage() {
     .join("");
 
   return (
-    <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6 pb-32">
+    <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
       <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
           <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
@@ -396,7 +396,7 @@ export default function OnboardingPage() {
           </div>
         </div>
       </header>
-      <main className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <main className="flex-grow space-y-6 pb-32">
         <div className="lg:col-span-2">
           <Card className="rounded-[50px]">
             <CardHeader className="flex flex-row justify-between items-center">
@@ -426,7 +426,7 @@ export default function OnboardingPage() {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4 px-6 pb-6">
+            <CardContent className="space-y-0 px-6 pb-6">
               {onboardingTracks.map((track, index) => (
                 <React.Fragment key={track.id}>
                   <OnboardingTrack track={track} />
@@ -438,129 +438,131 @@ export default function OnboardingPage() {
             </CardContent>
           </Card>
         </div>
-        <div className="space-y-8">
-          <Card className="rounded-[50px]">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
-                  <Mail className="h-6 w-6" />
-                </div>
-                <CardTitle>Email Automation</CardTitle>
-              </div>
-              <Button
-                variant="outline"
-                className="p-3.5 rounded-full bg-background"
-              >
-                <Plus className="h-6 w-6" />
-              </Button>
-            </CardHeader>
-            <CardContent className="p-0 flex flex-col">
-              {emailAutomations.map((automation, index) => (
-                <React.Fragment key={index}>
-                  <EmailAutomationCard {...automation} />
-                  {index < emailAutomations.length - 1 && (
-                    <Separator className="my-0 mx-6 w-auto" />
-                  )}
-                </React.Fragment>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-        <div className="space-y-8 flex flex-col">
-          <Card className="rounded-[50px] p-6 flex-grow">
-            <CardHeader className="p-0 mb-4">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div className="flex items-center gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-8">
+            <Card className="rounded-[50px]">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div className="flex items-center gap-2">
                   <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
-                    <BarChart2 className="h-6 w-6" />
+                    <Mail className="h-6 w-6" />
                   </div>
-                  <div>
-                    <CardTitle>Onboard Analytics</CardTitle>
-                    <CardDescription className="flex items-center gap-1">
-                      Drop-off Rates <Info className="w-3 h-3" />
-                    </CardDescription>
+                  <CardTitle>Email Automation</CardTitle>
+                </div>
+                <Button
+                  variant="outline"
+                  className="p-3.5 rounded-full bg-background"
+                >
+                  <Plus className="h-6 w-6" />
+                </Button>
+              </CardHeader>
+              <CardContent className="p-0 flex flex-col">
+                {emailAutomations.map((automation, index) => (
+                  <React.Fragment key={index}>
+                    <EmailAutomationCard {...automation} />
+                    {index < emailAutomations.length - 1 && (
+                      <Separator className="my-0 mx-6 w-auto" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+          <div className="space-y-8 flex flex-col">
+            <Card className="rounded-[50px] p-6 flex-grow">
+              <CardHeader className="p-0 mb-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                      <BarChart2 className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <CardTitle>Onboard Analytics</CardTitle>
+                      <CardDescription className="flex items-center gap-1">
+                        Drop-off Rates <Info className="w-3 h-3" />
+                      </CardDescription>
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Tabs defaultValue="month" className="w-auto">
+                      <TabsList className="rounded-[50px] p-1 h-12 bg-background">
+                        <TabsTrigger
+                          value="month"
+                          className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                        >
+                          Month
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="year"
+                          className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                        >
+                          Year
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                    <Select defaultValue="april-2025">
+                      <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
+                        <div className="flex items-center">
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          <SelectValue placeholder="Select month" />
+                        </div>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="april-2025">April 2025</SelectItem>
+                        <SelectItem value="may-2025">May 2025</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Tabs defaultValue="month" className="w-auto">
-                    <TabsList className="rounded-[50px] p-1 h-12 bg-background">
-                      <TabsTrigger
-                        value="month"
-                        className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
-                      >
-                        Month
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="year"
-                        className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
-                      >
-                        Year
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                  <Select defaultValue="april-2025">
-                    <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
-                      <div className="flex items-center">
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        <SelectValue placeholder="Select month" />
-                      </div>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="april-2025">April 2025</SelectItem>
-                      <SelectItem value="may-2025">May 2025</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0 space-y-4">
-              <AnalyticsBar
-                label="Step 1"
-                step="Account Setup"
-                completed={800}
-                total={1000}
-              />
-              <AnalyticsBar
-                label="Step 2"
-                step="Subscription preview"
-                completed={600}
-                total={1000}
-              />
-              <AnalyticsBar
-                label="Step 3"
-                step="Walkthrough"
-                completed={400}
-                total={1000}
-              />
-              <AnalyticsBar
-                label="Step 4"
-                step="First project"
-                completed={300}
-                total={1000}
-              />
-              <AnalyticsBar
-                label="Step 5"
-                step="Smart nudges"
-                completed={200}
-                total={1000}
-              />
+              </CardHeader>
+              <CardContent className="p-0 space-y-4">
+                <AnalyticsBar
+                  label="Step 1"
+                  step="Account Setup"
+                  completed={800}
+                  total={1000}
+                />
+                <AnalyticsBar
+                  label="Step 2"
+                  step="Subscription preview"
+                  completed={600}
+                  total={1000}
+                />
+                <AnalyticsBar
+                  label="Step 3"
+                  step="Walkthrough"
+                  completed={400}
+                  total={1000}
+                />
+                <AnalyticsBar
+                  label="Step 4"
+                  step="First project"
+                  completed={300}
+                  total={1000}
+                />
+                <AnalyticsBar
+                  label="Step 5"
+                  step="Smart nudges"
+                  completed={200}
+                  total={1000}
+                />
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 pt-6">
-                <DropOffCircle percentage={80} />
-                <div className="space-y-1 text-center sm:text-left">
-                  <h4 className="text-lg font-semibold">Most Drop</h4>
-                  <p className="text-lg text-muted-foreground">
-                    Step 1 (Account Setup)
-                  </p>
-                  <p className="text-sm text-green-500">+5% from March</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Suggestion: Consider reducing fields or auto-filling from
-                    past entries.
-                  </p>
+                <div className="flex flex-col sm:flex-row items-center gap-6 pt-6">
+                  <DropOffCircle percentage={80} />
+                  <div className="space-y-1 text-center sm:text-left">
+                    <h4 className="text-lg font-semibold">Most Drop</h4>
+                    <p className="text-lg text-muted-foreground">
+                      Step 1 (Account Setup)
+                    </p>
+                    <p className="text-sm text-green-500">+5% from March</p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Suggestion: Consider reducing fields or auto-filling from
+                      past entries.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
       <PlatformBottomNav />
