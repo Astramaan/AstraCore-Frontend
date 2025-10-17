@@ -119,7 +119,7 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
             style={{ width: `${track.progress}%` }}
             aria-hidden="true"
           />
-          <div className="relative flex justify-between">
+          <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:flex lg:justify-between gap-2">
             {track.stages.map((stage, index) => (
               <Button
                 key={index}
@@ -418,5 +418,3 @@ export default function OnboardingPage() {
     </div>
   );
 }
-
-    
