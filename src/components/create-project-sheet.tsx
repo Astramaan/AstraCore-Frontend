@@ -196,7 +196,6 @@ const CreateProjectForm = ({
   const [floorComboboxOpen, setFloorComboboxOpen] = useState(false);
   const [architectComboboxOpen, setArchitectComboboxOpen] = useState(false);
   const [supervisorComboboxOpen, setSupervisorComboboxOpen] = useState(false);
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const [name, setName] = useState(
@@ -375,7 +374,7 @@ const CreateProjectForm = ({
                     className="w-[--radix-popover-trigger-width] p-0"
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
-                    <Command shouldFilter={false}>
+                    <Command shouldFilter={true}>
                       <CommandInput
                         placeholder="Search by email or name..."
                         value={searchQuery}
@@ -384,16 +383,7 @@ const CreateProjectForm = ({
                       <CommandList>
                         <CommandEmpty>No results found.</CommandEmpty>
                         <CommandGroup>
-                          {allContacts
-                            .filter((contact) => {
-                              if (!searchQuery) return true;
-                              const query = searchQuery.toLowerCase();
-                              return (
-                                contact.email.toLowerCase().includes(query) ||
-                                contact.fullName.toLowerCase().includes(query)
-                              );
-                            })
-                            .map((contact) => (
+                          {allContacts.map((contact) => (
                               <CommandItem
                                 key={contact.leadId}
                                 value={`${contact.fullName.toLowerCase()} ${contact.email.toLowerCase()}`}
