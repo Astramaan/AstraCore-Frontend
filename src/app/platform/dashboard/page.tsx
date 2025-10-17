@@ -142,7 +142,7 @@ export default function PlatformDashboard() {
               </div>
               <div className="flex justify-end items-center gap-4">
                 <NotificationPopover userType="organization" />
-                <Link href="/platform/employee-management">
+                <Link href="/platform/teams">
                   <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                     <Button
                       className={cn(
@@ -161,7 +161,7 @@ export default function PlatformDashboard() {
                           "text-white group-hover:text-primary dark:group-hover:text-primary",
                         )}
                       >
-                        Employee Management
+                        Teams Management
                       </span>
                     </Button>
                   </div>
@@ -461,3 +461,5 @@ export default function PlatformDashboard() {
     </div>
   );
 }
+
+    
