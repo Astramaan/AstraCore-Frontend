@@ -349,6 +349,7 @@ const CreateProjectForm = ({
                   >
                     Email*
                   </Label>
+                  <p className="text-sm text-muted-foreground px-2">enter the email of lead to fetch their details</p>
                   <Popover
                     open={emailComboboxOpen}
                     onOpenChange={setEmailComboboxOpen}
