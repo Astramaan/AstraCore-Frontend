@@ -298,7 +298,6 @@ const AddMemberForm = ({
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
-                      <CommandInput placeholder="Search role..." />
                       <CommandList>
                         <CommandGroup>
                           {roles.map((r) => (
