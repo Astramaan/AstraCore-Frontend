@@ -1,3 +1,4 @@
+
 import { type NextRequest, NextResponse } from "next/server";
 
 const API_BASE_URL =
@@ -33,7 +34,7 @@ export async function GET(
 ) {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/org/projects/${params.projectId}`,
+      `${API_BASE_URL}/org/project/${params.projectId}`,
       {
         headers: getAuthHeaders(req),
       },
