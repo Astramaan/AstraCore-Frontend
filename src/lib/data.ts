@@ -1,3 +1,4 @@
+
 import type { User } from "@/context/user-context";
 
 export interface Member {
@@ -97,6 +98,7 @@ export async function getProjectDetails(
   try {
     const res = await fetch(`/api/projects/${projectId}`, {
       headers: {
+        "Content-Type": "application/json",
         "x-user": JSON.stringify(user),
       },
     });
@@ -106,7 +108,11 @@ export async function getProjectDetails(
       );
       return null;
     }
-    const data = await res.json() as { success: boolean; data: any; message?: string };
+    const data = (await res.json()) as {
+      success: boolean;
+      data: any;
+      message?: string;
+    };
     if (data.success) {
       return data.data;
     }
