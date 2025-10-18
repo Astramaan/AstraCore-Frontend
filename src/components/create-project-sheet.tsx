@@ -69,7 +69,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Lead } from "./lead-details-sheet";
 import {
   Command,
   CommandEmpty,
@@ -265,8 +264,13 @@ const CreateProjectForm = ({
 
     if (!user) return;
     try {
-      const res = await fetch(`/api/leads/by-email?email=${encodeURIComponent(selectedEmail)}`, {
-        headers: { 'x-user': JSON.stringify(user) }
+      const res = await fetch(`/api/leads/info`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-user': JSON.stringify(user) 
+        },
+        body: JSON.stringify({ email: selectedEmail })
       });
       const result = await res.json();
       if (result.success && result.data) {
