@@ -209,7 +209,7 @@ const AddMemberForm = ({
                 <Select
                   value={team}
                   onValueChange={(value) =>
-                    setTeam(value.toUpperCase().replace(/\s/g, "_"))
+                    setTeam(value)
                   }
                 >
                   <SelectTrigger
@@ -218,7 +218,7 @@ const AddMemberForm = ({
                   >
                     <SelectValue placeholder="Select a team" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[10000]">
                     {teams.map((t) => (
                       <SelectItem key={t} value={t}>
                         {t}
@@ -245,7 +245,7 @@ const AddMemberForm = ({
                   >
                     <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[10000]">
                     {roles.map((r) => (
                       <SelectItem key={r} value={r.toLowerCase()}>
                         {r}
@@ -306,12 +306,12 @@ export function AddMemberSheet({
         )}
         <SheetContent
           side="bottom"
-          className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
+          className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none overflow-visible"
           onInteractOutside={(e) => {
+            const target = e.target as HTMLElement;
             if (
-              (e.target as HTMLElement).closest(
-                "[data-radix-popper-content-wrapper]",
-              )
+              target.closest("[data-radix-popper-content-wrapper]") ||
+              target.closest("[role='listbox']")
             ) {
               e.preventDefault();
             }
@@ -336,10 +336,8 @@ export function AddMemberSheet({
               </SheetClose>
             </div>
           </SheetHeader>
-          <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
-            <AddMemberForm
-              onFormSuccess={handleSuccess}
-            />
+          <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar relative z-0">
+            <AddMemberForm onFormSuccess={handleSuccess} />
           </div>
         </SheetContent>
       </Sheet>
