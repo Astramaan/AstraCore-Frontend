@@ -27,6 +27,20 @@ import { ScrollArea } from "./ui/scroll-area";
 import UserPlusIcon from "./icons/user-plus-icon";
 import { SuccessPopup } from "./success-popup";
 import { useUser } from "@/context/user-context";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "./ui/command";
+import { ChevronsUpDown, Check } from "lucide-react";
 
 const FloatingLabelInput = ({
   id,
@@ -77,6 +91,8 @@ const AddMemberForm = ({
   const [role, setRole] = useState(() => (isTeamAdmin ? "member" : ""));
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [teamComboboxOpen, setTeamComboboxOpen] = useState(false);
+  const [roleComboboxOpen, setRoleComboboxOpen] = useState(false);
 
   const teams = [
     "Sales",
@@ -206,29 +222,58 @@ const AddMemberForm = ({
                 >
                   Team
                 </Label>
-                <Select
-                  name="team"
-                  onValueChange={setTeam}
-                  value={team}
-                  required
+                <Popover
+                  open={teamComboboxOpen}
+                  onOpenChange={setTeamComboboxOpen}
+                  modal={true}
                 >
-                  <SelectTrigger
-                    id="team-select"
-                    className="w-full h-14 bg-input rounded-[50px] px-6 text-lg"
-                  >
-                    <SelectValue placeholder="Select a team" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {teams.map((r) => (
-                      <SelectItem
-                        key={r}
-                        value={r.toUpperCase().replace(/\s/g, "_")}
-                      >
-                        {r}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={teamComboboxOpen}
+                      className="w-full justify-between h-14 bg-input rounded-full px-6 text-lg font-normal"
+                    >
+                      {team
+                        ? teams.find(
+                            (t) =>
+                              t.toUpperCase().replace(/\s/g, "_") === team,
+                          ) || "Select a team"
+                        : "Select a team"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search team..." />
+                      <CommandList>
+                        <CommandEmpty>No team found.</CommandEmpty>
+                        <CommandGroup>
+                          {teams.map((t) => (
+                            <CommandItem
+                              key={t}
+                              value={t}
+                              onSelect={() => {
+                                setTeam(t.toUpperCase().replace(/\s/g, "_"));
+                                setTeamComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  team === t.toUpperCase().replace(/\s/g, "_")
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {t}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="space-y-2">
@@ -241,26 +286,57 @@ const AddMemberForm = ({
                 >
                   Role Type
                 </Label>
-                <Select
-                  name="roleType"
-                  onValueChange={setRole}
-                  value={role}
-                  required
+                <Popover
+                  open={roleComboboxOpen}
+                  onOpenChange={setRoleComboboxOpen}
+                  modal={true}
                 >
-                  <SelectTrigger
-                    id="role-select"
-                    className="w-full h-14 bg-input rounded-[50px] px-6 text-lg"
-                  >
-                    <SelectValue placeholder="Select a role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {roles.map((r) => (
-                      <SelectItem key={r} value={r.toLowerCase()}>
-                        {r}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={roleComboboxOpen}
+                      className="w-full justify-between h-14 bg-input rounded-full px-6 text-lg font-normal"
+                    >
+                      {role
+                        ? roles.find(
+                            (r) => r.toLowerCase() === role,
+                          ) || "Select a role"
+                        : "Select a role"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search role..." />
+                      <CommandList>
+                        <CommandEmpty>No role found.</CommandEmpty>
+                        <CommandGroup>
+                          {roles.map((r) => (
+                            <CommandItem
+                              key={r}
+                              value={r}
+                              onSelect={() => {
+                                setRole(r.toLowerCase());
+                                setRoleComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  role === r.toLowerCase()
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {r}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
             </>
           )}
