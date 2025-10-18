@@ -79,39 +79,6 @@ import {
   CommandList,
 } from "./ui/command";
 
-const mockLeads: Lead[] = [
-  {
-    organization: 'Habi',
-    leadId: 'LEAD001',
-    fullName: 'John Doe',
-    contact: 'john.doe@example.com | 1234567890',
-    phone: '1234567890',
-    email: 'john.doe@example.com',
-    address: 'Pincode: 110011',
-    pincode: '110011',
-    tokenAmount: '1000',
-    level: 'Level 1',
-    profileImage: 'https://placehold.co/94x94.png',
-    coverImage: 'https://placehold.co/712x144.png',
-    siteImages: [],
-  },
-  {
-    organization: 'Habi',
-    leadId: 'LEAD002',
-    fullName: 'Jane Smith',
-    contact: 'jane.smith@example.com | 0987654321',
-    phone: '0987654321',
-    email: 'jane.smith@example.com',
-    address: 'Pincode: 560001',
-    pincode: '560001',
-    tokenAmount: '2000',
-    level: 'Level 2',
-    profileImage: 'https://placehold.co/94x94.png',
-    coverImage: 'https://placehold.co/712x144.png',
-    siteImages: [],
-  },
-];
-
 const mockUsers: User[] = [
   { userId: 'USR001', name: 'Alice Architect', email: 'alice@habi.one', role: 'ORG_MEMBER', team: 'Architect', mobileNumber: '1111111111', organizationId: '', orgCode: '' },
   { userId: 'USR002', name: 'Bob Builder', email: 'bob@habi.one', role: 'ORG_MEMBER', team: 'Site Supervisor', mobileNumber: '2222222222', organizationId: '', orgCode: '' },
@@ -187,7 +154,8 @@ const CreateProjectForm = ({
   projectData: any;
 }) => {
   const { user } = useUser();
-  const [allContacts, setAllContacts] = useState<Lead[]>(mockLeads);
+  const { toast } = useToast();
+  const [leadEmails, setLeadEmails] = useState<string[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>(mockUsers);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
   const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] =
@@ -263,6 +231,58 @@ const CreateProjectForm = ({
       projectData?.projectAssign?.siteSupervisor ||
       "",
   );
+  
+  useEffect(() => {
+    const fetchLeadEmails = async () => {
+      if (!user) return;
+      try {
+        const res = await fetch('/api/leads/emails', {
+          headers: { 'x-user': JSON.stringify(user) }
+        });
+        const result = await res.json();
+        if (result.success && Array.isArray(result.data)) {
+          setLeadEmails(result.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch lead emails:", error);
+      }
+    };
+    fetchLeadEmails();
+  }, [user]);
+
+  const handleContactSelect = async (selectedEmail: string) => {
+    setEmail(selectedEmail);
+    setEmailComboboxOpen(false);
+
+    if (!user) return;
+    try {
+      const res = await fetch(`/api/leads/by-email?email=${encodeURIComponent(selectedEmail)}`, {
+        headers: { 'x-user': JSON.stringify(user) }
+      });
+      const result = await res.json();
+      if (result.success && result.data) {
+        const leadDetails = result.data;
+        setName(leadDetails.inviteeName || '');
+        setPhone(leadDetails.inviteeMobileNumber || '');
+        setCurrentAddress(leadDetails.siteLocationAddress || `Pincode: ${leadDetails.siteLocationPinCode || 'N/A'}`);
+        setSiteLocation(leadDetails.siteLocationAddress || '');
+      } else {
+         toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.message || 'Could not fetch lead details.'
+        });
+      }
+    } catch (error) {
+      console.error("Failed to fetch lead details:", error);
+      toast({
+          variant: "destructive",
+          title: "Error",
+          description: 'An unexpected error occurred while fetching lead details.'
+        });
+    }
+  };
+
 
   const architects = useMemo(
     () => allUsers.filter((u) => u.team === "Architect"),
@@ -272,17 +292,6 @@ const CreateProjectForm = ({
     () => allUsers.filter((u) => u.team === "Site Supervisor"),
     [allUsers],
   );
-
-  const handleContactSelect = (contactId: string) => {
-    const contact = allContacts.find((c) => c.leadId === contactId);
-    if (contact) {
-      setEmail(contact.email);
-      setName(contact.fullName);
-      setPhone(contact.phone);
-      setCurrentAddress(contact.address);
-    }
-    setEmailComboboxOpen(false);
-  };
 
   const handleTextOnlyChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -376,32 +385,27 @@ const CreateProjectForm = ({
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <Command>
-                        <CommandInput placeholder="Search by email or name..." />
+                        <CommandInput placeholder="Search by email..." />
                         <CommandList>
                           <CommandEmpty>No results found.</CommandEmpty>
                           <CommandGroup>
-                            {allContacts.map((contact) => (
+                            {leadEmails.map((leadEmail) => (
                               <CommandItem
-                                key={contact.leadId}
-                                value={`${contact.fullName.toLowerCase()} ${contact.email.toLowerCase()}`}
-                                onSelect={() => handleContactSelect(contact.leadId)}
+                                key={leadEmail}
+                                value={leadEmail}
+                                onSelect={() => handleContactSelect(leadEmail)}
                               >
                                 <Check
                                   className={cn(
                                     "mr-2 h-4 w-4",
-                                    email === contact.email
+                                    email === leadEmail
                                       ? "opacity-100"
                                       : "opacity-0",
                                   )}
                                 />
-                                <div className="flex flex-col">
-                                  <span className="font-medium">
-                                    {contact.fullName}
-                                  </span>
-                                  <span className="text-xs text-muted-foreground">
-                                    {contact.email}
-                                  </span>
-                                </div>
+                                <span className="font-medium">
+                                  {leadEmail}
+                                </span>
                               </CommandItem>
                             ))}
                           </CommandGroup>
