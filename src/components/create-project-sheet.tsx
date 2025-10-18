@@ -238,9 +238,13 @@ const CreateProjectForm = ({
       if (!user) return;
       setLeadEmailError(null);
       try {
-        const res = await fetch('/api/leads/emails', {
+        const res = await fetch('https://astracore-backend.onrender.com/api/v1/org/leads-email', {
           method: 'POST',
-          headers: { 'x-user': JSON.stringify(user) }
+          headers: { 
+            'Content-Type': 'application/json',
+            'x-user': JSON.stringify(user) 
+          },
+          body: JSON.stringify({ fields: ["inviteeEmail"] })
         });
         const result = await res.json();
         if (result.success && Array.isArray(result.data)) {
@@ -263,12 +267,12 @@ const CreateProjectForm = ({
 
     if (!user) return;
     try {
-      const res = await fetch(`/api/leads/by-email?email=${encodeURIComponent(selectedEmail)}`, {
+      const res = await fetch(`https://astracore-backend.onrender.com/api/v1/org/lead-by-email?email=${encodeURIComponent(selectedEmail)}`, {
         headers: { 'x-user': JSON.stringify(user) }
       });
       const result = await res.json();
-      if (result.success && result.data) {
-        const leadDetails = result.data;
+      if (result.success && result.lead) {
+        const leadDetails = result.lead;
         setName(leadDetails.inviteeName || '');
         setPhone(leadDetails.inviteeMobileNumber || '');
         setCurrentAddress(leadDetails.siteLocationAddress || `Pincode: ${leadDetails.siteLocationPinCode || 'N/A'}`);
