@@ -239,12 +239,10 @@ const CreateProjectForm = ({
       setLeadEmailError(null);
       try {
         const res = await fetch(`/api/leads/emails`, {
-          method: 'POST',
+          method: 'GET',
           headers: { 
-            'Content-Type': 'application/json',
             'x-user': JSON.stringify(user) 
           },
-          body: JSON.stringify({ fields: ["inviteeEmail"] })
         });
         const result = await res.json();
         if (result.success && Array.isArray(result.data)) {

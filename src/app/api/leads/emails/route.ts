@@ -26,12 +26,11 @@ function getAuthHeaders(req: Request): Record<string, string> {
   }
 }
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   try {
     const res = await fetch(`${API_BASE_URL}/org/leads-email`, {
-      method: 'POST',
+      method: 'GET',
       headers: getAuthHeaders(req),
-      body: JSON.stringify({ fields: ["inviteeEmail"] }),
     });
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
