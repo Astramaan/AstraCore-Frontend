@@ -235,7 +235,6 @@ const AddMemberForm = ({
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
-                      <CommandInput placeholder="Search team..." />
                       <CommandList>
                         <CommandEmpty>No team found.</CommandEmpty>
                         <CommandGroup>
@@ -299,6 +298,7 @@ const AddMemberForm = ({
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
+                      <CommandInput placeholder="Search role..." />
                       <CommandList>
                         <CommandGroup>
                           {roles.map((r) => (
@@ -371,7 +371,7 @@ export function AddMemberSheet({
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
         {!controlledIsOpen && (
           <SheetTrigger asChild>
-            <Button className="md:h-14 md:px-12 rounded-full bg-primary/10 text-primary dark:text-primary border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-4 md:p-2.5">
+            <Button className="md:h-14 md:px-12 rounded-full bg-primary/10 text-primary dark:text-primary dark:bg-primary/10 border border-primary hover:bg-primary/20 md:text-lg font-medium h-[54px] w-[54px] md:w-auto p-4 md:p-2.5">
               <UserPlusIcon className="md:mr-2 h-6 w-6" />
               <span className="hidden md:inline">Add New Member</span>
             </Button>
