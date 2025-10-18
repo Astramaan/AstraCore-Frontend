@@ -187,7 +187,6 @@ const LeadCard = ({
                   <AlertDialogTrigger asChild>
                     <DropdownMenuItem
                       className="text-red-600"
-                      onSelect={(e) => e.preventDefault()}
                     >
                       Delete
                     </DropdownMenuItem>
@@ -270,9 +269,6 @@ const LeadCard = ({
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem
                   className="text-red-600"
-                  onSelect={(e) => {
-                    e.preventDefault();
-                  }}
                 >
                   Delete
                 </DropdownMenuItem>
