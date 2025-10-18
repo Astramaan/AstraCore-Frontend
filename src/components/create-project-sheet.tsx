@@ -363,7 +363,7 @@ const CreateProjectForm = ({
                         className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
                       >
                         <span className="truncate">
-                          {email || "Select client or lead..."}
+                          {email || "select the lead email"}
                         </span>
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
