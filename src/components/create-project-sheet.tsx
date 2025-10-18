@@ -239,11 +239,13 @@ const CreateProjectForm = ({
       setLeadEmailError(null);
       try {
         const res = await fetch('/api/leads/emails', {
+          method: 'POST',
           headers: { 'x-user': JSON.stringify(user) }
         });
         const result = await res.json();
         if (result.success && Array.isArray(result.data)) {
-          setLeadEmails(result.data);
+           const emails = result.data.map((item: any) => item.inviteeEmail);
+          setLeadEmails(emails);
         } else {
           setLeadEmailError(result.message || "Failed to load lead emails.");
         }
