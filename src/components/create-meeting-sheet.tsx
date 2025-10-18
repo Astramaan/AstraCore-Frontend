@@ -811,7 +811,10 @@ export function CreateMeetingSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (target.closest("[data-radix-popper-content-wrapper]")) {
+            if (
+              target.closest("[data-radix-popper-content-wrapper]") ||
+              target.closest("[role='dialog']")
+            ) {
               e.preventDefault();
             }
           }}
