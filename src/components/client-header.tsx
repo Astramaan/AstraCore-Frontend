@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { NotificationPopover } from "./notification-popover";
+import { ClientOnly } from "./client-only";
 
 export const ClientHeader = () => {
   const pathname = usePathname();
@@ -74,7 +75,9 @@ export const ClientHeader = () => {
       </div>
 
       <div className="flex items-center gap-4 ml-auto">
-        <NotificationPopover userType="client" />
+        <ClientOnly>
+          <NotificationPopover userType="client" />
+        </ClientOnly>
         <Link
           href={`/organization/${user?.organizationId}/client/${user?.userId}/profile`}
           className="hidden md:flex items-center gap-2"
