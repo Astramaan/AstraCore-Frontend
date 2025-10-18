@@ -238,7 +238,7 @@ const CreateProjectForm = ({
       if (!user) return;
       setLeadEmailError(null);
       try {
-        const res = await fetch('https://astracore-backend.onrender.com/api/v1/org/leads-email', {
+        const res = await fetch(`/api/leads/emails`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -267,12 +267,12 @@ const CreateProjectForm = ({
 
     if (!user) return;
     try {
-      const res = await fetch(`https://astracore-backend.onrender.com/api/v1/org/lead-by-email?email=${encodeURIComponent(selectedEmail)}`, {
+      const res = await fetch(`/api/leads/by-email?email=${encodeURIComponent(selectedEmail)}`, {
         headers: { 'x-user': JSON.stringify(user) }
       });
       const result = await res.json();
-      if (result.success && result.lead) {
-        const leadDetails = result.lead;
+      if (result.success && result.data) {
+        const leadDetails = result.data;
         setName(leadDetails.inviteeName || '');
         setPhone(leadDetails.inviteeMobileNumber || '');
         setCurrentAddress(leadDetails.siteLocationAddress || `Pincode: ${leadDetails.siteLocationPinCode || 'N/A'}`);
