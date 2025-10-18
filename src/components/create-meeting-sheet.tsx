@@ -409,7 +409,8 @@ const CreateMeetingForm = ({
                 </Button>
               </PopoverTrigger>
               <PopoverContent
-                className="w-[--radix-popover-trigger-width] p-0"
+                className="w-[--radix-popover-trigger-width] p-0 z-[10000]"
+                portal={false}
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
                 <Command>
@@ -466,6 +467,7 @@ const CreateMeetingForm = ({
               <PopoverContent
                 className="w-auto p-0"
                 onOpenAutoFocus={(e) => e.preventDefault()}
+                portal={false}
               >
                 <Calendar
                   mode="single"
@@ -504,6 +506,7 @@ const CreateMeetingForm = ({
               </PopoverTrigger>
               <PopoverContent
                 className="w-[--radix-popover-trigger-width] p-0"
+                portal={false}
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
                 <Command>
@@ -562,6 +565,7 @@ const CreateMeetingForm = ({
               </PopoverTrigger>
               <PopoverContent
                 className="w-[--radix-popover-trigger-width] p-0"
+                portal={false}
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
                 <Command>
@@ -644,6 +648,7 @@ const CreateMeetingForm = ({
                   </PopoverTrigger>
                   <PopoverContent
                     className="w-[--radix-popover-trigger-width] p-0"
+                    portal={false}
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
