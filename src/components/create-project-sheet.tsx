@@ -157,6 +157,7 @@ const CreateProjectForm = ({
   const { toast } = useToast();
   const [leadEmails, setLeadEmails] = useState<string[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>(mockUsers);
+  const [leadEmailError, setLeadEmailError] = useState<string | null>(null);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
   const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] =
     useState(false);
@@ -235,6 +236,7 @@ const CreateProjectForm = ({
   useEffect(() => {
     const fetchLeadEmails = async () => {
       if (!user) return;
+      setLeadEmailError(null);
       try {
         const res = await fetch('/api/leads/emails', {
           headers: { 'x-user': JSON.stringify(user) }
@@ -242,9 +244,12 @@ const CreateProjectForm = ({
         const result = await res.json();
         if (result.success && Array.isArray(result.data)) {
           setLeadEmails(result.data);
+        } else {
+          setLeadEmailError(result.message || "Failed to load lead emails.");
         }
       } catch (error) {
         console.error("Failed to fetch lead emails:", error);
+        setLeadEmailError("An unexpected error occurred while fetching emails.");
       }
     };
     fetchLeadEmails();
@@ -387,7 +392,13 @@ const CreateProjectForm = ({
                       <Command>
                         <CommandInput placeholder="Search by email..." />
                         <CommandList>
-                          <CommandEmpty>No results found.</CommandEmpty>
+                          <CommandEmpty>
+                            {leadEmailError ? (
+                              <span className="text-destructive">{leadEmailError}</span>
+                            ) : (
+                              "No results found."
+                            )}
+                          </CommandEmpty>
                           <CommandGroup>
                             {leadEmails.map((leadEmail) => (
                               <CommandItem
@@ -1719,5 +1730,3 @@ export function CreateProjectSheet({
     </>
   );
 }
-
-    
