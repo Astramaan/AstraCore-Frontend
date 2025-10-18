@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useTransition, useRef } from "react";
 import {
   Sheet,
   SheetContent,
@@ -13,20 +13,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
+import { X, Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { ScrollArea } from "./ui/scroll-area";
 import UserPlusIcon from "./icons/user-plus-icon";
 import { SuccessPopup } from "./success-popup";
 import { useUser } from "@/context/user-context";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 
 const FloatingLabelInput = ({
   id,
@@ -77,6 +83,8 @@ const AddMemberForm = ({
   const [role, setRole] = useState(() => (isTeamAdmin ? "member" : ""));
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [teamComboboxOpen, setTeamComboboxOpen] = useState(false);
+  const [roleComboboxOpen, setRoleComboboxOpen] = useState(false);
 
   const teams = [
     "Sales",
@@ -206,26 +214,54 @@ const AddMemberForm = ({
                 >
                   Team
                 </Label>
-                <Select
-                  value={team}
-                  onValueChange={(value) =>
-                    setTeam(value)
-                  }
+                <Popover
+                  open={teamComboboxOpen}
+                  onOpenChange={setTeamComboboxOpen}
+                  modal={true}
                 >
-                  <SelectTrigger
-                    id="team-select"
-                    className="w-full h-14 bg-input rounded-full px-6 text-lg"
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={teamComboboxOpen}
+                      className="w-full justify-between h-14 bg-input rounded-full px-6 text-lg font-normal"
+                    >
+                      {team || "Select a team"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
                   >
-                    <SelectValue placeholder="Select a team" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[10000]">
-                    {teams.map((t) => (
-                      <SelectItem key={t} value={t}>
-                        {t}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <Command>
+                      <CommandInput placeholder="Search team..." />
+                      <CommandList>
+                        <CommandEmpty>No team found.</CommandEmpty>
+                        <CommandGroup>
+                          {teams.map((t) => (
+                            <CommandItem
+                              key={t}
+                              value={t}
+                              onSelect={() => {
+                                setTeam(t);
+                                setTeamComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  team === t ? "opacity-100" : "opacity-0",
+                                )}
+                              />
+                              {t}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="space-y-2">
@@ -238,21 +274,58 @@ const AddMemberForm = ({
                 >
                   Role Type
                 </Label>
-                <Select value={role} onValueChange={setRole}>
-                  <SelectTrigger
-                    id="role-select"
-                    className="w-full h-14 bg-input rounded-full px-6 text-lg"
+                <Popover
+                  open={roleComboboxOpen}
+                  onOpenChange={setRoleComboboxOpen}
+                  modal={true}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={roleComboboxOpen}
+                      className="w-full justify-between h-14 bg-input rounded-full px-6 text-lg font-normal"
+                    >
+                      {role
+                        ? roles.find(
+                            (r) => r.toLowerCase() === role.toLowerCase(),
+                          )
+                        : "Select a role"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-[--radix-popover-trigger-width] p-0"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
                   >
-                    <SelectValue placeholder="Select a role" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[10000]">
-                    {roles.map((r) => (
-                      <SelectItem key={r} value={r.toLowerCase()}>
-                        {r}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                    <Command>
+                      <CommandList>
+                        <CommandGroup>
+                          {roles.map((r) => (
+                            <CommandItem
+                              key={r}
+                              value={r}
+                              onSelect={() => {
+                                setRole(r.toLowerCase());
+                                setRoleComboboxOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  role === r.toLowerCase()
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {r}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
             </>
           )}
