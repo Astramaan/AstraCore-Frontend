@@ -307,7 +307,7 @@ export function AddMemberSheet({
         <SheetContent
           side="bottom"
           className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
-           onInteractOutside={(e) => {
+          onInteractOutside={(e) => {
             if (
               (e.target as HTMLElement).closest(
                 "[data-radix-popper-content-wrapper]",
