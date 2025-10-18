@@ -34,7 +34,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose,
 } from "./ui/dialog";
 import { cn } from "@/lib/utils";
@@ -1408,152 +1407,152 @@ const CustomTimelineDialog = ({
           </DialogTitle>
         </DialogHeader>
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="p-6 space-y-4">
-            <Input
-              placeholder="Template Name"
-              value={templateName}
-              onChange={(e) => setTemplateName(e.target.value)}
-              className="h-14 rounded-full bg-background dark:bg-input text-lg"
-            />
-            <div className="text-xs text-muted-foreground p-4 bg-background dark:bg-input rounded-lg space-y-1">
-              <p>
-                <strong>Phase:</strong> A major section of the project (e.g.,
-                Design, Construction).
-              </p>
-              <p>
-                <strong>Stage:</strong> A sub-section within a phase (e.g.,
-                Foundation, Framing).
-              </p>
-              <p>
-                <strong>Task:</strong> An individual action item within a stage
-                (e.g., Pour concrete, Install windows).
-              </p>
-            </div>
-          </div>
-          <ScrollArea className="flex-1 px-6">
-            <div className="space-y-4">
-              {phases.map((phase, phaseIndex) => (
-                <Card
-                  key={phaseIndex}
-                  className="p-4 border rounded-[30px] space-y-4 bg-background dark:bg-input"
-                >
-                  <CardContent className="p-0 space-y-4">
-                    <div className="flex items-center gap-2">
-                      <GanttChartSquare className="h-5 w-5 text-muted-foreground cursor-grab" />
-                      <Input
-                        value={phase.name}
-                        onChange={(e) =>
-                          handleInputChange(e.target.value, "phase", {
-                            phase: phaseIndex,
-                          })
-                        }
-                        className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
-                      />
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => removePhase(phaseIndex)}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                    </div>
-                    <div className="pl-6 space-y-4">
-                      {phase.stages.map((stage, stageIndex) => (
-                        <Card
-                          key={stageIndex}
-                          className="p-4 rounded-2xl border bg-card"
+          <ScrollArea className="flex-1">
+            <div className="p-6 space-y-4">
+              <Input
+                placeholder="Template Name"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+                className="h-14 rounded-full bg-background dark:bg-input text-lg"
+              />
+              <div className="text-xs text-muted-foreground p-4 bg-background dark:bg-input rounded-lg space-y-1">
+                <p>
+                  <strong>Phase:</strong> A major section of the project (e.g.,
+                  Design, Construction).
+                </p>
+                <p>
+                  <strong>Stage:</strong> A sub-section within a phase (e.g.,
+                  Foundation, Framing).
+                </p>
+                <p>
+                  <strong>Task:</strong> An individual action item within a stage
+                  (e.g., Pour concrete, Install windows).
+                </p>
+              </div>
+              <div className="space-y-4">
+                {phases.map((phase, phaseIndex) => (
+                  <Card
+                    key={phaseIndex}
+                    className="p-4 border rounded-[30px] space-y-4 bg-background dark:bg-input"
+                  >
+                    <CardContent className="p-0 space-y-4">
+                      <div className="flex items-center gap-2">
+                        <GanttChartSquare className="h-5 w-5 text-muted-foreground cursor-grab" />
+                        <Input
+                          value={phase.name}
+                          onChange={(e) =>
+                            handleInputChange(e.target.value, "phase", {
+                              phase: phaseIndex,
+                            })
+                          }
+                          className="text-xl font-semibold bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
+                        />
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => removePhase(phaseIndex)}
                         >
-                          <CardContent className="p-0 space-y-4">
-                            <div className="flex items-center gap-2">
-                              <GanttChartSquare className="h-5 w-5 text-muted-foreground cursor-grab" />
-                              <Input
-                                value={stage.name}
-                                onChange={(e) =>
-                                  handleInputChange(e.target.value, "stage", {
-                                    phase: phaseIndex,
-                                    stage: stageIndex,
-                                  })
-                                }
-                                className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
-                              />
-                              <Button
-                                size="icon"
-                                variant="ghost"
-                                onClick={() =>
-                                  removeStage(phaseIndex, stageIndex)
-                                }
-                              >
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                              </Button>
-                            </div>
-                            <div className="pl-6 space-y-4">
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {stage.tasks.map((task, taskIndex) => (
-                                  <div
-                                    key={taskIndex}
-                                    className="grid grid-cols-[1fr_auto] items-center gap-2"
-                                  >
-                                    <Input
-                                      placeholder="Task Name"
-                                      value={task.name}
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          e.target.value,
-                                          "task",
-                                          {
-                                            phase: phaseIndex,
-                                            stage: stageIndex,
-                                            task: taskIndex,
-                                          },
-                                        )
-                                      }
-                                      className="h-12 bg-background dark:bg-input rounded-full px-5"
-                                    />
-                                    <Button
-                                      size="icon"
-                                      variant="ghost"
-                                      onClick={() =>
-                                        removeTask(
-                                          phaseIndex,
-                                          stageIndex,
-                                          taskIndex,
-                                        )
-                                      }
-                                    >
-                                      <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
-                                  </div>
-                                ))}
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </div>
+                      <div className="pl-6 space-y-4">
+                        {phase.stages.map((stage, stageIndex) => (
+                          <Card
+                            key={stageIndex}
+                            className="p-4 rounded-2xl border bg-card"
+                          >
+                            <CardContent className="p-0 space-y-4">
+                              <div className="flex items-center gap-2">
+                                <GanttChartSquare className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                <Input
+                                  value={stage.name}
+                                  onChange={(e) =>
+                                    handleInputChange(e.target.value, "stage", {
+                                      phase: phaseIndex,
+                                      stage: stageIndex,
+                                    })
+                                  }
+                                  className="font-medium text-lg bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
+                                />
+                                <Button
+                                  size="icon"
+                                  variant="ghost"
+                                  onClick={() =>
+                                    removeStage(phaseIndex, stageIndex)
+                                  }
+                                >
+                                  <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
                               </div>
-                              <Button
-                                variant="outline"
-                                className="rounded-full"
-                                onClick={() => addTask(phaseIndex, stageIndex)}
-                              >
-                                <Plus className="mr-2 h-4 w-4" /> Add Task
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                      <Button
-                        variant="outline"
-                        className="rounded-full"
-                        onClick={() => addStage(phaseIndex)}
-                      >
-                        <Plus className="mr-2 h-4 w-4" /> Add Stage
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-              <Button
-                variant="outline"
-                onClick={addPhase}
-                className="w-full mt-4 h-14 rounded-full text-lg"
-              >
-                <Plus className="mr-2 h-4 w-4" /> Add Phase
-              </Button>
+                              <div className="pl-6 space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  {stage.tasks.map((task, taskIndex) => (
+                                    <div
+                                      key={taskIndex}
+                                      className="grid grid-cols-[1fr_auto] items-center gap-2"
+                                    >
+                                      <Input
+                                        placeholder="Task Name"
+                                        value={task.name}
+                                        onChange={(e) =>
+                                          handleInputChange(
+                                            e.target.value,
+                                            "task",
+                                            {
+                                              phase: phaseIndex,
+                                              stage: stageIndex,
+                                              task: taskIndex,
+                                            },
+                                          )
+                                        }
+                                        className="h-12 bg-background dark:bg-input rounded-full px-5"
+                                      />
+                                      <Button
+                                        size="icon"
+                                        variant="ghost"
+                                        onClick={() =>
+                                          removeTask(
+                                            phaseIndex,
+                                            stageIndex,
+                                            taskIndex,
+                                          )
+                                        }
+                                      >
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                      </Button>
+                                    </div>
+                                  ))}
+                                </div>
+                                <Button
+                                  variant="outline"
+                                  className="rounded-full"
+                                  onClick={() => addTask(phaseIndex, stageIndex)}
+                                >
+                                  <Plus className="mr-2 h-4 w-4" /> Add Task
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                        <Button
+                          variant="outline"
+                          className="rounded-full"
+                          onClick={() => addStage(phaseIndex)}
+                        >
+                          <Plus className="mr-2 h-4 w-4" /> Add Stage
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+                <Button
+                  variant="outline"
+                  onClick={addPhase}
+                  className="w-full mt-4 h-14 rounded-full text-lg"
+                >
+                  <Plus className="mr-2 h-4 w-4" /> Add Phase
+                </Button>
+              </div>
             </div>
           </ScrollArea>
           <div className="px-6 py-4 border-t flex flex-col gap-4 shrink-0 bg-card rounded-b-[20px] mt-auto">
@@ -1716,3 +1715,5 @@ export function CreateProjectSheet({
     </>
   );
 }
+
+    
