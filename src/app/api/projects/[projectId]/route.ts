@@ -34,7 +34,7 @@ export async function GET(
 ) {
   try {
     const res = await fetch(
-      `${API_BASE_URL}/org/project/${params.projectId}`,
+      `${API_BASE_URL}/org/projects/${params.projectId}`,
       {
         headers: getAuthHeaders(req),
       },
@@ -102,3 +102,4 @@ export async function DELETE(
     );
   }
 }
+
