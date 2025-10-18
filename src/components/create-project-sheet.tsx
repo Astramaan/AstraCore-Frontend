@@ -370,6 +370,7 @@ const CreateProjectForm = ({
                     </PopoverTrigger>
                     <PopoverContent
                       className="w-[--radix-popover-trigger-width] p-0"
+                      portal={false}
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <Command>
@@ -476,6 +477,7 @@ const CreateProjectForm = ({
                     </PopoverTrigger>
                     <PopoverContent
                       className="w-[--radix-popover-trigger-width] p-0"
+                      portal={false}
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <Command>
@@ -552,6 +554,7 @@ const CreateProjectForm = ({
                   </PopoverTrigger>
                   <PopoverContent
                     className="w-[--radix-popover-trigger-width] p-0"
+                    portal={false}
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
@@ -637,6 +640,7 @@ const CreateProjectForm = ({
                   </PopoverTrigger>
                   <PopoverContent
                     className="w-[--radix-popover-trigger-width] p-0"
+                    portal={false}
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
@@ -705,6 +709,7 @@ const CreateProjectForm = ({
                   </PopoverTrigger>
                   <PopoverContent
                     className="w-[--radix-popover-trigger-width] p-0"
+                    portal={false}
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
@@ -1046,6 +1051,7 @@ const ProjectTimelineForm = ({
                     </PopoverTrigger>
                     <PopoverContent
                       className="w-auto p-0"
+                      portal={false}
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <Calendar
@@ -1073,6 +1079,7 @@ const ProjectTimelineForm = ({
                   </PopoverTrigger>
                   <PopoverContent
                     className="w-[--radix-popover-trigger-width] p-0"
+                    portal={false}
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <Command>
@@ -1628,7 +1635,10 @@ export function CreateProjectSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (target.closest("[data-radix-popper-content-wrapper]")) {
+            if (
+              target.closest("[data-radix-popper-content-wrapper]") ||
+              target.closest("[role='dialog']")
+            ) {
               e.preventDefault();
             }
           }}
