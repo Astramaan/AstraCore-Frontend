@@ -1021,6 +1021,14 @@ const ProjectTimelineForm = ({
     });
   };
 
+  const handleSaveCustomTemplate = (template: TimelineTemplate) => {
+    setTemplates(prev => [...prev, template]);
+    toast({
+        title: "Template Saved",
+        description: `"${template.name}" has been saved and is available in the templates dropdown.`,
+    });
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col h-full">
@@ -1226,7 +1234,7 @@ const ProjectTimelineForm = ({
       <CustomTimelineDialog
         isOpen={isCustomTimelineDialogOpen}
         onClose={() => setIsCustomTimelineDialogOpen(false)}
-        onSave={(template) => console.log("save template", template)}
+        onSave={handleSaveCustomTemplate}
         templateToEdit={null}
       />
     </>
@@ -1274,7 +1282,21 @@ const CustomTimelineDialog = ({
   }, [templateToEdit, isOpen]);
 
   const handleSave = () => {
-    toast({ title: "Custom timelines not yet implemented" });
+    if (!templateName.trim()) {
+        toast({
+            variant: 'destructive',
+            title: 'Template name required',
+            description: 'Please provide a name for your custom timeline template.'
+        });
+        return;
+    }
+    const newTemplate: TimelineTemplate = {
+        id: `custom-${Date.now()}`,
+        name: templateName,
+        phases,
+        isCustom: true,
+    };
+    onSave(newTemplate);
     onClose();
   };
 
