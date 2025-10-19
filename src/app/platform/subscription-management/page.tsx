@@ -65,8 +65,8 @@ const plans = {
         "Shram",
         "Curing system",
       ],
-      iconBg: "bg-indigo-100 dark:bg-indigo-900/50",
-      iconColor: "text-indigo-700 dark:text-indigo-300",
+      iconBg: "bg-red-100 dark:bg-red-900/50",
+      iconColor: "text-red-700 dark:text-red-300",
       Icon: Users,
     },
   ],
@@ -107,8 +107,8 @@ const plans = {
         "Shram",
         "Curing system",
       ],
-      iconBg: "bg-indigo-100 dark:bg-indigo-900/50",
-      iconColor: "text-indigo-700 dark:text-indigo-300",
+      iconBg: "bg-red-100 dark:bg-red-900/50",
+      iconColor: "text-red-700 dark:text-red-300",
       Icon: Users,
     },
   ],
@@ -323,7 +323,7 @@ export default function SubscriptionManagementPage() {
               />
             </CardContent>
           </Card>
-          <Card className="rounded-[50px] p-8">
+          <Card className="rounded-[50px] p-8 flex flex-col">
             <CardHeader className="p-0 mb-4">
               <div className="flex items-center gap-2">
                 <div className="p-3.5 rounded-full border">
@@ -334,7 +334,7 @@ export default function SubscriptionManagementPage() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent className="p-0 flex-1 flex flex-col justify-between">
               <p className="text-base text-muted-foreground">
                 Current Active Discounts: 03
               </p>
