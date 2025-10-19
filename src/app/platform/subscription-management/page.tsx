@@ -65,8 +65,8 @@ const plans = {
         "Shram",
         "Curing system",
       ],
-      iconBg: "bg-red-100 dark:bg-red-900/50",
-      iconColor: "text-red-700 dark:text-red-300",
+      iconBg: "bg-indigo-100 dark:bg-indigo-900/50",
+      iconColor: "text-indigo-700 dark:text-indigo-300",
       Icon: Users,
     },
   ],
@@ -107,8 +107,8 @@ const plans = {
         "Shram",
         "Curing system",
       ],
-      iconBg: "bg-red-100 dark:bg-red-900/50",
-      iconColor: "text-red-700 dark:text-red-300",
+      iconBg: "bg-indigo-100 dark:bg-indigo-900/50",
+      iconColor: "text-indigo-700 dark:text-indigo-300",
       Icon: Users,
     },
   ],
@@ -352,4 +352,3 @@ export default function SubscriptionManagementPage() {
     </div>
   );
 }
-
