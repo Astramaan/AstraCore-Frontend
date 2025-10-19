@@ -334,10 +334,10 @@ export default function ProductAnalyticsPage() {
           <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
               <CardHeader>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col gap-4">
                   <CardTitle>Stage Completion Times</CardTitle>
                   <Select defaultValue="company-name">
-                    <SelectTrigger className="w-[180px] rounded-full">
+                    <SelectTrigger className="w-full rounded-full">
                       <SelectValue placeholder="Company Name" />
                     </SelectTrigger>
                     <SelectContent>
