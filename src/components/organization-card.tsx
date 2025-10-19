@@ -63,7 +63,7 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
                 </span>
             </p>
             <p className="text-base text-muted-foreground">
-                Validity: {organization.validity}
+              Validity: <span className="text-black dark:text-white">{organization.validity}</span>
             </p>
         </div>
       </div>
@@ -105,7 +105,7 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
             </span>
           </p>
           <p className="text-base md:text-lg text-muted-foreground">
-            Validity: {organization.validity}
+            Validity: <span className="text-black dark:text-white">{organization.validity}</span>
           </p>
         </div>
         <div className="justify-self-end">
