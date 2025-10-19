@@ -221,16 +221,16 @@ export default function ProductAnalyticsPage() {
                     retention={98}
                   />
                   <FeatureCard
-                    title="Create Project"
+                    title="Export Data"
                     subtitle="Top Least Used"
-                    usage={200}
-                    retention={98}
+                    usage={35}
+                    retention={85}
                   />
                   <FeatureCard
-                    title="Create Project"
+                    title="AI Chat"
                     subtitle="Recently Added"
-                    usage={200}
-                    retention={98}
+                    usage={120}
+                    retention={92}
                   />
                 </div>
 
