@@ -164,7 +164,7 @@ export default function OrganizationManagementPage() {
         </div>
       </header>
 
-      <main className="flex-grow space-y-6 mt-6 pb-28">
+      <main className="flex-grow space-y-6 mt-6">
         <div className="flex justify-between items-end">
             <h2 className="text-2xl font-semibold">Active Customers</h2>
             <div className="flex items-center gap-4">
