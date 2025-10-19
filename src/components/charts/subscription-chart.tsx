@@ -13,12 +13,12 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "Jan", Individual: 120, Studio: 90, Enterprises: 150 },
-  { name: "Feb", Individual: 150, Studio: 110, Enterprises: 130 },
-  { name: "Mar", Individual: 130, Studio: 140, Enterprises: 160 },
-  { name: "Apr", Individual: 180, Studio: 130, Enterprises: 140 },
-  { name: "May", Individual: 160, Studio: 190, Enterprises: 120 },
-  { name: "Jun", Individual: 200, Studio: 150, Enterprises: 170 },
+  { name: "Jan", "Top Used": 120, "Least Used": 90, "Recently Added": 150 },
+  { name: "Feb", "Top Used": 150, "Least Used": 110, "Recently Added": 130 },
+  { name: "Mar", "Top Used": 130, "Least Used": 140, "Recently Added": 160 },
+  { name: "Apr", "Top Used": 180, "Least Used": 130, "Recently Added": 140 },
+  { name: "May", "Top Used": 160, "Least Used": 190, "Recently Added": 120 },
+  { name: "Jun", "Top Used": 200, "Least Used": 150, "Recently Added": 170 },
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -78,21 +78,21 @@ export function SubscriptionChart() {
         />
         <Line
           type="monotone"
-          dataKey="Individual"
+          dataKey="Top Used"
           stroke="hsl(var(--chart-1))"
           strokeWidth={2}
           dot={false}
         />
         <Line
           type="monotone"
-          dataKey="Studio"
+          dataKey="Least Used"
           stroke="hsl(var(--chart-2))"
           strokeWidth={2}
           dot={false}
         />
         <Line
           type="monotone"
-          dataKey="Enterprises"
+          dataKey="Recently Added"
           stroke="hsl(var(--chart-3))"
           strokeWidth={2}
           dot={false}
