@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Bell,
   Calendar as CalendarIcon,
@@ -57,6 +57,20 @@ const materials = [
   { material: "Steel", company: "Tata", price: "₹xxx" },
 ];
 
+const mockProjects = [
+  { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-05" },
+  { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-06" },
+  { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-07" },
+  { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-08" },
+  { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-09" },
+  { city: "Bengaluru", area: "Marathahalli", createdAt: "2024-06-10" },
+  { city: "Mumbai", area: "Andheri", createdAt: "2024-06-15" },
+  { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-20" },
+  { city: "Bengaluru", area: "Marathahalli", createdAt: "2024-06-21" },
+  { city: "Mumbai", area: "Andheri", createdAt: "2024-06-25" },
+  { city: "Mumbai", area: "Bandra", createdAt: "2024-06-28" },
+];
+
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("7D");
@@ -66,6 +80,79 @@ export default function ProductAnalyticsPage() {
     .split(" ")
     .map((n) => n[0])
     .join("");
+  const [selectedArea, setSelectedArea] = useState("all");
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 5, 1)); // June 2024
+
+  const getDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month + 1, 0).getDate();
+  };
+  const getFirstDayOfMonth = (year: number, month: number) => {
+    return new Date(year, month, 1).getDay();
+  };
+
+  const daysInMonth = getDaysInMonth(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+  );
+  const firstDay = getFirstDayOfMonth(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+  );
+
+  const projectsByDate = useMemo(() => {
+    return mockProjects.reduce(
+      (acc, project) => {
+        if (
+          selectedArea === "all" ||
+          `${project.area}, ${project.city}` === selectedArea
+        ) {
+          const date = project.createdAt;
+          if (!acc[date]) {
+            acc[date] = 0;
+          }
+          acc[date]++;
+        }
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+  }, [selectedArea]);
+
+  const calendarDays = Array.from({ length: firstDay }, (_, i) => (
+    <div key={`empty-${i}`} className="h-16 p-1 text-xs" />
+  ));
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+    const projectCount = projectsByDate[dateStr] || 0;
+    const isWeekend =
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getDay() %
+        6 ===
+      0;
+    calendarDays.push(
+      <div
+        key={day}
+        className={cn(
+          "h-16 p-1 text-xs border-r border-b",
+          (firstDay + day - 1) % 7 === 6 && "border-r-0",
+          day > daysInMonth - 7 && "border-b-0",
+          projectCount > 0 && "bg-green-200",
+          projectCount > 2 && "bg-green-500",
+          day > 0 && day <= 31 ? "text-black" : "text-gray-400",
+          isWeekend && day > 0 && day <= 31 && "text-red-500",
+        )}
+      >
+        {day > 0 && day <= 31 ? day : ""}
+      </div>,
+    );
+  }
+
+  const uniqueAreas = useMemo(() => {
+    const areas = new Set(
+      mockProjects.map((p) => `${p.area}, ${p.city}`),
+    );
+    return Array.from(areas);
+  }, []);
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
@@ -138,7 +225,7 @@ export default function ProductAnalyticsPage() {
             </div>
             <div className="space-y-2">
               <Label>Select Month</Label>
-              <Select defaultValue="april-2025">
+              <Select defaultValue="june-2024">
                 <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
                   <div className="flex items-center">
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -146,8 +233,8 @@ export default function ProductAnalyticsPage() {
                   </div>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="april-2025">April 2025</SelectItem>
-                  <SelectItem value="may-2025">May 2025</SelectItem>
+                  <SelectItem value="june-2024">June 2024</SelectItem>
+                  <SelectItem value="may-2024">May 2024</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -231,8 +318,8 @@ export default function ProductAnalyticsPage() {
           </div>
 
           <div className="space-y-6 lg:w-[400px]">
-            <Card className="rounded-[50px]">
-              <CardHeader className="p-6">
+            <Card className="rounded-[50px] p-6">
+              <CardHeader className="p-0 mb-4">
                 <div className="flex flex-col items-start gap-4">
                   <div className="flex items-center gap-4">
                     <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
@@ -356,69 +443,37 @@ export default function ProductAnalyticsPage() {
                 <div>
                   <CardTitle>Construction Trends &amp; Seasonality</CardTitle>
                   <CardDescription className="flex items-center gap-1">
-                    Drop-off Rates <Info className="w-3 h-3" />
+                    Project creation heat map <Info className="w-3 h-3" />
                   </CardDescription>
                 </div>
               </div>
-              <Select>
+              <Select value={selectedArea} onValueChange={setSelectedArea}>
                 <SelectTrigger className="w-full md:w-[200px] rounded-full h-12">
                   <SelectValue placeholder="Select Area &amp; City" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="bengaluru">Bengaluru</SelectItem>
-                  <SelectItem value="mumbai">Mumbai</SelectItem>
+                  <SelectItem value="all">All Areas</SelectItem>
+                  {uniqueAreas.map(area => (
+                     <SelectItem key={area} value={area}>{area}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
+             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
               <div className="overflow-x-auto">
                 <div className="grid grid-cols-7 text-center text-xs font-bold text-white bg-primary rounded-t-xl">
-                  {[
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                  ].map((day) => (
-                    <div key={day} className="p-2">
-                      {day}
-                    </div>
-                  ))}
+                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                    (day) => (
+                      <div key={day} className="p-2">
+                        {day}
+                      </div>
+                    ),
+                  )}
                 </div>
                 <div className="grid grid-cols-7 border-l border-r border-b rounded-b-xl">
-                  {[...Array(5 * 7)].map((_, i) => {
-                    const day = i - 2; // Offset to start month correctly
-                    const isActive =
-                      (day >= 5 && day <= 9) ||
-                      (day >= 13 && day <= 16) ||
-                      (day >= 20 && day <= 23);
-                    const isLightActive =
-                      day === 10 || day === 17 || day === 29 || day === 30;
-                    const isWeekend = i % 7 === 0 || i % 7 === 6;
-
-                    return (
-                      <div
-                        key={i}
-                        className={cn(
-                          "h-16 p-1 text-xs border-r border-b",
-                          i % 7 === 6 && "border-r-0",
-                          i >= 28 && "border-b-0",
-                          isActive && "bg-green-500",
-                          isLightActive && "bg-green-200",
-                          day > 0 && day <= 31
-                            ? "text-black"
-                            : "text-gray-400",
-                          isWeekend && day > 0 && day <= 31 && "text-red-500",
-                        )}
-                      >
-                        {day > 0 && day <= 31 ? day : ""}
-                      </div>
-                    );
-                  })}
+                  {calendarDays}
                 </div>
               </div>
               <div className="flex flex-row lg:flex-row gap-4 justify-around">
@@ -470,5 +525,3 @@ export default function ProductAnalyticsPage() {
     </div>
   );
 }
-
-    
