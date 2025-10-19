@@ -235,7 +235,7 @@ export default function SubscriptionManagementPage() {
           </div>
         </div>
       </header>
-      <main className="flex-grow space-y-6 pb-32 mt-6">
+      <main className="flex-grow space-y-6 mt-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <h2 className="text-2xl font-semibold">Subscription Plans</h2>
           <div className="flex items-center gap-2 w-full md:w-auto">
@@ -262,6 +262,7 @@ export default function SubscriptionManagementPage() {
               </TabsList>
             </Tabs>
             <Button
+              variant="outline"
               className="h-14 px-6 rounded-full squircle text-lg bg-white text-black hover:bg-white/90"
             >
               Draft
