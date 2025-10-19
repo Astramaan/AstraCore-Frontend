@@ -10,9 +10,9 @@ import {
   Users,
   HandCoins,
   MessagesSquare,
+  PieChart,
 } from "lucide-react";
 import OrganizationIcon from "./icons/organization-icon";
-
 
 const navItems = [
   { href: "/platform/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -27,7 +27,7 @@ const navItems = [
     icon: OrganizationIcon,
     label: "Organization",
   },
-  { href: "/platform/all-projects", icon: MessagesSquare, label: "Tasks" },
+  { href: "/platform/product-analytics", icon: PieChart, label: "Analytics" },
 ];
 
 export const PlatformBottomNav = () => {
@@ -83,5 +83,3 @@ export const PlatformBottomNav = () => {
     </div>
   );
 };
-
-    
