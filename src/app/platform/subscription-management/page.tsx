@@ -127,7 +127,11 @@ const QuickLink = ({
   href: string;
 }) => (
   <Link href={href}>
-    <Card className={cn("rounded-[25px] hover:shadow-lg transition-shadow bg-card border-0")}>
+    <Card
+      className={cn(
+        "rounded-[25px] hover:shadow-lg transition-shadow bg-background border-0",
+      )}
+    >
       <CardContent className="p-4 flex items-center gap-2">
         <div className={cn("p-2.5 rounded-full", bgColor)}>
           {icon}
