@@ -47,38 +47,7 @@ import { SubscriptionChart } from "@/components/charts/subscription-chart";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-
-const FeatureCard = ({
-  title,
-  subtitle,
-  usage,
-  retention,
-}: {
-  title: string;
-  subtitle: string;
-  usage: number;
-  retention: number;
-}) => (
-  <Card className="border shadow-none bg-card p-4 rounded-2xl">
-    <CardHeader className="p-0">
-      <CardTitle className="text-base font-semibold">{title}</CardTitle>
-      <p className="text-xs text-muted-foreground">{subtitle}</p>
-    </CardHeader>
-    <CardContent className="p-0 mt-4 space-y-2">
-      <div className="flex items-center gap-1">
-        <span className="font-bold text-2xl">{usage}</span>
-        <ArrowUp className="h-4 w-4 text-green-500" />
-      </div>
-      <p className="text-xs text-muted-foreground">Feature Usage</p>
-
-      <div className="flex items-center gap-1">
-        <span className="font-bold text-2xl">{retention}%</span>
-        <ArrowUp className="h-4 w-4 text-green-500" />
-      </div>
-      <p className="text-xs text-muted-foreground">Retention Rate</p>
-    </CardContent>
-  </Card>
-);
+import { FeatureCard } from "@/components/feature-card";
 
 const CalendarCell = ({
   day,
@@ -219,7 +188,7 @@ export default function ProductAnalyticsPage() {
             <Card className="rounded-[50px]">
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle>Feature Usage & Retention</CardTitle>
+                  <CardTitle>Feature Usage &amp; Retention</CardTitle>
                   <Select defaultValue="all">
                     <SelectTrigger className="w-[120px] rounded-full">
                       <SelectValue placeholder="All" />
@@ -282,7 +251,7 @@ export default function ProductAnalyticsPage() {
 
             <Card className="rounded-[50px]">
               <CardHeader>
-                <CardTitle>Construction Trends & Seasonality</CardTitle>
+                <CardTitle>Construction Trends &amp; Seasonality</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6">
