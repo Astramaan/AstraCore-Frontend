@@ -126,7 +126,7 @@ const QuickLink = ({
   <Link href={href}>
     <Card
       className={cn(
-        "rounded-2xl hover:shadow-lg transition-shadow bg-background",
+        "rounded-[30px] squircle hover:shadow-lg transition-shadow bg-background border-none",
       )}
     >
       <CardContent className="p-4 flex items-center gap-2">
@@ -143,7 +143,7 @@ const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
   const { Icon, iconBg, iconColor } = plan;
   return (
     <div className="relative">
-      <Card className="rounded-[50px] overflow-hidden flex flex-col h-full">
+      <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full">
         <div className={cn("p-8 pb-12 text-center", iconBg)}>
           <div className="flex justify-center mb-4">
             <div
@@ -173,7 +173,7 @@ const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
           </ul>
           <Button
             variant="outline"
-            className="w-full h-14 rounded-full text-lg mt-auto"
+            className="w-full h-14 rounded-full squircle text-lg mt-auto"
           >
             Edit
           </Button>
@@ -236,11 +236,11 @@ export default function SubscriptionManagementPage() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <h2 className="text-2xl font-semibold">Subscription Plans</h2>
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <div className="p-1 bg-card rounded-full flex-1">
+            <div className="p-1 bg-card rounded-full squircle flex-1">
               <Button
                 onClick={() => setActiveTab("monthly")}
                 className={cn(
-                  "rounded-full w-full md:w-auto px-6 h-12 text-lg",
+                  "rounded-full squircle w-full md:w-auto px-6 h-12 text-lg",
                   activeTab === "monthly"
                     ? "bg-primary text-white"
                     : "bg-transparent text-foreground hover:bg-muted",
@@ -249,11 +249,11 @@ export default function SubscriptionManagementPage() {
                 Monthly
               </Button>
             </div>
-            <div className="p-1 bg-card rounded-full flex-1">
+            <div className="p-1 bg-card rounded-full squircle flex-1">
               <Button
                 onClick={() => setActiveTab("yearly")}
                 className={cn(
-                  "rounded-full w-full md:w-auto px-6 h-12 text-lg",
+                  "rounded-full squircle w-full md:w-auto px-6 h-12 text-lg",
                   activeTab === "yearly"
                     ? "bg-primary text-white"
                     : "bg-transparent text-foreground hover:bg-muted",
@@ -264,11 +264,11 @@ export default function SubscriptionManagementPage() {
             </div>
             <Button
               variant="outline"
-              className="h-14 px-6 rounded-full text-lg"
+              className="h-14 px-6 rounded-full squircle text-lg"
             >
               Draft
             </Button>
-            <Button className="h-14 px-6 rounded-full text-lg">
+            <Button className="h-14 px-6 rounded-full squircle text-lg">
               <Plus className="mr-2 h-5 w-5" />
               Create new plan
             </Button>
@@ -280,7 +280,7 @@ export default function SubscriptionManagementPage() {
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="rounded-[50px] lg:col-span-2">
+          <Card className="rounded-[50px] squircle lg:col-span-2">
             <CardHeader className="flex flex-row justify-between items-start">
               <div className="flex items-center gap-2">
                 <div className="p-3.5 rounded-full border">
@@ -317,7 +317,7 @@ export default function SubscriptionManagementPage() {
             </CardContent>
           </Card>
           <div className="flex flex-col">
-            <Card className="rounded-[50px] p-8 flex flex-col flex-1">
+            <Card className="rounded-[50px] squircle p-8 flex flex-col flex-1">
               <CardHeader className="p-0 mb-4">
                 <div className="flex items-center gap-2">
                   <div className="p-3.5 rounded-full border">
@@ -334,7 +334,7 @@ export default function SubscriptionManagementPage() {
                 </p>
                 <Button
                   variant="outline"
-                  className="w-full mt-6 h-14 rounded-full text-lg"
+                  className="w-full mt-6 h-14 rounded-full squircle text-lg"
                 >
                   Manage
                 </Button>
