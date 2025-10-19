@@ -128,12 +128,11 @@ const QuickLink = ({
   <Link href={href}>
     <Card
       className={cn(
-        "rounded-2xl hover:shadow-lg transition-shadow",
-        bgColor,
+        "rounded-2xl hover:shadow-lg transition-shadow bg-background border",
       )}
     >
       <CardContent className="p-4 flex items-center gap-2">
-        <div className="p-2.5 rounded-xl bg-white dark:bg-black/20">
+        <div className={cn("p-2.5 rounded-xl", bgColor)}>
           {icon}
         </div>
         <p className="text-base font-medium text-foreground">{text}</p>
@@ -323,29 +322,31 @@ export default function SubscriptionManagementPage() {
               />
             </CardContent>
           </Card>
-          <Card className="rounded-[50px] p-8 flex flex-col">
-            <CardHeader className="p-0 mb-4">
-              <div className="flex items-center gap-2">
-                <div className="p-3.5 rounded-full border">
-                  <HandCoins className="h-6 w-6" />
+          <div className="flex flex-col">
+            <Card className="rounded-[50px] p-8 flex flex-col flex-1">
+              <CardHeader className="p-0 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="p-3.5 rounded-full border">
+                    <HandCoins className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <CardTitle>Discounts</CardTitle>
+                  </div>
                 </div>
-                <div>
-                  <CardTitle>Discounts</CardTitle>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0 flex-1 flex flex-col justify-between">
-              <p className="text-base text-muted-foreground">
-                Current Active Discounts: 03
-              </p>
-              <Button
-                variant="outline"
-                className="w-full mt-6 h-14 rounded-full text-lg"
-              >
-                Manage
-              </Button>
-            </CardContent>
-          </Card>
+              </CardHeader>
+              <CardContent className="p-0 flex-1 flex flex-col justify-between">
+                <p className="text-base text-muted-foreground">
+                  Current Active Discounts: 03
+                </p>
+                <Button
+                  variant="outline"
+                  className="w-full mt-6 h-14 rounded-full text-lg"
+                >
+                  Manage
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
       <PlatformBottomNav />
