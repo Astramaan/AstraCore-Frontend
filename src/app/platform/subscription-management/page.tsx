@@ -26,6 +26,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import TeamIcon from "@/components/icons/team-icon";
 import { Check } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const plans = {
   monthly: [
@@ -124,11 +125,7 @@ const QuickLink = ({
   href: string;
 }) => (
   <Link href={href}>
-    <Card
-      className={cn(
-        "rounded-[25px] hover:shadow-lg transition-shadow bg-background",
-      )}
-    >
+    <Card className={cn("rounded-[25px] hover:shadow-lg transition-shadow")}>
       <CardContent className="p-4 flex items-center gap-2">
         <div className={cn("p-2.5 rounded-full", "bg-card")}>
           {icon}
@@ -236,32 +233,28 @@ export default function SubscriptionManagementPage() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <h2 className="text-2xl font-semibold">Subscription Plans</h2>
           <div className="flex items-center gap-2 w-full md:w-auto">
-            <div className="p-1 bg-card rounded-full squircle flex-1">
-              <Button
-                onClick={() => setActiveTab("monthly")}
-                className={cn(
-                  "rounded-full squircle w-full md:w-auto px-6 h-12 text-lg",
-                  activeTab === "monthly"
-                    ? "bg-primary text-white"
-                    : "bg-transparent text-foreground hover:bg-muted",
-                )}
-              >
-                Monthly
-              </Button>
-            </div>
-            <div className="p-1 bg-card rounded-full squircle flex-1">
-              <Button
-                onClick={() => setActiveTab("yearly")}
-                className={cn(
-                  "rounded-full squircle w-full md:w-auto px-6 h-12 text-lg",
-                  activeTab === "yearly"
-                    ? "bg-primary text-white"
-                    : "bg-transparent text-foreground hover:bg-muted",
-                )}
-              >
-                Yearly
-              </Button>
-            </div>
+            <Tabs
+              defaultValue="monthly"
+              onValueChange={(value) =>
+                setActiveTab(value as "monthly" | "yearly")
+              }
+              className="w-auto"
+            >
+              <TabsList className="rounded-full p-1 h-14 bg-card">
+                <TabsTrigger
+                  value="monthly"
+                  className="w-[90px] h-11 rounded-full text-lg data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
+                  Monthly
+                </TabsTrigger>
+                <TabsTrigger
+                  value="yearly"
+                  className="w-[90px] h-11 rounded-full text-lg data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
+                  Yearly
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
             <Button
               variant="outline"
               className="h-14 px-6 rounded-full squircle text-lg"
@@ -308,9 +301,7 @@ export default function SubscriptionManagementPage() {
                 href="#"
               />
               <QuickLink
-                icon={
-                  <HandCoins className="h-6 w-6 text-foreground" />
-                }
+                icon={<HandCoins className="h-6 w-6 text-foreground" />}
                 text="Payment Attempts"
                 href="#"
               />
@@ -334,7 +325,7 @@ export default function SubscriptionManagementPage() {
                 </p>
                 <Button
                   variant="outline"
-                  className="w-full mt-6 h-14 rounded-full text-lg"
+                  className="w-full mt-6 h-14 rounded-full text-lg squircle"
                 >
                   Manage
                 </Button>
