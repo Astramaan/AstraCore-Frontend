@@ -125,7 +125,7 @@ const QuickLink = ({
   href: string;
 }) => (
   <Link href={href}>
-    <Card className={cn("rounded-[25px] hover:shadow-lg transition-shadow")}>
+    <Card className={cn("rounded-[25px] hover:shadow-lg transition-shadow bg-background border-0")}>
       <CardContent className="p-4 flex items-center gap-2">
         <div className={cn("p-2.5 rounded-full", "bg-card")}>
           {icon}
@@ -256,8 +256,7 @@ export default function SubscriptionManagementPage() {
               </TabsList>
             </Tabs>
             <Button
-              variant="outline"
-              className="h-14 px-6 rounded-full squircle text-lg"
+              className="h-14 px-6 rounded-full squircle text-lg bg-white text-black hover:bg-white/90"
             >
               Draft
             </Button>
