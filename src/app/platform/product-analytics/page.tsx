@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -164,7 +165,7 @@ export default function ProductAnalyticsPage() {
             <Card className="rounded-[50px]">
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle>Feature Usage & Retention</CardTitle>
+                  <CardTitle>Feature Usage &amp; Retention</CardTitle>
                   <Select defaultValue="all">
                     <SelectTrigger className="w-[120px] rounded-full">
                       <SelectValue placeholder="All" />
@@ -231,18 +232,15 @@ export default function ProductAnalyticsPage() {
 
           <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
-              <CardHeader className="flex-row items-center justify-between p-6">
-                <CardTitle className="flex items-center gap-4">
-                  <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
-                    <Clock className="w-6 h-6 text-muted-foreground" />
+              <CardHeader className="p-6">
+                <div className="flex flex-col items-start gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                      <Clock className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                    <CardTitle>Stage Completion Times</CardTitle>
                   </div>
-                  Stage Completion Times
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="px-6 pb-6 space-y-4">
-                <div className="space-y-2">
-                   <Label className="px-2">Company Name</Label>
-                  <Select defaultValue="company-name">
+                   <Select defaultValue="company-name">
                     <SelectTrigger className="w-full rounded-full h-14 bg-background">
                       <SelectValue placeholder="Company Name" />
                     </SelectTrigger>
@@ -251,6 +249,8 @@ export default function ProductAnalyticsPage() {
                     </SelectContent>
                   </Select>
                 </div>
+              </CardHeader>
+              <CardContent className="px-6 pb-6 space-y-4">
                 <div className="space-y-4 pt-4">
                   {[
                     { label: "Handover", time: 28 },
@@ -354,7 +354,7 @@ export default function ProductAnalyticsPage() {
                   <BarChart2 className="h-6 w-6" />
                 </div>
                 <div>
-                  <CardTitle>Construction Trends & Seasonality</CardTitle>
+                  <CardTitle>Construction Trends &amp; Seasonality</CardTitle>
                   <CardDescription className="flex items-center gap-1">
                     Drop-off Rates <Info className="w-3 h-3" />
                   </CardDescription>
@@ -362,7 +362,7 @@ export default function ProductAnalyticsPage() {
               </div>
               <Select>
                 <SelectTrigger className="w-full md:w-[200px] rounded-full h-12">
-                  <SelectValue placeholder="Select Area & City" />
+                  <SelectValue placeholder="Select Area &amp; City" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="bengaluru">Bengaluru</SelectItem>
@@ -421,7 +421,7 @@ export default function ProductAnalyticsPage() {
                   })}
                 </div>
               </div>
-              <div className="flex flex-row lg:flex-col gap-4 justify-around">
+              <div className="flex flex-row lg:flex-row gap-4 justify-around">
                 <Card className="p-4 rounded-3xl text-center bg-background flex-1">
                   <p className="text-sm text-muted-foreground">Month</p>
                   <p className="text-3xl font-bold flex items-center justify-center gap-1">
@@ -470,3 +470,5 @@ export default function ProductAnalyticsPage() {
     </div>
   );
 }
+
+    
