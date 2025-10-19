@@ -169,12 +169,21 @@ export default function ProductAnalyticsPage() {
               </div>
               <div className="flex justify-end items-center gap-2 sm:gap-4">
                 <NotificationPopover userType="organization" />
-                <Button
-                  variant="outline"
-                  className="rounded-full h-12 px-4 text-sm hidden sm:flex"
-                >
-                  <Users className="mr-2 h-4 w-4" /> Employee Management
-                </Button>
+                <Link href="/platform/teams">
+                  <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                    <Button
+                      className={cn(
+                        "group rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20",
+                        "text-white",
+                      )}
+                    >
+                      <TeamIcon className={cn("mr-2 h-6 w-6", "text-white")} />
+                      <span className={cn("text-white whitespace-nowrap")}>
+                        Employee Management
+                      </span>
+                    </Button>
+                  </div>
+                </Link>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
                 <div className="flex justify-start items-center gap-2">
                   <Avatar className="w-12 h-12 md:w-14 md:h-14">
@@ -476,7 +485,7 @@ export default function ProductAnalyticsPage() {
                   {calendarDays}
                 </div>
               </div>
-              <div className="flex flex-row lg:flex-row gap-4 justify-around">
+              <div className="flex flex-col lg:flex-row gap-4 justify-around">
                 <Card className="p-4 rounded-3xl text-center bg-background flex-1">
                   <p className="text-sm text-muted-foreground">Month</p>
                   <p className="text-3xl font-bold flex items-center justify-center gap-1">
