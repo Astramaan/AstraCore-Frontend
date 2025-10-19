@@ -151,4 +151,25 @@
     background-color: hsl(var(--primary) / 0.1);
     color: hsl(var(--primary));
   }
+  .squircle {
+    --squircle-radius: 50px;
+    --squircle-smooth: 0.8;
+    mask-image: paint(squircle);
+  }
+}
+
+@property --squircle-radius {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --squircle-smooth {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@layer paint {
+  @paint-worklet squircle;
 }
