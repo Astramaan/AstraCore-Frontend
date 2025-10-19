@@ -117,17 +117,19 @@ const plans = {
 
 const QuickLink = ({
   icon,
+  bgColor,
   text,
   href,
 }: {
   icon: React.ReactNode;
+  bgColor: string;
   text: string;
   href: string;
 }) => (
   <Link href={href}>
-    <Card className={cn("rounded-[25px] hover:shadow-lg transition-shadow bg-background border-0")}>
+    <Card className={cn("rounded-[25px] hover:shadow-lg transition-shadow bg-card border-0")}>
       <CardContent className="p-4 flex items-center gap-2">
-        <div className={cn("p-2.5 rounded-full", "bg-card")}>
+        <div className={cn("p-2.5 rounded-full", bgColor)}>
           {icon}
         </div>
         <p className="text-base font-medium text-foreground">{text}</p>
@@ -286,21 +288,25 @@ export default function SubscriptionManagementPage() {
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <QuickLink
                 icon={<Users className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-01/30"
                 text="Active Customers"
                 href="#"
               />
               <QuickLink
                 icon={<CircleDollarSign className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-02/30"
                 text="Expired Customers"
                 href="#"
               />
               <QuickLink
                 icon={<ClipboardList className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-03/30"
                 text="Invoices"
                 href="#"
               />
               <QuickLink
                 icon={<HandCoins className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-05/30"
                 text="Payment Attempts"
                 href="#"
               />
