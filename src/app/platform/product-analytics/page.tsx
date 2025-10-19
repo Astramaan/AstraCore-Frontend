@@ -40,6 +40,8 @@ import {
 } from "@/components/ui/select";
 import { SubscriptionChart } from "@/components/charts/subscription-chart";
 import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 
 const FeatureCard = ({
   title,
