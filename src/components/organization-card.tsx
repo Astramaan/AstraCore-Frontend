@@ -62,8 +62,8 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
                 {organization.plan}
                 </span>
             </p>
-            <p className="text-base">
-              <span className="text-muted-foreground">Validity: </span><span className="text-black dark:text-white">{organization.validity}</span>
+            <p className="text-base text-muted-foreground">
+              Validity: <span className="text-black dark:text-white">{organization.validity}</span>
             </p>
         </div>
       </div>
@@ -83,13 +83,13 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
         </div>
         <Separator orientation="vertical" className="h-14" />
         <div className="flex flex-col gap-2">
-          <p className="text-base md:text-lg">
+          <p className="text-base">
             <span className="text-muted-foreground">Contact: </span>
             <span className="font-medium">
               {organization.contact.email} | {organization.contact.phone}
             </span>
           </p>
-          <p className="text-base md:text-lg">
+          <p className="text-base">
             <span className="text-muted-foreground">Projects: </span>
             <span className="text-green-600 font-medium">
               {organization.projects}
@@ -98,14 +98,14 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
         </div>
         <Separator orientation="vertical" className="h-14" />
         <div className="flex flex-col items-end gap-2">
-          <p className="text-base md:text-lg">
+          <p className="text-base">
             <span className="text-muted-foreground">Plan: </span>
             <span className="font-medium text-blue-600">
               {organization.plan}
             </span>
           </p>
-          <p className="text-base md:text-lg">
-            <span className="text-muted-foreground">Validity: </span><span className="text-black dark:text-white">{organization.validity}</span>
+          <p className="text-base text-muted-foreground">
+            Validity: <span className="text-black dark:text-white">{organization.validity}</span>
           </p>
         </div>
         <div className="justify-self-end">
