@@ -231,23 +231,51 @@ export default function ProductAnalyticsPage() {
 
             <Card className="rounded-[50px]">
               <CardHeader>
-                <CardTitle>Construction Trends & Seasonality</CardTitle>
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                  <CardTitle>Construction Trends & Seasonality</CardTitle>
+                  <Select>
+                    <SelectTrigger className="w-full md:w-[200px] rounded-full h-12">
+                      <SelectValue placeholder="Select Area & City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="bengaluru">Bengaluru</SelectItem>
+                      <SelectItem value="mumbai">Mumbai</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6">
                   <div className="overflow-x-auto">
-                    <div className="grid grid-cols-7 text-[9px] font-extrabold text-center bg-primary text-white rounded-t-lg">
-                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                        (day) => (
-                          <div key={day} className="py-1 min-w-[40px]">
-                            {day.toUpperCase()}
+                    <div className="grid grid-cols-7 text-center text-xs font-bold text-white bg-primary rounded-t-xl">
+                      {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map(day => (
+                        <div key={day} className="p-2">{day}</div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-7 border-l border-r border-b rounded-b-xl">
+                      {[...Array(5*7)].map((_, i) => {
+                        const day = i - 2; // Offset to start month correctly
+                        const isActive = (day >= 5 && day <= 9) || (day >= 13 && day <= 16) || (day >= 20 && day <= 23);
+                        const isLightActive = (day === 10 || day === 17 || day === 29 || day === 30);
+                        const isWeekend = i % 7 === 0 || i % 7 === 6;
+                        
+                        return (
+                          <div key={i} className={cn("h-16 p-1 text-xs border-r border-b",
+                            i % 7 === 6 && "border-r-0",
+                            i >= 30 && "border-b-0",
+                            isActive && "bg-green-500",
+                            isLightActive && "bg-green-200",
+                            day > 0 && day <= 31 ? "text-black" : "text-gray-400",
+                            isWeekend && day > 0 && day <= 31 && "text-red-500"
+                          )}>
+                            {day > 0 && day <= 31 ? day : ""}
                           </div>
-                        ),
-                      )}
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="flex flex-row md:flex-col gap-4 justify-around">
-                    <Card className="p-4 rounded-3xl text-center bg-background">
+                    <Card className="p-4 rounded-3xl text-center bg-background flex-1">
                       <p className="text-sm text-muted-foreground">Month</p>
                       <p className="text-3xl font-bold flex items-center justify-center gap-1">
                         76
@@ -255,7 +283,7 @@ export default function ProductAnalyticsPage() {
                       </p>
                       <p className="text-sm">June</p>
                       <p className="text-xs text-muted-foreground">
-                        Most Active
+                        Most Active Month
                       </p>
                       <Separator className="my-4" />
                       <p className="text-3xl font-bold flex items-center justify-center gap-1">
@@ -263,10 +291,10 @@ export default function ProductAnalyticsPage() {
                       </p>
                       <p className="text-sm">March</p>
                       <p className="text-xs text-muted-foreground">
-                        Least Active
+                        Least Active Month
                       </p>
                     </Card>
-                    <Card className="p-4 rounded-3xl text-center bg-background">
+                    <Card className="p-4 rounded-3xl text-center bg-background flex-1">
                       <p className="text-sm text-muted-foreground">Area</p>
                       <p className="text-3xl font-bold flex items-center justify-center gap-1">
                         76
@@ -274,7 +302,7 @@ export default function ProductAnalyticsPage() {
                       </p>
                       <p className="text-sm">Electronic City</p>
                       <p className="text-xs text-muted-foreground">
-                        Highest Projects
+                        Area with Highest Projects
                       </p>
                       <Separator className="my-4" />
                       <p className="text-3xl font-bold flex items-center justify-center gap-1">
@@ -283,7 +311,7 @@ export default function ProductAnalyticsPage() {
                       </p>
                       <p className="text-sm">Marathahalli</p>
                       <p className="text-xs text-muted-foreground">
-                        Lowest Projects
+                        Area with Lowest Projects
                       </p>
                     </Card>
                   </div>
@@ -303,7 +331,7 @@ export default function ProductAnalyticsPage() {
               </CardHeader>
               <CardContent className="px-6 pb-6 space-y-4">
                 <div className="space-y-2">
-                  <Label>Company Name</Label>
+                   <Label className="px-2">Company Name</Label>
                   <Select defaultValue="company-name">
                     <SelectTrigger className="w-full rounded-full h-14 bg-background">
                       <SelectValue placeholder="Company Name" />
