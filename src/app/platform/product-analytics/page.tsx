@@ -389,11 +389,13 @@ export default function ProductAnalyticsPage() {
               </CardContent>
             </Card>
 
-            <Card className="rounded-[50px]">
-              <CardHeader>
-                <div className="flex justify-between items-center">
+            <Card className="rounded-[50px] p-6">
+              <CardHeader className="p-0">
+                <div className="flex justify-between items-center mb-4">
                   <CardTitle className="flex items-center gap-2">
-                    <Package />
+                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                      <Package />
+                    </div>
                     Material Purchase
                   </CardTitle>
                   <Button variant="link" className="text-primary text-xs">
@@ -401,7 +403,7 @@ export default function ProductAnalyticsPage() {
                   </Button>
                 </div>
                 <Select defaultValue="electronic-city">
-                  <SelectTrigger className="w-full rounded-full">
+                  <SelectTrigger className="w-full rounded-full h-14 bg-background">
                     <SelectValue placeholder="Electronic City" />
                   </SelectTrigger>
                   <SelectContent>
@@ -411,9 +413,9 @@ export default function ProductAnalyticsPage() {
                   </SelectContent>
                 </Select>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0 mt-4">
                 <div className="space-y-2">
-                  <div className="grid grid-cols-3 font-semibold text-muted-foreground text-sm">
+                  <div className="grid grid-cols-3 font-semibold text-muted-foreground text-sm px-2">
                     <span>Materials</span>
                     <span className="text-center">Company</span>
                     <span className="text-right">Price</span>
@@ -421,7 +423,7 @@ export default function ProductAnalyticsPage() {
                   {materials.map((item, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-3 items-center text-sm"
+                      className="grid grid-cols-3 items-center text-sm px-2 py-1"
                     >
                       <span>{item.material}</span>
                       <span className="text-center">{item.company}</span>
