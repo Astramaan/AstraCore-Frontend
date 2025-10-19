@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -187,7 +188,7 @@ export default function ProductAnalyticsPage() {
             <Card className="rounded-[50px]">
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle>Feature Usage &amp; Retention</CardTitle>
+                  <CardTitle>Feature Usage & Retention</CardTitle>
                   <Select defaultValue="all">
                     <SelectTrigger className="w-[120px] rounded-full">
                       <SelectValue placeholder="All" />
@@ -253,7 +254,7 @@ export default function ProductAnalyticsPage() {
 
             <Card className="rounded-[50px]">
               <CardHeader>
-                <CardTitle>Construction Trends &amp; Seasonality</CardTitle>
+                <CardTitle>Construction Trends & Seasonality</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6">
@@ -332,9 +333,11 @@ export default function ProductAnalyticsPage() {
           </div>
           <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
-              <CardHeader className="flex-row items-center gap-4 p-6">
-                <Clock className="w-6 h-6 text-muted-foreground" />
-                <CardTitle>Stage Completion Times</CardTitle>
+              <CardHeader className="flex-row items-center justify-between p-6">
+                <div className="flex items-center gap-4">
+                  <Clock className="w-6 h-6 text-muted-foreground" />
+                  <CardTitle>Stage Completion Times</CardTitle>
+                </div>
               </CardHeader>
               <CardContent className="px-6 pb-6 space-y-4">
                 <Select defaultValue="company-name">
@@ -358,7 +361,7 @@ export default function ProductAnalyticsPage() {
                           className="h-8 bg-accent rounded-full flex items-center px-2"
                           style={{ width: `${(item.time / 30) * 100}%` }}
                         >
-                          <span className="text-sm font-medium text-accent-foreground">{item.label}</span>
+                          <span className="text-sm font-medium text-accent-foreground whitespace-nowrap">{item.label}</span>
                         </div>
                       </div>
                       <span className="text-sm font-medium text-muted-foreground w-8 text-right">{item.time}</span>
