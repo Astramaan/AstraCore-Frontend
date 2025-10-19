@@ -75,7 +75,7 @@ const organizations = [
 const OrganizationCard = ({ organization }: { organization: typeof organizations[0] }) => {
   return (
     <>
-      <div className="hidden lg:grid lg:grid-cols-[1.2fr_auto_1.5fr_auto_1fr_auto] items-center py-4 gap-4">
+      <div className="hidden lg:grid lg:grid-cols-[1.5fr_auto_1.5fr_auto_1fr_auto] items-center py-4 gap-4">
         <div className="flex items-center gap-4">
           <Avatar className="w-14 h-14">
             <AvatarImage src={organization.logo} />
@@ -170,7 +170,7 @@ export default function OrganizationManagementPage() {
             <div className="flex items-center gap-4">
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input placeholder="Search active customers" className="pl-12 h-14 rounded-full text-lg w-72" />
+                    <Input placeholder="Search active customers" className="pl-12 h-14 rounded-full text-lg w-72 bg-white" />
                 </div>
                 <Button className="h-14 px-10 rounded-full text-lg">
                     <Plus className="mr-2"/>
