@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -333,39 +332,55 @@ export default function ProductAnalyticsPage() {
           </div>
           <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
-              <CardHeader>
-                <div className="flex flex-col gap-4">
-                  <CardTitle>Stage Completion Times</CardTitle>
-                  <Select defaultValue="company-name">
-                    <SelectTrigger className="w-full rounded-full">
-                      <SelectValue placeholder="Company Name" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="company-name">
-                        Company Name
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <CardHeader className="flex-row items-center gap-4 p-6">
+                <Clock className="w-6 h-6 text-muted-foreground" />
+                <CardTitle>Stage Completion Times</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {[
-                  { label: "Handover", time: 25 },
-                  { label: "IDK", time: 15 },
-                  { label: "Foundation", time: 10 },
-                  { label: "Site Clearance", time: 5 },
-                ].map((item, index) => (
-                  <div key={item.label} className="space-y-2">
-                    <div className="flex justify-between">
-                      <Label>{item.label}</Label>
-                      <span>{item.time} days</span>
+              <CardContent className="px-6 pb-6 space-y-4">
+                <Select defaultValue="company-name">
+                  <SelectTrigger className="w-full rounded-full h-14 bg-background">
+                    <SelectValue placeholder="Company Name" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="company-name">Company Name</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="space-y-4 pt-4">
+                  {[
+                    { label: "Handover", time: 28 },
+                    { label: "IDK", time: 18 },
+                    { label: "Foundation", time: 15 },
+                    { label: "Site Clearance", time: 5 },
+                  ].map((item) => (
+                    <div key={item.label} className="grid grid-cols-[1fr_auto] items-center gap-2">
+                       <div className="w-full h-8 bg-accent/30 rounded-full">
+                        <div
+                          className="h-8 bg-accent rounded-full flex items-center px-2"
+                          style={{ width: `${(item.time / 30) * 100}%` }}
+                        >
+                          <span className="text-sm font-medium text-accent-foreground">{item.label}</span>
+                        </div>
+                      </div>
+                      <span className="text-sm font-medium text-muted-foreground w-8 text-right">{item.time}</span>
                     </div>
-                    <Progress value={(item.time / 30) * 100} className="h-2" />
+                  ))}
+                </div>
+                 <div className="w-full pt-2">
+                  <div className="grid grid-cols-7 text-xs text-muted-foreground text-center">
+                    <span>0</span>
+                    <span>5</span>
+                    <span>10</span>
+                    <span>15</span>
+                    <span>20</span>
+                    <span>25</span>
+                    <span>30</span>
                   </div>
-                ))}
+                </div>
                 <div className="text-center pt-2">
-                  <Button variant="link" className="text-primary">
-                    Next Stages <Info className="h-4 w-4 ml-2" />
+                  <Button variant="link" className="text-primary gap-2">
+                    <ChevronLeft className="h-4 w-4" />
+                    Next Stages
+                    <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
               </CardContent>
