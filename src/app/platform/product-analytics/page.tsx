@@ -14,6 +14,10 @@ import {
   Search,
   Settings,
   Users,
+  BarChart2,
+  Info,
+  ArrowUp,
+  Package,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -22,6 +26,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import { HabiLogo } from "@/components/habi-logo";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
@@ -48,36 +53,29 @@ const FeatureCard = ({
   subtitle,
   usage,
   retention,
-  color,
 }: {
   title: string;
   subtitle: string;
   usage: number;
   retention: number;
-  color: string;
 }) => (
-  <Card className="border-0 shadow-none bg-transparent">
+  <Card className="border shadow-none bg-card p-4 rounded-2xl">
     <CardHeader className="p-0">
-      <div
-        className={cn(
-          "h-[5px] rounded-t-lg",
-          color === "individual" && "bg-purple-500",
-          color === "studio" && "bg-blue-500",
-          color === "enterprises" && "bg-red-500",
-        )}
-      ></div>
-      <CardTitle className="text-lg font-semibold pt-2">{title}</CardTitle>
-      <p className="text-sm text-muted-foreground">{subtitle}</p>
+      <CardTitle className="text-base font-semibold">{title}</CardTitle>
+      <p className="text-xs text-muted-foreground">{subtitle}</p>
     </CardHeader>
-    <CardContent className="p-0 mt-4 space-y-4">
-      <div className="flex items-center justify-between">
-        <span className="text-muted-foreground">Feature Usage</span>
+    <CardContent className="p-0 mt-4 space-y-2">
+      <div className="flex items-center gap-1">
         <span className="font-bold text-2xl">{usage}</span>
+        <ArrowUp className="h-4 w-4 text-green-500" />
       </div>
-      <div className="flex items-center justify-between">
-        <span className="text-muted-foreground">Retention Rate</span>
+      <p className="text-xs text-muted-foreground">Feature Usage</p>
+
+      <div className="flex items-center gap-1">
         <span className="font-bold text-2xl">{retention}%</span>
+        <ArrowUp className="h-4 w-4 text-green-500" />
       </div>
+      <p className="text-xs text-muted-foreground">Retention Rate</p>
     </CardContent>
   </Card>
 );
@@ -105,6 +103,14 @@ const CalendarCell = ({
   </div>
 );
 
+const materials = [
+  { material: "Steel", company: "Tata", price: "₹xxx" },
+  { material: "Steel", company: "Tata", price: "₹xxx" },
+  { material: "Steel", company: "Tata", price: "₹xxx" },
+  { material: "Steel", company: "Tata", price: "₹xxx" },
+  { material: "Steel", company: "Tata", price: "₹xxx" },
+];
+
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("7D");
@@ -130,6 +136,12 @@ export default function ProductAnalyticsPage() {
               </div>
               <div className="flex justify-end items-center gap-2 sm:gap-4">
                 <NotificationPopover userType="organization" />
+                <Button
+                  variant="outline"
+                  className="rounded-full h-12 px-4 text-sm hidden sm:flex"
+                >
+                  <Users className="mr-2 h-4 w-4" /> Employee Management
+                </Button>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
                 <div className="flex justify-start items-center gap-2">
                   <Avatar className="w-12 h-12 md:w-14 md:h-14">
@@ -196,7 +208,7 @@ export default function ProductAnalyticsPage() {
           </div>
           <Button
             variant="outline"
-            className="w-full md:w-auto h-14 rounded-full text-lg"
+            className="w-full md:w-auto h-14 rounded-full text-lg bg-card"
           >
             <Download className="mr-2 h-5 w-5" /> Export
           </Button>
@@ -206,102 +218,225 @@ export default function ProductAnalyticsPage() {
           <div className="space-y-6">
             <Card className="rounded-[50px]">
               <CardHeader>
-                <CardTitle>Feature Usage Over Time</CardTitle>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Feature Usage & Retention</CardTitle>
+                  <Select defaultValue="all">
+                    <SelectTrigger className="w-[120px] rounded-full">
+                      <SelectValue placeholder="All" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </CardHeader>
-              <CardContent className="h-72">
-                <SubscriptionChart />
-              </CardContent>
-            </Card>
-
-            <Card className="rounded-[50px]">
-              <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x">
-                <FeatureCard
-                  title="Create Project"
-                  subtitle="Top Most Used"
-                  usage={200}
-                  retention={98}
-                  color="individual"
-                />
-                <FeatureCard
-                  title="Create Project"
-                  subtitle="Top Least Used"
-                  usage={200}
-                  retention={98}
-                  color="studio"
-                />
-                <FeatureCard
-                  title="Create Project"
-                  subtitle="Recently Added"
-                  usage={200}
-                  retention={98}
-                  color="enterprises"
-                />
-              </CardContent>
-            </Card>
-          </div>
-          <div className="space-y-6 lg:w-[400px]">
-            <Card className="rounded-[50px]">
-              <CardHeader>
-                <CardTitle>Stage Completion Times</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[
-                    { label: "Handover", time: 25 },
-                    { label: "IDK", time: 20 },
-                    { label: "Foundation", time: 15 },
-                    { label: "Site Clearance", time: 8 },
-                  ].map((item) => (
-                    <div key={item.label} className="space-y-1">
-                      <Label>{item.label}</Label>
-                      <Progress value={item.time} max={30} />
+              <CardContent className="space-y-8">
+                <div>
+                  <h3 className="text-muted-foreground mb-4">
+                    Feature Usage Over Time
+                  </h3>
+                  <div className="h-48 relative">
+                    <SubscriptionChart />
+                    <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                      <ArrowUp className="h-3 w-3" />
+                      +24.4%
                     </div>
-                  ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <FeatureCard
+                    title="Create Project"
+                    subtitle="Top Most Used"
+                    usage={200}
+                    retention={98}
+                  />
+                  <FeatureCard
+                    title="Create Project"
+                    subtitle="Top Least Used"
+                    usage={200}
+                    retention={98}
+                  />
+                  <FeatureCard
+                    title="Create Project"
+                    subtitle="Recently Added"
+                    usage={200}
+                    retention={98}
+                  />
+                </div>
+
+                <div>
+                  <h3 className="text-muted-foreground mb-4">
+                    Retention Rate
+                  </h3>
+                  <div className="h-48 relative">
+                    <SubscriptionChart />
+                    <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                      <ArrowUp className="h-3 w-3" />
+                      +24.4%
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
-          <Card className="rounded-[50px]">
-            <CardHeader>
-              <CardTitle>Retention Rate</CardTitle>
-            </CardHeader>
-            <CardContent className="h-72">
-              <SubscriptionChart />
-            </CardContent>
-          </Card>
-          <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
               <CardHeader>
                 <CardTitle>Construction Trends & Seasonality</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-7 text-[9px] font-extrabold text-center bg-primary text-white rounded-t-lg">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                    (day) => (
-                      <div key={day} className="py-1">
-                        {day.toUpperCase()}
-                      </div>
-                    ),
-                  )}
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6">
+                  <div className="overflow-x-auto">
+                    <div className="grid grid-cols-7 text-[9px] font-extrabold text-center bg-primary text-white rounded-t-lg">
+                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                        (day) => (
+                          <div key={day} className="py-1 min-w-[40px]">
+                            {day.toUpperCase()}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                    <div className="grid grid-cols-7">
+                      {[...Array(3)].map((_, i) => (
+                        <CalendarCell key={`empty-${i}`} day="" isEmpty />
+                      ))}
+                      {[...Array(31)].map((_, i) => (
+                        <CalendarCell
+                          key={i}
+                          day={i + 1}
+                          bgColor={
+                            i + 1 > 5 && i + 1 < 25 ? "bg-green-100" : undefined
+                          }
+                        />
+                      ))}
+                      {[...Array(1)].map((_, i) => (
+                        <CalendarCell key={`empty-end-${i}`} day="" isEmpty />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-row md:flex-col gap-4 justify-around">
+                    <Card className="p-4 rounded-3xl text-center bg-background">
+                      <p className="text-sm text-muted-foreground">Month</p>
+                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                        76
+                        <ArrowUp className="h-4 w-4 text-green-500" />
+                      </p>
+                      <p className="text-sm">June</p>
+                      <p className="text-xs text-muted-foreground">
+                        Most Active
+                      </p>
+                      <Separator className="my-4" />
+                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                        0<ArrowUp className="h-4 w-4 text-red-500 rotate-180" />
+                      </p>
+                      <p className="text-sm">March</p>
+                      <p className="text-xs text-muted-foreground">
+                        Least Active
+                      </p>
+                    </Card>
+                    <Card className="p-4 rounded-3xl text-center bg-background">
+                      <p className="text-sm text-muted-foreground">Area</p>
+                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                        76
+                        <ArrowUp className="h-4 w-4 text-green-500" />
+                      </p>
+                      <p className="text-sm">Electronic City</p>
+                      <p className="text-xs text-muted-foreground">
+                        Highest Projects
+                      </p>
+                      <Separator className="my-4" />
+                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                        02
+                        <ArrowUp className="h-4 w-4 text-red-500 rotate-180" />
+                      </p>
+                      <p className="text-sm">Marathahalli</p>
+                      <p className="text-xs text-muted-foreground">
+                        Lowest Projects
+                      </p>
+                    </Card>
+                  </div>
                 </div>
-                <div className="grid grid-cols-7">
-                  {[...Array(3)].map((_, i) => (
-                    <CalendarCell key={`empty-${i}`} day="" isEmpty />
-                  ))}
-                  {[...Array(31)].map((_, i) => (
-                    <CalendarCell
-                      key={i}
-                      day={i + 1}
-                      bgColor={
-                        i + 1 > 5 && i + 1 < 25 ? "bg-green-100" : undefined
-                      }
-                    />
-                  ))}
-                  {[...Array(1)].map((_, i) => (
-                    <CalendarCell key={`empty-end-${i}`} day="" isEmpty />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="space-y-6 lg:w-[400px]">
+            <Card className="rounded-[50px]">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Stage Completion Times</CardTitle>
+                  <Select defaultValue="company-name">
+                    <SelectTrigger className="w-[180px] rounded-full">
+                      <SelectValue placeholder="Company Name" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="company-name">
+                        Company Name
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {[
+                  { label: "Handover", time: 25 },
+                  { label: "IDK", time: 15 },
+                  { label: "Foundation", time: 10 },
+                  { label: "Site Clearance", time: 5 },
+                ].map((item, index) => (
+                  <div key={item.label} className="space-y-2">
+                    <div className="flex justify-between">
+                      <Label>{item.label}</Label>
+                      <span>{item.time} days</span>
+                    </div>
+                    <Progress value={(item.time / 30) * 100} className="h-2" />
+                  </div>
+                ))}
+                <div className="text-center pt-2">
+                  <Button variant="link" className="text-primary">
+                    Next Stages <Info className="h-4 w-4 ml-2" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-[50px]">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center gap-2">
+                    <Package />
+                    Material Purchase
+                  </CardTitle>
+                  <Button variant="link" className="text-primary text-xs">
+                    see full list
+                  </Button>
+                </div>
+                <Select defaultValue="electronic-city">
+                  <SelectTrigger className="w-full rounded-full">
+                    <SelectValue placeholder="Electronic City" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="electronic-city">
+                      Electronic City
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="grid grid-cols-3 font-semibold text-muted-foreground text-sm">
+                    <span>Materials</span>
+                    <span className="text-center">Company</span>
+                    <span className="text-right">Price</span>
+                  </div>
+                  {materials.map((item, index) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-3 items-center text-sm"
+                    >
+                      <span>{item.material}</span>
+                      <span className="text-center">{item.company}</span>
+                      <span className="text-right">{item.price}</span>
+                    </div>
                   ))}
                 </div>
               </CardContent>
