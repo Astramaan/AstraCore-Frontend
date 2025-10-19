@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -228,97 +227,8 @@ export default function ProductAnalyticsPage() {
                 </div>
               </CardContent>
             </Card>
-
-            <Card className="rounded-[50px]">
-              <CardHeader>
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                  <CardTitle>Construction Trends & Seasonality</CardTitle>
-                  <Select>
-                    <SelectTrigger className="w-full md:w-[200px] rounded-full h-12">
-                      <SelectValue placeholder="Select Area & City" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="bengaluru">Bengaluru</SelectItem>
-                      <SelectItem value="mumbai">Mumbai</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6">
-                  <div className="overflow-x-auto">
-                    <div className="grid grid-cols-7 text-center text-xs font-bold text-white bg-primary rounded-t-xl">
-                      {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map(day => (
-                        <div key={day} className="p-2">{day}</div>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-7 border-l border-r border-b rounded-b-xl">
-                      {[...Array(5*7)].map((_, i) => {
-                        const day = i - 2; // Offset to start month correctly
-                        const isActive = (day >= 5 && day <= 9) || (day >= 13 && day <= 16) || (day >= 20 && day <= 23);
-                        const isLightActive = (day === 10 || day === 17 || day === 29 || day === 30);
-                        const isWeekend = i % 7 === 0 || i % 7 === 6;
-                        
-                        return (
-                          <div key={i} className={cn("h-16 p-1 text-xs border-r border-b",
-                            i % 7 === 6 && "border-r-0",
-                            i >= 30 && "border-b-0",
-                            isActive && "bg-green-500",
-                            isLightActive && "bg-green-200",
-                            day > 0 && day <= 31 ? "text-black" : "text-gray-400",
-                            isWeekend && day > 0 && day <= 31 && "text-red-500"
-                          )}>
-                            {day > 0 && day <= 31 ? day : ""}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex flex-row md:flex-col gap-4 justify-around">
-                    <Card className="p-4 rounded-3xl text-center bg-background flex-1">
-                      <p className="text-sm text-muted-foreground">Month</p>
-                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
-                        76
-                        <ArrowUp className="h-4 w-4 text-green-500" />
-                      </p>
-                      <p className="text-sm">June</p>
-                      <p className="text-xs text-muted-foreground">
-                        Most Active Month
-                      </p>
-                      <Separator className="my-4" />
-                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
-                        0<ArrowUp className="h-4 w-4 text-red-500 rotate-180" />
-                      </p>
-                      <p className="text-sm">March</p>
-                      <p className="text-xs text-muted-foreground">
-                        Least Active Month
-                      </p>
-                    </Card>
-                    <Card className="p-4 rounded-3xl text-center bg-background flex-1">
-                      <p className="text-sm text-muted-foreground">Area</p>
-                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
-                        76
-                        <ArrowUp className="h-4 w-4 text-green-500" />
-                      </p>
-                      <p className="text-sm">Electronic City</p>
-                      <p className="text-xs text-muted-foreground">
-                        Area with Highest Projects
-                      </p>
-                      <Separator className="my-4" />
-                      <p className="text-3xl font-bold flex items-center justify-center gap-1">
-                        02
-                        <ArrowUp className="h-4 w-4 text-red-500 rotate-180" />
-                      </p>
-                      <p className="text-sm">Marathahalli</p>
-                      <p className="text-xs text-muted-foreground">
-                        Area with Lowest Projects
-                      </p>
-                    </Card>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
+
           <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
               <CardHeader className="flex-row items-center justify-between p-6">
@@ -435,6 +345,126 @@ export default function ProductAnalyticsPage() {
             </Card>
           </div>
         </div>
+
+        <Card className="rounded-[50px]">
+          <CardHeader>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div className="flex items-center gap-4">
+                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                  <BarChart2 className="h-6 w-6" />
+                </div>
+                <div>
+                  <CardTitle>Construction Trends & Seasonality</CardTitle>
+                  <CardDescription className="flex items-center gap-1">
+                    Drop-off Rates <Info className="w-3 h-3" />
+                  </CardDescription>
+                </div>
+              </div>
+              <Select>
+                <SelectTrigger className="w-full md:w-[200px] rounded-full h-12">
+                  <SelectValue placeholder="Select Area & City" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="bengaluru">Bengaluru</SelectItem>
+                  <SelectItem value="mumbai">Mumbai</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-6">
+              <div className="overflow-x-auto">
+                <div className="grid grid-cols-7 text-center text-xs font-bold text-white bg-primary rounded-t-xl">
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((day) => (
+                    <div key={day} className="p-2">
+                      {day}
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-7 border-l border-r border-b rounded-b-xl">
+                  {[...Array(5 * 7)].map((_, i) => {
+                    const day = i - 2; // Offset to start month correctly
+                    const isActive =
+                      (day >= 5 && day <= 9) ||
+                      (day >= 13 && day <= 16) ||
+                      (day >= 20 && day <= 23);
+                    const isLightActive =
+                      day === 10 || day === 17 || day === 29 || day === 30;
+                    const isWeekend = i % 7 === 0 || i % 7 === 6;
+
+                    return (
+                      <div
+                        key={i}
+                        className={cn(
+                          "h-16 p-1 text-xs border-r border-b",
+                          i % 7 === 6 && "border-r-0",
+                          i >= 28 && "border-b-0",
+                          isActive && "bg-green-500",
+                          isLightActive && "bg-green-200",
+                          day > 0 && day <= 31
+                            ? "text-black"
+                            : "text-gray-400",
+                          isWeekend && day > 0 && day <= 31 && "text-red-500",
+                        )}
+                      >
+                        {day > 0 && day <= 31 ? day : ""}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex flex-row lg:flex-col gap-4 justify-around">
+                <Card className="p-4 rounded-3xl text-center bg-background flex-1">
+                  <p className="text-sm text-muted-foreground">Month</p>
+                  <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                    76
+                    <ArrowUp className="h-4 w-4 text-green-500" />
+                  </p>
+                  <p className="text-sm">June</p>
+                  <p className="text-xs text-muted-foreground">
+                    Most Active Month
+                  </p>
+                  <Separator className="my-4" />
+                  <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                    0<ArrowUp className="h-4 w-4 text-red-500 rotate-180" />
+                  </p>
+                  <p className="text-sm">March</p>
+                  <p className="text-xs text-muted-foreground">
+                    Least Active Month
+                  </p>
+                </Card>
+                <Card className="p-4 rounded-3xl text-center bg-background flex-1">
+                  <p className="text-sm text-muted-foreground">Area</p>
+                  <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                    76
+                    <ArrowUp className="h-4 w-4 text-green-500" />
+                  </p>
+                  <p className="text-sm">Electronic City</p>
+                  <p className="text-xs text-muted-foreground">
+                    Area with Highest Projects
+                  </p>
+                  <Separator className="my-4" />
+                  <p className="text-3xl font-bold flex items-center justify-center gap-1">
+                    02
+                    <ArrowUp className="h-4 w-4 text-red-500 rotate-180" />
+                  </p>
+                  <p className="text-sm">Marathahalli</p>
+                  <p className="text-xs text-muted-foreground">
+                    Area with Lowest Projects
+                  </p>
+                </Card>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </main>
       <PlatformBottomNav />
     </div>
