@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useMemo } from "react";
@@ -9,7 +10,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { NotificationPopover } from "./notification-popover";
-import { ClientOnly } from "./client-only";
+import ClientOnly from "./client-only";
 
 export const ClientHeader = () => {
   const pathname = usePathname();
