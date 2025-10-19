@@ -282,8 +282,8 @@ export default function SubscriptionManagementPage() {
             <SubscriptionCard key={plan.name} plan={plan} />
           ))}
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="rounded-[50px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="rounded-[50px] lg:col-span-2">
             <CardHeader className="flex flex-row justify-between items-start">
               <div className="flex items-center gap-2">
                 <div className="p-3.5 rounded-full border">
