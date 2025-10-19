@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Bell,
   Search,
@@ -123,10 +123,23 @@ export default function OrganizationManagementPage() {
     .split(" ")
     .map((n) => n[0])
     .join("");
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const filteredOrganizations = useMemo(() => {
+    if (!searchTerm) {
+      return organizations;
+    }
+    return organizations.filter(
+      (org) =>
+        org.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        org.city.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
-      <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
+       <div className="sticky top-2 z-20 -mx-4 md:-mx-8">
         <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
           <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
             <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
@@ -162,7 +175,7 @@ export default function OrganizationManagementPage() {
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       <main className="flex-grow space-y-6 mt-6">
         <div className="flex justify-between items-end">
@@ -170,7 +183,7 @@ export default function OrganizationManagementPage() {
             <div className="flex items-center gap-4">
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input placeholder="Search active customers" className="pl-12 h-14 rounded-full text-lg w-72 bg-white" />
+                    <Input placeholder="Search active customers" className="pl-12 h-14 rounded-full text-lg w-72 bg-white" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
                 <Button className="h-14 px-10 rounded-full text-lg">
                     <Plus className="mr-2"/>
@@ -180,7 +193,7 @@ export default function OrganizationManagementPage() {
         </div>
         <Card className="rounded-[50px]">
             <CardContent className="p-6">
-                {organizations.map(org => (
+                {filteredOrganizations.map(org => (
                     <OrganizationCard key={org.id} organization={org} />
                 ))}
             </CardContent>
