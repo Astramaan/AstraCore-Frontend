@@ -27,7 +27,7 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
                 <div>
                     <p className="text-lg font-semibold">{organization.name}</p>
                     <p className="text-base text-muted-foreground">
-                    City: {organization.city}
+                      City: <span className="text-black dark:text-white">{organization.city}</span>
                     </p>
                 </div>
             </div>
@@ -77,7 +77,7 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
           <div>
             <p className="text-lg md:text-xl font-semibold">{organization.name}</p>
             <p className="text-base text-muted-foreground">
-              City: {organization.city}
+              City: <span className="text-black dark:text-white">{organization.city}</span>
             </p>
           </div>
         </div>
