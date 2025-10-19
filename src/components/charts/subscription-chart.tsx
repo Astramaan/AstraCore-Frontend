@@ -71,11 +71,6 @@ export function SubscriptionChart() {
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           }}
         />
-        <Legend
-          wrapperStyle={{
-            paddingTop: "20px",
-          }}
-        />
         <Line
           type="monotone"
           dataKey="Top Used"
