@@ -23,7 +23,7 @@ const navItems = [
     label: "Subscription",
   },
   {
-    href: "/platform/organizations",
+    href: "/platform/organization-management",
     icon: OrganizationIcon,
     label: "Organization",
   },
