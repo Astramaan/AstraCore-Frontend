@@ -129,7 +129,7 @@ const QuickLink = ({
   <Link href={href}>
     <Card
       className={cn(
-        "rounded-[25px] hover:shadow-lg transition-shadow bg-background border-0",
+        "rounded-[25px] hover:bg-accent transition-colors bg-background border-0",
       )}
     >
       <CardContent className="p-4 flex items-center gap-2">
@@ -262,7 +262,6 @@ export default function SubscriptionManagementPage() {
               </TabsList>
             </Tabs>
             <Button
-              variant="outline"
               className="h-14 px-6 rounded-full squircle text-lg bg-white text-black hover:bg-white/90"
             >
               Draft
