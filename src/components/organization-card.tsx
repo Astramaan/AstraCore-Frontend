@@ -62,8 +62,8 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
                 {organization.plan}
                 </span>
             </p>
-            <p className="text-base text-muted-foreground">
-              Validity: <span className="text-black dark:text-white">{organization.validity}</span>
+            <p className="text-base">
+              <span className="text-muted-foreground">Validity: </span><span className="text-black dark:text-white">{organization.validity}</span>
             </p>
         </div>
       </div>
@@ -104,8 +104,8 @@ export const OrganizationCard = ({ organization }: { organization: any }) => {
               {organization.plan}
             </span>
           </p>
-          <p className="text-base md:text-lg text-muted-foreground">
-            Validity: <span className="text-black dark:text-white">{organization.validity}</span>
+          <p className="text-base md:text-lg">
+            <span className="text-muted-foreground">Validity: </span><span className="text-black dark:text-white">{organization.validity}</span>
           </p>
         </div>
         <div className="justify-self-end">
