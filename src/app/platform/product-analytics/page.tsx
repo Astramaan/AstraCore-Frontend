@@ -219,18 +219,21 @@ export default function ProductAnalyticsPage() {
                     subtitle="Top Most Used"
                     usage={200}
                     retention={98}
+                    color="hsl(var(--chart-1))"
                   />
                   <FeatureCard
                     title="Export Data"
                     subtitle="Top Least Used"
                     usage={35}
                     retention={85}
+                    color="hsl(var(--chart-2))"
                   />
                   <FeatureCard
                     title="AI Chat"
                     subtitle="Recently Added"
                     usage={120}
                     retention={92}
+                    color="hsl(var(--chart-3))"
                   />
                 </div>
 

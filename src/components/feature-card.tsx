@@ -15,6 +15,7 @@ interface FeatureCardProps {
   subtitle: string;
   usage: number;
   retention: number;
+  color?: string;
 }
 
 export const FeatureCard = ({
@@ -22,11 +23,20 @@ export const FeatureCard = ({
   subtitle,
   usage,
   retention,
+  color,
 }: FeatureCardProps) => {
   return (
     <Card className="border shadow-none bg-card p-4 rounded-2xl">
       <CardHeader className="p-0">
-        <CardTitle className="text-base font-semibold">{title}</CardTitle>
+        <div className="flex flex-col justify-start items-start gap-2">
+          {color && (
+            <div
+              className="self-stretch h-[5px] rounded-[10px]"
+              style={{ backgroundColor: color }}
+            />
+          )}
+          <CardTitle className="text-base font-semibold">{title}</CardTitle>
+        </div>
         <p className="text-xs text-muted-foreground">{subtitle}</p>
       </CardHeader>
       <CardContent className="p-0 mt-4 space-y-2">
