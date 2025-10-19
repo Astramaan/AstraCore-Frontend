@@ -49,29 +49,6 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { FeatureCard } from "@/components/feature-card";
 
-const CalendarCell = ({
-  day,
-  isWeekend,
-  isEmpty,
-  bgColor,
-}: {
-  day: number | string;
-  isWeekend?: boolean;
-  isEmpty?: boolean;
-  bgColor?: string;
-}) => (
-  <div
-    className={cn(
-      "p-1 text-[10px] font-bold text-center outline outline-1 outline-stone-300/25",
-      isWeekend && "bg-background",
-      isEmpty && "opacity-0",
-      bgColor,
-    )}
-  >
-    {day}
-  </div>
-);
-
 const materials = [
   { material: "Steel", company: "Tata", price: "₹xxx" },
   { material: "Steel", company: "Tata", price: "₹xxx" },
@@ -268,23 +245,6 @@ export default function ProductAnalyticsPage() {
                         ),
                       )}
                     </div>
-                    <div className="grid grid-cols-7">
-                      {[...Array(3)].map((_, i) => (
-                        <CalendarCell key={`empty-${i}`} day="" isEmpty />
-                      ))}
-                      {[...Array(31)].map((_, i) => (
-                        <CalendarCell
-                          key={i}
-                          day={i + 1}
-                          bgColor={
-                            i + 1 > 5 && i + 1 < 25 ? "bg-green-100" : undefined
-                          }
-                        />
-                      ))}
-                      {[...Array(1)].map((_, i) => (
-                        <CalendarCell key={`empty-end-${i}`} day="" isEmpty />
-                      ))}
-                    </div>
                   </div>
                   <div className="flex flex-row md:flex-col gap-4 justify-around">
                     <Card className="p-4 rounded-3xl text-center bg-background">
@@ -334,20 +294,25 @@ export default function ProductAnalyticsPage() {
           <div className="space-y-6 lg:w-[400px]">
             <Card className="rounded-[50px]">
               <CardHeader className="flex-row items-center justify-between p-6">
-                <div className="flex items-center gap-4">
-                  <Clock className="w-6 h-6 text-muted-foreground" />
-                  <CardTitle>Stage Completion Times</CardTitle>
-                </div>
+                <CardTitle className="flex items-center gap-4">
+                  <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <Clock className="w-6 h-6 text-muted-foreground" />
+                  </div>
+                  Stage Completion Times
+                </CardTitle>
               </CardHeader>
               <CardContent className="px-6 pb-6 space-y-4">
-                <Select defaultValue="company-name">
-                  <SelectTrigger className="w-full rounded-full h-14 bg-background">
-                    <SelectValue placeholder="Company Name" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="company-name">Company Name</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="space-y-2">
+                  <Label>Company Name</Label>
+                  <Select defaultValue="company-name">
+                    <SelectTrigger className="w-full rounded-full h-14 bg-background">
+                      <SelectValue placeholder="Company Name" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="company-name">Company Name</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div className="space-y-4 pt-4">
                   {[
                     { label: "Handover", time: 28 },
@@ -355,20 +320,27 @@ export default function ProductAnalyticsPage() {
                     { label: "Foundation", time: 15 },
                     { label: "Site Clearance", time: 5 },
                   ].map((item) => (
-                    <div key={item.label} className="grid grid-cols-[1fr_auto] items-center gap-2">
-                       <div className="w-full h-8 bg-accent/30 rounded-full">
+                    <div
+                      key={item.label}
+                      className="grid grid-cols-[1fr_auto] items-center gap-2"
+                    >
+                      <div className="w-full h-8 bg-accent/30 rounded-full">
                         <div
                           className="h-8 bg-accent rounded-full flex items-center px-2"
                           style={{ width: `${(item.time / 30) * 100}%` }}
                         >
-                          <span className="text-sm font-medium text-accent-foreground whitespace-nowrap">{item.label}</span>
+                          <span className="text-sm font-medium text-accent-foreground whitespace-nowrap">
+                            {item.label}
+                          </span>
                         </div>
                       </div>
-                      <span className="text-sm font-medium text-muted-foreground w-8 text-right">{item.time}</span>
+                      <span className="text-sm font-medium text-muted-foreground w-8 text-right">
+                        {item.time}
+                      </span>
                     </div>
                   ))}
                 </div>
-                 <div className="w-full pt-2">
+                <div className="w-full pt-2">
                   <div className="grid grid-cols-7 text-xs text-muted-foreground text-center">
                     <span>0</span>
                     <span>5</span>
@@ -392,7 +364,7 @@ export default function ProductAnalyticsPage() {
             <Card className="rounded-[50px] p-6">
               <CardHeader className="p-0">
                 <div className="flex justify-between items-center mb-4">
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 whitespace-nowrap">
                     <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
                       <Package />
                     </div>
