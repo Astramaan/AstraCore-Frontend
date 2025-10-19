@@ -412,17 +412,17 @@ export default function ExistingClientHomePage() {
                   <CardContent className="p-0">
                     <div className="flex justify-between items-end">
                       <div>
-                        <h3 className="text-2xl font-bold text-white text-shadow">
+                        <h3 className="text-2xl font-bold dark:text-white text-foreground text-shadow">
                           {project.name}
                         </h3>
-                        <p className="text-white text-shadow">{project.id}</p>
+                        <p className="dark:text-white text-foreground text-shadow">{project.id}</p>
                       </div>
                       {project.pm && (
                         <div className="text-right">
-                          <p className="text-sm text-white/80">
+                          <p className="text-sm dark:text-white/80 text-muted-foreground">
                             Project Manager
                           </p>
-                          <p className="text-base font-semibold text-white">
+                          <p className="text-base font-semibold dark:text-white text-foreground">
                             {project.pm}
                           </p>
                         </div>
