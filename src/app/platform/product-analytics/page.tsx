@@ -94,6 +94,8 @@ const retentionRateData = [
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("7D");
+  const [isUsageHovered, setIsUsageHovered] = useState(false);
+  const [isRetentionHovered, setIsRetentionHovered] = useState(false);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -297,12 +299,18 @@ export default function ProductAnalyticsPage() {
                   <h3 className="text-muted-foreground mb-4">
                     Feature Usage Over Time
                   </h3>
-                  <div className="h-48 relative">
+                  <div
+                    className="h-48 relative"
+                    onMouseEnter={() => setIsUsageHovered(true)}
+                    onMouseLeave={() => setIsUsageHovered(false)}
+                  >
                     <LineChart data={featureUsageData} />
-                    <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                      <ArrowUp className="h-3 w-3" />
-                      +24.4%
-                    </div>
+                    {isUsageHovered && (
+                      <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                        <ArrowUp className="h-3 w-3" />
+                        +24.4%
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -334,12 +342,18 @@ export default function ProductAnalyticsPage() {
                   <h3 className="text-muted-foreground mb-4">
                     Retention Rate
                   </h3>
-                  <div className="h-48 relative">
+                  <div
+                    className="h-48 relative"
+                    onMouseEnter={() => setIsRetentionHovered(true)}
+                    onMouseLeave={() => setIsRetentionHovered(false)}
+                  >
                     <LineChart data={retentionRateData} />
-                    <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                      <ArrowUp className="h-3 w-3" />
-                      +24.4%
-                    </div>
+                    {isRetentionHovered && (
+                      <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                        <ArrowUp className="h-3 w-3" />
+                        +24.4%
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
