@@ -98,27 +98,71 @@ const supportTeam = [
 ];
 
 const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => (
-    <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 p-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 md:flex-1 gap-x-4 gap-y-2 text-sm md:text-base">
-                <div><span className="text-muted-foreground">Issue ID:</span> <span className="font-medium text-foreground">{issue.id}</span></div>
-                <div><span className="text-muted-foreground">Reported By:</span> <span className="font-medium text-foreground">{issue.reportedBy}</span></div>
-                <div><span className="text-muted-foreground">Reported on:</span> <span className="font-medium text-foreground">{issue.reportedOn}</span></div>
-                <div><span className="text-muted-foreground">Title:</span> <span className="font-medium text-foreground">{issue.title}</span></div>
-                <div className="col-span-2"><span className="text-muted-foreground">Summary:</span> <span className="font-medium text-foreground">{issue.summary}</span></div>
-            </div>
-             <div className="hidden md:block w-px bg-border h-14 mx-4"></div>
-            <div className="flex md:flex-col justify-between items-end gap-2 text-right text-sm md:text-base">
-                <p><span className="text-muted-foreground">Status:</span> <span className="font-medium text-red-500">{issue.status}</span></p>
-                <p><span className="text-muted-foreground">Priority:</span> <span className="font-medium text-foreground">{issue.priority}</span></p>
-                <p><span className="text-muted-foreground">Assigned To:</span> <span className="font-medium text-foreground">{issue.assignedTo}</span></p>
-            </div>
-             <Button variant="ghost" size="icon" className="hidden md:block ml-4">
-                <MoreVertical className="w-5 h-5 text-muted-foreground" />
-            </Button>
-        </div>
-        <Separator/>
+  <div className="flex flex-col">
+    <div className="grid grid-cols-1 md:grid-cols-[1.5fr_auto_1.5fr_auto_1fr_auto] items-center gap-4 p-4">
+      {/* Issue Details */}
+      <div className="flex flex-col gap-2">
+        <p className="text-base">
+          <span className="text-muted-foreground">Issue ID:</span>{" "}
+          <span className="font-medium text-foreground">{issue.id}</span>
+        </p>
+        <p className="text-base">
+          <span className="text-muted-foreground">Reported By:</span>{" "}
+          <span className="font-medium text-foreground">
+            {issue.reportedBy}
+          </span>
+        </p>
+        <p className="text-base">
+          <span className="text-muted-foreground">Reported on:</span>{" "}
+          <span className="font-medium text-foreground">
+            {issue.reportedOn}
+          </span>
+        </p>
+      </div>
+
+      <Separator orientation="vertical" className="hidden md:block h-14 mx-4" />
+
+      {/* Title/Summary */}
+      <div className="flex flex-col gap-2">
+        <p className="text-base">
+          <span className="text-muted-foreground">Title:</span>{" "}
+          <span className="font-medium text-foreground">{issue.title}</span>
+        </p>
+        <p className="text-base">
+          <span className="text-muted-foreground">Summary:</span>{" "}
+          <span className="font-medium text-foreground">{issue.summary}</span>
+        </p>
+      </div>
+
+      <Separator orientation="vertical" className="hidden md:block h-14 mx-4" />
+
+      {/* Status Details */}
+      <div className="flex flex-col items-start md:items-end gap-2 text-left md:text-right text-base">
+        <p>
+          <span className="text-muted-foreground">Status:</span>{" "}
+          <span className="font-medium text-red-500">{issue.status}</span>
+        </p>
+        <p>
+          <span className="text-muted-foreground">Priority:</span>{" "}
+          <span className="font-medium text-foreground">{issue.priority}</span>
+        </p>
+        <p>
+          <span className="text-muted-foreground">Assigned To:</span>{" "}
+          <span className="font-medium text-foreground">
+            {issue.assignedTo}
+          </span>
+        </p>
+      </div>
+
+      {/* Actions */}
+      <div className="justify-self-end">
+        <Button variant="ghost" size="icon" className="ml-4">
+          <MoreVertical className="w-5 h-5 text-muted-foreground" />
+        </Button>
+      </div>
     </div>
+    <Separator />
+  </div>
 );
 
 const MostReportedCard = ({ data }: { data: (typeof mostReported)[0] }) => (
@@ -279,4 +323,3 @@ export default function SupportAndFeedbackPage() {
     </div>
   );
 }
-
