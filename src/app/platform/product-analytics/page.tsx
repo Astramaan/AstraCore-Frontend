@@ -48,6 +48,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { FeatureCard } from "@/components/feature-card";
+import { LineChart } from "@/components/charts/line-chart";
 
 const materials = [
   { material: "Steel", company: "Tata", price: "₹xxx" },
@@ -278,7 +279,7 @@ export default function ProductAnalyticsPage() {
                     Feature Usage Over Time
                   </h3>
                   <div className="h-48 relative">
-                    <SubscriptionChart />
+                    <LineChart />
                     <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
                       <ArrowUp className="h-3 w-3" />
                       +24.4%
@@ -315,7 +316,7 @@ export default function ProductAnalyticsPage() {
                     Retention Rate
                   </h3>
                   <div className="h-48 relative">
-                    <SubscriptionChart />
+                    <LineChart />
                     <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
                       <ArrowUp className="h-3 w-3" />
                       +24.4%
