@@ -2,13 +2,12 @@
 
 import * as React from "react";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -24,7 +23,7 @@ const data = [
 export function RevenueChart() {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart
+      <BarChart
         data={data}
         margin={{
           top: 5,
@@ -56,16 +55,14 @@ export function RevenueChart() {
             `₹${value.toLocaleString()}`,
             "Revenue",
           ]}
+          cursor={{ fill: 'hsl(var(--primary) / 0.1)' }}
         />
-        <Line
-          type="monotone"
+        <Bar
           dataKey="revenue"
-          stroke="hsl(var(--primary))"
-          strokeWidth={3}
-          dot={{ r: 6, strokeWidth: 2, fill: "hsl(var(--primary))" }}
-          activeDot={{ r: 8 }}
+          fill="hsl(var(--primary))"
+          radius={[10, 10, 0, 0]}
         />
-      </LineChart>
+      </BarChart>
     </ResponsiveContainer>
   );
 }
