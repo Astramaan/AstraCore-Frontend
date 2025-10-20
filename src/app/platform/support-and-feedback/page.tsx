@@ -9,7 +9,6 @@ import {
   ShieldAlert,
   MessageSquare,
   BarChart2,
-  PieChart,
   ArrowUp,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -194,43 +193,51 @@ const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => 
 
   const MostReportedCard = ({ data }: { data: (typeof mostReported)[0] }) => (
     <Card className="rounded-[40px] bg-background dark:bg-input p-6">
-        <CardContent className="p-0 space-y-4">
-            <div className="flex flex-col items-start gap-2">
-                <p className="text-lg text-red-500 font-medium">{data.category}</p>
-                <div className="flex items-center gap-2">
-                    <p className="text-4xl font-bold flex items-center">
-                        {data.total}
-                        <ArrowUp className="w-5 h-5 text-red-500 ml-1" />
-                    </p>
-                    <p className="text-base text-muted-foreground self-end pb-1">Reports</p>
-                </div>
+      <CardContent className="p-0 space-y-4">
+        <div className="flex flex-col items-start gap-2">
+          <p className="text-lg text-red-500 font-medium">{data.category}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-4xl font-bold flex items-center">
+              {data.total}
+              <ArrowUp className="w-5 h-5 text-red-500 ml-1" />
+            </p>
+            <p className="text-base text-muted-foreground self-end pb-1">
+              Reports
+            </p>
+          </div>
+        </div>
+        <div className="space-y-3 pt-2">
+          {data.issues.map((issue, index) => (
+            <div
+              key={index}
+              className="flex justify-between items-center text-lg pb-2 border-b border-border/50"
+            >
+              <p className="text-foreground">{issue.title}</p>
+              <p className="font-medium">{issue.count}</p>
             </div>
-            <div className="space-y-3 pt-2">
-                {data.issues.map((issue, index) => (
-                    <div key={index} className="flex justify-between items-center text-lg pb-2 border-b border-border/50">
-                        <p className="text-foreground">{issue.title}</p>
-                        <p className="font-medium">{issue.count}</p>
-                    </div>
-                ))}
-            </div>
-        </CardContent>
+          ))}
+        </div>
+      </CardContent>
     </Card>
-);
+  );
 
 const SupportMemberCard = ({ member }: { member: (typeof supportTeam)[0] }) => (
-    <div className="flex justify-between items-center pb-4 border-b">
-        <div className="flex items-center gap-2">
-            <Avatar className="w-14 h-14 relative">
-                <AvatarImage src={member.avatar} />
-                <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                {member.isOnline && <div className="absolute top-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"/>}
-            </Avatar>
-            <div>
-                <p className="text-lg font-medium">{member.name}</p>
-                <p className="text-base text-muted-foreground">{member.company}</p>
+    <div className="flex flex-col">
+        <div className="flex justify-between items-center py-4">
+            <div className="flex items-center gap-2">
+                <Avatar className="w-14 h-14 relative">
+                    <AvatarImage src={member.avatar} />
+                    <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                    {member.isOnline && <div className="absolute top-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"/>}
+                </Avatar>
+                <div>
+                    <p className="text-lg font-medium">{member.name}</p>
+                    <p className="text-base text-muted-foreground">{member.company}</p>
+                </div>
             </div>
+            <Button className="h-14 px-10 rounded-full bg-background text-foreground hover:bg-muted">Chat</Button>
         </div>
-        <Button className="h-14 px-10 rounded-full bg-background text-foreground hover:bg-muted">Chat</Button>
+        <Separator />
     </div>
 );
 
