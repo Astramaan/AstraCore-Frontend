@@ -28,6 +28,11 @@ const navItems = [
     label: "Organization",
   },
   { href: "/platform/product-analytics", icon: PieChart, label: "Analytics" },
+  {
+    href: "/platform/support-and-feedback",
+    icon: MessagesSquare,
+    label: "Support",
+  },
 ];
 
 export const PlatformBottomNav = () => {
