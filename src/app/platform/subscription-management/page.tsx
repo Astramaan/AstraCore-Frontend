@@ -281,8 +281,8 @@ export default function SubscriptionManagementPage() {
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="rounded-[50px] squircle lg:col-span-2">
-            <CardContent className="p-6 flex items-center justify-center">
+        <Card className="rounded-[50px] squircle lg:col-span-2 flex">
+            <CardContent className="p-6 flex items-center justify-center flex-1">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 <QuickLink
                   icon={<UserCheck className="h-6 w-6 text-green-700" />}
