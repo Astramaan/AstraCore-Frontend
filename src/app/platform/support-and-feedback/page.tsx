@@ -358,7 +358,7 @@ export default function SupportAndFeedbackPage() {
                 </div>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {mostReported.map(item => <MostReportedCard key={item.category} data={item} />)}
+                {mostReported.map((item, index) => <MostReportedCard key={index} data={item} />)}
             </CardContent>
         </Card>
 
