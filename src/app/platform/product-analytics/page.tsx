@@ -43,12 +43,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SubscriptionChart } from "@/components/charts/subscription-chart";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
 import { FeatureCard } from "@/components/feature-card";
 import { LineChart } from "@/components/charts/line-chart";
+import { Calendar } from "@/components/ui/calendar";
 
 const materials = [
   { material: "Steel", company: "Tata", price: "₹xxx" },
@@ -73,23 +72,22 @@ const mockProjects = [
 ];
 
 const featureUsageData = [
-    { name: "Jan", value: 80 },
-    { name: "Feb", value: 120 },
-    { name: "Mar", value: 90 },
-    { name: "Apr", value: 170 },
-    { name: "May", value: 130 },
-    { name: "Jun", value: 220 },
+  { name: "Jan", value: 80 },
+  { name: "Feb", value: 120 },
+  { name: "Mar", value: 90 },
+  { name: "Apr", value: 170 },
+  { name: "May", value: 130 },
+  { name: "Jun", value: 220 },
 ];
 
 const retentionRateData = [
-    { name: "Jan", value: 95 },
-    { name: "Feb", value: 92 },
-    { name: "Mar", value: 93 },
-    { name: "Apr", value: 88 },
-    { name: "May", value: 90 },
-    { name: "Jun", value: 91 },
+  { name: "Jan", value: 95 },
+  { name: "Feb", value: 92 },
+  { name: "Mar", value: 93 },
+  { name: "Apr", value: 88 },
+  { name: "May", value: 90 },
+  { name: "Jun", value: 91 },
 ];
-
 
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
@@ -105,22 +103,6 @@ export default function ProductAnalyticsPage() {
   const [selectedArea, setSelectedArea] = useState("all");
   const [currentDate, setCurrentDate] = useState(new Date(2024, 5, 1)); // June 2024
 
-  const getDaysInMonth = (year: number, month: number) => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-  const getFirstDayOfMonth = (year: number, month: number) => {
-    return new Date(year, month, 1).getDay();
-  };
-
-  const daysInMonth = getDaysInMonth(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-  );
-  const firstDay = getFirstDayOfMonth(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-  );
-
   const projectsByDate = useMemo(() => {
     return mockProjects.reduce(
       (acc, project) => {
@@ -128,11 +110,12 @@ export default function ProductAnalyticsPage() {
           selectedArea === "all" ||
           `${project.area}, ${project.city}` === selectedArea
         ) {
-          const date = project.createdAt;
-          if (!acc[date]) {
-            acc[date] = 0;
+          const date = new Date(project.createdAt).setHours(0, 0, 0, 0);
+          const dateStr = new Date(date).toISOString().split("T")[0];
+          if (!acc[dateStr]) {
+            acc[dateStr] = 0;
           }
-          acc[date]++;
+          acc[dateStr]++;
         }
         return acc;
       },
@@ -140,41 +123,27 @@ export default function ProductAnalyticsPage() {
     );
   }, [selectedArea]);
 
-  const calendarDays = Array.from({ length: firstDay }, (_, i) => (
-    <div key={`empty-${i}`} className="h-16 p-1 text-xs" />
-  ));
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dateStr = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-    const projectCount = projectsByDate[dateStr] || 0;
-    const isWeekend =
-      new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getDay() %
-        6 ===
-      0;
-    calendarDays.push(
-      <div
-        key={day}
-        className={cn(
-          "h-16 p-1 text-xs border-r border-b",
-          (firstDay + day - 1) % 7 === 6 && "border-r-0",
-          day > daysInMonth - 7 && "border-b-0",
-          projectCount > 0 && "bg-green-200",
-          projectCount > 2 && "bg-green-500",
-          day > 0 && day <= 31 ? "text-black" : "text-gray-400",
-          isWeekend && day > 0 && day <= 31 && "text-red-500",
-        )}
-      >
-        {day > 0 && day <= 31 ? day : ""}
-      </div>,
-    );
-  }
-
   const uniqueAreas = useMemo(() => {
-    const areas = new Set(
-      mockProjects.map((p) => `${p.area}, ${p.city}`),
-    );
+    const areas = new Set(mockProjects.map((p) => `${p.area}, ${p.city}`));
     return Array.from(areas);
   }, []);
+
+  const dayRenderer = (day: Date, modifiers: any) => {
+    const dateStr = day.toISOString().split("T")[0];
+    const projectCount = projectsByDate[dateStr] || 0;
+    const isWeekend = day.getDay() % 6 === 0;
+
+    let dayClass = "";
+    if (projectCount > 0) {
+      dayClass = projectCount > 2 ? "bg-green-500 text-white" : "bg-green-200";
+    }
+
+    return (
+      <div className={cn("rdp-day_content", dayClass)}>
+        <span>{day.getDate()}</span>
+      </div>
+    );
+  };
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
@@ -484,28 +453,60 @@ export default function ProductAnalyticsPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Areas</SelectItem>
-                  {uniqueAreas.map(area => (
-                     <SelectItem key={area} value={area}>{area}</SelectItem>
+                  {uniqueAreas.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {area}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
           </CardHeader>
           <CardContent>
-             <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
               <div className="overflow-x-auto">
-                <div className="grid grid-cols-7 text-center text-xs font-bold text-white bg-primary rounded-t-xl">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                    (day) => (
-                      <div key={day} className="p-2">
-                        {day}
-                      </div>
+                <Calendar
+                  month={currentDate}
+                  onMonthChange={setCurrentDate}
+                  formatters={{ formatDay: dayRenderer }}
+                  className="p-0"
+                  classNames={{
+                    months: 'p-0',
+                    month: 'border rounded-xl p-0',
+                    caption: 'p-4 flex items-center justify-between',
+                    caption_label: 'text-lg font-bold',
+                    nav_button: cn(
+                      buttonVariants({ variant: 'outline' }),
+                      'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
                     ),
-                  )}
-                </div>
-                <div className="grid grid-cols-7 border-l border-r border-b rounded-b-xl">
-                  {calendarDays}
-                </div>
+                    head_row: 'bg-primary text-white rounded-t-xl',
+                    head_cell: 'w-full py-2 text-sm',
+                    row: 'grid grid-cols-7',
+                    cell: 'aspect-square flex items-center justify-center text-sm p-1 border-r border-b',
+                    day: 'w-full h-full rounded-none',
+                    day_selected: '',
+                    day_today: 'bg-accent text-accent-foreground',
+                  }}
+                  components={{
+                    DayContent: (props) => {
+                      const dateStr = props.date.toISOString().split("T")[0];
+                      const projectCount = projectsByDate[dateStr] || 0;
+                      return (
+                        <div
+                          className={cn(
+                            "w-full h-full flex items-center justify-center rounded-sm",
+                            projectCount > 0 &&
+                              (projectCount > 2
+                                ? "bg-green-500 text-white"
+                                : "bg-green-200")
+                          )}
+                        >
+                          {props.date.getDate()}
+                        </div>
+                      );
+                    },
+                  }}
+                />
               </div>
               <div className="flex flex-col lg:flex-row gap-4 justify-around">
                 <Card className="p-4 rounded-3xl text-center bg-background flex-1">
