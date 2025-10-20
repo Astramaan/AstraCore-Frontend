@@ -279,17 +279,7 @@ export default function SubscriptionManagementPage() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="rounded-[50px] squircle lg:col-span-2">
-            <CardHeader className="flex flex-row justify-between items-start">
-              <div className="flex items-center gap-2">
-                <div className="p-3.5 rounded-full border">
-                  <Users className="h-6 w-6" />
-                </div>
-                <div>
-                  <CardTitle>Quick Links</CardTitle>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <CardContent className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <QuickLink
                 icon={<Users className="h-6 w-6 text-foreground" />}
                 bgColor="bg-accent-color-01/30"
