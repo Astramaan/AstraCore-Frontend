@@ -174,7 +174,7 @@ export default function PlatformDashboard() {
                           "text-white group-hover:text-primary dark:group-hover:text-primary",
                         )}
                       >
-                        Employee Management
+                        Team Management
                       </span>
                     </Button>
                   </div>

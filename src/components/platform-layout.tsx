@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import TeamIcon from "./icons/team-icon";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { useUser } from "@/context/user-context";
+import { Button } from "./ui/button";
 
 function PlatformHeader() {
   const { user } = useUser();
@@ -44,7 +45,7 @@ function PlatformHeader() {
                   >
                     <TeamIcon className={cn("mr-2 h-6 w-6", "text-white")} />
                     <span className={cn("text-white whitespace-nowrap")}>
-                      Employee Management
+                      Team Management
                     </span>
                   </Button>
                 </div>

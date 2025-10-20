@@ -179,7 +179,7 @@ export default function ProductAnalyticsPage() {
                     >
                       <TeamIcon className={cn("mr-2 h-6 w-6", "text-white")} />
                       <span className={cn("text-white whitespace-nowrap")}>
-                        Employee Management
+                        Team Management
                       </span>
                     </Button>
                   </div>

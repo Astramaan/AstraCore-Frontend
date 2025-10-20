@@ -214,6 +214,23 @@ export default function SubscriptionManagementPage() {
               </div>
               <div className="flex justify-end items-center gap-4">
                 <NotificationPopover userType="organization" />
+                 <Link href="/platform/teams">
+                  <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+                    <Button
+                      className={cn(
+                        "group rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20",
+                        "text-white",
+                      )}
+                    >
+                      <TeamIcon
+                        className={cn("mr-2 h-6 w-6", "text-white")}
+                      />
+                      <span className={cn("text-white whitespace-nowrap")}>
+                        Team Management
+                      </span>
+                    </Button>
+                  </div>
+                </Link>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
                 <div className="flex justify-start items-center gap-2">
                   <Avatar className="w-14 h-14">
@@ -281,9 +298,9 @@ export default function SubscriptionManagementPage() {
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="rounded-[50px] squircle lg:col-span-2 flex">
-            <CardContent className="p-6 flex items-center justify-center flex-1">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+          <Card className="rounded-[50px] squircle lg:col-span-2 flex items-center justify-center">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
                 <QuickLink
                   icon={<UserCheck className="h-6 w-6 text-green-700" />}
                   bgColor="bg-green-100"

@@ -351,7 +351,7 @@ export default function TeamsPageContent() {
                 <HabiLogo />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
                 <h1 className="text-2xl md:text-4xl font-bold text-white">
-                  Teams Management
+                  Team Management
                 </h1>
               </div>
               <div className="flex justify-end items-center gap-4">
