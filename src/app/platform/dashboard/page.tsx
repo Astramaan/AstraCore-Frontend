@@ -458,18 +458,16 @@ export default function PlatformDashboard() {
                         {customer.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="w-32 inline-flex flex-col justify-start items-start gap-1">
+                    <div className="inline-flex flex-col justify-start items-start gap-1">
                       <p className="font-medium">{customer.name}</p>
-                      <div className="flex gap-2">
-                        <p className="text-sm text-muted-foreground truncate">
-                          {customer.reason}
-                        </p>
+                      <p className="text-sm text-muted-foreground truncate">
+                        {customer.reason}
                         {customer.comeback && (
-                          <p className="text-sm text-green-600">
+                          <span className="text-green-600 ml-1">
                             ({customer.comeback})
-                          </p>
+                          </span>
                         )}
-                      </div>
+                      </p>
                     </div>
                   </div>
                   <Button variant="outline" className="rounded-full">
