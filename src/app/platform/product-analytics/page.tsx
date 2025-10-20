@@ -305,12 +305,6 @@ export default function ProductAnalyticsPage() {
                     onMouseLeave={() => setIsUsageHovered(false)}
                   >
                     <LineChart data={featureUsageData} />
-                    {isUsageHovered && (
-                      <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                        <ArrowUp className="h-3 w-3" />
-                        +24.4%
-                      </div>
-                    )}
                   </div>
                 </div>
 
@@ -348,12 +342,6 @@ export default function ProductAnalyticsPage() {
                     onMouseLeave={() => setIsRetentionHovered(false)}
                   >
                     <LineChart data={retentionRateData} />
-                    {isRetentionHovered && (
-                      <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                        <ArrowUp className="h-3 w-3" />
-                        +24.4%
-                      </div>
-                    )}
                   </div>
                 </div>
               </CardContent>
