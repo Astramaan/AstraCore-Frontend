@@ -39,11 +39,22 @@ export function ChurnChart() {
           axisLine={false}
           domain={[0, 200]}
         />
-        <Tooltip cursor={{ fill: "hsl(var(--primary) / 0.1)" }} />
+        <Tooltip
+          cursor={{ fill: "hsl(var(--primary) / 0.1)" }}
+          contentStyle={{
+            borderRadius: "50px",
+            border: "none",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          }}
+          formatter={(value: number) => [
+            `${value}`,
+            "Unsubscribed",
+          ]}
+        />
         <Bar
           yAxisId="left"
           dataKey="value"
-          fill="hsl(var(--primary))"
+          fill="hsl(var(--destructive))"
           radius={[10, 10, 0, 0]}
         />
       </BarChart>
