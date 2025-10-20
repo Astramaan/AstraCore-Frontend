@@ -9,6 +9,9 @@ import {
   Users,
   CircleDollarSign,
   ClipboardList,
+  UserCheck,
+  UserX,
+  CreditCard,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -279,32 +282,30 @@ export default function SubscriptionManagementPage() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="rounded-[50px] squircle lg:col-span-2">
-            <CardContent className="p-6 flex items-center justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 <QuickLink
-                  icon={<Users className="h-6 w-6 text-foreground" />}
-                  bgColor="bg-accent-color-01/30"
+                  icon={<UserCheck className="h-6 w-6 text-green-700" />}
+                  bgColor="bg-green-100"
                   text="Active Customers"
                   href="#"
                 />
                 <QuickLink
-                  icon={
-                    <CircleDollarSign className="h-6 w-6 text-foreground" />
-                  }
-                  bgColor="bg-accent-color-02/30"
+                  icon={<CreditCard className="h-6 w-6 text-indigo-700" />}
+                  bgColor="bg-indigo-100"
+                  text="Payment Attempts"
+                  href="#"
+                />
+                <QuickLink
+                  icon={<UserX className="h-6 w-6 text-red-700" />}
+                  bgColor="bg-red-100"
                   text="Expired Customers"
                   href="#"
                 />
                 <QuickLink
-                  icon={<ClipboardList className="h-6 w-6 text-foreground" />}
-                  bgColor="bg-accent-color-03/30"
+                  icon={<ClipboardList className="h-6 w-6 text-purple-700" />}
+                  bgColor="bg-purple-100"
                   text="Invoices"
-                  href="#"
-                />
-                <QuickLink
-                  icon={<HandCoins className="h-6 w-6 text-foreground" />}
-                  bgColor="bg-accent-color-05/30"
-                  text="Payment Attempts"
                   href="#"
                 />
               </div>
