@@ -48,14 +48,6 @@ import { Label } from "@/components/ui/label";
 import { FeatureCard } from "@/components/feature-card";
 import { LineChart } from "@/components/charts/line-chart";
 
-const materials = [
-  { material: "Steel", company: "Tata", price: "₹xxx" },
-  { material: "Steel", company: "Tata", price: "₹xxx" },
-  { material: "Steel", company: "Tata", price: "₹xxx" },
-  { material: "Steel", company: "Tata", price: "₹xxx" },
-  { material: "Steel", company: "Tata", price: "₹xxx" },
-];
-
 const mockProjects = [
   { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-05" },
   { city: "Bengaluru", area: "Electronic City", createdAt: "2024-06-06" },
@@ -88,9 +80,19 @@ const retentionRateData = [
   { name: "Jun", value: 91 },
 ];
 
+const materials = [
+    { material: "Steel", company: "Tata", price: "₹xxx" },
+    { material: "Steel", company: "Tata", price: "₹xxx" },
+    { material: "Steel", company: "Tata", price: "₹xxx" },
+    { material: "Steel", company: "Tata", price: "₹xxx" },
+    { material: "Steel", company: "Tata", price: "₹xxx" },
+  ];
+
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("7D");
+  const [featureUsageHover, setFeatureUsageHover] = useState(false);
+  const [retentionRateHover, setRetentionRateHover] = useState(false);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -134,7 +136,7 @@ export default function ProductAnalyticsPage() {
     }
     return days;
   };
-  
+
   const calendarDays = getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth());
   const firstDayOfMonth = calendarDays[0].getDay();
   const emptyDays = Array(firstDayOfMonth).fill(null);
@@ -258,11 +260,15 @@ export default function ProductAnalyticsPage() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-8">
-                <div>
+                <div
+                    onMouseEnter={() => setFeatureUsageHover(true)}
+                    onMouseLeave={() => setFeatureUsageHover(false)}
+                    className="relative"
+                  >
                   <h3 className="text-muted-foreground mb-4">
                     Feature Usage Over Time
                   </h3>
-                  <div
+                   <div
                     className="h-48 relative"
                   >
                     <LineChart data={featureUsageData} />
@@ -293,7 +299,11 @@ export default function ProductAnalyticsPage() {
                   />
                 </div>
 
-                <div>
+                <div
+                    onMouseEnter={() => setRetentionRateHover(true)}
+                    onMouseLeave={() => setRetentionRateHover(false)}
+                    className="relative"
+                  >
                   <h3 className="text-muted-foreground mb-4">
                     Retention Rate
                   </h3>
@@ -453,36 +463,76 @@ export default function ProductAnalyticsPage() {
             </div>
           </CardHeader>
           <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-start">
             <div className="border rounded-xl p-2 md:p-4">
                 <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-base md:text-lg font-bold">{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h3>
-                    <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))}><ChevronLeft className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))}><ChevronRight className="h-4 w-4" /></Button>
-                    </div>
+                  <h3 className="text-base md:text-lg font-bold">
+                    {currentDate.toLocaleString("default", {
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </h3>
+                  <div className="flex gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 md:h-8 md:w-8"
+                      onClick={() =>
+                        setCurrentDate(
+                          (prev) =>
+                            new Date(prev.getFullYear(), prev.getMonth() - 1, 1),
+                        )
+                      }
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 md:h-8 md:w-8"
+                      onClick={() =>
+                        setCurrentDate(
+                          (prev) =>
+                            new Date(prev.getFullYear(), prev.getMonth() + 1, 1),
+                        )
+                      }
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground mb-2">
-                    {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => <div key={day}>{day}</div>)}
+                  {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                    <div key={day} className="h-4">{day}</div>
+                  ))}
                 </div>
                 <div className="grid grid-cols-7 gap-1">
-                    {emptyDays.map((_, i) => <div key={`empty-${i}`} />)}
-                    {calendarDays.map((day, i) => {
-                        const dateStr = day.toISOString().split("T")[0];
-                        const projectCount = projectsByDate[dateStr] || 0;
-                        let bgColor = "bg-background";
-                        if (projectCount > 0) {
-                            bgColor = projectCount > 2 ? 'bg-green-500' : 'bg-green-200';
-                        }
-                        return (
-                            <div key={i} className={cn("aspect-square w-full h-auto flex items-center justify-center rounded-sm text-xs", bgColor)}>
-                                {day.getDate()}
-                            </div>
-                        );
-                    })}
+                  {emptyDays.map((_, i) => (
+                    <div key={`empty-${i}`} />
+                  ))}
+                  {calendarDays.map((day, i) => {
+                    const dateStr = day.toISOString().split("T")[0];
+                    const projectCount = projectsByDate[dateStr] || 0;
+                    let bgColor = "bg-background";
+                    if (projectCount > 0) {
+                      bgColor =
+                        projectCount > 2 ? "bg-green-500" : "bg-green-200";
+                    }
+                    return (
+                      <div
+                        key={i}
+                        className={cn(
+                          "aspect-square w-full h-auto flex items-center justify-center rounded-sm text-xs",
+                          bgColor,
+                        )}
+                      >
+                        {day.getDate()}
+                      </div>
+                    );
+                  })}
                 </div>
-            </div>
-            <div className="flex flex-col lg:flex-row gap-4 justify-around">
+              </div>
+              <div className="flex flex-col lg:flex-row gap-4 justify-around">
                 <Card className="p-4 rounded-3xl text-center bg-background flex-1">
                   <p className="text-sm text-muted-foreground">Month</p>
                   <p className="text-3xl font-bold flex items-center justify-center gap-1">
@@ -530,5 +580,4 @@ export default function ProductAnalyticsPage() {
       <PlatformBottomNav />
     </div>
   );
-
-    
+}
