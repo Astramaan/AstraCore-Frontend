@@ -470,7 +470,7 @@ export default function PlatformDashboard() {
                       </p>
                     </div>
                   </div>
-                  <Button variant="outline" className="rounded-full">
+                  <Button variant="outline" className="rounded-full h-14">
                     <MessageSquare className="h-5 w-5 mr-2" />
                     Contact
                   </Button>
