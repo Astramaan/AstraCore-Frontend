@@ -13,6 +13,7 @@ import {
   Info,
   Calendar as CalendarIcon,
   ArrowUp,
+  Maximize,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,7 @@ import { NotificationPopover } from "@/components/notification-popover";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import TeamIcon from "@/components/icons/team-icon";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -52,7 +53,7 @@ const onboardingTracks = [
     progress: 16.6,
     stages: [
       { name: "Account Setup", completed: true },
-      { name: "Subscription Preview", completed: false, isCurrent: true },
+      { name: "Subscription Preview", completed: false, isCurrent: true, needsFollowUp: true },
       { name: "Walkthrough", completed: false },
       { name: "First Project", completed: false },
       { name: "Smart Nudges", completed: false },
@@ -161,22 +162,33 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
       </div>
       <div className="flex flex-col md:flex-row items-stretch gap-4">
         <div className="flex-1 relative">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {track.stages.map((stage, index) => (
-              <Button
-                key={index}
-                className={cn(
-                  "h-14 rounded-full min-w-max px-4 text-base",
-                  stage.completed
-                    ? "bg-green-500 text-white"
-                    : stage.isCurrent
-                      ? "bg-card text-primary border border-primary"
-                      : "bg-card text-muted-foreground border border-border",
+              <React.Fragment key={index}>
+                <Button
+                  className={cn(
+                    "h-14 rounded-full min-w-max px-4 text-base",
+                    stage.completed
+                      ? "bg-green-500 text-white hover:bg-green-500/90"
+                      : stage.isCurrent
+                        ? stage.needsFollowUp
+                          ? "bg-card text-destructive border border-destructive"
+                          : "bg-card text-primary border border-primary"
+                        : "bg-card text-muted-foreground border border-border",
+                  )}
+                >
+                  {stage.completed && <Check className="mr-2" size={20} />}
+                  {stage.name}
+                </Button>
+                {index < track.stages.length - 1 && (
+                  <Separator
+                    className={cn(
+                      "w-4 h-px",
+                      stage.completed ? "bg-green-500" : "bg-border",
+                    )}
+                  />
                 )}
-              >
-                {stage.completed && <Check className="mr-2" size={20} />}
-                {stage.name}
-              </Button>
+              </React.Fragment>
             ))}
           </div>
         </div>
@@ -424,6 +436,13 @@ export default function OnboardingPage() {
                 >
                   <ChevronRight />
                 </Button>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full border"
+                  >
+                    <Maximize className="w-5 h-5" />
+                  </Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-0 px-6 pb-6">
