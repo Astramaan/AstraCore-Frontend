@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import {
   Bell,
   MoreVertical,
@@ -10,6 +10,7 @@ import {
   MessageSquare,
   BarChart2,
   PieChart,
+  ArrowUp,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -124,86 +125,89 @@ const supportTeam = [
 ];
 
 const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => (
-  <div className="flex flex-col">
-    <div className="grid grid-cols-1 md:grid-cols-[1.5fr_auto_1.5fr_auto_1fr_auto] items-start gap-4 p-4">
-      {/* Issue Details */}
-      <div className="flex flex-col gap-2">
-        <p className="text-base">
-          <span className="text-muted-foreground">Issue ID:</span>{" "}
-          <span className="font-medium text-foreground">{issue.id}</span>
-        </p>
-        <p className="text-base">
-          <span className="text-muted-foreground">Reported By:</span>{" "}
-          <span className="font-medium text-foreground">
-            {issue.reportedBy}
-          </span>
-        </p>
-        <p className="text-base">
-          <span className="text-muted-foreground">Reported on:</span>{" "}
-          <span className="font-medium text-foreground">
-            {issue.reportedOn}
-          </span>
-        </p>
+    <div className="flex flex-col">
+      <div className="grid grid-cols-1 md:grid-cols-[1.5fr_auto_1.5fr_auto_1fr_auto] items-start gap-4 p-4">
+        {/* Issue Details */}
+        <div className="flex flex-col gap-2">
+          <p className="text-base">
+            <span className="text-muted-foreground">Issue ID:</span>{" "}
+            <span className="font-medium text-foreground">{issue.id}</span>
+          </p>
+          <p className="text-base">
+            <span className="text-muted-foreground">Reported By:</span>{" "}
+            <span className="font-medium text-foreground">
+              {issue.reportedBy}
+            </span>
+          </p>
+          <p className="text-base">
+            <span className="text-muted-foreground">Reported on:</span>{" "}
+            <span className="font-medium text-foreground">
+              {issue.reportedOn}
+            </span>
+          </p>
+        </div>
+  
+        <Separator orientation="vertical" className="hidden md:block h-14 mx-4" />
+  
+        {/* Title/Summary */}
+        <div className="flex flex-col gap-2">
+          <p className="text-base">
+            <span className="text-muted-foreground">Title:</span>{" "}
+            <span className="font-medium text-foreground">{issue.title}</span>
+          </p>
+          <p className="text-base">
+            <span className="text-muted-foreground">Summary:</span>{" "}
+            <span className="font-medium text-foreground">{issue.summary}</span>
+          </p>
+        </div>
+  
+        <Separator orientation="vertical" className="hidden md:block h-14 mx-4" />
+  
+        {/* Status Details */}
+        <div className="flex flex-col items-start md:items-end gap-2 text-left md:text-right text-base">
+          <p>
+            <span className="text-muted-foreground">Status:</span>{" "}
+            <span className="font-medium text-red-500">{issue.status}</span>
+          </p>
+          <p>
+            <span className="text-muted-foreground">Priority:</span>{" "}
+            <span className="font-medium text-foreground">{issue.priority}</span>
+          </p>
+          <p>
+            <span className="text-muted-foreground">Assigned To:</span>{" "}
+            <span className="font-medium text-foreground">
+              {issue.assignedTo}
+            </span>
+          </p>
+        </div>
+  
+        {/* Actions */}
+        <div className="justify-self-end">
+          <Button variant="ghost" size="icon" className="ml-4">
+            <MoreVertical className="w-5 h-5 text-muted-foreground" />
+          </Button>
+        </div>
       </div>
-
-      <Separator orientation="vertical" className="hidden md:block h-14 mx-4" />
-
-      {/* Title/Summary */}
-      <div className="flex flex-col gap-2">
-        <p className="text-base">
-          <span className="text-muted-foreground">Title:</span>{" "}
-          <span className="font-medium text-foreground">{issue.title}</span>
-        </p>
-        <p className="text-base">
-          <span className="text-muted-foreground">Summary:</span>{" "}
-          <span className="font-medium text-foreground">{issue.summary}</span>
-        </p>
-      </div>
-
-      <Separator orientation="vertical" className="hidden md:block h-14 mx-4" />
-
-      {/* Status Details */}
-      <div className="flex flex-col items-start md:items-end gap-2 text-left md:text-right text-base">
-        <p>
-          <span className="text-muted-foreground">Status:</span>{" "}
-          <span className="font-medium text-red-500">{issue.status}</span>
-        </p>
-        <p>
-          <span className="text-muted-foreground">Priority:</span>{" "}
-          <span className="font-medium text-foreground">{issue.priority}</span>
-        </p>
-        <p>
-          <span className="text-muted-foreground">Assigned To:</span>{" "}
-          <span className="font-medium text-foreground">
-            {issue.assignedTo}
-          </span>
-        </p>
-      </div>
-
-      {/* Actions */}
-      <div className="justify-self-end">
-        <Button variant="ghost" size="icon" className="ml-4">
-          <MoreVertical className="w-5 h-5 text-muted-foreground" />
-        </Button>
-      </div>
+      <Separator />
     </div>
-    <Separator />
-  </div>
-);
+  );
 
-const MostReportedCard = ({ data }: { data: (typeof mostReported)[0] }) => (
+  const MostReportedCard = ({ data }: { data: (typeof mostReported)[0] }) => (
     <Card className="rounded-[40px] bg-background dark:bg-input p-6">
         <CardContent className="p-0 space-y-4">
             <div className="flex flex-col items-start gap-2">
                 <p className="text-lg text-red-500 font-medium">{data.category}</p>
                 <div className="flex items-center gap-2">
-                    <p className="text-4xl font-bold">{data.total}</p>
-                    <p className="text-base text-muted-foreground">Reports</p>
+                    <p className="text-4xl font-bold flex items-center">
+                        {data.total}
+                        <ArrowUp className="w-5 h-5 text-red-500 ml-1" />
+                    </p>
+                    <p className="text-base text-muted-foreground self-end pb-1">Reports</p>
                 </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3 pt-2">
                 {data.issues.map((issue, index) => (
-                    <div key={index} className="flex justify-between items-center text-lg pb-2 border-b">
+                    <div key={index} className="flex justify-between items-center text-lg pb-2 border-b border-border/50">
                         <p className="text-foreground">{issue.title}</p>
                         <p className="font-medium">{issue.count}</p>
                     </div>
