@@ -91,8 +91,6 @@ const retentionRateData = [
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("7D");
-  const [isUsageHovered, setIsUsageHovered] = useState(false);
-  const [isRetentionHovered, setIsRetentionHovered] = useState(false);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -266,8 +264,6 @@ export default function ProductAnalyticsPage() {
                   </h3>
                   <div
                     className="h-48 relative"
-                    onMouseEnter={() => setIsUsageHovered(true)}
-                    onMouseLeave={() => setIsUsageHovered(false)}
                   >
                     <LineChart data={featureUsageData} />
                   </div>
@@ -303,8 +299,6 @@ export default function ProductAnalyticsPage() {
                   </h3>
                   <div
                     className="h-48 relative"
-                    onMouseEnter={() => setIsRetentionHovered(true)}
-                    onMouseLeave={() => setIsRetentionHovered(false)}
                   >
                     <LineChart data={retentionRateData} />
                   </div>
@@ -460,18 +454,18 @@ export default function ProductAnalyticsPage() {
           </CardHeader>
           <CardContent>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-start">
-            <div className="border rounded-xl p-4">
-                <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold">{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h3>
+            <div className="border rounded-xl p-2 md:p-4">
+                <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-base md:text-lg font-bold">{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h3>
                     <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))}><ChevronLeft/></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))}><ChevronRight/></Button>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))}><ChevronLeft className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))}><ChevronRight className="h-4 w-4" /></Button>
                     </div>
                 </div>
                 <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground mb-2">
                     {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => <div key={day}>{day}</div>)}
                 </div>
-                <div className="grid grid-cols-7 gap-px">
+                <div className="grid grid-cols-7 gap-1">
                     {emptyDays.map((_, i) => <div key={`empty-${i}`} />)}
                     {calendarDays.map((day, i) => {
                         const dateStr = day.toISOString().split("T")[0];
@@ -481,7 +475,7 @@ export default function ProductAnalyticsPage() {
                             bgColor = projectCount > 2 ? 'bg-green-500' : 'bg-green-200';
                         }
                         return (
-                            <div key={i} className={cn("aspect-square h-8 w-8 flex items-center justify-center rounded-sm text-xs", bgColor)}>
+                            <div key={i} className={cn("aspect-square w-full h-auto flex items-center justify-center rounded-sm text-xs", bgColor)}>
                                 {day.getDate()}
                             </div>
                         );
@@ -536,4 +530,5 @@ export default function ProductAnalyticsPage() {
       <PlatformBottomNav />
     </div>
   );
-}
+
+    
