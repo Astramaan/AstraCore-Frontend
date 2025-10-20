@@ -22,6 +22,9 @@ import { Input } from "@/components/ui/input";
 import { OrganizationCard } from "@/components/organization-card";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import TeamIcon from "@/components/icons/team-icon";
+import { cn } from "@/lib/utils";
 
 const organizations = [
     {
@@ -103,6 +106,21 @@ export default function OrganizationManagementPage() {
               </div>
               <div className="flex justify-end items-center gap-2 md:gap-4">
                 <NotificationPopover userType="organization" />
+                <Link href="/platform/teams">
+                  <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0 hidden md:block">
+                    <Button
+                      className={cn(
+                        "group rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20",
+                        "text-white",
+                      )}
+                    >
+                      <TeamIcon className={cn("mr-2 h-6 w-6", "text-white")} />
+                      <span className={cn("text-white whitespace-nowrap")}>
+                        Team Management
+                      </span>
+                    </Button>
+                  </div>
+                </Link>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
                 <div className="hidden md:flex justify-start items-center gap-2">
                   <Avatar className="w-14 h-14">
