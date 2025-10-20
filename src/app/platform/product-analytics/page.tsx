@@ -72,6 +72,25 @@ const mockProjects = [
   { city: "Mumbai", area: "Bandra", createdAt: "2024-06-28" },
 ];
 
+const featureUsageData = [
+    { name: "Jan", value: 80 },
+    { name: "Feb", value: 120 },
+    { name: "Mar", value: 90 },
+    { name: "Apr", value: 170 },
+    { name: "May", value: 130 },
+    { name: "Jun", value: 220 },
+];
+
+const retentionRateData = [
+    { name: "Jan", value: 95 },
+    { name: "Feb", value: 92 },
+    { name: "Mar", value: 93 },
+    { name: "Apr", value: 88 },
+    { name: "May", value: 90 },
+    { name: "Jun", value: 91 },
+];
+
+
 export default function ProductAnalyticsPage() {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("7D");
@@ -279,7 +298,7 @@ export default function ProductAnalyticsPage() {
                     Feature Usage Over Time
                   </h3>
                   <div className="h-48 relative">
-                    <LineChart />
+                    <LineChart data={featureUsageData} />
                     <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
                       <ArrowUp className="h-3 w-3" />
                       +24.4%
@@ -316,7 +335,7 @@ export default function ProductAnalyticsPage() {
                     Retention Rate
                   </h3>
                   <div className="h-48 relative">
-                    <LineChart />
+                    <LineChart data={retentionRateData} />
                     <div className="absolute top-0 right-4 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
                       <ArrowUp className="h-3 w-3" />
                       +24.4%

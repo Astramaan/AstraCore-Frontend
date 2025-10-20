@@ -12,15 +12,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Jan", value: 50 },
-  { name: "Feb", value: 100 },
-  { name: "Mar", value: 100 },
-  { name: "Apr", value: 150 },
-  { name: "May", value: 110 },
-  { name: "Jun", value: 200 },
-];
-
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
@@ -36,7 +27,16 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-export function LineChart() {
+interface LineChartProps {
+  data: { name: string; value: number }[];
+}
+
+export function LineChart({ data }: LineChartProps) {
+  const yDomain = [
+    Math.min(...data.map(d => d.value)),
+    Math.max(...data.map(d => d.value)),
+  ];
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RechartsLineChart
@@ -59,7 +59,7 @@ export function LineChart() {
           stroke="hsl(var(--muted-foreground))"
           tickLine={false}
           axisLine={false}
-          domain={[50, 200]}
+          domain={yDomain}
         />
         <Tooltip
           content={<CustomTooltip />}
