@@ -357,7 +357,7 @@ export default function TeamsPageContent() {
               <div className="flex justify-end items-center gap-4">
                 <NotificationPopover userType="organization" />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <div className="flex justify-start items-center gap-2">
+                <Link href="/platform/profile" className="flex justify-start items-center gap-2">
                   <Avatar className="w-14 h-14">
                     <AvatarImage
                       src="https://placehold.co/55x55"
@@ -372,7 +372,7 @@ export default function TeamsPageContent() {
                     </div>
                     <div className="text-base text-white/80 whitespace-nowrap">Super Admin</div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -423,7 +423,7 @@ export default function TeamsPageContent() {
                 />
               ))
             ) : (
-              <div className="text-center py-10 text-muted-foreground">
+              <div className="text-center text-muted-foreground py-10">
                 <p>No teams found.</p>
                 {user?.roleType === "superAdmin" && (
                   <p>
