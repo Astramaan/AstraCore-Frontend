@@ -50,6 +50,26 @@ const reportedIssues = [
     priority: "Medium",
     assignedTo: "Developer Team",
   },
+  {
+    id: "#1003",
+    reportedBy: "Balaji Naik",
+    reportedOn: "05 June 2025, 12:00 AM",
+    title: "Login Button",
+    summary: "Login Button is not working sometime",
+    status: "Open",
+    priority: "High",
+    assignedTo: "Priya B",
+  },
+  {
+    id: "#1004",
+    reportedBy: "Balaji Naik",
+    reportedOn: "05 June 2025, 12:00 AM",
+    title: "Login Button",
+    summary: "Login Button is not working sometime",
+    status: "Open",
+    priority: "High",
+    assignedTo: "Priya B",
+  },
 ];
 
 const mostReported = [
@@ -72,12 +92,12 @@ const mostReported = [
     ],
   },
   {
-    category: "UI Issue",
+    category: "Server Issue",
     total: 76,
     issues: [
-      { title: "“Button not clickable”", count: 40 },
-      { title: "“Misalignment”", count: 26 },
-      { title: "“Wrong color”", count: 10 },
+      { title: "“Server Down”", count: 50 },
+      { title: "“Server Timeout”", count: 40 },
+      { title: "“Connection error”", count: 30 },
     ],
   },
 ];
@@ -86,20 +106,26 @@ const supportTeam = [
   {
     name: "Rahul",
     company: "Golden Ventures",
-    avatar: "/placeholder.svg",
+    avatar: "https://placehold.co/54x54",
     isOnline: true,
   },
   {
     name: "Anil Kumar",
     company: "Brick & Bolt",
-    avatar: "/placeholder.svg",
+    avatar: "https://placehold.co/54x54",
+    isOnline: true,
+  },
+  {
+    name: "Dhanush",
+    company: "Powerplay",
+    avatar: "https://placehold.co/54x54",
     isOnline: true,
   },
 ];
 
 const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => (
   <div className="flex flex-col">
-    <div className="grid grid-cols-1 md:grid-cols-[1.5fr_auto_1.5fr_auto_1fr_auto] items-center gap-4 p-4">
+    <div className="grid grid-cols-1 md:grid-cols-[1.5fr_auto_1.5fr_auto_1fr_auto] items-start gap-4 p-4">
       {/* Issue Details */}
       <div className="flex flex-col gap-2">
         <p className="text-base">
@@ -161,7 +187,7 @@ const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => 
         </Button>
       </div>
     </div>
-    <Separator />
+    <Separator className="last:hidden" />
   </div>
 );
 
@@ -202,6 +228,40 @@ const SupportMemberCard = ({ member }: { member: (typeof supportTeam)[0] }) => (
     </div>
 );
 
+const CustomerFeedbackCard = () => (
+    <Card className="rounded-[50px]">
+        <CardHeader>
+            <div className="flex items-center gap-2">
+                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <MessageSquare className="h-6 w-6" />
+                </div>
+                <CardTitle>Customer Feedback</CardTitle>
+            </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+            <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">Recent Feedback</p>
+                <div className="flex justify-between items-center">
+                    <p className="font-medium">How would you rate our customer support experience?</p>
+                    <p className="text-sm text-muted-foreground">Total: 169</p>
+                </div>
+                <p className="text-sm text-primary">25 New feedbacks from users</p>
+            </div>
+             <Separator />
+             <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                    <p className="font-medium">How would you rate our customer support experience?</p>
+                    <p className="text-sm text-muted-foreground">Total: 169</p>
+                </div>
+                <p className="text-sm text-primary">25 New feedbacks from users</p>
+            </div>
+            <div className="flex gap-4 pt-4">
+                <Button className="flex-1 rounded-full h-14">Create New feedback</Button>
+                <Button variant="outline" className="flex-1 rounded-full h-14">View all</Button>
+            </div>
+        </CardContent>
+    </Card>
+);
 
 export default function SupportAndFeedbackPage() {
   const { user } = useUser();
@@ -245,7 +305,7 @@ export default function SupportAndFeedbackPage() {
                 <div className="flex justify-start items-center gap-2">
                   <Avatar className="w-12 h-12 md:w-14 md:h-14">
                     <AvatarImage
-                      src="/placeholder.svg"
+                      src="https://placehold.co/55x55"
                       alt={userName}
                       data-ai-hint="person portrait"
                     />
@@ -288,21 +348,21 @@ export default function SupportAndFeedbackPage() {
             </CardContent>
         </Card>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="rounded-[50px]">
-                <CardHeader>
-                    <div className="flex items-center gap-2">
-                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
-                            <BarChart2 className="h-6 w-6" />
-                        </div>
-                        <CardTitle>Most Reported Issues</CardTitle>
+        <Card className="rounded-[50px]">
+            <CardHeader>
+                <div className="flex items-center gap-2">
+                     <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                        <BarChart2 className="h-6 w-6" />
                     </div>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {mostReported.map(item => <MostReportedCard key={item.category} data={item} />)}
-                </CardContent>
-            </Card>
+                    <CardTitle>Most Reported Issues</CardTitle>
+                </div>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {mostReported.map(item => <MostReportedCard key={item.category} data={item} />)}
+            </CardContent>
+        </Card>
 
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="rounded-[50px]">
                 <CardHeader>
                      <div className="flex items-center gap-2">
@@ -316,6 +376,8 @@ export default function SupportAndFeedbackPage() {
                     {supportTeam.map(member => <SupportMemberCard key={member.name} member={member} />)}
                 </CardContent>
             </Card>
+
+            <CustomerFeedbackCard />
         </div>
 
       </main>
