@@ -13,12 +13,12 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "Jan", "Top Used": 120, "Least Used": 90, "Recently Added": 150 },
-  { name: "Feb", "Top Used": 150, "Least Used": 110, "Recently Added": 130 },
-  { name: "Mar", "Top Used": 130, "Least Used": 140, "Recently Added": 160 },
-  { name: "Apr", "Top Used": 180, "Least Used": 130, "Recently Added": 140 },
-  { name: "May", "Top Used": 160, "Least Used": 190, "Recently Added": 120 },
-  { name: "Jun", "Top Used": 200, "Least Used": 150, "Recently Added": 170 },
+  { name: "Jan", value: 120 },
+  { name: "Feb", value: 150 },
+  { name: "Mar", value: 130 },
+  { name: "Apr", value: 180 },
+  { name: "May", value: 160 },
+  { name: "Jun", value: 200 },
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -26,11 +26,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-background p-2 border rounded-lg shadow-lg">
         <p className="font-bold text-lg mb-2">{label}</p>
-        {payload.map((pld: any) => (
-          <p key={pld.dataKey} style={{ color: pld.color }}>
-            {`${pld.name}: ${pld.value}`}
-          </p>
-        ))}
+        <p style={{ color: payload[0].color }}>
+          {`Value: ${payload[0].value}`}
+        </p>
       </div>
     );
   }
@@ -73,22 +71,8 @@ export function SubscriptionChart() {
         />
         <Line
           type="monotone"
-          dataKey="Top Used"
+          dataKey="value"
           stroke="hsl(var(--chart-1))"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="Least Used"
-          stroke="hsl(var(--chart-2))"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="Recently Added"
-          stroke="hsl(var(--chart-3))"
           strokeWidth={2}
           dot={false}
         />
