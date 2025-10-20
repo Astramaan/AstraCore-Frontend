@@ -429,9 +429,9 @@ export default function PlatformDashboard() {
             <CardTitle>Exit Survey</CardTitle>
           </div>
           <div className="text-right flex items-center gap-4">
-            <div>
-              <p className="text-muted-foreground">Total Response</p>
-              <p className="text-4xl font-bold">129</p>
+            <div className="flex items-center gap-2">
+                <p className="text-muted-foreground">Total Response</p>
+                <p className="text-2xl font-bold">129</p>
             </div>
             <Button
               variant="ghost"
@@ -439,7 +439,7 @@ export default function PlatformDashboard() {
               className="rounded-full border"
               onClick={() => toggleMaximize("exit-survey")}
             >
-              {maximizedCard === 'exit-survey' ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5 rotate-45" />}
+              {maximizedCard === 'exit-survey' ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
             </Button>
           </div>
         </CardHeader>
