@@ -165,7 +165,7 @@ export default function OrganizationManagementPage() {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input placeholder="Search active customers" className="pl-12 h-14 rounded-full text-lg w-full bg-white" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <Button className="h-14 px-4 md:px-10 rounded-full text-lg">
+                <Button className="h-14 px-4 md:px-10 rounded-full text-lg bg-white text-black hover:bg-white/90">
                     <Plus className="md:mr-2"/>
                     <span className="hidden md:inline">Invite</span>
                 </Button>
