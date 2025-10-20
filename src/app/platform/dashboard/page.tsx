@@ -11,6 +11,7 @@ import {
   ClipboardList,
   MessageSquare,
   HandCoins,
+  ArrowRight,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -407,19 +408,22 @@ export default function PlatformDashboard() {
       <Card className="rounded-[50px]">
         <CardHeader className="flex flex-row justify-between items-start">
           <div className="flex items-center gap-2">
-            <div className="p-3.5 rounded-full border">
-              <Users className="h-6 w-6" />
-            </div>
-            <div>
-              <CardTitle>Exit Survey</CardTitle>
-            </div>
+            <Button variant="ghost" size="icon" className="rounded-full border">
+              <ArrowRight className="w-5 h-5 -rotate-180" />
+            </Button>
+            <CardTitle>Exit Survey</CardTitle>
           </div>
-          <div className="text-right">
-            <p className="text-muted-foreground">Total Response</p>
-            <p className="text-4xl font-bold">129</p>
+          <div className="text-right flex items-center gap-4">
+            <div>
+              <p className="text-muted-foreground">Total Response</p>
+              <p className="text-4xl font-bold">129</p>
+            </div>
+            <Button variant="ghost" size="icon" className="rounded-full border">
+              <ArrowRight className="w-5 h-5 rotate-45" />
+            </Button>
           </div>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="h-80">
             <ExitSurveyChart />
           </div>
