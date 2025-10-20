@@ -20,7 +20,7 @@ import {
   Package,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -47,7 +47,6 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { FeatureCard } from "@/components/feature-card";
 import { LineChart } from "@/components/charts/line-chart";
-import { Calendar } from "@/components/ui/calendar";
 
 const materials = [
   { material: "Steel", company: "Tata", price: "₹xxx" },
@@ -141,23 +140,6 @@ export default function ProductAnalyticsPage() {
   const calendarDays = getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth());
   const firstDayOfMonth = calendarDays[0].getDay();
   const emptyDays = Array(firstDayOfMonth).fill(null);
-
-  const dayRenderer = (day: Date, modifiers: any) => {
-    const dateStr = day.toISOString().split("T")[0];
-    const projectCount = projectsByDate[dateStr] || 0;
-    const isWeekend = day.getDay() % 6 === 0;
-
-    let dayClass = "";
-    if (projectCount > 0) {
-      dayClass = projectCount > 2 ? "bg-green-500 text-white" : "bg-green-200";
-    }
-
-    return (
-      <div className={cn("rdp-day_content", dayClass)}>
-        <span>{day.getDate()}</span>
-      </div>
-    );
-  };
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
@@ -489,7 +471,7 @@ export default function ProductAnalyticsPage() {
                 <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground mb-2">
                     {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => <div key={day}>{day}</div>)}
                 </div>
-                <div className="grid grid-cols-7 gap-1">
+                <div className="grid grid-cols-7 gap-px">
                     {emptyDays.map((_, i) => <div key={`empty-${i}`} />)}
                     {calendarDays.map((day, i) => {
                         const dateStr = day.toISOString().split("T")[0];
@@ -499,7 +481,7 @@ export default function ProductAnalyticsPage() {
                             bgColor = projectCount > 2 ? 'bg-green-500' : 'bg-green-200';
                         }
                         return (
-                            <div key={i} className={cn("aspect-square flex items-center justify-center rounded-sm text-sm", bgColor)}>
+                            <div key={i} className={cn("aspect-square h-8 w-8 flex items-center justify-center rounded-sm text-xs", bgColor)}>
                                 {day.getDate()}
                             </div>
                         );
