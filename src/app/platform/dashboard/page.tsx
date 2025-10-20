@@ -12,6 +12,8 @@ import {
   MessageSquare,
   HandCoins,
   ArrowRight,
+  Minimize,
+  Maximize,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -103,6 +105,7 @@ export default function PlatformDashboard() {
   const [selectedYear, setSelectedYear] = useState<string>(
     currentYear.toString(),
   );
+  const [maximizedCard, setMaximizedCard] = useState<string | null>(null);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -128,6 +131,10 @@ export default function PlatformDashboard() {
   const years = Array.from({ length: 5 }, (_, i) =>
     (currentYear - i).toString(),
   );
+
+  const toggleMaximize = (cardId: string) => {
+    setMaximizedCard(maximizedCard === cardId ? null : cardId);
+  };
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 space-y-6">
@@ -298,114 +305,122 @@ export default function PlatformDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="rounded-[50px]">
-          <CardHeader className="flex flex-row justify-between items-start">
-            <div className="flex items-center gap-2">
-              <div className="p-3.5 rounded-full border">
-                <Users className="h-6 w-6" />
+        {(!maximizedCard || maximizedCard === "subscriptions") && (
+          <Card className={cn("rounded-[50px]", maximizedCard === 'subscriptions' && 'lg:col-span-2')}>
+            <CardHeader className="flex flex-row justify-between items-start">
+              <div className="flex items-center gap-2">
+                <div className="p-3.5 rounded-full border">
+                  <Users className="h-6 w-6" />
+                </div>
+                <div>
+                  <CardTitle>Subscriptions Analytics</CardTitle>
+                  <CardDescription>Monthly active Subscriptions</CardDescription>
+                </div>
               </div>
-              <div>
-                <CardTitle>Subscriptions Analytics</CardTitle>
-                <CardDescription>Monthly active Subscriptions</CardDescription>
+              <div className="text-right">
+                <p className="text-4xl font-bold flex items-center">
+                  200 <ArrowUpRight className="h-6 w-6 text-green-500" />
+                </p>
               </div>
-            </div>
-            <div className="text-right">
-              <p className="text-4xl font-bold flex items-center">
-                200 <ArrowUpRight className="h-6 w-6 text-green-500" />
-              </p>
-            </div>
-          </CardHeader>
-          <CardContent className="h-64">
-            <SubscriptionChart />
-          </CardContent>
-        </Card>
-        <Card className="rounded-[50px]">
-          <CardHeader className="flex flex-row justify-between items-start">
-            <div className="flex items-center gap-2">
-              <div className="p-3.5 rounded-full border">
-                <CircleDollarSign className="h-6 w-6" />
+            </CardHeader>
+            <CardContent className="h-64">
+              <SubscriptionChart />
+            </CardContent>
+          </Card>
+        )}
+        {(!maximizedCard || maximizedCard === "revenue") && (
+          <Card className={cn("rounded-[50px]", maximizedCard === 'revenue' && 'lg:col-span-2')}>
+            <CardHeader className="flex flex-row justify-between items-start">
+              <div className="flex items-center gap-2">
+                <div className="p-3.5 rounded-full border">
+                  <CircleDollarSign className="h-6 w-6" />
+                </div>
+                <div>
+                  <CardTitle>Revenue (MRR/ARR)</CardTitle>
+                  <CardDescription>Monthly Recurring Revenue</CardDescription>
+                </div>
               </div>
-              <div>
-                <CardTitle>Revenue (MRR/ARR)</CardTitle>
-                <CardDescription>Monthly Recurring Revenue</CardDescription>
+              <div className="text-right">
+                <p className="text-4xl font-bold flex items-center">
+                  1.90L <ArrowUpRight className="h-6 w-6 text-green-500" />
+                </p>
+                <Badge className="bg-primary/20 text-primary">+24.4%</Badge>
               </div>
-            </div>
-            <div className="text-right">
-              <p className="text-4xl font-bold flex items-center">
-                1.90L <ArrowUpRight className="h-6 w-6 text-green-500" />
-              </p>
-              <Badge className="bg-primary/20 text-primary">+24.4%</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="h-64">
-            <RevenueChart />
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent className="h-64">
+              <RevenueChart />
+            </CardContent>
+          </Card>
+        )}
 
-        <Card className="rounded-[50px]">
-          <CardHeader className="flex flex-row justify-between items-start">
-            <div className="flex items-center gap-2">
-              <div className="p-3.5 rounded-full border">
-                <Users className="h-6 w-6" />
+        {(!maximizedCard || maximizedCard === "churn") && (
+          <Card className={cn("rounded-[50px]", maximizedCard === 'churn' && 'lg:col-span-2')}>
+            <CardHeader className="flex flex-row justify-between items-start">
+              <div className="flex items-center gap-2">
+                <div className="p-3.5 rounded-full border">
+                  <Users className="h-6 w-6" />
+                </div>
+                <div>
+                  <CardTitle>Subscriptions Churn</CardTitle>
+                  <CardDescription>Unsubscribed Users</CardDescription>
+                </div>
               </div>
-              <div>
-                <CardTitle>Subscriptions Churn</CardTitle>
-                <CardDescription>Unsubscribed Users</CardDescription>
+              <div className="text-right">
+                <p className="text-4xl font-bold flex items-center">
+                  69 <ArrowUpRight className="h-6 w-6 text-red-500" />
+                </p>
               </div>
-            </div>
-            <div className="text-right">
-              <p className="text-4xl font-bold flex items-center">
-                69 <ArrowUpRight className="h-6 w-6 text-red-500" />
-              </p>
-            </div>
-          </CardHeader>
-          <CardContent className="h-64">
-            <ChurnChart />
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent className="h-64">
+              <ChurnChart />
+            </CardContent>
+          </Card>
+        )}
 
-        <Card className="rounded-[50px]">
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <div className="p-3.5 rounded-full border">
-                <Users className="h-6 w-6" />
+        {(!maximizedCard || maximizedCard === "quick-links") && (
+          <Card className={cn("rounded-[50px]", maximizedCard === 'quick-links' && 'lg:col-span-2')}>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <div className="p-3.5 rounded-full border">
+                  <Users className="h-6 w-6" />
+                </div>
+                <div>
+                  <CardTitle>Quick Links</CardTitle>
+                </div>
               </div>
-              <div>
-                <CardTitle>Quick Links</CardTitle>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <QuickLink
-              icon={<Users className="h-6 w-6 text-foreground" />}
-              bgColor="bg-accent-color-01/30"
-              text="Active Customers"
-              href="#"
-            />
-            <QuickLink
-              icon={<CircleDollarSign className="h-6 w-6 text-foreground" />}
-              bgColor="bg-accent-color-02/30"
-              text="Expired Customers"
-              href="#"
-            />
-            <QuickLink
-              icon={<ClipboardList className="h-6 w-6 text-foreground" />}
-              bgColor="bg-accent-color-03/30"
-              text="Invoices"
-              href="#"
-            />
-            <QuickLink
-              icon={
-                <HandCoins className="h-6 w-6 text-foreground" />
-              }
-              bgColor="bg-accent-color-05/30"
-              text="Payment Attempts"
-              href="#"
-            />
-          </CardContent>
-        </Card>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <QuickLink
+                icon={<Users className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-01/30"
+                text="Active Customers"
+                href="#"
+              />
+              <QuickLink
+                icon={<CircleDollarSign className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-02/30"
+                text="Expired Customers"
+                href="#"
+              />
+              <QuickLink
+                icon={<ClipboardList className="h-6 w-6 text-foreground" />}
+                bgColor="bg-accent-color-03/30"
+                text="Invoices"
+                href="#"
+              />
+              <QuickLink
+                icon={
+                  <HandCoins className="h-6 w-6 text-foreground" />
+                }
+                bgColor="bg-accent-color-05/30"
+                text="Payment Attempts"
+                href="#"
+              />
+            </CardContent>
+          </Card>
+        )}
       </div>
-      <Card className="rounded-[50px]">
+      <Card className={cn("rounded-[50px]", maximizedCard === "exit-survey" && "lg:col-span-2")}>
         <CardHeader className="flex flex-row justify-between items-start">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="rounded-full border">
@@ -418,8 +433,13 @@ export default function PlatformDashboard() {
               <p className="text-muted-foreground">Total Response</p>
               <p className="text-4xl font-bold">129</p>
             </div>
-            <Button variant="ghost" size="icon" className="rounded-full border">
-              <ArrowRight className="w-5 h-5 rotate-45" />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full border"
+              onClick={() => toggleMaximize("exit-survey")}
+            >
+              {maximizedCard === 'exit-survey' ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5 rotate-45" />}
             </Button>
           </div>
         </CardHeader>
