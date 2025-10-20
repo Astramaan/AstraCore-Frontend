@@ -187,7 +187,7 @@ const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => 
         </Button>
       </div>
     </div>
-    <Separator className="last:hidden" />
+    <Separator />
   </div>
 );
 
@@ -201,8 +201,8 @@ const MostReportedCard = ({ data }: { data: (typeof mostReported)[0] }) => (
             </div>
         </div>
         <div className="space-y-2">
-            {data.issues.map(issue => (
-                <div key={issue.title} className="flex justify-between items-center text-lg pb-2 border-b">
+            {data.issues.map((issue, index) => (
+                <div key={index} className="flex justify-between items-center text-lg pb-2 border-b">
                     <p className="text-foreground">{issue.title}</p>
                     <p className="font-medium">{issue.count}</p>
                 </div>
@@ -344,7 +344,7 @@ export default function SupportAndFeedbackPage() {
                 </div>
             </CardHeader>
             <CardContent>
-                {reportedIssues.map(issue => <ReportedIssueItem key={issue.id} issue={issue} />)}
+                {reportedIssues.map((issue, index) => <ReportedIssueItem key={index} issue={issue} />)}
             </CardContent>
         </Card>
         
@@ -373,7 +373,7 @@ export default function SupportAndFeedbackPage() {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {supportTeam.map(member => <SupportMemberCard key={member.name} member={member} />)}
+                    {supportTeam.map((member, index) => <SupportMemberCard key={index} member={member} />)}
                 </CardContent>
             </Card>
 
