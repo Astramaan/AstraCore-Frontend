@@ -458,9 +458,9 @@ export default function PlatformDashboard() {
                         {customer.name.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="inline-flex flex-col justify-start items-start gap-1">
+                    <div className="inline-flex flex-col justify-start items-start">
                       <p className="font-medium">{customer.name}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-muted-foreground whitespace-nowrap">
                         {customer.reason}
                         {customer.comeback && (
                           <span className="text-green-600 ml-1">
