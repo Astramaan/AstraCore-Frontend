@@ -2,22 +2,21 @@
 
 import * as React from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
 
 const data = [
-  { name: "Jan", value: 120 },
-  { name: "Feb", value: 150 },
-  { name: "Mar", value: 130 },
-  { name: "Apr", value: 180 },
-  { name: "May", value: 160 },
+  { name: "Jan", value: 50 },
+  { name: "Feb", value: 100 },
+  { name: "Mar", value: 100 },
+  { name: "Apr", value: 150 },
+  { name: "May", value: 110 },
   { name: "Jun", value: 200 },
 ];
 
@@ -26,7 +25,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-background p-2 border rounded-lg shadow-lg">
         <p className="font-bold text-lg mb-2">{label}</p>
-        <p style={{ color: payload[0].color }}>
+        <p style={{ color: "hsl(var(--primary))" }}>
           {`Value: ${payload[0].value}`}
         </p>
       </div>
@@ -39,7 +38,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export function SubscriptionChart() {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart
+      <AreaChart
         data={data}
         margin={{
           top: 5,
@@ -48,6 +47,20 @@ export function SubscriptionChart() {
           bottom: 5,
         }}
       >
+        <defs>
+          <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+            <stop
+              offset="5%"
+              stopColor="hsl(var(--primary))"
+              stopOpacity={0.4}
+            />
+            <stop
+              offset="95%"
+              stopColor="hsl(var(--primary))"
+              stopOpacity={0}
+            />
+          </linearGradient>
+        </defs>
         <CartesianGrid strokeDasharray="3 3" vertical={false} />
         <XAxis
           dataKey="name"
@@ -59,7 +72,7 @@ export function SubscriptionChart() {
           stroke="hsl(var(--muted-foreground))"
           tickLine={false}
           axisLine={false}
-          domain={[0, 250]}
+          domain={[50, 200]}
         />
         <Tooltip
           content={<CustomTooltip />}
@@ -68,15 +81,28 @@ export function SubscriptionChart() {
             border: "none",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
           }}
+          cursor={{ stroke: "hsl(var(--primary))", strokeWidth: 1 }}
         />
-        <Line
+        <Area
           type="monotone"
           dataKey="value"
-          stroke="hsl(var(--chart-1))"
+          stroke="hsl(var(--primary))"
           strokeWidth={2}
-          dot={false}
+          fill="url(#colorValue)"
+          dot={{
+            r: 6,
+            stroke: "hsl(var(--primary))",
+            strokeWidth: 2,
+            fill: "white",
+          }}
+          activeDot={{
+            r: 8,
+            stroke: "hsl(var(--primary))",
+            strokeWidth: 2,
+            fill: "white",
+          }}
         />
-      </LineChart>
+      </AreaChart>
     </ResponsiveContainer>
   );
 }
