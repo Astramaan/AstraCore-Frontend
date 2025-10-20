@@ -192,23 +192,25 @@ const ReportedIssueItem = ({ issue }: { issue: (typeof reportedIssues)[0] }) => 
 );
 
 const MostReportedCard = ({ data }: { data: (typeof mostReported)[0] }) => (
-    <div className="space-y-4">
-        <div className="flex flex-col items-start gap-2">
-            <p className="text-lg text-red-500 font-medium">{data.category}</p>
-            <div className="flex items-center gap-2">
-                <p className="text-4xl font-bold">{data.total}</p>
-                <p className="text-base text-muted-foreground">Reports</p>
-            </div>
-        </div>
-        <div className="space-y-2">
-            {data.issues.map((issue, index) => (
-                <div key={index} className="flex justify-between items-center text-lg pb-2 border-b">
-                    <p className="text-foreground">{issue.title}</p>
-                    <p className="font-medium">{issue.count}</p>
+    <Card className="rounded-[40px] bg-background dark:bg-input p-6">
+        <CardContent className="p-0 space-y-4">
+            <div className="flex flex-col items-start gap-2">
+                <p className="text-lg text-red-500 font-medium">{data.category}</p>
+                <div className="flex items-center gap-2">
+                    <p className="text-4xl font-bold">{data.total}</p>
+                    <p className="text-base text-muted-foreground">Reports</p>
                 </div>
-            ))}
-        </div>
-    </div>
+            </div>
+            <div className="space-y-2">
+                {data.issues.map((issue, index) => (
+                    <div key={index} className="flex justify-between items-center text-lg pb-2 border-b">
+                        <p className="text-foreground">{issue.title}</p>
+                        <p className="font-medium">{issue.count}</p>
+                    </div>
+                ))}
+            </div>
+        </CardContent>
+    </Card>
 );
 
 const SupportMemberCard = ({ member }: { member: (typeof supportTeam)[0] }) => (
