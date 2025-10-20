@@ -4,14 +4,11 @@ import * as React from "react";
 import {
   AreaChart,
   Area,
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  DotProps,
 } from "recharts";
 
 const data = [
@@ -25,40 +22,17 @@ const data = [
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const isIncrease =
-      payload[0].payload.index > 0
-        ? payload[0].value > data[payload[0].payload.index - 1].value
-        : false;
-    const color = isIncrease
-      ? "hsl(var(--destructive))"
-      : "hsl(var(--primary))";
-
     return (
       <div className="bg-background p-2 border rounded-lg shadow-lg">
         <p className="font-bold text-lg mb-2">{label}</p>
-        <p style={{ color }}>{`Unsubscribed: ${payload[0].value}`}</p>
+        <p style={{ color: "hsl(var(--primary))" }}>
+          {`Unsubscribed: ${payload[0].value}`}
+        </p>
       </div>
     );
   }
 
   return null;
-};
-
-interface CustomizedDotProps extends DotProps {
-  index?: number;
-}
-
-const CustomizedDot: React.FC<CustomizedDotProps> = (props) => {
-  const { cx, cy, stroke, payload, value, index } = props;
-
-  if (index === undefined) return null;
-
-  const isIncrease = index > 0 ? value > data[index - 1].value : false;
-  const color = isIncrease
-    ? "hsl(var(--destructive))"
-    : "hsl(var(--primary))";
-
-  return <circle cx={cx} cy={cy} r={6} stroke={color} strokeWidth={2} fill="white" />;
 };
 
 export function ChurnChart() {
@@ -74,19 +48,7 @@ export function ChurnChart() {
         }}
       >
         <defs>
-          <linearGradient id="colorChurnUp" x1="0" y1="0" x2="0" y2="1">
-            <stop
-              offset="5%"
-              stopColor="hsl(var(--destructive))"
-              stopOpacity={0.4}
-            />
-            <stop
-              offset="95%"
-              stopColor="hsl(var(--destructive))"
-              stopOpacity={0}
-            />
-          </linearGradient>
-          <linearGradient id="colorChurnDown" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="colorChurn" x1="0" y1="0" x2="0" y2="1">
             <stop
               offset="5%"
               stopColor="hsl(var(--primary))"
@@ -122,11 +84,21 @@ export function ChurnChart() {
           yAxisId="left"
           type="monotone"
           dataKey="value"
-          stroke="url(#line-gradient)"
+          stroke="hsl(var(--primary))"
           strokeWidth={2}
-          fill="url(#colorChurnDown)"
-          dot={<CustomizedDot />}
-          activeDot={(props) => <CustomizedDot {...props} />}
+          fill="url(#colorChurn)"
+          dot={{
+            r: 6,
+            stroke: "hsl(var(--primary))",
+            strokeWidth: 2,
+            fill: "white",
+          }}
+          activeDot={{
+            r: 8,
+            stroke: "hsl(var(--primary))",
+            strokeWidth: 2,
+            fill: "white",
+          }}
         />
       </AreaChart>
     </ResponsiveContainer>
