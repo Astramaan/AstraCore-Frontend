@@ -31,9 +31,8 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
+>(({ className, children, ...props }, ref) => {
+  const content = (
     <DialogPrimitive.Content
       ref={ref}
       onPointerDownOutside={(e) => {
@@ -50,8 +49,15 @@ const DialogContent = React.forwardRef<
     >
       {children}
     </DialogPrimitive.Content>
-  </DialogPortal>
-));
+  );
+
+  return (
+    <DialogPortal>
+      <DialogOverlay />
+      {content}
+    </DialogPortal>
+  );
+});
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({
