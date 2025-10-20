@@ -443,7 +443,7 @@ export default function PlatformDashboard() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-0">
           <div className="h-80">
             <ExitSurveyChart />
           </div>
@@ -460,7 +460,7 @@ export default function PlatformDashboard() {
                     </Avatar>
                     <div className="inline-flex flex-col justify-start items-start gap-1">
                       <p className="font-medium">{customer.name}</p>
-                      <p className="text-sm text-muted-foreground truncate">
+                      <p className="text-sm text-muted-foreground">
                         {customer.reason}
                         {customer.comeback && (
                           <span className="text-green-600 ml-1">
