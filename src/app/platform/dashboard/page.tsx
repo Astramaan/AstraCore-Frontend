@@ -14,6 +14,9 @@ import {
   ArrowRight,
   Minimize,
   Maximize,
+  Zap,
+  ClipboardCheck,
+  CreditCard,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -81,12 +84,13 @@ const QuickLink = ({
   <Link href={href}>
     <Card
       className={cn(
-        "rounded-2xl hover:shadow-lg transition-shadow",
-        bgColor,
+        "rounded-2xl hover:shadow-lg transition-shadow bg-background dark:bg-card",
       )}
     >
       <CardContent className="p-4 flex items-center gap-2">
-        <div className="p-2.5 rounded-xl bg-white dark:bg-black/20">
+        <div
+          className={cn("p-2.5 rounded-full flex items-center justify-center", bgColor)}
+        >
           {icon}
         </div>
         <p className="text-base font-medium text-foreground">{text}</p>
@@ -382,7 +386,7 @@ export default function PlatformDashboard() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <div className="p-3.5 rounded-full border">
-                  <Users className="h-6 w-6" />
+                  <Zap className="h-6 w-6" />
                 </div>
                 <div>
                   <CardTitle>Quick Links</CardTitle>
@@ -391,29 +395,29 @@ export default function PlatformDashboard() {
             </CardHeader>
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <QuickLink
-                icon={<Users className="h-6 w-6 text-foreground" />}
-                bgColor="bg-accent-color-01/30"
-                text="Active Customers"
+                icon={<Users className="h-6 w-6 text-green-600" />}
+                bgColor="bg-green-100 dark:bg-green-900/50"
+                text="Lead Management"
+                href="/organization/habi123/leads"
+              />
+              <QuickLink
+                icon={<CreditCard className="h-6 w-6 text-indigo-600" />}
+                bgColor="bg-indigo-100 dark:bg-indigo-900/50"
+                text="Payment Attempts"
                 href="#"
               />
               <QuickLink
-                icon={<CircleDollarSign className="h-6 w-6 text-foreground" />}
-                bgColor="bg-accent-color-02/30"
-                text="Expired Customers"
-                href="#"
-              />
-              <QuickLink
-                icon={<ClipboardList className="h-6 w-6 text-foreground" />}
-                bgColor="bg-accent-color-03/30"
-                text="Invoices"
-                href="#"
+                icon={<ClipboardList className="h-6 w-6 text-purple-600" />}
+                bgColor="bg-purple-100 dark:bg-purple-900/50"
+                text="Onboarding Status"
+                href="/platform/onboarding"
               />
               <QuickLink
                 icon={
-                  <HandCoins className="h-6 w-6 text-foreground" />
+                  <ClipboardCheck className="h-6 w-6 text-pink-600" />
                 }
-                bgColor="bg-accent-color-05/30"
-                text="Payment Attempts"
+                bgColor="bg-pink-100 dark:bg-pink-900/50"
+                text="Invitation Status"
                 href="#"
               />
             </CardContent>
