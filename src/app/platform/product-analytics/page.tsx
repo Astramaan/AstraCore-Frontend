@@ -128,6 +128,20 @@ export default function ProductAnalyticsPage() {
     return Array.from(areas);
   }, []);
 
+  const getDaysInMonth = (year: number, month: number) => {
+    const date = new Date(year, month, 1);
+    const days = [];
+    while (date.getMonth() === month) {
+      days.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+    return days;
+  };
+  
+  const calendarDays = getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth());
+  const firstDayOfMonth = calendarDays[0].getDay();
+  const emptyDays = Array(firstDayOfMonth).fill(null);
+
   const dayRenderer = (day: Date, modifiers: any) => {
     const dateStr = day.toISOString().split("T")[0];
     const projectCount = projectsByDate[dateStr] || 0;
@@ -463,52 +477,36 @@ export default function ProductAnalyticsPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
-              <div className="overflow-x-auto">
-                <Calendar
-                  month={currentDate}
-                  onMonthChange={setCurrentDate}
-                  formatters={{ formatDay: dayRenderer }}
-                  className="p-0"
-                  classNames={{
-                    months: 'p-0',
-                    month: 'border rounded-xl p-0',
-                    caption: 'p-4 flex items-center justify-between',
-                    caption_label: 'text-lg font-bold',
-                    nav_button: cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                    ),
-                    head_row: 'bg-primary text-white rounded-t-xl',
-                    head_cell: 'w-full py-2 text-sm',
-                    row: 'grid grid-cols-7',
-                    cell: 'aspect-square flex items-center justify-center text-sm p-1 border-r border-b',
-                    day: 'w-full h-full rounded-none',
-                    day_selected: '',
-                    day_today: 'bg-accent text-accent-foreground',
-                  }}
-                  components={{
-                    DayContent: (props) => {
-                      const dateStr = props.date.toISOString().split("T")[0];
-                      const projectCount = projectsByDate[dateStr] || 0;
-                      return (
-                        <div
-                          className={cn(
-                            "w-full h-full flex items-center justify-center rounded-sm",
-                            projectCount > 0 &&
-                              (projectCount > 2
-                                ? "bg-green-500 text-white"
-                                : "bg-green-200")
-                          )}
-                        >
-                          {props.date.getDate()}
-                        </div>
-                      );
-                    },
-                  }}
-                />
-              </div>
-              <div className="flex flex-col lg:flex-row gap-4 justify-around">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-start">
+            <div className="border rounded-xl p-4">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-bold">{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h3>
+                    <div className="flex gap-1">
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))}><ChevronLeft/></Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))}><ChevronRight/></Button>
+                    </div>
+                </div>
+                <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground mb-2">
+                    {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => <div key={day}>{day}</div>)}
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                    {emptyDays.map((_, i) => <div key={`empty-${i}`} />)}
+                    {calendarDays.map((day, i) => {
+                        const dateStr = day.toISOString().split("T")[0];
+                        const projectCount = projectsByDate[dateStr] || 0;
+                        let bgColor = "bg-background";
+                        if (projectCount > 0) {
+                            bgColor = projectCount > 2 ? 'bg-green-500' : 'bg-green-200';
+                        }
+                        return (
+                            <div key={i} className={cn("aspect-square flex items-center justify-center rounded-sm text-sm", bgColor)}>
+                                {day.getDate()}
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <div className="flex flex-col lg:flex-row gap-4 justify-around">
                 <Card className="p-4 rounded-3xl text-center bg-background flex-1">
                   <p className="text-sm text-muted-foreground">Month</p>
                   <p className="text-3xl font-bold flex items-center justify-center gap-1">
