@@ -385,7 +385,7 @@ export default function OnboardingPage() {
                   </div>
                 </Link>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <div className="flex justify-start items-center gap-2">
+                <Link href="/platform/profile" className="flex justify-start items-center gap-2">
                   <Avatar className="w-14 h-14">
                     <AvatarImage
                       src="https://placehold.co/55x55"
@@ -402,7 +402,7 @@ export default function OnboardingPage() {
                       Super Admin
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

@@ -180,7 +180,7 @@ export default function PlatformDashboard() {
                   </div>
                 </Link>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <div className="flex justify-start items-center gap-2">
+                <Link href="/platform/profile" className="flex justify-start items-center gap-2">
                   <Avatar className="w-14 h-14">
                     <AvatarImage
                       src="https://placehold.co/55x55"
@@ -195,7 +195,7 @@ export default function PlatformDashboard() {
                     </div>
                     <div className="text-base text-white/80 whitespace-nowrap">Super Admin</div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

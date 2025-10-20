@@ -51,7 +51,7 @@ function PlatformHeader() {
                 </div>
               </Link>
               <div className="w-px h-8 bg-border hidden md:block"></div>
-              <div className="flex justify-start items-center gap-2">
+              <Link href="/platform/profile" className="flex justify-start items-center gap-2">
                 <Avatar className="w-12 h-12 md:w-14 md:h-14">
                   <AvatarImage
                     src="https://placehold.co/55x55"
@@ -68,7 +68,7 @@ function PlatformHeader() {
                     Super Admin
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
