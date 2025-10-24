@@ -24,7 +24,7 @@ const totalValue = data.reduce((acc, entry) => acc + entry.value, 0);
 
 export function ExitSurveyChart() {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center py-0">
       <div className="w-1/2 relative">
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
