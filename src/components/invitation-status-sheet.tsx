@@ -100,8 +100,14 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Resend</DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
+              {invitation.status === 'Joined' ? (
+                <DropdownMenuItem>View Profile</DropdownMenuItem>
+              ) : (
+                <>
+                  <DropdownMenuItem>Resend</DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -145,8 +151,10 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
               <h2 className="text-2xl font-semibold">Invitation Status</h2>
             </div>
             <div className="flex items-center gap-2">
-               <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-sm md:text-lg">{`${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}`}</span>
+               <div className="flex items-center gap-2 text-muted-foreground text-base md:text-lg">
+                <span className="font-medium text-foreground">{`${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, totalItems)}`}</span>
+                <span>of</span>
+                <span className="font-medium text-foreground">{totalItems}</span>
                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handlePrevPage} disabled={currentPage === 1}>
                     <ChevronLeft />
                 </Button>
