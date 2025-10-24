@@ -61,7 +61,7 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
 
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] items-center gap-4 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr_auto] items-center gap-4 p-4">
         <div className="flex flex-col">
           <p className="text-base md:text-lg">
             <span className="text-muted-foreground">Full Name: </span>
@@ -82,29 +82,27 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
             <span className={cn("font-medium", getStatusClass(invitation.status))}>{invitation.status}</span>
           </p>
         </div>
-        <div className="flex md:flex-row justify-between items-center w-full">
-            <div className="text-left md:text-right">
-                <p className="text-base md:text-lg">
-                    <span className="text-muted-foreground">City: </span>
-                    <span className="font-medium text-foreground">{invitation.city}</span>
-                </p>
-                <p className="text-base md:text-lg">
-                    <span className="text-muted-foreground">Date: </span>
-                    <span className="font-medium text-foreground">{invitation.date}</span>
-                </p>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <MoreVertical className="h-5 w-5 text-muted-foreground" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem>Resend</DropdownMenuItem>
-                <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+        <div className="flex md:flex-col md:text-right">
+             <p className="text-base md:text-lg mr-4 md:mr-0">
+                <span className="text-muted-foreground">City: </span>
+                <span className="font-medium text-foreground">{invitation.city}</span>
+            </p>
+            <p className="text-base md:text-lg">
+                <span className="text-muted-foreground">Date: </span>
+                <span className="font-medium text-foreground">{invitation.date}</span>
+            </p>
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8 ml-auto">
+              <MoreVertical className="h-5 w-5 text-muted-foreground" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Resend</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <Separator />
     </div>
@@ -134,7 +132,7 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="p-0 m-0 w-full max-w-4xl mx-auto flex flex-col bg-card text-card-foreground h-[90vh] rounded-t-[50px] border-none"
+        className="p-0 m-0 w-full max-w-5xl mx-auto flex flex-col bg-card text-card-foreground h-[90vh] rounded-t-[50px] border-none"
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
