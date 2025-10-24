@@ -92,7 +92,7 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
                 <span className="font-medium text-foreground">{invitation.date}</span>
             </p>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -146,7 +146,7 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
             </div>
             <div className="flex items-center gap-2">
                <div className="flex items-center gap-2 text-muted-foreground">
-                <span className="text-base md:text-lg">{`${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}`}</span>
+                <span className="text-sm md:text-lg">{`${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}`}</span>
                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handlePrevPage} disabled={currentPage === 1}>
                     <ChevronLeft />
                 </Button>
@@ -154,7 +154,7 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
                     <ChevronRight />
                 </Button>
               </div>
-              <Button variant="outline" className="h-12 rounded-full px-4 text-base md:text-lg"><SlidersHorizontal className="mr-2 h-4 w-4" /> Filter</Button>
+              <Button variant="outline" className="h-[54px] rounded-full px-4 text-base md:text-lg"><SlidersHorizontal className="mr-2 h-4 w-4" /> Filter</Button>
               <SheetClose asChild>
                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-background"><X className="h-6 w-6" /></Button>
               </SheetClose>
