@@ -279,7 +279,7 @@ export default function PlatformDashboard() {
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     <SelectValue placeholder="Select year" />
                   </div>
-                  </SelectTrigger>
+                </SelectTrigger>
                 <SelectContent>
                   {years.map((year) => (
                     <SelectItem key={year} value={year}>
@@ -458,7 +458,7 @@ export default function PlatformDashboard() {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full border"
+              className="rounded-full border w-[54px] h-[54px] bg-background"
               onClick={() => toggleMaximize("exit-survey")}
             >
               {maximizedCard === 'exit-survey' ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
