@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -568,11 +569,9 @@ export default function OnboardingPage() {
                   >
                     <ChevronRight />
                   </Button>
-                  <DialogClose asChild={isMaximized}>
-                     <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsMaximized(!isMaximized)}>
+                  <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsMaximized(!isMaximized)}>
                       {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
-                    </Button>
-                  </DialogClose>
+                  </Button>
                 </div>
               </CardHeader>
              <OnboardingContent />
@@ -783,3 +782,4 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
