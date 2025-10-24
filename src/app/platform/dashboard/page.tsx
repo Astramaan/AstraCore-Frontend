@@ -48,6 +48,7 @@ import { HabiLogo } from "@/components/habi-logo";
 import { useUser } from "@/context/user-context";
 import TeamIcon from "@/components/icons/team-icon";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
+import { InviteOrganizationSheet } from "@/components/invite-organization-sheet";
 
 const churnedCustomers = [
   {
@@ -297,13 +298,7 @@ export default function PlatformDashboard() {
                 <ChevronRight className="w-6 h-6" />
               </Button>
             </div>
-            <Button
-              variant="outline"
-              className="h-14 px-10 bg-card rounded-full text-lg"
-            >
-              <Plus className="mr-2 h-5 w-5" />
-              Invite
-            </Button>
+            <InviteOrganizationSheet />
           </div>
         </div>
       </div>
