@@ -92,17 +92,19 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
                 <span className="font-medium text-foreground">{invitation.date}</span>
             </p>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8 ml-auto">
-              <MoreVertical className="h-5 w-5 text-muted-foreground" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Resend</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="ml-auto">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <MoreVertical className="h-5 w-5 text-muted-foreground" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>Resend</DropdownMenuItem>
+              <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <Separator />
     </div>
@@ -132,7 +134,7 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="p-0 m-0 w-full max-w-5xl mx-auto flex flex-col bg-card text-card-foreground h-[90vh] rounded-t-[50px] border-none"
+        className="p-0 m-0 w-full max-w-7xl mx-auto flex flex-col bg-card text-card-foreground h-[90vh] rounded-t-[50px] border-none"
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
@@ -152,7 +154,7 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
                     <ChevronRight />
                 </Button>
               </div>
-              <Button variant="outline" className="h-12 rounded-full px-4"><SlidersHorizontal className="mr-2 h-4 w-4" /> Filter</Button>
+              <Button variant="outline" className="h-12 rounded-full px-4 text-base md:text-lg"><SlidersHorizontal className="mr-2 h-4 w-4" /> Filter</Button>
               <SheetClose asChild>
                 <Button variant="ghost" size="icon" className="w-[54px] h-[54px] rounded-full bg-background"><X className="h-6 w-6" /></Button>
               </SheetClose>
