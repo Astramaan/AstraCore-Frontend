@@ -49,6 +49,7 @@ import { useUser } from "@/context/user-context";
 import TeamIcon from "@/components/icons/team-icon";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { InviteOrganizationSheet } from "@/components/invite-organization-sheet";
+import { OrganizationManagementSheet } from "@/components/organization-management-sheet";
 
 const churnedCustomers = [
   {
@@ -111,6 +112,7 @@ export default function PlatformDashboard() {
     currentYear.toString(),
   );
   const [maximizedCard, setMaximizedCard] = useState<string | null>(null);
+  const [isOrgSheetOpen, setIsOrgSheetOpen] = useState(false);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -294,6 +296,7 @@ export default function PlatformDashboard() {
                 variant="ghost"
                 size="icon"
                 className="ml-2 bg-card rounded-full"
+                onClick={() => setIsOrgSheetOpen(true)}
               >
                 <ChevronRight className="w-6 h-6" />
               </Button>
@@ -422,7 +425,7 @@ export default function PlatformDashboard() {
       <Card className={cn("rounded-[50px]", maximizedCard === "exit-survey" && "lg:col-span-2")}>
         <CardHeader className="flex flex-row justify-between items-start">
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="rounded-full border">
+            <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsOrgSheetOpen(true)}>
               <ArrowRight className="w-5 h-5 -rotate-180" />
             </Button>
             <CardTitle>Exit Survey</CardTitle>
@@ -448,7 +451,7 @@ export default function PlatformDashboard() {
           </div>
           <div>
             {churnedCustomers.map((customer, index) => (
-              <div key={index} className="flex flex-col">
+              <div key={index} className="flex flex-col cursor-pointer hover:bg-muted/50 rounded-lg p-2 -m-2" onClick={() => setIsOrgSheetOpen(true)}>
                 <div className="flex justify-between items-center py-4">
                   <div className="flex items-center gap-2">
                     <Avatar>
@@ -481,6 +484,10 @@ export default function PlatformDashboard() {
         </CardContent>
       </Card>
       <PlatformBottomNav />
+      <OrganizationManagementSheet
+        isOpen={isOrgSheetOpen}
+        onOpenChange={setIsOrgSheetOpen}
+      />
     </div>
   );
 }
