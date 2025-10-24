@@ -27,7 +27,6 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { HabiLogo } from "@/components/habi-logo";
-import { Separator } from "@/components/ui/separator";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { useUser } from "@/context/user-context";
 import { NotificationPopover } from "@/components/notification-popover";
@@ -52,6 +51,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 const onboardingTracks = [
   {
@@ -174,6 +174,121 @@ const onboardingTracks = [
       { name: "Smart Nudges", completed: false },
     ],
   },
+  {
+    id: 6,
+    company: "Tesseract",
+    plan: "Studio",
+    status: "Follow-up Required",
+    stagesCompleted: "1/5",
+    date: "05 Jul 2025",
+    progress: 20,
+    individualName: "Tess",
+    email: "tess@tesseract.com",
+    phone: "1234567890",
+    assignedTo: "Anil Kumar",
+    currentStage: "Subscription",
+    inactiveSince: "4 days",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: false, isCurrent: true, needsFollowUp: true },
+      { name: "Walkthrough", completed: false },
+      { name: "First Project", completed: false },
+      { name: "Smart Nudges", completed: false },
+    ],
+  },
+  {
+    id: 7,
+    company: "Innovate Inc",
+    plan: "Free Trail",
+    status: "Follow-up Required",
+    stagesCompleted: "1/5",
+    date: "01 Jul 2025",
+    progress: 20,
+    individualName: "Innovia",
+    email: "innova@innovate.com",
+    phone: "0987654321",
+    assignedTo: "Priya B",
+    currentStage: "Subscription",
+    inactiveSince: "5 days",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: false, isCurrent: true, needsFollowUp: true },
+      { name: "Walkthrough", completed: false },
+      { name: "First Project", completed: false },
+      { name: "Smart Nudges", completed: false },
+    ],
+  },
+  {
+    id: 8,
+    company: "Tech Solutions",
+    plan: "Enterprises",
+    status: null,
+    stagesCompleted: "3/5",
+    date: "25 Jun 2025",
+    progress: 60,
+    individualName: "Techie",
+    email: "techie@tech.com",
+    phone: "1122334455",
+    assignedTo: "Anil Kumar",
+    currentStage: "Walkthrough",
+    inactiveSince: "1 day",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: true },
+      { name: "Walkthrough", completed: true, isCurrent: true },
+      { name: "First Project", completed: false },
+      { name: "Smart Nudges", completed: false },
+    ],
+  },
+  {
+    id: 9,
+    company: "Design Hub",
+    plan: "Studio",
+    status: null,
+    stagesCompleted: "2/5",
+    date: "20 Jun 2025",
+    progress: 40,
+    individualName: "Desi",
+    email: "desi@design.com",
+    phone: "2233445566",
+    assignedTo: "Priya B",
+    currentStage: "Subscription",
+    inactiveSince: "6 days",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: true, isCurrent: true },
+      { name: "Walkthrough", completed: false },
+      { name: "First Project", completed: false },
+      { name: "Smart Nudges", completed: false },
+    ],
+  },
+  {
+    id: 10,
+    company: "Future Homes",
+    plan: "Free Trail",
+    status: null,
+    stagesCompleted: "5/5",
+    date: "15 Jun 2025",
+    progress: 100,
+    individualName: "Futura",
+    email: "futura@future.com",
+    phone: "3344556677",
+    assignedTo: "Anil Kumar",
+    currentStage: "Completed",
+    inactiveSince: "N/A",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: true },
+      { name: "Walkthrough", completed: true },
+      { name: "First Project", completed: true },
+      { name: "Smart Nudges", completed: true },
+    ],
+  }
 ];
 
 const emailAutomations = [
@@ -467,21 +582,24 @@ export default function OnboardingPage() {
     (currentYear - i).toString(),
   );
   
-  const OnboardingContent = () => (
-     <CardContent className="space-y-0 px-6 pb-6">
-        {onboardingTracks.map((track, index) => (
-          <React.Fragment key={track.id}>
-            <OnboardingTrack
-              track={track}
-              onContact={() => setSelectedTrack(track)}
-            />
-            {index < onboardingTracks.length - 1 && (
-              <Separator className="my-0" />
-            )}
-          </React.Fragment>
-        ))}
-      </CardContent>
-  );
+  const OnboardingContent = ({ limit }: { limit?: number }) => {
+    const tracks = limit ? onboardingTracks.slice(0, limit) : onboardingTracks;
+    return (
+       <CardContent className="space-y-0 px-6 pb-6">
+          {tracks.map((track, index) => (
+            <React.Fragment key={track.id}>
+              <OnboardingTrack
+                track={track}
+                onContact={() => setSelectedTrack(track)}
+              />
+              {index < tracks.length - 1 && (
+                <Separator className="my-0" />
+              )}
+            </React.Fragment>
+          ))}
+        </CardContent>
+    );
+  };
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
@@ -569,12 +687,14 @@ export default function OnboardingPage() {
                   >
                     <ChevronRight />
                   </Button>
-                  <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsMaximized(!isMaximized)}>
-                      {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+                  <Button asChild variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(!isMaximized)}>
+                      <button>
+                        {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+                      </button>
                   </Button>
                 </div>
               </CardHeader>
-             <OnboardingContent />
+             <OnboardingContent limit={3} />
             </Card>
              <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom">
                  <CardHeader className="flex flex-row justify-between items-center">
@@ -603,14 +723,16 @@ export default function OnboardingPage() {
                         <ChevronRight />
                         </Button>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsMaximized(false)}>
-                                <Minimize className="w-5 h-5" />
+                            <Button asChild variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(false)}>
+                                <button>
+                                    <Minimize className="w-5 h-5" />
+                                </button>
                             </Button>
                         </DialogClose>
                     </div>
                 </CardHeader>
                 <ScrollArea className="flex-1">
-                   <OnboardingContent />
+                   <OnboardingContent limit={10} />
                 </ScrollArea>
              </DialogContent>
            </Dialog>
@@ -782,4 +904,3 @@ export default function OnboardingPage() {
     </div>
   );
 }
-
