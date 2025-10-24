@@ -61,34 +61,34 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
 
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] items-start gap-4 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] items-center gap-4 p-4">
         <div className="flex flex-col">
-          <p className="text-base">
+          <p className="text-base md:text-lg">
             <span className="text-muted-foreground">Full Name: </span>
             <span className="font-medium text-foreground">{invitation.fullName}</span>
           </p>
-          <p className="text-base">
+          <p className="text-base md:text-lg">
             <span className="text-muted-foreground">Organization: </span>
             <span className="font-medium text-foreground">{invitation.organization}</span>
           </p>
         </div>
         <div className="flex flex-col">
-          <p className="text-base">
+          <p className="text-base md:text-lg">
             <span className="text-muted-foreground">Contact: </span>
             <span className="font-medium text-foreground">{invitation.contact}</span>
           </p>
-          <p className="text-base">
+          <p className="text-base md:text-lg">
             <span className="text-muted-foreground">Status: </span>
             <span className={cn("font-medium", getStatusClass(invitation.status))}>{invitation.status}</span>
           </p>
         </div>
         <div className="flex md:flex-row justify-between items-center w-full">
             <div className="text-left md:text-right">
-                <p className="text-base">
+                <p className="text-base md:text-lg">
                     <span className="text-muted-foreground">City: </span>
                     <span className="font-medium text-foreground">{invitation.city}</span>
                 </p>
-                <p className="text-base">
+                <p className="text-base md:text-lg">
                     <span className="text-muted-foreground">Date: </span>
                     <span className="font-medium text-foreground">{invitation.date}</span>
                 </p>
