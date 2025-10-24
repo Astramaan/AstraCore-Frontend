@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -13,6 +14,7 @@ import {
   Calendar as CalendarIcon,
   ArrowUp,
   Maximize,
+  Minimize,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -41,6 +43,14 @@ import {
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { OnboardingContactSheet } from "@/components/onboarding-contact-sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const onboardingTracks = [
   {
@@ -59,7 +69,7 @@ const onboardingTracks = [
     inactiveSince: "26 hrs",
     autoEmailSent: true,
     stages: [
-      { name: "Account Creation", completed: true },
+      { name: "Account Setup", completed: true },
       {
         name: "Subscription",
         completed: false,
@@ -115,6 +125,52 @@ const onboardingTracks = [
       { name: "Walkthrough", completed: true },
       { name: "First Project", completed: true },
       { name: "Smart Nudges", completed: false, isCurrent: true },
+    ],
+  },
+    {
+    id: 4,
+    company: "Buildahome",
+    plan: "Enterprises",
+    status: null,
+    stagesCompleted: "5/5",
+    date: "15 Jul 2025",
+    progress: 100,
+    individualName: "Sathish",
+    email: "sathish@buildahome.com",
+    phone: "7890123456",
+    assignedTo: "Anil Kumar",
+    currentStage: "Completed",
+    inactiveSince: "N/A",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: true },
+      { name: "Walkthrough", completed: true },
+      { name: "First Project", completed: true },
+      { name: "Smart Nudges", completed: true },
+    ],
+  },
+  {
+    id: 5,
+    company: "Prestige Group",
+    plan: "Studio",
+    status: "Follow-up Required",
+    stagesCompleted: "1/5",
+    date: "10 Jul 2025",
+    progress: 20,
+    individualName: "Harish",
+    email: "harish@prestige.com",
+    phone: "6543210987",
+    assignedTo: "Priya B",
+    currentStage: "Subscription",
+    inactiveSince: "3 days",
+    autoEmailSent: true,
+    stages: [
+      { name: "Account Setup", completed: true },
+      { name: "Subscription", completed: false, isCurrent: true, needsFollowUp: true },
+      { name: "Walkthrough", completed: false },
+      { name: "First Project", completed: false },
+      { name: "Smart Nudges", completed: false },
     ],
   },
 ];
@@ -398,6 +454,7 @@ export default function OnboardingPage() {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
   const [selectedTrack, setSelectedTrack] = useState<any | null>(null);
+  const [isMaximized, setIsMaximized] = useState(false);
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const date = new Date(currentYear, i, 1);
@@ -407,6 +464,22 @@ export default function OnboardingPage() {
   });
   const years = Array.from({ length: 5 }, (_, i) =>
     (currentYear - i).toString(),
+  );
+  
+  const OnboardingContent = () => (
+     <CardContent className="space-y-0 px-6 pb-6">
+        {onboardingTracks.map((track, index) => (
+          <React.Fragment key={track.id}>
+            <OnboardingTrack
+              track={track}
+              onContact={() => setSelectedTrack(track)}
+            />
+            {index < onboardingTracks.length - 1 && (
+              <Separator className="my-0" />
+            )}
+          </React.Fragment>
+        ))}
+      </CardContent>
   );
 
   return (
@@ -468,51 +541,80 @@ export default function OnboardingPage() {
       </header>
       <main className="flex-grow space-y-6 mt-6">
         <div className="lg:col-span-2">
-          <Card className="rounded-[50px]">
-            <CardHeader className="flex flex-row justify-between items-center">
-              <div className="flex items-center gap-4">
-                <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
-                  <Bell className="h-6 w-6" />
+           <Dialog open={isMaximized} onOpenChange={setIsMaximized}>
+            <Card className="rounded-[50px]">
+              <CardHeader className="flex flex-row justify-between items-center">
+                <div className="flex items-center gap-4">
+                  <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
+                    <Bell className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Onboard Tracking</CardTitle>
                 </div>
-                <CardTitle>Onboard Tracking</CardTitle>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="text-muted-foreground text-lg">
-                  1-3 of 2,958
+                <div className="flex items-center gap-4">
+                  <div className="text-muted-foreground text-lg">
+                    1-3 of 2,958
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full bg-background"
+                  >
+                    <ChevronRight className="transform -rotate-180" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full bg-background"
+                  >
+                    <ChevronRight />
+                  </Button>
+                  <DialogClose asChild={isMaximized}>
+                     <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsMaximized(!isMaximized)}>
+                      {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+                    </Button>
+                  </DialogClose>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-background"
-                >
-                  <ChevronRight className="transform -rotate-180" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full bg-background"
-                >
-                  <ChevronRight />
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full border">
-                  <Maximize className="w-5 h-5" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-0 px-6 pb-6">
-              {onboardingTracks.map((track, index) => (
-                <React.Fragment key={track.id}>
-                  <OnboardingTrack
-                    track={track}
-                    onContact={() => setSelectedTrack(track)}
-                  />
-                  {index < onboardingTracks.length - 1 && (
-                    <Separator className="my-0" />
-                  )}
-                </React.Fragment>
-              ))}
-            </CardContent>
-          </Card>
+              </CardHeader>
+             <OnboardingContent />
+            </Card>
+             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none">
+                 <CardHeader className="flex flex-row justify-between items-center">
+                    <div className="flex items-center gap-4">
+                        <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
+                        <Bell className="h-6 w-6" />
+                        </div>
+                        <CardTitle>Onboard Tracking</CardTitle>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <div className="text-muted-foreground text-lg">
+                        1-10 of 2,958
+                        </div>
+                        <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full bg-background"
+                        >
+                        <ChevronRight className="transform -rotate-180" />
+                        </Button>
+                        <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full bg-background"
+                        >
+                        <ChevronRight />
+                        </Button>
+                        <DialogClose asChild>
+                            <Button variant="ghost" size="icon" className="rounded-full border" onClick={() => setIsMaximized(false)}>
+                                <Minimize className="w-5 h-5" />
+                            </Button>
+                        </DialogClose>
+                    </div>
+                </CardHeader>
+                <ScrollArea className="flex-1">
+                   <OnboardingContent />
+                </ScrollArea>
+             </DialogContent>
+           </Dialog>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-8">
