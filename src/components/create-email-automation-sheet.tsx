@@ -43,7 +43,7 @@ const StepIndicator = ({
     <div className="flex items-center gap-4">
       <div
         className={cn(
-          "size-14 rounded-3xl flex items-center justify-center text-lg font-medium",
+          "w-[54px] h-[54px] rounded-full flex items-center justify-center text-lg font-medium",
           isActive
             ? "bg-primary/10 border border-primary text-primary"
             : "border border-border text-muted-foreground opacity-30",
