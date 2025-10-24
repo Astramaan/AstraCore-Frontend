@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -42,6 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import { OnboardingContactSheet } from "@/components/onboarding-contact-sheet";
 
 const onboardingTracks = [
   {
@@ -52,6 +52,13 @@ const onboardingTracks = [
     stagesCompleted: "1/5",
     date: "20 Aug 2025",
     progress: 20,
+    individualName: "Balaji Naik",
+    email: "balaji@habi.one",
+    phone: "9380032186",
+    assignedTo: "Balaji Naik",
+    currentStage: "Account Setup",
+    inactiveSince: "26 hrs",
+    autoEmailSent: true,
     stages: [
       { name: "Account Creation", completed: true },
       {
@@ -73,6 +80,13 @@ const onboardingTracks = [
     stagesCompleted: "2/5",
     date: "20 Aug 2025",
     progress: 40,
+    individualName: "Anil Kumar",
+    email: "anil@habi.one",
+    phone: "9876543210",
+    assignedTo: "Anil Kumar",
+    currentStage: "Subscription",
+    inactiveSince: "2 days",
+    autoEmailSent: true,
     stages: [
       { name: "Account Creation", completed: true },
       { name: "Subscription", completed: true },
@@ -89,6 +103,13 @@ const onboardingTracks = [
     stagesCompleted: "4/5",
     date: "20 Aug 2025",
     progress: 80,
+    individualName: "Priya B",
+    email: "priya@habi.one",
+    phone: "8765432109",
+    assignedTo: "Priya B",
+    currentStage: "First Project",
+    inactiveSince: "5 hrs",
+    autoEmailSent: false,
     stages: [
       { name: "Account Creation", completed: true },
       { name: "Subscription", completed: true },
@@ -138,7 +159,13 @@ const emailAutomations = [
   },
 ];
 
-const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => (
+const OnboardingTrack = ({
+  track,
+  onContact,
+}: {
+  track: (typeof onboardingTracks)[0];
+  onContact: (track: any) => void;
+}) => (
   <div className="flex items-center gap-4 py-4">
     <div className="relative w-24 h-32 bg-gradient-to-br from-emerald-200/50 to-white/0 dark:from-emerald-900/50 dark:to-transparent rounded-l-3xl flex items-center justify-center shrink-0">
       <p className="text-4xl font-bold text-gray-400 dark:text-gray-600">
@@ -199,7 +226,10 @@ const OnboardingTrack = ({ track }: { track: (typeof onboardingTracks)[0] }) => 
           </div>
         </div>
 
-        <Button className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground">
+        <Button
+          onClick={() => onContact(track)}
+          className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground"
+        >
           <Phone className="mr-2" size={20} /> Contact
         </Button>
       </div>
@@ -368,6 +398,7 @@ export default function OnboardingPage() {
   );
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+  const [selectedTrack, setSelectedTrack] = useState<any | null>(null);
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const date = new Date(currentYear, i, 1);
@@ -472,7 +503,10 @@ export default function OnboardingPage() {
             <CardContent className="space-y-0 px-6 pb-6">
               {onboardingTracks.map((track, index) => (
                 <React.Fragment key={track.id}>
-                  <OnboardingTrack track={track} />
+                  <OnboardingTrack
+                    track={track}
+                    onContact={() => setSelectedTrack(track)}
+                  />
                   {index < onboardingTracks.length - 1 && (
                     <Separator className="my-0" />
                   )}
@@ -640,6 +674,11 @@ export default function OnboardingPage() {
         </div>
       </main>
       <PlatformBottomNav />
+      <OnboardingContactSheet
+        isOpen={!!selectedTrack}
+        onClose={() => setSelectedTrack(null)}
+        track={selectedTrack}
+      />
     </div>
   );
 }
