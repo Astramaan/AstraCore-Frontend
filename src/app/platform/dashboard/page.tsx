@@ -279,7 +279,7 @@ export default function PlatformDashboard() {
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     <SelectValue placeholder="Select year" />
                   </div>
-                </SelectTrigger>
+                  </SelectTrigger>
                 <SelectContent>
                   {years.map((year) => (
                     <SelectItem key={year} value={year}>
@@ -471,7 +471,7 @@ export default function PlatformDashboard() {
           </div>
           <div>
             {churnedCustomers.map((customer, index) => (
-              <div key={index} className="flex flex-col cursor-pointer hover:bg-muted/50 rounded-lg p-2 -m-2" onClick={() => setSelectedCustomer(customer)}>
+              <div key={index} className="flex flex-col">
                 <div className="flex justify-between items-center py-4">
                   <div className="flex items-center gap-2">
                     <Avatar>
@@ -492,7 +492,7 @@ export default function PlatformDashboard() {
                       </p>
                     </div>
                   </div>
-                  <Button variant="outline" className="rounded-full h-14">
+                  <Button variant="outline" className="rounded-full h-14" onClick={() => setSelectedCustomer(customer)}>
                     <MessageSquare className="h-5 w-5 mr-2" />
                     Contact
                   </Button>
