@@ -50,25 +50,44 @@ import TeamIcon from "@/components/icons/team-icon";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { InviteOrganizationSheet } from "@/components/invite-organization-sheet";
 import { OrganizationManagementSheet } from "@/components/organization-management-sheet";
+import { ExitSurveyDialog } from "@/components/exit-survey-dialog";
 
 const churnedCustomers = [
   {
-    name: "Brick & Bolt",
+    name: "Golden ventures",
     reason: "Pricing too high",
     comeback: "Possible Comeback",
     avatar: "https://placehold.co/40x40",
+    individualName: "Balaji Naik",
+    email: "balaji@habi.one",
+    phone: "9380032186",
+    assignedTo: "Balaji Naik",
+    filledOn: "02 May 2025",
+    message: "The tool is good, but it's too expensive for us. A cheaper or more flexible plan would have helped.",
   },
   {
     name: "Powerplay",
     reason: "Missing Features - Need some features...",
     comeback: "",
     avatar: "https://placehold.co/40x40",
+    individualName: "Anil Kumar",
+    email: "anil@powerplay.com",
+    phone: "9876543210",
+    assignedTo: "Anil Kumar",
+    filledOn: "01 May 2025",
+    message: "The platform lacks some critical features we need for our workflow.",
   },
   {
     name: "Harish mane",
     reason: "Technical issues or bugs",
     comeback: "",
     avatar: "https://placehold.co/40x40",
+    individualName: "Harish Mane",
+    email: "harish@mane.com",
+    phone: "8765432109",
+    assignedTo: "Priya B",
+    filledOn: "28 April 2025",
+    message: "We experienced too many technical glitches which disrupted our work.",
   },
 ];
 
@@ -113,6 +132,7 @@ export default function PlatformDashboard() {
   );
   const [maximizedCard, setMaximizedCard] = useState<string | null>(null);
   const [isOrgSheetOpen, setIsOrgSheetOpen] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<any | null>(null);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -451,7 +471,7 @@ export default function PlatformDashboard() {
           </div>
           <div>
             {churnedCustomers.map((customer, index) => (
-              <div key={index} className="flex flex-col cursor-pointer hover:bg-muted/50 rounded-lg p-2 -m-2" onClick={() => setIsOrgSheetOpen(true)}>
+              <div key={index} className="flex flex-col cursor-pointer hover:bg-muted/50 rounded-lg p-2 -m-2" onClick={() => setSelectedCustomer(customer)}>
                 <div className="flex justify-between items-center py-4">
                   <div className="flex items-center gap-2">
                     <Avatar>
@@ -487,6 +507,11 @@ export default function PlatformDashboard() {
       <OrganizationManagementSheet
         isOpen={isOrgSheetOpen}
         onOpenChange={setIsOrgSheetOpen}
+      />
+      <ExitSurveyDialog 
+        isOpen={!!selectedCustomer}
+        onClose={() => setSelectedCustomer(null)}
+        customer={selectedCustomer}
       />
     </div>
   );
