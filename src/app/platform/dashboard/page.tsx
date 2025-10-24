@@ -366,7 +366,6 @@ export default function PlatformDashboard() {
                 <p className="text-4xl font-bold flex items-center">
                   1.90L <ArrowUpRight className="h-6 w-6 text-green-500" />
                 </p>
-                <Badge className="bg-primary/20 text-primary">+24.4%</Badge>
               </div>
             </CardHeader>
             <CardContent className="h-64">
