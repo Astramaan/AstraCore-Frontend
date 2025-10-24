@@ -83,7 +83,7 @@ export const OnboardingContactSheet = ({
               label="Auto Email Sent"
               value={
                 <div className="flex items-center gap-2 text-green-600">
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-5 h-5 text-green-600"/>
                   <span className="font-semibold text-lg">Sent</span>
                 </div>
               }
