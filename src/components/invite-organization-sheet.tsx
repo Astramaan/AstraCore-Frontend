@@ -47,7 +47,7 @@ export const InviteOrganizationSheet = () => {
             <SheetTitle className="flex justify-between items-center">
               <div className="flex items-center gap-4">
                 <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-border flex justify-center items-center">
-                    <OrganizationIcon className="h-6 w-6" />
+                  <OrganizationIcon className="h-6 w-6" />
                 </div>
                 <span className="text-2xl font-semibold">
                   Invite Organization
@@ -57,7 +57,7 @@ export const InviteOrganizationSheet = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 rounded-full bg-background"
                 >
                   <X />
                 </Button>
