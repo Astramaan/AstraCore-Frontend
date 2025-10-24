@@ -50,7 +50,7 @@ import TeamIcon from "@/components/icons/team-icon";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { InviteOrganizationSheet } from "@/components/invite-organization-sheet";
 import { OrganizationManagementSheet } from "@/components/organization-management-sheet";
-import { ExitSurveySheet } from "@/components/exit-survey-dialog";
+import { ExitSurveyDialog } from "@/components/exit-survey-dialog";
 
 const churnedCustomers = [
   {
@@ -508,7 +508,7 @@ export default function PlatformDashboard() {
         isOpen={isOrgSheetOpen}
         onOpenChange={setIsOrgSheetOpen}
       />
-      <ExitSurveySheet
+      <ExitSurveyDialog
         isOpen={!!selectedCustomer}
         onClose={() => setSelectedCustomer(null)}
         customer={selectedCustomer}
