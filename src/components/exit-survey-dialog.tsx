@@ -46,7 +46,7 @@ export const ExitSurveyDialog = ({
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-6 right-6 w-9 h-9 rounded-full bg-background"
+              className="absolute top-6 right-6 w-[54px] h-[54px] rounded-full bg-background"
             >
               <X className="h-5 w-5" />
             </Button>
