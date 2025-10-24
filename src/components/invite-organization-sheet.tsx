@@ -57,7 +57,7 @@ export const InviteOrganizationSheet = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-10 h-10 rounded-full bg-background"
+                  className="w-[54px] h-[54px] rounded-full bg-background"
                 >
                   <X />
                 </Button>
