@@ -172,7 +172,7 @@ const QuickLink = ({
 const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
   return (
     <div className="relative">
-      <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full shadow-lg bg-card dark:bg-card">
+      <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full bg-card dark:bg-card">
         <div className={cn("p-8 pb-12 text-center", plan.headerBg)}>
           <div className="flex justify-center mb-4">
             <div
@@ -274,9 +274,7 @@ export default function SubscriptionManagementPage() {
                         "text-white",
                       )}
                     >
-                      <TeamIcon
-                        className={cn("mr-2 h-6 w-6", "text-white")}
-                      />
+                      <TeamIcon className={cn("mr-2 h-6 w-6", "text-white")} />
                       <span className={cn("text-white whitespace-nowrap")}>
                         Team Management
                       </span>
