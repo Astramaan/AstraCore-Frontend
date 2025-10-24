@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState } from "react";
@@ -172,7 +173,7 @@ const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
   return (
     <div className="relative">
       <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full bg-card dark:bg-card shadow-none">
-        <div className={cn("p-8 pb-12 text-center", plan.headerBg)}>
+        <div className={cn("p-8 pb-12 text-center relative", plan.headerBg)}>
           <div className="flex justify-center mb-4">
             <div
               className={cn(
@@ -185,7 +186,7 @@ const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
           <h3 className="text-2xl font-semibold text-black">{plan.name}</h3>
           <p className="text-lg text-black/60">{plan.price}</p>
           {plan.basePlan && (
-            <div className="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-xs font-semibold">
+            <div className="absolute bottom-4 right-4 bg-white text-black px-3 py-1 rounded-full text-xs font-semibold">
               Base Plan
             </div>
           )}
