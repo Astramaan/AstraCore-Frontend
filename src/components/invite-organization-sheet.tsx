@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
 import { SuccessPopup } from "./success-popup";
 import { InviteOrganizationForm } from "./invite-organization-form";
+import OrganizationIcon from "./icons/organization-icon";
 
 export const InviteOrganizationSheet = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,9 +45,14 @@ export const InviteOrganizationSheet = () => {
         >
           <SheetHeader className="p-6 border-b">
             <SheetTitle className="flex justify-between items-center">
-              <span className="text-2xl font-semibold">
-                Invite Organization
-              </span>
+              <div className="flex items-center gap-4">
+                <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-border flex justify-center items-center">
+                    <OrganizationIcon className="h-6 w-6" />
+                </div>
+                <span className="text-2xl font-semibold">
+                  Invite Organization
+                </span>
+              </div>
               <SheetClose asChild>
                 <Button
                   variant="ghost"
