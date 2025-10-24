@@ -27,7 +27,7 @@ const DetailItem = ({
     {icon && <div className="mt-1 text-muted-foreground">{icon}</div>}
     <div>
       <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="font-semibold text-base">{value}</p>
+      <p className="font-semibold text-lg">{value}</p>
     </div>
   </div>
 );
@@ -86,7 +86,7 @@ export const OnboardingContactSheet = ({
           <DetailItem label="Auto Email Sent" value={
             <div className="flex items-center gap-1 text-green-600">
                 <CheckCircle className="w-4 h-4"/>
-                <span>Sent</span>
+                <span className="font-semibold text-lg">Sent</span>
             </div>
           } />
           <DetailItem label="Assigned To" value={track.assignedTo} />
