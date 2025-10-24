@@ -420,7 +420,7 @@ export default function PlatformDashboard() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <QuickLink
                 icon={<Users className="h-6 w-6 text-green-600" />}
                 bgColor="bg-green-100 dark:bg-green-900/50"
