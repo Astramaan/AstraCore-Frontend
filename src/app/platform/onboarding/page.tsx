@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -54,7 +53,12 @@ const onboardingTracks = [
     progress: 20,
     stages: [
       { name: "Account Creation", completed: true },
-      { name: "Subscription", completed: false, isCurrent: true, needsFollowUp: true },
+      {
+        name: "Subscription",
+        completed: false,
+        isCurrent: true,
+        needsFollowUp: true,
+      },
       { name: "Walkthrough", completed: false },
       { name: "First Project", completed: false },
       { name: "Smart Nudges", completed: false },
@@ -355,6 +359,25 @@ export default function OnboardingPage() {
     .map((n) => n[0])
     .join("");
 
+  const [activeTab, setActiveTab] = useState("month");
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toLocaleString("default", { month: "long" }) +
+      " " +
+      new Date().getFullYear(),
+  );
+  const currentYear = new Date().getFullYear();
+  const [selectedYear, setSelectedYear] = useState(currentYear.toString());
+
+  const months = Array.from({ length: 12 }, (_, i) => {
+    const date = new Date(currentYear, i, 1);
+    return (
+      date.toLocaleString("default", { month: "long" }) + " " + currentYear
+    );
+  });
+  const years = Array.from({ length: 5 }, (_, i) =>
+    (currentYear - i).toString(),
+  );
+
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
       <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
@@ -386,7 +409,10 @@ export default function OnboardingPage() {
                   </div>
                 </Link>
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <Link href="/platform/profile" className="flex justify-start items-center gap-2">
+                <Link
+                  href="/platform/profile"
+                  className="flex justify-start items-center gap-2"
+                >
                   <Avatar className="w-14 h-14">
                     <AvatarImage
                       src="https://placehold.co/55x55"
@@ -437,13 +463,9 @@ export default function OnboardingPage() {
                 >
                   <ChevronRight />
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-full border"
-                  >
-                    <Maximize className="w-5 h-5" />
-                  </Button>
+                <Button variant="ghost" size="icon" className="rounded-full border">
+                  <Maximize className="w-5 h-5" />
+                </Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-0 px-6 pb-6">
@@ -490,7 +512,7 @@ export default function OnboardingPage() {
           <div className="space-y-8 flex flex-col">
             <Card className="rounded-[50px] p-6 flex-grow">
               <CardHeader className="p-0 mb-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-start gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                   <div className="flex items-center gap-4">
                     <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                       <BarChart2 className="h-6 w-6" />
@@ -503,24 +525,31 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <div className="flex flex-col gap-2">
-                      <Tabs defaultValue="month" className="w-auto">
-                        <TabsList className="rounded-[50px] p-1 h-12 bg-background">
-                          <TabsTrigger
-                            value="month"
-                            className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
-                          >
-                            Month
-                          </TabsTrigger>
-                          <TabsTrigger
-                            value="year"
-                            className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
-                          >
-                            Year
-                          </TabsTrigger>
-                        </TabsList>
-                      </Tabs>
-                      <Select defaultValue="april-2025">
+                    <Tabs
+                      defaultValue="month"
+                      className="w-auto"
+                      onValueChange={(value) => setActiveTab(value)}
+                    >
+                      <TabsList className="rounded-[50px] p-1 h-12 bg-background">
+                        <TabsTrigger
+                          value="month"
+                          className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                        >
+                          Month
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="year"
+                          className="w-[90px] h-10 rounded-[50px] text-base data-[state=active]:bg-primary data-[state=active]:text-white"
+                        >
+                          Year
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                    {activeTab === "month" ? (
+                      <Select
+                        value={selectedMonth}
+                        onValueChange={setSelectedMonth}
+                      >
                         <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
                           <div className="flex items-center">
                             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -528,11 +557,33 @@ export default function OnboardingPage() {
                           </div>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="april-2025">April 2025</SelectItem>
-                          <SelectItem value="may-2025">May 2025</SelectItem>
+                          {months.map((month) => (
+                            <SelectItem key={month} value={month}>
+                              {month}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
-                    </div>
+                    ) : (
+                      <Select
+                        value={selectedYear}
+                        onValueChange={setSelectedYear}
+                      >
+                        <SelectTrigger className="w-full sm:w-auto h-12 rounded-full text-base bg-background">
+                          <div className="flex items-center">
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            <SelectValue placeholder="Select year" />
+                          </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {years.map((year) => (
+                            <SelectItem key={year} value={year}>
+                              {year}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
                   </div>
                 </div>
               </CardHeader>
