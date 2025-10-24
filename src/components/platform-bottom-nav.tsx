@@ -40,7 +40,7 @@ export const PlatformBottomNav = () => {
 
   return (
     <div className="fixed bottom-4 md:bottom-8 inset-x-0 z-10 px-4 flex justify-center">
-      <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0 w-full md:w-auto max-w-lg">
+      <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0 w-full md:w-auto">
         <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] p-2 md:p-4">
           <div className="flex items-center justify-around md:justify-center md:gap-4">
             {navItems.map((item) => {
