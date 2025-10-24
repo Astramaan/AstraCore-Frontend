@@ -111,7 +111,6 @@ export const ExitSurveyDialog = ({
         </div>
 
         <div className="flex justify-end gap-4 p-6 border-t mt-auto">
-          <Button variant="outline" onClick={onClose} className="rounded-full h-14 px-8 text-lg">Close</Button>
           <Button className="rounded-full h-14 px-8 text-lg"><Phone className="w-5 h-5 mr-2"/> Call</Button>
         </div>
       </SheetContent>
