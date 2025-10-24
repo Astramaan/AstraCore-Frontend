@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Bell,
   Mail,
@@ -414,7 +414,7 @@ export default function OnboardingPage() {
           <Card className="rounded-[50px]">
             <CardHeader className="flex flex-row justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                   <Bell className="h-6 w-6" />
                 </div>
                 <CardTitle>Onboard Tracking</CardTitle>
@@ -463,14 +463,14 @@ export default function OnboardingPage() {
             <Card className="rounded-[50px]">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                  <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                     <Mail className="h-6 w-6" />
                   </div>
                   <CardTitle>Email Automation</CardTitle>
                 </div>
                 <Button
                   variant="outline"
-                  className="p-3.5 rounded-full bg-background"
+                  className="w-[54px] h-[54px] p-3.5 rounded-full bg-background"
                 >
                   <Plus className="h-6 w-6" />
                 </Button>
@@ -492,7 +492,7 @@ export default function OnboardingPage() {
               <CardHeader className="p-0 mb-4">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                       <BarChart2 className="h-6 w-6" />
                     </div>
                     <div>

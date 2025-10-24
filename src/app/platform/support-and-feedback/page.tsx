@@ -1,5 +1,6 @@
 
 
+
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -246,7 +247,7 @@ const CustomerFeedbackCard = () => (
     <Card className="rounded-[50px]">
         <CardHeader>
             <div className="flex items-center gap-2">
-                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                     <MessageSquare className="h-6 w-6" />
                 </div>
                 <CardTitle>Customer Feedback</CardTitle>
@@ -344,7 +345,7 @@ export default function SupportAndFeedbackPage() {
         <Card className="rounded-[50px]">
             <CardHeader className="flex flex-row justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                         <ShieldAlert className="h-6 w-6" />
                     </div>
                     <CardTitle>Reported Issues</CardTitle>
@@ -365,7 +366,7 @@ export default function SupportAndFeedbackPage() {
         <Card className="rounded-[50px]">
             <CardHeader>
                 <div className="flex items-center gap-2">
-                     <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                     <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                         <BarChart2 className="h-6 w-6" />
                     </div>
                     <CardTitle>Most Reported Issues</CardTitle>
@@ -380,7 +381,7 @@ export default function SupportAndFeedbackPage() {
             <Card className="rounded-[50px]">
                 <CardHeader>
                      <div className="flex items-center gap-2">
-                         <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                         <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                             <MessageSquare className="h-6 w-6" />
                         </div>
                         <CardTitle>Live Chat Support</CardTitle>

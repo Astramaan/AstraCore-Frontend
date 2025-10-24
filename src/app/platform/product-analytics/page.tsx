@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -322,7 +323,7 @@ export default function ProductAnalyticsPage() {
               <CardHeader className="p-0 mb-4">
                 <div className="flex flex-col items-start gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                       <Clock className="w-6 h-6 text-muted-foreground" />
                     </div>
                     <CardTitle>Stage Completion Times</CardTitle>
@@ -390,7 +391,7 @@ export default function ProductAnalyticsPage() {
               <CardHeader className="p-0">
                 <div className="flex justify-between items-center mb-4">
                   <CardTitle className="flex items-center gap-2 whitespace-nowrap">
-                    <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                    <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                       <Package />
                     </div>
                     Material Purchase
@@ -437,7 +438,7 @@ export default function ProductAnalyticsPage() {
           <CardHeader>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div className="flex items-center gap-4">
-                <div className="p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border">
+                <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                   <BarChart2 className="h-6 w-6" />
                 </div>
                 <div>
