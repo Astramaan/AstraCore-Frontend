@@ -399,7 +399,7 @@ const OnboardingTrack = ({
 
         <Button
           onClick={() => onContact(track)}
-          className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground text-lg"
+          className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground text-lg font-medium"
         >
           <Phone className="mr-2" size={20} /> Contact
         </Button>
@@ -687,17 +687,17 @@ export default function OnboardingPage() {
                   >
                     <ChevronRight />
                   </Button>
-                  <Button asChild variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(!isMaximized)}>
-                      <button>
-                        {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
-                      </button>
+                  <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(!isMaximized)}>
+                    {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
                   </Button>
                 </div>
               </CardHeader>
              <OnboardingContent limit={3} />
             </Card>
-             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom">
-                 <CardHeader className="flex flex-row justify-between items-center">
+             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+                <DialogHeader className="p-6">
+                   <DialogTitle className="sr-only">Onboard Tracking</DialogTitle>
+                 <CardHeader className="flex flex-row justify-between items-center p-0">
                     <div className="flex items-center gap-4">
                         <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                         <Bell className="h-6 w-6" />
@@ -723,14 +723,13 @@ export default function OnboardingPage() {
                         <ChevronRight />
                         </Button>
                         <DialogClose asChild>
-                            <Button asChild variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(false)}>
-                                <button>
-                                    <Minimize className="w-5 h-5" />
-                                </button>
+                            <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(false)}>
+                                <Minimize className="w-5 h-5" />
                             </Button>
                         </DialogClose>
                     </div>
                 </CardHeader>
+                </DialogHeader>
                 <ScrollArea className="flex-1">
                    <OnboardingContent limit={10} />
                 </ScrollArea>
