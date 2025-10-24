@@ -577,7 +577,7 @@ export default function OnboardingPage() {
               </CardHeader>
              <OnboardingContent />
             </Card>
-             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none">
+             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom">
                  <CardHeader className="flex flex-row justify-between items-center">
                     <div className="flex items-center gap-4">
                         <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
