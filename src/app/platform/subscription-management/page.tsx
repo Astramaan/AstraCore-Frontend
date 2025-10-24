@@ -14,6 +14,7 @@ import {
   UserX,
   CreditCard,
   Mail,
+  Edit,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -43,7 +44,7 @@ const plans = {
       features: ["Internal version", "Client version"],
       iconBg: "bg-fuchsia-100 dark:bg-fuchsia-900/50",
       iconColor: "text-fuchsia-700 dark:text-fuchsia-300",
-      headerBg: "bg-fuchsia-100/50",
+      headerBg: "bg-gradient-to-br from-purple-200 to-purple-50",
       Icon: Users,
       basePlan: true,
     },
@@ -59,7 +60,7 @@ const plans = {
       ],
       iconBg: "bg-indigo-100 dark:bg-indigo-900/50",
       iconColor: "text-indigo-700 dark:text-indigo-300",
-      headerBg: "bg-indigo-100/50",
+      headerBg: "bg-gradient-to-br from-indigo-200 to-indigo-50",
       Icon: Users,
       basePlan: true,
     },
@@ -77,7 +78,7 @@ const plans = {
       ],
       iconBg: "bg-red-100 dark:bg-red-900/50",
       iconColor: "text-red-700 dark:text-red-300",
-      headerBg: "bg-red-100/50",
+      headerBg: "bg-gradient-to-br from-rose-200 to-rose-50",
       Icon: Users,
       basePlan: true,
     },
@@ -91,7 +92,7 @@ const plans = {
       features: ["Internal version", "Client version"],
       iconBg: "bg-fuchsia-100 dark:bg-fuchsia-900/50",
       iconColor: "text-fuchsia-700 dark:text-fuchsia-300",
-      headerBg: "bg-fuchsia-100/50",
+      headerBg: "bg-gradient-to-br from-purple-200 to-purple-50",
       Icon: Users,
       basePlan: true,
     },
@@ -107,7 +108,7 @@ const plans = {
       ],
       iconBg: "bg-indigo-100 dark:bg-indigo-900/50",
       iconColor: "text-indigo-700 dark:text-indigo-300",
-      headerBg: "bg-indigo-100/50",
+      headerBg: "bg-gradient-to-br from-indigo-200 to-indigo-50",
       Icon: Users,
       basePlan: true,
     },
@@ -125,7 +126,7 @@ const plans = {
       ],
       iconBg: "bg-red-100 dark:bg-red-900/50",
       iconColor: "text-red-700 dark:text-red-300",
-      headerBg: "bg-red-100/50",
+      headerBg: "bg-gradient-to-br from-rose-200 to-rose-50",
       Icon: Users,
       basePlan: true,
     },
@@ -133,13 +134,13 @@ const plans = {
 };
 
 const allFeatures = [
-    "Internal version",
-    "Client version",
-    "Site Surveillance System",
-    "AR/VR Experience Tool",
-    "Shram",
-    "Curing system",
-  ];
+  "Internal version",
+  "Client version",
+  "Site Surveillance System",
+  "AR/VR Experience Tool",
+  "Shram",
+  "Curing system",
+];
 
 const QuickLink = ({
   icon,
@@ -169,73 +170,76 @@ const QuickLink = ({
 );
 
 const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
-    return (
-      <div className="relative">
-        <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full shadow-lg">
-          <div className={cn("p-8 pb-12 text-center", plan.headerBg)}>
-            <div className="flex justify-center mb-4">
-              <div
-                className={cn(
-                  "w-16 h-16 rounded-full flex items-center justify-center bg-white",
-                )}
-              >
-                <Mail className={cn("w-8 h-8", plan.iconColor)} />
-              </div>
-            </div>
-            <h3 className="text-2xl font-semibold">{plan.name}</h3>
-            <p className="text-lg text-muted-foreground">{plan.price}</p>
-            {plan.basePlan && (
-              <div className="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-xs font-semibold">
-                Base Plan
-              </div>
-            )}
-          </div>
-          <div className="bg-card flex-1 flex flex-col p-8 pt-6 -mt-6 rounded-t-[30px]">
-            <p className="text-sm text-muted-foreground flex-grow text-center h-12">
-              {plan.description}
-            </p>
-            <ul className="space-y-4 my-8 text-left">
-              {allFeatures.map((feature) => {
-                const isIncluded = plan.features.includes(feature);
-                return (
-                  <li key={feature} className="flex items-center gap-3">
-                    <div
-                      className={cn(
-                        "w-5 h-5 rounded-full flex items-center justify-center",
-                        isIncluded
-                          ? "bg-green-100 text-green-600"
-                          : "bg-gray-200 text-gray-400",
-                      )}
-                    >
-                      {isIncluded ? (
-                        <Check className="w-3.5 h-3.5" />
-                      ) : (
-                        <div className="w-2.5 h-0.5 bg-gray-400" />
-                      )}
-                    </div>
-                    <span
-                      className={cn(
-                        "text-base",
-                        isIncluded ? "text-foreground" : "text-muted-foreground line-through",
-                      )}
-                    >
-                      {feature}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-            <Button
-              variant="outline"
-              className="w-full h-14 rounded-full squircle text-lg mt-auto bg-gray-100 hover:bg-gray-200"
+  return (
+    <div className="relative">
+      <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full shadow-lg bg-card dark:bg-card">
+        <div className={cn("p-8 pb-12 text-center", plan.headerBg)}>
+          <div className="flex justify-center mb-4">
+            <div
+              className={cn(
+                "w-16 h-16 rounded-full flex items-center justify-center bg-white",
+              )}
             >
-              Edit
-            </Button>
+              <Mail className={cn("w-8 h-8", plan.iconColor)} />
+            </div>
           </div>
-        </Card>
-      </div>
-    );
-  };
+          <h3 className="text-2xl font-semibold text-black">{plan.name}</h3>
+          <p className="text-lg text-black/60">{plan.price}</p>
+          {plan.basePlan && (
+            <div className="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-xs font-semibold">
+              Base Plan
+            </div>
+          )}
+        </div>
+        <div className="bg-card dark:bg-card flex-1 flex flex-col p-8 pt-6 -mt-6 rounded-t-[30px]">
+          <p className="text-sm text-muted-foreground flex-grow text-center h-12">
+            {plan.description}
+          </p>
+          <ul className="space-y-4 my-8 text-left">
+            {allFeatures.map((feature) => {
+              const isIncluded = plan.features.includes(feature);
+              return (
+                <li key={feature} className="flex items-center gap-3">
+                  <div
+                    className={cn(
+                      "w-5 h-5 rounded-full flex items-center justify-center",
+                      isIncluded
+                        ? "bg-green-100"
+                        : "bg-gray-200 dark:bg-zinc-700",
+                    )}
+                  >
+                    {isIncluded ? (
+                      <Check className="w-3.5 h-3.5 text-green-600" />
+                    ) : (
+                      <div className="w-2.5 h-0.5 bg-gray-400 dark:bg-zinc-500" />
+                    )}
+                  </div>
+                  <span
+                    className={cn(
+                      "text-base",
+                      isIncluded
+                        ? "text-foreground"
+                        : "text-muted-foreground line-through",
+                    )}
+                  >
+                    {feature}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+          <Button
+            variant="outline"
+            className="w-full h-14 rounded-full squircle text-lg mt-auto bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 border-gray-200 dark:border-zinc-700"
+          >
+            <Edit className="mr-2 h-4 w-4" />
+            Edit
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
 
 export default function SubscriptionManagementPage() {
   const { user } = useUser();
@@ -330,7 +334,7 @@ export default function SubscriptionManagementPage() {
               </TabsList>
             </Tabs>
             <Button
-              className="h-14 px-6 rounded-full squircle text-lg bg-white text-black hover:bg-white/90"
+              className="h-14 px-6 rounded-full squircle text-lg bg-card text-foreground hover:bg-card/90"
             >
               Draft
             </Button>
