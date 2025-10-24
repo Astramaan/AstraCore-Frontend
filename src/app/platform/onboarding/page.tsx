@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -228,7 +227,7 @@ const OnboardingTrack = ({
 
         <Button
           onClick={() => onContact(track)}
-          className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground"
+          className="h-14 px-6 rounded-full bg-background hover:bg-muted text-foreground text-lg"
         >
           <Phone className="mr-2" size={20} /> Contact
         </Button>
@@ -335,11 +334,11 @@ const AnalyticsBar = ({
       <div className="flex w-full h-3 rounded-full overflow-hidden bg-muted">
         <div
           className="bg-green-500"
-          style={{ width: `${completedPercentage}%` }}
+          style={{ width: `${'${completedPercentage}'}%` }}
         />
         <div
           className="bg-red-500"
-          style={{ width: `${droppedPercentage}%` }}
+          style={{ width: `${'${droppedPercentage}'}%` }}
         />
       </div>
     </div>
