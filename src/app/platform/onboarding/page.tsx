@@ -553,6 +553,29 @@ const DropOffCircle = ({ percentage }: { percentage: number }) => (
   </div>
 );
 
+const OnboardingContent = ({
+  limit,
+  onContact,
+}: {
+  limit?: number;
+  onContact: (track: any) => void;
+}) => {
+  const tracks = limit ? onboardingTracks.slice(0, limit) : onboardingTracks;
+  return (
+    <CardContent className="space-y-0 px-6 pb-6">
+      {tracks.map((track, index) => (
+        <React.Fragment key={track.id}>
+          <OnboardingTrack
+            track={track}
+            onContact={() => onContact(track)}
+          />
+          {index < tracks.length - 1 && <Separator className="my-0" />}
+        </React.Fragment>
+      ))}
+    </CardContent>
+  );
+};
+
 export default function OnboardingPage() {
   const { user } = useUser();
   const userName = user?.name || "User";
@@ -581,25 +604,6 @@ export default function OnboardingPage() {
   const years = Array.from({ length: 5 }, (_, i) =>
     (currentYear - i).toString(),
   );
-  
-  const OnboardingContent = ({ limit }: { limit?: number }) => {
-    const tracks = limit ? onboardingTracks.slice(0, limit) : onboardingTracks;
-    return (
-       <CardContent className="space-y-0 px-6 pb-6">
-          {tracks.map((track, index) => (
-            <React.Fragment key={track.id}>
-              <OnboardingTrack
-                track={track}
-                onContact={() => setSelectedTrack(track)}
-              />
-              {index < tracks.length - 1 && (
-                <Separator className="my-0" />
-              )}
-            </React.Fragment>
-          ))}
-        </CardContent>
-    );
-  };
 
   return (
     <div className="bg-background min-h-screen p-4 md:p-8 pt-6 flex flex-col">
@@ -660,7 +664,7 @@ export default function OnboardingPage() {
       </header>
       <main className="flex-grow space-y-6 mt-6">
         <div className="lg:col-span-2">
-           <Dialog open={isMaximized} onOpenChange={setIsMaximized}>
+          <Dialog open={isMaximized} onOpenChange={setIsMaximized}>
             <Card className="rounded-[50px]">
               <CardHeader className="flex flex-row justify-between items-center">
                 <div className="flex items-center gap-4">
@@ -688,55 +692,60 @@ export default function OnboardingPage() {
                     <ChevronRight />
                   </Button>
                   <Button asChild variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
-                    <button onClick={() => setIsMaximized(!isMaximized)}>
+                     <button onClick={() => setIsMaximized(!isMaximized)}>
                       {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
                     </button>
                   </Button>
                 </div>
               </CardHeader>
-             <OnboardingContent limit={3} />
+              <OnboardingContent limit={3} onContact={setSelectedTrack} />
             </Card>
-             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
-                <DialogHeader className="p-6">
-                   <DialogTitle className="sr-only">Onboard Tracking</DialogTitle>
-                 <CardHeader className="flex flex-row justify-between items-center p-0">
-                    <div className="flex items-center gap-4">
-                        <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
-                        <Bell className="h-6 w-6" />
-                        </div>
-                        <CardTitle>Onboard Tracking</CardTitle>
+            <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+              <DialogHeader className="p-6">
+                <DialogTitle className="sr-only">Onboard Tracking</DialogTitle>
+                <CardHeader className="flex flex-row justify-between items-center p-0">
+                  <div className="flex items-center gap-4">
+                    <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
+                      <Bell className="h-6 w-6" />
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="text-muted-foreground text-lg">
-                        1-10 of 2,958
-                        </div>
-                        <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-full bg-background"
-                        >
-                        <ChevronRight className="transform -rotate-180" />
-                        </Button>
-                        <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-full bg-background"
-                        >
-                        <ChevronRight />
-                        </Button>
-                        <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
-                                <Minimize className="w-5 h-5" />
-                            </Button>
-                        </DialogClose>
+                    <CardTitle>Onboard Tracking</CardTitle>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-muted-foreground text-lg">
+                      1-10 of 2,958
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full bg-background"
+                    >
+                      <ChevronRight className="transform -rotate-180" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full bg-background"
+                    >
+                      <ChevronRight />
+                    </Button>
+                    <DialogClose asChild>
+                      <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
+                        <Minimize className="w-5 h-5" />
+                      </Button>
+                    </DialogClose>
+                  </div>
                 </CardHeader>
-                </DialogHeader>
-                <ScrollArea className="flex-1">
-                   <OnboardingContent limit={10} />
-                </ScrollArea>
-             </DialogContent>
-           </Dialog>
+              </DialogHeader>
+              <ScrollArea className="flex-1">
+                <OnboardingContent limit={10} onContact={setSelectedTrack} />
+              </ScrollArea>
+              <OnboardingContactSheet
+                isOpen={!!selectedTrack}
+                onClose={() => setSelectedTrack(null)}
+                track={selectedTrack}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-8">
@@ -905,4 +914,5 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
 
