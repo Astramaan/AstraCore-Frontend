@@ -52,6 +52,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { CreateEmailAutomationSheet } from "@/components/create-email-automation-sheet";
 
 const onboardingTracks = [
   {
@@ -591,6 +592,7 @@ export default function OnboardingPage() {
   const [selectedYear, setSelectedYear] = useState(currentYear.toString());
   const [selectedTrack, setSelectedTrack] = useState<any | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isCreateEmailSheetOpen, setIsCreateEmailSheetOpen] = useState(false);
 
   const months = Array.from({ length: 12 }, (_, i) => {
     const date = new Date(currentYear, i, 1);
@@ -697,7 +699,12 @@ export default function OnboardingPage() {
               </CardHeader>
               <OnboardingContent limit={3} onContact={setSelectedTrack} />
             </Card>
-            <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+            <DialogContent
+              className={cn(
+                "p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none",
+                "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+              )}
+            >
               <DialogHeader className="p-6">
                  <div className="flex flex-row justify-between items-center">
                    <div className="flex items-center gap-4">
@@ -724,11 +731,11 @@ export default function OnboardingPage() {
                      >
                        <ChevronRight />
                      </Button>
-                     <DialogClose asChild>
-                       <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
-                         <Minimize className="w-5 h-5" />
-                       </Button>
-                     </DialogClose>
+                      <DialogClose asChild>
+                        <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
+                          <Minimize className="w-5 h-5" />
+                        </Button>
+                      </DialogClose>
                    </div>
                  </div>
               </DialogHeader>
@@ -751,6 +758,7 @@ export default function OnboardingPage() {
                 <Button
                   variant="outline"
                   className="w-[54px] h-[54px] p-3.5 rounded-full bg-background"
+                  onClick={() => setIsCreateEmailSheetOpen(true)}
                 >
                   <Plus className="h-6 w-6" />
                 </Button>
@@ -897,14 +905,19 @@ export default function OnboardingPage() {
         </div>
       </main>
       <PlatformBottomNav />
-      <OnboardingContactSheet
+       <OnboardingContactSheet
         isOpen={!!selectedTrack}
         onClose={() => setSelectedTrack(null)}
         track={selectedTrack}
       />
+      <CreateEmailAutomationSheet
+        isOpen={isCreateEmailSheetOpen}
+        onOpenChange={setIsCreateEmailSheetOpen}
+      />
     </div>
   );
 }
+
 
 
 
