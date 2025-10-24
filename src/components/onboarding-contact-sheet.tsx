@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -10,27 +9,22 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, Phone, CheckCircle, Mail, User, Briefcase, MapPin } from "lucide-react";
+import { X, Phone, CheckCircle } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
-import Image from "next/image";
 import { Progress } from "./ui/progress";
 import { Separator } from "./ui/separator";
+import { cn } from "@/lib/utils";
 
 const DetailItem = ({
   label,
   value,
-  icon,
 }: {
   label: string;
   value: React.ReactNode;
-  icon?: React.ReactNode;
 }) => (
-  <div className="flex items-start gap-2">
-    {icon && <div className="mt-1 text-muted-foreground">{icon}</div>}
-    <div>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="font-semibold text-lg">{value}</p>
-    </div>
+  <div className="space-y-2">
+    <p className="text-base text-muted-foreground">{label}</p>
+    <div className="text-lg font-semibold text-foreground">{value}</div>
   </div>
 );
 
@@ -48,8 +42,10 @@ export const OnboardingContactSheet = ({
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
-        side="right"
-        className="p-0 m-0 w-full max-w-2xl mx-auto flex flex-col bg-card text-card-foreground h-full rounded-l-[50px] border-none"
+        side="bottom"
+        className={cn(
+          "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
+        )}
       >
         <SheetHeader className="p-6">
           <SheetTitle className="flex justify-between items-center">
@@ -79,27 +75,32 @@ export const OnboardingContactSheet = ({
             </div>
           </SheetTitle>
         </SheetHeader>
-        <div className="p-6 grid grid-cols-2 gap-x-8 gap-y-6">
+        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           {/* Left Column */}
           <div className="space-y-6">
             <DetailItem label="Individual Name" value={track.individualName} />
             <DetailItem label="Email ID" value={track.email} />
             <DetailItem label="Phone Number" value={track.phone} />
             <DetailItem label="Assigned To" value={track.assignedTo} />
-            <DetailItem label="Auto Email Sent" value={
-              <div className="flex items-center gap-2 text-green-600">
-                <CheckCircle className="w-5 h-5"/>
-                <span className="font-semibold text-lg">Sent</span>
-              </div>
-            } />
+            <DetailItem
+              label="Auto Email Sent"
+              value={
+                <div className="flex items-center gap-2 text-green-600">
+                  <CheckCircle className="w-5 h-5" />
+                  <span className="font-semibold text-lg">Sent</span>
+                </div>
+              }
+            />
           </div>
-          
+
           {/* Right Column */}
           <div className="space-y-6">
-             <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Email Sent</p>
-                <Progress value={75} className="h-2.5" />
-                 <p className="text-xs text-muted-foreground text-right">In Progress</p>
+            <div className="space-y-2">
+              <p className="text-base text-muted-foreground">Email Sent</p>
+              <Progress value={75} className="h-2.5" />
+              <p className="text-xs text-muted-foreground text-right">
+                In Progress
+              </p>
             </div>
             <Separator />
             <DetailItem label="Current Stages" value={track.currentStage} />
@@ -108,7 +109,11 @@ export const OnboardingContactSheet = ({
         </div>
 
         <div className="flex justify-end gap-4 p-6 border-t mt-auto">
-          <Button variant="outline" onClick={onClose} className="rounded-full h-14 px-8 text-lg">
+          <Button
+            variant="outline"
+            onClick={onClose}
+            className="rounded-full h-14 px-8 text-lg"
+          >
             Close
           </Button>
           <a href={`tel:${track.phone}`}>
