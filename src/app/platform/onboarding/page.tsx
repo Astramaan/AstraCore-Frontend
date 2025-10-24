@@ -490,7 +490,7 @@ export default function OnboardingPage() {
           <div className="space-y-8 flex flex-col">
             <Card className="rounded-[50px] p-6 flex-grow">
               <CardHeader className="p-0 mb-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-start gap-4">
                   <div className="flex items-center gap-4">
                     <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
                       <BarChart2 className="h-6 w-6" />
