@@ -172,7 +172,7 @@ const QuickLink = ({
 const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
   return (
     <div className="relative">
-      <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full bg-card dark:bg-card">
+      <Card className="rounded-[50px] squircle overflow-hidden flex flex-col h-full bg-card dark:bg-card shadow-none">
         <div className={cn("p-8 pb-12 text-center", plan.headerBg)}>
           <div className="flex justify-center mb-4">
             <div
@@ -229,8 +229,7 @@ const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
             })}
           </ul>
           <Button
-            variant="outline"
-            className="w-full h-14 rounded-full squircle text-lg mt-auto bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 border-gray-200 dark:border-zinc-700"
+            className="w-full h-14 rounded-full squircle text-lg mt-auto bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 border-0"
           >
             <Edit className="mr-2 h-4 w-4" />
             Edit
