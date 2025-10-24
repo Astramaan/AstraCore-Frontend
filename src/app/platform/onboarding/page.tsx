@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Bell,
   Mail,
@@ -565,10 +565,7 @@ const OnboardingContent = ({
     <CardContent className="space-y-0 px-6 pb-6">
       {tracks.map((track, index) => (
         <React.Fragment key={track.id}>
-          <OnboardingTrack
-            track={track}
-            onContact={() => onContact(track)}
-          />
+          <OnboardingTrack track={track} onContact={onContact} />
           {index < tracks.length - 1 && <Separator className="my-0" />}
         </React.Fragment>
       ))}
@@ -702,48 +699,42 @@ export default function OnboardingPage() {
             </Card>
             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
               <DialogHeader className="p-6">
-                <DialogTitle className="sr-only">Onboard Tracking</DialogTitle>
-                <CardHeader className="flex flex-row justify-between items-center p-0">
-                  <div className="flex items-center gap-4">
-                    <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
-                      <Bell className="h-6 w-6" />
-                    </div>
-                    <CardTitle>Onboard Tracking</CardTitle>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-muted-foreground text-lg">
-                      1-10 of 2,958
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-full bg-background"
-                    >
-                      <ChevronRight className="transform -rotate-180" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-full bg-background"
-                    >
-                      <ChevronRight />
-                    </Button>
-                    <DialogClose asChild>
-                      <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
-                        <Minimize className="w-5 h-5" />
-                      </Button>
-                    </DialogClose>
-                  </div>
-                </CardHeader>
+                 <div className="flex flex-row justify-between items-center">
+                   <div className="flex items-center gap-4">
+                     <div className="w-[54px] h-[54px] p-3.5 rounded-full outline outline-1 outline-offset-[-1px] outline-grey-1 dark:outline-border flex justify-center items-center">
+                       <Bell className="h-6 w-6" />
+                     </div>
+                     <DialogTitle>Onboard Tracking</DialogTitle>
+                   </div>
+                   <div className="flex items-center gap-4">
+                     <div className="text-muted-foreground text-lg">
+                       1-10 of 2,958
+                     </div>
+                     <Button
+                       variant="ghost"
+                       size="icon"
+                       className="rounded-full bg-background"
+                     >
+                       <ChevronRight className="transform -rotate-180" />
+                     </Button>
+                     <Button
+                       variant="ghost"
+                       size="icon"
+                       className="rounded-full bg-background"
+                     >
+                       <ChevronRight />
+                     </Button>
+                     <DialogClose asChild>
+                       <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
+                         <Minimize className="w-5 h-5" />
+                       </Button>
+                     </DialogClose>
+                   </div>
+                 </div>
               </DialogHeader>
               <ScrollArea className="flex-1">
                 <OnboardingContent limit={10} onContact={setSelectedTrack} />
               </ScrollArea>
-              <OnboardingContactSheet
-                isOpen={!!selectedTrack}
-                onClose={() => setSelectedTrack(null)}
-                track={selectedTrack}
-              />
             </DialogContent>
           </Dialog>
         </div>
@@ -914,5 +905,6 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
 
 
