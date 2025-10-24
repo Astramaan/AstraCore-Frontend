@@ -47,6 +47,7 @@ export const OnboardingContactSheet = ({
         className={cn(
           "p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-auto md:max-w-3xl md:mx-auto rounded-t-[50px] border-none",
         )}
+        overlayClassName="bg-black/20 backdrop-blur-sm"
       >
         <SheetHeader className="p-6">
           <SheetTitle className="flex justify-between items-center">
@@ -92,6 +93,7 @@ export const OnboardingContactSheet = ({
 
           {/* Right Column */}
           <div className="space-y-6">
+            <Separator className="md:hidden"/>
             <div className="space-y-2">
               <p className="text-base text-muted-foreground">Email Sent</p>
               <Progress value={75} className="h-2.5" />
