@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -59,10 +60,6 @@ export const OnboardingContactSheet = ({
               <h2 className="text-2xl font-semibold">{track.company}</h2>
             </div>
             <div className="flex items-center gap-2">
-              <div className="text-right">
-                <p className="text-sm text-primary font-medium">Email Sent</p>
-                <p className="text-xs text-muted-foreground">In Progress</p>
-              </div>
               <SheetClose asChild>
                 <Button
                   variant="ghost"
