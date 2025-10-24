@@ -145,8 +145,8 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
               <h2 className="text-2xl font-semibold">Invitation Status</h2>
             </div>
             <div className="flex items-center gap-2">
-               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>{`${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}`}</span>
+               <div className="flex items-center gap-2 text-muted-foreground">
+                <span className="text-base md:text-lg">{`${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, totalItems)} of ${totalItems}`}</span>
                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handlePrevPage} disabled={currentPage === 1}>
                     <ChevronLeft />
                 </Button>
