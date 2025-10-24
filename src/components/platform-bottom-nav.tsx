@@ -11,6 +11,7 @@ import {
   HandCoins,
   MessagesSquare,
   PieChart,
+  ClipboardCheck,
 } from "lucide-react";
 import OrganizationIcon from "./icons/organization-icon";
 

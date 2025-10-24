@@ -51,6 +51,7 @@ import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { InviteOrganizationSheet } from "@/components/invite-organization-sheet";
 import { OrganizationManagementSheet } from "@/components/organization-management-sheet";
 import { ExitSurveyDialog } from "@/components/exit-survey-dialog";
+import { InvitationStatusSheet } from "@/components/invitation-status-sheet";
 
 const churnedCustomers = [
   {
@@ -96,29 +97,37 @@ const QuickLink = ({
   bgColor,
   text,
   href,
+  onClick,
 }: {
   icon: React.ReactNode;
   bgColor: string;
   text: string;
-  href: string;
-}) => (
-  <Link href={href}>
-    <Card
-      className={cn(
-        "rounded-2xl hover:shadow-lg transition-shadow bg-background dark:bg-card",
-      )}
-    >
-      <CardContent className="p-4 flex items-center gap-2">
-        <div
-          className={cn("p-2.5 rounded-full flex items-center justify-center", bgColor)}
-        >
-          {icon}
-        </div>
-        <p className="text-base font-medium text-foreground">{text}</p>
-      </CardContent>
-    </Card>
-  </Link>
-);
+  href?: string;
+  onClick?: () => void;
+}) => {
+  const content = (
+      <Card
+        className={cn(
+          "rounded-2xl hover:shadow-lg transition-shadow bg-background dark:bg-card",
+        )}
+      >
+        <CardContent className="p-4 flex items-center gap-2">
+          <div
+            className={cn("p-2.5 rounded-full flex items-center justify-center", bgColor)}
+          >
+            {icon}
+          </div>
+          <p className="text-base font-medium text-foreground">{text}</p>
+        </CardContent>
+      </Card>
+  );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>
+  }
+
+  return <div onClick={onClick} className="cursor-pointer">{content}</div>
+};
 
 export default function PlatformDashboard() {
   const { user } = useUser();
@@ -133,6 +142,7 @@ export default function PlatformDashboard() {
   const [maximizedCard, setMaximizedCard] = useState<string | null>(null);
   const [isOrgSheetOpen, setIsOrgSheetOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<any | null>(null);
+  const [isInvitationStatusSheetOpen, setIsInvitationStatusSheetOpen] = useState(false);
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -364,7 +374,7 @@ export default function PlatformDashboard() {
               </div>
               <div className="text-right">
                 <p className="text-4xl font-bold flex items-center">
-                  1.90L <ArrowUpRight className="h-6 w-6 text-green-500" />
+                  1.90L
                 </p>
               </div>
             </CardHeader>
@@ -435,7 +445,7 @@ export default function PlatformDashboard() {
                 }
                 bgColor="bg-pink-100 dark:bg-pink-900/50"
                 text="Invitation Status"
-                href="#"
+                onClick={() => setIsInvitationStatusSheetOpen(true)}
               />
             </CardContent>
           </Card>
@@ -511,6 +521,10 @@ export default function PlatformDashboard() {
         isOpen={!!selectedCustomer}
         onClose={() => setSelectedCustomer(null)}
         customer={selectedCustomer}
+      />
+      <InvitationStatusSheet 
+        isOpen={isInvitationStatusSheetOpen}
+        onOpenChange={setIsInvitationStatusSheetOpen}
       />
     </div>
   );
