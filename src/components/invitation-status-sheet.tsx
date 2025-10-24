@@ -10,7 +10,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { SlidersHorizontal, ChevronLeft, ChevronRight, MoreVertical, X } from "lucide-react";
+import { SlidersHorizontal, ChevronLeft, ChevronRight, MoreVertical, X, ClipboardCheck } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
