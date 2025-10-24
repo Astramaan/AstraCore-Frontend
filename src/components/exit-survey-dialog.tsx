@@ -57,25 +57,25 @@ export const ExitSurveyDialog = ({
           <div className="space-y-6">
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Individual Name</p>
-              <p className="font-semibold">{customer.individualName}</p>
+              <p className="font-semibold text-base md:text-lg">{customer.individualName}</p>
             </div>
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Email ID</p>
-              <p className="font-semibold">{customer.email}</p>
+              <p className="font-semibold text-base md:text-lg">{customer.email}</p>
             </div>
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Phone Number</p>
-              <p className="font-semibold">{customer.phone}</p>
+              <p className="font-semibold text-base md:text-lg">{customer.phone}</p>
             </div>
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Assigned To</p>
-              <p className="font-semibold">{customer.assignedTo}</p>
+              <p className="font-semibold text-base md:text-lg">{customer.assignedTo}</p>
             </div>
              <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Auto Email Sent</p>
               <div className="flex items-center gap-2 text-green-600">
                 <CheckCircle className="w-5 h-5"/>
-                <span className="font-semibold">Sent</span>
+                <span className="font-semibold text-base md:text-lg">Sent</span>
               </div>
             </div>
           </div>
@@ -92,20 +92,20 @@ export const ExitSurveyDialog = ({
             <Separator />
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Reason</p>
-              <p className="font-semibold">{customer.reason}</p>
+              <p className="font-semibold text-base md:text-lg">{customer.reason}</p>
             </div>
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Custom Message</p>
-              <p>{customer.message}</p>
+              <p className="text-base md:text-lg">{customer.message}</p>
             </div>
              <Separator />
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Filled on</p>
-              <p className="font-semibold">{customer.filledOn}</p>
+              <p className="font-semibold text-base md:text-lg">{customer.filledOn}</p>
             </div>
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Engagement Status</p>
-              <p className="font-semibold text-green-600">{customer.comeback}</p>
+              <p className="font-semibold text-green-600 text-base md:text-lg">{customer.comeback}</p>
             </div>
           </div>
         </div>
