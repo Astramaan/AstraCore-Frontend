@@ -50,7 +50,7 @@ import TeamIcon from "@/components/icons/team-icon";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { InviteOrganizationSheet } from "@/components/invite-organization-sheet";
 import { OrganizationManagementSheet } from "@/components/organization-management-sheet";
-import { ExitSurveyDialog } from "@/components/exit-survey-dialog";
+import { ExitSurveySheet } from "@/components/exit-survey-dialog";
 
 const churnedCustomers = [
   {
@@ -275,7 +275,7 @@ export default function PlatformDashboard() {
             ) : (
               <Select value={selectedYear} onValueChange={setSelectedYear}>
                 <SelectTrigger className="w-full md:w-[200px] h-14 rounded-[50px] text-lg bg-card">
-                  <div className="flex items-center">
+                   <div className="flex items-center">
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     <SelectValue placeholder="Select year" />
                   </div>
@@ -508,7 +508,7 @@ export default function PlatformDashboard() {
         isOpen={isOrgSheetOpen}
         onOpenChange={setIsOrgSheetOpen}
       />
-      <ExitSurveyDialog 
+      <ExitSurveySheet
         isOpen={!!selectedCustomer}
         onClose={() => setSelectedCustomer(null)}
         customer={selectedCustomer}
