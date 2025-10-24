@@ -108,10 +108,10 @@ const QuickLink = ({
   const content = (
       <Card
         className={cn(
-          "rounded-2xl hover:shadow-lg transition-shadow bg-background dark:bg-card",
+          "rounded-2xl hover:shadow-lg transition-shadow bg-background dark:bg-card h-[76px]",
         )}
       >
-        <CardContent className="p-4 flex items-center gap-2">
+        <CardContent className="p-4 flex items-center gap-2 h-full">
           <div
             className={cn("p-2.5 rounded-full flex items-center justify-center", bgColor)}
           >
