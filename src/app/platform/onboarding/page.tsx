@@ -687,14 +687,16 @@ export default function OnboardingPage() {
                   >
                     <ChevronRight />
                   </Button>
-                  <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(!isMaximized)}>
-                    {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+                  <Button asChild variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
+                    <button onClick={() => setIsMaximized(!isMaximized)}>
+                      {isMaximized ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+                    </button>
                   </Button>
                 </div>
               </CardHeader>
              <OnboardingContent limit={3} />
             </Card>
-             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+             <DialogContent className="p-0 m-0 w-full max-w-7xl flex flex-col bg-card text-card-foreground h-auto max-h-[90vh] rounded-[50px] border-none data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
                 <DialogHeader className="p-6">
                    <DialogTitle className="sr-only">Onboard Tracking</DialogTitle>
                  <CardHeader className="flex flex-row justify-between items-center p-0">
@@ -723,7 +725,7 @@ export default function OnboardingPage() {
                         <ChevronRight />
                         </Button>
                         <DialogClose asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background" onClick={() => setIsMaximized(false)}>
+                            <Button variant="ghost" size="icon" className="rounded-full border w-[54px] h-[54px] bg-background">
                                 <Minimize className="w-5 h-5" />
                             </Button>
                         </DialogClose>
@@ -903,3 +905,4 @@ export default function OnboardingPage() {
     </div>
   );
 }
+
