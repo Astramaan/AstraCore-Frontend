@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState } from "react";
@@ -229,7 +228,8 @@ const SubscriptionCard = ({ plan }: { plan: (typeof plans.monthly)[0] }) => {
             })}
           </ul>
           <Button
-            className="w-full h-14 rounded-full squircle text-lg mt-auto bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 border-0"
+            variant="outline"
+            className="w-full h-14 rounded-full text-lg mt-auto bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 border-0"
           >
             <Edit className="mr-2 h-4 w-4" />
             Edit
