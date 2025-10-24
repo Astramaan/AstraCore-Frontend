@@ -100,12 +100,19 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {invitation.status === 'Joined' ? (
+              {invitation.status === 'Joined' && (
                 <DropdownMenuItem>View Profile</DropdownMenuItem>
-              ) : (
+              )}
+              {invitation.status === 'Pending' && (
+                <>
+                  <DropdownMenuItem>Notify user</DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
+                </>
+              )}
+              {invitation.status === 'Expired' && (
                 <>
                   <DropdownMenuItem>Resend</DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive">Revoke</DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
                 </>
               )}
             </DropdownMenuContent>
@@ -140,7 +147,7 @@ export const InvitationStatusSheet = ({ isOpen, onOpenChange }: { isOpen: boolea
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent
         side="bottom"
-        className="p-0 m-0 w-full max-w-7xl mx-auto flex flex-col bg-card text-card-foreground h-[90vh] rounded-t-[50px] border-none"
+        className="p-0 m-0 w-full max-w-[90rem] mx-auto flex flex-col bg-card text-card-foreground h-[90vh] rounded-t-[50px] border-none"
       >
         <SheetHeader className="p-6 border-b shrink-0">
           <SheetTitle className="flex justify-between items-center">
