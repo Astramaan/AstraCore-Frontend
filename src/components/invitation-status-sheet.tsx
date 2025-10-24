@@ -82,7 +82,7 @@ const InvitationItem = ({ invitation }: { invitation: Invitation }) => {
             <span className={cn("font-medium", getStatusClass(invitation.status))}>{invitation.status}</span>
           </p>
         </div>
-        <div className="flex md:flex-col md:items-end md:text-right justify-between items-center">
+        <div className="flex md:flex-row justify-between items-center w-full">
             <div className="text-left md:text-right">
                 <p className="text-base">
                     <span className="text-muted-foreground">City: </span>
