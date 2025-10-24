@@ -33,8 +33,8 @@ export function ExitSurveyChart() {
               cx="50%"
               cy="50%"
               labelLine={false}
-              outerRadius={100}
-              innerRadius={80}
+              outerRadius={110}
+              innerRadius={90}
               fill="#8884d8"
               dataKey="value"
               stroke="hsl(var(--background))"
@@ -55,7 +55,7 @@ export function ExitSurveyChart() {
           <p className="text-4xl font-bold text-foreground">{totalValue}</p>
         </div>
       </div>
-      <div className="w-1/2 space-y-2">
+      <div className="w-1/2 space-y-4">
         {data.map((entry, index) => (
           <div
             key={index}
@@ -70,7 +70,7 @@ export function ExitSurveyChart() {
                 {entry.name}
               </span>
             </div>
-            <span className="font-semibold text-foreground text-base">
+            <span className="font-semibold text-foreground text-lg">
               {entry.value}
             </span>
           </div>
