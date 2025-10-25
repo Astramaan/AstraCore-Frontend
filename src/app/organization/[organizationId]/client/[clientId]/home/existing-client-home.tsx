@@ -447,12 +447,6 @@ export default function ExistingClientHomePage() {
                     </div>
                   </CardContent>
                 </Card>
-                <Link href={`/organization/${organizationId}/client/${clientId}/meet-us`}>
-                   <Button className="w-full h-[54px] rounded-full text-lg">
-                      <User className="mr-2 h-5 w-5" />
-                      Meet Us
-                    </Button>
-                </Link>
                 <PaymentsDialog>
                   <PaymentCard />
                 </PaymentsDialog>

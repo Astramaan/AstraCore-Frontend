@@ -1,6 +1,6 @@
 "use client";
 
-import { Video } from "lucide-react";
+import { Video, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,11 @@ export const ClientBottomNav = () => {
       href: `/organization/${organizationId}/client/${clientId}/project`,
       icon: ProjectsIcon,
       label: "My Project",
+    },
+    {
+      href: `/organization/${organizationId}/client/${clientId}/meet-us`,
+      icon: User,
+      label: "Meet Us",
     },
     {
       href: `/organization/${organizationId}/client/${clientId}/live`,
