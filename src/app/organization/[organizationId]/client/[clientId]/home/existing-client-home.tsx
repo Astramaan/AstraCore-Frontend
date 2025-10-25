@@ -24,13 +24,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { X } from "lucide-react";
+import { User, X } from "lucide-react";
 import { ViewUpcomingTasksSheet } from "@/components/view-upcoming-tasks-sheet";
 import { ViewCompletedTasksSheet } from "@/components/view-completed-tasks-sheet";
 import { WhatsappIcon } from "@/components/icons/whatsapp-icon";
 import { useUser } from "@/context/user-context";
 import { StageCard, TimelineStage } from "@/components/stage-card";
 import type { Stage } from "@/components/project-task-card";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 const initialTimeline: TimelineStage[] = [
   {
@@ -273,6 +275,10 @@ export default function ExistingClientHomePage() {
     useState(false);
   const [timelineStages, setTimelineStages] =
     useState<TimelineStage[]>(initialTimeline);
+  
+  const params = useParams();
+  const organizationId = params.organizationId as string;
+  const clientId = params.clientId as string;
 
   const project = {
     name: "Gokula",
@@ -441,6 +447,12 @@ export default function ExistingClientHomePage() {
                     </div>
                   </CardContent>
                 </Card>
+                <Link href={`/organization/${organizationId}/client/${clientId}/meet-us`}>
+                   <Button className="w-full h-[54px] rounded-full text-lg">
+                      <User className="mr-2 h-5 w-5" />
+                      Meet Us
+                    </Button>
+                </Link>
                 <PaymentsDialog>
                   <PaymentCard />
                 </PaymentsDialog>

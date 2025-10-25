@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@/context/user-context";
 import HomeIcon from "./icons/home-icon";
 import ProjectsIcon from "./icons/projects-icon";
+import { GanttChartSquare } from "lucide-react";
 
 export const ClientBottomNav = () => {
   const pathname = usePathname();
@@ -27,14 +28,19 @@ export const ClientBottomNav = () => {
       label: "My Project",
     },
     {
+      href: `/organization/${organizationId}/client/${clientId}/stages`,
+      icon: GanttChartSquare,
+      label: "Stages",
+    },
+    {
       href: `/organization/${organizationId}/client/${clientId}/live`,
       icon: Video,
       label: "Live",
     },
     {
-      href: `/organization/${organizationId}/client/${clientId}/profile`,
+      href: `/organization/${organizationId}/client/${clientId}/meet-us`,
       icon: User,
-      label: "Profile",
+      label: "Meet Us",
     },
   ];
 
