@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Video, User } from "lucide-react";
@@ -27,14 +28,14 @@ export const ClientBottomNav = () => {
       label: "My Project",
     },
     {
-      href: `/organization/${organizationId}/client/${clientId}/meet-us`,
-      icon: User,
-      label: "Meet Us",
-    },
-    {
       href: `/organization/${organizationId}/client/${clientId}/live`,
       icon: Video,
       label: "Live",
+    },
+    {
+      href: `/organization/${organizationId}/client/${clientId}/meet-us`,
+      icon: User,
+      label: "Meet Us",
     },
   ];
 
