@@ -32,6 +32,11 @@ export const ClientBottomNav = () => {
       icon: Video,
       label: "Live",
     },
+    {
+      href: `/organization/${organizationId}/client/${clientId}/profile`,
+      icon: User,
+      label: "Profile",
+    },
   ];
 
   // Hide nav for new users who only see a simplified home page
