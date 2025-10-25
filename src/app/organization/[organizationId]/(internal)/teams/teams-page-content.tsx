@@ -162,22 +162,22 @@ export default function TeamsPageContent() {
           },
         });
         const result = await res.json();
-        if (result.success && result.data) {
-          const apiRoles: Role[] = result.data.map((team: any) => ({
+        if (result.success && Array.isArray(result.teams)) {
+          const apiRoles: Role[] = result.teams.map((team: any) => ({
             name: team.team,
             Icon: iconMap[team.team] || iconMap.default,
             bgColor: "bg-blue-300/30",
-            admin: team.adminName || "N/A",
-            active: team.activeMembers,
-            total: team.totalMembers,
+            admin: team.members.find((m: any) => m.roleType === 'ADMIN')?.name || "N/A",
+            active: team.members.filter((m: any) => m.status === 'Active').length,
+            total: team.members.length,
             members: team.members.map((member: any) => ({
               id: member.userId,
               name: member.name,
               avatar: member.profileImage || "https://placehold.co/100x100",
               contact: `${member.email} | ${member.mobileNumber}`,
               role: member.roleType,
-              status: member.status,
-              lastActive: "N/A",
+              status: "Active", // API doesn't provide this, so defaulting
+              lastActive: "N/A", // API doesn't provide this
               email: member.email,
             })),
           }));
