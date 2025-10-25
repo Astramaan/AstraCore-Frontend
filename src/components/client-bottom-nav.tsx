@@ -28,19 +28,9 @@ export const ClientBottomNav = () => {
       label: "My Project",
     },
     {
-      href: `/organization/${organizationId}/client/${clientId}/stages`,
-      icon: GanttChartSquare,
-      label: "Stages",
-    },
-    {
       href: `/organization/${organizationId}/client/${clientId}/live`,
       icon: Video,
       label: "Live",
-    },
-    {
-      href: `/organization/${organizationId}/client/${clientId}/meet-us`,
-      icon: User,
-      label: "Meet Us",
     },
   ];
 
