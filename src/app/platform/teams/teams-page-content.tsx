@@ -31,155 +31,21 @@ import { NotificationPopover } from "@/components/notification-popover";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
+import { useToast } from "@/components/ui/use-toast";
 
-const allRoles: Role[] = [
-  {
-    name: "Super Admin",
-    Icon: Shield,
-    bgColor: "bg-red-200/30",
-    admin: "Balaji Naik",
-    active: 2,
-    total: 2,
-    members: [
-      {
-        id: "1",
-        name: "Balaji Naik",
-        avatar: "https://placehold.co/100x100",
-        contact: "balaji@habi.one | +91 9380032186",
-        role: "Super Admin",
-        status: "Active",
-        lastActive: "6 hrs ago",
-        email: "balaji@habi.one",
-      },
-      {
-        id: "2",
-        name: "Anil Kumar",
-        avatar: "https://placehold.co/100x100",
-        contact: "anil@habi.one | +91 9876543210",
-        role: "Super Admin",
-        status: "Active",
-        lastActive: "2 hrs ago",
-        email: "anil@habi.one",
-      },
-    ],
-  },
-  {
-    name: "Project Manager",
-    Icon: Briefcase,
-    bgColor: "bg-blue-300/30",
-    admin: "Priya",
-    active: 1,
-    total: 1,
-    members: [
-      {
-        id: "priya",
-        name: "Priya",
-        avatar: "https://placehold.co/100x100",
-        contact: "priya@example.com | +91 9876543210",
-        role: "Project Manager",
-        status: "Active",
-        lastActive: "1 hr ago",
-        email: "priya@example.com",
-      },
-    ],
-  },
-  {
-    name: "Site Supervisor",
-    Icon: Users,
-    bgColor: "bg-green-300/30",
-    admin: "Yaswanth",
-    active: 1,
-    total: 1,
-    members: [
-      {
-        id: "yaswanth",
-        name: "Yaswanth",
-        avatar: "https://placehold.co/100x100",
-        contact: "yaswanth@example.com | +91 9876543211",
-        role: "Site Supervisor",
-        status: "Active",
-        lastActive: "30 mins ago",
-        email: "yaswanth@example.com",
-      },
-    ],
-  },
-  {
-    name: "Architect",
-    Icon: Palette,
-    bgColor: "bg-purple-300/30",
-    admin: "Darshan",
-    active: 1,
-    total: 1,
-    members: [
-      {
-        id: "darshan",
-        name: "Darshan",
-        avatar: "https://placehold.co/100x100",
-        contact: "darshan@example.com | +91 9876543212",
-        role: "Architect",
-        status: "Active",
-        lastActive: "2 hrs ago",
-        email: "darshan@example.com",
-      },
-    ],
-  },
-  {
-    name: "Sales",
-    Icon: Briefcase,
-    bgColor: "bg-yellow-400/30",
-    admin: "Balaji Naik",
-    active: 3,
-    total: 8,
-    members: [
-      {
-        id: "3",
-        name: "Sales Person 1",
-        avatar: "https://placehold.co/100x100",
-        contact: "sales1@habi.one | +91 1111111111",
-        role: "Sales",
-        status: "Active",
-        lastActive: "1 day ago",
-        email: "sales1@habi.one",
-      },
-    ],
-  },
-  {
-    name: "Software Development",
-    Icon: Code,
-    bgColor: "bg-blue-300/30",
-    admin: "Balaji Naik",
-    active: 12,
-    total: 12,
-    members: [],
-  },
-  {
-    name: "Design",
-    Icon: Palette,
-    bgColor: "bg-purple-300/30",
-    admin: "Balaji Naik",
-    active: 4,
-    total: 4,
-    members: [],
-  },
-  {
-    name: "Support & Feedback",
-    Icon: Users,
-    bgColor: "bg-green-300/30",
-    admin: "Balaji Naik",
-    active: 20,
-    total: 20,
-    members: [],
-  },
-  {
-    name: "Human Resources",
-    Icon: Users,
-    bgColor: "bg-pink-300/30",
-    admin: "Balaji Naik",
-    active: 0,
-    total: 2,
-    members: [],
-  },
-];
+const iconMap: { [key: string]: React.ElementType } = {
+  "Super Admin": Shield,
+  "Sales": Briefcase,
+  "Software Development": Code,
+  "Design": Palette,
+  "Site Supervisor": Users,
+  "Architect": Palette,
+  "Project Manager": Briefcase,
+  "Support & Feedback": Users,
+  "Human Resources": Users,
+  "Org Admin": Users,
+  default: Users,
+};
 
 const RoleCard = ({
   role,
@@ -188,7 +54,7 @@ const RoleCard = ({
   role: Role;
   onViewMembers: (role: Role) => void;
 }) => {
-  const IconComponent = role.Icon;
+  const Icon = iconMap[role.name] || iconMap.default;
   return (
     <>
       {/* Desktop & Tablet View */}
@@ -197,7 +63,7 @@ const RoleCard = ({
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}
           >
-            <IconComponent className="w-6 h-6 text-foreground" />
+            <Icon className="w-6 h-6 text-foreground" />
           </div>
           <p className="text-xl font-semibold">{role.name}</p>
         </div>
@@ -241,7 +107,7 @@ const RoleCard = ({
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}
           >
-            <IconComponent className="w-6 h-6 text-foreground" />
+            <Icon className="w-6 h-6 text-foreground" />
           </div>
           <p className="text-2xl font-semibold">{role.name}</p>
         </div>
@@ -291,6 +157,7 @@ export default function TeamsPageContent() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   const userName = user?.name || "User";
   const userInitials = userName
@@ -299,31 +166,58 @@ export default function TeamsPageContent() {
     .join("");
 
   useEffect(() => {
-    setIsLoading(true);
-    // Simulate fetching data
-    setTimeout(() => {
-      let rolesToShow = allRoles;
-      if (user?.roleType !== "superAdmin") {
-        // If not super admin, filter roles based on team.
-        rolesToShow = allRoles.filter((role) => role.name !== "Super Admin");
-
-        if (user?.team === "Project Manager") {
-          rolesToShow = rolesToShow.filter((role) =>
-            [
-              "Software Development",
-              "Design",
-              "Support & Feedback",
-              "Site Supervisor",
-              "Architect",
-            ].includes(role.name),
-          );
+    if (!user) return;
+    const fetchTeams = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch("/api/users/teams", {
+          headers: { "x-user": JSON.stringify(user) },
+        });
+        const result = await res.json();
+        if (result.success && Array.isArray(result.teams)) {
+          const apiRoles: Role[] = result.teams.map((team: any) => {
+            const adminMember = team.members.find(
+              (m: any) => m.roleType === "ADMIN",
+            );
+            return {
+              name: team.team,
+              Icon: iconMap[team.team] || iconMap.default,
+              bgColor: "bg-blue-300/30",
+              admin: adminMember ? adminMember.name : "N/A",
+              active: team.members.length,
+              total: team.members.length,
+              members: team.members.map((member: any) => ({
+                id: member.userId,
+                name: member.name,
+                avatar: `https://i.pravatar.cc/150?u=${member.userId}`,
+                contact: `${member.email || "N/A"} | ${member.mobileNumber || "N/A"}`,
+                role: member.roleType,
+                status: "Active",
+                lastActive: "N/A",
+                email: member.email || "N/A",
+              })),
+            };
+          });
+          setRoles(apiRoles);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: result.message || "Failed to fetch teams.",
+          });
         }
-        // Add other team-based filtering here if needed
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Network Error",
+          description: "An unexpected error occurred while fetching teams.",
+        });
+      } finally {
+        setIsLoading(false);
       }
-      setRoles(rolesToShow);
-      setIsLoading(false);
-    }, 100);
-  }, [user]);
+    };
+    fetchTeams();
+  }, [user, toast]);
 
   const filteredRoles = useMemo(() => {
     if (!searchTerm) return roles;
@@ -358,7 +252,10 @@ export default function TeamsPageContent() {
               <div className="flex justify-end items-center gap-4">
                 <NotificationPopover userType="organization" />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <Link href="/platform/profile" className="flex justify-start items-center gap-2">
+                <Link
+                  href="/platform/profile"
+                  className="flex justify-start items-center gap-2"
+                >
                   <Avatar className="w-14 h-14">
                     <AvatarImage
                       src="https://placehold.co/55x55"
@@ -371,7 +268,9 @@ export default function TeamsPageContent() {
                     <div className="text-lg font-medium text-white">
                       {userName}
                     </div>
-                    <div className="text-base text-white/80 whitespace-nowrap">Super Admin</div>
+                    <div className="text-base text-white/80 whitespace-nowrap">
+                      Super Admin
+                    </div>
                   </div>
                 </Link>
               </div>
@@ -427,9 +326,7 @@ export default function TeamsPageContent() {
               <div className="text-center text-muted-foreground py-10">
                 <p>No teams found.</p>
                 {user?.roleType === "superAdmin" && (
-                  <p>
-                    Click &ldquo;Create New Team&rdquo; to add one.
-                  </p>
+                  <p>Click &ldquo;Create New Team&rdquo; to add one.</p>
                 )}
               </div>
             )}
