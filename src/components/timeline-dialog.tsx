@@ -76,7 +76,7 @@ export const TimelineDialog = () => {
         <Button
           variant="link"
           className={cn(
-            "text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-white",
+            "text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-background",
             "hover:no-underline",
           )}
         >
@@ -86,7 +86,7 @@ export const TimelineDialog = () => {
       <SheetContent
         side="bottom"
         className={cn(
-          "p-0 flex flex-col bg-white transition-all m-0 border-none",
+          "p-0 flex flex-col bg-card transition-all m-0 border-none",
           "w-full h-full md:h-[90vh] md:w-full md:max-w-xl md:mx-auto md:bottom-0 rounded-t-[50px]",
         )}
         overlayClassName="bg-black/20 backdrop-blur-sm"

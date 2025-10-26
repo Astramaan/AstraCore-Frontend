@@ -2,12 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import PdfIcon from "@/components/icons/pdf-icon";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,8 +15,7 @@ import {
   DialogContent,
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import { useUser } from "@/context/user-context";
-import { Card } from "./ui/card";
+import PdfIcon from "@/components/icons/pdf-icon";
 
 export interface TimelineStage {
   id: number;
@@ -49,7 +46,7 @@ const PdfPreviewDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-white dark:bg-card">
+      <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col rounded-[50px] bg-card text-card-foreground">
         <DialogHeader className="p-4 border-b flex-row items-center justify-between">
           <DialogTitle>{file.name}</DialogTitle>
           <DialogClose asChild>
@@ -83,8 +80,6 @@ export const StageCard = ({
   onCardClick?: (stage: TimelineStage) => void;
   className?: string;
 }) => {
-  const { user } = useUser();
-  const isProjectManager = user?.team === "Project Manager";
   const [selectedPdf, setSelectedPdf] = useState<{
     name: string;
     url: string;
