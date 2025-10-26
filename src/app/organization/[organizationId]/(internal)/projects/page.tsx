@@ -1,10 +1,11 @@
+
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PlusCircle, MoreVertical, ShieldAlert, Search } from "lucide-react";
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { CreateProjectSheet } from "@/components/create-project-sheet";
 import {
   DropdownMenu,
@@ -296,6 +297,7 @@ export default function ProjectsPage() {
   const organizationId = (params.organizationId as string) || "habi123";
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -325,6 +327,9 @@ export default function ProjectsPage() {
         image: "https://placehold.co/59x59",
         progress: 50, // Placeholder
         projectType: p.projectDetails.projectType || "New Construction",
+        personalDetails: p.personalDetails,
+        projectDetails: p.projectDetails,
+        projectAssign: p.projectAssign,
       }));
       setAllProjects(formattedProjects);
     } else {
@@ -354,6 +359,12 @@ export default function ProjectsPage() {
 
   const handleEdit = (project: Project) => {
     setProjectToEdit(project);
+    setIsSheetOpen(true);
+  };
+
+  const handleCloseSheet = () => {
+    setIsSheetOpen(false);
+    setProjectToEdit(null);
   };
 
   const handleDeleteClick = (project: Project) => {
@@ -398,13 +409,16 @@ export default function ProjectsPage() {
 
   const handleProjectAdded = (newProject: Project) => {
     setAllProjects((prev) => [newProject, ...prev]);
+    fetchProjects();
   };
 
   const handleProjectUpdated = (updatedProject: Project) => {
     setAllProjects((prev) =>
       prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
     );
+    fetchProjects();
     setProjectToEdit(null);
+    setIsSheetOpen(false);
   };
 
   const canCreateProject =
@@ -430,9 +444,13 @@ export default function ProjectsPage() {
               {canCreateProject && (
                 <CreateProjectSheet
                   onProjectAdded={handleProjectAdded}
-                  projectToEdit={projectToEdit}
                   onProjectUpdated={handleProjectUpdated}
-                  onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
+                  onOpenChange={(isOpen) => {
+                    if (!isOpen) setProjectToEdit(null);
+                    setIsSheetOpen(isOpen);
+                  }}
+                  isOpen={isSheetOpen && !projectToEdit}
+                  setIsOpen={setIsSheetOpen}
                 />
               )}
             </div>
@@ -457,9 +475,13 @@ export default function ProjectsPage() {
               {canCreateProject && (
                 <CreateProjectSheet
                   onProjectAdded={handleProjectAdded}
-                  projectToEdit={projectToEdit}
                   onProjectUpdated={handleProjectUpdated}
-                  onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
+                  onOpenChange={(isOpen) => {
+                    if (!isOpen) setProjectToEdit(null);
+                    setIsSheetOpen(isOpen);
+                  }}
+                  isOpen={isSheetOpen && !projectToEdit}
+                  setIsOpen={setIsSheetOpen}
                 />
               )}
             </div>
@@ -527,6 +549,21 @@ export default function ProjectsPage() {
           </CardContent>
         </Card>
       </div>
+      
+      {projectToEdit && (
+        <CreateProjectSheet
+          projectToEdit={projectToEdit}
+          onProjectUpdated={handleProjectUpdated}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) setProjectToEdit(null);
+            setIsSheetOpen(isOpen);
+          }}
+          isOpen={isSheetOpen && !!projectToEdit}
+          setIsOpen={setIsSheetOpen} onProjectAdded={function (project: Project): void {
+            throw new Error("Function not implemented.");
+          } }        />
+      )}
+
       <AlertDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}

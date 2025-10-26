@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -1590,8 +1590,10 @@ interface CreateProjectSheetProps {
   trigger?: React.ReactNode;
   onProjectAdded: (project: Project) => void;
   onProjectUpdated: (project: Project) => void;
-  projectToEdit: Project | null;
   onOpenChange: (isOpen: boolean) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  projectToEdit: Project | null;
 }
 
 export function CreateProjectSheet({
@@ -1600,8 +1602,9 @@ export function CreateProjectSheet({
   projectToEdit,
   onProjectUpdated,
   onOpenChange,
+  isOpen,
+  setIsOpen,
 }: CreateProjectSheetProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
   const [step, setStep] = useState(1);
@@ -1611,22 +1614,22 @@ export function CreateProjectSheet({
 
   useEffect(() => {
     if (projectToEdit) {
-      setIsOpen(true);
       setProjectData(projectToEdit);
     }
   }, [projectToEdit]);
-
+  
   const handleOpenChangeInternal = (open: boolean) => {
     if (!open) {
       setStep(1);
       setProjectData(null);
-      onOpenChange(false);
     }
     setIsOpen(open);
+    onOpenChange(open);
   };
 
   const handleSuccess = (newOrUpdatedProject: Project, responseData: any) => {
     setIsOpen(false);
+    onOpenChange(false);
     setSuccessData(responseData);
     setShowSuccess(true);
     if (isEditMode) {
