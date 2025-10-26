@@ -130,6 +130,7 @@ export default function ProjectDetailsPage() {
   const { user } = useUser();
   const [project, setProject] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -212,6 +213,7 @@ export default function ProjectDetailsPage() {
       projectAssign: project.projectAssign,
     };
     setProjectToEdit(editData as Project);
+    setIsSheetOpen(true);
   };
 
   const handleDeleteClick = () => {
@@ -255,7 +257,13 @@ export default function ProjectDetailsPage() {
 
   const handleProjectUpdated = (updatedProject: Project) => {
     setProject((prev: any) => ({ ...prev, ...updatedProject }));
+    setIsSheetOpen(false);
     setProjectToEdit(null);
+  };
+  
+  const handleProjectAdded = () => {
+    // This function is required by the sheet but not used here.
+    throw new Error("Function not implemented for this context.");
   };
 
   const canViewPayments =
@@ -297,19 +305,6 @@ export default function ProjectDetailsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-medium text-foreground">
-          Project Details
-        </h2>
-        <Button
-          variant="outline"
-          onClick={() => router.back()}
-          className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary hidden md:flex"
-        >
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-      </div>
       <ProjectInfoHeader project={projectInfoHeaderData} />
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
@@ -343,16 +338,14 @@ export default function ProjectDetailsPage() {
           <ProjectMaterialsCard materials={project.materials} />
         </div>
       </div>
-      {projectToEdit && (
-        <CreateProjectSheet
-          projectToEdit={projectToEdit}
-          onClose={() => setProjectToEdit(null)}
-          onProjectUpdated={handleProjectUpdated}
-          onProjectAdded={() => {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      )}
+      
+      <CreateProjectSheet
+        isOpen={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+        projectToEdit={projectToEdit}
+        onProjectUpdated={handleProjectUpdated}
+        onProjectAdded={handleProjectAdded}
+      />
 
       <AlertDialog
         open={isDeleteDialogOpen}
@@ -389,5 +382,3 @@ export default function ProjectDetailsPage() {
     </div>
   );
 }
-
-    

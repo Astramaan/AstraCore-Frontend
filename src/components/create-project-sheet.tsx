@@ -770,41 +770,44 @@ const CreateProjectForm = ({
 };
 
 interface CreateProjectSheetProps {
-  onProjectAdded: (project: Project, responseData: any) => void;
-  onProjectUpdated: (project: Project, responseData: any) => void;
-  onClose: () => void;
+  onProjectAdded?: (project: Project, responseData: any) => void;
+  onProjectUpdated?: (project: Project, responseData: any) => void;
   projectToEdit: Project | null;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function CreateProjectSheet({
   onProjectAdded,
   projectToEdit,
   onProjectUpdated,
-  onClose,
+  isOpen,
+  onOpenChange,
 }: CreateProjectSheetProps) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
   const [step, setStep] = useState(1);
   const [projectData, setProjectData] = useState<any>(null);
-  const isOpen = !!projectToEdit;
 
   const isEditMode = !!projectToEdit;
 
   const handleClose = () => {
-    onClose();
+    onOpenChange(false);
     setTimeout(() => {
       setStep(1);
-    }, 300)
+    }, 300);
   };
 
   const handleNext = (data: any) => {
     setProjectData(data);
-    onClose();
-    
+    onOpenChange(false);
+
     setTimeout(() => {
       setShowSuccess(true);
-      setSuccessData({ message: isEditMode ? "Project Updated" : "New Project added" });
-    }, 500)
+      setSuccessData({
+        message: isEditMode ? "Project Updated" : "New Project added",
+      });
+    }, 500);
   };
 
   const title = isEditMode
@@ -815,7 +818,7 @@ export function CreateProjectSheet({
 
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className={cn(
@@ -854,7 +857,7 @@ export function CreateProjectSheet({
                 projectToEdit={projectToEdit}
               />
             ) : (
-             <p>Timeline form would go here</p>
+              <p>Timeline form would go here</p>
             )}
           </div>
         </SheetContent>
@@ -873,5 +876,3 @@ export function CreateProjectSheet({
     </>
   );
 }
-
-    
