@@ -297,8 +297,7 @@ export default function ProjectsPage() {
   const organizationId = (params.organizationId as string) || "habi123";
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
-  const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
-  const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -311,23 +310,25 @@ export default function ProjectsPage() {
     const result = await fetchProjectsSsr(user);
     if (result.success && result.data) {
       const formattedProjects = result.data.map((p) => ({
-        id: p.projectId,
-        name: p.personalDetails.name,
-        city: p.projectDetails.state,
-        contact: `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`,
+        id: p.projectId || p.id, // handle both cases
+        name: p.personalDetails?.name || p.name,
+        city: p.projectDetails?.state || p.city,
+        contact: p.personalDetails
+          ? `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`
+          : p.contact,
         startDate: new Date(p.startDate).toLocaleDateString("en-GB", {
           day: "numeric",
           month: "short",
           year: "numeric",
         }),
-        status: p.projectStatus,
+        status: p.projectStatus || p.status,
         statusColor:
-          p.projectStatus === "In Progress"
+          (p.projectStatus || p.status) === "In Progress"
             ? "text-green-600"
             : "text-red-600",
-        image: "https://placehold.co/59x59",
-        progress: 50, // Placeholder
-        projectType: p.projectDetails.projectType || "New Construction",
+        image: p.image || "https://placehold.co/59x59",
+        progress: p.progress || 50, // Placeholder
+        projectType: p.projectDetails?.projectType || p.projectType || "New Construction",
         personalDetails: p.personalDetails,
         projectDetails: p.projectDetails,
         projectAssign: p.projectAssign,
@@ -360,12 +361,17 @@ export default function ProjectsPage() {
 
   const handleEdit = (project: Project) => {
     setProjectToEdit(project);
-    setIsEditSheetOpen(true);
+    setIsSheetOpen(true);
   };
 
   const handleDeleteClick = (project: Project) => {
     setProjectToDelete(project);
     setIsDeleteDialogOpen(true);
+  };
+  
+  const handleOpenCreate = () => {
+    setProjectToEdit(null);
+    setIsSheetOpen(true);
   };
 
   const confirmDelete = async () => {
@@ -413,8 +419,6 @@ export default function ProjectsPage() {
       prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
     );
     fetchProjects();
-    setProjectToEdit(null);
-    setIsEditSheetOpen(false);
   };
 
   const canCreateProject =
@@ -438,13 +442,10 @@ export default function ProjectsPage() {
                 />
               </div>
               {canCreateProject && (
-                <CreateProjectSheet
-                  onProjectAdded={handleProjectAdded}
-                  onProjectUpdated={handleProjectUpdated}
-                  onOpenChange={setIsCreateSheetOpen}
-                  isOpen={isCreateSheetOpen}
-                  projectToEdit={null}
-                />
+                 <Button onClick={handleOpenCreate} className="bg-primary/10 text-primary dark:text-primary dark:bg-primary/10 border border-primary md:h-14 rounded-full h-[54px] hover:bg-primary/20 text-lg px-6 w-[54px] md:w-auto p-0 md:p-2.5">
+                    <PlusCircle className="h-5 w-5 md:mr-2" />
+                    <span className="hidden md:inline">Create project</span>
+                </Button>
               )}
             </div>
             <h2 className="text-xl text-foreground font-medium pt-4">
@@ -466,13 +467,10 @@ export default function ProjectsPage() {
                 />
               </div>
               {canCreateProject && (
-                <CreateProjectSheet
-                  onProjectAdded={handleProjectAdded}
-                  onProjectUpdated={handleProjectUpdated}
-                  onOpenChange={setIsCreateSheetOpen}
-                  isOpen={isCreateSheetOpen}
-                  projectToEdit={null}
-                />
+                 <Button onClick={handleOpenCreate} className="bg-primary/10 text-primary dark:text-primary dark:bg-primary/10 border border-primary md:h-14 rounded-full h-[54px] hover:bg-primary/20 text-lg px-6 w-[54px] md:w-auto p-0 md:p-2.5">
+                    <PlusCircle className="h-5 w-5 md:mr-2" />
+                    <span className="hidden md:inline">Create project</span>
+                </Button>
               )}
             </div>
           </div>
@@ -540,15 +538,13 @@ export default function ProjectsPage() {
         </Card>
       </div>
 
-      {projectToEdit && (
-        <CreateProjectSheet
-          projectToEdit={projectToEdit}
-          onProjectUpdated={handleProjectUpdated}
-          onOpenChange={setIsEditSheetOpen}
-          isOpen={isEditSheetOpen}
-          onProjectAdded={() => {}}
-        />
-      )}
+      <CreateProjectSheet
+        projectToEdit={projectToEdit}
+        onProjectUpdated={handleProjectUpdated}
+        onProjectAdded={handleProjectAdded}
+        isOpen={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+      />
 
       <AlertDialog
         open={isDeleteDialogOpen}
