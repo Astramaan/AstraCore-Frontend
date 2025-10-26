@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -63,27 +64,27 @@ const TeamMemberCard = ({ member }: { member: (typeof projectTeam)[0] }) => {
 export const TimelineDialog = () => {
   const { user } = useUser();
 
-  const visibleTeamMembers = projectTeam.filter((member) => {
-    if (user?.team === "Project Manager") {
-      return member.role !== "Project Manager";
-    }
-    return true;
-  });
+  const DialogOrSheet = Sheet;
+  const DialogOrSheetTrigger = SheetTrigger;
+  const DialogOrSheetContent = SheetContent;
+  const DialogOrSheetHeader = SheetHeader;
+  const DialogOrSheetTitle = SheetTitle;
+  const DialogOrSheetClose = SheetClose;
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
+    <DialogOrSheet>
+      <DialogOrSheetTrigger asChild>
         <Button
           variant="link"
           className={cn(
-            "text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-background",
+            "text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 h-[54px] rounded-full bg-card dark:bg-white dark:text-black",
             "hover:no-underline",
           )}
         >
           Timeline
         </Button>
-      </SheetTrigger>
-      <SheetContent
+      </DialogOrSheetTrigger>
+      <DialogOrSheetContent
         side="bottom"
         className={cn(
           "p-0 flex flex-col bg-card transition-all m-0 border-none",
@@ -91,11 +92,11 @@ export const TimelineDialog = () => {
         )}
         overlayClassName="bg-black/20 backdrop-blur-sm"
       >
-        <SheetHeader className="p-4 border-b flex-row items-center">
-          <SheetTitle className="text-2xl font-semibold">
+        <DialogOrSheetHeader className="p-4 border-b flex-row items-center">
+          <DialogOrSheetTitle className="text-2xl font-semibold">
             Project Timeline
-          </SheetTitle>
-          <SheetClose asChild>
+          </DialogOrSheetTitle>
+          <DialogOrSheetClose asChild>
             <Button
               variant="ghost"
               size="icon"
@@ -103,8 +104,8 @@ export const TimelineDialog = () => {
             >
               <X className="h-5 w-5" />
             </Button>
-          </SheetClose>
-        </SheetHeader>
+          </DialogOrSheetClose>
+        </DialogOrSheetHeader>
         <ScrollArea className="flex-1">
           <div className="p-6 space-y-6">
             {(user?.roleType === "superAdmin" ||
@@ -114,7 +115,7 @@ export const TimelineDialog = () => {
                   <CardTitle>Team</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0 mt-4">
-                  {visibleTeamMembers.map((member) => (
+                  {projectTeam.map((member) => (
                     <TeamMemberCard key={member.role} member={member} />
                   ))}
                 </CardContent>
@@ -123,7 +124,7 @@ export const TimelineDialog = () => {
             <ProjectTimelineStages />
           </div>
         </ScrollArea>
-      </SheetContent>
-    </Sheet>
+      </DialogOrSheetContent>
+    </DialogOrSheet>
   );
 };
