@@ -40,6 +40,9 @@ export async function GET(
       },
     );
     const data = await res.json();
+    if(res.ok && data) {
+      return NextResponse.json({ success: true, data: data });
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Get project details proxy failed:", error);

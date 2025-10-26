@@ -1,3 +1,4 @@
+
 import type { User } from "@/context/user-context";
 
 export interface Member {
@@ -117,10 +118,6 @@ export async function getProjectDetails(
     if (data.success) {
       return data.data;
     }
-    console.error(
-      `API returned success:false for project ${projectId}`,
-      data.message,
-    );
     return null;
   } catch (error) {
     console.error(`Error in getProjectDetails for ${projectId}:`, error);
