@@ -161,7 +161,6 @@ export default function ProjectDetailsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <Skeleton className="h-12 w-1/4" />
         <Skeleton className="h-48 w-full" />
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto] gap-6">
           <div className="space-y-6">
@@ -257,7 +256,7 @@ export default function ProjectDetailsPage() {
     setProject((prev: any) => ({ ...prev, ...updatedProject }));
     setProjectToEdit(null);
   };
-  
+
   const handleProjectAdded = () => {
     // This function is required by the sheet but not used here.
     throw new Error("Function not implemented for this context.");
@@ -337,11 +336,9 @@ export default function ProjectDetailsPage() {
       </div>
       
       <CreateProjectSheet
-        isOpen={!!projectToEdit}
+        open={!!projectToEdit}
         onOpenChange={(open) => {
-          if (!open) {
-            setProjectToEdit(null);
-          }
+          if (!open) setProjectToEdit(null);
         }}
         projectToEdit={projectToEdit}
         onProjectUpdated={handleProjectUpdated}

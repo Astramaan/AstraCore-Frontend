@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useMemo, useTransition } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -773,7 +773,7 @@ interface CreateProjectSheetProps {
   onProjectAdded?: (project: Project, responseData: any) => void;
   onProjectUpdated?: (project: Project, responseData: any) => void;
   projectToEdit: Project | null;
-  isOpen: boolean;
+  open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -781,7 +781,7 @@ export function CreateProjectSheet({
   onProjectAdded,
   projectToEdit,
   onProjectUpdated,
-  isOpen,
+  open,
   onOpenChange,
 }: CreateProjectSheetProps) {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -803,6 +803,13 @@ export function CreateProjectSheet({
     }, 500);
   };
 
+  const handleClose = () => {
+    onOpenChange(false);
+    setTimeout(() => {
+      setStep(1);
+    }, 300);
+  };
+
   const title = isEditMode
     ? "Edit Project"
     : step === 1
@@ -811,7 +818,7 @@ export function CreateProjectSheet({
 
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className={cn(
