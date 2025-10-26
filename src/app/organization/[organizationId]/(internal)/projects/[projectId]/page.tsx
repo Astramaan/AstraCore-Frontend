@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -129,7 +130,6 @@ export default function ProjectDetailsPage() {
   const { user } = useUser();
   const [project, setProject] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -212,7 +212,6 @@ export default function ProjectDetailsPage() {
       projectAssign: project.projectAssign,
     };
     setProjectToEdit(editData as Project);
-    setIsSheetOpen(true);
   };
 
   const handleDeleteClick = () => {
@@ -332,7 +331,7 @@ export default function ProjectDetailsPage() {
                 <PaymentsDialog>
                   <Button
                     variant="link"
-                    className="text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-background hover:no-underline w-full h-[54px]"
+                    className="text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-card hover:no-underline w-full h-[54px]"
                   >
                     Payments
                   </Button>
@@ -344,20 +343,16 @@ export default function ProjectDetailsPage() {
           <ProjectMaterialsCard materials={project.materials} />
         </div>
       </div>
-      <CreateProjectSheet
-        projectToEdit={projectToEdit}
-        isOpen={isSheetOpen}
-        onOpenChange={(open) => {
-          if (!open) {
-            setProjectToEdit(null);
-          }
-          setIsSheetOpen(open);
-        }}
-        onProjectUpdated={handleProjectUpdated}
-        onProjectAdded={() => {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      {projectToEdit && (
+        <CreateProjectSheet
+          projectToEdit={projectToEdit}
+          onClose={() => setProjectToEdit(null)}
+          onProjectUpdated={handleProjectUpdated}
+          onProjectAdded={() => {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      )}
 
       <AlertDialog
         open={isDeleteDialogOpen}
@@ -394,3 +389,5 @@ export default function ProjectDetailsPage() {
     </div>
   );
 }
+
+    

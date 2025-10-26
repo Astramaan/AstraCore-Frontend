@@ -772,8 +772,7 @@ const CreateProjectForm = ({
 interface CreateProjectSheetProps {
   onProjectAdded: (project: Project, responseData: any) => void;
   onProjectUpdated: (project: Project, responseData: any) => void;
-  onOpenChange: (isOpen: boolean) => void;
-  isOpen: boolean;
+  onClose: () => void;
   projectToEdit: Project | null;
 }
 
@@ -781,18 +780,18 @@ export function CreateProjectSheet({
   onProjectAdded,
   projectToEdit,
   onProjectUpdated,
-  onOpenChange,
-  isOpen,
+  onClose,
 }: CreateProjectSheetProps) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
   const [step, setStep] = useState(1);
   const [projectData, setProjectData] = useState<any>(null);
+  const isOpen = !!projectToEdit;
 
   const isEditMode = !!projectToEdit;
 
   const handleClose = () => {
-    onOpenChange(false);
+    onClose();
     setTimeout(() => {
       setStep(1);
     }, 300)
@@ -800,7 +799,7 @@ export function CreateProjectSheet({
 
   const handleNext = (data: any) => {
     setProjectData(data);
-    onOpenChange(false);
+    onClose();
     
     setTimeout(() => {
       setShowSuccess(true);
@@ -816,7 +815,7 @@ export function CreateProjectSheet({
 
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      <Sheet open={isOpen} onOpenChange={(open) => !open && handleClose()}>
         <SheetContent
           side="bottom"
           className={cn(
@@ -874,3 +873,5 @@ export function CreateProjectSheet({
     </>
   );
 }
+
+    
