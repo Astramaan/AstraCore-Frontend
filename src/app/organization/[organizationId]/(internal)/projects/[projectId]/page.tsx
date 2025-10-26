@@ -315,7 +315,7 @@ export default function ProjectDetailsPage() {
         </div>
 
         <div className="w-full xl:w-[384px] space-y-6">
-          <div className="flex flex-col gap-2 rounded-full p-1">
+          <div className="flex flex-col gap-2 p-1">
             <div className="flex flex-1 gap-2">
               <TimelineDialog />
               {canViewPayments && (

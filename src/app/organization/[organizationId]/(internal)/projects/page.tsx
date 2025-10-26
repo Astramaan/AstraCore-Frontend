@@ -534,7 +534,7 @@ export default function ProjectsPage() {
       </div>
 
       <CreateProjectSheet
-        isOpen={isSheetOpen}
+        open={isSheetOpen}
         onOpenChange={setIsSheetOpen}
         projectToEdit={projectToEdit}
         onProjectUpdated={handleProjectUpdated}
