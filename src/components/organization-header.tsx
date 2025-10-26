@@ -90,7 +90,9 @@ export const OrganizationHeader = () => {
                 <Button
                   className={cn(
                     "group rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20",
-                    isTeamsActive ? "bg-primary text-white" : "text-white",
+                    isTeamsActive
+                      ? "bg-primary text-white"
+                      : "text-white",
                   )}
                 >
                   <TeamIcon
