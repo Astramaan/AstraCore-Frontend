@@ -24,11 +24,6 @@ import { CreateDepartmentSheet } from "@/components/create-department-sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/context/user-context";
 import { AddMemberSheet } from "@/components/add-member-sheet";
-import { HabiLogo } from "@/components/habi-logo";
-import { NotificationPopover } from "@/components/notification-popover";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { useToast } from "@/components/ui/use-toast";
 
 const iconMap: { [key: string]: React.ElementType } = {
@@ -157,12 +152,6 @@ export default function TeamsPageContent() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  const userName = user?.name || "User";
-  const userInitials = userName
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
-
   useEffect(() => {
     if (!user) return;
     const fetchTeams = async () => {
@@ -235,47 +224,7 @@ export default function TeamsPageContent() {
   };
 
   return (
-    <div className="space-y-8 p-4 md:p-8">
-      <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
-        <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
-          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
-            <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
-              <div className="flex justify-start items-center gap-4">
-                <HabiLogo />
-                <div className="w-px h-8 bg-border hidden md:block"></div>
-                <h1 className="text-2xl md:text-4xl font-bold text-white">
-                  Team Management
-                </h1>
-              </div>
-              <div className="flex justify-end items-center gap-4">
-                <NotificationPopover userType="organization" />
-                <div className="w-px h-8 bg-border hidden md:block"></div>
-                <Link
-                  href="/platform/profile"
-                  className="flex justify-start items-center gap-2"
-                >
-                  <Avatar className="w-14 h-14">
-                    <AvatarImage
-                      src="https://placehold.co/55x55"
-                      alt={userName}
-                      data-ai-hint="person portrait"
-                    />
-                    <AvatarFallback>{userInitials}</AvatarFallback>
-                  </Avatar>
-                  <div className="hidden md:inline-flex flex-col justify-start items-start gap-1">
-                    <div className="text-lg font-medium text-white">
-                      {userName}
-                    </div>
-                    <div className="text-base text-white/80 whitespace-nowrap">
-                      Super Admin
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <Button
@@ -337,7 +286,6 @@ export default function TeamsPageContent() {
         onClose={handleCloseSheet}
         role={selectedRole}
       />
-      <PlatformBottomNav />
     </div>
   );
 }
