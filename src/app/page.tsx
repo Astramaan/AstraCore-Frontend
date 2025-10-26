@@ -1,3 +1,4 @@
+
 "use client";
 
 import AuthForm from "@/components/auth-form";
@@ -9,7 +10,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex items-center justify-center p-0 md:p-4">
       <div className="flex flex-col md:flex-row overflow-hidden md:rounded-[50px] bg-card text-card-foreground w-full max-w-4xl md:w-auto h-screen md:h-auto items-stretch">
         {/* Image Section */}
-        <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-[507px]">
+        <div className="relative w-full h-[350px] shrink-0 md:w-[396px] md:h-auto">
           <div className="h-full relative md:pl-4">
             <Image
               src="https://images.unsplash.com/photo-1637525609391-ab1919948bbc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Z3JlZW4lMjBncmFkaWVudHxlbnwwfHx8fDE3NTk3NTM3MTV8MA&ixlib=rb-4.1.0&q=80&w=1080"

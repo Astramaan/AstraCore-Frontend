@@ -24,18 +24,24 @@ import { CreateDepartmentSheet } from "@/components/create-department-sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/context/user-context";
 import { AddMemberSheet } from "@/components/add-member-sheet";
+import { HabiLogo } from "@/components/habi-logo";
+import { NotificationPopover } from "@/components/notification-popover";
+import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 import { useToast } from "@/components/ui/use-toast";
 
 const iconMap: { [key: string]: React.ElementType } = {
   "Super Admin": Shield,
-  Sales: Briefcase,
+  "Sales": Briefcase,
   "Software Development": Code,
-  Design: Palette,
+  "Design": Palette,
   "Site Supervisor": Users,
-  Architect: Palette,
+  "Architect": Palette,
   "Project Manager": Briefcase,
   "Support & Feedback": Users,
   "Human Resources": Users,
+  "Org Admin": Users,
   default: Users,
 };
 
@@ -46,7 +52,7 @@ const RoleCard = ({
   role: Role;
   onViewMembers: (role: Role) => void;
 }) => {
-  const IconComponent = iconMap[role.name] || iconMap.default;
+  const Icon = iconMap[role.name] || iconMap.default;
   return (
     <>
       {/* Desktop & Tablet View */}
@@ -55,7 +61,7 @@ const RoleCard = ({
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}
           >
-            <IconComponent className="w-6 h-6 text-foreground" />
+            <Icon className="w-6 h-6 text-foreground" />
           </div>
           <p className="text-xl font-semibold">{role.name}</p>
         </div>
@@ -99,7 +105,7 @@ const RoleCard = ({
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 ${role.bgColor}`}
           >
-            <IconComponent className="w-6 h-6 text-foreground" />
+            <Icon className="w-6 h-6 text-foreground" />
           </div>
           <p className="text-2xl font-semibold">{role.name}</p>
         </div>
@@ -143,59 +149,67 @@ const RoleCard = ({
 
 export default function TeamsPageContent() {
   const router = useRouter();
+
   const { user } = useUser();
-  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+
+  const userName = user?.name || "User";
+  const userInitials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
 
   useEffect(() => {
     if (!user) return;
-
     const fetchTeams = async () => {
       setIsLoading(true);
       try {
         const res = await fetch("/api/users/teams", {
-          headers: {
-            "x-user": JSON.stringify(user),
-          },
+          headers: { "x-user": JSON.stringify(user) },
         });
         const result = await res.json();
         if (result.success && Array.isArray(result.teams)) {
-          const apiRoles: Role[] = result.teams.map((team: any) => ({
-            name: team.team,
-            Icon: iconMap[team.team] || iconMap.default,
-            bgColor: "bg-blue-300/30",
-            admin: team.members.find((m: any) => m.roleType === 'ADMIN')?.name || "N/A",
-            active: team.members.filter((m: any) => m.status === 'Active').length,
-            total: team.members.length,
-            members: team.members.map((member: any) => ({
-              id: member.userId,
-              name: member.name,
-              avatar: member.profileImage || "https://placehold.co/100x100",
-              contact: `${member.email} | ${member.mobileNumber}`,
-              role: member.roleType,
-              status: "Active", // API doesn't provide this, so defaulting
-              lastActive: "N/A", // API doesn't provide this
-              email: member.email,
-            })),
-          }));
+          const apiRoles: Role[] = result.teams.map((team: any) => {
+            const adminMember = team.members.find(
+              (m: any) => m.roleType === "ADMIN",
+            );
+            return {
+              name: team.team,
+              Icon: iconMap[team.team] || iconMap.default,
+              bgColor: "bg-blue-300/30",
+              admin: adminMember ? adminMember.name : "N/A",
+              active: team.members.length,
+              total: team.members.length,
+              members: team.members.map((member: any) => ({
+                id: member.userId,
+                name: member.name,
+                avatar: `https://i.pravatar.cc/150?u=${member.userId}`,
+                contact: `${member.email || "N/A"} | ${member.mobileNumber || "N/A"}`,
+                role: member.roleType,
+                status: "Active",
+                lastActive: "N/A",
+                email: member.email || "N/A",
+              })),
+            };
+          });
           setRoles(apiRoles);
         } else {
           toast({
             variant: "destructive",
-            title: "Error fetching teams",
-            description: result.message || "Could not fetch team data.",
+            title: "Error",
+            description: result.message || "Failed to fetch teams.",
           });
         }
       } catch (error) {
         toast({
           variant: "destructive",
           title: "Network Error",
-          description: "Failed to connect to the server to fetch teams.",
+          description: "An unexpected error occurred while fetching teams.",
         });
-        console.error("Failed to fetch teams:", error);
       } finally {
         setIsLoading(false);
       }
@@ -221,7 +235,47 @@ export default function TeamsPageContent() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-4 md:p-8">
+      <header className="sticky top-2 z-20 px-2 -mx-4 md:-mx-8">
+        <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
+          <div className="relative w-full bg-black/20 dark:bg-black/30 rounded-full backdrop-blur-[5px] px-4 py-4">
+            <div className="max-w-[1440px] 2xl:max-w-none mx-auto px-4 2xl:px-10 flex justify-between items-center">
+              <div className="flex justify-start items-center gap-4">
+                <HabiLogo />
+                <div className="w-px h-8 bg-border hidden md:block"></div>
+                <h1 className="text-2xl md:text-4xl font-bold text-white">
+                  Team Management
+                </h1>
+              </div>
+              <div className="flex justify-end items-center gap-4">
+                <NotificationPopover userType="organization" />
+                <div className="w-px h-8 bg-border hidden md:block"></div>
+                <Link
+                  href="/platform/profile"
+                  className="flex justify-start items-center gap-2"
+                >
+                  <Avatar className="w-14 h-14">
+                    <AvatarImage
+                      src="https://placehold.co/55x55"
+                      alt={userName}
+                      data-ai-hint="person portrait"
+                    />
+                    <AvatarFallback>{userInitials}</AvatarFallback>
+                  </Avatar>
+                  <div className="hidden md:inline-flex flex-col justify-start items-start gap-1">
+                    <div className="text-lg font-medium text-white">
+                      {userName}
+                    </div>
+                    <div className="text-base text-white/80 whitespace-nowrap">
+                      Super Admin
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <Button
@@ -267,12 +321,10 @@ export default function TeamsPageContent() {
                 />
               ))
             ) : (
-              <div className="text-center py-10 text-muted-foreground">
+              <div className="text-center text-muted-foreground py-10">
                 <p>No teams found.</p>
                 {user?.roleType === "superAdmin" && (
-                  <p>
-                    Click &ldquo;Create New Team&rdquo; to add one.
-                  </p>
+                  <p>Click &ldquo;Create New Team&rdquo; to add one.</p>
                 )}
               </div>
             )}
@@ -285,6 +337,7 @@ export default function TeamsPageContent() {
         onClose={handleCloseSheet}
         role={selectedRole}
       />
+      <PlatformBottomNav />
     </div>
   );
 }

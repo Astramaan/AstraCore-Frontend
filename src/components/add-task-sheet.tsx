@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import {
   Command,
+  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
@@ -162,6 +164,7 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
                   <Command>
                     <CommandInput placeholder="Search members..." />
                     <CommandList>
+                      <CommandEmpty>No member found.</CommandEmpty>
                       <CommandGroup>
                         {["Balaji Naik", "Anil Kumar"].map((member) => (
                           <CommandItem
@@ -264,6 +267,7 @@ const AddTaskForm = ({ onTaskAssigned, onClose }: AddTaskFormProps) => {
                   <Command>
                     <CommandInput placeholder="Search category..." />
                     <CommandList>
+                      <CommandEmpty>No category found.</CommandEmpty>
                       <CommandGroup>
                         {["Meetings", "Design", "Development", "QA"].map(
                           (cat) => (

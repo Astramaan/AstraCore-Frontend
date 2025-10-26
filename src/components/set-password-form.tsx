@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -66,7 +67,7 @@ export default function SetPasswordForm({
   return (
     <>
       <h2 className="text-lg text-muted-foreground tracking-tight mb-8">
-        {config.title}
+        {config.description}
       </h2>
       <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
         <div className="flex-grow">

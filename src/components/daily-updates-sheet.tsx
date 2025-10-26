@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -72,9 +73,8 @@ const DailyUpdateCard = ({
             <Image
               src={photo}
               alt={`Update photo ${index + 1}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
+              fill
+              className="rounded-lg object-cover"
             />
           </div>
         ))}

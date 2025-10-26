@@ -1,3 +1,4 @@
+
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -27,7 +28,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className="no-scrollbar md:overflow-y-scroll"
     >
-      <body className={cn("antialiased font-sans")}>
+      <body className={cn("antialiased font-sans bg-background text-foreground")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -95,7 +96,7 @@ export function useCollection<T = any>(
           operation: 'list',
           path,
         })
-
+        console.error(err);
         setError(contextualError)
         setData(null)
         setIsLoading(false)

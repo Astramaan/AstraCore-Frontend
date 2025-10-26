@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card } from "@/components/ui/card";
@@ -28,7 +29,7 @@ export interface Stage {
   rework?: ReworkInfo;
 }
 
-const statusColors = {
+const statusColors: { [key: string]: string } = {
   ongoing: "bg-blue-100 text-blue-700",
   completed: "bg-green-100 text-green-700",
   upcoming: "bg-gray-100 text-gray-600",

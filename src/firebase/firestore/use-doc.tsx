@@ -1,3 +1,4 @@
+
 "use client";
     
 import { useState, useEffect } from "react";
@@ -76,7 +77,7 @@ export function useDoc<T = any>(
           operation: 'get',
           path: memoizedDocRef.path,
         })
-
+        console.error(err);
         setError(contextualError)
         setData(null)
         setIsLoading(false)

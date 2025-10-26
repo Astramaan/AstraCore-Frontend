@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import TeamsPageContent from "./teams-page-content";
@@ -22,5 +23,3 @@ export default function TeamsManagementPage() {
     </Suspense>
   );
 }
-
-    

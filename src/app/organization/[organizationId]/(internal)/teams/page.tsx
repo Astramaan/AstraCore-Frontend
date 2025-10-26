@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import TeamsPageContent from "./teams-page-content";
 import { Skeleton } from "@/components/ui/skeleton";

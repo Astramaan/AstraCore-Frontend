@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { Suspense } from "react";
@@ -6,11 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import ExistingClientHomePage from "./existing-client-home";
 import NewUserHomePage from "@/app/organization/[organizationId]/client/lead/[leadId]/home/new-user-home";
 
-function ClientHomePageContent({
-  params,
-}: {
-  params: { organizationId: string; clientId: string };
-}) {
+function ClientHomePageContent() {
   const { user, loading } = useUser();
 
   if (loading) {
@@ -42,14 +39,10 @@ const HomePageSkeleton = () => (
   </div>
 );
 
-export default function ClientHomePage({
-  params,
-}: {
-  params: { organizationId: string; clientId: string };
-}) {
+export default function ClientHomePage() {
   return (
     <Suspense fallback={<HomePageSkeleton />}>
-      <ClientHomePageContent params={params} />
+      <ClientHomePageContent />
     </Suspense>
   );
 }

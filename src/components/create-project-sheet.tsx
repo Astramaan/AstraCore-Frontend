@@ -19,9 +19,7 @@ import {
   ArrowRight,
   Check,
   ChevronsUpDown,
-  Banknote,
   Trash2,
-  Edit,
   Plus,
   GanttChartSquare,
   Calendar as CalendarIcon,
@@ -42,7 +40,6 @@ import { SuccessPopup } from "./success-popup";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
-import { Separator } from "./ui/separator";
 import { Project } from "@/lib/data";
 import { ScrollArea } from "./ui/scroll-area";
 import {
@@ -53,12 +50,9 @@ import {
 } from "./ui/accordion";
 import { useRouter, useParams } from "next/navigation";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "./ui/dropdown-menu";
-import { Card, CardContent } from "./ui/card";
+  Card,
+  CardContent,
+} from "./ui/card";
 import { useUser, User } from "@/context/user-context";
 import {
   AlertDialog,
@@ -155,7 +149,7 @@ const CreateProjectForm = ({
   const { user } = useUser();
   const { toast } = useToast();
   const [leadEmails, setLeadEmails] = useState<string[]>([]);
-  const [allUsers, setAllUsers] = useState<User[]>(mockUsers);
+  const allUsers = mockUsers;
   const [leadEmailError, setLeadEmailError] = useState<string | null>(null);
   const [emailComboboxOpen, setEmailComboboxOpen] = useState(false);
   const [projectTypeComboboxOpen, setProjectTypeComboboxOpen] =
@@ -1612,7 +1606,6 @@ export function CreateProjectSheet({
   const [successData, setSuccessData] = useState<any>(null);
   const [step, setStep] = useState(1);
   const [projectData, setProjectData] = useState<any>(null);
-  const [backendError, setBackendError] = useState<string | null>(null);
 
   const isEditMode = !!projectToEdit;
 

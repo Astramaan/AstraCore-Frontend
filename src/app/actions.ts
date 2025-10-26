@@ -1,3 +1,4 @@
+
 "use server";
 
 import { revalidatePath } from "next/cache";
@@ -6,19 +7,19 @@ import { revalidatePath } from "next/cache";
 // All data fetching and mutations are handled by API proxy routes in /src/app/api.
 // We are only using this file for Next.js-specific server functions like revalidatePath if needed.
 
-export async function addMember(
-  _prevState: unknown,
-  _formData: FormData,
-): Promise<{ success: boolean; message: string }> {
+export async function addMember(): Promise<{
+  success: boolean;
+  message: string;
+}> {
   // This is a placeholder. The actual logic is in the AddMemberSheet component for now.
   // In a real app, you would handle form submission to your backend here.
   return { success: true, message: "Member added (placeholder action)." };
 }
 
-export async function createPassword(
-  _prevState: unknown,
-  _formData: FormData,
-): Promise<{ success: boolean; message: string }> {
+export async function createPassword(): Promise<{
+  success: boolean;
+  message: string;
+}> {
   return { success: true, message: "Password created (placeholder action)." };
 }
 

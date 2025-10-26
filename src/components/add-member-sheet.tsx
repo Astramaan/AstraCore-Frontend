@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -29,6 +30,7 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
+  CommandInput
 } from "@/components/ui/command";
 
 const FloatingLabelInput = ({
