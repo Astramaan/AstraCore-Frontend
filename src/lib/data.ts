@@ -1,4 +1,3 @@
-
 import type { User } from "@/context/user-context";
 
 export interface Member {
@@ -38,12 +37,14 @@ export interface Project {
     floor: string;
     siteLocation: string;
     siteAddress: string;
+    siteLink?: string;
   };
   projectAssign?: {
     architect: string;
     siteSupervisor: string;
   };
   projectId?: string; // from backend
+  projectStatus?: string;
 }
 
 export interface Lead {
@@ -94,7 +95,7 @@ export async function getProjects(
 export async function getProjectDetails(
   projectId: string,
   user: User,
-): Promise<any | null> {
+): Promise<Project | null> {
   try {
     const res = await fetch(`/api/projects/${projectId}`, {
       headers: {
@@ -110,7 +111,7 @@ export async function getProjectDetails(
     }
     const data = (await res.json()) as {
       success: boolean;
-      data: any;
+      data: Project;
       message?: string;
     };
     if (data.success) {

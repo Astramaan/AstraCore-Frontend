@@ -2,14 +2,6 @@
 
 import React from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import {
   Sheet,
   SheetContent,
   SheetHeader,
@@ -22,7 +14,6 @@ import { ProjectFilesCard, type Phase } from "./project-files-card";
 import { X } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DesignDocumentsDialogProps {
   files: {
@@ -73,7 +64,6 @@ const mapFilesToPhases = (
 export const DesignDocumentsDialog = ({
   files,
 }: DesignDocumentsDialogProps) => {
-  const isMobile = useIsMobile();
   const DialogOrSheet = Sheet;
   const DialogOrSheetTrigger = SheetTrigger;
   const DialogOrSheetContent = SheetContent;

@@ -2,14 +2,6 @@
 
 import React from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import {
   Sheet,
   SheetContent,
   SheetHeader,
@@ -24,7 +16,6 @@ import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useUser } from "@/context/user-context";
 
 const projectTeam = [
@@ -42,30 +33,32 @@ const projectTeam = [
   },
 ];
 
-const TeamMemberCard = ({ member }: { member: (typeof projectTeam)[0] }) => (
-  <div>
-    <div className="flex justify-between items-center py-3">
-      <div>
-        <p className="text-sm text-muted-foreground">{member.role}</p>
-        <p className="text-base font-medium">{member.name}</p>
+const TeamMemberCard = ({ member }: { member: (typeof projectTeam)[0] }) => {
+  return (
+    <div>
+      <div className="flex justify-between items-center py-3">
+        <div>
+          <p className="text-sm text-muted-foreground">{member.role}</p>
+          <p className="text-base font-medium">{member.name}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-black/10 text-black">
+            <MessageSquare className="w-4 h-4 mr-2" />
+            Chat
+          </Button>
+          <Button
+            variant="destructive"
+            className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-destructive/10 text-destructive"
+          >
+            <UserX className="w-4 h-4 mr-2" />
+            Remove
+          </Button>
+        </div>
       </div>
-      <div className="flex items-center gap-2">
-        <Button className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-black/10 text-black">
-          <MessageSquare className="w-4 h-4 mr-2" />
-          Chat
-        </Button>
-        <Button
-          variant="destructive"
-          className="rounded-full h-[54px] px-4 py-2 bg-background hover:bg-destructive/10 text-destructive"
-        >
-          <UserX className="w-4 h-4 mr-2" />
-          Remove
-        </Button>
-      </div>
+      <Separator />
     </div>
-    <Separator />
-  </div>
-);
+  );
+};
 
 export const TimelineDialog = () => {
   const { user } = useUser();

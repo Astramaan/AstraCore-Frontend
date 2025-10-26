@@ -19,7 +19,7 @@ interface ProjectTimelineChartProps {
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-background text-popover-foreground p-2 border rounded-lg shadow-lg">
+      <div className="bg-white dark:bg-card p-2 border rounded-lg shadow-lg">
         <p className="font-bold">{`${payload[0].name}: ${payload[0].value}`}</p>
       </div>
     );
@@ -36,9 +36,9 @@ const renderLegend = (props: any) => {
         <div key={`item-${index}`} className="flex items-center gap-2">
           <span
             className="w-2.5 h-2.5 rounded-full"
-            style={{ backgroundColor: entry.color as string }}
+            style={{ backgroundColor: entry.color }}
           />
-          <span className="text-sm text-muted-foreground">{entry.value as string}</span>
+          <span className="text-sm text-muted-foreground">{entry.value}</span>
         </div>
       ))}
     </div>
@@ -84,10 +84,7 @@ export function ProjectTimelineChart({ data }: ProjectTimelineChartProps) {
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
-                <Tooltip
-                  content={<CustomTooltip />}
-                  wrapperStyle={{ zIndex: 10 }}
-                />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend content={renderLegend} verticalAlign="bottom" />
               </PieChart>
             </ResponsiveContainer>

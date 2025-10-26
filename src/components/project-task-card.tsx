@@ -3,10 +3,10 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import type { ReworkInfo } from "@/components/task-details-sheet";
 import Image from "next/image";
 import { Progress } from "./ui/progress";
+import { motion } from "framer-motion";
 
 // This should be kept in sync with the one in project-manager-home.tsx
 export interface Stage {
@@ -61,51 +61,56 @@ export const ProjectTaskCard = ({
   onStageClick: (stage: Stage) => void;
 }) => {
   return (
-    <Card
-      className="rounded-[24px] bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg"
-      onClick={() => onStageClick(stage)}
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "tween", ease: "easeInOut", duration: 0.2 }}
     >
-      <div className="flex items-center gap-4">
-        <div className="relative w-24 h-24 shrink-0">
-          <Image
-            src={stage.image}
-            width={100}
-            height={100}
-            alt={stage.title}
-            className="rounded-[24px] object-cover w-full h-full"
-            data-ai-hint="construction work"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
-            <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
-              <span className="text-white text-sm font-semibold">
-                {stage.category}
-              </span>
+      <Card
+        className="rounded-[24px] bg-card transition-shadow p-4 cursor-pointer hover:shadow-lg"
+        onClick={() => onStageClick(stage)}
+      >
+        <div className="flex items-center gap-4">
+          <div className="relative w-24 h-24 shrink-0">
+            <Image
+              src={stage.image}
+              width={100}
+              height={100}
+              alt={stage.title}
+              className="rounded-[24px] object-cover w-full h-full"
+              data-ai-hint="construction work"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-[24px] flex items-end justify-center p-2">
+              <div className="bg-black/20 backdrop-blur-sm rounded-full px-2 py-0.5">
+                <span className="text-white text-sm font-semibold">
+                  {stage.category}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 space-y-1 w-full text-left">
+            <div className="flex justify-between items-start">
+              <h3 className="text-foreground text-base font-semibold">
+                {stage.title}
+              </h3>
+              <Badge className={cn("capitalize", statusColors[stage.status])}>
+                {stage.status}
+              </Badge>
+            </div>
+            <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
+            <div className="pt-2">
+              <Progress value={stage.progress || 0} className="h-2" />
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-foreground text-xs font-normal">
+                  {stage.progress || 0}%
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  {formatDate(stage.createdAt)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex-1 space-y-1 w-full text-left">
-          <div className="flex justify-between items-start">
-            <h3 className="text-foreground text-base font-semibold">
-              {stage.title}
-            </h3>
-            <Badge className={cn("capitalize", statusColors[stage.status])}>
-              {stage.status}
-            </Badge>
-          </div>
-          <p className="text-sm text-muted-foreground">{stage.subtitle}</p>
-          <div className="pt-2">
-            <Progress value={stage.progress || 0} className="h-2" />
-            <div className="flex justify-between items-center mt-2">
-              <span className="text-foreground text-xs font-normal">
-                {stage.progress || 0}%
-              </span>
-              <span className="text-muted-foreground text-xs">
-                {formatDate(stage.createdAt)}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 };

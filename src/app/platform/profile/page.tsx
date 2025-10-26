@@ -1,12 +1,10 @@
-
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 import { PersonalDetails } from "@/components/personal-details";
 import { ActiveSessionsCard } from "@/components/active-sessions-card";
 import { Button } from "@/components/ui/button";
-import { LogOut, ChevronLeft } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useUser } from "@/context/user-context";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HabiLogo } from "@/components/habi-logo";
@@ -16,7 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlatformBottomNav } from "@/components/platform-bottom-nav";
 
 function PlatformProfilePageContent() {
-  const router = useRouter();
   const { user, loading, logout } = useUser();
 
   if (loading) {
@@ -56,7 +53,7 @@ function PlatformProfilePageContent() {
               <div className="flex justify-end items-center gap-4">
                 <NotificationPopover userType="organization" />
                 <div className="w-px h-8 bg-border hidden md:block"></div>
-                <div className="flex justify-start items-center gap-2">
+                <Link href="/platform/profile" className="flex justify-start items-center gap-2">
                   <Avatar className="w-14 h-14">
                     <AvatarImage
                       src="https://placehold.co/55x55"
@@ -71,7 +68,7 @@ function PlatformProfilePageContent() {
                     </div>
                     <div className="text-base text-white/80 whitespace-nowrap">Super Admin</div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

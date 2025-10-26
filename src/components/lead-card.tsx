@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Lead } from "@/lib/data";
+import type { Lead } from "@/lib/data";
 
 export default function LeadCard({
   lead,

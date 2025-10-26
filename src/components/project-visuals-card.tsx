@@ -3,14 +3,13 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { ArrowRight, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import Image from "next/image";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose,
 } from "./ui/dialog";
 import {
@@ -19,7 +18,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetClose,
-  SheetTrigger,
 } from "./ui/sheet";
 import { ScrollArea } from "./ui/scroll-area";
 import {
@@ -76,7 +74,7 @@ const ImagePreviewDialog = ({
                   <div className="relative aspect-video">
                     <Image
                       src={src}
-                      layout="fill"
+                      fill
                       objectFit="contain"
                       alt={`${title} image ${index + 1}`}
                       className="rounded-[10px]"

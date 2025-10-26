@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Check, X, Copy } from "lucide-react";
 import { Button } from "./ui/button";

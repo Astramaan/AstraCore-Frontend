@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo } from "react";
@@ -7,7 +6,6 @@ import { HabiLogo } from "@/components/habi-logo";
 import { useUser } from "@/context/user-context";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
-import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { NotificationPopover } from "./notification-popover";
 import { ClientOnly } from "./client-only";

@@ -47,8 +47,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/context/user-context";
 
 const LeadCard = ({
-  lead,
-  organizationId,
   onSelectionChange,
   isSelected,
   onSingleDelete,
@@ -57,9 +55,9 @@ const LeadCard = ({
   onLevelChange,
   onEdit,
   isLast,
+  lead,
 }: {
   lead: Lead;
-  organizationId: string;
   onSelectionChange: (id: string, checked: boolean) => void;
   isSelected: boolean;
   onSingleDelete: (id: string) => void;
@@ -687,7 +685,6 @@ export default function LeadsPage() {
             <LeadCard
               key={`${lead.leadId}-${index}`}
               lead={lead}
-              organizationId={organizationId}
               onSelectionChange={handleSelectionChange}
               isSelected={selectedLeads.includes(lead.leadId)}
               onSingleDelete={handleSingleDelete}

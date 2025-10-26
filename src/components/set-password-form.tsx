@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -53,7 +52,7 @@ export default function SetPasswordForm({
           description: data.message,
         });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast({
         variant: "destructive",
         title: "Error",

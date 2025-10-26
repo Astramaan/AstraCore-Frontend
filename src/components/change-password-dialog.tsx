@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X, Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import { ChangePasswordForm } from "./change-password-form";
 import {

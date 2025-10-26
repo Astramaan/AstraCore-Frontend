@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useState, useTransition, useRef } from "react";
+import React, { useState, useTransition } from "react";
 import {
   Sheet,
   SheetContent,
@@ -13,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Plus, X, ShieldAlert } from "lucide-react";
+import { X, ShieldAlert } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -317,7 +316,7 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
             <div className="flex items-center justify-between">
               <SheetTitle className="flex items-center gap-2 text-2xl font-semibold">
                 <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1">
-                  <Plus className="h-6 w-6" />
+                  <UserPlusIcon className="h-6 w-6" />
                 </div>
                 Add New Lead
               </SheetTitle>

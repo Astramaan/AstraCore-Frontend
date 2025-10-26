@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -15,7 +13,6 @@ import {
   Shield,
   Users,
   ChevronLeft,
-  LogOut,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
@@ -152,7 +149,7 @@ const RoleCard = ({
 export default function TeamsPageContent() {
   const router = useRouter();
 
-  const { user, logout } = useUser();
+  const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);

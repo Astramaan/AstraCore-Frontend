@@ -12,7 +12,7 @@ import { useUser } from "@/context/user-context";
 export default function MemberDetailsPage() {
   const params = useParams();
   const memberId = params.memberId as string;
-  const { user, logout } = useUser();
+  const { logout } = useUser();
 
   // In a real app, you would get this from your auth context
   const isSuperAdmin = true;

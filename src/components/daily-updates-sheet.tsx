@@ -12,11 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
-import { Separator } from "./ui/separator";
 
 export interface DailyUpdate {
   id: string;

@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useState, useTransition, useRef } from "react";
+import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -27,9 +26,7 @@ import {
 } from "@/components/ui/popover";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
@@ -236,7 +233,6 @@ const AddMemberForm = ({
                   >
                     <Command>
                       <CommandList>
-                        <CommandEmpty>No team found.</CommandEmpty>
                         <CommandGroup>
                           {teams.map((t) => (
                             <CommandItem
