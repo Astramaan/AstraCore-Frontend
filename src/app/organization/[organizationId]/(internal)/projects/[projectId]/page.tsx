@@ -21,7 +21,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { ShieldAlert, ChevronLeft } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { DesignDocumentsDialog } from "@/components/design-documents-dialog";
 import { useUser } from "@/context/user-context";
@@ -130,7 +130,6 @@ export default function ProjectDetailsPage() {
   const { user } = useUser();
   const [project, setProject] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -213,7 +212,6 @@ export default function ProjectDetailsPage() {
       projectAssign: project.projectAssign,
     };
     setProjectToEdit(editData as Project);
-    setIsSheetOpen(true);
   };
 
   const handleDeleteClick = () => {
@@ -257,7 +255,6 @@ export default function ProjectDetailsPage() {
 
   const handleProjectUpdated = (updatedProject: Project) => {
     setProject((prev: any) => ({ ...prev, ...updatedProject }));
-    setIsSheetOpen(false);
     setProjectToEdit(null);
   };
   
@@ -340,8 +337,12 @@ export default function ProjectDetailsPage() {
       </div>
       
       <CreateProjectSheet
-        isOpen={isSheetOpen}
-        onOpenChange={setIsSheetOpen}
+        isOpen={!!projectToEdit}
+        onOpenChange={(open) => {
+          if (!open) {
+            setProjectToEdit(null);
+          }
+        }}
         projectToEdit={projectToEdit}
         onProjectUpdated={handleProjectUpdated}
         onProjectAdded={handleProjectAdded}

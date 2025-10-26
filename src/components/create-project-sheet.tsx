@@ -791,13 +791,6 @@ export function CreateProjectSheet({
 
   const isEditMode = !!projectToEdit;
 
-  const handleClose = () => {
-    onOpenChange(false);
-    setTimeout(() => {
-      setStep(1);
-    }, 300);
-  };
-
   const handleNext = (data: any) => {
     setProjectData(data);
     onOpenChange(false);
