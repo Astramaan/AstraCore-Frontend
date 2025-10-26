@@ -127,12 +127,7 @@ const ProjectListItem = ({
           </div>
         </Link>
         {canManage && (
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
+          <div onClick={(e) => e.stopPropagation()}>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -309,8 +304,8 @@ export default function ProjectsPage() {
     setIsLoading(true);
     const result = await fetchProjectsSsr(user);
     if (result.success && result.data) {
-      const formattedProjects = result.data.map((p) => ({
-        id: p.projectId || p.id, // handle both cases
+      const formattedProjects = result.data.map((p: any) => ({
+        id: p.projectId || p.id,
         name: p.personalDetails?.name || p.name,
         city: p.projectDetails?.state || p.city,
         contact: p.personalDetails
@@ -539,11 +534,11 @@ export default function ProjectsPage() {
       </div>
 
       <CreateProjectSheet
+        isOpen={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
         projectToEdit={projectToEdit}
         onProjectUpdated={handleProjectUpdated}
         onProjectAdded={handleProjectAdded}
-        isOpen={isSheetOpen}
-        onOpenChange={setIsSheetOpen}
       />
 
       <AlertDialog

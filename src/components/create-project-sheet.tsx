@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Sheet,
   SheetContent,
@@ -17,8 +17,6 @@ import {
   ArrowRight,
   Check,
   ChevronsUpDown,
-  GanttChartSquare,
-  Calendar as CalendarIcon,
   ShieldAlert,
 } from "lucide-react";
 
@@ -30,7 +28,6 @@ import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
 import { Project } from "@/lib/data";
 import { ScrollArea } from "./ui/scroll-area";
-import { useRouter, useParams } from "next/navigation";
 import { useUser, User } from "@/context/user-context";
 import {
   AlertDialog,
@@ -118,11 +115,9 @@ const FloatingLabelTextarea = ({
 const CreateProjectForm = ({
   onNext,
   projectToEdit,
-  projectData,
 }: {
   onNext: (data: any) => void;
   projectToEdit: Project | null;
-  projectData: any;
 }) => {
   const { user } = useUser();
   const { toast } = useToast();
@@ -137,70 +132,54 @@ const CreateProjectForm = ({
   const [supervisorComboboxOpen, setSupervisorComboboxOpen] = useState(false);
 
   const [name, setName] = useState(
-    projectToEdit?.personalDetails?.name ||
-      projectData?.personalDetails?.name ||
-      "",
+    projectToEdit?.personalDetails?.name || "",
   );
   const [phone, setPhone] = useState(
-    projectToEdit?.personalDetails?.phoneNumber ||
-      projectData?.personalDetails?.phoneNumber ||
-      "",
+    projectToEdit?.personalDetails?.phoneNumber || "",
   );
   const [email, setEmail] = useState(
-    projectToEdit?.personalDetails?.email ||
-      projectData?.personalDetails?.email ||
-      "",
+    projectToEdit?.personalDetails?.email || "",
   );
   const [currentAddress, setCurrentAddress] = useState(
-    projectToEdit?.personalDetails?.currentAddress ||
-      projectData?.personalDetails?.currentAddress ||
-      "",
+    projectToEdit?.personalDetails?.currentAddress || "",
   );
 
   const [projectName, setProjectName] = useState(
     projectToEdit?.projectDetails?.projectName ||
       projectToEdit?.name ||
-      projectData?.projectDetails?.projectName ||
       `Nathvilla ${Math.floor(Math.random() * 100)}`,
   );
   const [projectType, setProjectType] = useState(
     projectToEdit?.projectType ||
-      projectData?.projectDetails?.projectType ||
+      projectToEdit?.projectDetails?.projectType ||
       "New Construction",
   );
   const [projectCost, setProjectCost] = useState(
     projectToEdit?.projectDetails?.projectCost ||
-      projectData?.projectDetails?.projectCost ||
       "50,00,000",
   );
   const [dimension, setDimension] = useState(
     projectToEdit?.projectDetails?.dimension ||
-      projectData?.projectDetails?.dimension ||
       "2000 sq.ft",
   );
   const [floor, setFloor] = useState(
     projectToEdit?.projectDetails?.floor ||
-      projectData?.projectDetails?.floor ||
       "G+2",
   );
   const [siteLocation, setSiteLocation] = useState(
     projectToEdit?.projectDetails?.siteLocation ||
-      projectData?.projectDetails?.siteLocation ||
       "Bandra West",
   );
   const [siteLocationLink, setSiteLocationLink] = useState(
     projectToEdit?.projectDetails?.siteLocationLink ||
-      projectData?.projectDetails?.siteLocationLink ||
       "https://maps.google.com/site-link",
   );
   const [architect, setArchitect] = useState(
     projectToEdit?.projectAssign?.architect ||
-      projectData?.projectAssign?.architect ||
       "",
   );
   const [siteSupervisor, setSiteSupervisor] = useState(
     projectToEdit?.projectAssign?.siteSupervisor ||
-      projectData?.projectAssign?.siteSupervisor ||
       "",
   );
   
@@ -227,8 +206,28 @@ const CreateProjectForm = ({
         setLeadEmailError("An unexpected error occurred while fetching emails.");
       }
     };
-    fetchLeadEmails();
-  }, [user]);
+    if (!projectToEdit) { // Only fetch if not in edit mode
+      fetchLeadEmails();
+    }
+  }, [user, projectToEdit]);
+  
+  useEffect(() => {
+    if(projectToEdit) {
+      setName(projectToEdit.personalDetails?.name || projectToEdit.name);
+      setPhone(projectToEdit.personalDetails?.phoneNumber || '');
+      setEmail(projectToEdit.personalDetails?.email || projectToEdit.contact.split(' | ')[0] || '');
+      setCurrentAddress(projectToEdit.personalDetails?.currentAddress || '');
+      setProjectName(projectToEdit.projectDetails?.projectName || projectToEdit.name);
+      setProjectType(projectToEdit.projectDetails?.projectType || projectToEdit.projectType);
+      setProjectCost(projectToEdit.projectDetails?.projectCost || '');
+      setDimension(projectToEdit.projectDetails?.dimension || '');
+      setFloor(projectToEdit.projectDetails?.floor || '');
+      setSiteLocation(projectToEdit.projectDetails?.siteLocation || '');
+      setSiteLocationLink(projectToEdit.projectDetails?.siteLink || '');
+      setArchitect(projectToEdit.projectAssign?.architect || '');
+      setSiteSupervisor(projectToEdit.projectAssign?.siteSupervisor || '');
+    }
+  }, [projectToEdit]);
 
   const handleContactSelect = async (selectedEmail: string) => {
     setEmail(selectedEmail);
@@ -331,81 +330,84 @@ const CreateProjectForm = ({
           <div className="space-y-6">
             <h3 className="text-lg text-muted-foreground">Personal details</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="sm:col-span-2">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="email-combobox"
-                    className={cn(
-                      "text-lg font-medium px-2",
-                      email ? "text-muted-foreground" : "text-foreground",
-                    )}
-                  >
-                    Email*
-                  </Label>
-                  <p className="text-sm text-muted-foreground px-2">
-                    Select a lead by email to automatically fill their details.
-                  </p>
-                  <Popover
-                    open={emailComboboxOpen}
-                    onOpenChange={setEmailComboboxOpen}
-                    modal={true}
-                  >
-                    <PopoverTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={emailComboboxOpen}
-                        className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
-                      >
-                        <span className="truncate">
-                          {email || "select the lead email"}
-                        </span>
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-[--radix-popover-trigger-width] p-0"
-                      portal={false}
-                      onOpenAutoFocus={(e) => e.preventDefault()}
-                    >
-                      <Command>
-                        <CommandInput placeholder="Search by email..." />
-                        <CommandList>
-                          <CommandEmpty>
-                            {leadEmailError ? (
-                              <span className="text-destructive">{leadEmailError}</span>
-                            ) : (
-                              "No results found."
-                            )}
-                          </CommandEmpty>
-                          <CommandGroup>
-                            {leadEmails.map((leadEmail) => (
-                              <CommandItem
-                                key={leadEmail}
-                                value={leadEmail}
-                                onSelect={() => handleContactSelect(leadEmail)}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    email === leadEmail
-                                      ? "opacity-100"
-                                      : "opacity-0",
-                                  )}
-                                />
-                                <span className="font-medium">
-                                  {leadEmail}
-                                </span>
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
+              {!projectToEdit && (
+                 <div className="sm:col-span-2">
+                 <div className="space-y-2">
+                   <Label
+                     htmlFor="email-combobox"
+                     className={cn(
+                       "text-lg font-medium px-2",
+                       email ? "text-muted-foreground" : "text-foreground",
+                     )}
+                   >
+                     Email*
+                   </Label>
+                   <p className="text-sm text-muted-foreground px-2">
+                     Select a lead by email to automatically fill their details.
+                   </p>
+                   <Popover
+                     open={emailComboboxOpen}
+                     onOpenChange={setEmailComboboxOpen}
+                     modal={true}
+                   >
+                     <PopoverTrigger asChild>
+                       <Button
+                         type="button"
+                         variant="outline"
+                         role="combobox"
+                         aria-expanded={emailComboboxOpen}
+                         className="w-full justify-between h-14 bg-background rounded-full px-5 text-left font-normal"
+                       >
+                         <span className="truncate">
+                           {email || "select the lead email"}
+                         </span>
+                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                       </Button>
+                     </PopoverTrigger>
+                     <PopoverContent
+                       className="w-[--radix-popover-trigger-width] p-0"
+                       portal={false}
+                       onOpenAutoFocus={(e) => e.preventDefault()}
+                     >
+                       <Command>
+                         <CommandInput placeholder="Search by email..." />
+                         <CommandList>
+                           <CommandEmpty>
+                             {leadEmailError ? (
+                               <span className="text-destructive">{leadEmailError}</span>
+                             ) : (
+                               "No results found."
+                             )}
+                           </CommandEmpty>
+                           <CommandGroup>
+                             {leadEmails.map((leadEmail) => (
+                               <CommandItem
+                                 key={leadEmail}
+                                 value={leadEmail}
+                                 onSelect={() => handleContactSelect(leadEmail)}
+                               >
+                                 <Check
+                                   className={cn(
+                                     "mr-2 h-4 w-4",
+                                     email === leadEmail
+                                       ? "opacity-100"
+                                       : "opacity-0",
+                                   )}
+                                 />
+                                 <span className="font-medium">
+                                   {leadEmail}
+                                 </span>
+                               </CommandItem>
+                             ))}
+                           </CommandGroup>
+                         </CommandList>
+                       </Command>
+                     </PopoverContent>
+                   </Popover>
+                 </div>
+               </div>
+              )}
+             
               <FloatingLabelInput
                 id="name"
                 name="name"
@@ -421,6 +423,16 @@ const CreateProjectForm = ({
                 value={phone}
                 onChange={handleNumberOnlyChange(setPhone)}
               />
+               {projectToEdit && (
+                 <FloatingLabelInput
+                 id="email-input"
+                 name="email"
+                 label="Email ID*"
+                 type="email"
+                 value={email}
+                 onChange={(e) => setEmail(e.target.value)}
+                 />
+               )}
 
               <div className="sm:col-span-2">
                 <FloatingLabelTextarea
@@ -758,8 +770,8 @@ const CreateProjectForm = ({
 };
 
 interface CreateProjectSheetProps {
-  onProjectAdded: (project: Project) => void;
-  onProjectUpdated: (project: Project) => void;
+  onProjectAdded: (project: Project, responseData: any) => void;
+  onProjectUpdated: (project: Project, responseData: any) => void;
   onOpenChange: (isOpen: boolean) => void;
   isOpen: boolean;
   projectToEdit: Project | null;
@@ -778,43 +790,23 @@ export function CreateProjectSheet({
   const [projectData, setProjectData] = useState<any>(null);
 
   const isEditMode = !!projectToEdit;
-  
-  useEffect(() => {
-    if (projectToEdit) {
-      setProjectData(projectToEdit);
-    } else {
-      setProjectData(null);
-    }
-  }, [projectToEdit]);
 
-  const handleOpenChangeInternal = (open: boolean) => {
-    if (!open) {
-      setStep(1);
-      setProjectData(null);
-    }
-    onOpenChange(open);
-  };
-  
-  const handleSuccess = (newOrUpdatedProject: Project, responseData: any) => {
-    handleOpenChangeInternal(false);
-    setSuccessData(responseData);
-    setShowSuccess(true);
-    if (isEditMode) {
-      onProjectUpdated(newOrUpdatedProject);
-    } else {
-      onProjectAdded(newOrUpdatedProject);
-    }
+  const handleClose = () => {
+    onOpenChange(false);
     setTimeout(() => {
       setStep(1);
-      setProjectData(null);
-    }, 500); // Reset step after closing
+    }, 300)
   };
 
   const handleNext = (data: any) => {
     setProjectData(data);
-    setStep(2);
+    onOpenChange(false);
+    
+    setTimeout(() => {
+      setShowSuccess(true);
+      setSuccessData({ message: isEditMode ? "Project Updated" : "New Project added" });
+    }, 500)
   };
-  const handleBack = () => setStep(1);
 
   const title = isEditMode
     ? "Edit Project"
@@ -824,7 +816,7 @@ export function CreateProjectSheet({
 
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className={cn(
@@ -861,7 +853,6 @@ export function CreateProjectSheet({
               <CreateProjectForm
                 onNext={handleNext}
                 projectToEdit={projectToEdit}
-                projectData={projectData}
               />
             ) : (
              <p>Timeline form would go here</p>
