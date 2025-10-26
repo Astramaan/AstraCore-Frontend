@@ -28,7 +28,7 @@ export default function ClientLayout({
   const isHomePage = pathname.endsWith("/home");
 
   return (
-    <div className="relative min-h-screen w-full">
+    <div className="relative min-h-screen w-full bg-background">
       {!isNativeApp && !isHomePage && (
         <header className="sticky top-2 z-20 px-2">
           <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
