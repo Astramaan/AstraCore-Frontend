@@ -89,9 +89,11 @@ export const ProjectDetailsCard = ({
   const canManage = onEdit && onDelete;
 
   return (
-    <Card className="rounded-[50px] p-6 md:p-10">
+    <Card className="rounded-[50px] p-6 md:p-10 bg-card">
       <CardHeader className="p-0 flex flex-row items-center justify-between mb-6">
-        <h4 className="text-xl font-medium">Project details</h4>
+        <h4 className="text-xl font-medium text-foreground">
+          Project details
+        </h4>
         {canManage && (
           <div onClick={(e) => e.stopPropagation()}>
             <DropdownMenu>
@@ -102,7 +104,7 @@ export const ProjectDetailsCard = ({
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="bg-zinc-100 rounded-[20px]"
+                className="bg-zinc-100 dark:bg-zinc-800 rounded-[20px]"
               >
                 <DropdownMenuItem className="rounded-[10px]" onSelect={onEdit}>
                   Edit

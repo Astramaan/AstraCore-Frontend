@@ -129,6 +129,7 @@ export default function ProjectDetailsPage() {
   const { user } = useUser();
   const [project, setProject] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -211,6 +212,7 @@ export default function ProjectDetailsPage() {
       projectAssign: project.projectAssign,
     };
     setProjectToEdit(editData as Project);
+    setIsSheetOpen(true);
   };
 
   const handleDeleteClick = () => {
@@ -297,11 +299,13 @@ export default function ProjectDetailsPage() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-medium">Project Details</h2>
+        <h2 className="text-2xl font-medium text-foreground">
+          Project Details
+        </h2>
         <Button
           variant="outline"
           onClick={() => router.back()}
-          className="rounded-full h-[54px] px-6 text-lg bg-white hover:bg-primary/10 hover:text-primary hidden md:flex"
+          className="rounded-full h-[54px] px-6 text-lg bg-card hover:bg-primary/10 hover:text-primary hidden md:flex"
         >
           <ChevronLeft className="mr-2 h-4 w-4" />
           Back
@@ -321,14 +325,14 @@ export default function ProjectDetailsPage() {
         </div>
 
         <div className="w-full xl:w-[384px] space-y-6">
-          <div className="flex flex-col gap-2 bg-zinc-100 p-1 rounded-full">
+          <div className="flex flex-col gap-2 bg-card p-1 rounded-full">
             <div className="flex flex-1 gap-2">
               <TimelineDialog />
               {canViewPayments && (
                 <PaymentsDialog>
                   <Button
                     variant="link"
-                    className="text-black text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-white hover:no-underline w-full h-[54px]"
+                    className="text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-background hover:no-underline w-full h-[54px]"
                   >
                     Payments
                   </Button>
@@ -340,16 +344,20 @@ export default function ProjectDetailsPage() {
           <ProjectMaterialsCard materials={project.materials} />
         </div>
       </div>
-      {projectToEdit && (
-        <CreateProjectSheet
-          projectToEdit={projectToEdit}
-          onProjectUpdated={handleProjectUpdated}
-          onOpenChange={(isOpen) => !isOpen && setProjectToEdit(null)}
-          onProjectAdded={() => {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      )}
+      <CreateProjectSheet
+        projectToEdit={projectToEdit}
+        isOpen={isSheetOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setProjectToEdit(null);
+          }
+          setIsSheetOpen(open);
+        }}
+        onProjectUpdated={handleProjectUpdated}
+        onProjectAdded={() => {
+          throw new Error("Function not implemented.");
+        }}
+      />
 
       <AlertDialog
         open={isDeleteDialogOpen}
