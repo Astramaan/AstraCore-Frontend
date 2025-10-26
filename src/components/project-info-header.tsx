@@ -1,8 +1,8 @@
+
 "use client";
 
 import React from "react";
 import Image from "next/image";
-import { ClientHeader } from "./client-header";
 import { Progress } from "./ui/progress";
 
 interface ProjectInfoHeaderProps {
@@ -32,11 +32,7 @@ export const ProjectInfoHeader = ({
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
 
-      <div className="relative z-20 h-full flex flex-col justify-between p-6">
-        <div className="hidden md:block">
-          <ClientHeader />
-        </div>
-
+      <div className="relative z-20 h-full flex flex-col justify-end p-6">
         <div className="space-y-4">
           <div className="flex justify-between items-end">
             <div>
