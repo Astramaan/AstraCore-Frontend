@@ -297,7 +297,8 @@ export default function ProjectsPage() {
   const organizationId = (params.organizationId as string) || "habi123";
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [projectToEdit, setProjectToEdit] = useState<Project | null>(null);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
+  const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -309,7 +310,7 @@ export default function ProjectsPage() {
     setIsLoading(true);
     const result = await fetchProjectsSsr(user);
     if (result.success && result.data) {
-      const formattedProjects = result.data.map((p: any) => ({
+      const formattedProjects = result.data.map((p) => ({
         id: p.projectId,
         name: p.personalDetails.name,
         city: p.projectDetails.state,
@@ -359,12 +360,7 @@ export default function ProjectsPage() {
 
   const handleEdit = (project: Project) => {
     setProjectToEdit(project);
-    setIsSheetOpen(true);
-  };
-
-  const handleCloseSheet = () => {
-    setIsSheetOpen(false);
-    setProjectToEdit(null);
+    setIsEditSheetOpen(true);
   };
 
   const handleDeleteClick = (project: Project) => {
@@ -418,7 +414,7 @@ export default function ProjectsPage() {
     );
     fetchProjects();
     setProjectToEdit(null);
-    setIsSheetOpen(false);
+    setIsEditSheetOpen(false);
   };
 
   const canCreateProject =
@@ -445,12 +441,9 @@ export default function ProjectsPage() {
                 <CreateProjectSheet
                   onProjectAdded={handleProjectAdded}
                   onProjectUpdated={handleProjectUpdated}
-                  onOpenChange={(isOpen) => {
-                    if (!isOpen) setProjectToEdit(null);
-                    setIsSheetOpen(isOpen);
-                  }}
-                  isOpen={isSheetOpen && !projectToEdit}
-                  setIsOpen={setIsSheetOpen}
+                  onOpenChange={setIsCreateSheetOpen}
+                  isOpen={isCreateSheetOpen}
+                  projectToEdit={null}
                 />
               )}
             </div>
@@ -476,12 +469,9 @@ export default function ProjectsPage() {
                 <CreateProjectSheet
                   onProjectAdded={handleProjectAdded}
                   onProjectUpdated={handleProjectUpdated}
-                  onOpenChange={(isOpen) => {
-                    if (!isOpen) setProjectToEdit(null);
-                    setIsSheetOpen(isOpen);
-                  }}
-                  isOpen={isSheetOpen && !projectToEdit}
-                  setIsOpen={setIsSheetOpen}
+                  onOpenChange={setIsCreateSheetOpen}
+                  isOpen={isCreateSheetOpen}
+                  projectToEdit={null}
                 />
               )}
             </div>
@@ -549,19 +539,15 @@ export default function ProjectsPage() {
           </CardContent>
         </Card>
       </div>
-      
+
       {projectToEdit && (
         <CreateProjectSheet
           projectToEdit={projectToEdit}
           onProjectUpdated={handleProjectUpdated}
-          onOpenChange={(isOpen) => {
-            if (!isOpen) setProjectToEdit(null);
-            setIsSheetOpen(isOpen);
-          }}
-          isOpen={isSheetOpen && !!projectToEdit}
-          setIsOpen={setIsSheetOpen} onProjectAdded={function (project: Project): void {
-            throw new Error("Function not implemented.");
-          } }        />
+          onOpenChange={setIsEditSheetOpen}
+          isOpen={isEditSheetOpen}
+          onProjectAdded={() => {}}
+        />
       )}
 
       <AlertDialog
@@ -579,8 +565,8 @@ export default function ProjectsPage() {
               Confirm Project Deletion?
             </AlertDialogTitle>
             <AlertDialogDescription className="text-lg text-muted-foreground">
-              Deleting project "{projectToDelete?.name}" will permanently remove
-              it. This action cannot be undone.
+              Deleting project &quot;{projectToDelete?.name}&quot; will
+              permanently remove it. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="sm:justify-center gap-4 pt-4">

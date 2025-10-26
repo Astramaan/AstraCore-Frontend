@@ -239,7 +239,7 @@ const CreateProjectForm = ({
         });
         const result = await res.json();
         if (result.success && Array.isArray(result.data)) {
-           const emails = result.data.map((item: any) => item.inviteeEmail);
+           const emails = result.data.map((item) => item.inviteeEmail);
           setLeadEmails(emails);
         } else {
           setLeadEmailError(result.message || "Failed to load lead emails.");
@@ -1587,23 +1587,19 @@ const CustomTimelineDialog = ({
 };
 
 interface CreateProjectSheetProps {
-  trigger?: React.ReactNode;
   onProjectAdded: (project: Project) => void;
   onProjectUpdated: (project: Project) => void;
   onOpenChange: (isOpen: boolean) => void;
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
   projectToEdit: Project | null;
 }
 
 export function CreateProjectSheet({
-  trigger,
   onProjectAdded,
   projectToEdit,
   onProjectUpdated,
   onOpenChange,
   isOpen,
-  setIsOpen,
 }: CreateProjectSheetProps) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successData, setSuccessData] = useState<any>(null);
@@ -1623,12 +1619,10 @@ export function CreateProjectSheet({
       setStep(1);
       setProjectData(null);
     }
-    setIsOpen(open);
     onOpenChange(open);
   };
 
   const handleSuccess = (newOrUpdatedProject: Project, responseData: any) => {
-    setIsOpen(false);
     onOpenChange(false);
     setSuccessData(responseData);
     setShowSuccess(true);
@@ -1665,10 +1659,7 @@ export function CreateProjectSheet({
   return (
     <>
       <Sheet open={isOpen} onOpenChange={handleOpenChangeInternal}>
-        {!isEditMode && trigger && (
-          <SheetTrigger asChild>{trigger}</SheetTrigger>
-        )}
-        {!isEditMode && !trigger && (
+        {!isEditMode && (
           <SheetTrigger asChild>{DefaultTrigger}</SheetTrigger>
         )}
         <SheetContent
