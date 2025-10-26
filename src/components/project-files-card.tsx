@@ -204,12 +204,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
 
   return (
     <>
-      <Card className="rounded-[50px] p-6 md:p-10 bg-card text-card-foreground">
-        <CardHeader className="p-0 mb-6">
-          <CardTitle className="text-xl font-medium">
-            Design & Documents
-          </CardTitle>
-        </CardHeader>
+      <Card className="rounded-[50px] p-0 bg-card text-card-foreground">
         <CardContent className="p-0">
           <Accordion type="single" collapsible className="w-full space-y-4">
             {phases.map((phase) => {
