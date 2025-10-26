@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -222,7 +223,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
                 <AccordionItem
                   key={phase.name}
                   value={phase.name}
-                  className="bg-background dark:bg-input rounded-[24px] border-none"
+                  className="bg-background rounded-[24px] border-none"
                 >
                   <AccordionTrigger className="px-6 text-lg font-medium text-foreground hover:no-underline">
                     <div className="flex items-center gap-3">
