@@ -89,24 +89,24 @@ export const OrganizationHeader = () => {
               <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
                 <Button
                   className={cn(
-                    "group rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center bg-black/20 dark:bg-black/30 backdrop-blur-sm hover:bg-primary/10 dark:hover:bg-primary/20",
+                    "group rounded-full h-[54px] px-4 lg:px-10 text-base lg:text-lg font-medium flex items-center backdrop-blur-sm",
                     isTeamsActive
-                      ? "bg-primary text-white"
-                      : "text-white",
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-black/20 dark:bg-black/30 text-white hover:bg-primary/10 dark:hover:bg-primary/20",
                   )}
                 >
                   <TeamIcon
                     className={cn(
                       "mr-2 h-6 w-6",
                       isTeamsActive
-                        ? "text-white"
+                        ? "text-primary-foreground"
                         : "text-white group-hover:text-primary dark:group-hover:text-primary",
                     )}
                   />
                   <span
                     className={cn(
                       isTeamsActive
-                        ? "text-white"
+                        ? "text-primary-foreground"
                         : "text-white group-hover:text-primary dark:group-hover:text-primary",
                     )}
                   >
