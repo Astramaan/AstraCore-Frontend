@@ -50,6 +50,7 @@ import {
   CommandList,
 } from "./ui/command";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import { Card, CardContent } from "./ui/card";
 
 const mockUsers: User[] = [
   { userId: 'USR001', name: 'Alice Architect', email: 'alice@habi.one', role: 'ORG_MEMBER', team: 'Architect', mobileNumber: '1111111111', organizationId: '', orgCode: '' },
@@ -229,7 +230,7 @@ const ProjectTimelineForm = ({
   const AddStageInput = ({ phaseId }: { phaseId: number }) => {
     const [stageTitle, setStageTitle] = useState("");
     return (
-      <div className="flex gap-2 ml-4 mt-2">
+      <div className="flex gap-2 p-2 bg-muted/50 rounded-lg">
         <Input
           value={stageTitle}
           onChange={(e) => setStageTitle(e.target.value)}
@@ -245,7 +246,7 @@ const ProjectTimelineForm = ({
             setStageTitle("");
           }}
         >
-          Add Stage
+          <Plus className="h-4 w-4 mr-1" /> Stage
         </Button>
       </div>
     );
@@ -256,14 +257,16 @@ const ProjectTimelineForm = ({
     const [taskDuration, setTaskDuration] = useState("");
 
     return (
-      <div className="flex gap-2 ml-8 mt-2">
+      <div className="flex gap-2 items-center p-2 bg-muted/30 rounded-lg">
         <Input value={taskTitle} onChange={e => setTaskTitle(e.target.value)} placeholder="Task title" className="h-9 rounded-full bg-background"/>
-        <Input value={taskDuration} onChange={e => setTaskDuration(e.target.value)} placeholder="Duration" className="h-9 rounded-full w-28 bg-background"/>
-        <Button type="button" size="sm" className="rounded-full" onClick={() => {
+        <Input value={taskDuration} onChange={e => setTaskDuration(e.target.value)} placeholder="e.g. 2d, 1w" className="h-9 w-24 rounded-full bg-background"/>
+        <Button type="button" size="icon" className="rounded-full h-9 w-9 shrink-0" onClick={() => {
             handleAddTask(phaseId, stageId, {title: taskTitle, duration: taskDuration});
             setTaskTitle('');
             setTaskDuration('');
-        }}>Add Task</Button>
+        }}>
+          <Plus className="h-4 w-4"/>
+        </Button>
       </div>
     )
   }
@@ -316,39 +319,48 @@ const ProjectTimelineForm = ({
                 className="h-12 rounded-full bg-background"
               />
               <Button onClick={handleAddPhase} className="h-12 rounded-full">
+                <Plus className="mr-2 h-4 w-4"/>
                 Add Phase
               </Button>
             </div>
             
             <Accordion type="multiple" className="w-full space-y-2">
               {phases.map((phase) => (
-                <AccordionItem key={phase.id} value={`phase-${phase.id}`} className="bg-background rounded-lg border">
-                  <div className="flex items-center pr-4">
-                    <AccordionTrigger className="flex-1 hover:no-underline px-4 py-2">{phase.title}</AccordionTrigger>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleRemovePhase(phase.id)}><Trash2 className="h-4 w-4"/></Button>
+                <AccordionItem key={phase.id} value={`phase-${phase.id}`} className="bg-background rounded-2xl border">
+                  <div className="flex items-center pr-2">
+                    <AccordionTrigger className="flex-1 hover:no-underline px-4 py-3 text-lg font-semibold">{phase.title}</AccordionTrigger>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive rounded-full" onClick={() => handleRemovePhase(phase.id)}><Trash2 className="h-4 w-4"/></Button>
                   </div>
-                  <AccordionContent>
-                    <div className="pl-4 pr-2 pb-2 space-y-2">
-                      {phase.stages.map((stage) => (
-                        <div key={stage.id} className="bg-card p-3 rounded-md">
-                          <div className="flex items-center justify-between">
-                             <p className="font-semibold">{stage.title}</p>
-                             <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleRemoveStage(phase.id, stage.id)}><Trash2 className="h-4 w-4"/></Button>
-                          </div>
-                          <div className="pl-4 mt-2 space-y-1">
-                              {stage.tasks.map(task => (
-                                  <div key={task.id} className="flex justify-between items-center text-sm">
-                                      <span>{task.title}</span>
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-muted-foreground">{task.duration}</span>
-                                        <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive" onClick={() => handleRemoveTask(phase.id, stage.id, task.id)}><Trash2 className="h-3 w-3"/></Button>
+                  <AccordionContent className="px-4 pb-4">
+                    <div className="space-y-4">
+                      {phase.stages.length > 0 ? (
+                        phase.stages.map((stage) => (
+                          <Card key={stage.id} className="bg-card p-3 rounded-xl shadow-none">
+                            <CardContent className="p-0">
+                              <div className="flex items-center justify-between mb-2">
+                                <p className="font-semibold text-base">{stage.title}</p>
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive rounded-full" onClick={() => handleRemoveStage(phase.id, stage.id)}><Trash2 className="h-4 w-4"/></Button>
+                              </div>
+                              <div className="space-y-2">
+                                  {stage.tasks.length > 0 ? stage.tasks.map(task => (
+                                      <div key={task.id} className="flex justify-between items-center text-sm p-2 bg-background rounded-md">
+                                          <span>{task.title}</span>
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-muted-foreground text-xs font-mono">{task.duration}</span>
+                                            <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive rounded-full" onClick={() => handleRemoveTask(phase.id, stage.id, task.id)}><Trash2 className="h-3 w-3"/></Button>
+                                          </div>
                                       </div>
-                                  </div>
-                              ))}
-                              <AddTaskInput phaseId={phase.id} stageId={stage.id}/>
-                          </div>
-                        </div>
-                      ))}
+                                  )) : (
+                                    <p className="text-xs text-muted-foreground p-2">No tasks yet. Add one below.</p>
+                                  )}
+                                  <AddTaskInput phaseId={phase.id} stageId={stage.id}/>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))
+                      ) : (
+                         <p className="text-sm text-muted-foreground text-center py-4">No stages yet. Add one below.</p>
+                      )}
                       <AddStageInput phaseId={phase.id}/>
                     </div>
                   </AccordionContent>
