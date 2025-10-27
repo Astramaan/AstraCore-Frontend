@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useRef } from "react";
 import {
   Sheet,
   SheetContent,
@@ -187,15 +187,6 @@ const AddLeadForm = ({
             onChange={(e) => setFullName(e.target.value)}
             required
           />
-          <FloatingLabelInput
-            id="phone-number"
-            name="phoneNumber"
-            label="Phone Number"
-            type="tel"
-            value={phone}
-            onChange={handlePhoneChange}
-            required
-          />
           <div>
             <FloatingLabelInput
               id="email-id"
@@ -207,11 +198,18 @@ const AddLeadForm = ({
               required
             />
             {emailError && (
-              <p className="text-destructive text-sm mt-1 px-4">
-                {emailError}
-              </p>
+              <p className="text-destructive text-sm mt-1 px-4">{emailError}</p>
             )}
           </div>
+          <FloatingLabelInput
+            id="phone-number"
+            name="phoneNumber"
+            label="Phone Number"
+            type="tel"
+            value={phone}
+            onChange={handlePhoneChange}
+            required
+          />
           <div>
             <FloatingLabelInput
               id="pincode"
