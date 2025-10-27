@@ -180,7 +180,7 @@ export default function AuthForm() {
               className="w-full h-[54px] rounded-full"
               disabled={isSubmitting || loading}
             >
-              {isSubmitting || loading ? "Logging in..." : "Login"}
+              Login
             </Button>
           </div>
 
