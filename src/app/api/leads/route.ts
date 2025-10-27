@@ -46,20 +46,15 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // The backend expects the lead details inside an `inviteeDetails` object.
-    const payload = {
-        inviteeDetails: body
-    };
-
     console.log(
       "Sending payload to backend:",
-      JSON.stringify(payload, null, 2),
+      JSON.stringify(body, null, 2),
     );
 
     const res = await fetch(`${API_BASE_URL}/leads`, {
       method: "POST",
       headers: getAuthHeaders(req),
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
     });
 
     const text = await res.text();
