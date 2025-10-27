@@ -37,7 +37,7 @@ export const TaskCard = ({
   const priorityColors: { [key: string]: string } = {
     Low: "bg-cyan-500/10 text-cyan-500",
     Medium: "bg-yellow-500/10 text-yellow-500",
-    High: "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/30",
+    High: "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400",
   };
 
   const statusColors: { [key: string]: string } = {
