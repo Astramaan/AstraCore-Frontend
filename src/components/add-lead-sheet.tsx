@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useTransition } from "react";
@@ -127,21 +128,18 @@ const AddLeadForm = ({
 
     startTransition(async () => {
       const payload = {
-        inviteeDetails: {
-          inviteeName: fullName,
-          inviteeMobileNumber: phone,
-          inviteeEmail: email,
-          inviteeRole: "LEAD",
-          siteLocationPinCode: pincode,
-        },
+        inviteeName: fullName,
+        inviteeMobileNumber: phone,
+        inviteeEmail: email,
+        inviteeRole: "LEAD",
+        siteLocationPinCode: pincode,
       };
 
       try {
-        const res = await fetch(`/api/invite`, {
+        const res = await fetch(`/api/leads`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.userId}`,
             "x-user": JSON.stringify(user),
           },
           body: JSON.stringify(payload),
