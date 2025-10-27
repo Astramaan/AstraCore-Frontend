@@ -204,7 +204,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
 
   return (
     <>
-      <Card className="rounded-[50px] p-0 bg-card text-card-foreground">
+      <Card className="rounded-[50px] p-0 bg-transparent text-card-foreground shadow-none border-none">
         <CardContent className="p-0">
           <Accordion type="single" collapsible className="w-full space-y-4">
             {phases.map((phase) => {
@@ -218,7 +218,7 @@ export const ProjectFilesCard = ({ phases }: ProjectFilesCardProps) => {
                 <AccordionItem
                   key={phase.name}
                   value={phase.name}
-                  className="bg-background rounded-[24px] border-none"
+                  className="bg-card rounded-[24px] border-none"
                 >
                   <AccordionTrigger className="px-6 text-lg font-medium text-foreground hover:no-underline">
                     <div className="flex items-center gap-3">

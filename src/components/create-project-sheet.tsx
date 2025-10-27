@@ -771,7 +771,7 @@ const CreateProjectForm = ({
 
 interface CreateProjectSheetProps {
   onProjectAdded?: (project: Project, responseData: any) => void;
-  onProjectUpdated?: (project: Project, responseData: any) => void;
+  onProjectUpdated?: (project: Project) => void;
   projectToEdit: Project | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -797,19 +797,17 @@ export function CreateProjectSheet({
 
     setTimeout(() => {
       setShowSuccess(true);
+      if (isEditMode && onProjectUpdated) {
+        onProjectUpdated({ ...projectToEdit, ...data } as Project);
+      } else if(onProjectAdded){
+        onProjectAdded(data as Project, {}); // Assuming some response data
+      }
       setSuccessData({
         message: isEditMode ? "Project Updated" : "New Project added",
       });
     }, 500);
   };
-
-  const handleClose = () => {
-    onOpenChange(false);
-    setTimeout(() => {
-      setStep(1);
-    }, 300);
-  };
-
+  
   const title = isEditMode
     ? "Edit Project"
     : step === 1
@@ -844,6 +842,7 @@ export function CreateProjectSheet({
                   variant="ghost"
                   size="icon"
                   className="w-[54px] h-[54px] bg-background dark:bg-input rounded-full"
+                  onClick={() => onOpenChange(false)}
                 >
                   <X className="h-6 w-6" />
                 </Button>

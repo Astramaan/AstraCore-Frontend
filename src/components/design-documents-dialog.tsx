@@ -79,7 +79,7 @@ export const DesignDocumentsDialog = ({
       <DialogOrSheetTrigger asChild>
         <Button
           variant="link"
-          className="text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-background dark:bg-white dark:text-black hover:no-underline w-full h-[54px]"
+          className="text-foreground text-lg hover:bg-primary/10 hover:text-primary flex-1 rounded-full bg-card dark:bg-white dark:text-black hover:no-underline w-full h-[54px]"
         >
           Design & Documents
         </Button>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from "react";
@@ -84,14 +85,6 @@ export const StageCard = ({
     name: string;
     url: string;
   } | null>(null);
-
-  const handlePdfClick = (
-    e: React.MouseEvent,
-    doc: { name: string; url: string },
-  ) => {
-    e.stopPropagation();
-    setSelectedPdf(doc);
-  };
 
   const handleCardClick = () => {
     if (onCardClick) {

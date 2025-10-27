@@ -156,6 +156,7 @@ export const ProjectDetailsCard = ({
             </>
           )}
           <div className={cn("space-y-6", personalInfo ? "" : "col-span-full")}>
+             <h4 className="text-lg font-medium text-muted-foreground mb-4">Project details</h4>
             <div
               className={cn(
                 "grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8",

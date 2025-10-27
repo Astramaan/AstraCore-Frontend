@@ -337,9 +337,7 @@ export default function ProjectDetailsPage() {
       
       <CreateProjectSheet
         open={!!projectToEdit}
-        onOpenChange={(open) => {
-          if (!open) setProjectToEdit(null);
-        }}
+        onOpenChange={(open) => !open && setProjectToEdit(null)}
         projectToEdit={projectToEdit}
         onProjectUpdated={handleProjectUpdated}
         onProjectAdded={handleProjectAdded}
