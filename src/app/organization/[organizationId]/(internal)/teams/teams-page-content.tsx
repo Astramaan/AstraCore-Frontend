@@ -86,7 +86,7 @@ const RoleCard = ({
             </span>
           </p>
           <Button
-            className="h-14 px-10 rounded-full bg-background dark:bg-background text-foreground dark:text-white hover:bg-muted text-lg font-medium"
+            className="h-14 px-10 rounded-full bg-background dark:bg-background text-foreground dark:text-white hover:bg-primary/10 hover:text-primary text-lg font-medium"
             onClick={() => onViewMembers(role)}
           >
             View Members
@@ -130,7 +130,7 @@ const RoleCard = ({
             </p>
           </div>
           <Button
-            className="h-12 px-6 w-full rounded-full bg-background text-foreground dark:text-white hover:bg-muted text-base font-medium self-end"
+            className="h-12 px-6 w-full rounded-full bg-background text-foreground dark:text-white hover:bg-primary/10 hover:text-primary text-base font-medium self-end"
             onClick={() => onViewMembers(role)}
           >
             View Members
