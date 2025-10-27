@@ -1,5 +1,7 @@
+
 "use client";
 
+import React from "react";
 import {
   Popover,
   PopoverContent,
@@ -76,11 +78,12 @@ export function NotificationPopover({
 }: {
   userType?: "client" | "organization";
 }) {
+  const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
   const notifications =
     userType === "client" ? clientNotifications : orgNotifications;
   return (
     <ClientOnly>
-      <Popover>
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
           <div className="relative p-px rounded-full bg-gradient-to-br from-white/50 to-white/0 dark:from-white/20 dark:to-white/0">
             <Button
@@ -109,7 +112,10 @@ export function NotificationPopover({
             ))}
           </div>
           <div className="p-2 border-t mt-2">
-            <AllNotificationsDialog userType={userType} />
+            <AllNotificationsDialog
+              userType={userType}
+              onOpen={() => setIsPopoverOpen(false)}
+            />
           </div>
         </PopoverContent>
       </Popover>

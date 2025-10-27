@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -119,8 +120,10 @@ const NotificationItem = ({
 
 export function AllNotificationsDialog({
   userType = "organization",
+  onOpen,
 }: {
   userType?: "client" | "organization";
+  onOpen?: () => void;
 }) {
   const notifications =
     userType === "client" ? clientNotifications : orgNotifications;
@@ -128,7 +131,11 @@ export function AllNotificationsDialog({
     <ClientOnly>
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="link" className="w-full text-primary">
+          <Button
+            variant="link"
+            className="w-full text-primary"
+            onClick={onOpen}
+          >
             View all notifications
           </Button>
         </SheetTrigger>
