@@ -69,7 +69,7 @@ export const TaskCard = ({
               {task.title}
             </h3>
             <div className="flex-shrink-0 flex gap-2">
-              <Badge className={cn(priorityColors[task.priority], "text-red-500")}>
+              <Badge className={cn(priorityColors[task.priority])}>
                 {task.priority}
               </Badge>
             </div>
