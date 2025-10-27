@@ -46,24 +46,18 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    console.log(
-      "Sending payload to backend:",
-      JSON.stringify(body, null, 2),
-    );
-
+    const payload = {
+      inviteeDetails: body,
+    };
+    
     const res = await fetch(`${API_BASE_URL}/invites`, {
       method: "POST",
       headers: getAuthHeaders(req),
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
 
     const text = await res.text();
-    console.log("Received response from backend:", {
-      status: res.status,
-      statusText: res.statusText,
-      body: text,
-    });
-
+    
     if (!text) {
       if (res.ok) {
         return new NextResponse(

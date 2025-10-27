@@ -133,6 +133,7 @@ const AddMemberForm = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setBackendError(null);
     const payload = {
       inviteeDetails: {
         inviteeName: name,
@@ -390,7 +391,7 @@ export function AddMemberSheet({
             }
           }}
         >
-          <SheetHeader className="p-6 border-b">
+          <SheetHeader className="p-6 border-b rounded-t-[50px] bg-card">
             <div className="flex items-center justify-between">
               <SheetTitle className="flex items-center text-2xl font-semibold">
                 <div className="p-3.5 rounded-[50px] outline outline-1 outline-offset-[-1px] outline-grey-1 mr-2">
@@ -414,7 +415,7 @@ export function AddMemberSheet({
           </div>
         </SheetContent>
       </Sheet>
-      <AlertDialog
+       <AlertDialog
         open={!!backendError}
         onOpenChange={() => setBackendError(null)}
       >
@@ -428,14 +429,14 @@ export function AddMemberSheet({
             <AlertDialogTitle className="text-2xl font-semibold">
               Error Adding Member
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg text-grey-1">
+            <AlertDialogDescription className="text-lg text-muted-foreground">
               {backendError}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
             <AlertDialogAction
               onClick={() => setBackendError(null)}
-              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-black dark:text-black hover:bg-primary/90"
+              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90"
             >
               OK
             </AlertDialogAction>
