@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useTransition } from "react";
 import {
   Sheet,
   SheetContent,
@@ -20,6 +20,7 @@ import {
   ShieldAlert,
   Calendar as CalendarIcon,
   Trash2,
+  Plus,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -48,6 +49,7 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 
 const mockUsers: User[] = [
   { userId: 'USR001', name: 'Alice Architect', email: 'alice@habi.one', role: 'ORG_MEMBER', team: 'Architect', mobileNumber: '1111111111', organizationId: '', orgCode: '' },
@@ -114,6 +116,24 @@ const FloatingLabelTextarea = ({
   </div>
 );
 
+interface TimelineTask {
+  id: number;
+  title: string;
+  duration: string;
+}
+
+interface TimelineStage {
+  id: number;
+  title: string;
+  tasks: TimelineTask[];
+}
+
+interface TimelinePhase {
+  id: number;
+  title: string;
+  stages: TimelineStage[];
+}
+
 const ProjectTimelineForm = ({
   onBack,
   onSave,
@@ -122,101 +142,224 @@ const ProjectTimelineForm = ({
   onSave: () => void;
 }) => {
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
-  const [stages, setStages] = useState([
-    { title: "Design Presentation", duration: "2 Days" },
-    { title: "Excavation", duration: "5 Days" },
-  ]);
-  const [newStageTitle, setNewStageTitle] = useState("");
-  const [newStageDuration, setNewStageDuration] = useState("");
+  const [phases, setPhases] = useState<TimelinePhase[]>([]);
+  const [newPhaseTitle, setNewPhaseTitle] = useState("");
 
-  const handleAddStage = () => {
-    if (newStageTitle && newStageDuration) {
-      setStages([...stages, { title: newStageTitle, duration: newStageDuration }]);
-      setNewStageTitle("");
-      setNewStageDuration("");
+  const handleAddPhase = () => {
+    if (newPhaseTitle.trim()) {
+      setPhases([
+        ...phases,
+        { id: Date.now(), title: newPhaseTitle, stages: [] },
+      ]);
+      setNewPhaseTitle("");
     }
   };
 
-  const handleRemoveStage = (index: number) => {
-    setStages(stages.filter((_, i) => i !== index));
+  const handleRemovePhase = (phaseId: number) => {
+    setPhases(phases.filter((p) => p.id !== phaseId));
+  };
+  
+  const handleAddStage = (phaseId: number, stageTitle: string) => {
+    if (stageTitle.trim()) {
+      setPhases(
+        phases.map((p) =>
+          p.id === phaseId
+            ? {
+                ...p,
+                stages: [
+                  ...p.stages,
+                  { id: Date.now(), title: stageTitle, tasks: [] },
+                ],
+              }
+            : p,
+        ),
+      );
+    }
   };
 
+  const handleRemoveStage = (phaseId: number, stageId: number) => {
+     setPhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? { ...p, stages: p.stages.filter((s) => s.id !== stageId) }
+          : p
+      )
+    );
+  };
+  
+  const handleAddTask = (phaseId: number, stageId: number, task: {title: string, duration: string}) => {
+     if (task.title.trim() && task.duration.trim()) {
+      setPhases(
+        phases.map((p) =>
+          p.id === phaseId
+            ? {
+                ...p,
+                stages: p.stages.map((s) =>
+                  s.id === stageId
+                    ? {
+                        ...s,
+                        tasks: [...s.tasks, { ...task, id: Date.now() }],
+                      }
+                    : s,
+                ),
+              }
+            : p,
+        ),
+      );
+    }
+  };
+
+  const handleRemoveTask = (phaseId: number, stageId: number, taskId: number) => {
+    setPhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? {
+              ...p,
+              stages: p.stages.map((s) =>
+                s.id === stageId
+                  ? { ...s, tasks: s.tasks.filter((t) => t.id !== taskId) }
+                  : s
+              ),
+            }
+          : p
+      )
+    );
+  };
+
+  const AddStageInput = ({ phaseId }: { phaseId: number }) => {
+    const [stageTitle, setStageTitle] = useState("");
+    return (
+      <div className="flex gap-2 ml-4 mt-2">
+        <Input
+          value={stageTitle}
+          onChange={(e) => setStageTitle(e.target.value)}
+          placeholder="New stage title"
+          className="h-10 rounded-full bg-background"
+        />
+        <Button
+          type="button"
+          size="sm"
+          className="rounded-full"
+          onClick={() => {
+            handleAddStage(phaseId, stageTitle);
+            setStageTitle("");
+          }}
+        >
+          Add Stage
+        </Button>
+      </div>
+    );
+  };
+  
+  const AddTaskInput = ({ phaseId, stageId }: { phaseId: number, stageId: number }) => {
+    const [taskTitle, setTaskTitle] = useState("");
+    const [taskDuration, setTaskDuration] = useState("");
+
+    return (
+      <div className="flex gap-2 ml-8 mt-2">
+        <Input value={taskTitle} onChange={e => setTaskTitle(e.target.value)} placeholder="Task title" className="h-9 rounded-full bg-background"/>
+        <Input value={taskDuration} onChange={e => setTaskDuration(e.target.value)} placeholder="Duration" className="h-9 rounded-full w-28 bg-background"/>
+        <Button type="button" size="sm" className="rounded-full" onClick={() => {
+            handleAddTask(phaseId, stageId, {title: taskTitle, duration: taskDuration});
+            setTaskTitle('');
+            setTaskDuration('');
+        }}>Add Task</Button>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col h-full">
-       <ScrollArea className="flex-1 p-6 no-scrollbar">
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <Label className="text-lg font-medium px-2 text-foreground">
-            Project Start Date*
-          </Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                  !startDate && "text-muted-foreground",
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {startDate ? (
-                  startDate.toLocaleDateString()
-                ) : (
-                  <span>Pick a date</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={startDate}
-                onSelect={setStartDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
+      <ScrollArea className="flex-1 p-6 no-scrollbar">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <Label className="text-lg font-medium px-2 text-foreground">
+              Project Start Date*
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                    !startDate && "text-muted-foreground",
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {startDate ? (
+                    startDate.toLocaleDateString()
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={startDate}
+                  onSelect={setStartDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
 
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium text-foreground">Add Stages</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-4 items-end">
-            <FloatingLabelInput
-              id="new-stage-title"
-              label="Stage Title"
-              value={newStageTitle}
-              onChange={(e) => setNewStageTitle(e.target.value)}
-              placeholder="e.g., Foundation Work"
-            />
-            <FloatingLabelInput
-              id="new-stage-duration"
-              label="Duration"
-              value={newStageDuration}
-              onChange={(e) => setNewStageDuration(e.target.value)}
-              placeholder="e.g., 10 Days"
-            />
-            <Button onClick={handleAddStage} className="h-14 rounded-full" type="button">Add</Button>
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium text-foreground">
+              Project Timeline
+            </h3>
+            <div className="flex gap-2">
+              <Input
+                value={newPhaseTitle}
+                onChange={(e) => setNewPhaseTitle(e.target.value)}
+                placeholder="Enter new phase title"
+                className="h-12 rounded-full bg-background"
+              />
+              <Button onClick={handleAddPhase} className="h-12 rounded-full">
+                Add Phase
+              </Button>
+            </div>
+            
+            <Accordion type="multiple" className="w-full space-y-2">
+              {phases.map((phase) => (
+                <AccordionItem key={phase.id} value={`phase-${phase.id}`} className="bg-background rounded-lg border">
+                  <div className="flex items-center pr-4">
+                    <AccordionTrigger className="flex-1 hover:no-underline px-4 py-2">{phase.title}</AccordionTrigger>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleRemovePhase(phase.id)}><Trash2 className="h-4 w-4"/></Button>
+                  </div>
+                  <AccordionContent>
+                    <div className="pl-4 pr-2 pb-2 space-y-2">
+                      {phase.stages.map((stage) => (
+                        <div key={stage.id} className="bg-card p-3 rounded-md">
+                          <div className="flex items-center justify-between">
+                             <p className="font-semibold">{stage.title}</p>
+                             <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleRemoveStage(phase.id, stage.id)}><Trash2 className="h-4 w-4"/></Button>
+                          </div>
+                          <div className="pl-4 mt-2 space-y-1">
+                              {stage.tasks.map(task => (
+                                  <div key={task.id} className="flex justify-between items-center text-sm">
+                                      <span>{task.title}</span>
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-muted-foreground">{task.duration}</span>
+                                        <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive" onClick={() => handleRemoveTask(phase.id, stage.id, task.id)}><Trash2 className="h-3 w-3"/></Button>
+                                      </div>
+                                  </div>
+                              ))}
+                              <AddTaskInput phaseId={phase.id} stageId={stage.id}/>
+                          </div>
+                        </div>
+                      ))}
+                      <AddStageInput phaseId={phase.id}/>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
-
-        <div className="space-y-4">
-           <h3 className="text-lg font-medium text-foreground">Timeline Stages</h3>
-          {stages.map((stage, index) => (
-            <div key={index} className="flex items-center justify-between bg-background p-4 rounded-full">
-              <span className="font-medium">{stage.title}</span>
-              <div className="flex items-center gap-4">
-                <span className="text-muted-foreground">{stage.duration}</span>
-                <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(index)} className="h-8 w-8 text-destructive">
-                  <Trash2 className="h-4 w-4"/>
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
       </ScrollArea>
       <div className="p-6 mt-auto border-t md:border-0 flex justify-between gap-4 shrink-0">
-         <Button
+        <Button
           type="button"
           variant="outline"
           className="h-14 rounded-full px-10 text-lg"
@@ -1026,3 +1169,4 @@ export function CreateProjectSheet({
   );
 }
 
+    
