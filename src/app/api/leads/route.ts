@@ -46,8 +46,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // Correctly pass the body which already has the inviteeDetails object
-    const payload = body;
+    // The backend expects the lead details inside an `inviteeDetails` object.
+    const payload = {
+        inviteeDetails: body
+    };
 
     console.log(
       "Sending payload to backend:",
