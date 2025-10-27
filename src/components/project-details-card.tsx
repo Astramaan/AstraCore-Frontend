@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -10,6 +11,9 @@ import {
   Layers,
   Activity,
   MapPin,
+  User,
+  Mail,
+  Phone,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -35,13 +39,13 @@ const DetailField = ({
   fullWidth = false,
   icon,
 }: DetailFieldProps) => (
-  <div className={cn("flex items-center gap-4", fullWidth ? "col-span-2" : "")}>
+  <div className={cn("flex items-start gap-4", fullWidth && "col-span-2")}>
     {icon && (
-      <div className="w-12 h-12 rounded-full bg-background flex items-center justify-center text-primary">
+      <div className="w-12 h-12 rounded-full bg-accent/30 flex items-center justify-center text-primary shrink-0">
         {icon}
       </div>
     )}
-    <div className="space-y-1">
+    <div className="space-y-1 overflow-hidden">
       <Label className="text-sm md:text-base font-medium text-muted-foreground">
         {label}
       </Label>
@@ -121,7 +125,7 @@ export const ProjectDetailsCard = ({
         )}
       </CardHeader>
       <CardContent className="p-0 flex justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-x-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-x-8 gap-y-8 w-full">
           {personalInfo && (
             <>
               <div className="space-y-6">
@@ -129,14 +133,19 @@ export const ProjectDetailsCard = ({
                   Personal details
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                  <DetailField label="Name" value={personalInfo.name} />
+                  <DetailField
+                    icon={<User />}
+                    label="Name"
+                    value={personalInfo.name}
+                  />
                   <DetailField
                     label="Client ID"
                     value={personalInfo.clientId}
                   />
-                  <DetailField label="Phone" value={personalInfo.phone} />
-                  <DetailField label="Email" value={personalInfo.email} />
+                   <DetailField icon={<Phone />} label="Phone" value={personalInfo.phone} />
+                  <DetailField icon={<Mail />} label="Email" value={personalInfo.email} />
                   <DetailField
+                    icon={<MapPin />}
                     label="Address"
                     value={personalInfo.address}
                     fullWidth
