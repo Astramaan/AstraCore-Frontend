@@ -18,6 +18,8 @@ import {
   Check,
   ChevronsUpDown,
   ShieldAlert,
+  Calendar as CalendarIcon,
+  Trash2,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -112,6 +114,129 @@ const FloatingLabelTextarea = ({
   </div>
 );
 
+const ProjectTimelineForm = ({
+  onBack,
+  onSave,
+}: {
+  onBack: () => void;
+  onSave: () => void;
+}) => {
+  const [startDate, setStartDate] = useState<Date | undefined>(new Date());
+  const [stages, setStages] = useState([
+    { title: "Design Presentation", duration: "2 Days" },
+    { title: "Excavation", duration: "5 Days" },
+  ]);
+  const [newStageTitle, setNewStageTitle] = useState("");
+  const [newStageDuration, setNewStageDuration] = useState("");
+
+  const handleAddStage = () => {
+    if (newStageTitle && newStageDuration) {
+      setStages([...stages, { title: newStageTitle, duration: newStageDuration }]);
+      setNewStageTitle("");
+      setNewStageDuration("");
+    }
+  };
+
+  const handleRemoveStage = (index: number) => {
+    setStages(stages.filter((_, i) => i !== index));
+  };
+
+
+  return (
+    <div className="flex flex-col h-full">
+       <ScrollArea className="flex-1 p-6 no-scrollbar">
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <Label className="text-lg font-medium px-2 text-foreground">
+            Project Start Date*
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                  !startDate && "text-muted-foreground",
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDate ? (
+                  startDate.toLocaleDateString()
+                ) : (
+                  <span>Pick a date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={startDate}
+                onSelect={setStartDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium text-foreground">Add Stages</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-4 items-end">
+            <FloatingLabelInput
+              id="new-stage-title"
+              label="Stage Title"
+              value={newStageTitle}
+              onChange={(e) => setNewStageTitle(e.target.value)}
+              placeholder="e.g., Foundation Work"
+            />
+            <FloatingLabelInput
+              id="new-stage-duration"
+              label="Duration"
+              value={newStageDuration}
+              onChange={(e) => setNewStageDuration(e.target.value)}
+              placeholder="e.g., 10 Days"
+            />
+            <Button onClick={handleAddStage} className="h-14 rounded-full" type="button">Add</Button>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+           <h3 className="text-lg font-medium text-foreground">Timeline Stages</h3>
+          {stages.map((stage, index) => (
+            <div key={index} className="flex items-center justify-between bg-background p-4 rounded-full">
+              <span className="font-medium">{stage.title}</span>
+              <div className="flex items-center gap-4">
+                <span className="text-muted-foreground">{stage.duration}</span>
+                <Button variant="ghost" size="icon" onClick={() => handleRemoveStage(index)} className="h-8 w-8 text-destructive">
+                  <Trash2 className="h-4 w-4"/>
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      </ScrollArea>
+      <div className="p-6 mt-auto border-t md:border-0 flex justify-between gap-4 shrink-0">
+         <Button
+          type="button"
+          variant="outline"
+          className="h-14 rounded-full px-10 text-lg"
+          onClick={onBack}
+        >
+          Back
+        </Button>
+        <Button
+          type="button"
+          className="h-14 rounded-full px-10 text-lg"
+          onClick={onSave}
+        >
+          Save
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+
 const CreateProjectForm = ({
   onNext,
   projectToEdit,
@@ -171,7 +296,7 @@ const CreateProjectForm = ({
       "Bandra West",
   );
   const [siteLocationLink, setSiteLocationLink] = useState(
-    projectToEdit?.projectDetails?.siteLocationLink ||
+    projectToEdit?.projectDetails?.siteLink ||
       "https://maps.google.com/site-link",
   );
   const [architect, setArchitect] = useState(
@@ -309,8 +434,8 @@ const CreateProjectForm = ({
         dimension: dimension,
         floor: floor,
         siteLocation: siteLocation,
-        siteLocationLink: siteLocationLink,
         siteAddress: siteLocation,
+        siteLink: siteLocationLink,
       },
       projectAssign: {
         architect: architect,
@@ -793,14 +918,29 @@ export function CreateProjectSheet({
 
   const handleNext = (data: any) => {
     setProjectData(data);
-    onOpenChange(false);
+    setStep(2);
+  };
+  
+  const handleBack = () => {
+    setStep(1);
+  }
+
+  const handleSaveTimeline = async () => {
+    onOpenChange(false); // Close the sheet
+
+    // In a real app, you would combine timeline data with projectData and save
+    const finalPayload = {
+      ...projectData,
+      // ...timelineData,
+    };
+    console.log("Final project data with timeline:", finalPayload);
 
     setTimeout(() => {
       setShowSuccess(true);
       if (isEditMode && onProjectUpdated) {
-        onProjectUpdated({ ...projectToEdit, ...data } as Project);
+        onProjectUpdated({ ...projectToEdit, ...projectData } as Project);
       } else if(onProjectAdded){
-        onProjectAdded(data as Project, {}); // Assuming some response data
+        onProjectAdded(projectData as Project, { message: "New Project added" });
       }
       setSuccessData({
         message: isEditMode ? "Project Updated" : "New Project added",
@@ -813,6 +953,16 @@ export function CreateProjectSheet({
     : step === 1
       ? "Create New Project"
       : "Project Timeline";
+
+  // Reset step when sheet is closed
+  useEffect(() => {
+    if (!open) {
+      setTimeout(() => {
+        setStep(1);
+        setProjectData(null);
+      }, 300);
+    }
+  }, [open]);
 
   return (
     <>
@@ -856,7 +1006,7 @@ export function CreateProjectSheet({
                 projectToEdit={projectToEdit}
               />
             ) : (
-              <p>Timeline form would go here</p>
+               <ProjectTimelineForm onBack={handleBack} onSave={handleSaveTimeline} />
             )}
           </div>
         </SheetContent>
@@ -875,3 +1025,4 @@ export function CreateProjectSheet({
     </>
   );
 }
+
