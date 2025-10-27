@@ -120,11 +120,9 @@ const allContacts = [
 
 const CreateMeetingForm = ({
   onMeetingCreated,
-  onClose,
   setBackendError,
 }: {
   onMeetingCreated: (meeting: Omit<Meeting, "id">, responseData: any) => void;
-  onClose: () => void;
   setBackendError: (message: string | null) => void;
 }) => {
   const { user } = useUser();
@@ -221,20 +219,12 @@ const CreateMeetingForm = ({
     event.preventDefault();
 
     if (meetingLinkError) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Meeting Link",
-        description: "Please enter a valid Google Meet or Zoom link.",
-      });
+      setBackendError("Please enter a valid Google Meet or Zoom link.");
       return;
     }
 
     if (!title || !targetType || !date || !time) {
-      toast({
-        variant: "destructive",
-        title: "Missing Information",
-        description: "Please fill all required fields.",
-      });
+      setBackendError("Please fill all required fields.");
       return;
     }
 
@@ -846,7 +836,6 @@ export function CreateMeetingSheet({
           <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar">
             <CreateMeetingForm
               onMeetingCreated={handleSuccess}
-              onClose={handleClose}
               setBackendError={setBackendError}
             />
           </div>

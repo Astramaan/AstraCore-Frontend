@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Sheet,
   SheetContent,
@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { X, Check, ChevronsUpDown } from "lucide-react";
+import { X, Check, ChevronsUpDown, ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
 import { ScrollArea } from "./ui/scroll-area";
@@ -30,8 +30,17 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-  CommandInput
+  CommandInput,
 } from "@/components/ui/command";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "./ui/alert-dialog";
 
 const FloatingLabelInput = ({
   id,
@@ -63,10 +72,11 @@ const FloatingLabelInput = ({
 
 const AddMemberForm = ({
   onFormSuccess,
+  setBackendError,
 }: {
   onFormSuccess: () => void;
+  setBackendError: (message: string | null) => void;
 }) => {
-  const { toast } = useToast();
   const { user } = useUser();
 
   const isTeamAdmin =
@@ -148,18 +158,10 @@ const AddMemberForm = ({
       if (data.success || res.status === 201) {
         onFormSuccess();
       } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: data.message || "Failed to send invitation.",
-        });
+        setBackendError(data.message || "Failed to send invitation.");
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "An unexpected error occurred.",
-      });
+      setBackendError("An unexpected error occurred.");
     } finally {
       setIsSubmitting(false);
     }
@@ -353,6 +355,7 @@ export function AddMemberSheet({
 }: AddMemberSheetProps) {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [backendError, setBackendError] = useState<string | null>(null);
 
   const isOpen =
     controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
@@ -407,10 +410,38 @@ export function AddMemberSheet({
             </div>
           </SheetHeader>
           <div className="flex-grow flex flex-col overflow-y-auto no-scrollbar relative z-0">
-            <AddMemberForm onFormSuccess={handleSuccess} />
+            <AddMemberForm onFormSuccess={handleSuccess} setBackendError={setBackendError} />
           </div>
         </SheetContent>
       </Sheet>
+      <AlertDialog
+        open={!!backendError}
+        onOpenChange={() => setBackendError(null)}
+      >
+        <AlertDialogContent className="max-w-md rounded-[50px]">
+          <AlertDialogHeader className="items-center text-center">
+            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+              <div className="w-full h-full bg-red-600/5 rounded-full" />
+              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold">
+              Error Adding Member
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg text-grey-1">
+              {backendError}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+            <AlertDialogAction
+              onClick={() => setBackendError(null)}
+              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-black dark:text-black hover:bg-primary/90"
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}

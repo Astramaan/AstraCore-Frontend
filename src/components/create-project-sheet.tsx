@@ -1097,6 +1097,7 @@ export function CreateProjectSheet({
   const [successData, setSuccessData] = useState<any>(null);
   const [step, setStep] = useState(1);
   const [projectData, setProjectData] = useState<any>(null);
+  const [backendError, setBackendError] = useState<string | null>(null);
 
   const isEditMode = !!projectToEdit;
 
@@ -1117,19 +1118,30 @@ export function CreateProjectSheet({
       ...projectData,
       // ...timelineData,
     };
-    console.log("Final project data with timeline:", finalPayload);
 
-    setTimeout(() => {
-      setShowSuccess(true);
-      if (isEditMode && onProjectUpdated) {
-        onProjectUpdated({ ...projectToEdit, ...projectData } as Project);
-      } else if(onProjectAdded){
-        onProjectAdded(projectData as Project, { message: "New Project added" });
-      }
-      setSuccessData({
-        message: isEditMode ? "Project Updated" : "New Project added",
-      });
-    }, 500);
+    try {
+        const res = await fetch(`/api/projects`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(finalPayload),
+        });
+        
+        const result = await res.json();
+        
+        if (res.ok) {
+            setShowSuccess(true);
+            setSuccessData(result);
+            if (!isEditMode && onProjectAdded) {
+                onProjectAdded(projectData as Project, result);
+            } else if (isEditMode && onProjectUpdated) {
+                onProjectUpdated({ ...projectToEdit, ...projectData } as Project);
+            }
+        } else {
+            setBackendError(result.message || "An unknown error occurred.");
+        }
+    } catch(error) {
+        setBackendError("Failed to connect to the server.");
+    }
   };
   
   const title = isEditMode
@@ -1195,6 +1207,34 @@ export function CreateProjectSheet({
           </div>
         </SheetContent>
       </Sheet>
+       <AlertDialog
+        open={!!backendError}
+        onOpenChange={() => setBackendError(null)}
+      >
+        <AlertDialogContent className="max-w-md rounded-[50px]">
+          <AlertDialogHeader className="items-center text-center">
+            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+              <div className="w-full h-full bg-red-600/5 rounded-full" />
+              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold">
+              Error Creating Project
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg text-muted-foreground">
+              {backendError}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+            <AlertDialogAction
+              onClick={() => setBackendError(null)}
+              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
@@ -1209,7 +1249,3 @@ export function CreateProjectSheet({
     </>
   );
 }
-
-    
-
-    
