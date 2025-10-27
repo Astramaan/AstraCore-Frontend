@@ -306,7 +306,7 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
         <AlertDialogContent className="max-w-md rounded-[50px]">
           <AlertDialogHeader className="items-center text-center">
             <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-              <ShieldAlert className="w-8 h-8 text-destructive dark:text-white" />
+              <ShieldAlert className="w-8 h-8 text-foreground dark:text-white" />
             </div>
             <AlertDialogTitle className="text-2xl font-semibold">
               Error Adding Lead
