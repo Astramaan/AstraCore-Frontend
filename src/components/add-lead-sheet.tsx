@@ -44,8 +44,8 @@ const FloatingLabelInput = ({
     <Label
       htmlFor={id}
       className={cn(
-        "self-stretch text-lg font-medium",
-        value ? "text-grey-1" : "text-foreground",
+        "text-lg font-medium",
+        value ? "text-muted-foreground" : "text-foreground",
       )}
     >
       {label}
