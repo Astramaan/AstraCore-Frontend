@@ -61,8 +61,10 @@ const FloatingLabelInput = ({
 
 const AddLeadForm = ({
   onFormSuccess,
+  setBackendError,
 }: {
   onFormSuccess: (lead: Lead, inviteLink: string) => void;
+  setBackendError: (message: string | null) => void;
 }) => {
   const { toast } = useToast();
   const { user } = useUser();
@@ -74,7 +76,6 @@ const AddLeadForm = ({
   const [pincode, setPincode] = useState("");
   const [emailError, setEmailError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
-  const [backendError, setBackendError] = useState<string | null>(null);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -175,100 +176,70 @@ const AddLeadForm = ({
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="flex flex-col h-full">
-        <ScrollArea className="flex-1 p-6 no-scrollbar">
-          <div className="space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+      <ScrollArea className="flex-1 p-6 no-scrollbar">
+        <div className="space-y-4">
+          <FloatingLabelInput
+            id="full-name"
+            name="fullName"
+            label="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+          />
+          <FloatingLabelInput
+            id="phone-number"
+            name="phoneNumber"
+            label="Phone Number"
+            type="tel"
+            value={phone}
+            onChange={handlePhoneChange}
+            required
+          />
+          <div>
             <FloatingLabelInput
-              id="full-name"
-              name="fullName"
-              label="Full Name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              id="email-id"
+              name="email"
+              label="Email ID"
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
               required
             />
-            <FloatingLabelInput
-              id="phone-number"
-              name="phoneNumber"
-              label="Phone Number"
-              type="tel"
-              value={phone}
-              onChange={handlePhoneChange}
-              required
-            />
-            <div>
-              <FloatingLabelInput
-                id="email-id"
-                name="email"
-                label="Email ID"
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
-                required
-              />
-              {emailError && (
-                <p className="text-destructive text-sm mt-1 px-4">
-                  {emailError}
-                </p>
-              )}
-            </div>
-            <div>
-              <FloatingLabelInput
-                id="pincode"
-                name="pincode"
-                label="Site location pin code"
-                value={pincode}
-                onChange={handlePincodeChange}
-                required
-              />
-              {pincodeError && (
-                <p className="text-destructive text-sm mt-1 px-4">
-                  {pincodeError}
-                </p>
-              )}
-            </div>
+            {emailError && (
+              <p className="text-destructive text-sm mt-1 px-4">
+                {emailError}
+              </p>
+            )}
           </div>
-        </ScrollArea>
-
-        <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-center">
-          <Button
-            type="submit"
-            className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg"
-            disabled={isPending}
-          >
-            {isPending ? "Adding..." : "Add"}
-          </Button>
+          <div>
+            <FloatingLabelInput
+              id="pincode"
+              name="pincode"
+              label="Site location pin code"
+              value={pincode}
+              onChange={handlePincodeChange}
+              required
+            />
+            {pincodeError && (
+              <p className="text-destructive text-sm mt-1 px-4">
+                {pincodeError}
+              </p>
+            )}
+          </div>
         </div>
-      </form>
-      <AlertDialog
-        open={!!backendError}
-        onOpenChange={() => setBackendError(null)}
-      >
-        <AlertDialogContent className="max-w-md rounded-[50px]">
-          <AlertDialogHeader className="items-center text-center">
-            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-              <div className="w-full h-full bg-red-600/5 rounded-full" />
-              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-            </div>
-            <AlertDialogTitle className="text-2xl font-semibold">
-              Error Adding Lead
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg text-grey-1">
-              {backendError}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-            <AlertDialogAction
-              onClick={() => setBackendError(null)}
-              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-black dark:text-black hover:bg-primary/90"
-            >
-              OK
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+      </ScrollArea>
+
+      <div className="p-6 mt-auto border-t md:border-0 md:flex md:justify-center">
+        <Button
+          type="submit"
+          className="w-full h-14 px-10 py-3.5 bg-primary rounded-full text-lg"
+          disabled={isPending}
+        >
+          {isPending ? "Adding..." : "Add"}
+        </Button>
+      </div>
+    </form>
   );
 };
 
@@ -280,6 +251,7 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [inviteLink, setInviteLink] = useState("");
+  const [backendError, setBackendError] = useState<string | null>(null);
 
   const handleSuccess = (newLead: Lead, link: string) => {
     setIsOpen(false);
@@ -330,10 +302,41 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
             </div>
           </SheetHeader>
           <div className="flex-1 flex flex-col overflow-hidden">
-            <AddLeadForm onFormSuccess={handleSuccess} />
+            <AddLeadForm
+              onFormSuccess={handleSuccess}
+              setBackendError={setBackendError}
+            />
           </div>
         </SheetContent>
       </Sheet>
+      <AlertDialog
+        open={!!backendError}
+        onOpenChange={() => setBackendError(null)}
+      >
+        <AlertDialogContent className="max-w-md rounded-[50px]">
+          <AlertDialogHeader className="items-center text-center">
+            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+              <div className="w-full h-full bg-red-600/5 rounded-full" />
+              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold">
+              Error Adding Lead
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg text-grey-1">
+              {backendError}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+            <AlertDialogAction
+              onClick={() => setBackendError(null)}
+              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-black dark:text-black hover:bg-primary/90"
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
