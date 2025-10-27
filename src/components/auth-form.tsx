@@ -16,11 +16,7 @@ import Link from "next/link";
 import { useUser } from "@/context/user-context";
 import { Check } from "lucide-react";
 
-interface AuthFormProps {
-  onLoginStart: () => void;
-}
-
-export default function AuthForm({ onLoginStart }: AuthFormProps) {
+export default function AuthForm() {
   const router = useRouter();
   const { user, loading, setUser } = useUser();
   const [email, setEmail] = useState("");
@@ -47,7 +43,6 @@ export default function AuthForm({ onLoginStart }: AuthFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    onLoginStart();
 
     try {
       const res = await fetch(`/api/login`, {
@@ -98,105 +93,110 @@ export default function AuthForm({ onLoginStart }: AuthFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
-      <div className="space-y-4 flex-grow">
-        <div className="space-y-2">
-          <Label
-            htmlFor="email"
-            className={cn(
-              "text-lg font-medium",
-              email ? "text-muted-foreground" : "text-foreground",
-            )}
-          >
-            Email ID
-          </Label>
-          <div className="relative flex items-center">
-            <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
-            <div className="absolute left-14 h-6 w-px bg-grey-2" />
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder={email ? "" : "name@company.com"}
-              className={`pl-20 rounded-full bg-background h-[54px]`}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={isSubmitting}
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div className="flex justify-between items-center">
+    <>
+      <p className="text-lg text-grey-1 dark:text-muted-foreground mb-6 md:mb-8">
+        Log in and let’s get to work on your projects.
+      </p>
+      <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
+        <div className="space-y-4 flex-grow">
+          <div className="space-y-2">
             <Label
-              htmlFor="password"
+              htmlFor="email"
               className={cn(
                 "text-lg font-medium",
-                password ? "text-grey-1" : "text-foreground",
+                email ? "text-muted-foreground" : "text-foreground",
               )}
             >
-              Password
+              Email ID
             </Label>
-            <Link
-              href="/forgot-password"
-              className="text-sm text-grey-1 hover:text-primary hover:underline"
+            <div className="relative flex items-center">
+              <EmailIcon className="absolute left-6 h-5 w-5 text-foreground" />
+              <div className="absolute left-14 h-6 w-px bg-grey-2" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder={email ? "" : "name@company.com"}
+                className={`pl-20 rounded-full bg-background h-[54px]`}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <Label
+                htmlFor="password"
+                className={cn(
+                  "text-lg font-medium",
+                  password ? "text-grey-1" : "text-foreground",
+                )}
+              >
+                Password
+              </Label>
+              <Link
+                href="/forgot-password"
+                className="text-sm text-grey-1 hover:text-primary hover:underline"
+              >
+                Forgot Password?
+              </Link>
+            </div>
+            <div className="relative flex items-center">
+              <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
+              <div className="absolute left-14 h-6 w-px bg-grey-2" />
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder={password ? "" : "xxxxxxxxxxx"}
+                className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={isSubmitting}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-6 text-foreground"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOffIcon className="h-5 w-5" />
+                ) : (
+                  <EyeIcon className="h-5 w-5" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
+          <div className="mb-4">
+            <Button
+              type="submit"
+              className="w-full h-[54px] rounded-full"
+              disabled={isSubmitting || loading}
             >
-              Forgot Password?
+              {isSubmitting || loading ? "Logging in..." : "Login"}
+            </Button>
+          </div>
+
+          <div className="text-center text-sm">
+            <span className="text-muted-foreground">
+              {"Don't have an account? "}
+            </span>
+            <Link
+              href="/signup"
+              className="font-semibold text-foreground hover:text-primary hover:underline"
+            >
+              Sign up
             </Link>
           </div>
-          <div className="relative flex items-center">
-            <LockIcon className="absolute left-6 h-5 w-5 text-foreground" />
-            <div className="absolute left-14 h-6 w-px bg-grey-2" />
-            <Input
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              required
-              placeholder={password ? "" : "xxxxxxxxxxx"}
-              className={`pl-20 pr-12 rounded-full bg-background h-[54px]`}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={isSubmitting}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-6 text-foreground"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? (
-                <EyeOffIcon className="h-5 w-5" />
-              ) : (
-                <EyeIcon className="h-5 w-5" />
-              )}
-            </button>
-          </div>
         </div>
-      </div>
-      <div className="mt-auto pt-6 pb-[env(safe-area-inset-bottom)]">
-        <div className="mb-4">
-          <Button
-            type="submit"
-            className="w-full h-[54px] rounded-full"
-            disabled={isSubmitting || loading}
-          >
-            {isSubmitting || loading ? "Logging in..." : "Login"}
-          </Button>
-        </div>
-
-        <div className="text-center text-sm">
-          <span className="text-muted-foreground">
-            {"Don't have an account? "}
-          </span>
-          <Link
-            href="/signup"
-            className="font-semibold text-foreground hover:text-primary hover:underline"
-          >
-            Sign up
-          </Link>
-        </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
