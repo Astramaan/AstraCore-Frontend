@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -45,6 +44,16 @@ export function SuccessPopup({
         <DialogHeader>
           <DialogTitle className="sr-only">{title}</DialogTitle>
         </DialogHeader>
+        <DialogClose asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-4 right-4 rounded-full"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </DialogClose>
         <div className="text-center flex flex-col items-center">
           <div className="relative mb-6 flex items-center justify-center">
             <div className="w-20 h-20 bg-green-light rounded-full" />
@@ -97,16 +106,6 @@ export function SuccessPopup({
             </div>
           )}
         </div>
-        <DialogClose asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-4 right-4 rounded-full"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </DialogClose>
       </DialogContent>
     </Dialog>
   );
