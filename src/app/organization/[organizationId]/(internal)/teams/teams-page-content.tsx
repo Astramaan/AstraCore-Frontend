@@ -130,7 +130,7 @@ const RoleCard = ({
             </p>
           </div>
           <Button
-            className="h-12 px-6 w-full rounded-full bg-background text-foreground dark:text-white hover:bg-muted text-base font-medium self-end"
+            className="h-12 px-6 w-full rounded-full bg-background text-foreground dark:text-white hover:bg-primary/10 hover:text-primary text-base font-medium self-end"
             onClick={() => onViewMembers(role)}
           >
             View Members
@@ -176,8 +176,8 @@ export default function TeamsPageContent() {
               members: team.members.map((member: any) => ({
                 id: member.userId,
                 name: member.name,
-                avatar: `https://i.pravatar.cc/150?u=${member.userId}`,
-                contact: `${member.email || "N/A"} | ${member.mobileNumber || "N/A"}`,
+                avatar: `https://i.pravatar.cc/150?u=${'${member.userId}'}`,
+                contact: `${'${member.email || "N/A"}'} | ${'${member.mobileNumber || "N/A"}'}`,
                 role: member.roleType,
                 status: "Active",
                 lastActive: "N/A",
