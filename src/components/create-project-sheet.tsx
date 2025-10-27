@@ -326,7 +326,7 @@ const ProjectTimelineForm = ({
             
             <div className="space-y-4">
             <h3 className="text-lg font-medium text-foreground">
-              Project Timeline
+              Timeline
             </h3>
             <div className="flex gap-2">
               <Input
@@ -1136,7 +1136,7 @@ export function CreateProjectSheet({
     ? "Edit Project"
     : step === 1
       ? "Create New Project"
-      : "Project Timeline";
+      : "Timeline";
 
   // Reset step when sheet is closed
   useEffect(() => {
