@@ -53,6 +53,7 @@ import {
 } from "@/components/ui/command";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { Card, CardContent } from "./ui/card";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./ui/dropdown-menu";
 
 const mockUsers: User[] = [
   { userId: 'USR001', name: 'Alice Architect', email: 'alice@habi.one', role: 'ORG_MEMBER', team: 'Architect', mobileNumber: '1111111111', organizationId: '', orgCode: '' },
@@ -304,10 +305,19 @@ const ProjectTimelineForm = ({
                   />
                 </PopoverContent>
               </Popover>
-               <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
-                <FileText className="mr-4 h-5 w-5" />
-                Templates
-              </Button>
+               <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
+                        <FileText className="mr-4 h-5 w-5" />
+                        Templates
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem>Residential Project</DropdownMenuItem>
+                    <DropdownMenuItem>Commercial Project</DropdownMenuItem>
+                    <DropdownMenuItem>Interior Design</DropdownMenuItem>
+                </DropdownMenuContent>
+               </DropdownMenu>
               <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
                 <FilePlus className="mr-4 h-5 w-5" />
                 Create New
