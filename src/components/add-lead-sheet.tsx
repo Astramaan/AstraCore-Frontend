@@ -14,15 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { X, ShieldAlert } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
 import { SuccessPopup } from "./success-popup";
@@ -270,15 +261,6 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
         <SheetContent
           side="bottom"
           className="p-0 m-0 flex flex-col bg-card text-card-foreground transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"
-          onInteractOutside={(e) => {
-            if (
-              (e.target as HTMLElement).closest(
-                "[data-radix-popper-content-wrapper]",
-              )
-            ) {
-              e.preventDefault();
-            }
-          }}
         >
           <SheetHeader className="p-6 border-b">
             <div className="flex items-center justify-between">
@@ -299,42 +281,33 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
               </SheetClose>
             </div>
           </SheetHeader>
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-hidden relative">
             <AddLeadForm
               onFormSuccess={handleSuccess}
               setBackendError={setBackendError}
             />
+            {backendError && (
+               <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center p-6">
+                <div className="bg-card p-8 rounded-[50px] shadow-lg text-center max-w-md">
+                   <div className="flex justify-center mb-6">
+                        <div className="relative flex items-center justify-center h-20 w-20">
+                            <div className="w-full h-full bg-red-600/5 rounded-full" />
+                            <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
+                            <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
+                        </div>
+                    </div>
+                  <h2 className="text-2xl font-semibold mb-2">Error Adding Lead</h2>
+                  <p className="text-lg text-muted-foreground mb-6">{backendError}</p>
+                   <Button onClick={() => setBackendError(null)} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90">
+                    OK
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </SheetContent>
       </Sheet>
-      <AlertDialog
-        open={!!backendError}
-        onOpenChange={() => setBackendError(null)}
-      >
-        <AlertDialogContent className="max-w-md rounded-[50px]">
-          <AlertDialogHeader className="items-center text-center">
-            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-              <div className="w-full h-full bg-red-600/5 rounded-full" />
-              <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-              <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-            </div>
-            <AlertDialogTitle className="text-2xl font-semibold">
-              Error Adding Lead
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-lg text-grey-1">
-              {backendError}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
-            <AlertDialogAction
-              onClick={() => setBackendError(null)}
-              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-black dark:text-black hover:bg-primary/90"
-            >
-              OK
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}
