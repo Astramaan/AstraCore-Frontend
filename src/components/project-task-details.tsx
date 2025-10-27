@@ -78,7 +78,7 @@ export const ProjectTaskDetails = ({ task }: { task: Task }) => {
         label="Priority"
         value={
           <Badge
-            className={cn(priorityColors[task.priority], "text-base py-1 px-4")}
+            className={cn(priorityColors[task.priority], "text-base py-1 px-4 text-red-500")}
           >
             {task.priority}
           </Badge>
