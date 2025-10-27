@@ -306,9 +306,9 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
         <AlertDialogContent className="max-w-md rounded-[50px]">
           <AlertDialogHeader className="items-center text-center">
             <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-              <div className="w-full h-full bg-destructive/10 dark:bg-red-400/10 rounded-full" />
-              <div className="w-14 h-14 bg-destructive/20 dark:bg-red-400/20 rounded-full absolute" />
-              <ShieldAlert className="w-8 h-8 text-destructive dark:text-red-400 absolute" />
+              <div className="w-full h-full bg-destructive/10 dark:bg-destructive/20 rounded-full" />
+              <div className="w-14 h-14 bg-destructive/20 dark:bg-destructive/30 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-destructive dark:text-white absolute" />
             </div>
             <AlertDialogTitle className="text-2xl font-semibold">
               Error Adding Lead
@@ -337,3 +337,5 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
     </>
   );
 }
+
+    
