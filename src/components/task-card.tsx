@@ -37,12 +37,14 @@ export const TaskCard = ({
   const priorityColors: { [key: string]: string } = {
     Low: "bg-cyan-500/10 text-cyan-500",
     Medium: "bg-yellow-500/10 text-yellow-500",
-    High: "bg-red-500/10 text-red-500 border border-red-500/20",
+    High: "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/30",
   };
 
   const statusColors: { [key: string]: string } = {
-    "In Progress": "bg-blue-500/10 text-blue-500",
-    Pending: "bg-orange-500/10 text-orange-500",
+    "In Progress":
+      "bg-green-600/15 text-green-600 dark:bg-green-500/20 dark:text-green-400",
+    Pending:
+      "bg-orange-500/15 text-orange-500 dark:bg-orange-400/20 dark:text-orange-300",
   };
 
   const formattedDate = new Date(task.date)
