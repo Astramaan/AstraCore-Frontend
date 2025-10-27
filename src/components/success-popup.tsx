@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 interface SuccessPopupProps {
   isOpen: boolean;
@@ -96,14 +97,16 @@ export function SuccessPopup({
             </div>
           )}
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-4 right-4 rounded-full"
-          onClick={onClose}
-        >
-          <X className="h-4 w-4" />
-        </Button>
+        <DialogClose asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-4 right-4 rounded-full"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );
