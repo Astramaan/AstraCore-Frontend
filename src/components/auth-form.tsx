@@ -16,7 +16,11 @@ import Link from "next/link";
 import { useUser } from "@/context/user-context";
 import { Check } from "lucide-react";
 
-export default function AuthForm() {
+interface AuthFormProps {
+  onLoginStart: () => void;
+}
+
+export default function AuthForm({ onLoginStart }: AuthFormProps) {
   const router = useRouter();
   const { user, loading, setUser } = useUser();
   const [email, setEmail] = useState("");
@@ -43,6 +47,7 @@ export default function AuthForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    onLoginStart();
 
     try {
       const res = await fetch(`/api/login`, {
