@@ -196,9 +196,9 @@ const LeadCard = ({
               <AlertDialogContent className="max-w-md rounded-[50px]">
                 <AlertDialogHeader className="items-center text-center">
                   <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                    <div className="w-full h-full bg-destructive/10 rounded-full" />
-                    <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
-                    <ShieldAlert className="w-8 h-8 text-destructive absolute" />
+                    <div className="w-full h-full bg-destructive/10 dark:bg-red-500/10 rounded-full" />
+                    <div className="w-14 h-14 bg-destructive/20 dark:bg-red-500/20 rounded-full absolute" />
+                    <ShieldAlert className="w-8 h-8 text-destructive dark:text-red-500 absolute" />
                   </div>
                   <AlertDialogTitle className="text-2xl font-semibold">
                     Confirm Lead Deletion?
@@ -278,9 +278,9 @@ const LeadCard = ({
           <AlertDialogContent className="max-w-md rounded-[50px]">
             <AlertDialogHeader className="items-center text-center">
               <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                <div className="w-full h-full bg-destructive/10 rounded-full" />
-                <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
-                <ShieldAlert className="w-8 h-8 text-destructive absolute" />
+                <div className="w-full h-full bg-destructive/10 dark:bg-red-500/10 rounded-full" />
+                <div className="w-14 h-14 bg-destructive/20 dark:bg-red-500/20 rounded-full absolute" />
+                <ShieldAlert className="w-8 h-8 text-destructive dark:text-red-500 absolute" />
               </div>
               <AlertDialogTitle className="text-2xl font-semibold">
                 Confirm Lead Deletion?
@@ -771,7 +771,7 @@ export default function LeadsPage() {
               <AlertDialogTrigger asChild>
                 <Button
                   variant="destructive"
-                  className="h-14 px-4 md:px-10 rounded-[50px] bg-transparent border-destructive border text-sm md:text-lg font-medium hover:bg-destructive hover:text-destructive-foreground"
+                  className="h-14 px-4 md:px-10 rounded-[50px] bg-transparent border-destructive border text-destructive hover:bg-destructive hover:text-destructive-foreground text-sm md:text-lg font-medium"
                 >
                   <Trash2 className="md:mr-2 text-destructive" />
                   <span className="hidden md:inline">Delete</span>
@@ -782,9 +782,9 @@ export default function LeadsPage() {
           <AlertDialogContent className="max-w-md rounded-[50px]">
             <AlertDialogHeader className="items-center text-center">
               <div className="relative mb-6 flex items-center justify-center h-20 w-20">
-                <div className="w-full h-full bg-destructive/10 rounded-full" />
-                <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
-                <ShieldAlert className="w-8 h-8 text-destructive absolute" />
+                <div className="w-full h-full bg-destructive/10 dark:bg-red-500/10 rounded-full" />
+                <div className="w-14 h-14 bg-destructive/20 dark:bg-red-500/20 rounded-full absolute" />
+                <ShieldAlert className="w-8 h-8 text-destructive dark:text-red-500 absolute" />
               </div>
               <AlertDialogTitle className="text-2xl font-semibold">
                 Delete Selected Leads?
