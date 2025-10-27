@@ -312,10 +312,10 @@ const ProjectTimelineForm = ({
                         Templates
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem>Residential Project</DropdownMenuItem>
-                    <DropdownMenuItem>Commercial Project</DropdownMenuItem>
-                    <DropdownMenuItem>Interior Design</DropdownMenuItem>
+                <DropdownMenuContent onInteractOutside={(e) => e.preventDefault()}>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Residential Project</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Commercial Project</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Interior Design</DropdownMenuItem>
                 </DropdownMenuContent>
                </DropdownMenu>
               <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
@@ -1158,10 +1158,7 @@ export function CreateProjectSheet({
           )}
           onInteractOutside={(e) => {
             const target = e.target as HTMLElement;
-            if (
-              target.closest("[data-radix-popper-content-wrapper]") ||
-              target.closest("[role='dialog']")
-            ) {
+            if (target.closest("[data-radix-popper-content-wrapper]")) {
               e.preventDefault();
             }
           }}
