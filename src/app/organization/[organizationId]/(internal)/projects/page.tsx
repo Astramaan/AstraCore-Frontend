@@ -306,7 +306,7 @@ export default function ProjectsPage() {
     if (result.success && result.data) {
       const formattedProjects = result.data.map((p: any) => ({
         id: p.projectId || p.id,
-        name: p.personalDetails?.name || p.name,
+        name: p.personalDetails?.name || p.name || "",
         city: p.projectDetails?.state || p.city,
         contact: p.personalDetails
           ? `${p.personalDetails.email} | ${p.personalDetails.phoneNumber}`
@@ -344,7 +344,7 @@ export default function ProjectsPage() {
   }, [fetchProjects]);
 
   const filteredProjects = allProjects.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    (p.name || "").toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const activeProjects = filteredProjects.filter(
