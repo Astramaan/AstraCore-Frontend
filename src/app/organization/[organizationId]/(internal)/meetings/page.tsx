@@ -373,21 +373,22 @@ export default function MeetingsPage() {
             headers: { "x-user": JSON.stringify(user) },
           },
         );
-        const result = await res.json();
-        if (result.success || res.ok) {
-          setAllMeetings((prev) =>
-            prev.filter((m) => m.id !== meetingToDelete.id),
-          );
-          toast({
-            title: "Success",
-            description: result.message || "Meeting deleted.",
-          });
+        
+        if (res.ok) {
+            setAllMeetings((prev) =>
+                prev.filter((m) => m.id !== meetingToDelete.id),
+            );
+            toast({
+                title: "Success",
+                description: "Meeting deleted.",
+            });
         } else {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: result.message,
-          });
+            const result = await res.json().catch(() => ({ message: "Failed to delete meeting."}));
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: result.message,
+            });
         }
       } catch (error) {
         toast({
@@ -566,3 +567,5 @@ export default function MeetingsPage() {
     </div>
   );
 }
+
+    
