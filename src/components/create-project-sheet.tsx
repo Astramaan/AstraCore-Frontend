@@ -144,7 +144,6 @@ const ProjectTimelineForm = ({
   onBack: () => void;
   onSave: () => void;
 }) => {
-  const [timelineCreationMode, setTimelineCreationMode] = useState<"initial" | "template" | "new">("initial");
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
   const [phases, setPhases] = useState<TimelinePhase[]>([]);
   const [newPhaseTitle, setNewPhaseTitle] = useState("");
@@ -274,62 +273,48 @@ const ProjectTimelineForm = ({
     )
   }
 
-  const renderInitialScreen = () => (
-    <div className="flex flex-col items-center justify-center h-full p-6">
-      <div className="text-center mb-8">
-        <h3 className="text-2xl font-semibold">Setup Project Timeline</h3>
-        <p className="text-muted-foreground">Choose an option to get started.</p>
-      </div>
-      <div className="space-y-4 w-full max-w-sm">
-        <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
-          <FileText className="mr-4 h-5 w-5" />
-          Use Templates
-        </Button>
-        <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline" onClick={() => setTimelineCreationMode("new")}>
-          <FilePlus className="mr-4 h-5 w-5" />
-          Create New Timeline
-        </Button>
-      </div>
-    </div>
-  );
-
-  const renderTimelineCreation = () => (
-    <>
-    <ScrollArea className="flex-1 p-6 no-scrollbar">
+  return (
+    <div className="flex flex-col h-full">
+      <ScrollArea className="flex-1 p-6 no-scrollbar">
         <div className="space-y-6">
-          <div className="space-y-2">
-            <Label className="text-lg font-medium px-2 text-foreground">
-              Project Start Date*
-            </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
-                    !startDate && "text-muted-foreground",
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {startDate ? (
-                    startDate.toLocaleDateString()
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={startDate}
-                  onSelect={setStartDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div className="space-y-4">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal h-14 bg-background rounded-full px-5",
+                      !startDate && "text-muted-foreground",
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? (
+                      startDate.toLocaleDateString()
+                    ) : (
+                      <span>Start Date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+               <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
+                <FileText className="mr-4 h-5 w-5" />
+                Templates
+              </Button>
+              <Button className="w-full h-14 rounded-full text-lg justify-start px-6" variant="outline">
+                <FilePlus className="mr-4 h-5 w-5" />
+                Create New
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
             <h3 className="text-lg font-medium text-foreground">
               Project Timeline
             </h3>
@@ -409,13 +394,6 @@ const ProjectTimelineForm = ({
           Save
         </Button>
       </div>
-    </>
-  );
-
-  return (
-    <div className="flex flex-col h-full">
-      {timelineCreationMode === 'initial' && renderInitialScreen()}
-      {timelineCreationMode === 'new' && renderTimelineCreation()}
     </div>
   );
 };
