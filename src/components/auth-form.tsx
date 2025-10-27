@@ -78,7 +78,7 @@ export default function AuthForm() {
 
   if (loginSuccess) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center">
+      <div className="flex flex-col items-center justify-center h-full text-center flex-grow">
         <div className="relative mb-6 flex items-center justify-center">
           <div className="w-20 h-20 bg-lime-600/5 rounded-full animate-ping" />
           <div className="w-14 h-14 bg-lime-600/20 rounded-full absolute" />
