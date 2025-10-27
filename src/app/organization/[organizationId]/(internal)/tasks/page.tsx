@@ -249,7 +249,7 @@ export default function TasksPage() {
                       </div>
                       {option}
                       {option === "In Progress" && (
-                        <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">
+                        <Badge className="ml-2 bg-[hsl(var(--green-light))] text-[hsl(var(--green))] rounded-full w-5 h-5 justify-center p-0">
                           {inProgressCount}
                         </Badge>
                       )}
@@ -276,7 +276,7 @@ export default function TasksPage() {
                 >
                   {filter}
                   {filter === "In Progress" && (
-                    <Badge className="ml-2 bg-orange-300 text-zinc-900 rounded-full w-5 h-5 justify-center p-0">
+                    <Badge className="ml-2 bg-[hsl(var(--green-light))] text-[hsl(var(--green))] rounded-full w-5 h-5 justify-center p-0">
                       {inProgressCount}
                     </Badge>
                   )}
