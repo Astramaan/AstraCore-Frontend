@@ -21,6 +21,15 @@ import { ScrollArea } from "./ui/scroll-area";
 import UserPlusIcon from "./icons/user-plus-icon";
 import { Lead } from "./lead-details-sheet";
 import { useUser } from "@/context/user-context";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const FloatingLabelInput = ({
   id,
@@ -281,33 +290,43 @@ export function AddLeadSheet({ onLeadAdded }: AddLeadSheetProps) {
               </SheetClose>
             </div>
           </SheetHeader>
-          <div className="flex-1 flex flex-col overflow-hidden relative">
+          <div className="flex-1 flex flex-col overflow-hidden relative z-0">
             <AddLeadForm
               onFormSuccess={handleSuccess}
               setBackendError={setBackendError}
             />
-            {backendError && (
-               <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center p-6">
-                <div className="bg-card p-8 rounded-[50px] shadow-lg text-center max-w-md">
-                   <div className="flex justify-center mb-6">
-                        <div className="relative flex items-center justify-center h-20 w-20">
-                            <div className="w-full h-full bg-red-600/5 rounded-full" />
-                            <div className="w-14 h-14 bg-red-600/20 rounded-full absolute" />
-                            <ShieldAlert className="w-8 h-8 text-red-600 absolute" />
-                        </div>
-                    </div>
-                  <h2 className="text-2xl font-semibold mb-2">Error Adding Lead</h2>
-                  <p className="text-lg text-muted-foreground mb-6">{backendError}</p>
-                   <Button onClick={() => setBackendError(null)} className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90">
-                    OK
-                  </Button>
-                </div>
-              </div>
-            )}
           </div>
         </SheetContent>
       </Sheet>
 
+      <AlertDialog
+        open={!!backendError}
+        onOpenChange={() => setBackendError(null)}
+      >
+        <AlertDialogContent className="max-w-md rounded-[50px]">
+          <AlertDialogHeader className="items-center text-center">
+            <div className="relative mb-6 flex items-center justify-center h-20 w-20">
+              <div className="w-full h-full bg-destructive/10 rounded-full" />
+              <div className="w-14 h-14 bg-destructive/20 rounded-full absolute" />
+              <ShieldAlert className="w-8 h-8 text-destructive absolute" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold">
+              Error Adding Lead
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-lg text-muted-foreground">
+              {backendError}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-center gap-4 pt-4">
+            <AlertDialogAction
+              onClick={() => setBackendError(null)}
+              className="w-40 h-14 px-10 bg-primary rounded-[50px] text-lg font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <SuccessPopup
         isOpen={showSuccess}
         onClose={() => setShowSuccess(false)}

@@ -771,9 +771,9 @@ export default function LeadsPage() {
               <AlertDialogTrigger asChild>
                 <Button
                   variant="destructive"
-                  className="h-14 px-4 md:px-10 rounded-[50px] bg-transparent border-destructive border text-destructive text-sm md:text-lg font-medium hover:bg-destructive hover:text-destructive-foreground"
+                  className="h-14 px-4 md:px-10 rounded-[50px] bg-transparent border-destructive border text-sm md:text-lg font-medium hover:bg-destructive hover:text-destructive-foreground"
                 >
-                  <Trash2 className="md:mr-2" />
+                  <Trash2 className="md:mr-2 text-destructive" />
                   <span className="hidden md:inline">Delete</span>
                 </Button>
               </AlertDialogTrigger>
