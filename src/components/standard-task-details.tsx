@@ -52,7 +52,7 @@ export const StandardTaskDetails = ({ task }: { task: Task }) => {
   const priorityColors: { [key: string]: string } = {
     Low: "bg-cyan-500/10 text-cyan-500",
     Medium: "bg-yellow-500/10 text-yellow-500",
-    High: "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400",
+    High: "bg-red-600/20 text-red-600 border border-red-600/30 dark:bg-red-500/30 dark:text-red-400 dark:border-red-500/40",
   };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
