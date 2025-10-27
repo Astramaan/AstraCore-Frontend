@@ -120,25 +120,18 @@ const NotificationItem = ({
 
 export function AllNotificationsDialog({
   userType = "organization",
-  onOpen,
+  isOpen,
+  onOpenChange,
 }: {
   userType?: "client" | "organization";
-  onOpen?: () => void;
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
 }) {
   const notifications =
     userType === "client" ? clientNotifications : orgNotifications;
   return (
     <ClientOnly>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="link"
-            className="w-full text-primary"
-            onClick={onOpen}
-          >
-            View all notifications
-          </Button>
-        </SheetTrigger>
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className="p-0 m-0 flex flex-col bg-background transition-all h-full md:h-[90vh] md:max-w-md md:mx-auto rounded-t-[50px] border-none"

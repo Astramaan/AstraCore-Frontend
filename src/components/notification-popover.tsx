@@ -79,8 +79,16 @@ export function NotificationPopover({
   userType?: "client" | "organization";
 }) {
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+
   const notifications =
     userType === "client" ? clientNotifications : orgNotifications;
+
+  const handleViewAllClick = () => {
+    setIsPopoverOpen(false);
+    setIsSheetOpen(true);
+  };
+
   return (
     <ClientOnly>
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -112,13 +120,21 @@ export function NotificationPopover({
             ))}
           </div>
           <div className="p-2 border-t mt-2">
-            <AllNotificationsDialog
-              userType={userType}
-              onOpen={() => setIsPopoverOpen(false)}
-            />
+            <Button
+              variant="link"
+              className="w-full text-primary"
+              onClick={handleViewAllClick}
+            >
+              View all notifications
+            </Button>
           </div>
         </PopoverContent>
       </Popover>
+      <AllNotificationsDialog
+        isOpen={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+        userType={userType}
+      />
     </ClientOnly>
   );
 }
